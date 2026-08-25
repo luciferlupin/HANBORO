@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
-const IRIS_EXPAND   = 460;  // ms: smooth iris expansion
-const IRIS_RETRACT  = 540;  // ms: smooth iris retraction
+const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
+const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
 
 /* ── scroll-reveal hook ────────────────────────────────────────────────────── */
 function useScrollReveal(enabled) {
@@ -151,7 +151,9 @@ function Clock({ onComplete }) {
 
       if (!done && deg >= 360) {
         done = true;
-        cbRef.current?.();
+        setTimeout(() => {
+          cbRef.current?.();
+        }, 220);
         return;
       }
       if (!done) id = requestAnimationFrame(tick);
@@ -1777,8 +1779,8 @@ export function App() {
       {phase !== "entered" && (
         <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
       )}
-      {phase !== "idle" && (
-        <Website visible={phase === "entered"}/>
+      {phase === "entered" && (
+        <Website visible={true}/>
       )}
       {/* Iris transition overlay */}
       {iris !== "off" && (
