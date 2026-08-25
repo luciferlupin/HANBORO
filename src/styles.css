@@ -1182,10 +1182,18 @@ a { color: inherit; text-decoration: none; }
   color: rgba(196, 255, 216, 0.6);
 }
 
-/* Center Interactive Split Watch (No Box / No Border) */
+/* Center Interactive Split Watch & Attached Slider */
+.clover-stage-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 380px;
+  max-width: 100%;
+}
+
 .clover-center {
   position: relative;
-  width: 380px;
+  width: 100%;
   max-width: 100%;
   cursor: ew-resize;
   user-select: none;
@@ -1265,21 +1273,21 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 20px rgba(0, 255, 102, 0.9);
 }
 
-/* Bottom Slider Row */
+/* Bottom Slider Row (Directly below the watch) */
 .clover-slider-row {
-  margin-top: 40px;
-  padding-top: 24px;
+  margin-top: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  width: 100%;
 }
 
 .slider-labels-top {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 540px;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -1288,11 +1296,22 @@ a { color: inherit; text-decoration: none; }
 
 .slider-lbl {
   color: rgba(245, 242, 237, 0.7);
+  transition: color 0.2s ease;
+}
+
+.slider-lbl.is-active-side {
+  color: var(--red);
+  text-shadow: 0 0 10px rgba(250, 45, 29, 0.6);
 }
 
 .slider-lbl--green {
   color: #00ff66;
   text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+.slider-lbl--green.is-active-side {
+  color: #00ff66;
+  text-shadow: 0 0 14px rgba(0, 255, 102, 0.8);
 }
 
 .slider-mid {
@@ -1302,16 +1321,15 @@ a { color: inherit; text-decoration: none; }
 
 .slider-track-wrap {
   width: 100%;
-  max-width: 540px;
 }
 
 .clover-range-input {
   width: 100%;
-  height: 4px;
+  height: 5px;
   -webkit-appearance: none;
   appearance: none;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.3), #00ff66);
-  border-radius: 2px;
+  background: linear-gradient(to right, rgba(250, 45, 29, 0.8), #00ff66);
+  border-radius: 3px;
   outline: none;
   cursor: pointer;
 }
@@ -1319,17 +1337,23 @@ a { color: inherit; text-decoration: none; }
 .clover-range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #ffffff;
   border: 2px solid #000000;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
   cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.clover-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
 }
 
 .slider-readout {
-  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1530,29 +1554,35 @@ a { color: inherit; text-decoration: none; }
   }
 
   .apple-spec-col {
-    padding: 20px 16px;
+    padding: 14px 16px;
   }
 
   .apple-spec-heading {
-    font-size: clamp(22px, 5.5vw, 28px);
+    font-size: 18px;
+    margin: 0 0 8px;
   }
 
-  .apple-spec-desc {
-    font-size: 13px;
-    line-height: 1.5;
+  .apple-spec-desc,
+  .apple-feat-sub {
+    display: none !important;
   }
 
   .apple-feature-list {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .apple-feature-item {
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .apple-feat-title {
-    font-size: 13px;
-  }
-
-  .apple-feat-sub {
     font-size: 11px;
+    font-weight: 700;
   }
 
   .clover-slider-row {

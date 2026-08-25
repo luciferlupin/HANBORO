@@ -379,7 +379,7 @@ function CloverKingExperience() {
       {/* Main Interactive Stage Display */}
       <div className="clover-interactive-stage" data-reveal data-reveal-delay="1">
         <div className="clover-showcase">
-          {/* Left Column: Day Specs (Matching Hero Section Coolness) */}
+          {/* Left Column: Day Specs */}
           <div className="apple-spec-col apple-spec-col--day">
             <span className="apple-spec-tag">DAYLIGHT EXPRESSION</span>
             <h3 className="apple-spec-heading">
@@ -394,7 +394,7 @@ function CloverKingExperience() {
                 <span className="apple-feat-title">
                   <span className="apple-feat-num">01 /</span> Sculpted Tonneau Case
                 </span>
-                <span className="apple-feat-sub">Ultra-lightweight ergonomic curve with hex-socket structural bolts</span>
+                <span className="apple-feat-sub">Ultra-lightweight ergonomic curve with structural hex bolts</span>
               </div>
               <div className="apple-feature-item">
                 <span className="apple-feat-title">
@@ -412,61 +412,88 @@ function CloverKingExperience() {
                 <span className="apple-feat-title">
                   <span className="apple-feat-num">04 /</span> Fluororubber Strap
                 </span>
-                <span className="apple-feat-sub">Ventilated ergonomic comfort with butterfly spring deployment</span>
+                <span className="apple-feat-sub">Ventilated ergonomic comfort with butterfly deployment</span>
               </div>
             </div>
           </div>
 
-          {/* Center Column: Interactive Split Comparison Watch (Glow reveals from Left to Right) */}
-          <div
-            className={`clover-center ${isDragging ? "is-dragging" : ""}`}
-            ref={containerRef}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerCancel={handlePointerUp}
-            onDragStart={(e) => e.preventDefault()}
-            style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
-          >
-            <div className="clover-watch-stage">
-              {/* Background Layer: Day Watch (Signal Red Base) */}
-              <div className="watch-layer watch-layer--day">
-                <img
-                  src="/clover-king-day.png"
-                  alt="HANBORO Clover King Daytime Mechanical Expression"
-                  className="watch-img"
-                  draggable={false}
-                  onDragStart={(e) => e.preventDefault()}
-                />
-              </div>
+          {/* Center Column: Interactive Watch & Slider Track directly underneath */}
+          <div className="clover-stage-main">
+            <div
+              className={`clover-center ${isDragging ? "is-dragging" : ""}`}
+              ref={containerRef}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              onDragStart={(e) => e.preventDefault()}
+              style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
+            >
+              <div className="clover-watch-stage">
+                {/* Background Layer: Day Watch (Signal Red Base) */}
+                <div className="watch-layer watch-layer--day">
+                  <img
+                    src="/clover-king-day.png"
+                    alt="HANBORO Clover King Daytime Mechanical Expression"
+                    className="watch-img"
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
+                  />
+                </div>
 
-              {/* Foreground Layer: Night Watch (Luminous Green Glow revealed from Left to Right) */}
-              <div
-                className="watch-layer watch-layer--night"
-                style={{ clipPath: `inset(0 ${100 - glowProgress}% 0 0)` }}
-              >
-                <img
-                  src="/clover-king-night.png"
-                  alt="HANBORO Clover King Night Luminous Expression"
-                  className="watch-img"
-                  draggable={false}
-                  onDragStart={(e) => e.preventDefault()}
-                />
-              </div>
+                {/* Foreground Layer: Night Watch (Luminous Green Glow revealed from Left to Right) */}
+                <div
+                  className="watch-layer watch-layer--night"
+                  style={{ clipPath: `inset(0 ${100 - glowProgress}% 0 0)` }}
+                >
+                  <img
+                    src="/clover-king-night.png"
+                    alt="HANBORO Clover King Night Luminous Expression"
+                    className="watch-img"
+                    draggable={false}
+                    onDragStart={(e) => e.preventDefault()}
+                  />
+                </div>
 
-              {/* Vertical Drag Handle Line */}
-              <div
-                className={`clover-divider-line ${isDragging ? "is-active" : ""}`}
-                style={{ left: `${glowProgress}%` }}
-              >
-                <div className="clover-handle-thumb">
-                  <span>&lt; | &gt;</span>
+                {/* Vertical Drag Handle Line */}
+                <div
+                  className={`clover-divider-line ${isDragging ? "is-active" : ""}`}
+                  style={{ left: `${glowProgress}%` }}
+                >
+                  <div className="clover-handle-thumb">
+                    <span>&lt; | &gt;</span>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Interactive Drag Slider Track (Directly below the watch) */}
+            <div className="clover-slider-row">
+              <div className="slider-labels-top">
+                <span className={`slider-lbl ${glowProgress < 50 ? "is-active-side" : ""}`}>DAY {dayPct}%</span>
+                <span className="slider-mid">DRAG TO REVEAL GLOW</span>
+                <span className={`slider-lbl slider-lbl--green ${glowProgress >= 50 ? "is-active-side" : ""}`}>NIGHT {nightPct}%</span>
+              </div>
+
+              <div className="slider-track-wrap">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={glowProgress}
+                  onChange={(e) => setGlowProgress(Number(e.target.value))}
+                  className="clover-range-input"
+                  aria-label="Drag slider to reveal glow from left to right"
+                />
+              </div>
+
+              <div className="slider-readout">
+                DAY {dayPct}% &nbsp;/&nbsp; NIGHT {nightPct}%
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Night Specs (Matching Hero Section Coolness) */}
+          {/* Right Column: Night Specs */}
           <div className="apple-spec-col apple-spec-col--night">
             <span className="apple-spec-tag apple-spec-tag--green">LUMINOUS NIGHT EXPRESSION</span>
             <h3 className="apple-spec-heading apple-spec-heading--green">
@@ -499,34 +526,9 @@ function CloverKingExperience() {
                 <span className="apple-feat-title">
                   <span className="apple-feat-num">04 /</span> 50M Water Seal
                 </span>
-                <span className="apple-feat-sub">Pressure-tested for daily sport & aquatic atmospheric durability</span>
+                <span className="apple-feat-sub">Pressure-tested for daily sport & aquatic durability</span>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Bottom Interactive Slider Track */}
-        <div className="clover-slider-row">
-          <div className="slider-labels-top">
-            <span className="slider-lbl">DAY {dayPct}%</span>
-            <span className="slider-mid">DRAG TO REVEAL GLOW</span>
-            <span className="slider-lbl slider-lbl--green">NIGHT {nightPct}%</span>
-          </div>
-
-          <div className="slider-track-wrap">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={glowProgress}
-              onChange={(e) => setGlowProgress(Number(e.target.value))}
-              className="clover-range-input"
-              aria-label="Drag slider to reveal glow from left to right"
-            />
-          </div>
-
-          <div className="slider-readout">
-            DAY {dayPct}% &nbsp;/&nbsp; NIGHT {nightPct}%
           </div>
         </div>
 
