@@ -322,6 +322,226 @@ function Splash({ onEnter, exiting }) {
 /* ══════════════════════════════════════════════════════════════════════════════
    WEBSITE
 ══════════════════════════════════════════════════════════════════════════════ */
+// ══════════════════════════════════════════════════════════════════════════════
+// INTERACTIVE EXPERIENCE 001: CLOVER KING DAY vs NIGHT REVEAL
+// ══════════════════════════════════════════════════════════════════════════════
+function CloverKingExperience() {
+  const [glowProgress, setGlowProgress] = useState(50); // 0 = 100% Day, 100 = 100% Night (glow sweeps left-to-right)
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef(null);
+  const isDraggingRef = useRef(false);
+
+  // Update slider directly from pointer position on watch stage
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const xPct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setGlowProgress(Math.round(xPct));
+  };
+
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
+    handlePointerMove(e);
+  };
+
+  const handlePointerUp = (e) => {
+    isDraggingRef.current = false;
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const dayPct = 100 - glowProgress;
+  const nightPct = glowProgress;
+
+  return (
+    <section className="stage-section stage-section--direct stage-section--interactive" id="interactive" aria-labelledby="clover-title">
+      {/* Section Header */}
+      <div className="stage-header" data-reveal>
+        <div className="stage-meta">
+          <span className="stage-index">02 / 03</span>
+          <span className="stage-tag">INTERACTIVE EXPERIENCE</span>
+        </div>
+        <h2 id="clover-title" className="stage-title">
+          How rare does time <em>need to be?</em>
+        </h2>
+        <p className="stage-subtitle">
+          Drag the interactive divider to reveal the Clover King from its refined daytime mechanical presence to its electric green luminous night expression.
+        </p>
+      </div>
+
+      {/* Main Interactive Stage Display */}
+      <div className="clover-interactive-stage" data-reveal data-reveal-delay="1">
+        <div className="clover-showcase">
+          {/* Left Column: Day Specs (Matching Hero Section Coolness) */}
+          <div className="apple-spec-col apple-spec-col--day">
+            <span className="apple-spec-tag">DAYLIGHT EXPRESSION</span>
+            <h3 className="apple-spec-heading">
+              Defiant by <em>daylight.</em>
+            </h3>
+            <p className="apple-spec-desc">
+              Sculpted in anodized signal red. Engineered to expose the kinetic heart of the four-leaf clover automatic caliber with absolute Swiss precision.
+            </p>
+
+            <div className="apple-feature-list">
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">01 /</span> Sculpted Tonneau Case
+                </span>
+                <span className="apple-feat-sub">Ultra-lightweight ergonomic curve with hex-socket structural bolts</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">02 /</span> Double-Domed Sapphire
+                </span>
+                <span className="apple-feat-sub">Diamond-knife crafted with 7-layer anti-reflective treatment</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">03 /</span> Kinetic Clover Caliber
+                </span>
+                <span className="apple-feat-sub">Open-worked balance wheel, Swiss gear train & exposed rubies</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">04 /</span> Fluororubber Strap
+                </span>
+                <span className="apple-feat-sub">Ventilated ergonomic comfort with butterfly spring deployment</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Center Column: Interactive Split Comparison Watch (Glow reveals from Left to Right) */}
+          <div
+            className={`clover-center ${isDragging ? "is-dragging" : ""}`}
+            ref={containerRef}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onDragStart={(e) => e.preventDefault()}
+            style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
+          >
+            <div className="clover-watch-stage">
+              {/* Background Layer: Day Watch (Signal Red Base) */}
+              <div className="watch-layer watch-layer--day">
+                <img
+                  src="/clover-king-day.png"
+                  alt="HANBORO Clover King Daytime Mechanical Expression"
+                  className="watch-img"
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
+                />
+              </div>
+
+              {/* Foreground Layer: Night Watch (Luminous Green Glow revealed from Left to Right) */}
+              <div
+                className="watch-layer watch-layer--night"
+                style={{ clipPath: `inset(0 ${100 - glowProgress}% 0 0)` }}
+              >
+                <img
+                  src="/clover-king-night.png"
+                  alt="HANBORO Clover King Night Luminous Expression"
+                  className="watch-img"
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
+                />
+              </div>
+
+              {/* Vertical Drag Handle Line */}
+              <div
+                className={`clover-divider-line ${isDragging ? "is-active" : ""}`}
+                style={{ left: `${glowProgress}%` }}
+              >
+                <div className="clover-handle-thumb">
+                  <span>&lt; | &gt;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Night Specs (Matching Hero Section Coolness) */}
+          <div className="apple-spec-col apple-spec-col--night">
+            <span className="apple-spec-tag apple-spec-tag--green">LUMINOUS NIGHT EXPRESSION</span>
+            <h3 className="apple-spec-heading apple-spec-heading--green">
+              Alive after <em>dark.</em>
+            </h3>
+            <p className="apple-spec-desc apple-spec-desc--green">
+              High-charge Swiss Super-LumiNova Grade X1 radiates through zero light, illuminating the iconic clover silhouette and carbon fibers.
+            </p>
+
+            <div className="apple-feature-list apple-feature-list--green">
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">01 /</span> Luminous Carbon Bezel
+                </span>
+                <span className="apple-feat-sub">Micro-fiber grain glows in vibrant electric green under darkness</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">02 /</span> Lume Clover Bridges
+                </span>
+                <span className="apple-feat-sub">12 & 6 bridges and clover petals radiate commanding presence</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">03 /</span> Skeleton Lume Hands
+                </span>
+                <span className="apple-feat-sub">High-contrast instant legibility across all midnight angles</span>
+              </div>
+              <div className="apple-feature-item">
+                <span className="apple-feat-title">
+                  <span className="apple-feat-num">04 /</span> 50M Water Seal
+                </span>
+                <span className="apple-feat-sub">Pressure-tested for daily sport & aquatic atmospheric durability</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Interactive Slider Track */}
+        <div className="clover-slider-row">
+          <div className="slider-labels-top">
+            <span className="slider-lbl">DAY {dayPct}%</span>
+            <span className="slider-mid">DRAG TO REVEAL GLOW</span>
+            <span className="slider-lbl slider-lbl--green">NIGHT {nightPct}%</span>
+          </div>
+
+          <div className="slider-track-wrap">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={glowProgress}
+              onChange={(e) => setGlowProgress(Number(e.target.value))}
+              className="clover-range-input"
+              aria-label="Drag slider to reveal glow from left to right"
+            />
+          </div>
+
+          <div className="slider-readout">
+            DAY {dayPct}% &nbsp;/&nbsp; NIGHT {nightPct}%
+          </div>
+        </div>
+
+        {/* Technical Precision Engine Specs Bar */}
+        <div className="stage-specs-bar clover-specs-bar" data-reveal data-reveal-delay="2">
+          <div className="spec-pill"><span>Caliber</span><strong>Nishitetsu 8N24 Automatic (21 Jewels)</strong></div>
+          <div className="spec-pill"><span>Frequency</span><strong>21,600 VPH • 42h Power Reserve</strong></div>
+          <div className="spec-pill"><span>Precision</span><strong>±5 Sec/Day • Amplitude &gt;250</strong></div>
+          <div className="spec-pill"><span>Functions</span><strong>Hacking Stop-Second & Dual Winding</strong></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Website({ onRestart }) {
   const [visible, setVisible] = useState(false);
   useScrollReveal(visible);
@@ -339,6 +559,7 @@ function Website({ onRestart }) {
         </a>
         <nav aria-label="Primary navigation" className="site__nav">
           <a href="#lookbook">Lookbook</a>
+          <a href="#interactive">Clover King</a>
           <a href="#packaging">Unboxing</a>
           <a href="#approach">Approach</a>
           <a href="#contact">Contact</a>
@@ -365,7 +586,7 @@ function Website({ onRestart }) {
       <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
         <div className="stage-header" data-reveal>
           <div className="stage-meta">
-            <span className="stage-index">01 / 02</span>
+            <span className="stage-index">01 / 03</span>
             <span className="stage-tag">EDITORIAL LOOKBOOK</span>
           </div>
           <h2 id="lookbook-title" className="stage-title">Where time becomes <em>art.</em></h2>
@@ -391,33 +612,36 @@ function Website({ onRestart }) {
         </div>
       </section>
 
-      {/* ── STAGE 02: BESPOKE PACKAGING & SKELETON TIMEPIECE ── */}
+      {/* ── STAGE 02: CLOVER KING DAY vs NIGHT INTERACTIVE REVEAL ── */}
+      <CloverKingExperience />
+
+      {/* ── STAGE 03: BESPOKE PACKAGING & SKELETON TIMEPIECE ── */}
       <section className="stage-section stage-section--direct" id="packaging" aria-labelledby="packaging-title">
         <div className="stage-header" data-reveal>
           <div className="stage-meta">
-            <span className="stage-index">02 / 02</span>
+            <span className="stage-index">03 / 03</span>
             <span className="stage-tag">THE UNBOXING CEREMONY</span>
           </div>
           <h2 id="packaging-title" className="stage-title">Bespoke <em>presentation.</em></h2>
           <p className="stage-subtitle">
-            Crafted for the collector. Each Hanboro timepiece arrives in custom matte black presentation packaging with hand-braided cords and technical blueprint passport.
+            Crafted for the collector. Each Hanboro Celestial Tourbillon timepiece arrives presented in a piano-black lacquered wooden presentation vault with circular port glass, matte outer gift sleeve, and serialized owner passport.
           </p>
         </div>
 
         <div className="direct-stage-display" data-reveal data-reveal-delay="1">
           <img
-            src="/hanboro-bag-transparent.png"
-            alt="HANBORO luxury packaging shopping bag and rose gold skeleton tourbillon"
+            src="/hanboro-luxury-packaging.png"
+            alt="HANBORO Celestial Tourbillon Timepiece presented with piano-black lacquered presentation vault and outer gift sleeve"
             className="direct-stage__img direct-stage__img--packaging"
             loading="lazy"
           />
         </div>
 
         <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
-          <div className="spec-pill"><span>Vault</span><strong>Matte Black Magnetic Box</strong></div>
-          <div className="spec-pill"><span>Protection</span><strong>Hand-Stitched Suede Pillow</strong></div>
-          <div className="spec-pill"><span>Passport</span><strong>Laser-Engraved Warranty Card</strong></div>
-          <div className="spec-pill"><span>Care</span><strong>Microfiber Polishing Cloth</strong></div>
+          <div className="spec-pill"><span>Complication</span><strong>3D Celestial Globe & Tourbillon</strong></div>
+          <div className="spec-pill"><span>Vault</span><strong>Piano-Black Lacquer Box</strong></div>
+          <div className="spec-pill"><span>Display</span><strong>Circular Port Viewing Lid</strong></div>
+          <div className="spec-pill"><span>Passport</span><strong>Serialized Warranty Card</strong></div>
         </div>
       </section>
 
