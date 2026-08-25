@@ -608,28 +608,554 @@ function WatchCarouselSection() {
   );
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// OFFICIAL STORE LOCATOR DIRECTORY DATA
+// ══════════════════════════════════════════════════════════════════════════════
+const STORES_DATA = [
+  {
+    id: "time-planet-bahadurgarh",
+    name: "Time Planet",
+    city: "Bahadurgarh",
+    state: "Haryana",
+    pincode: "124507",
+    address: "Metro pillar no. 840, Delhi - Rohtak Road, Opposite ICICI BANK opposite Campus, Bahadurgarh, Haryana 124507",
+    phone: "+91 8901509654",
+    phoneRaw: "8901509654",
+    mapUrl: "https://www.google.com/maps/place/TIME+PLANET/@28.6909983,76.9295432,17z/data=!3m1!4b1!4m6!3m5!1s0x390d09994b76e7cd:0x30fc8774131e9375!8m2!3d28.6909983!4d76.9321181!16s%2Fg%2F11fwhzlwvn?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "nagpal-karnal",
+    name: "Nagpal Watches & Optics",
+    city: "Karnal",
+    state: "Haryana",
+    pincode: "132001",
+    address: "Shop no. 2, Kunjpura Rd, near Trends, Dyal Singh Colony, Karnal, Haryana 132001",
+    phone: "+91 9034138000",
+    phoneRaw: "+919034138000",
+    mapUrl: "https://maps.app.goo.gl/pGcSPgW9hyT1PdbA9?g_st=ic",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "lokhandwala-mumbai",
+    name: "Lokhandwala Watches Pvt Ltd",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400053",
+    address: "Shop No. 3 & 4, Swiss Palace, Circle, Shastri Nagar Lane 1, near Lokhandwala, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053",
+    phone: null,
+    mapUrl: "https://share.google/xh5hdAmb4gvSvE7Oz",
+    type: "Official Boutique Partner"
+  },
+  {
+    id: "the-watch-store-thane",
+    name: "The Watch Store",
+    city: "Thane",
+    state: "Maharashtra",
+    pincode: "401107",
+    address: "Building no. B/69, Shop Number 9 & 10, opposite TMT Bus Stop, next to Patanjali Store, Sector 1, Shanti Nagar, Mira Road East, Thane, Maharashtra 401107",
+    phone: null,
+    mapUrl: "https://maps.app.goo.gl/WNC6G6Qqx3zhMXvd7",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "arihant-virar",
+    name: "Arihant Watches & Optical Studio",
+    city: "Virar",
+    state: "Maharashtra",
+    pincode: "401303",
+    address: "Shop no 4-7, Gopani Centre, Agashi Rd, opposite Hotel On The Way, Doghar Pada, Sheetal Nagar, Virar West, Thane, Virar, Maharashtra 401303",
+    phone: null,
+    mapUrl: "https://maps.app.goo.gl/GwqV316xrD9AEL9p7",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "shree-krishna-ghaziabad",
+    name: "Shree Krishna Watch Company",
+    city: "Ghaziabad",
+    state: "Uttar Pradesh",
+    pincode: "201014",
+    address: "Shop No. 308 & 309, Indirapuram Habitat Center, Ahinsa Khand 1, Indirapuram, Ghaziabad, Uttar Pradesh 201014",
+    phone: "+91 9990003645",
+    phoneRaw: "+919990003645",
+    mapUrl: "https://www.google.com/maps/place/SHREE+KRISHNA+WATCH+COMPANY/@28.6395064,77.3664638,17z/data=!3m1!4b1!4m6!3m5!1s0x390cfaad730492af:0x3ad8fa0c462e2b6e!8m2!3d28.6395064!4d77.3690387!16s%2Fg%2F11dxkvg522?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "prakash-mathura",
+    name: "Prakash Watch & Opticals",
+    city: "Mathura",
+    state: "Uttar Pradesh",
+    pincode: "281004",
+    address: "Shop No 2 B, Near Rahul Bakers, Krishna Nagar, Mathura, Uttar Pradesh 281004",
+    phone: null,
+    mapUrl: "https://maps.app.goo.gl/JG5pRMNSayya7LZv7?g_st=ic",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "timeland-tirupati",
+    name: "Timeland",
+    city: "Tirupati",
+    state: "Andhra Pradesh",
+    pincode: "517501",
+    address: "VV Mahal Rd, opp. Lalitaa Jewellery, Bhavani Nagar, Tirupati, Andhra Pradesh 517501",
+    phone: null,
+    mapUrl: "https://www.google.com/maps/place/TIMELAND/@13.6407904,79.4133274,17z/data=!4m6!3m5!1s0x3a4d4bca23fb2c8f:0x299e298b0d1e8085!8m2!3d13.637068!4d79.4206308!16s%2Fg%2F11whwgkqfc?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Official Boutique Partner"
+  },
+  {
+    id: "timeland-vizag",
+    name: "Timeland",
+    city: "Visakhapatnam",
+    state: "Andhra Pradesh",
+    pincode: "530002",
+    address: "D No, 10/50/84, Waltair Main Rd, opposite Dr. Agarwals EYE Hospital, Ram Nagar, Visakhapatnam, Andhra Pradesh 530002",
+    phone: null,
+    mapUrl: "https://www.google.com/maps/place/TIMELAND/@13.6370544,79.338229,12z/data=!4m6!3m5!1s0x3a4d4bca23fb2c8f:0x299e298b0d1e8085!8m2!3d13.637068!4d79.4206308!16s%2Fg%2F11whwgkqfc?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Official Boutique Partner"
+  },
+  {
+    id: "madina-nellore",
+    name: "Madina Watch Agencies",
+    city: "Nellore",
+    state: "Andhra Pradesh",
+    pincode: "524001",
+    address: "Plot No. 9, Grand Trunk Road, opposite Sunday Market, Nellore, Andhra Pradesh 524001",
+    phone: null,
+    mapUrl: "https://maps.app.goo.gl/grWXe6cLMxadhUe7A?g_st=ipc",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "good-things-nellore",
+    name: "Good Things",
+    city: "Nellore",
+    state: "Andhra Pradesh",
+    pincode: "524003",
+    address: "Bollineni Centre, 24-3-221, Dargamitta, Nellore, Andhra Pradesh 524003",
+    phone: null,
+    mapUrl: "https://www.google.com/maps/place/Good+Things/@14.4340382,79.9656465,17z/data=!3m1!4b1!4m6!3m5!1s0x3a4cf3195dd069b7:0xfdeb0fdd57399f16!8m2!3d14.4340382!4d79.9682214!16s%2Fg%2F11fn908t8h?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Authorized Retailer"
+  },
+  {
+    id: "sharma-bhiwadi",
+    name: "Sharma Watch Co.",
+    city: "Bhiwadi",
+    state: "Rajasthan",
+    pincode: "301019",
+    address: "Samtal chowk, near Central Market, Bhiwadi, Rajasthan 301019",
+    phone: null,
+    mapUrl: "https://www.google.com/maps/search/Sharma+Watch+Co.+Samtal+chowk+Bhiwadi",
+    type: "Authorized Retailer"
+  }
+];
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HOLOGRAPHIC GLOBE HERO VISUAL COMPONENT
+// ══════════════════════════════════════════════════════════════════════════════
+function HolographicGlobe() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animId;
+    let rotation = 0;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Coordinates of India's authorized retail nodes
+    const pins = [
+      { lat: 28.6, lon: 77.1, name: "Delhi NCR / Haryana" },
+      { lat: 19.0, lon: 72.8, name: "Mumbai" },
+      { lat: 14.4, lon: 79.9, name: "Andhra Pradesh" },
+      { lat: 27.5, lon: 77.6, name: "Uttar Pradesh" },
+      { lat: 28.2, lon: 76.8, name: "Rajasthan" }
+    ];
+
+    const render = () => {
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2;
+      const cy = h * 0.95;
+      const radius = Math.min(w * 0.46, 320);
+
+      // Outer atmospheric glow
+      const haze = ctx.createRadialGradient(cx, cy, radius * 0.7, cx, cy, radius * 1.35);
+      haze.addColorStop(0, "rgba(0, 153, 255, 0.45)");
+      haze.addColorStop(0.5, "rgba(0, 102, 255, 0.15)");
+      haze.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = haze;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Planet Sphere Body
+      const sphereGrad = ctx.createRadialGradient(cx - radius * 0.25, cy - radius * 0.25, radius * 0.1, cx, cy, radius);
+      sphereGrad.addColorStop(0, "#4ea8de");
+      sphereGrad.addColorStop(0.4, "#0077b6");
+      sphereGrad.addColorStop(0.85, "#023e8a");
+      sphereGrad.addColorStop(1, "#03045e");
+      ctx.fillStyle = sphereGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw latitude and longitude grid lines
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.clip();
+
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
+      ctx.lineWidth = 1;
+
+      // Longitude lines rotating
+      for (let i = 0; i < 12; i++) {
+        const angle = rotation + (i * Math.PI) / 6;
+        const xOffset = Math.sin(angle) * radius;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, Math.abs(xOffset), radius, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Latitude lines
+      for (let j = 1; j <= 5; j++) {
+        const yOffset = (j / 6) * radius * 0.9;
+        const rLat = Math.sqrt(Math.max(0, radius * radius - yOffset * yOffset));
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - yOffset, rLat, yOffset * 0.35, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + yOffset, rLat, yOffset * 0.35, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Draw active pulsing locator pins on the rotating globe
+      pins.forEach((pin, pIdx) => {
+        const radLat = (pin.lat * Math.PI) / 180;
+        const radLon = (pin.lon * Math.PI) / 180 + rotation;
+
+        const px = cx + radius * Math.cos(radLat) * Math.sin(radLon);
+        const py = cy - radius * Math.sin(radLat);
+        const isVisible = Math.cos(radLon) > -0.2;
+
+        if (isVisible) {
+          const pulse = (Math.sin(Date.now() * 0.005 + pIdx) + 1) / 2;
+
+          // Outer pulse ring
+          ctx.strokeStyle = `rgba(255, 75, 50, ${0.8 - pulse * 0.5})`;
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.arc(px, py, 4 + pulse * 10, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Core pin dot
+          ctx.fillStyle = "#fa2d1d";
+          ctx.beginPath();
+          ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      ctx.restore();
+
+      // Atmospheric rim highlight
+      ctx.strokeStyle = "rgba(180, 230, 255, 0.75)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      rotation += 0.003;
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  return (
+    <div className="holographic-globe-wrap">
+      <canvas ref={canvasRef} className="holographic-globe-canvas" />
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DEDICATED STORE LOCATOR PAGE COMPONENT
+// ══════════════════════════════════════════════════════════════════════════════
+function StoreLocatorView({ onNavigateHome }) {
+  const [selectedState, setSelectedState] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const states = ["ALL", "HARYANA", "MAHARASHTRA", "UTTAR PRADESH", "ANDHRA PRADESH", "RAJASTHAN"];
+
+  const filteredStores = STORES_DATA.filter((store) => {
+    const matchesState = selectedState === "ALL" || store.state.toUpperCase() === selectedState;
+    const q = searchQuery.toLowerCase().trim();
+    const matchesQuery =
+      !q ||
+      store.name.toLowerCase().includes(q) ||
+      store.city.toLowerCase().includes(q) ||
+      store.state.toLowerCase().includes(q) ||
+      store.address.toLowerCase().includes(q) ||
+      store.pincode.includes(q);
+    return matchesState && matchesQuery;
+  });
+
+  return (
+    <div className="store-locator-page">
+      {/* Globe Visualization Header Hero */}
+      <section className="locator-hero" aria-labelledby="locator-heading">
+        <HolographicGlobe />
+        <div className="locator-hero__content" data-reveal>
+          <div className="stage-meta">
+            <span className="stage-tag">OFFICIAL RETAIL DIRECTORY</span>
+          </div>
+          <h1 id="locator-heading" className="locator-hero__title">
+            Store <em>locators.</em>
+          </h1>
+          <p className="locator-hero__subtitle">
+            Experience Hanboro haute horlogerie timepieces in person. Explore our network of authorized boutique partners, master horologists, and retail ateliers across India.
+          </p>
+        </div>
+      </section>
+
+      {/* Directory Search & State Filter Navigation */}
+      <section className="locator-directory-section">
+        <div className="locator-controls-wrap" data-reveal>
+          {/* Search Input Bar */}
+          <div className="locator-search-bar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search by city, store name, state or pincode..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="locator-search-input"
+              aria-label="Search retail stores"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="locator-search-clear"
+                onClick={() => setSearchQuery("")}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* State Filter Pills */}
+          <div className="locator-state-pills" role="tablist" aria-label="Filter stores by state">
+            {states.map((st) => {
+              const count = st === "ALL"
+                ? STORES_DATA.length
+                : STORES_DATA.filter((s) => s.state.toUpperCase() === st).length;
+              return (
+                <button
+                  type="button"
+                  key={st}
+                  role="tab"
+                  aria-selected={selectedState === st}
+                  className={`locator-filter-btn ${selectedState === st ? "is-active" : ""}`}
+                  onClick={() => setSelectedState(st)}
+                >
+                  <span>{st === "ALL" ? "ALL LOCATIONS" : st}</span>
+                  <span className="locator-filter-count">({count})</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Store Results Counter */}
+        <div className="locator-results-meta" data-reveal>
+          <span>Showing {filteredStores.length} {filteredStores.length === 1 ? "Boutique" : "Boutiques"} in India</span>
+        </div>
+
+        {/* Stores Grid Display */}
+        <div className="locator-grid">
+          {filteredStores.map((store) => (
+            <article className="store-card" key={store.id} data-reveal>
+              <div className="store-card__header">
+                <div className="store-card__region">
+                  <span className="store-card__state">{store.state}</span>
+                  <span className="store-card__city">• {store.city}</span>
+                </div>
+                <span className="store-card__badge">{store.type}</span>
+              </div>
+
+              <h2 className="store-card__name">{store.name}</h2>
+
+              <p className="store-card__address">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>{store.address}</span>
+              </p>
+
+              {store.phone && (
+                <div className="store-card__contact">
+                  <a href={`tel:${store.phoneRaw}`} className="store-card__phone-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <span>{store.phone}</span>
+                  </a>
+                </div>
+              )}
+
+              <div className="store-card__actions">
+                <a
+                  href={store.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="store-card__directions-btn"
+                  aria-label={`Get directions to ${store.name}`}
+                >
+                  <span>Get Directions</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {filteredStores.length === 0 && (
+          <div className="locator-empty-state" data-reveal>
+            <p>No authorized boutiques found matching your search.</p>
+            <button
+              type="button"
+              className="locator-reset-btn"
+              onClick={() => {
+                setSelectedState("ALL");
+                setSearchQuery("");
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
 function Website({ onRestart }) {
   const [visible, setVisible] = useState(false);
+  const [view, setView] = useState(() => {
+    return window.location.hash === "#stores" ? "stores" : "home";
+  });
+
   useScrollReveal(visible);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 120);
-    return () => clearTimeout(timer);
+    const handleHashChange = () => {
+      if (window.location.hash === "#stores") {
+        setView("stores");
+      } else if (window.location.hash === "#home" || window.location.hash === "#top" || !window.location.hash) {
+        setView("home");
+      }
+    };
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
   }, []);
+
+  const navigateTo = (newView, hashTarget) => {
+    setView(newView);
+    if (hashTarget) {
+      window.location.hash = hashTarget;
+      if (newView === "home") {
+        setTimeout(() => {
+          const el = document.querySelector(hashTarget);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }, 80);
+      }
+    }
+  };
 
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       <header className="site__header">
-        <a href="#top" aria-label="Hanboro home" className="site__brand">
+        <button
+          type="button"
+          onClick={() => navigateTo("home", "#top")}
+          aria-label="Hanboro home"
+          className="site__brand site__brand-btn"
+        >
           <HanboroLogo theme="dark" size={28} />
-        </a>
+        </button>
         <nav aria-label="Primary navigation" className="site__nav">
-          <a href="#collection">Collection</a>
-          <a href="#lookbook">Lookbook</a>
-          <a href="#interactive">Clover King</a>
-          <a href="#packaging">Unboxing</a>
-          <a href="#approach">Approach</a>
-          <a href="#contact">Contact</a>
+          <button
+            type="button"
+            className={`site__nav-link ${view === "home" ? "is-active" : ""}`}
+            onClick={() => navigateTo("home", "#collection")}
+          >
+            Collection
+          </button>
+          <button
+            type="button"
+            className="site__nav-link"
+            onClick={() => navigateTo("home", "#lookbook")}
+          >
+            Lookbook
+          </button>
+          <button
+            type="button"
+            className="site__nav-link"
+            onClick={() => navigateTo("home", "#interactive")}
+          >
+            Clover King
+          </button>
+          <button
+            type="button"
+            className="site__nav-link"
+            onClick={() => navigateTo("home", "#packaging")}
+          >
+            Unboxing
+          </button>
+          <button
+            type="button"
+            className={`site__nav-link site__nav-link--highlight ${view === "stores" ? "is-active" : ""}`}
+            onClick={() => navigateTo("stores", "#stores")}
+          >
+            Store Locator
+          </button>
+          <button
+            type="button"
+            className="site__nav-link"
+            onClick={() => navigateTo("home", "#contact")}
+          >
+            Contact
+          </button>
         </nav>
         <a className="header__cta-btn" href="mailto:connect@hanborowatches.in">
           <span>Inquire Now</span>
@@ -640,19 +1166,32 @@ function Website({ onRestart }) {
         </a>
       </header>
 
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="hero__copy">
-          <p className="eyebrow h-eyebrow">Independent creative direction</p>
-          <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
-          <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
-          <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
-        </div>
-      </section>
+      {view === "stores" ? (
+        <StoreLocatorView onNavigateHome={() => navigateTo("home", "#top")} />
+      ) : (
+        <>
+          <section className="hero" aria-labelledby="hero-title">
+            <div className="hero__copy">
+              <p className="eyebrow h-eyebrow">Independent creative direction</p>
+              <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
+              <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
+              <div className="hero__btn-row">
+                <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
+                <button
+                  type="button"
+                  className="secondary-btn h-stores-btn"
+                  onClick={() => navigateTo("stores", "#stores")}
+                >
+                  Find a Store ↗
+                </button>
+              </div>
+            </div>
+          </section>
 
-      {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
-      <WatchCarouselSection />
+          {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
+          <WatchCarouselSection />
 
-      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
+          {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
       <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
         <div className="stage-header" data-reveal>
           <div className="stage-meta">
@@ -743,6 +1282,8 @@ function Website({ onRestart }) {
           </article>
         </div>
       </section>
+        </>
+      )}
 
       <footer className="footer" id="contact">
         <p className="eyebrow" data-reveal>Have a moment?</p>
