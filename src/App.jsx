@@ -319,41 +319,30 @@ function Website({ visible }) {
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       <header className="site__header">
-        <a href="#top" aria-label="Hanboro home">
+        <a href="#top" aria-label="Hanboro home" className="site__brand">
           <HanboroLogo theme="dark" size={28} />
         </a>
-        <nav aria-label="Primary navigation">
+        <nav aria-label="Primary navigation" className="site__nav">
           <a href="#lookbook">Lookbook</a>
           <a href="#packaging">Unboxing</a>
           <a href="#approach">Approach</a>
           <a href="#contact">Contact</a>
         </nav>
-        <a className="header__availability" href="mailto:connect@hanborowatches.in">Available now <span/></a>
+        <a className="header__cta-btn" href="mailto:connect@hanborowatches.in">
+          <span>Inquire Now</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </a>
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero__copy">
-          <p className="eyebrow h-eyebrow">Haute Horlogerie & Creative Direction</p>
+          <p className="eyebrow h-eyebrow">Independent creative direction</p>
           <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
-          <p className="hero__description h-desc">HANBORO shapes striking identities, authentic luxury timepieces, and digital experiences for brands that refuse to stand still.</p>
-          <a className="primary-link h-cta" href="#lookbook">Explore The Collection <span aria-hidden="true">↘</span></a>
-        </div>
-
-        <div className="hero__visual" data-reveal data-reveal-delay="1">
-          <div className="hero__watch-stage">
-            <img
-              src="/hanboro-hero-watch.png"
-              alt="HANBORO luxury 18k rose gold skeleton tourbillon timepiece"
-              className="hero__watch-img"
-              loading="eager"
-            />
-            <div className="hero__tag hero__tag--top">
-              <span>TOURBILLON CALIBER</span>
-            </div>
-            <div className="hero__tag hero__tag--bottom">
-              <span>18K ROSE GOLD & SAPPHIRE</span>
-            </div>
-          </div>
+          <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
+          <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
         </div>
       </section>
 
