@@ -805,8 +805,8 @@ function InteractiveDottedGlobe() {
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     globeGroup.add(coreMesh);
 
-    // 2. Top-crest crimson and platinum atmospheric rim glow
-    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.035, 64, 64);
+    // 2. Subtle silver-white atmospheric rim glow
+    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.025, 64, 64);
     const atmosMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
@@ -822,10 +822,10 @@ function InteractiveDottedGlobe() {
         varying vec3 vPosition;
         void main() {
           float rim = 1.0 - max(0.0, dot(vNormal, vec3(0.0, 0.0, 1.0)));
-          float topFactor = smoothstep(-60.0, 220.0, vPosition.y);
-          float glow = pow(rim, 2.0) * (0.85 + topFactor * 1.8);
-          vec3 glowColor = mix(vec3(0.95, 0.18, 0.12), vec3(1.0, 0.96, 0.92), topFactor * 0.85);
-          gl_FragColor = vec4(glowColor, glow * 0.92);
+          float topFactor = smoothstep(-40.0, 220.0, vPosition.y);
+          float glow = pow(rim, 2.6) * (0.35 + topFactor * 0.85);
+          vec3 glowColor = vec3(0.92, 0.95, 1.0);
+          gl_FragColor = vec4(glowColor, glow * 0.7);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -835,7 +835,7 @@ function InteractiveDottedGlobe() {
     const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
     scene.add(atmosMesh);
 
-    // Helper: Circle glow dot texture
+    // Helper: Circle glow dot texture (clean monochrome)
     const createDotTexture = () => {
       const canvas = document.createElement("canvas");
       canvas.width = 64;
@@ -843,9 +843,9 @@ function InteractiveDottedGlobe() {
       const ctx = canvas.getContext("2d");
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       grad.addColorStop(0, "rgba(255, 255, 255, 1)");
-      grad.addColorStop(0.35, "rgba(255, 245, 235, 0.96)");
-      grad.addColorStop(0.7, "rgba(255, 55, 35, 0.35)");
-      grad.addColorStop(1, "rgba(255, 55, 35, 0)");
+      grad.addColorStop(0.4, "rgba(240, 245, 255, 0.92)");
+      grad.addColorStop(0.75, "rgba(200, 225, 255, 0.25)");
+      grad.addColorStop(1, "rgba(200, 225, 255, 0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 64, 64);
       return new THREE.CanvasTexture(canvas);
