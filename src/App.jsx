@@ -769,7 +769,7 @@ function InteractiveDottedGlobe() {
   const mountRef = useRef(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
-  const rotRef = useRef({ x: 0.22, y: -1.42, vx: 0, vy: 0.0018 });
+  const rotRef = useRef({ x: 0.38, y: -2.93, vx: 0, vy: 0 });
 
   useEffect(() => {
     const container = mountRef.current;
@@ -790,7 +790,7 @@ function InteractiveDottedGlobe() {
     // Large planetary scale matching Bluorng horizon
     const globeRadius = 265;
     const globeGroup = new THREE.Group();
-    globeGroup.position.set(0, -90, 0);
+    globeGroup.position.set(0, -95, 0);
     globeGroup.rotation.x = rotRef.current.x;
     globeGroup.rotation.y = rotRef.current.y;
     scene.add(globeGroup);
@@ -865,7 +865,7 @@ function InteractiveDottedGlobe() {
             const v = latLonToVec3(lat, lon, globeRadius + 0.8);
             dotPositions.push(v.x, v.y, v.z);
 
-            // Radiant white for India, warm platinum for other continents
+            // Radiant pure white for India, warm platinum for other continents
             if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
               dotColors.push(1.0, 1.0, 1.0);
             } else {
@@ -933,11 +933,11 @@ function InteractiveDottedGlobe() {
       pinMeshes.push({ group: pGroup, ring, ringMat, pin });
     });
 
-    // 5. Drag & Swipe Interaction with Clamped Boundaries
-    const MIN_ROT_Y = -2.35; // Bound for Europe/Africa
-    const MAX_ROT_Y = -0.55; // Bound for East Asia/Australia
-    const MIN_ROT_X = -0.35;
-    const MAX_ROT_X = 0.45;
+    // 5. Drag & Swipe Interaction Clamped Around India
+    const MIN_ROT_Y = -3.55;
+    const MAX_ROT_Y = -2.30;
+    const MIN_ROT_X = 0.18;
+    const MAX_ROT_X = 0.52;
 
     const onPointerDown = (e) => {
       isDraggingRef.current = true;
@@ -956,7 +956,6 @@ function InteractiveDottedGlobe() {
       const newY = rotRef.current.y + dx * 0.0045;
       const newX = rotRef.current.x + dy * 0.0045;
 
-      // Restrict rotation strictly so it never spins to empty ocean
       rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, newY));
       rotRef.current.x = Math.max(MIN_ROT_X, Math.min(MAX_ROT_X, newX));
     };
@@ -981,17 +980,18 @@ function InteractiveDottedGlobe() {
     };
     window.addEventListener("resize", onResize);
 
-    // 6. Animation loop with gentle sinusoidal oscillation across continental span
+    // 6. Animation loop centered on India
     let animId;
     let clock = 0;
     const animate = () => {
       clock += 0.025;
 
       if (!isDraggingRef.current) {
-        // Gentle oscillation centered on India and continental hub
-        const idleTargetY = -1.45 + Math.sin(clock * 0.45) * 0.45;
-        rotRef.current.y += (idleTargetY - rotRef.current.y) * 0.035;
-        rotRef.current.x += (0.22 - rotRef.current.x) * 0.035;
+        // Gentle sway centered on India
+        const idleTargetY = -2.93 + Math.sin(clock * 0.4) * 0.18;
+        const idleTargetX = 0.38 + Math.sin(clock * 0.3) * 0.03;
+        rotRef.current.y += (idleTargetY - rotRef.current.y) * 0.04;
+        rotRef.current.x += (idleTargetX - rotRef.current.x) * 0.04;
       }
 
       rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, rotRef.current.y));
