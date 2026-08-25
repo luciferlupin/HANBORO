@@ -544,6 +544,126 @@ function CloverKingExperience() {
   );
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
+// ══════════════════════════════════════════════════════════════════════════════
+const WATCH_COLLECTION = [
+  {
+    id: "astro",
+    name: "Astroworld Skeleton",
+    ref: "REF. HBR-880-ASTRO",
+    tag: "KINETIC SKELETON",
+    img: "/watch-carousel-2.png"
+  },
+  {
+    id: "rose",
+    name: "Octagonal Tourbillon",
+    ref: "REF. HBR-901-ROSE",
+    tag: "ROSE GOLD ATELIER",
+    img: "/watch-carousel-1.png"
+  },
+  {
+    id: "orbit",
+    name: "Celestial Earth Orbital",
+    ref: "REF. HBR-950-ORBIT",
+    tag: "GUILLOCHÉ CALIBER",
+    img: "/watch-carousel-3.png"
+  },
+  {
+    id: "mecha",
+    name: "Tonneau Mecha-Skeleton",
+    ref: "REF. HBR-980-MECHA",
+    tag: "DUAL-CROWN ARCHITECTURE",
+    img: "/watch-carousel-4.png"
+  },
+  {
+    id: "clover",
+    name: "Clover King Automatic",
+    ref: "REF. HBR-770-CLOVER",
+    tag: "SIGNAL RED TONNEAU",
+    img: "/clover-king-day.png"
+  },
+  {
+    id: "celestial",
+    name: "Astronomical Celestial",
+    ref: "REF. HBR-990-CELESTIAL",
+    tag: "3D GLOBE TOURBILLON",
+    img: "/hanboro-celestial-watch.png"
+  }
+];
+
+function WatchCarouselSection() {
+  const scrollTrackRef = useRef(null);
+
+  const handleScroll = (direction) => {
+    if (!scrollTrackRef.current) return;
+    const amount = direction === "next" ? 320 : -320;
+    scrollTrackRef.current.scrollBy({ left: amount, behavior: "smooth" });
+  };
+
+  // Duplicate list to create seamless infinite loop
+  const displayWatches = [...WATCH_COLLECTION, ...WATCH_COLLECTION];
+
+  return (
+    <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
+      <div className="carousel-section-header" data-reveal>
+        <div className="stage-meta">
+          <span className="stage-tag">THE ESSENTIALS</span>
+        </div>
+        <div className="carousel-title-row">
+          <h2 id="collection-title" className="carousel-heading">
+            Horological <em>lineage.</em>
+          </h2>
+          <div className="carousel-arrows">
+            <button
+              type="button"
+              className="carousel-arrow-btn"
+              onClick={() => handleScroll("prev")}
+              aria-label="Previous watch"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className="carousel-arrow-btn"
+              onClick={() => handleScroll("next")}
+              aria-label="Next watch"
+            >
+              →
+            </button>
+          </div>
+        </div>
+        <p className="stage-subtitle">
+          Explore the iconic complications, forged carbon architectures, and kinetic skeleton calibers crafted for the collector.
+        </p>
+      </div>
+
+      {/* Infinite Marquee & Touch Drag Track */}
+      <div className="carousel-track-wrapper" data-reveal data-reveal-delay="1">
+        <div className="carousel-track" ref={scrollTrackRef}>
+          {displayWatches.map((watch, index) => (
+            <div className="watch-card" key={`${watch.id}-${index}`}>
+              <div className="watch-card__badge">{watch.tag}</div>
+              <div className="watch-card__media">
+                <img
+                  src={watch.img}
+                  alt={`HANBORO ${watch.name}`}
+                  className="watch-card__img"
+                  loading="lazy"
+                />
+              </div>
+              <div className="watch-card__info">
+                <span className="watch-card__ref">{watch.ref}</span>
+                <h3 className="watch-card__name">{watch.name}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Website({ onRestart }) {
   const [visible, setVisible] = useState(false);
   useScrollReveal(visible);
@@ -560,6 +680,7 @@ function Website({ onRestart }) {
           <HanboroLogo theme="dark" size={28} />
         </a>
         <nav aria-label="Primary navigation" className="site__nav">
+          <a href="#collection">Collection</a>
           <a href="#lookbook">Lookbook</a>
           <a href="#interactive">Clover King</a>
           <a href="#packaging">Unboxing</a>
@@ -583,6 +704,9 @@ function Website({ onRestart }) {
           <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
         </div>
       </section>
+
+      {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
+      <WatchCarouselSection />
 
       {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
       <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
