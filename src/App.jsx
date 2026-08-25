@@ -301,6 +301,7 @@ function Splash({ onEnter, exiting }) {
     <section
       className={["splash", mounted ? "splash--in" : "", exiting ? "splash--exit" : ""].filter(Boolean).join(" ")}
       aria-label="Hanboro intro"
+      onClick={onEnter}
     >
       <div className="splash__grain"/>
       <div className="splash__header">
