@@ -549,13 +549,7 @@ function CloverKingExperience() {
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
   { id: "roulette", name: "Roulette Automatic", img: "/watch-carousel-roulette.png" },
-  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
-  { id: "rose", name: "Octagonal Tourbillon", img: "/watch-carousel-1.png" },
-  { id: "astro", name: "Astroworld Skeleton", img: "/watch-carousel-2.png" },
-  { id: "orbit", name: "Celestial Earth Orbital", img: "/watch-carousel-3.png" },
-  { id: "mecha", name: "Tonneau Mecha-Skeleton", img: "/watch-carousel-4.png" },
-  { id: "clover", name: "Clover King Automatic", img: "/clover-king-day.png" },
-  { id: "celestial", name: "Astronomical Celestial", img: "/hanboro-celestial-watch.png" }
+  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" }
 ];
 
 function WatchCarouselSection() {
@@ -567,8 +561,13 @@ function WatchCarouselSection() {
     scrollTrackRef.current.scrollBy({ left: amount, behavior: "smooth" });
   };
 
-  // Duplicate list to create seamless infinite loop
-  const displayWatches = [...WATCH_COLLECTION, ...WATCH_COLLECTION];
+  // Repeating array of the 2 exact watches to maintain seamless continuous loop
+  const displayWatches = [
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION
+  ];
 
   return (
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
