@@ -312,9 +312,152 @@ function Splash({ onEnter, exiting }) {
 /* ══════════════════════════════════════════════════════════════════════════════
    WEBSITE
 ══════════════════════════════════════════════════════════════════════════════ */
-function Website({ visible }) {
-  useScrollReveal();
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+// ══════════════════════════════════════════════════════════════════════════════
+// REAL 3D FLIPPING LOOKBOOK COMPONENT
+// ══════════════════════════════════════════════════════════════════════════════
+function LookbookBook() {
+  const [spread, setSpread] = useState(1); // 1 = pages 1-2, 2 = pages 3-4
+  const [isFlipping, setIsFlipping] = useState(false);
+
+  const flipForward = () => {
+    if (spread === 1 && !isFlipping) {
+      setIsFlipping(true);
+      setTimeout(() => {
+        setSpread(2);
+        setIsFlipping(false);
+      }, 700);
+    }
+  };
+
+  const flipBackward = () => {
+    if (spread === 2 && !isFlipping) {
+      setIsFlipping(true);
+      setTimeout(() => {
+        setSpread(1);
+        setIsFlipping(false);
+      }, 700);
+    }
+  };
+
+  return (
+    <div className="lookbook-stage" data-reveal data-reveal-delay="1">
+      {/* 3D Book Container */}
+      <div className={`book-3d ${isFlipping ? "is-flipping" : ""} spread-${spread}`}>
+        {/* Left Side of the Open Book */}
+        <div
+          className="book-page-leaf book-page-leaf--left"
+          onClick={flipBackward}
+          title={spread === 2 ? "Click to flip back to Pages 01-02" : "Page 01"}
+        >
+          <img
+            src={spread === 1 ? "/lookbook-p1.png" : "/lookbook-p3.png"}
+            alt={spread === 1 ? "HANBORO Lookbook Page 01: Swiss Essence" : "HANBORO Lookbook Page 03: The Collection"}
+            className="book-page-img"
+            loading="lazy"
+          />
+          {spread === 2 && (
+            <button className="page-turn-hint page-turn-hint--left" onClick={(e) => { e.stopPropagation(); flipBackward(); }} aria-label="Turn to previous page">
+              <span>❮ Flip to Page 01-02</span>
+            </button>
+          )}
+        </div>
+
+        {/* Central Book Spine Shadow */}
+        <div className="book-spine" aria-hidden="true" />
+
+        {/* Right Side of the Open Book */}
+        <div
+          className="book-page-leaf book-page-leaf--right"
+          onClick={flipForward}
+          title={spread === 1 ? "Click to flip to Pages 03-04" : "Page 04"}
+        >
+          <img
+            src={spread === 1 ? "/lookbook-p2.png" : "/lookbook-p4.png"}
+            alt={spread === 1 ? "HANBORO Lookbook Page 02: Our Story" : "HANBORO Lookbook Page 04: Orbita-980-1"}
+            className="book-page-img"
+            loading="lazy"
+          />
+          {spread === 1 && (
+            <button className="page-turn-hint page-turn-hint--right" onClick={(e) => { e.stopPropagation(); flipForward(); }} aria-label="Turn to next page">
+              <span>Flip to Page 03-04 ❯</span>
+            </button>
+          )}
+        </div>
+
+        {/* Dynamic 3D Flipping Sheet (animates during page turn) */}
+        {isFlipping && (
+          <div className={`flipping-leaf ${spread === 1 ? "flipping-leaf--forward" : "flipping-leaf--backward"}`}>
+            <div className="flipping-leaf__front">
+              <img src={spread === 1 ? "/lookbook-p2.png" : "/lookbook-p1.png"} alt="Flipping page front" />
+              <div className="page-lighting-shadow page-lighting-shadow--front" />
+            </div>
+            <div className="flipping-leaf__back">
+              <img src={spread === 1 ? "/lookbook-p3.png" : "/lookbook-p4.png"} alt="Flipping page back" />
+              <div className="page-lighting-shadow page-lighting-shadow--back" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Book Navigation Toolbar */}
+      <div className="book-controls">
+        <button
+          className={`book-nav-btn ${spread === 1 ? "is-disabled" : ""}`}
+          onClick={flipBackward}
+          disabled={spread === 1 || isFlipping}
+          aria-label="Previous page spread"
+        >
+          <span aria-hidden="true">❮</span> Previous Page
+        </button>
+
+        <div className="book-page-counter">
+          <span className="page-badge">
+            {spread === 1 ? "PAGES 01 — 02" : "PAGES 03 — 04"}
+          </span>
+          <span className="page-sub">
+            {spread === 1 ? "BRAND ESSENCE & STORY" : "THE COLLECTION & ORBITA"}
+          </span>
+        </div>
+
+        <button
+          className={`book-nav-btn ${spread === 2 ? "is-disabled" : ""}`}
+          onClick={flipForward}
+          disabled={spread === 2 || isFlipping}
+          aria-label="Next page spread"
+        >
+          Next Page <span aria-hidden="true">❯</span>
+        </button>
+      </div>
+
+      {/* Dynamic Spec Pills matching active spread */}
+      <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
+        {spread === 1 ? (
+          <>
+            <div className="spec-pill"><span>Heritage</span><strong>Swiss Inspiration & Design</strong></div>
+            <div className="spec-pill"><span>Philosophy</span><strong>Crafted for Visionaries</strong></div>
+            <div className="spec-pill"><span>Atelier</span><strong>Artisan Movement Assembly</strong></div>
+            <div className="spec-pill"><span>Vision</span><strong>Time Crafted For You</strong></div>
+          </>
+        ) : (
+          <>
+            <div className="spec-pill"><span>Flagship</span><strong>Orbita-980-1 Skeleton</strong></div>
+            <div className="spec-pill"><span>Caliber</span><strong>Automatic Open-Worked Movement</strong></div>
+            <div className="spec-pill"><span>Material</span><strong>18k Rose Gold & Titanium</strong></div>
+            <div className="spec-pill"><span>Glass</span><strong>Sapphire Anti-Reflective</strong></div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Website({ onRestart }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 120);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
@@ -346,7 +489,7 @@ function Website({ visible }) {
         </div>
       </section>
 
-      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
+      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG (REAL 3D FLIPPING BOOK) ── */}
       <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
         <div className="stage-header" data-reveal>
           <div className="stage-meta">
@@ -355,25 +498,11 @@ function Website({ visible }) {
           </div>
           <h2 id="lookbook-title" className="stage-title">Where time becomes <em>art.</em></h2>
           <p className="stage-subtitle">
-            Authentic luxury timepieces, masterfully created with precision engineering and devotion to detail.
+            Flip through the official Hanboro Lookbook. Experience our heritage, collection, and precision horology.
           </p>
         </div>
 
-        <div className="direct-stage-display" data-reveal data-reveal-delay="1">
-          <img
-            src="/hanboro-brochure-transparent.png"
-            alt="HANBORO luxury watch open editorial catalog brochure"
-            className="direct-stage__img direct-stage__img--brochure"
-            loading="lazy"
-          />
-        </div>
-
-        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
-          <div className="spec-pill"><span>Caliber</span><strong>Automatic Skeleton & Tourbillon</strong></div>
-          <div className="spec-pill"><span>Material</span><strong>18k Rose Gold & Titanium</strong></div>
-          <div className="spec-pill"><span>Glass</span><strong>Double Anti-Reflective Sapphire</strong></div>
-          <div className="spec-pill"><span>Strap</span><strong>Hand-Stitched Alligator</strong></div>
-        </div>
+        <LookbookBook />
       </section>
 
       {/* ── STAGE 02: BESPOKE PACKAGING & SKELETON TIMEPIECE ── */}
