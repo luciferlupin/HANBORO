@@ -48,8 +48,52 @@ export function HanboroLogo({ size = 28 }) {
    - Center red hub
    - Hand reveals ticks & numerals as it sweeps clockwise
 ══════════════════════════════════════════════════════════════════════════════ */
+// Static tick and number coordinates (pre-calculated once for zero GC / overhead)
+const TICKS_DATA = Array.from({ length: 60 }, (_, i) => {
+  const angle = i * 6; // 0, 6, 12, ... 354
+  const isFive = i % 5 === 0;
+  const rOuter = 46;
+  const rInner = isFive ? 42.5 : 44.2;
+  const rad = ((angle - 90) * Math.PI) / 180;
+  return {
+    angle,
+    isFive,
+    x1: 50 + rOuter * Math.cos(rad),
+    y1: 50 + rOuter * Math.sin(rad),
+    x2: 50 + rInner * Math.cos(rad),
+    y2: 50 + rInner * Math.sin(rad),
+  };
+});
+
+const NUMBERS_DATA = [
+  { val: "5",  angle: 30  },
+  { val: "10", angle: 60  },
+  { val: "15", angle: 90  },
+  { val: "20", angle: 120 },
+  { val: "25", angle: 150 },
+  { val: "30", angle: 180 },
+  { val: "35", angle: 210 },
+  { val: "40", angle: 240 },
+  { val: "45", angle: 270 },
+  { val: "50", angle: 300 },
+  { val: "55", angle: 330 },
+  { val: "60", angle: 0   },
+].map(({ val, angle }) => {
+  const rad = ((angle - 90) * Math.PI) / 180;
+  const r = 37.5;
+  return {
+    val,
+    angle,
+    x: 50 + r * Math.cos(rad),
+    y: 50 + r * Math.sin(rad),
+  };
+});
+
 function Clock({ onComplete }) {
-  const [sweepDeg, setSweepDeg] = useState(0);
+  const handRef = useRef(null);
+  const trailRef = useRef(null);
+  const tickRefs = useRef([]);
+  const numRefs = useRef([]);
   const cbRef = useRef(onComplete);
   useEffect(() => { cbRef.current = onComplete; }, [onComplete]);
 
@@ -60,7 +104,40 @@ function Clock({ onComplete }) {
 
     const tick = (now) => {
       const deg = Math.min(((now - t0) / REVOLUTION_MS) * 360, 360);
-      setSweepDeg(deg);
+      
+      // Direct DOM updates for ultra-smooth 60fps/120fps mobile animation
+      if (handRef.current) {
+        handRef.current.setAttribute("transform", `rotate(${deg}, 50, 50)`);
+      }
+      if (trailRef.current) {
+        trailRef.current.setAttribute("transform", `rotate(${deg}, 50, 50)`);
+        if (deg >= 360) {
+          trailRef.current.style.display = "none";
+        }
+      }
+
+      // Update ticks revelation
+      TICKS_DATA.forEach((t, i) => {
+        const el = tickRefs.current[i];
+        if (!el) return;
+        if (deg >= 360 || (deg > t.angle && t.angle > 0)) {
+          el.style.opacity = "1";
+          const isFresh = deg < 360 && (deg - t.angle) < 24;
+          el.setAttribute("stroke", isFresh ? "#fa2d1d" : t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)");
+        }
+      });
+
+      // Update numbers revelation
+      NUMBERS_DATA.forEach((n, i) => {
+        const el = numRefs.current[i];
+        if (!el) return;
+        if (deg >= 360 || (deg > n.angle && n.angle > 0)) {
+          el.style.opacity = "1";
+          const isFresh = deg < 360 && (deg - n.angle) < 30;
+          el.setAttribute("fill", isFresh ? "#fa2d1d" : "rgba(245, 242, 237, 0.82)");
+        }
+      });
+
       if (!done && deg >= 360) {
         done = true;
         cbRef.current?.();
@@ -68,81 +145,23 @@ function Clock({ onComplete }) {
       }
       if (!done) id = requestAnimationFrame(tick);
     };
+
     id = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(id);
   }, []);
-
-  const fullyBuilt = sweepDeg >= 360;
-
-  // 60 tick marks around radius 46
-  const ticks = Array.from({ length: 60 }, (_, i) => {
-    const angle = i * 6; // 0, 6, 12, ... 354
-    const isFive = i % 5 === 0;
-    const rOuter = 46;
-    const rInner = isFive ? 42.5 : 44.2;
-    const rad = ((angle - 90) * Math.PI) / 180;
-    return {
-      angle,
-      isFive,
-      x1: 50 + rOuter * Math.cos(rad),
-      y1: 50 + rOuter * Math.sin(rad),
-      x2: 50 + rInner * Math.cos(rad),
-      y2: 50 + rInner * Math.sin(rad),
-      revealed: fullyBuilt || (sweepDeg > angle && angle > 0),
-      fresh: !fullyBuilt && sweepDeg > angle && angle > 0 && (sweepDeg - angle) < 24,
-    };
-  });
-
-  // Numbers 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 (at radius 37.5)
-  const numbers = [
-    { val: "5",  angle: 30  },
-    { val: "10", angle: 60  },
-    { val: "15", angle: 90  },
-    { val: "20", angle: 120 },
-    { val: "25", angle: 150 },
-    { val: "30", angle: 180 },
-    { val: "35", angle: 210 },
-    { val: "40", angle: 240 },
-    { val: "45", angle: 270 },
-    { val: "50", angle: 300 },
-    { val: "55", angle: 330 },
-    { val: "60", angle: 0   },
-  ].map(({ val, angle }) => {
-    const rad = ((angle - 90) * Math.PI) / 180;
-    const r = 37.5;
-    return {
-      val,
-      angle,
-      x: 50 + r * Math.cos(rad),
-      y: 50 + r * Math.sin(rad),
-      revealed: fullyBuilt || (sweepDeg > angle && angle > 0),
-      fresh: !fullyBuilt && sweepDeg > angle && angle > 0 && (sweepDeg - angle) < 30,
-    };
-  });
 
   return (
     <div className="clock" aria-label="Analogue clock animation">
       <svg className="clock__svg" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          {/* Intense red hand glow */}
           <filter id="handGlow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="blur" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.6" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
 
-          {/* Soft bloom glow for newly revealed marks */}
-          <filter id="tickGlow" x="-200%" y="-200%" width="500%" height="500%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b" />
-            <feMerge>
-              <feMergeNode in="b" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Motion trail fan gradient behind the needle */}
           <linearGradient id="trailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#fa2d1d" stopOpacity="0" />
             <stop offset="100%" stopColor="#fa2d1d" stopOpacity="0.45" />
@@ -150,61 +169,50 @@ function Clock({ onComplete }) {
         </defs>
 
         {/* ── MOTION TRAIL FAN BEHIND THE NEEDLE ── */}
-        {!fullyBuilt && (
-          <path
-            d="M 50 50 L 50 4 A 46 46 0 0 0 40 5.2 Z"
-            fill="url(#trailGrad)"
-            transform={`rotate(${sweepDeg}, 50, 50)`}
-            opacity="0.75"
-          />
-        )}
+        <path
+          ref={trailRef}
+          d="M 50 50 L 50 4 A 46 46 0 0 0 40 5.2 Z"
+          fill="url(#trailGrad)"
+          transform="rotate(0, 50, 50)"
+          opacity="0.75"
+        />
 
         {/* ── TICK MARKS ── */}
-        {ticks.map((t, i) =>
-          t.revealed ? (
-            <line
-              key={i}
-              x1={t.x1}
-              y1={t.y1}
-              x2={t.x2}
-              y2={t.y2}
-              stroke={
-                t.fresh
-                  ? "#fa2d1d"
-                  : t.isFive
-                  ? "rgba(245, 242, 237, 0.85)"
-                  : "rgba(245, 242, 237, 0.35)"
-              }
-              strokeWidth={t.isFive ? "0.9" : "0.45"}
-              strokeLinecap="round"
-              filter={t.fresh ? "url(#tickGlow)" : undefined}
-              style={{ transition: "stroke 0.45s ease" }}
-            />
-          ) : null
-        )}
+        {TICKS_DATA.map((t, i) => (
+          <line
+            key={i}
+            ref={(el) => (tickRefs.current[i] = el)}
+            x1={t.x1}
+            y1={t.y1}
+            x2={t.x2}
+            y2={t.y2}
+            stroke={t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)"}
+            strokeWidth={t.isFive ? "0.9" : "0.45"}
+            strokeLinecap="round"
+            style={{ opacity: 0, transition: "stroke 0.3s ease, opacity 0.15s ease" }}
+          />
+        ))}
 
         {/* ── NUMERALS (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60) ── */}
-        {numbers.map(({ val, x, y, angle, revealed, fresh }) =>
-          revealed ? (
-            <text
-              key={val}
-              x={x}
-              y={y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fill={fresh ? "#fa2d1d" : "rgba(245, 242, 237, 0.82)"}
-              fontSize="3.8"
-              fontFamily="'Inter', sans-serif"
-              fontWeight="600"
-              letterSpacing="-0.2"
-              transform={`rotate(${angle}, ${x}, ${y})`}
-              filter={fresh ? "url(#tickGlow)" : undefined}
-              style={{ transition: "fill 0.5s ease" }}
-            >
-              {val}
-            </text>
-          ) : null
-        )}
+        {NUMBERS_DATA.map((n, i) => (
+          <text
+            key={n.val}
+            ref={(el) => (numRefs.current[i] = el)}
+            x={n.x}
+            y={n.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill="rgba(245, 242, 237, 0.82)"
+            fontSize="3.8"
+            fontFamily="'Inter', sans-serif"
+            fontWeight="600"
+            letterSpacing="-0.2"
+            transform={`rotate(${n.angle}, ${n.x}, ${n.y})`}
+            style={{ opacity: 0, transition: "fill 0.35s ease, opacity 0.15s ease" }}
+          >
+            {n.val}
+          </text>
+        ))}
 
         {/* ── BRAND NAME ── */}
         <text
@@ -222,8 +230,7 @@ function Clock({ onComplete }) {
         </text>
 
         {/* ── RED HAND (with needle, motion glow & counter-weight loop) ── */}
-        <g transform={`rotate(${sweepDeg}, 50, 50)`} filter="url(#handGlow)">
-          {/* Main Needle extending outwards */}
+        <g ref={handRef} transform="rotate(0, 50, 50)" filter="url(#handGlow)">
           <line
             x1="50"
             y1="50"
@@ -233,8 +240,6 @@ function Clock({ onComplete }) {
             strokeWidth="0.85"
             strokeLinecap="round"
           />
-
-          {/* Slight tapered base line */}
           <line
             x1="50"
             y1="50"
@@ -244,8 +249,6 @@ function Clock({ onComplete }) {
             strokeWidth="1.3"
             strokeLinecap="round"
           />
-
-          {/* Counter-arm extending backwards */}
           <line
             x1="50"
             y1="50"
@@ -255,8 +258,6 @@ function Clock({ onComplete }) {
             strokeWidth="0.9"
             strokeLinecap="round"
           />
-
-          {/* Open circle / loop on the counter-arm (exact match to photo) */}
           <circle
             cx="50"
             cy="65"

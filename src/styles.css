@@ -33,6 +33,9 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
   /* The iris is a solid red layer, clipped to a circle */
   background: var(--red);
+  will-change: clip-path, -webkit-clip-path;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
 
 /* Expanding: circle grows from centre outward */
@@ -45,12 +48,24 @@ a { color: inherit; text-decoration: none; }
 }
 
 @keyframes irisExpand {
-  from { clip-path: circle(0%   at 50% 50%); }
-  to   { clip-path: circle(150% at 50% 50%); }
+  from {
+    clip-path: circle(0% at 50% 50%);
+    -webkit-clip-path: circle(0% at 50% 50%);
+  }
+  to {
+    clip-path: circle(150% at 50% 50%);
+    -webkit-clip-path: circle(150% at 50% 50%);
+  }
 }
 @keyframes irisRetract {
-  from { clip-path: circle(150% at 50% 50%); }
-  to   { clip-path: circle(0%   at 50% 50%); }
+  from {
+    clip-path: circle(150% at 50% 50%);
+    -webkit-clip-path: circle(150% at 50% 50%);
+  }
+  to {
+    clip-path: circle(0% at 50% 50%);
+    -webkit-clip-path: circle(0% at 50% 50%);
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -67,6 +82,9 @@ a { color: inherit; text-decoration: none; }
     radial-gradient(circle at 50% 53%, rgba(245,242,237,.10) 0 2%, transparent 28%),
     radial-gradient(ellipse at 15% 100%, #3d0808 0, transparent 42%),
     linear-gradient(130deg, #fcf9f4 0%, #ece9e2 19%, #100e0e 42%, #020202 61%, #3b0706 100%);
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
 
 /* Scan line shimmer */
@@ -634,7 +652,11 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 720px) {
   .splash { padding: 20px; }
-  .clock { width: min(78vw, 340px); }
+  .clock {
+    width: min(78vw, 340px);
+    filter: drop-shadow(0 0 24px rgba(250, 45, 29, 0.45));
+  }
+  .splash__grain { display: none; }
   .site__header { height: 63px; }
   .site__header nav { display: none; }
   .header__availability { font-size: 9px; }
