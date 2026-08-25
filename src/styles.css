@@ -1234,6 +1234,112 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
 }
 
+/* ── Stage Editorial Luxury Cards Grid (Replaces plain boring boxes) ────── */
+.stage-editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 36px;
+  width: 100%;
+}
+
+.editorial-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(18, 18, 22, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.editorial-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(250, 45, 29, 0.7), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.editorial-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(250, 45, 29, 0.4);
+  background: linear-gradient(160deg, rgba(250, 45, 29, 0.08) 0%, rgba(20, 20, 24, 0.7) 100%);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(250, 45, 29, 0.15);
+}
+
+.editorial-card:hover::before {
+  opacity: 1;
+}
+
+.editorial-card__top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.editorial-card__idx {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--red);
+  letter-spacing: 0.1em;
+}
+
+.editorial-card__tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.editorial-card__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.editorial-card__desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-weight: 400;
+}
+
+@media (max-width: 1024px) {
+  .stage-editorial-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .stage-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .editorial-card {
+    padding: 18px 16px;
+  }
+}
+
 /* Contact Strip */
 .stage-contact-strip {
   display: grid;

@@ -1624,11 +1624,51 @@ function Website({ onRestart }) {
           />
         </div>
 
-        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
-          <div className="spec-pill"><span>Heritage</span><strong>Swiss Inspiration & Design</strong></div>
-          <div className="spec-pill"><span>Philosophy</span><strong>Crafted for Visionaries</strong></div>
-          <div className="spec-pill"><span>Atelier</span><strong>Artisan Movement Assembly</strong></div>
-          <div className="spec-pill"><span>Vision</span><strong>Time Crafted For You</strong></div>
+        {/* Stage 01 Editorial Pillars Grid */}
+        <div className="stage-editorial-grid" data-reveal data-reveal-delay="2">
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">01</span>
+              <span className="editorial-card__tag">HERITAGE</span>
+            </div>
+            <h3 className="editorial-card__title">Swiss Inspiration & Design</h3>
+            <p className="editorial-card__desc">
+              Alpine horological mastery married to futuristic tonneau geometry and openworked mechanics.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">02</span>
+              <span className="editorial-card__tag">PHILOSOPHY</span>
+            </div>
+            <h3 className="editorial-card__title">Crafted for Visionaries</h3>
+            <p className="editorial-card__desc">
+              Engineered for those who move with distinct purpose, commanding momentum and timeless presence.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">03</span>
+              <span className="editorial-card__tag">ATELIER</span>
+            </div>
+            <h3 className="editorial-card__title">Artisan Assembly</h3>
+            <p className="editorial-card__desc">
+              Hand-finished movement bridges, high-frequency balance wheels, and exposed synthetic ruby bearings.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">04</span>
+              <span className="editorial-card__tag">VISION</span>
+            </div>
+            <h3 className="editorial-card__title">Time as Modern Art</h3>
+            <p className="editorial-card__desc">
+              Sculptural wrist architecture designed to transform each passing second into an expressive statement.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -1657,11 +1697,51 @@ function Website({ onRestart }) {
           />
         </div>
 
-        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
-          <div className="spec-pill"><span>Complication</span><strong>3D Celestial Globe & Tourbillon</strong></div>
-          <div className="spec-pill"><span>Vault</span><strong>Piano-Black Lacquer Box</strong></div>
-          <div className="spec-pill"><span>Display</span><strong>Circular Port Viewing Lid</strong></div>
-          <div className="spec-pill"><span>Passport</span><strong>Serialized Warranty Card</strong></div>
+        {/* Stage 03 Bespoke Packaging Grid */}
+        <div className="stage-editorial-grid" data-reveal data-reveal-delay="2">
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">01</span>
+              <span className="editorial-card__tag">COMPLICATION</span>
+            </div>
+            <h3 className="editorial-card__title">3D Celestial Globe & Tourbillon</h3>
+            <p className="editorial-card__desc">
+              Continuous 24-hour revolving world sphere paired with exposed high-beat tourbillon cage.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">02</span>
+              <span className="editorial-card__tag">VAULT</span>
+            </div>
+            <h3 className="editorial-card__title">Piano-Black Presentation Case</h3>
+            <p className="editorial-card__desc">
+              Heavy multi-coat high-gloss lacquer case lined in anti-magnetic micro-suede velvet.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">03</span>
+              <span className="editorial-card__tag">PORTAL</span>
+            </div>
+            <h3 className="editorial-card__title">Circular Port Viewing Lid</h3>
+            <p className="editorial-card__desc">
+              Domed scratch-resistant observation lens enabling full dial visibility even while vaulted.
+            </p>
+          </div>
+
+          <div className="editorial-card">
+            <div className="editorial-card__top">
+              <span className="editorial-card__idx">04</span>
+              <span className="editorial-card__tag">PASSPORT</span>
+            </div>
+            <h3 className="editorial-card__title">Serialized Owner Certificate</h3>
+            <p className="editorial-card__desc">
+              Individual collector registry documentation with matching laser-engraved caliber serials.
+            </p>
+          </div>
         </div>
       </section>
 
