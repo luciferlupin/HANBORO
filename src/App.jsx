@@ -1283,20 +1283,13 @@ function Website({ onRestart }) {
           <button
             type="button"
             className="site__nav-link"
-            onClick={() => navigateTo("home", "#interactive")}
-          >
-            Clover King
-          </button>
-          <button
-            type="button"
-            className="site__nav-link"
             onClick={() => navigateTo("home", "#packaging")}
           >
             Unboxing
           </button>
           <button
             type="button"
-            className={`site__nav-link site__nav-link--highlight ${view === "stores" ? "is-active" : ""}`}
+            className={`site__nav-link site__nav-link--store-pill ${view === "stores" ? "is-active" : ""}`}
             onClick={() => navigateTo("stores", "#stores")}
           >
             Store Locator
