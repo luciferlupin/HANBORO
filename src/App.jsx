@@ -37,11 +37,12 @@ function useScrollReveal(enabled) {
 /* ══════════════════════════════════════════════════════════════════════════════
    OFFICIAL HANBORO LOGO (Direct from source image - Dark version only)
 ══════════════════════════════════════════════════════════════════════════════ */
-export function HanboroLogo({ size = 28 }) {
+export function HanboroLogo({ size = 28, theme = "dark" }) {
+  const src = theme === "light" ? "/hanboro-horizontal-light.png" : "/hanboro-horizontal-dark.png";
   return (
     <div className="hanboro-logo" style={{ height: size }}>
       <img
-        src="/hanboro-horizontal-dark.png"
+        src={src}
         alt="HANBORO"
         className="hanboro-logo__img"
         style={{ height: size, width: "auto", display: "block", objectFit: "contain" }}
@@ -308,7 +309,7 @@ function Splash({ onEnter, exiting }) {
       <div className="splash__grain"/>
       <div className="splash__header">
         <div className="s-wordmark">
-          <HanboroLogo theme="light" size={26} />
+          <HanboroLogo theme="dark" size={26} />
         </div>
       </div>
       <div className="splash__content">
@@ -485,6 +486,37 @@ function CloverKingExperience() {
             </ul>
           </div>
         </div>
+
+        {/* Movement Information Strip */}
+        <div className="movement-strip" data-reveal data-reveal-delay="2">
+          <div className="movement-strip__label">MOVEMENT SPECIFICATIONS</div>
+          <div className="movement-strip__grid">
+            <div className="movement-spec">
+              <span className="movement-spec__value">Automatic</span>
+              <span className="movement-spec__key">Movement Type</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">HB-SK01</span>
+              <span className="movement-spec__key">Calibre</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">42h</span>
+              <span className="movement-spec__key">Power Reserve</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">28,800 bph</span>
+              <span className="movement-spec__key">Frequency</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">21</span>
+              <span className="movement-spec__key">Jewels</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">Skeletonized</span>
+              <span className="movement-spec__key">Architecture</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -541,18 +573,18 @@ function HeroWatchShowcase() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.6;
+    renderer.toneMappingExposure = 1.05;
     container.appendChild(renderer.domElement);
 
     // Natural studio lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.0);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
     keyLight.position.set(4, 6, 6);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.6);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.9);
     fillLight.position.set(-5, -2, -3);
     scene.add(fillLight);
 
@@ -585,6 +617,7 @@ function HeroWatchShowcase() {
       const faceGeo = new THREE.PlaneGeometry(2.35, 3.52);
       const faceMat = new THREE.MeshBasicMaterial({
         map: texture,
+        color: 0xaaaaaa,
         transparent: true,
         side: THREE.DoubleSide,
         depthWrite: false
@@ -1735,8 +1768,13 @@ function Website({ onRestart }) {
           </address>
         </div>
 
+        <div className="footer__address" data-reveal data-reveal-delay="2">
+          <p className="eyebrow">Call Us</p>
+          <a className="footer__phone" href="tel:+918882069334">+91 88820 69334</a>
+        </div>
+
         <div className="footer__bottom" data-reveal data-reveal-delay="3">
-          <HanboroLogo size={20} />
+          <HanboroLogo size={20} theme="light" />
           <span>© 2026 HANBORO</span>
           <a href="#top">Back to top ↑</a>
         </div>
