@@ -548,48 +548,14 @@ function CloverKingExperience() {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
-  {
-    id: "astro",
-    name: "Astroworld Skeleton",
-    ref: "REF. HBR-880-ASTRO",
-    tag: "KINETIC SKELETON",
-    img: "/watch-carousel-2.png"
-  },
-  {
-    id: "rose",
-    name: "Octagonal Tourbillon",
-    ref: "REF. HBR-901-ROSE",
-    tag: "ROSE GOLD ATELIER",
-    img: "/watch-carousel-1.png"
-  },
-  {
-    id: "orbit",
-    name: "Celestial Earth Orbital",
-    ref: "REF. HBR-950-ORBIT",
-    tag: "GUILLOCHÉ CALIBER",
-    img: "/watch-carousel-3.png"
-  },
-  {
-    id: "mecha",
-    name: "Tonneau Mecha-Skeleton",
-    ref: "REF. HBR-980-MECHA",
-    tag: "DUAL-CROWN ARCHITECTURE",
-    img: "/watch-carousel-4.png"
-  },
-  {
-    id: "clover",
-    name: "Clover King Automatic",
-    ref: "REF. HBR-770-CLOVER",
-    tag: "SIGNAL RED TONNEAU",
-    img: "/clover-king-day.png"
-  },
-  {
-    id: "celestial",
-    name: "Astronomical Celestial",
-    ref: "REF. HBR-990-CELESTIAL",
-    tag: "3D GLOBE TOURBILLON",
-    img: "/hanboro-celestial-watch.png"
-  }
+  { id: "roulette", name: "Roulette Automatic", img: "/watch-carousel-roulette.png" },
+  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
+  { id: "rose", name: "Octagonal Tourbillon", img: "/watch-carousel-1.png" },
+  { id: "astro", name: "Astroworld Skeleton", img: "/watch-carousel-2.png" },
+  { id: "orbit", name: "Celestial Earth Orbital", img: "/watch-carousel-3.png" },
+  { id: "mecha", name: "Tonneau Mecha-Skeleton", img: "/watch-carousel-4.png" },
+  { id: "clover", name: "Clover King Automatic", img: "/clover-king-day.png" },
+  { id: "celestial", name: "Astronomical Celestial", img: "/hanboro-celestial-watch.png" }
 ];
 
 function WatchCarouselSection() {
@@ -597,7 +563,7 @@ function WatchCarouselSection() {
 
   const handleScroll = (direction) => {
     if (!scrollTrackRef.current) return;
-    const amount = direction === "next" ? 320 : -320;
+    const amount = direction === "next" ? 340 : -340;
     scrollTrackRef.current.scrollBy({ left: amount, behavior: "smooth" });
   };
 
@@ -612,7 +578,7 @@ function WatchCarouselSection() {
         </div>
         <div className="carousel-title-row">
           <h2 id="collection-title" className="carousel-heading">
-            Horological <em>lineage.</em>
+            HANBORO <em>collection.</em>
           </h2>
           <div className="carousel-arrows">
             <button
@@ -633,29 +599,20 @@ function WatchCarouselSection() {
             </button>
           </div>
         </div>
-        <p className="stage-subtitle">
-          Explore the iconic complications, forged carbon architectures, and kinetic skeleton calibers crafted for the collector.
-        </p>
       </div>
 
-      {/* Infinite Marquee & Touch Drag Track */}
+      {/* Infinite Marquee of Pure Floating Watch Photos (No background, No names) */}
       <div className="carousel-track-wrapper" data-reveal data-reveal-delay="1">
         <div className="carousel-track" ref={scrollTrackRef}>
           {displayWatches.map((watch, index) => (
-            <div className="watch-card" key={`${watch.id}-${index}`}>
-              <div className="watch-card__badge">{watch.tag}</div>
-              <div className="watch-card__media">
-                <img
-                  src={watch.img}
-                  alt={`HANBORO ${watch.name}`}
-                  className="watch-card__img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="watch-card__info">
-                <span className="watch-card__ref">{watch.ref}</span>
-                <h3 className="watch-card__name">{watch.name}</h3>
-              </div>
+            <div className="watch-float-item" key={`${watch.id}-${index}`}>
+              <img
+                src={watch.img}
+                alt={watch.name}
+                className="watch-float-img"
+                loading="lazy"
+                draggable={false}
+              />
             </div>
           ))}
         </div>

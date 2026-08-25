@@ -482,88 +482,36 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-/* Watch Card */
-.watch-card {
-  flex: 0 0 clamp(240px, 22vw, 300px);
-  background: rgba(245, 242, 237, 0.02);
-  border: 1px solid rgba(245, 242, 237, 0.07);
-  border-radius: 16px;
-  padding: 22px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  transition: transform 0.4s var(--ease-expo), border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
-  user-select: none;
-}
-
-.watch-card:hover {
-  transform: translateY(-8px);
-  background: rgba(245, 242, 237, 0.04);
-  border-color: rgba(250, 45, 29, 0.4);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 24px rgba(250, 45, 29, 0.15);
-}
-
-.watch-card__badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--red);
-  padding: 4px 10px;
-  background: rgba(250, 45, 29, 0.08);
-  border: 1px solid rgba(250, 45, 29, 0.2);
-  border-radius: 999px;
-  margin-bottom: 14px;
-}
-
-.watch-card__media {
-  width: 100%;
-  aspect-ratio: 1 / 1.15;
+/* Watch Float Item (Pure Watch Photos without background or names) */
+.watch-float-item {
+  flex: 0 0 clamp(200px, 20vw, 290px);
+  aspect-ratio: 1 / 1.5;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  margin-bottom: 14px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.4s var(--ease-expo);
+  user-select: none;
 }
 
-.watch-card__img {
-  max-width: 90%;
-  max-height: 90%;
+.watch-float-img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.85));
-  transition: transform 0.5s var(--ease-expo);
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95));
+  transition: transform 0.5s var(--ease-expo), filter 0.5s ease;
   pointer-events: none;
 }
 
-.watch-card:hover .watch-card__img {
-  transform: scale(1.06);
+.watch-float-item:hover {
+  transform: translateY(-10px) scale(1.08);
 }
 
-.watch-card__info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-}
-
-.watch-card__ref {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(245, 242, 237, 0.5);
-  text-transform: uppercase;
-}
-
-.watch-card__name {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--cream);
-  margin: 0;
+.watch-float-item:hover .watch-float-img {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.98)) drop-shadow(0 0 20px rgba(250, 45, 29, 0.35));
 }
 
 /* ── Full-Bleed Showcase Stages (Lookbook, Stationery, Packaging) ────────── */
@@ -1754,14 +1702,9 @@ a { color: inherit; text-decoration: none; }
     font-size: 14px;
   }
 
-  .watch-card {
-    flex: 0 0 clamp(200px, 58vw, 240px);
-    padding: 16px 14px 14px;
-    border-radius: 12px;
-  }
-
-  .watch-card__name {
-    font-size: 13px;
+  .watch-float-item {
+    flex: 0 0 clamp(160px, 46vw, 210px);
+    padding: 6px;
   }
 
   /* Stage Sections (Lookbook, Interactive, Packaging) */
