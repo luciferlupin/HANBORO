@@ -548,11 +548,11 @@ function CloverKingExperience() {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
-  { id: "roulette", name: "Roulette Automatic", img: "/watch-carousel-roulette.png" },
-  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
+  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
   { id: "powerreserve", name: "Power Reserve 35h Automatic", img: "/watch-powerreserve-black.png" },
   { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" },
-  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" }
+  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
+  { id: "octagonal", name: "Octagonal Skeleton Tourbillon", img: "/watch-carousel-octagonal.png" }
 ];
 
 function WatchCarouselSection() {
