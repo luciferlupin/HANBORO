@@ -322,143 +322,6 @@ function Splash({ onEnter, exiting }) {
 /* ══════════════════════════════════════════════════════════════════════════════
    WEBSITE
 ══════════════════════════════════════════════════════════════════════════════ */
-// ══════════════════════════════════════════════════════════════════════════════
-// REAL 3D FLIPPING LOOKBOOK COMPONENT
-// ══════════════════════════════════════════════════════════════════════════════
-function LookbookBook() {
-  const [spread, setSpread] = useState(1); // 1 = pages 1-2, 2 = pages 3-4
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [flipDirection, setFlipDirection] = useState("forward");
-
-  const flipForward = () => {
-    if (spread === 1 && !isFlipping) {
-      setFlipDirection("forward");
-      setIsFlipping(true);
-      setTimeout(() => {
-        setSpread(2);
-      }, 350);
-      setTimeout(() => {
-        setIsFlipping(false);
-      }, 700);
-    }
-  };
-
-  const flipBackward = () => {
-    if (spread === 2 && !isFlipping) {
-      setFlipDirection("backward");
-      setIsFlipping(true);
-      setTimeout(() => {
-        setSpread(1);
-      }, 350);
-      setTimeout(() => {
-        setIsFlipping(false);
-      }, 700);
-    }
-  };
-
-  return (
-    <div className="lookbook-stage" data-reveal data-reveal-delay="1">
-      {/* 3D Book Container */}
-      <div className={`book-3d ${isFlipping ? `is-flipping-${flipDirection}` : ""}`}>
-        {/* Full Open Book Spread */}
-        <div className="book-spread-wrapper">
-          <img
-            src={spread === 1 ? "/lookbook-spread-1.png" : "/lookbook-spread-2.png"}
-            alt={spread === 1 ? "HANBORO Lookbook Pages 01-02" : "HANBORO Lookbook Pages 03-04"}
-            className="book-spread-img"
-            loading="lazy"
-          />
-
-          {/* Interactive Click Zones */}
-          <div
-            className="book-click-zone book-click-zone--left"
-            onClick={flipBackward}
-            title={spread === 2 ? "Click to flip back to Pages 01-02" : "Pages 01-02"}
-          />
-          <div
-            className="book-click-zone book-click-zone--right"
-            onClick={flipForward}
-            title={spread === 1 ? "Click to flip to Pages 03-04" : "Pages 03-04"}
-          />
-
-          {/* Corner Interactive Pill */}
-          {spread === 1 ? (
-            <button
-              className="page-turn-hint page-turn-hint--right"
-              onClick={flipForward}
-              aria-label="Turn to Pages 03-04"
-            >
-              <span>Flip to Pages 03–04 ❯</span>
-            </button>
-          ) : (
-            <button
-              className="page-turn-hint page-turn-hint--left"
-              onClick={flipBackward}
-              aria-label="Turn to Pages 01-02"
-            >
-              <span>❮ Flip to Pages 01–02</span>
-            </button>
-          )}
-
-          {/* Realistic 3D Paper Flip Overlay */}
-          <div className="book-flip-overlay" aria-hidden="true">
-            <div className="book-flip-shimmer" />
-          </div>
-        </div>
-      </div>
-
-      {/* Book Navigation Toolbar */}
-      <div className="book-controls">
-        <button
-          className={`book-nav-btn ${spread === 1 ? "is-disabled" : ""}`}
-          onClick={flipBackward}
-          disabled={spread === 1 || isFlipping}
-          aria-label="Previous page spread"
-        >
-          <span aria-hidden="true">❮</span> Previous Page
-        </button>
-
-        <div className="book-page-counter">
-          <span className="page-badge">
-            {spread === 1 ? "PAGES 01 — 02" : "PAGES 03 — 04"}
-          </span>
-          <span className="page-sub">
-            {spread === 1 ? "BRAND ESSENCE & STORY" : "THE COLLECTION & ORBITA"}
-          </span>
-        </div>
-
-        <button
-          className={`book-nav-btn ${spread === 2 ? "is-disabled" : ""}`}
-          onClick={flipForward}
-          disabled={spread === 2 || isFlipping}
-          aria-label="Next page spread"
-        >
-          Next Page <span aria-hidden="true">❯</span>
-        </button>
-      </div>
-
-      {/* Dynamic Spec Pills matching active spread */}
-      <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
-        {spread === 1 ? (
-          <>
-            <div className="spec-pill"><span>Heritage</span><strong>Swiss Inspiration & Design</strong></div>
-            <div className="spec-pill"><span>Philosophy</span><strong>Crafted for Visionaries</strong></div>
-            <div className="spec-pill"><span>Atelier</span><strong>Artisan Movement Assembly</strong></div>
-            <div className="spec-pill"><span>Vision</span><strong>Time Crafted For You</strong></div>
-          </>
-        ) : (
-          <>
-            <div className="spec-pill"><span>Flagship</span><strong>Orbita-980-1 Skeleton</strong></div>
-            <div className="spec-pill"><span>Caliber</span><strong>Automatic Open-Worked Movement</strong></div>
-            <div className="spec-pill"><span>Material</span><strong>18k Rose Gold & Titanium</strong></div>
-            <div className="spec-pill"><span>Glass</span><strong>Sapphire Anti-Reflective</strong></div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function Website({ onRestart }) {
   const [visible, setVisible] = useState(false);
   useScrollReveal(visible);
@@ -498,7 +361,7 @@ function Website({ onRestart }) {
         </div>
       </section>
 
-      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG (REAL 3D FLIPPING BOOK) ── */}
+      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
       <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
         <div className="stage-header" data-reveal>
           <div className="stage-meta">
@@ -507,11 +370,25 @@ function Website({ onRestart }) {
           </div>
           <h2 id="lookbook-title" className="stage-title">Where time becomes <em>art.</em></h2>
           <p className="stage-subtitle">
-            Flip through the official Hanboro Lookbook. Experience our heritage, collection, and precision horology.
+            The official Hanboro Lookbook. Experience our heritage, Swiss-inspired design, and fine horological precision.
           </p>
         </div>
 
-        <LookbookBook />
+        <div className="direct-stage-display" data-reveal data-reveal-delay="1">
+          <img
+            src="/lookbook-spread-1.png"
+            alt="HANBORO luxury watch open editorial catalog — Pages 01 and 02"
+            className="direct-stage__img direct-stage__img--brochure"
+            loading="lazy"
+          />
+        </div>
+
+        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
+          <div className="spec-pill"><span>Heritage</span><strong>Swiss Inspiration & Design</strong></div>
+          <div className="spec-pill"><span>Philosophy</span><strong>Crafted for Visionaries</strong></div>
+          <div className="spec-pill"><span>Atelier</span><strong>Artisan Movement Assembly</strong></div>
+          <div className="spec-pill"><span>Vision</span><strong>Time Crafted For You</strong></div>
+        </div>
       </section>
 
       {/* ── STAGE 02: BESPOKE PACKAGING & SKELETON TIMEPIECE ── */}
