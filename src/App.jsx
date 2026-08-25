@@ -1164,12 +1164,6 @@ function SpatialWatchHero({ onNavigateToStores }) {
             </svg>
           </button>
         </div>
-
-        {/* Spatial Gesture Hint */}
-        <div className="spatial-gesture-hint">
-          <span className="hint-sparkle">✨</span>
-          <span>Tap any Hanboro timepiece to select • Swipe or use ← → arrow keys</span>
-        </div>
       </div>
     </section>
   );
