@@ -548,145 +548,35 @@ function CloverKingExperience() {
 // ══════════════════════════════════════════════════════════════════════════════
 // 3D SPATIAL HERO WATCHES DATASET (COKECAN SPATIAL EXPERIENCE)
 // ══════════════════════════════════════════════════════════════════════════════
-const SPATIAL_WATCHES = [
-  {
-    id: "emerald-roulette",
-    tag: "LIMITED EDITION AUTOMATIC",
-    name: "CLOVER KING",
-    highlight: "ROYAL EMERALD",
-    subtitle: "EMERALD GUILLOCHÉ & ROSE GOLD BEZEL • ROTATING CASINO ROULETTE ROTOR",
-    image: "/watch-emerald-roulette.png",
-    colorPrimary: "#10b981",
-    colorSecondary: "#fbbf24",
-    colorAccent: "#34d399",
-    ambientColor: 0x059669,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Automatic Cal. 8215",
-    case: "42mm 316L Rose Gold",
-    powerReserve: "42 Hours",
-    waterResist: "5 ATM / 50M",
-  },
-  {
-    id: "octagonal-blue",
-    tag: "ROYAL TAPISSERIE HOROLOGY",
-    name: "ROYAL OCTAGONAL",
-    highlight: "BLUE GUILLOCHÉ",
-    subtitle: "DEEP NAVY TAPISSERIE DIAL • 18K ROSE GOLD ACCENTS • INTEGRATED BEZEL",
-    image: "/watch-rosegold-octagonal-blue.png",
-    colorPrimary: "#3b82f6",
-    colorSecondary: "#f43f5e",
-    colorAccent: "#60a5fa",
-    ambientColor: 0x2563eb,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(59, 130, 246, 0.28) 0%, rgba(30, 58, 138, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Precision Automatic",
-    case: "41mm Octagonal Steel",
-    powerReserve: "40 Hours",
-    waterResist: "5 ATM / 50M",
-  },
-  {
-    id: "astroworld-celestial",
-    tag: "GRAND COMPLICATION",
-    name: "ASTROWORLD",
-    highlight: "CELESTIAL TOURBILLON",
-    subtitle: "REVOLVING 3D CELESTIAL GLOBE • EXPOSED FLYING TOURBILLON CAGE",
-    image: "/watch-astroworld-celestial.png",
-    colorPrimary: "#8b5cf6",
-    colorSecondary: "#ff2d1d",
-    colorAccent: "#a78bfa",
-    ambientColor: 0x7c3aed,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(139, 92, 246, 0.28) 0%, rgba(76, 29, 149, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Manual Flying Tourbillon",
-    case: "43mm Piano-Polished Steel",
-    powerReserve: "48 Hours",
-    waterResist: "5 ATM / 50M",
-  },
-  {
-    id: "arctic-tonneau",
-    tag: "AVANT-GARDE OPENWORK",
-    name: "ARCTIC TONNEAU",
-    highlight: "SKELETON WHITE",
-    subtitle: "CURVED TONNEAU BARREL • OPENWORK SKELETONIZED CALIBER",
-    image: "/watch-arctic-tonneau-white.png",
-    colorPrimary: "#06b6d4",
-    colorSecondary: "#f1f5f9",
-    colorAccent: "#22d3ee",
-    ambientColor: 0x0891b2,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(6, 182, 212, 0.25) 0%, rgba(15, 23, 42, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Skeletonized Automatic",
-    case: "44mm Ergonomic Tonneau",
-    powerReserve: "42 Hours",
-    waterResist: "5 ATM / 50M",
-  },
-  {
-    id: "blue-roulette",
-    tag: "ROULETTE COLLECTION",
-    name: "SAPPHIRE ROULETTE",
-    highlight: "AUTOMATIC LUXE",
-    subtitle: "ACTIVE CASINO WHEEL ROTOR • SUNRAY COBALT BLUE DIAL",
-    image: "/watch-blue-roulette.png",
-    colorPrimary: "#2563eb",
-    colorSecondary: "#f8fafc",
-    colorAccent: "#60a5fa",
-    ambientColor: 0x1d4ed8,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(37, 99, 235, 0.26) 0%, rgba(23, 37, 84, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Mechanical Roulette Caliber",
-    case: "42mm Brushed Steel",
-    powerReserve: "40 Hours",
-    waterResist: "5 ATM / 50M",
-  },
-  {
-    id: "world-globe",
-    tag: "HOROLOGICAL MASTERPIECE",
-    name: "WORLD TIME",
-    highlight: "CELESTIAL GLOBE",
-    subtitle: "24-ZONE WORLD TIME INDICATOR • MINIATURE 3D GLOBE MOTOR",
-    image: "/watch-world-globe.png",
-    colorPrimary: "#ff2d1d",
-    colorSecondary: "#fbbf24",
-    colorAccent: "#f87171",
-    ambientColor: 0xdc2626,
-    bgGradient: "radial-gradient(circle at 50% 32%, rgba(255, 45, 29, 0.28) 0%, rgba(127, 29, 29, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
-    caliber: "Dual-Time Automatic",
-    case: "43mm 316L Solid Steel",
-    powerReserve: "45 Hours",
-    waterResist: "5 ATM / 50M",
-  },
+// HERO SECTION INTERACTIVE 3D WATCH SHOWCASE (WATCH ANIMATION ONLY)
+// ══════════════════════════════════════════════════════════════════════════════
+const HERO_WATCH_IMAGES = [
+  { id: "emerald-roulette", image: "/watch-emerald-roulette.png", name: "Clover King Emerald Roulette" },
+  { id: "octagonal-blue", image: "/watch-rosegold-octagonal-blue.png", name: "Royal Octagonal Blue" },
+  { id: "astroworld-celestial", image: "/watch-astroworld-celestial.png", name: "Astroworld Celestial Tourbillon" },
+  { id: "arctic-tonneau", image: "/watch-arctic-tonneau-white.png", name: "Arctic Tonneau Skeleton" },
+  { id: "blue-roulette", image: "/watch-blue-roulette.png", name: "Sapphire Blue Roulette" },
+  { id: "world-globe", image: "/watch-world-globe.png", name: "World Time Celestial Globe" }
 ];
 
-// ══════════════════════════════════════════════════════════════════════════════
-// 3D SPATIAL HERO SECTION (COKECAN SPATIAL EXPERIENCE)
-// ══════════════════════════════════════════════════════════════════════════════
-function SpatialWatchHero({ onNavigateToStores }) {
+function HeroWatchShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef(null);
-  const cursorBadgeRef = useRef(null);
-  const sceneRef = useRef(null);
   const currentIndexRef = useRef(0);
   currentIndexRef.current = currentIndex;
 
-  const currentWatch = SPATIAL_WATCHES[currentIndex];
-
   const handleSelectWatch = useCallback((index) => {
-    if (index === currentIndexRef.current || index < 0 || index >= SPATIAL_WATCHES.length) return;
-    setIsTransitioning(true);
+    if (index === currentIndexRef.current || index < 0 || index >= HERO_WATCH_IMAGES.length) return;
     setCurrentIndex(index);
-    if (sceneRef.current && sceneRef.current.triggerTransition) {
-      sceneRef.current.triggerTransition(index);
-    }
-    if (cursorBadgeRef.current) {
-      cursorBadgeRef.current.classList.remove("is-visible");
-    }
-    setTimeout(() => setIsTransitioning(false), 450);
   }, []);
 
   const handlePrev = useCallback(() => {
-    const nextIdx = (currentIndexRef.current - 1 + SPATIAL_WATCHES.length) % SPATIAL_WATCHES.length;
+    const nextIdx = (currentIndexRef.current - 1 + HERO_WATCH_IMAGES.length) % HERO_WATCH_IMAGES.length;
     handleSelectWatch(nextIdx);
   }, [handleSelectWatch]);
 
   const handleNext = useCallback(() => {
-    const nextIdx = (currentIndexRef.current + 1) % SPATIAL_WATCHES.length;
+    const nextIdx = (currentIndexRef.current + 1) % HERO_WATCH_IMAGES.length;
     handleSelectWatch(nextIdx);
   }, [handleSelectWatch]);
 
@@ -694,115 +584,58 @@ function SpatialWatchHero({ onNavigateToStores }) {
     const container = containerRef.current;
     if (!container) return;
 
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const width = container.clientWidth || 600;
+    const height = container.clientHeight || 500;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.1, 8.8);
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0, 8.6);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.65;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMappingExposure = 1.6;
     container.appendChild(renderer.domElement);
 
-    // Environment Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.9);
+    // Natural studio lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
-    keyLight.position.set(4, 8, 6);
-    keyLight.castShadow = true;
+    const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    keyLight.position.set(4, 6, 6);
     scene.add(keyLight);
 
     const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    fillLight.position.set(-6, -2, -4);
+    fillLight.position.set(-5, -2, -3);
     scene.add(fillLight);
 
-    const initialColor = new THREE.Color(SPATIAL_WATCHES[0].ambientColor);
-    const rimLightCenter = new THREE.PointLight(initialColor, 10, 16);
-    rimLightCenter.position.set(0, 2.5, 3.5);
-    scene.add(rimLightCenter);
-
-    const rimLightLeft = new THREE.PointLight(initialColor, 6, 14);
-    rimLightLeft.position.set(-5, -1, 2);
-    scene.add(rimLightLeft);
-
-    const rimLightRight = new THREE.PointLight(initialColor, 6, 14);
-    rimLightRight.position.set(5, -1, 2);
-    scene.add(rimLightRight);
-
-    // Ambient floating starburst dust particles
-    const particleGeo = new THREE.BufferGeometry();
-    const particleCount = 140;
-    const particlePositions = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-      particlePositions[i * 3] = (Math.random() - 0.5) * 18;
-      particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-    particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
-    const particleMat = new THREE.PointsMaterial({
-      color: 0xffe6a3,
-      size: 0.08,
-      transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending
-    });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
-    // Shockwave burst particles
-    const shockCount = 90;
-    const shockGeo = new THREE.BufferGeometry();
-    const shockPositions = new Float32Array(shockCount * 3);
-    const shockVelocities = new Float32Array(shockCount * 3);
-    for (let i = 0; i < shockCount * 3; i++) {
-      shockPositions[i] = 0;
-      shockVelocities[i] = 0;
-    }
-    shockGeo.setAttribute("position", new THREE.BufferAttribute(shockPositions, 3));
-    const shockMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.16,
-      transparent: true,
-      opacity: 0,
-      blending: THREE.AdditiveBlending
-    });
-    const shockParticles = new THREE.Points(shockGeo, shockMat);
-    scene.add(shockParticles);
-
-    // Watch 3D Meshes Creation (Pure clean watch planes without artificial frames or glass domes)
+    // Pure clean watch meshes without frames, rings, or glass domes
     const textureLoader = new THREE.TextureLoader();
     const watchMeshes = [];
-    const watchCount = SPATIAL_WATCHES.length;
+    const watchCount = HERO_WATCH_IMAGES.length;
 
     const getSlotTransform = (slot) => {
       if (slot === 0) {
-        return { x: 0, y: -0.15, z: 1.8, scale: 1.25 };
+        return { x: 0, y: -0.05, z: 1.6, scale: 1.25 };
       }
       const sign = Math.sign(slot);
       const n = Math.abs(slot);
-      const x = sign * (2.4 + (n - 1) * 1.85);
-      const y = -0.15 + n * 0.07;
-      const z = 0.1 - n * 0.9;
-      const scale = Math.max(0.46, 0.94 - n * 0.17);
+      const x = sign * (2.15 + (n - 1) * 1.75);
+      const y = -0.05 + n * 0.06;
+      const z = 0.1 - n * 0.85;
+      const scale = Math.max(0.48, 0.94 - n * 0.18);
       return { x, y, z, scale };
     };
 
-    SPATIAL_WATCHES.forEach((watchData, i) => {
+    HERO_WATCH_IMAGES.forEach((watchData, i) => {
       const watchGroup = new THREE.Group();
-      watchGroup.userData = { index: i, watchData };
+      watchGroup.userData = { index: i };
 
       const texture = textureLoader.load(watchData.image);
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = 16;
 
-      // Pure clean watch artwork plane without artificial frames or glass domes
       const faceGeo = new THREE.PlaneGeometry(2.35, 3.52);
       const faceMat = new THREE.MeshBasicMaterial({
         map: texture,
@@ -813,7 +646,6 @@ function SpatialWatchHero({ onNavigateToStores }) {
       const faceMesh = new THREE.Mesh(faceGeo, faceMat);
       watchGroup.add(faceMesh);
 
-      // Initial placement (strictly upright, zero rotation)
       let slot = i - currentIndexRef.current;
       if (slot > 3) slot -= watchCount;
       if (slot < -3) slot += watchCount;
@@ -825,108 +657,43 @@ function SpatialWatchHero({ onNavigateToStores }) {
       scene.add(watchGroup);
       watchMeshes.push({
         group: watchGroup,
-        index: i,
+        index: i
       });
     });
 
-    // Swipe & Interaction State (No mesh rotation)
     let isDragging = false;
     let dragStartTime = 0;
     let dragStartPos = { x: 0, y: 0 };
-    let prevMousePos = { x: 0, y: 0 };
     let dragDeltaX = 0;
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    // Trigger Transition logic
-    const triggerTransition = (newIndex) => {
-      const watchData = SPATIAL_WATCHES[newIndex];
-
-      // Burst shockwave
-      const posArr = shockParticles.geometry.attributes.position.array;
-      for (let s = 0; s < shockCount; s++) {
-        posArr[s * 3] = 0;
-        posArr[s * 3 + 1] = -0.15;
-        posArr[s * 3 + 2] = 1.8;
-        const angle = Math.random() * Math.PI * 2;
-        const spd = Math.random() * 0.18 + 0.08;
-        shockVelocities[s * 3] = Math.cos(angle) * spd;
-        shockVelocities[s * 3 + 1] = (Math.random() - 0.5) * 0.12;
-        shockVelocities[s * 3 + 2] = Math.sin(angle) * spd;
-      }
-      shockParticles.geometry.attributes.position.needsUpdate = true;
-      shockMat.opacity = 0.9;
-      shockMat.color.set(watchData.ambientColor);
-    };
-
-    sceneRef.current = { triggerTransition };
-
-    // Pointer events
     const onPointerDown = (e) => {
       isDragging = true;
       dragStartTime = Date.now();
       const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
       const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
       dragStartPos = { x: cx, y: cy };
-      prevMousePos = { x: cx, y: cy };
       dragDeltaX = 0;
-      if (container) container.style.cursor = "grabbing";
     };
 
     const onPointerMove = (e) => {
       const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
       const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-
-      const rect = container.getBoundingClientRect();
-      mouse.x = ((cx - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((cy - rect.top) / rect.height) * 2 + 1;
-
       if (isDragging) {
         dragDeltaX = cx - dragStartPos.x;
-      } else {
-        // Check hover over flanking watches
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(
-          watchMeshes.map((w) => w.group),
-          true
-        );
-
-        if (intersects.length > 0) {
-          let hitGroup = intersects[0].object;
-          while (hitGroup.parent && hitGroup.parent !== scene) {
-            hitGroup = hitGroup.parent;
-          }
-          const hitIdx = hitGroup.userData && hitGroup.userData.index;
-          if (hitIdx !== undefined && hitIdx !== currentIndexRef.current) {
-            if (cursorBadgeRef.current) {
-              cursorBadgeRef.current.classList.add("is-visible");
-              cursorBadgeRef.current.style.left = `${cx}px`;
-              cursorBadgeRef.current.style.top = `${cy}px`;
-              cursorBadgeRef.current.textContent = `INSPECT ${SPATIAL_WATCHES[hitIdx].name} ✨`;
-            }
-            if (container) container.style.cursor = "pointer";
-          } else {
-            if (cursorBadgeRef.current) cursorBadgeRef.current.classList.remove("is-visible");
-            if (container) container.style.cursor = "grab";
-          }
-        } else {
-          if (cursorBadgeRef.current) cursorBadgeRef.current.classList.remove("is-visible");
-          if (container) container.style.cursor = "grab";
-        }
       }
     };
 
     const onPointerUp = (e) => {
       isDragging = false;
-      if (container) container.style.cursor = "grab";
       const cx = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || 0;
       const cy = e.clientY || (e.changedTouches && e.changedTouches[0].clientY) || 0;
       const dragDist = Math.hypot(cx - dragStartPos.x, cy - dragStartPos.y);
       const dragDuration = Date.now() - dragStartTime;
 
-      // Horizontal swipe navigation
-      if (Math.abs(dragDeltaX) > 60 && dragDuration < 400) {
+      if (Math.abs(dragDeltaX) > 50 && dragDuration < 400) {
         if (dragDeltaX < 0) {
           handleNext();
         } else {
@@ -935,7 +702,6 @@ function SpatialWatchHero({ onNavigateToStores }) {
         return;
       }
 
-      // Click detection on flanking watch
       if (dragDist < 8 && dragDuration < 280) {
         const rect = container.getBoundingClientRect();
         mouse.x = ((cx - rect.left) / rect.width) * 2 - 1;
@@ -981,13 +747,10 @@ function SpatialWatchHero({ onNavigateToStores }) {
     };
     window.addEventListener("keydown", onKeyDown);
 
-    // Animation Loop (Zero rotation, pure smooth spatial scaling & sliding)
     let animId;
     let clock = 0;
     const animate = () => {
       clock += 0.025;
-
-      // Update Watch Positions & Scales (Strictly no rotation)
       const activeIdx = currentIndexRef.current;
       watchMeshes.forEach((w) => {
         let slot = w.index - activeIdx;
@@ -995,11 +758,9 @@ function SpatialWatchHero({ onNavigateToStores }) {
         if (slot < -3) slot += watchCount;
 
         const target = getSlotTransform(slot);
-
-        // Organic floating bobbing for active center watch
         let bobY = 0;
         if (slot === 0) {
-          bobY = Math.sin(clock * 1.8) * 0.08;
+          bobY = Math.sin(clock * 1.8) * 0.07;
         }
 
         w.group.position.x += (target.x - w.group.position.x) * 0.1;
@@ -1010,39 +771,8 @@ function SpatialWatchHero({ onNavigateToStores }) {
         const nextScale = s + (target.scale - s) * 0.1;
         w.group.scale.set(nextScale, nextScale, nextScale);
 
-        // Zero rotation at all times
         w.group.rotation.set(0, 0, 0);
       });
-
-      // Lerp Rim Lights Color
-      const activeWatch = SPATIAL_WATCHES[activeIdx];
-      if (activeWatch) {
-        const targetColor = new THREE.Color(activeWatch.ambientColor);
-        rimLightCenter.color.lerp(targetColor, 0.08);
-        rimLightLeft.color.lerp(targetColor, 0.08);
-        rimLightRight.color.lerp(targetColor, 0.08);
-        particleMat.color.lerp(targetColor, 0.08);
-      }
-
-      // Animate shockwave particles
-      if (shockMat.opacity > 0.01) {
-        shockMat.opacity *= 0.94;
-        const pos = shockParticles.geometry.attributes.position.array;
-        for (let s = 0; s < shockCount; s++) {
-          pos[s * 3] += shockVelocities[s * 3];
-          pos[s * 3 + 1] += shockVelocities[s * 3 + 1];
-          pos[s * 3 + 2] += shockVelocities[s * 3 + 2];
-        }
-        shockParticles.geometry.attributes.position.needsUpdate = true;
-      }
-
-      // Animate floating shimmer particles
-      const parts = particleGeo.attributes.position.array;
-      for (let i = 0; i < particleCount; i++) {
-        parts[i * 3 + 1] += 0.004;
-        if (parts[i * 3 + 1] > 6) parts[i * 3 + 1] = -6;
-      }
-      particleGeo.attributes.position.needsUpdate = true;
 
       renderer.render(scene, camera);
       animId = requestAnimationFrame(animate);
@@ -1064,108 +794,31 @@ function SpatialWatchHero({ onNavigateToStores }) {
   }, [handlePrev, handleNext, handleSelectWatch]);
 
   return (
-    <section className="spatial-hero-section" aria-label="3D Interactive Watch Spatial Hero">
-      {/* Ambient Morphing Background Gradient */}
-      <div
-        className="spatial-ambient-bg"
-        style={{ background: currentWatch.bgGradient }}
-        aria-hidden="true"
-      />
-
-      {/* 3D WebGL Canvas Container */}
-      <div className="spatial-canvas-container" ref={containerRef} />
-
-      {/* Magnetic Cursor Tooltip Badge */}
-      <div className="spatial-cursor-badge" ref={cursorBadgeRef} aria-hidden="true">
-        INSPECT 3D ✨
+    <div className="hero__watch-stage">
+      <div className="hero__watch-canvas-wrap" ref={containerRef} />
+      <div className="hero__watch-nav">
+        <button
+          type="button"
+          className="hero__watch-nav-btn hero__watch-nav-btn--prev"
+          onClick={handlePrev}
+          aria-label="Previous Watch"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          className="hero__watch-nav-btn hero__watch-nav-btn--next"
+          onClick={handleNext}
+          aria-label="Next Watch"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
       </div>
-
-      {/* Hero Content Overlay (Cokecan Spatial Layout) */}
-      <div className="spatial-hero-overlay">
-        {/* Edition Counter Indicator */}
-        <div className="spatial-edition-indicator">
-          <span className="spatial-edition-active">0{currentIndex + 1}</span>
-          <span className="spatial-edition-total"> / 0{SPATIAL_WATCHES.length}</span>
-        </div>
-
-        {/* Dynamic Watch Presentation Card */}
-        <div className={`spatial-hero-card ${isTransitioning ? "is-transitioning" : ""}`}>
-          <div className="spatial-tag-pill">
-            <span className="sparkle">✨</span> {currentWatch.tag} <span className="sparkle">✨</span>
-          </div>
-
-          <h1 className="spatial-hero-title">
-            {currentWatch.name} <span className="highlight" style={{ color: currentWatch.colorPrimary }}>{currentWatch.highlight}</span>
-          </h1>
-
-          <p className="spatial-hero-subtitle">
-            {currentWatch.subtitle}
-          </p>
-
-          {/* Specs Bar Pills */}
-          <div className="spatial-specs-pills">
-            <div className="spatial-spec-pill">
-              <span className="pill-label">CALIBER</span>
-              <span className="pill-val">{currentWatch.caliber}</span>
-            </div>
-            <div className="spatial-spec-pill">
-              <span className="pill-label">CASE</span>
-              <span className="pill-val">{currentWatch.case}</span>
-            </div>
-            <div className="spatial-spec-pill">
-              <span className="pill-label">RESERVE</span>
-              <span className="pill-val">{currentWatch.powerReserve}</span>
-            </div>
-            <div className="spatial-spec-pill">
-              <span className="pill-label">RESIST</span>
-              <span className="pill-val">{currentWatch.waterResist}</span>
-            </div>
-          </div>
-
-          {/* Action CTAs */}
-          <div className="spatial-hero-actions">
-            <a className="spatial-primary-cta" href="mailto:connect@hanborowatches.in">
-              <span>Inquire Timepiece</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
-            <button
-              type="button"
-              className="spatial-secondary-cta"
-              onClick={onNavigateToStores}
-            >
-              <span>Locate Boutiques ↗</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Arrow Controls */}
-        <div className="spatial-nav-controls">
-          <button
-            type="button"
-            className="spatial-nav-btn spatial-nav-btn--prev"
-            onClick={handlePrev}
-            aria-label="Previous Timepiece"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="spatial-nav-btn spatial-nav-btn--next"
-            onClick={handleNext}
-            aria-label="Next Timepiece"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
 
@@ -1935,8 +1588,25 @@ function Website({ onRestart }) {
         <StoreLocatorView onNavigateHome={() => navigateTo("home", "#top")} />
       ) : (
         <>
-          {/* ── 3D SPATIAL HERO SECTION (COKECAN SPATIAL EXPERIENCE) ── */}
-          <SpatialWatchHero onNavigateToStores={() => navigateTo("stores", "#stores")} />
+          <section className="hero" aria-labelledby="hero-title">
+            <div className="hero__copy">
+              <p className="eyebrow h-eyebrow">Independent creative direction</p>
+              <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
+              <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
+              <div className="hero__btn-row">
+                <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
+                <button
+                  type="button"
+                  className="secondary-btn h-stores-btn"
+                  onClick={() => navigateTo("stores", "#stores")}
+                >
+                  Find a Store ↗
+                </button>
+              </div>
+            </div>
+
+            <HeroWatchShowcase />
+          </section>
 
           {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
           <WatchCarouselSection />

@@ -275,343 +275,140 @@ a { color: inherit; text-decoration: none; }
   transform: translateX(2px);
 }
 
-/* ── 3D SPATIAL WATCH HERO SECTION (COKECAN SPATIAL EXPERIENCE) ──────────── */
-.spatial-hero-section {
-  position: relative;
+/* ── Hero — staggered element reveal & interactive 3D watch showcase ───── */
+.hero {
   min-height: calc(100dvh - 76px);
-  min-height: 92vh;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(40px, 6vw, 80px) clamp(20px, 6vw, 80px);
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(circle at 87% 23%, rgba(250,45,29,.72) 0%, rgba(250,45,29,0) 29%),
+    linear-gradient(116deg, #f5f2ed 0%, #eeeae3 40%, #180807 69%, #fa2d1d 130%);
+}
+
+.hero__copy {
+  align-self: center;
+  max-width: 520px;
+  position: relative;
+  z-index: 2;
+}
+
+.h-eyebrow, .h-h1, .h-desc, .h-cta, .h-stores-btn { opacity: 0; transform: translateY(40px); }
+/* Delays are offset from when iris finishes retracting (~1040ms after phase=entered) */
+.site--visible .h-eyebrow { animation: heroUp 0.75s var(--ease-expo) 0.60s forwards; }
+.site--visible .h-h1      { animation: heroUp 0.90s var(--ease-expo) 0.74s forwards; }
+.site--visible .h-desc    { animation: heroUp 0.75s var(--ease-expo) 0.90s forwards; }
+.site--visible .h-cta     { animation: heroUp 0.70s var(--ease-expo) 1.04s forwards; }
+.site--visible .h-stores-btn { animation: heroUp 0.70s var(--ease-expo) 1.10s forwards; }
+@keyframes heroUp { to { opacity: 1; transform: translateY(0); } }
+
+.hero h1, .work h2 { margin: 18px 0 25px; font-size: clamp(52px, 8vw, 126px); line-height: .86; letter-spacing: -.08em; font-weight: 800; }
+.hero h1 em, .work h2 em { color: var(--red); font-family: Georgia,'Times New Roman',serif; font-weight: 400; letter-spacing: -.12em; }
+.hero__description { max-width: 380px; margin: 0 0 34px; font-size: 15px; line-height: 1.45; color: #111111; }
+
+.hero__btn-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.primary-link { display: inline-flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 1px solid currentColor; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; transition: color .2s ease, gap .28s var(--ease-spring); }
+.primary-link:hover { color: var(--red); gap: 42px; }
+
+.secondary-btn.h-stores-btn {
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #000000;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn.h-stores-btn:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+  transform: translateY(-1px);
+}
+
+/* ── Hero Pure Watch Animation Stage ── */
+.hero__watch-stage {
+  flex: 1;
+  max-width: 680px;
+  height: clamp(400px, 55vh, 600px);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000000;
-  overflow: hidden;
-  user-select: none;
+  z-index: 2;
 }
 
-.spatial-ambient-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.88;
-  transition: background 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: background;
-}
-
-.spatial-canvas-container {
+.hero__watch-canvas-wrap {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  cursor: grab;
-}
-
-.spatial-canvas-container:active {
-  cursor: grabbing;
-}
-
-.spatial-cursor-badge {
-  position: fixed;
-  pointer-events: none;
-  transform: translate(-50%, -140%);
-  background: rgba(10, 10, 12, 0.85);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 255, 255, 0.15);
-  opacity: 0;
-  transition: opacity 0.2s ease, transform 0.15s ease-out;
-  z-index: 9999;
-}
-
-.spatial-cursor-badge.is-visible {
-  opacity: 1;
-}
-
-.spatial-hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(24px, 4vw, 44px) clamp(20px, 5vw, 64px);
-}
-
-.spatial-edition-indicator {
-  font-family: var(--font-mono, monospace);
-  letter-spacing: 0.15em;
-  pointer-events: auto;
-}
-
-.spatial-edition-active {
-  font-size: clamp(24px, 3vw, 36px);
-  font-weight: 800;
-  color: #ffffff;
-  text-shadow: 0 2px 14px rgba(255, 255, 255, 0.4);
-}
-
-.spatial-edition-total {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.spatial-hero-card {
-  max-width: 680px;
-  pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: auto;
-  margin-bottom: clamp(16px, 2.5vw, 32px);
-}
-
-.spatial-hero-card.is-transitioning {
-  opacity: 0;
-  transform: translateY(14px) scale(0.97);
-}
-
-.spatial-tag-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-radius: 999px;
-  padding: 6px 18px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #ffffff;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-  margin-bottom: 12px;
-}
-
-.spatial-tag-pill .sparkle {
-  color: #ffd700;
-}
-
-.spatial-hero-title {
-  font-size: clamp(36px, 5.8vw, 76px);
-  font-weight: 800;
-  line-height: 0.94;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  margin: 0 0 12px;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
-}
-
-.spatial-hero-title .highlight {
-  font-style: italic;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-weight: 400;
-  letter-spacing: -0.06em;
-  transition: color 0.5s ease;
-  filter: drop-shadow(0 0 14px currentColor);
-}
-
-.spatial-hero-subtitle {
-  font-size: clamp(12px, 1.3vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-  line-height: 1.55;
-  margin: 0 0 20px;
-  max-width: 580px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-}
-
-.spatial-specs-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.spatial-spec-pill {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 8px 16px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-}
-
-.spatial-spec-pill .pill-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.45);
-  text-transform: uppercase;
-}
-
-.spatial-spec-pill .pill-val {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-}
-
-.spatial-hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  pointer-events: auto;
-}
-
-.spatial-primary-cta {
-  background: var(--red);
-  color: #ffffff;
-  padding: 12px 28px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 6px 24px rgba(250, 45, 29, 0.45);
-  transition: all 0.25s ease;
-  text-decoration: none;
-}
-
-.spatial-primary-cta:hover {
-  background: #e02314;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(250, 45, 29, 0.6);
-}
-
-.spatial-primary-cta svg {
-  transition: transform 0.2s ease;
-}
-
-.spatial-primary-cta:hover svg {
-  transform: translateX(3px);
-}
-
-.spatial-secondary-cta {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   cursor: pointer;
-  transition: all 0.25s ease;
 }
 
-.spatial-secondary-cta:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.35);
-  transform: translateY(-2px);
-}
-
-.spatial-nav-controls {
+.hero__watch-nav {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   width: 100%;
   left: 0;
-  padding: 0 clamp(16px, 3.5vw, 48px);
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
+  padding: 0 10px;
   pointer-events: none;
   z-index: 5;
 }
 
-.spatial-nav-btn {
+.hero__watch-nav-btn {
   pointer-events: auto;
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(18, 18, 22, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.spatial-nav-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.45);
+.hero__watch-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
   transform: scale(1.1);
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-.spatial-gesture-hint {
-  align-self: center;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.6);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(10, 10, 14, 0.6);
-  padding: 7px 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  pointer-events: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.spatial-gesture-hint .hint-sparkle {
-  color: #ffd700;
-}
-
-@media (max-width: 768px) {
-  .spatial-hero-section {
-    min-height: 88vh;
+@media (max-width: 960px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 30px;
   }
-  .spatial-hero-overlay {
-    padding: 20px 16px;
-  }
-  .spatial-hero-card {
-    margin-bottom: 8px;
-  }
-  .spatial-specs-pills {
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-  .spatial-spec-pill {
-    padding: 6px 12px;
-  }
-  .spatial-gesture-hint {
-    display: none;
-  }
-  .spatial-nav-btn {
-    width: 42px;
-    height: 42px;
+  .hero__watch-stage {
+    width: 100%;
+    max-width: 100%;
+    height: 380px;
+    margin-top: 20px;
   }
 }
 
