@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 
 const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 460;  // ms: smooth iris expansion
@@ -750,147 +751,301 @@ const STORES_DATA = [
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
-// HOLOGRAPHIC GLOBE HERO VISUAL COMPONENT
+// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT
 // ══════════════════════════════════════════════════════════════════════════════
-function HolographicGlobe() {
-  const canvasRef = useRef(null);
+function InteractiveDottedGlobe() {
+  const mountRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const prevPointerRef = useRef({ x: 0, y: 0 });
+  const rotRef = useRef({ x: 0.28, y: -1.45, vx: 0, vy: 0.0022 });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let animId;
-    let rotation = 0;
+    const container = mountRef.current;
+    if (!container) return;
 
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    };
-    resize();
-    window.addEventListener("resize", resize);
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
-    // Coordinates of India's authorized retail nodes
-    const pins = [
-      { lat: 28.6, lon: 77.1, name: "Delhi NCR / Haryana" },
-      { lat: 19.0, lon: 72.8, name: "Mumbai" },
-      { lat: 14.4, lon: 79.9, name: "Andhra Pradesh" },
-      { lat: 27.5, lon: 77.6, name: "Uttar Pradesh" },
-      { lat: 28.2, lon: 76.8, name: "Rajasthan" }
-    ];
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.set(0, 0, 340);
 
-    const render = () => {
-      const w = canvas.getBoundingClientRect().width;
-      const h = canvas.getBoundingClientRect().height;
-      ctx.clearRect(0, 0, w, h);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
 
-      const cx = w / 2;
-      const cy = h * 0.95;
-      const radius = Math.min(w * 0.46, 320);
+    const globeRadius = 135;
+    const globeGroup = new THREE.Group();
+    // Shift globe slightly downward to emerge like the horizon in reference screenshot
+    globeGroup.position.set(0, -35, 0);
+    globeGroup.rotation.x = rotRef.current.x;
+    globeGroup.rotation.y = rotRef.current.y;
+    scene.add(globeGroup);
 
-      // Outer atmospheric glow
-      const haze = ctx.createRadialGradient(cx, cy, radius * 0.7, cx, cy, radius * 1.35);
-      haze.addColorStop(0, "rgba(0, 153, 255, 0.45)");
-      haze.addColorStop(0.5, "rgba(0, 102, 255, 0.15)");
-      haze.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = haze;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
-      ctx.fill();
+    // 1. Inner oceanic blue glowing sphere
+    const coreGeo = new THREE.SphereGeometry(globeRadius * 0.985, 64, 64);
+    const coreMat = new THREE.MeshBasicMaterial({
+      color: 0x0088ff,
+      transparent: true,
+      opacity: 0.92,
+    });
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    globeGroup.add(coreMesh);
 
-      // Planet Sphere Body
-      const sphereGrad = ctx.createRadialGradient(cx - radius * 0.25, cy - radius * 0.25, radius * 0.1, cx, cy, radius);
-      sphereGrad.addColorStop(0, "#4ea8de");
-      sphereGrad.addColorStop(0.4, "#0077b6");
-      sphereGrad.addColorStop(0.85, "#023e8a");
-      sphereGrad.addColorStop(1, "#03045e");
-      ctx.fillStyle = sphereGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Draw latitude and longitude grid lines
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.clip();
-
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.18)";
-      ctx.lineWidth = 1;
-
-      // Longitude lines rotating
-      for (let i = 0; i < 12; i++) {
-        const angle = rotation + (i * Math.PI) / 6;
-        const xOffset = Math.sin(angle) * radius;
-        ctx.beginPath();
-        ctx.ellipse(cx, cy, Math.abs(xOffset), radius, 0, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Latitude lines
-      for (let j = 1; j <= 5; j++) {
-        const yOffset = (j / 6) * radius * 0.9;
-        const rLat = Math.sqrt(Math.max(0, radius * radius - yOffset * yOffset));
-        ctx.beginPath();
-        ctx.ellipse(cx, cy - yOffset, rLat, yOffset * 0.35, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.ellipse(cx, cy + yOffset, rLat, yOffset * 0.35, 0, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Draw active pulsing locator pins on the rotating globe
-      pins.forEach((pin, pIdx) => {
-        const radLat = (pin.lat * Math.PI) / 180;
-        const radLon = (pin.lon * Math.PI) / 180 + rotation;
-
-        const px = cx + radius * Math.cos(radLat) * Math.sin(radLon);
-        const py = cy - radius * Math.sin(radLat);
-        const isVisible = Math.cos(radLon) > -0.2;
-
-        if (isVisible) {
-          const pulse = (Math.sin(Date.now() * 0.005 + pIdx) + 1) / 2;
-
-          // Outer pulse ring
-          ctx.strokeStyle = `rgba(255, 75, 50, ${0.8 - pulse * 0.5})`;
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.arc(px, py, 4 + pulse * 10, 0, Math.PI * 2);
-          ctx.stroke();
-
-          // Core pin dot
-          ctx.fillStyle = "#fa2d1d";
-          ctx.beginPath();
-          ctx.arc(px, py, 3.5, 0, Math.PI * 2);
-          ctx.fill();
+    // 2. Atmosphere rim glow
+    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.04, 48, 48);
+    const atmosMat = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        void main() {
+          float intensity = pow(0.62 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
+          gl_FragColor = vec4(0.4, 0.85, 1.0, 1.0) * intensity * 1.5;
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      side: THREE.BackSide,
+      transparent: true,
+    });
+    const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
+    scene.add(atmosMesh);
+
+    // Helper: Circle glow dot texture
+    const createDotTexture = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext("2d");
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+      grad.addColorStop(0.35, "rgba(200, 240, 255, 0.95)");
+      grad.addColorStop(0.7, "rgba(0, 180, 255, 0.4)");
+      grad.addColorStop(1, "rgba(0, 180, 255, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(canvas);
+    };
+
+    // Helper: lat/lon to vector3
+    const latLonToVec3 = (lat, lon, r) => {
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lon + 180) * (Math.PI / 180);
+      return new THREE.Vector3(
+        -(r * Math.sin(phi) * Math.cos(theta)),
+        r * Math.cos(phi),
+        r * Math.sin(phi) * Math.sin(theta)
+      );
+    };
+
+    // 3. Load continent land mask and generate exact dot matrix
+    const mapImg = new Image();
+    mapImg.crossOrigin = "anonymous";
+    mapImg.src = "/world-map-mask.png";
+    mapImg.onload = () => {
+      const offCanvas = document.createElement("canvas");
+      offCanvas.width = mapImg.width;
+      offCanvas.height = mapImg.height;
+      const offCtx = offCanvas.getContext("2d");
+      offCtx.drawImage(mapImg, 0, 0);
+      const imgData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
+
+      const dotPositions = [];
+      const dotColors = [];
+
+      const rows = 150;
+      for (let latIdx = 0; latIdx <= rows; latIdx++) {
+        const lat = 90 - (latIdx / rows) * 180;
+        const circumference = Math.cos((lat * Math.PI) / 180);
+        const cols = Math.max(8, Math.floor(300 * circumference));
+
+        for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
+          const lon = -180 + (lonIdx / cols) * 360;
+
+          const px = Math.floor(((lon + 180) / 360) * offCanvas.width);
+          const py = Math.floor(((90 - lat) / 180) * offCanvas.height);
+          const idx = (py * offCanvas.width + px) * 4;
+
+          if (imgData[idx] > 120) {
+            const v = latLonToVec3(lat, lon, globeRadius + 0.6);
+            dotPositions.push(v.x, v.y, v.z);
+
+            // Highlight Indian subcontinent points in pure brilliant white
+            if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
+              dotColors.push(1.0, 1.0, 1.0);
+            } else {
+              dotColors.push(0.72, 0.90, 1.0);
+            }
+          }
+        }
+      }
+
+      const dotsGeo = new THREE.BufferGeometry();
+      dotsGeo.setAttribute("position", new THREE.Float32BufferAttribute(dotPositions, 3));
+      dotsGeo.setAttribute("color", new THREE.Float32BufferAttribute(dotColors, 3));
+
+      const dotsMat = new THREE.PointsMaterial({
+        size: 3.2,
+        vertexColors: true,
+        map: createDotTexture(),
+        transparent: true,
+        opacity: 0.96,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
       });
 
-      ctx.restore();
-
-      // Atmospheric rim highlight
-      ctx.strokeStyle = "rgba(180, 230, 255, 0.75)";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.stroke();
-
-      rotation += 0.003;
-      animId = requestAnimationFrame(render);
+      const dotsMesh = new THREE.Points(dotsGeo, dotsMat);
+      globeGroup.add(dotsMesh);
     };
 
-    render();
+    // 4. Interactive 3D Store Pins on Globe
+    const pinGroup = new THREE.Group();
+    globeGroup.add(pinGroup);
+
+    const storePins = [
+      { id: "haryana", name: "Haryana (Bahadurgarh & Karnal)", lat: 28.69, lon: 76.93 },
+      { id: "mumbai", name: "Mumbai & Thane / Virar", lat: 19.07, lon: 72.87 },
+      { id: "up", name: "Ghaziabad & Mathura, UP", lat: 28.64, lon: 77.37 },
+      { id: "andhra", name: "Visakhapatnam, Tirupati, Nellore", lat: 14.44, lon: 79.97 },
+      { id: "rajasthan", name: "Bhiwadi, Rajasthan", lat: 28.21, lon: 76.86 }
+    ];
+
+    const pinMeshes = [];
+    storePins.forEach((pin) => {
+      const pGroup = new THREE.Group();
+      const pos = latLonToVec3(pin.lat, pin.lon, globeRadius + 1.2);
+      pGroup.position.copy(pos);
+
+      // Core red marker dot
+      const dotGeo = new THREE.SphereGeometry(2.4, 16, 16);
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0xff2d1d });
+      const dot = new THREE.Mesh(dotGeo, dotMat);
+      pGroup.add(dot);
+
+      // Outer radar pulse ring
+      const ringGeo = new THREE.RingGeometry(2.6, 5.0, 24);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xff2d1d,
+        transparent: true,
+        opacity: 0.85,
+        side: THREE.DoubleSide
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.lookAt(pos.clone().multiplyScalar(2));
+      pGroup.add(ring);
+
+      pinGroup.add(pGroup);
+      pinMeshes.push({ group: pGroup, ring, ringMat, pin });
+    });
+
+    // 5. Drag & Swipe Interaction
+    const onPointerDown = (e) => {
+      isDraggingRef.current = true;
+      prevPointerRef.current = { x: e.clientX, y: e.clientY };
+      rotRef.current.vx = 0;
+      rotRef.current.vy = 0;
+      if (container) container.style.cursor = "grabbing";
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDraggingRef.current) return;
+      const dx = e.clientX - prevPointerRef.current.x;
+      const dy = e.clientY - prevPointerRef.current.y;
+      prevPointerRef.current = { x: e.clientX, y: e.clientY };
+
+      rotRef.current.y += dx * 0.0055;
+      rotRef.current.x += dy * 0.0055;
+
+      rotRef.current.vx = dy * 0.0055;
+      rotRef.current.vy = dx * 0.0055;
+    };
+
+    const onPointerUp = () => {
+      isDraggingRef.current = false;
+      if (container) container.style.cursor = "grab";
+    };
+
+    const dom = renderer.domElement;
+    dom.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+
+    const onResize = () => {
+      if (!container) return;
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    };
+    window.addEventListener("resize", onResize);
+
+    // 6. Animation loop
+    let animId;
+    let clock = 0;
+    const animate = () => {
+      clock += 0.035;
+
+      if (!isDraggingRef.current) {
+        // Friction decay + gentle continuous rotation
+        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0016 * 0.05;
+        rotRef.current.vx = rotRef.current.vx * 0.95;
+        rotRef.current.y += rotRef.current.vy;
+        rotRef.current.x += rotRef.current.vx;
+      }
+
+      rotRef.current.x = Math.max(-0.7, Math.min(0.7, rotRef.current.x));
+
+      globeGroup.rotation.x = rotRef.current.x;
+      globeGroup.rotation.y = rotRef.current.y;
+
+      // Animate pin rings
+      pinMeshes.forEach((item, idx) => {
+        const pulse = (Math.sin(clock * 2.2 + idx * 1.2) + 1) / 2;
+        const scale = 1 + pulse * 1.8;
+        item.ring.scale.set(scale, scale, scale);
+        item.ringMat.opacity = Math.max(0, 0.85 - pulse * 0.8);
+      });
+
+      renderer.render(scene, camera);
+      animId = requestAnimationFrame(animate);
+    };
+    animate();
 
     return () => {
-      window.removeEventListener("resize", resize);
       cancelAnimationFrame(animId);
+      window.removeEventListener("resize", onResize);
+      dom.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
     };
   }, []);
 
   return (
-    <div className="holographic-globe-wrap">
-      <canvas ref={canvasRef} className="holographic-globe-canvas" />
+    <div className="interactive-globe-wrapper" ref={mountRef}>
+      <div className="globe-stores-pill">
+        <span className="globe-stores-dot" />
+        <span>Stores across India</span>
+      </div>
+      <div className="globe-drag-indicator">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        <span>Drag to rotate globe</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </div>
     </div>
   );
 }
@@ -919,13 +1074,10 @@ function StoreLocatorView({ onNavigateHome }) {
 
   return (
     <div className="store-locator-page">
-      {/* Globe Visualization Header Hero */}
+      {/* Interactive 3D Dotted Globe Hero */}
       <section className="locator-hero" aria-labelledby="locator-heading">
-        <HolographicGlobe />
+        <InteractiveDottedGlobe />
         <div className="locator-hero__content" data-reveal>
-          <div className="stage-meta">
-            <span className="stage-tag">OFFICIAL RETAIL DIRECTORY</span>
-          </div>
           <h1 id="locator-heading" className="locator-hero__title">
             Store <em>locators.</em>
           </h1>
