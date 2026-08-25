@@ -555,13 +555,6 @@ const WATCH_COLLECTION = [
 ];
 
 function WatchCarouselSection() {
-  // 3 duplicates (12 items total) for smooth 50% endless loop
-  const displayWatches = [
-    ...WATCH_COLLECTION,
-    ...WATCH_COLLECTION,
-    ...WATCH_COLLECTION
-  ];
-
   return (
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
       <div className="carousel-section-header" data-reveal>
@@ -573,20 +566,61 @@ function WatchCarouselSection() {
         </h2>
       </div>
 
-      {/* Apple-grade Pure Endless Marquee Track */}
+      {/* Apple-Grade Seamless Tiling Endless Marquee */}
       <div className="carousel-track-wrapper" data-reveal data-reveal-delay="1">
         <div className="carousel-track">
-          {displayWatches.map((watch, index) => (
-            <div className="watch-float-item" key={`${watch.id}-${index}`}>
-              <img
-                src={watch.img}
-                alt={watch.name}
-                className="watch-float-img"
-                loading="lazy"
-                draggable={false}
-              />
-            </div>
-          ))}
+          <div className="carousel-group">
+            {WATCH_COLLECTION.map((watch, index) => (
+              <div className="watch-float-item" key={`a-${watch.id}-${index}`}>
+                <img
+                  src={watch.img}
+                  alt={watch.name}
+                  className="watch-float-img"
+                  loading="lazy"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="carousel-group" aria-hidden="true">
+            {WATCH_COLLECTION.map((watch, index) => (
+              <div className="watch-float-item" key={`b-${watch.id}-${index}`}>
+                <img
+                  src={watch.img}
+                  alt={watch.name}
+                  className="watch-float-img"
+                  loading="lazy"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="carousel-group" aria-hidden="true">
+            {WATCH_COLLECTION.map((watch, index) => (
+              <div className="watch-float-item" key={`c-${watch.id}-${index}`}>
+                <img
+                  src={watch.img}
+                  alt={watch.name}
+                  className="watch-float-img"
+                  loading="lazy"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="carousel-group" aria-hidden="true">
+            {WATCH_COLLECTION.map((watch, index) => (
+              <div className="watch-float-item" key={`d-${watch.id}-${index}`}>
+                <img
+                  src={watch.img}
+                  alt={watch.name}
+                  className="watch-float-img"
+                  loading="lazy"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -428,12 +428,18 @@ a { color: inherit; text-decoration: none; }
 
 .carousel-track {
   display: flex;
-  gap: clamp(56px, 7vw, 120px);
-  padding: 0 clamp(24px, 6vw, 80px);
   width: max-content;
   overflow: visible;
-  animation: endlessAppleGlide 22s linear infinite;
+  animation: endlessAppleGlide 14s linear infinite;
   will-change: transform;
+}
+
+.carousel-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 5vw, 80px);
+  padding-right: clamp(40px, 5vw, 80px);
+  flex-shrink: 0;
 }
 
 @keyframes endlessAppleGlide {
@@ -445,10 +451,12 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-/* Watch Float Item (Pure Watch Photos without background or text) */
+/* Watch Float Item (Crisp, Controlled Dimensions so watches never blow up) */
 .watch-float-item {
-  flex: 0 0 clamp(200px, 20vw, 290px);
-  aspect-ratio: 1 / 1.5;
+  flex: 0 0 190px;
+  width: 190px;
+  height: 300px;
+  max-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,13 +465,16 @@ a { color: inherit; text-decoration: none; }
   border: none;
   box-shadow: none;
   user-select: none;
+  pointer-events: none;
 }
 
 .watch-float-img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95));
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
   pointer-events: none;
 }
 
@@ -1638,25 +1649,31 @@ a { color: inherit; text-decoration: none; }
 
   /* Watch Carousel Section */
   .watch-carousel-section {
-    padding: 44px 0 52px;
+    padding: 36px 0 44px;
   }
 
   .carousel-section-header {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .carousel-heading {
-    font-size: clamp(28px, 7.5vw, 42px);
+    font-size: clamp(26px, 7vw, 36px);
   }
 
   .carousel-track {
-    gap: clamp(36px, 6vw, 64px);
-    padding: 0 20px;
-    animation: endlessAppleGlide 18s linear infinite;
+    animation: endlessAppleGlide 11s linear infinite;
+  }
+
+  .carousel-group {
+    gap: 28px;
+    padding-right: 28px;
   }
 
   .watch-float-item {
-    flex: 0 0 clamp(160px, 46vw, 210px);
+    flex: 0 0 135px;
+    width: 135px;
+    height: 210px;
+    max-height: 210px;
     padding: 0;
   }
 
