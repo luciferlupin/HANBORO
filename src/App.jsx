@@ -622,6 +622,7 @@ const STORES_DATA = [
     address: "Metro pillar no. 840, Delhi - Rohtak Road, Opposite ICICI BANK opposite Campus, Bahadurgarh, Haryana 124507",
     phone: "+91 8901509654",
     phoneRaw: "8901509654",
+    image: "/store-signage.jpg",
     mapUrl: "https://www.google.com/maps/place/TIME+PLANET/@28.6909983,76.9295432,17z/data=!3m1!4b1!4m6!3m5!1s0x390d09994b76e7cd:0x30fc8774131e9375!8m2!3d28.6909983!4d76.9321181!16s%2Fg%2F11fwhzlwvn?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Authorized Retailer"
   },
@@ -634,6 +635,7 @@ const STORES_DATA = [
     address: "Shop no. 2, Kunjpura Rd, near Trends, Dyal Singh Colony, Karnal, Haryana 132001",
     phone: "+91 9034138000",
     phoneRaw: "+919034138000",
+    image: "/store-interior.jpg",
     mapUrl: "https://maps.app.goo.gl/pGcSPgW9hyT1PdbA9?g_st=ic",
     type: "Authorized Retailer"
   },
@@ -645,6 +647,7 @@ const STORES_DATA = [
     pincode: "400053",
     address: "Shop No. 3 & 4, Swiss Palace, Circle, Shastri Nagar Lane 1, near Lokhandwala, Shastri Nagar, Andheri West, Mumbai, Maharashtra 400053",
     phone: null,
+    image: "/store-facade.jpg",
     mapUrl: "https://share.google/xh5hdAmb4gvSvE7Oz",
     type: "Official Boutique Partner"
   },
@@ -656,6 +659,7 @@ const STORES_DATA = [
     pincode: "401107",
     address: "Building no. B/69, Shop Number 9 & 10, opposite TMT Bus Stop, next to Patanjali Store, Sector 1, Shanti Nagar, Mira Road East, Thane, Maharashtra 401107",
     phone: null,
+    image: "/store-interior.jpg",
     mapUrl: "https://maps.app.goo.gl/WNC6G6Qqx3zhMXvd7",
     type: "Authorized Retailer"
   },
@@ -667,6 +671,7 @@ const STORES_DATA = [
     pincode: "401303",
     address: "Shop no 4-7, Gopani Centre, Agashi Rd, opposite Hotel On The Way, Doghar Pada, Sheetal Nagar, Virar West, Thane, Virar, Maharashtra 401303",
     phone: null,
+    image: "/store-signage.jpg",
     mapUrl: "https://maps.app.goo.gl/GwqV316xrD9AEL9p7",
     type: "Authorized Retailer"
   },
@@ -679,6 +684,7 @@ const STORES_DATA = [
     address: "Shop No. 308 & 309, Indirapuram Habitat Center, Ahinsa Khand 1, Indirapuram, Ghaziabad, Uttar Pradesh 201014",
     phone: "+91 9990003645",
     phoneRaw: "+919990003645",
+    image: "/store-facade.jpg",
     mapUrl: "https://www.google.com/maps/place/SHREE+KRISHNA+WATCH+COMPANY/@28.6395064,77.3664638,17z/data=!3m1!4b1!4m6!3m5!1s0x390cfaad730492af:0x3ad8fa0c462e2b6e!8m2!3d28.6395064!4d77.3690387!16s%2Fg%2F11dxkvg522?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Authorized Retailer"
   },
@@ -690,6 +696,7 @@ const STORES_DATA = [
     pincode: "281004",
     address: "Shop No 2 B, Near Rahul Bakers, Krishna Nagar, Mathura, Uttar Pradesh 281004",
     phone: null,
+    image: "/store-interior.jpg",
     mapUrl: "https://maps.app.goo.gl/JG5pRMNSayya7LZv7?g_st=ic",
     type: "Authorized Retailer"
   },
@@ -701,6 +708,7 @@ const STORES_DATA = [
     pincode: "517501",
     address: "VV Mahal Rd, opp. Lalitaa Jewellery, Bhavani Nagar, Tirupati, Andhra Pradesh 517501",
     phone: null,
+    image: "/store-signage.jpg",
     mapUrl: "https://www.google.com/maps/place/TIMELAND/@13.6407904,79.4133274,17z/data=!4m6!3m5!1s0x3a4d4bca23fb2c8f:0x299e298b0d1e8085!8m2!3d13.637068!4d79.4206308!16s%2Fg%2F11whwgkqfc?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Official Boutique Partner"
   },
@@ -712,6 +720,7 @@ const STORES_DATA = [
     pincode: "530002",
     address: "D No, 10/50/84, Waltair Main Rd, opposite Dr. Agarwals EYE Hospital, Ram Nagar, Visakhapatnam, Andhra Pradesh 530002",
     phone: null,
+    image: "/store-facade.jpg",
     mapUrl: "https://www.google.com/maps/place/TIMELAND/@13.6370544,79.338229,12z/data=!4m6!3m5!1s0x3a4d4bca23fb2c8f:0x299e298b0d1e8085!8m2!3d13.637068!4d79.4206308!16s%2Fg%2F11whwgkqfc?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Official Boutique Partner"
   },
@@ -723,6 +732,7 @@ const STORES_DATA = [
     pincode: "524001",
     address: "Plot No. 9, Grand Trunk Road, opposite Sunday Market, Nellore, Andhra Pradesh 524001",
     phone: null,
+    image: "/store-interior.jpg",
     mapUrl: "https://maps.app.goo.gl/grWXe6cLMxadhUe7A?g_st=ipc",
     type: "Authorized Retailer"
   },
@@ -734,6 +744,7 @@ const STORES_DATA = [
     pincode: "524003",
     address: "Bollineni Centre, 24-3-221, Dargamitta, Nellore, Andhra Pradesh 524003",
     phone: null,
+    image: "/store-signage.jpg",
     mapUrl: "https://www.google.com/maps/place/Good+Things/@14.4340382,79.9656465,17z/data=!3m1!4b1!4m6!3m5!1s0x3a4cf3195dd069b7:0xfdeb0fdd57399f16!8m2!3d14.4340382!4d79.9682214!16s%2Fg%2F11fn908t8h?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Authorized Retailer"
   },
@@ -745,6 +756,7 @@ const STORES_DATA = [
     pincode: "301019",
     address: "Samtal chowk, near Central Market, Bhiwadi, Rajasthan 301019",
     phone: null,
+    image: "/store-facade.jpg",
     mapUrl: "https://www.google.com/maps/search/Sharma+Watch+Co.+Samtal+chowk+Bhiwadi",
     type: "Authorized Retailer"
   }
@@ -1074,16 +1086,44 @@ function StoreLocatorView({ onNavigateHome }) {
 
   return (
     <div className="store-locator-page">
-      {/* Interactive 3D Dotted Globe Hero */}
-      <section className="locator-hero" aria-labelledby="locator-heading">
+      {/* Bluorng-Style 3D Globe & Overlapping Store Cards Hero */}
+      <section className="locator-hero" aria-label="Interactive 3D World Globe and Featured Stores">
         <InteractiveDottedGlobe />
-        <div className="locator-hero__content" data-reveal>
-          <h1 id="locator-heading" className="locator-hero__title">
-            Store <em>locators.</em>
-          </h1>
-          <p className="locator-hero__subtitle">
-            Experience Hanboro haute horlogerie timepieces in person. Explore our network of authorized boutique partners, master horologists, and retail ateliers across India.
-          </p>
+
+        {/* Overlapping Showcase Boutique Cards (Bluorng layout) */}
+        <div className="store-hero-carousel-wrap">
+          <div className="store-hero-carousel" tabIndex={0} aria-label="Featured Stores Gallery">
+            {STORES_DATA.map((store) => (
+              <article key={store.id} className="store-hero-card">
+                <div className="store-hero-card__media">
+                  <img
+                    src={store.image}
+                    alt={store.name}
+                    className="store-hero-card__img"
+                    loading="lazy"
+                  />
+                  <span className="store-hero-card__badge">{store.state}</span>
+                </div>
+                <div className="store-hero-card__details">
+                  <h3 className="store-hero-card__title">{store.name}</h3>
+                  <p className="store-hero-card__city">{store.city}, {store.state}</p>
+                  <p className="store-hero-card__address">{store.address}</p>
+                  <a
+                    href={store.mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="store-hero-card__link"
+                  >
+                    <span>Get Directions</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="7" y1="17" x2="17" y2="7" />
+                      <polyline points="7 7 17 7 17 17" />
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
