@@ -549,14 +549,14 @@ function CloverKingExperience() {
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
   { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
+  { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue.png" },
   { id: "powerreserve", name: "Power Reserve 35h Automatic", img: "/watch-powerreserve-black.png" },
   { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" }
 ];
 
 function WatchCarouselSection() {
-  // 4 duplicates (12 items total) for smooth 50% endless loop
+  // 3 duplicates (12 items total) for smooth 50% endless loop
   const displayWatches = [
-    ...WATCH_COLLECTION,
     ...WATCH_COLLECTION,
     ...WATCH_COLLECTION,
     ...WATCH_COLLECTION
