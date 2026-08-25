@@ -795,17 +795,17 @@ function InteractiveDottedGlobe() {
     globeGroup.rotation.y = rotRef.current.y;
     scene.add(globeGroup);
 
-    // 1. Inner oceanic blue glowing sphere
+    // 1. Inner deep dark onyx glowing sphere
     const coreGeo = new THREE.SphereGeometry(globeRadius * 0.988, 64, 64);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x0080ff,
+      color: 0x080a10,
       transparent: true,
-      opacity: 0.94,
+      opacity: 0.96,
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     globeGroup.add(coreMesh);
 
-    // 2. Top-crest incandescent corona & atmosphere rim glow
+    // 2. Top-crest crimson and platinum atmospheric rim glow
     const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.035, 64, 64);
     const atmosMat = new THREE.ShaderMaterial({
       vertexShader: `
@@ -824,8 +824,8 @@ function InteractiveDottedGlobe() {
           float rim = 1.0 - max(0.0, dot(vNormal, vec3(0.0, 0.0, 1.0)));
           float topFactor = smoothstep(-60.0, 220.0, vPosition.y);
           float glow = pow(rim, 2.0) * (0.85 + topFactor * 1.8);
-          vec3 glowColor = mix(vec3(0.15, 0.65, 1.0), vec3(0.95, 0.99, 1.0), topFactor * 0.85);
-          gl_FragColor = vec4(glowColor, glow * 0.95);
+          vec3 glowColor = mix(vec3(0.95, 0.18, 0.12), vec3(1.0, 0.96, 0.92), topFactor * 0.85);
+          gl_FragColor = vec4(glowColor, glow * 0.92);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -843,9 +843,9 @@ function InteractiveDottedGlobe() {
       const ctx = canvas.getContext("2d");
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       grad.addColorStop(0, "rgba(255, 255, 255, 1)");
-      grad.addColorStop(0.32, "rgba(220, 245, 255, 0.98)");
-      grad.addColorStop(0.65, "rgba(0, 190, 255, 0.45)");
-      grad.addColorStop(1, "rgba(0, 190, 255, 0)");
+      grad.addColorStop(0.35, "rgba(255, 245, 235, 0.96)");
+      grad.addColorStop(0.7, "rgba(255, 55, 35, 0.35)");
+      grad.addColorStop(1, "rgba(255, 55, 35, 0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 64, 64);
       return new THREE.CanvasTexture(canvas);
@@ -894,11 +894,11 @@ function InteractiveDottedGlobe() {
             const v = latLonToVec3(lat, lon, globeRadius + 0.8);
             dotPositions.push(v.x, v.y, v.z);
 
-            // Highlight Indian subcontinent points in pure brilliant white
+            // Highlight Indian subcontinent points in radiant pure white
             if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
               dotColors.push(1.0, 1.0, 1.0);
             } else {
-              dotColors.push(0.78, 0.92, 1.0);
+              dotColors.push(0.92, 0.90, 0.86);
             }
           }
         }
