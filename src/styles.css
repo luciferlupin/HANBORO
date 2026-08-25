@@ -1242,44 +1242,306 @@ a { color: inherit; text-decoration: none; }
 /* ── Scan line keyframe ──────────────────────────────────────────────────── */
 @keyframes scan { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
 
-/* ── Responsive ──────────────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .showcase-section,
-  .stationery-showcase {
+/* ── Responsive Mobile & Tablet Design ────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .clover-showcase {
     grid-template-columns: 1fr;
     gap: 36px;
-    padding: 60px 20px;
+    justify-items: center;
   }
 
-  .stationery-showcase .showcase-media {
-    order: 2;
-  }
-  .stationery-showcase .showcase-content {
+  .clover-center {
+    width: min(80vw, 360px);
     order: 1;
+    margin: 0 auto;
+  }
+
+  .apple-spec-col--day {
+    order: 2;
+    align-items: center;
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .apple-spec-col--night {
+    order: 3;
+    align-items: center;
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .apple-spec-desc {
+    margin: 0 auto 24px;
+    max-width: 100%;
+  }
+
+  .apple-feature-item {
+    align-items: center;
+  }
+
+  .apple-feat-title {
+    justify-content: center;
+  }
+
+  .clover-slider-row {
+    width: 100%;
+    max-width: 480px;
+    margin: 20px auto 0;
   }
 }
 
-@media (max-width: 720px) {
-  .splash { padding: 20px; }
+@media (max-width: 768px) {
+  /* Splash & Entry */
+  .splash {
+    padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
+  }
+
   .clock {
-    width: min(78vw, 340px);
-    filter: drop-shadow(0 0 24px rgba(250, 45, 29, 0.45));
+    width: min(78vw, 320px);
+    filter: drop-shadow(0 0 20px rgba(250, 45, 29, 0.4));
   }
+
+  /* Header & Navigation */
   .site__header {
-    height: 62px;
-    padding: 0 18px;
+    height: 58px;
+    padding: 0 max(16px, env(safe-area-inset-left));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
-  .site__nav { display: none; }
+
+  .site__nav {
+    display: none;
+  }
+
   .header__cta-btn {
-    padding: 8px 15px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 11px;
+    min-height: 38px;
   }
-  .hero { min-height: calc(100dvh - 62px); padding: 40px 20px 32px; }
-  .work { grid-template-columns: 1fr; }
-  .project { min-height: 116px; padding: 18px; grid-template-columns: 34px 1fr auto; }
-  .project p { margin-bottom: 15px; }
+
+  /* Hero Section */
+  .hero {
+    min-height: calc(100svh - 58px);
+    padding: 32px 18px 24px;
+    gap: 20px;
+  }
+
+  .hero__h1 {
+    font-size: clamp(38px, 10.5vw, 64px);
+    letter-spacing: -0.05em;
+    line-height: 0.94;
+  }
+
+  .hero__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .hero__metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .metric {
+    padding: 12px 14px;
+  }
+
+  .metric-num {
+    font-size: clamp(22px, 5.5vw, 28px);
+  }
+
+  .h-award {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 11px;
+  }
+
+  /* Stage Sections (Lookbook, Interactive, Packaging) */
+  .stage-section {
+    padding: 56px 18px 48px;
+  }
+
+  .stage-section--interactive {
+    padding: 56px 18px 48px;
+    scroll-margin-top: 58px;
+  }
+
+  .stage-header {
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .stage-meta {
+    justify-content: center;
+  }
+
+  .stage-title {
+    font-size: clamp(28px, 7.5vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .stage-subtitle {
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 12px auto 0;
+  }
+
+  /* Interactive Watch */
+  .clover-center {
+    width: min(85vw, 320px);
+  }
+
+  .apple-spec-heading {
+    font-size: clamp(22px, 5.5vw, 28px);
+  }
+
+  .apple-spec-desc {
+    font-size: 13px;
+  }
+
+  .apple-feature-list {
+    gap: 16px;
+  }
+
+  .apple-feat-title {
+    font-size: 13px;
+  }
+
+  .apple-feat-sub {
+    font-size: 11px;
+  }
+
+  .clover-slider-row {
+    margin-top: 16px;
+    gap: 10px;
+  }
+
+  .slider-labels-top {
+    font-size: 10px;
+  }
+
+  /* Direct Display Images (Lookbook, Packaging) */
+  .direct-stage-display {
+    padding: 0 4px;
+    margin-bottom: 16px;
+  }
+
+  .direct-stage__img--brochure,
+  .direct-stage__img--packaging {
+    max-width: 100%;
+  }
+
+  /* Technical Specs Pills */
+  .stage-specs-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .clover-specs-bar {
+    margin-top: 28px;
+  }
+
+  .spec-pill {
+    padding: 12px 14px;
+    align-items: center;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  .spec-pill span {
+    font-size: 9px;
+  }
+
+  .spec-pill strong {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  /* Statement & Work Sections */
+  .statement {
+    padding: 56px 18px;
+  }
+
+  .statement__line {
+    font-size: clamp(26px, 6.8vw, 44px);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .work {
+    grid-template-columns: 1fr;
+    padding: 56px 18px;
+    gap: 28px;
+  }
+
+  .work h2 {
+    font-size: clamp(38px, 9vw, 56px);
+  }
+
+  .project {
+    min-height: 96px;
+    padding: 16px;
+    grid-template-columns: 32px 1fr auto;
+    gap: 12px;
+  }
+
+  .project h3 {
+    font-size: clamp(20px, 4.5vw, 30px);
+  }
+
+  .project p {
+    font-size: 12px;
+    margin: 4px 0 12px;
+  }
+
+  .project a {
+    font-size: 18px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 56px 18px max(28px, env(safe-area-inset-bottom));
+  }
+
+  .footer__address-text {
+    font-size: 16px;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-specs-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .clover-center {
+    width: min(88vw, 290px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
