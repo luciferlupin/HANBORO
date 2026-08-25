@@ -847,11 +847,11 @@ function InteractiveDottedGlobe() {
       const dotPositions = [];
       const dotColors = [];
 
-      const rows = 160;
+      const rows = 180;
       for (let latIdx = 0; latIdx <= rows; latIdx++) {
         const lat = 90 - (latIdx / rows) * 180;
         const circumference = Math.cos((lat * Math.PI) / 180);
-        const cols = Math.max(8, Math.floor(340 * circumference));
+        const cols = Math.max(10, Math.floor(400 * circumference));
 
         for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
           const lon = -180 + (lonIdx / cols) * 360;
@@ -860,20 +860,17 @@ function InteractiveDottedGlobe() {
           const py = Math.floor(((90 - lat) / 180) * offCanvas.height);
           const idx = (py * offCanvas.width + px) * 4;
 
-          const isLand = imgData[idx] > 120;
-          const v = latLonToVec3(lat, lon, globeRadius + (isLand ? 0.8 : 0.2));
-          dotPositions.push(v.x, v.y, v.z);
+          // Only place dots on real continental landmasses
+          if (imgData[idx] > 120) {
+            const v = latLonToVec3(lat, lon, globeRadius + 0.8);
+            dotPositions.push(v.x, v.y, v.z);
 
-          if (isLand) {
-            // Bright radiant dots for landmasses
+            // Radiant white for India, warm platinum for other continents
             if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
-              dotColors.push(1.0, 1.0, 1.0); // Pure white highlight for India
+              dotColors.push(1.0, 1.0, 1.0);
             } else {
-              dotColors.push(0.92, 0.90, 0.86); // Warm-white continents
+              dotColors.push(0.92, 0.90, 0.86);
             }
-          } else {
-            // Subtle underlying matrix dots for oceans (no plain empty side)
-            dotColors.push(0.18, 0.20, 0.26);
           }
         }
       }
@@ -936,7 +933,12 @@ function InteractiveDottedGlobe() {
       pinMeshes.push({ group: pGroup, ring, ringMat, pin });
     });
 
-    // 5. Drag & Swipe Interaction
+    // 5. Drag & Swipe Interaction with Clamped Boundaries
+    const MIN_ROT_Y = -2.35; // Bound for Europe/Africa
+    const MAX_ROT_Y = -0.55; // Bound for East Asia/Australia
+    const MIN_ROT_X = -0.35;
+    const MAX_ROT_X = 0.45;
+
     const onPointerDown = (e) => {
       isDraggingRef.current = true;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -951,11 +953,12 @@ function InteractiveDottedGlobe() {
       const dy = e.clientY - prevPointerRef.current.y;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
 
-      rotRef.current.y += dx * 0.0045;
-      rotRef.current.x += dy * 0.0045;
+      const newY = rotRef.current.y + dx * 0.0045;
+      const newX = rotRef.current.x + dy * 0.0045;
 
-      rotRef.current.vx = dy * 0.0045;
-      rotRef.current.vy = dx * 0.0045;
+      // Restrict rotation strictly so it never spins to empty ocean
+      rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, newY));
+      rotRef.current.x = Math.max(MIN_ROT_X, Math.min(MAX_ROT_X, newX));
     };
 
     const onPointerUp = () => {
@@ -978,20 +981,21 @@ function InteractiveDottedGlobe() {
     };
     window.addEventListener("resize", onResize);
 
-    // 6. Animation loop
+    // 6. Animation loop with gentle sinusoidal oscillation across continental span
     let animId;
     let clock = 0;
     const animate = () => {
-      clock += 0.035;
+      clock += 0.025;
 
       if (!isDraggingRef.current) {
-        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0014 * 0.05;
-        rotRef.current.vx = rotRef.current.vx * 0.95;
-        rotRef.current.y += rotRef.current.vy;
-        rotRef.current.x += rotRef.current.vx;
+        // Gentle oscillation centered on India and continental hub
+        const idleTargetY = -1.45 + Math.sin(clock * 0.45) * 0.45;
+        rotRef.current.y += (idleTargetY - rotRef.current.y) * 0.035;
+        rotRef.current.x += (0.22 - rotRef.current.x) * 0.035;
       }
 
-      rotRef.current.x = Math.max(-0.6, Math.min(0.6, rotRef.current.x));
+      rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, rotRef.current.y));
+      rotRef.current.x = Math.max(MIN_ROT_X, Math.min(MAX_ROT_X, rotRef.current.x));
 
       globeGroup.rotation.x = rotRef.current.x;
       globeGroup.rotation.y = rotRef.current.y;
