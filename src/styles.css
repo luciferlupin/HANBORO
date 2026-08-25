@@ -399,8 +399,8 @@ a { color: inherit; text-decoration: none; }
 .book-3d {
   position: relative;
   width: 100%;
-  max-width: 1024px;
-  aspect-ratio: 1024 / 682;
+  max-width: 1080px;
+  aspect-ratio: 1200 / 800;
   display: flex;
   perspective: 2600px;
   transform-style: preserve-3d;
