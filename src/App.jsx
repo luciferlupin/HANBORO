@@ -805,36 +805,6 @@ function InteractiveDottedGlobe() {
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     globeGroup.add(coreMesh);
 
-    // 2. Subtle silver-white atmospheric rim glow
-    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.025, 64, 64);
-    const atmosMat = new THREE.ShaderMaterial({
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = position;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        void main() {
-          float rim = 1.0 - max(0.0, dot(vNormal, vec3(0.0, 0.0, 1.0)));
-          float topFactor = smoothstep(-40.0, 220.0, vPosition.y);
-          float glow = pow(rim, 2.6) * (0.35 + topFactor * 0.85);
-          vec3 glowColor = vec3(0.92, 0.95, 1.0);
-          gl_FragColor = vec4(glowColor, glow * 0.7);
-        }
-      `,
-      blending: THREE.AdditiveBlending,
-      side: THREE.BackSide,
-      transparent: true,
-    });
-    const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
-    scene.add(atmosMesh);
-
     // Helper: Circle glow dot texture (clean monochrome)
     const createDotTexture = () => {
       const canvas = document.createElement("canvas");
