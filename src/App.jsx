@@ -847,11 +847,11 @@ function InteractiveDottedGlobe() {
       const dotPositions = [];
       const dotColors = [];
 
-      const rows = 180;
+      const rows = 160;
       for (let latIdx = 0; latIdx <= rows; latIdx++) {
         const lat = 90 - (latIdx / rows) * 180;
         const circumference = Math.cos((lat * Math.PI) / 180);
-        const cols = Math.max(10, Math.floor(380 * circumference));
+        const cols = Math.max(8, Math.floor(340 * circumference));
 
         for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
           const lon = -180 + (lonIdx / cols) * 360;
@@ -860,16 +860,20 @@ function InteractiveDottedGlobe() {
           const py = Math.floor(((90 - lat) / 180) * offCanvas.height);
           const idx = (py * offCanvas.width + px) * 4;
 
-          if (imgData[idx] > 120) {
-            const v = latLonToVec3(lat, lon, globeRadius + 0.8);
-            dotPositions.push(v.x, v.y, v.z);
+          const isLand = imgData[idx] > 120;
+          const v = latLonToVec3(lat, lon, globeRadius + (isLand ? 0.8 : 0.2));
+          dotPositions.push(v.x, v.y, v.z);
 
-            // Highlight Indian subcontinent points in radiant pure white
+          if (isLand) {
+            // Bright radiant dots for landmasses
             if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
-              dotColors.push(1.0, 1.0, 1.0);
+              dotColors.push(1.0, 1.0, 1.0); // Pure white highlight for India
             } else {
-              dotColors.push(0.92, 0.90, 0.86);
+              dotColors.push(0.92, 0.90, 0.86); // Warm-white continents
             }
+          } else {
+            // Subtle underlying matrix dots for oceans (no plain empty side)
+            dotColors.push(0.18, 0.20, 0.26);
           }
         }
       }
