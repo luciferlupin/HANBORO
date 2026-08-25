@@ -1329,14 +1329,9 @@ a { color: inherit; text-decoration: none; }
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .stage-editorial-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 24px;
-  }
-  .editorial-card {
-    padding: 18px 16px;
+    display: none !important;
   }
 }
 
@@ -1741,15 +1736,28 @@ a { color: inherit; text-decoration: none; }
     justify-items: center;
   }
 
+  .clover-stage-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .clover-center {
-    width: min(85vw, 340px);
+    width: min(72vw, 270px);
     order: 1;
     margin: 0 auto;
   }
 
+  .clover-watch-stage {
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    max-height: 290px;
+  }
+
   .clover-expr-col {
     width: 100%;
-    max-width: 500px;
+    max-width: 460px;
     padding: 0 12px;
   }
 
@@ -1771,8 +1779,8 @@ a { color: inherit; text-decoration: none; }
 
   .clover-slider-row {
     width: 100%;
-    max-width: 500px;
-    margin: 20px auto 0;
+    max-width: 270px;
+    margin: 14px auto 0;
   }
 }
 
@@ -1909,43 +1917,19 @@ a { color: inherit; text-decoration: none; }
 
   /* Interactive Watch */
   .clover-center {
-    width: min(85vw, 320px);
+    width: min(72vw, 260px);
   }
 
-  .apple-spec-col {
-    padding: 14px 16px;
-  }
-
-  .apple-spec-heading {
-    font-size: 18px;
-    margin: 0 0 8px;
-  }
-
-  .apple-spec-desc,
-  .apple-feat-sub {
-    display: none !important;
-  }
-
-  .apple-feature-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-  }
-
-  .apple-feature-item {
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .apple-feat-title {
-    font-size: 11px;
-    font-weight: 700;
+  .clover-watch-stage {
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    max-height: 275px;
   }
 
   .clover-slider-row {
-    margin-top: 14px;
+    width: 100%;
+    max-width: 260px;
+    margin-top: 12px;
     gap: 8px;
   }
 
