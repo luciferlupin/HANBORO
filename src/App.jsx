@@ -763,13 +763,13 @@ const STORES_DATA = [
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
-// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT
+// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT (BLUORNG SCALE)
 // ══════════════════════════════════════════════════════════════════════════════
 function InteractiveDottedGlobe() {
   const mountRef = useRef(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
-  const rotRef = useRef({ x: 0.28, y: -1.45, vx: 0, vy: 0.0022 });
+  const rotRef = useRef({ x: 0.22, y: -1.42, vx: 0, vy: 0.0018 });
 
   useEffect(() => {
     const container = mountRef.current;
@@ -779,47 +779,53 @@ function InteractiveDottedGlobe() {
     const height = container.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 340);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 2000);
+    camera.position.set(0, 30, 520);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    const globeRadius = 135;
+    // Large planetary scale matching Bluorng horizon
+    const globeRadius = 265;
     const globeGroup = new THREE.Group();
-    // Shift globe slightly downward to emerge like the horizon in reference screenshot
-    globeGroup.position.set(0, -35, 0);
+    globeGroup.position.set(0, -90, 0);
     globeGroup.rotation.x = rotRef.current.x;
     globeGroup.rotation.y = rotRef.current.y;
     scene.add(globeGroup);
 
     // 1. Inner oceanic blue glowing sphere
-    const coreGeo = new THREE.SphereGeometry(globeRadius * 0.985, 64, 64);
+    const coreGeo = new THREE.SphereGeometry(globeRadius * 0.988, 64, 64);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x0088ff,
+      color: 0x0080ff,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.94,
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     globeGroup.add(coreMesh);
 
-    // 2. Atmosphere rim glow
-    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.04, 48, 48);
+    // 2. Top-crest incandescent corona & atmosphere rim glow
+    const atmosGeo = new THREE.SphereGeometry(globeRadius * 1.035, 64, 64);
     const atmosMat = new THREE.ShaderMaterial({
       vertexShader: `
         varying vec3 vNormal;
+        varying vec3 vPosition;
         void main() {
           vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
       `,
       fragmentShader: `
         varying vec3 vNormal;
+        varying vec3 vPosition;
         void main() {
-          float intensity = pow(0.62 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-          gl_FragColor = vec4(0.4, 0.85, 1.0, 1.0) * intensity * 1.5;
+          float rim = 1.0 - max(0.0, dot(vNormal, vec3(0.0, 0.0, 1.0)));
+          float topFactor = smoothstep(-60.0, 220.0, vPosition.y);
+          float glow = pow(rim, 2.0) * (0.85 + topFactor * 1.8);
+          vec3 glowColor = mix(vec3(0.15, 0.65, 1.0), vec3(0.95, 0.99, 1.0), topFactor * 0.85);
+          gl_FragColor = vec4(glowColor, glow * 0.95);
         }
       `,
       blending: THREE.AdditiveBlending,
@@ -837,9 +843,9 @@ function InteractiveDottedGlobe() {
       const ctx = canvas.getContext("2d");
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       grad.addColorStop(0, "rgba(255, 255, 255, 1)");
-      grad.addColorStop(0.35, "rgba(200, 240, 255, 0.95)");
-      grad.addColorStop(0.7, "rgba(0, 180, 255, 0.4)");
-      grad.addColorStop(1, "rgba(0, 180, 255, 0)");
+      grad.addColorStop(0.32, "rgba(220, 245, 255, 0.98)");
+      grad.addColorStop(0.65, "rgba(0, 190, 255, 0.45)");
+      grad.addColorStop(1, "rgba(0, 190, 255, 0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 64, 64);
       return new THREE.CanvasTexture(canvas);
@@ -871,11 +877,11 @@ function InteractiveDottedGlobe() {
       const dotPositions = [];
       const dotColors = [];
 
-      const rows = 150;
+      const rows = 180;
       for (let latIdx = 0; latIdx <= rows; latIdx++) {
         const lat = 90 - (latIdx / rows) * 180;
         const circumference = Math.cos((lat * Math.PI) / 180);
-        const cols = Math.max(8, Math.floor(300 * circumference));
+        const cols = Math.max(10, Math.floor(380 * circumference));
 
         for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
           const lon = -180 + (lonIdx / cols) * 360;
@@ -885,14 +891,14 @@ function InteractiveDottedGlobe() {
           const idx = (py * offCanvas.width + px) * 4;
 
           if (imgData[idx] > 120) {
-            const v = latLonToVec3(lat, lon, globeRadius + 0.6);
+            const v = latLonToVec3(lat, lon, globeRadius + 0.8);
             dotPositions.push(v.x, v.y, v.z);
 
             // Highlight Indian subcontinent points in pure brilliant white
             if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
               dotColors.push(1.0, 1.0, 1.0);
             } else {
-              dotColors.push(0.72, 0.90, 1.0);
+              dotColors.push(0.78, 0.92, 1.0);
             }
           }
         }
@@ -903,11 +909,11 @@ function InteractiveDottedGlobe() {
       dotsGeo.setAttribute("color", new THREE.Float32BufferAttribute(dotColors, 3));
 
       const dotsMat = new THREE.PointsMaterial({
-        size: 3.2,
+        size: 4.2,
         vertexColors: true,
         map: createDotTexture(),
         transparent: true,
-        opacity: 0.96,
+        opacity: 0.98,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
@@ -931,17 +937,17 @@ function InteractiveDottedGlobe() {
     const pinMeshes = [];
     storePins.forEach((pin) => {
       const pGroup = new THREE.Group();
-      const pos = latLonToVec3(pin.lat, pin.lon, globeRadius + 1.2);
+      const pos = latLonToVec3(pin.lat, pin.lon, globeRadius + 1.6);
       pGroup.position.copy(pos);
 
       // Core red marker dot
-      const dotGeo = new THREE.SphereGeometry(2.4, 16, 16);
+      const dotGeo = new THREE.SphereGeometry(3.6, 16, 16);
       const dotMat = new THREE.MeshBasicMaterial({ color: 0xff2d1d });
       const dot = new THREE.Mesh(dotGeo, dotMat);
       pGroup.add(dot);
 
       // Outer radar pulse ring
-      const ringGeo = new THREE.RingGeometry(2.6, 5.0, 24);
+      const ringGeo = new THREE.RingGeometry(4.0, 8.2, 24);
       const ringMat = new THREE.MeshBasicMaterial({
         color: 0xff2d1d,
         transparent: true,
@@ -971,11 +977,11 @@ function InteractiveDottedGlobe() {
       const dy = e.clientY - prevPointerRef.current.y;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
 
-      rotRef.current.y += dx * 0.0055;
-      rotRef.current.x += dy * 0.0055;
+      rotRef.current.y += dx * 0.0045;
+      rotRef.current.x += dy * 0.0045;
 
-      rotRef.current.vx = dy * 0.0055;
-      rotRef.current.vy = dx * 0.0055;
+      rotRef.current.vx = dy * 0.0045;
+      rotRef.current.vy = dx * 0.0045;
     };
 
     const onPointerUp = () => {
@@ -1005,14 +1011,13 @@ function InteractiveDottedGlobe() {
       clock += 0.035;
 
       if (!isDraggingRef.current) {
-        // Friction decay + gentle continuous rotation
-        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0016 * 0.05;
+        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0014 * 0.05;
         rotRef.current.vx = rotRef.current.vx * 0.95;
         rotRef.current.y += rotRef.current.vy;
         rotRef.current.x += rotRef.current.vx;
       }
 
-      rotRef.current.x = Math.max(-0.7, Math.min(0.7, rotRef.current.x));
+      rotRef.current.x = Math.max(-0.6, Math.min(0.6, rotRef.current.x));
 
       globeGroup.rotation.x = rotRef.current.x;
       globeGroup.rotation.y = rotRef.current.y;
@@ -1102,24 +1107,6 @@ function StoreLocatorView({ onNavigateHome }) {
                     className="store-hero-card__img"
                     loading="lazy"
                   />
-                  <span className="store-hero-card__badge">{store.state}</span>
-                </div>
-                <div className="store-hero-card__details">
-                  <h3 className="store-hero-card__title">{store.name}</h3>
-                  <p className="store-hero-card__city">{store.city}, {store.state}</p>
-                  <p className="store-hero-card__address">{store.address}</p>
-                  <a
-                    href={store.mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="store-hero-card__link"
-                  >
-                    <span>Get Directions</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <line x1="7" y1="17" x2="17" y2="7" />
-                      <polyline points="7 7 17 7 17 17" />
-                    </svg>
-                  </a>
                 </div>
               </article>
             ))}
