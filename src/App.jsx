@@ -549,7 +549,10 @@ function CloverKingExperience() {
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
   { id: "roulette", name: "Roulette Automatic", img: "/watch-carousel-roulette.png" },
-  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" }
+  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
+  { id: "powerreserve", name: "Power Reserve 35h Automatic", img: "/watch-powerreserve-black.png" },
+  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" },
+  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" }
 ];
 
 function WatchCarouselSection() {
@@ -561,9 +564,8 @@ function WatchCarouselSection() {
     scrollTrackRef.current.scrollBy({ left: amount, behavior: "smooth" });
   };
 
-  // Repeating array of the 2 exact watches to maintain seamless continuous loop
+  // Repeating array of the 5 official watches to maintain seamless continuous loop
   const displayWatches = [
-    ...WATCH_COLLECTION,
     ...WATCH_COLLECTION,
     ...WATCH_COLLECTION,
     ...WATCH_COLLECTION
