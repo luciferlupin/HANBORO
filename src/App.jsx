@@ -380,45 +380,22 @@ function CloverKingExperience() {
       {/* Main Interactive Stage Display */}
       <div className="clover-interactive-stage" data-reveal data-reveal-delay="1">
         <div className="clover-showcase">
-          {/* Left Column: Day Specs */}
-          <div className="apple-spec-col apple-spec-col--day">
-            <span className="apple-spec-tag">DAYLIGHT EXPRESSION</span>
-            <h3 className="apple-spec-heading">
+          {/* Left Column: Day Specs (Clean Point-to-Point) */}
+          <div className="clover-expr-col clover-expr-col--day">
+            <span className="clover-expr-tag">DAYLIGHT EXPRESSION</span>
+            <h3 className="clover-expr-heading">
               Defiant by <em>daylight.</em>
             </h3>
-            <p className="apple-spec-desc">
-              Sculpted in anodized signal red. Engineered to expose the kinetic heart of the four-leaf clover automatic caliber with absolute Swiss precision.
-            </p>
 
-            <div className="apple-feature-list">
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">01 /</span> Sculpted Tonneau Case
-                </span>
-                <span className="apple-feat-sub">Ultra-lightweight ergonomic curve with structural hex bolts</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">02 /</span> Double-Domed Sapphire
-                </span>
-                <span className="apple-feat-sub">Diamond-knife crafted with 7-layer anti-reflective treatment</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">03 /</span> Kinetic Clover Caliber
-                </span>
-                <span className="apple-feat-sub">Open-worked balance wheel, Swiss gear train & exposed rubies</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">04 /</span> Fluororubber Strap
-                </span>
-                <span className="apple-feat-sub">Ventilated ergonomic comfort with butterfly deployment</span>
-              </div>
-            </div>
+            <ul className="clover-points">
+              <li><span className="clover-bullet" aria-hidden="true">•</span> Sculpted Anodized Tonneau Case</li>
+              <li><span className="clover-bullet" aria-hidden="true">•</span> Double-Domed Sapphire Glass</li>
+              <li><span className="clover-bullet" aria-hidden="true">•</span> Skeletonized Automatic Movement</li>
+              <li><span className="clover-bullet" aria-hidden="true">•</span> Ergonomic Fluororubber Strap</li>
+            </ul>
           </div>
 
-          {/* Center Column: Interactive Watch & Slider Track directly underneath */}
+          {/* Center Column: Interactive Watch & Slider Track */}
           <div className="clover-stage-main">
             <div
               className={`clover-center ${isDragging ? "is-dragging" : ""}`}
@@ -431,25 +408,25 @@ function CloverKingExperience() {
               style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
             >
               <div className="clover-watch-stage">
-                {/* Background Layer: Day Watch (Signal Red Base) */}
+                {/* Background Layer: Day Watch */}
                 <div className="watch-layer watch-layer--day">
                   <img
                     src="/clover-king-day.png"
-                    alt="HANBORO Clover King Daytime Mechanical Expression"
+                    alt="HANBORO Red Tonneau Daytime Expression"
                     className="watch-img"
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
                   />
                 </div>
 
-                {/* Foreground Layer: Night Watch (Luminous Green Glow revealed from Left to Right) */}
+                {/* Foreground Layer: Night Watch */}
                 <div
                   className="watch-layer watch-layer--night"
                   style={{ clipPath: `inset(0 ${100 - glowProgress}% 0 0)` }}
                 >
                   <img
                     src="/clover-king-night.png"
-                    alt="HANBORO Clover King Night Luminous Expression"
+                    alt="HANBORO Red Tonneau Night Luminous Expression"
                     className="watch-img"
                     draggable={false}
                     onDragStart={(e) => e.preventDefault()}
@@ -468,7 +445,7 @@ function CloverKingExperience() {
               </div>
             </div>
 
-            {/* Interactive Drag Slider Track (Directly below the watch) */}
+            {/* Interactive Drag Slider Track */}
             <div className="clover-slider-row">
               <div className="slider-labels-top">
                 <span className={`slider-lbl ${glowProgress < 50 ? "is-active-side" : ""}`}>DAY {dayPct}%</span>
@@ -487,58 +464,23 @@ function CloverKingExperience() {
                   aria-label="Drag slider to reveal glow from left to right"
                 />
               </div>
-
-              <div className="slider-readout">
-                DAY {dayPct}% &nbsp;/&nbsp; NIGHT {nightPct}%
-              </div>
             </div>
           </div>
 
-          {/* Right Column: Night Specs */}
-          <div className="apple-spec-col apple-spec-col--night">
-            <span className="apple-spec-tag apple-spec-tag--green">LUMINOUS NIGHT EXPRESSION</span>
-            <h3 className="apple-spec-heading apple-spec-heading--green">
+          {/* Right Column: Night Specs (Clean Point-to-Point) */}
+          <div className="clover-expr-col clover-expr-col--night">
+            <span className="clover-expr-tag clover-expr-tag--green">LUMINOUS NIGHT EXPRESSION</span>
+            <h3 className="clover-expr-heading clover-expr-heading--green">
               Alive after <em>dark.</em>
             </h3>
-            <p className="apple-spec-desc apple-spec-desc--green">
-              High-charge Swiss Super-LumiNova Grade X1 radiates through zero light, illuminating the iconic clover silhouette and carbon fibers.
-            </p>
 
-            <div className="apple-feature-list apple-feature-list--green">
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">01 /</span> Luminous Carbon Bezel
-                </span>
-                <span className="apple-feat-sub">Micro-fiber grain glows in vibrant electric green under darkness</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">02 /</span> Lume Clover Bridges
-                </span>
-                <span className="apple-feat-sub">12 & 6 bridges and clover petals radiate commanding presence</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">03 /</span> Skeleton Lume Hands
-                </span>
-                <span className="apple-feat-sub">High-contrast instant legibility across all midnight angles</span>
-              </div>
-              <div className="apple-feature-item">
-                <span className="apple-feat-title">
-                  <span className="apple-feat-num">04 /</span> 50M Water Seal
-                </span>
-                <span className="apple-feat-sub">Pressure-tested for daily sport & aquatic durability</span>
-              </div>
-            </div>
+            <ul className="clover-points clover-points--green">
+              <li><span className="clover-bullet green" aria-hidden="true">•</span> Swiss Super-LumiNova Grade X1</li>
+              <li><span className="clover-bullet green" aria-hidden="true">•</span> Glowing Clover Bridges & Indices</li>
+              <li><span className="clover-bullet green" aria-hidden="true">•</span> High-Contrast Midnight Hands</li>
+              <li><span className="clover-bullet green" aria-hidden="true">•</span> 50M Pressure Aquatic Seal</li>
+            </ul>
           </div>
-        </div>
-
-        {/* Technical Precision Engine Specs Bar */}
-        <div className="stage-specs-bar clover-specs-bar" data-reveal data-reveal-delay="2">
-          <div className="spec-pill"><span>Caliber</span><strong>Nishitetsu 8N24 Automatic (21 Jewels)</strong></div>
-          <div className="spec-pill"><span>Frequency</span><strong>21,600 VPH • 42h Power Reserve</strong></div>
-          <div className="spec-pill"><span>Precision</span><strong>±5 Sec/Day • Amplitude &gt;250</strong></div>
-          <div className="spec-pill"><span>Functions</span><strong>Hacking Stop-Second & Dual Winding</strong></div>
         </div>
       </div>
     </section>

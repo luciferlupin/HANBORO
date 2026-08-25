@@ -1438,103 +1438,90 @@ a { color: inherit; text-decoration: none; }
   gap: clamp(24px, 4vw, 64px);
 }
 
-/* Apple-Style Comparison Columns */
-.apple-spec-col {
+/* ── Clean Point-to-Point Expression Columns ── */
+.clover-expr-col {
   display: flex;
   flex-direction: column;
 }
 
-.apple-spec-col--day {
+.clover-expr-col--day {
   align-items: flex-start;
   text-align: left;
 }
 
-.apple-spec-col--night {
+.clover-expr-col--night {
   align-items: flex-end;
   text-align: right;
 }
 
-.apple-spec-tag {
+.clover-expr-tag {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--red);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.apple-spec-tag--green {
+.clover-expr-tag--green {
   color: #00ff66;
-  text-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+  text-shadow: 0 0 12px rgba(0, 255, 102, 0.5);
 }
 
-.apple-spec-heading {
-  font-size: clamp(26px, 2.8vw, 38px);
-  font-weight: 900;
+.clover-expr-heading {
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 850;
   letter-spacing: -0.04em;
-  line-height: 1.08;
+  line-height: 1.1;
   color: var(--cream);
-  margin: 0 0 14px;
+  margin: 0 0 20px;
 }
 
-.apple-spec-heading em {
+.clover-expr-heading em {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
   color: var(--red);
 }
 
-.apple-spec-heading--green em {
+.clover-expr-heading--green em {
   color: #00ff66;
   text-shadow: 0 0 14px rgba(0, 255, 102, 0.4);
 }
 
-.apple-spec-desc {
-  font-size: clamp(13px, 1.1vw, 15px);
-  line-height: 1.65;
-  color: rgba(245, 242, 237, 0.72);
-  margin: 0 0 32px;
-  max-width: 340px;
-}
-
-.apple-spec-desc--green {
-  color: rgba(196, 255, 216, 0.75);
-}
-
-.apple-feature-list {
+.clover-points {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
+  gap: 12px;
 }
 
-.apple-feature-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.apple-feat-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--cream);
+.clover-points li {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(245, 242, 237, 0.85);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  line-height: 1.4;
 }
 
-.apple-feat-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 800;
+.clover-expr-col--night .clover-points li {
+  justify-content: flex-end;
+}
+
+.clover-bullet {
   color: var(--red);
-  letter-spacing: 0.08em;
+  font-size: 16px;
+  line-height: 1;
 }
 
-.apple-feature-list--green .apple-feat-num {
+.clover-bullet.green {
   color: #00ff66;
+  text-shadow: 0 0 8px rgba(0, 255, 102, 0.7);
 }
 
 .apple-feature-list--green .apple-feat-title {
@@ -1760,59 +1747,26 @@ a { color: inherit; text-decoration: none; }
     margin: 0 auto;
   }
 
-  .apple-spec-col {
+  .clover-expr-col {
     width: 100%;
-    max-width: 540px;
-    padding: 24px 20px;
-    border-radius: 12px;
-    background: rgba(245, 242, 237, 0.02);
-    border: 1px solid rgba(245, 242, 237, 0.08);
+    max-width: 500px;
+    padding: 0 12px;
   }
 
-  .apple-spec-col--day {
+  .clover-expr-col--day {
     order: 2;
     align-items: flex-start;
     text-align: left;
-    border-left: 3px solid var(--red);
-    background: linear-gradient(135deg, rgba(250, 45, 29, 0.04) 0%, rgba(10, 10, 10, 0.4) 100%);
   }
 
-  .apple-spec-col--night {
+  .clover-expr-col--night {
     order: 3;
     align-items: flex-start;
     text-align: left;
-    border-left: 3px solid #00ff66;
-    background: linear-gradient(135deg, rgba(0, 255, 102, 0.04) 0%, rgba(10, 10, 10, 0.4) 100%);
   }
 
-  .apple-spec-desc {
-    margin: 0 0 20px;
-    max-width: 100%;
-  }
-
-  .apple-feature-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    width: 100%;
-  }
-
-  .apple-feature-item {
-    align-items: flex-start;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-  }
-
-  .apple-feat-title {
+  .clover-expr-col--night .clover-points li {
     justify-content: flex-start;
-    font-size: 13px;
-  }
-
-  .apple-feat-sub {
-    font-size: 11px;
-    line-height: 1.4;
   }
 
   .clover-slider-row {
