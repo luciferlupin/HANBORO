@@ -548,9 +548,13 @@ function CloverKingExperience() {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
+  { id: "world-globe", name: "World Globe Tourbillon", img: "/watch-world-globe.png" },
   { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
+  { id: "orbital-moonphase", name: "Silver Moonphase Orbital", img: "/watch-orbital-moonphase.png" },
   { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue.png" },
+  { id: "purple-chrono", name: "Purple Sunray Chronograph Diver", img: "/watch-purple-chronograph.png" },
   { id: "powerreserve", name: "Power Reserve 35h Automatic", img: "/watch-powerreserve-black.png" },
+  { id: "green-diver", name: "Green Emerald Diver Submariner", img: "/watch-green-diver.png" },
   { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" }
 ];
 
@@ -585,32 +589,6 @@ function WatchCarouselSection() {
           <div className="carousel-group" aria-hidden="true">
             {WATCH_COLLECTION.map((watch, index) => (
               <div className="watch-float-item" key={`b-${watch.id}-${index}`}>
-                <img
-                  src={watch.img}
-                  alt={watch.name}
-                  className="watch-float-img"
-                  loading="lazy"
-                  draggable={false}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="carousel-group" aria-hidden="true">
-            {WATCH_COLLECTION.map((watch, index) => (
-              <div className="watch-float-item" key={`c-${watch.id}-${index}`}>
-                <img
-                  src={watch.img}
-                  alt={watch.name}
-                  className="watch-float-img"
-                  loading="lazy"
-                  draggable={false}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="carousel-group" aria-hidden="true">
-            {WATCH_COLLECTION.map((watch, index) => (
-              <div className="watch-float-item" key={`d-${watch.id}-${index}`}>
                 <img
                   src={watch.img}
                   alt={watch.name}
