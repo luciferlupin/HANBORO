@@ -333,10 +333,27 @@ function Website({ visible }) {
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero__copy">
-          <p className="eyebrow h-eyebrow">Independent creative direction</p>
+          <p className="eyebrow h-eyebrow">Haute Horlogerie & Creative Direction</p>
           <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
-          <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
-          <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
+          <p className="hero__description h-desc">HANBORO shapes striking identities, authentic luxury timepieces, and digital experiences for brands that refuse to stand still.</p>
+          <a className="primary-link h-cta" href="#lookbook">Explore The Collection <span aria-hidden="true">↘</span></a>
+        </div>
+
+        <div className="hero__visual" data-reveal data-reveal-delay="1">
+          <div className="hero__watch-stage">
+            <img
+              src="/hanboro-hero-watch.png"
+              alt="HANBORO luxury 18k rose gold skeleton tourbillon timepiece"
+              className="hero__watch-img"
+              loading="eager"
+            />
+            <div className="hero__tag hero__tag--top">
+              <span>TOURBILLON CALIBER</span>
+            </div>
+            <div className="hero__tag hero__tag--bottom">
+              <span>18K ROSE GOLD & SAPPHIRE</span>
+            </div>
+          </div>
         </div>
       </section>
 
