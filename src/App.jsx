@@ -763,13 +763,13 @@ const STORES_DATA = [
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
-// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT (BLUORNG SCALE)
+// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT
 // ══════════════════════════════════════════════════════════════════════════════
 function InteractiveDottedGlobe() {
   const mountRef = useRef(null);
   const isDraggingRef = useRef(false);
   const prevPointerRef = useRef({ x: 0, y: 0 });
-  const rotRef = useRef({ x: 0.35, y: -1.36, vx: 0, vy: 0 });
+  const rotRef = useRef({ x: 0.22, y: -1.35, vx: 0, vy: 0.0016 });
 
   useEffect(() => {
     const container = mountRef.current;
@@ -780,25 +780,24 @@ function InteractiveDottedGlobe() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 2000);
-    camera.position.set(0, 30, 520);
+    camera.position.set(0, 20, 480);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Large planetary scale matching Bluorng horizon
-    const globeRadius = 265;
+    const globeRadius = 240;
     const globeGroup = new THREE.Group();
-    globeGroup.position.set(0, -95, 0);
+    globeGroup.position.set(0, -60, 0);
     globeGroup.rotation.x = rotRef.current.x;
     globeGroup.rotation.y = rotRef.current.y;
     scene.add(globeGroup);
 
-    // 1. Inner deep dark onyx sphere body
+    // 1. Deep black core sphere
     const coreGeo = new THREE.SphereGeometry(globeRadius * 0.988, 64, 64);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x080a10,
+      color: 0x050810,
       transparent: true,
       opacity: 0.96,
     });
@@ -813,74 +812,126 @@ function InteractiveDottedGlobe() {
       const ctx = canvas.getContext("2d");
       const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
       grad.addColorStop(0, "rgba(255, 255, 255, 1)");
-      grad.addColorStop(0.4, "rgba(240, 245, 255, 0.92)");
-      grad.addColorStop(0.75, "rgba(200, 225, 255, 0.25)");
+      grad.addColorStop(0.35, "rgba(240, 245, 255, 0.96)");
+      grad.addColorStop(0.7, "rgba(200, 225, 255, 0.25)");
       grad.addColorStop(1, "rgba(200, 225, 255, 0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 64, 64);
       return new THREE.CanvasTexture(canvas);
     };
 
-    // 2. Load accurate 26k Fibonacci continental land points
-    fetch("/land-points.bin")
-      .then((res) => res.arrayBuffer())
-      .then((buffer) => {
-        const rawCoords = new Float32Array(buffer);
-        const count = rawCoords.length / 3;
-        const positions = new Float32Array(rawCoords.length);
-        const colors = new Float32Array(rawCoords.length);
+    // Helper: lat/lon to vector3
+    const latLonToVec3 = (lat, lon, r) => {
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lon + 180) * (Math.PI / 180);
+      return new THREE.Vector3(
+        -(r * Math.sin(phi) * Math.cos(theta)),
+        r * Math.cos(phi),
+        r * Math.sin(phi) * Math.sin(theta)
+      );
+    };
 
-        const r = globeRadius + 0.8;
-        for (let i = 0; i < count; i++) {
-          const x = rawCoords[i * 3];
-          const y = rawCoords[i * 3 + 1];
-          const z = rawCoords[i * 3 + 2];
+    // 2. Load continent land mask and generate exact dot matrix
+    const mapImg = new Image();
+    mapImg.crossOrigin = "anonymous";
+    mapImg.src = "/world-map-mask.png";
+    mapImg.onload = () => {
+      const offCanvas = document.createElement("canvas");
+      offCanvas.width = mapImg.width;
+      offCanvas.height = mapImg.height;
+      const offCtx = offCanvas.getContext("2d");
+      offCtx.drawImage(mapImg, 0, 0);
+      const imgData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
 
-          positions[i * 3] = x * r;
-          positions[i * 3 + 1] = y * r;
-          positions[i * 3 + 2] = z * r;
+      const dotPositions = [];
+      const dotColors = [];
 
-          const lat = Math.asin(Math.max(-1, Math.min(1, y))) * (180 / Math.PI);
-          const lon = Math.atan2(x, z) * (180 / Math.PI);
+      const rows = 160;
+      for (let latIdx = 0; latIdx <= rows; latIdx++) {
+        const lat = 90 - (latIdx / rows) * 180;
+        const circumference = Math.cos((lat * Math.PI) / 180);
+        const cols = Math.max(8, Math.floor(320 * circumference));
 
-          if (lat > 6 && lat < 37 && lon > 68 && lon < 98) {
-            // Radiant pure white for India
-            colors[i * 3] = 1.0;
-            colors[i * 3 + 1] = 1.0;
-            colors[i * 3 + 2] = 1.0;
-          } else {
-            // Warm platinum white for world continents
-            colors[i * 3] = 0.94;
-            colors[i * 3 + 1] = 0.92;
-            colors[i * 3 + 2] = 0.88;
+        for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
+          const lon = -180 + (lonIdx / cols) * 360;
+
+          const px = Math.floor(((lon + 180) / 360) * offCanvas.width);
+          const py = Math.floor(((90 - lat) / 180) * offCanvas.height);
+          const idx = (py * offCanvas.width + px) * 4;
+
+          if (imgData[idx] > 120) {
+            const v = latLonToVec3(lat, lon, globeRadius + 0.6);
+            dotPositions.push(v.x, v.y, v.z);
+
+            // Radiant white for India, warm platinum for other continents
+            if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
+              dotColors.push(1.0, 1.0, 1.0);
+            } else {
+              dotColors.push(0.88, 0.90, 0.94);
+            }
           }
         }
+      }
 
-        const dotsGeo = new THREE.BufferGeometry();
-        dotsGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        dotsGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+      const dotsGeo = new THREE.BufferGeometry();
+      dotsGeo.setAttribute("position", new THREE.Float32BufferAttribute(dotPositions, 3));
+      dotsGeo.setAttribute("color", new THREE.Float32BufferAttribute(dotColors, 3));
 
-        const dotsMat = new THREE.PointsMaterial({
-          size: 3.8,
-          vertexColors: true,
-          map: createDotTexture(),
-          transparent: true,
-          opacity: 0.98,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-        });
+      const dotsMat = new THREE.PointsMaterial({
+        size: 3.6,
+        vertexColors: true,
+        map: createDotTexture(),
+        transparent: true,
+        opacity: 0.98,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
 
-        const dotsMesh = new THREE.Points(dotsGeo, dotsMat);
-        globeGroup.add(dotsMesh);
-      })
-      .catch((err) => console.error("Error loading land points:", err));
+      const dotsMesh = new THREE.Points(dotsGeo, dotsMat);
+      globeGroup.add(dotsMesh);
+    };
 
-    // 3. Drag & Swipe Interaction Clamped Strictly to Continents
-    const MIN_ROT_Y = -2.10; // Europe/Africa
-    const MAX_ROT_Y = -0.60; // East Asia/Australia
-    const MIN_ROT_X = 0.15;
-    const MAX_ROT_X = 0.50;
+    // 3. Interactive 3D Store Pins on Globe
+    const pinGroup = new THREE.Group();
+    globeGroup.add(pinGroup);
 
+    const storePins = [
+      { id: "haryana", name: "Haryana (Bahadurgarh & Karnal)", lat: 28.69, lon: 76.93 },
+      { id: "mumbai", name: "Mumbai & Thane / Virar", lat: 19.07, lon: 72.87 },
+      { id: "up", name: "Ghaziabad & Mathura, UP", lat: 28.64, lon: 77.37 },
+      { id: "andhra", name: "Visakhapatnam, Tirupati, Nellore", lat: 14.44, lon: 79.97 },
+      { id: "rajasthan", name: "Bhiwadi, Rajasthan", lat: 28.21, lon: 76.86 }
+    ];
+
+    const pinMeshes = [];
+    storePins.forEach((pin) => {
+      const pGroup = new THREE.Group();
+      const pos = latLonToVec3(pin.lat, pin.lon, globeRadius + 1.4);
+      pGroup.position.copy(pos);
+
+      // Core red marker dot
+      const dotGeo = new THREE.SphereGeometry(3.0, 16, 16);
+      const dotMat = new THREE.MeshBasicMaterial({ color: 0xff2d1d });
+      const dot = new THREE.Mesh(dotGeo, dotMat);
+      pGroup.add(dot);
+
+      // Outer radar pulse ring
+      const ringGeo = new THREE.RingGeometry(3.4, 6.8, 24);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xff2d1d,
+        transparent: true,
+        opacity: 0.85,
+        side: THREE.DoubleSide
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.lookAt(pos.clone().multiplyScalar(2));
+      pGroup.add(ring);
+
+      pinGroup.add(pGroup);
+      pinMeshes.push({ group: pGroup, ring, ringMat, pin });
+    });
+
+    // 4. Drag & Swipe Interaction (Full Unrestricted 360° Rotation)
     const onPointerDown = (e) => {
       isDraggingRef.current = true;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -895,12 +946,11 @@ function InteractiveDottedGlobe() {
       const dy = e.clientY - prevPointerRef.current.y;
       prevPointerRef.current = { x: e.clientX, y: e.clientY };
 
-      const newY = rotRef.current.y + dx * 0.0045;
-      const newX = rotRef.current.x + dy * 0.0045;
+      rotRef.current.y += dx * 0.0055;
+      rotRef.current.x += dy * 0.0055;
 
-      // Restrict rotation strictly to populated continents
-      rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, newY));
-      rotRef.current.x = Math.max(MIN_ROT_X, Math.min(MAX_ROT_X, newX));
+      rotRef.current.vx = dy * 0.0055;
+      rotRef.current.vy = dx * 0.0055;
     };
 
     const onPointerUp = () => {
@@ -923,25 +973,31 @@ function InteractiveDottedGlobe() {
     };
     window.addEventListener("resize", onResize);
 
-    // 4. Smooth revolution loop centered on India
+    // 5. Animation loop (Smooth continuous auto-spin with physics damping)
     let animId;
     let clock = 0;
     const animate = () => {
-      clock += 0.025;
+      clock += 0.035;
 
       if (!isDraggingRef.current) {
-        // Natural gentle sway centered on India
-        const idleTargetY = -1.36 + Math.sin(clock * 0.4) * 0.22;
-        const idleTargetX = 0.35 + Math.sin(clock * 0.3) * 0.03;
-        rotRef.current.y += (idleTargetY - rotRef.current.y) * 0.04;
-        rotRef.current.x += (idleTargetX - rotRef.current.x) * 0.04;
+        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0016 * 0.05;
+        rotRef.current.vx = rotRef.current.vx * 0.95;
+        rotRef.current.y += rotRef.current.vy;
+        rotRef.current.x += rotRef.current.vx;
       }
 
-      rotRef.current.y = Math.max(MIN_ROT_Y, Math.min(MAX_ROT_Y, rotRef.current.y));
-      rotRef.current.x = Math.max(MIN_ROT_X, Math.min(MAX_ROT_X, rotRef.current.x));
+      rotRef.current.x = Math.max(-0.7, Math.min(0.7, rotRef.current.x));
 
       globeGroup.rotation.x = rotRef.current.x;
       globeGroup.rotation.y = rotRef.current.y;
+
+      // Animate pin rings
+      pinMeshes.forEach((item, idx) => {
+        const pulse = (Math.sin(clock * 2.2 + idx * 1.2) + 1) / 2;
+        const scale = 1 + pulse * 1.8;
+        item.ring.scale.set(scale, scale, scale);
+        item.ringMat.opacity = Math.max(0, 0.85 - pulse * 0.8);
+      });
 
       renderer.render(scene, camera);
       animId = requestAnimationFrame(animate);
