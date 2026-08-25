@@ -532,7 +532,7 @@ function HeroWatchShowcase() {
     const scene = new THREE.Scene();
     const isMobile = width < 768;
     const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    camera.position.set(0, 0, isMobile ? 9.0 : 8.2);
+    camera.position.set(0, 0, isMobile ? 7.6 : 8.2);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -560,14 +560,14 @@ function HeroWatchShowcase() {
 
     const getSlotTransform = (slot) => {
       if (slot === 0) {
-        return { x: 0, y: -0.05, z: 1.6, scale: isMobile ? 1.35 : 1.45 };
+        return { x: 0, y: -0.05, z: 1.6, scale: isMobile ? 1.6 : 1.45 };
       }
       const sign = Math.sign(slot);
       const n = Math.abs(slot);
       const x = sign * (2.25 + (n - 1) * 1.8);
       const y = -0.05 + n * 0.06;
       const z = 0.1 - n * 0.88;
-      const scale = Math.max(0.48, (isMobile ? 0.92 : 1.0) - n * 0.18);
+      const scale = Math.max(0.55, (isMobile ? 1.08 : 1.0) - n * 0.18);
       return { x, y, z, scale };
     };
 
