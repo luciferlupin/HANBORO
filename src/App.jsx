@@ -1,0 +1,498 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
+const IRIS_EXPAND   = 460;  // ms: smooth iris expansion
+const IRIS_RETRACT  = 540;  // ms: smooth iris retraction
+
+/* ── scroll-reveal hook ────────────────────────────────────────────────────── */
+function useScrollReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll("[data-reveal]");
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.12 }
+    );
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   OFFICIAL HANBORO LOGO (Direct from source image - Dark version only)
+══════════════════════════════════════════════════════════════════════════════ */
+export function HanboroLogo({ size = 28 }) {
+  return (
+    <div className="hanboro-logo" style={{ height: size }}>
+      <img
+        src="/hanboro-horizontal-dark.png"
+        alt="HANBORO"
+        className="hanboro-logo__img"
+        style={{ height: size, width: "auto", display: "block", objectFit: "contain" }}
+      />
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CLOCK — Exact match to the reference photo:
+   - 60 fine tick marks
+   - Radial numerals: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+   - Glowing red needle with motion blur / luminous trail behind it
+   - Opposite tail with precision open ring loop
+   - Center red hub
+   - Hand reveals ticks & numerals as it sweeps clockwise
+══════════════════════════════════════════════════════════════════════════════ */
+function Clock({ onComplete }) {
+  const [sweepDeg, setSweepDeg] = useState(0);
+  const cbRef = useRef(onComplete);
+  useEffect(() => { cbRef.current = onComplete; }, [onComplete]);
+
+  useEffect(() => {
+    const t0 = performance.now();
+    let id;
+    let done = false;
+
+    const tick = (now) => {
+      const deg = Math.min(((now - t0) / REVOLUTION_MS) * 360, 360);
+      setSweepDeg(deg);
+      if (!done && deg >= 360) {
+        done = true;
+        cbRef.current?.();
+        return;
+      }
+      if (!done) id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const fullyBuilt = sweepDeg >= 360;
+
+  // 60 tick marks around radius 46
+  const ticks = Array.from({ length: 60 }, (_, i) => {
+    const angle = i * 6; // 0, 6, 12, ... 354
+    const isFive = i % 5 === 0;
+    const rOuter = 46;
+    const rInner = isFive ? 42.5 : 44.2;
+    const rad = ((angle - 90) * Math.PI) / 180;
+    return {
+      angle,
+      isFive,
+      x1: 50 + rOuter * Math.cos(rad),
+      y1: 50 + rOuter * Math.sin(rad),
+      x2: 50 + rInner * Math.cos(rad),
+      y2: 50 + rInner * Math.sin(rad),
+      revealed: fullyBuilt || (sweepDeg > angle && angle > 0),
+      fresh: !fullyBuilt && sweepDeg > angle && angle > 0 && (sweepDeg - angle) < 24,
+    };
+  });
+
+  // Numbers 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 (at radius 37.5)
+  const numbers = [
+    { val: "5",  angle: 30  },
+    { val: "10", angle: 60  },
+    { val: "15", angle: 90  },
+    { val: "20", angle: 120 },
+    { val: "25", angle: 150 },
+    { val: "30", angle: 180 },
+    { val: "35", angle: 210 },
+    { val: "40", angle: 240 },
+    { val: "45", angle: 270 },
+    { val: "50", angle: 300 },
+    { val: "55", angle: 330 },
+    { val: "60", angle: 0   },
+  ].map(({ val, angle }) => {
+    const rad = ((angle - 90) * Math.PI) / 180;
+    const r = 37.5;
+    return {
+      val,
+      angle,
+      x: 50 + r * Math.cos(rad),
+      y: 50 + r * Math.sin(rad),
+      revealed: fullyBuilt || (sweepDeg > angle && angle > 0),
+      fresh: !fullyBuilt && sweepDeg > angle && angle > 0 && (sweepDeg - angle) < 30,
+    };
+  });
+
+  return (
+    <div className="clock" aria-label="Analogue clock animation">
+      <svg className="clock__svg" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          {/* Intense red hand glow */}
+          <filter id="handGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          {/* Soft bloom glow for newly revealed marks */}
+          <filter id="tickGlow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          {/* Motion trail fan gradient behind the needle */}
+          <linearGradient id="trailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#fa2d1d" stopOpacity="0" />
+            <stop offset="100%" stopColor="#fa2d1d" stopOpacity="0.45" />
+          </linearGradient>
+        </defs>
+
+        {/* ── MOTION TRAIL FAN BEHIND THE NEEDLE ── */}
+        {!fullyBuilt && (
+          <path
+            d="M 50 50 L 50 4 A 46 46 0 0 0 40 5.2 Z"
+            fill="url(#trailGrad)"
+            transform={`rotate(${sweepDeg}, 50, 50)`}
+            opacity="0.75"
+          />
+        )}
+
+        {/* ── TICK MARKS ── */}
+        {ticks.map((t, i) =>
+          t.revealed ? (
+            <line
+              key={i}
+              x1={t.x1}
+              y1={t.y1}
+              x2={t.x2}
+              y2={t.y2}
+              stroke={
+                t.fresh
+                  ? "#fa2d1d"
+                  : t.isFive
+                  ? "rgba(245, 242, 237, 0.85)"
+                  : "rgba(245, 242, 237, 0.35)"
+              }
+              strokeWidth={t.isFive ? "0.9" : "0.45"}
+              strokeLinecap="round"
+              filter={t.fresh ? "url(#tickGlow)" : undefined}
+              style={{ transition: "stroke 0.45s ease" }}
+            />
+          ) : null
+        )}
+
+        {/* ── NUMERALS (5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60) ── */}
+        {numbers.map(({ val, x, y, angle, revealed, fresh }) =>
+          revealed ? (
+            <text
+              key={val}
+              x={x}
+              y={y}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fill={fresh ? "#fa2d1d" : "rgba(245, 242, 237, 0.82)"}
+              fontSize="3.8"
+              fontFamily="'Inter', sans-serif"
+              fontWeight="600"
+              letterSpacing="-0.2"
+              transform={`rotate(${angle}, ${x}, ${y})`}
+              filter={fresh ? "url(#tickGlow)" : undefined}
+              style={{ transition: "fill 0.5s ease" }}
+            >
+              {val}
+            </text>
+          ) : null
+        )}
+
+        {/* ── BRAND NAME ── */}
+        <text
+          x="50"
+          y="32"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="rgba(245, 242, 237, 0.55)"
+          fontSize="3.4"
+          fontFamily="'Inter', sans-serif"
+          fontWeight="800"
+          letterSpacing="1.8"
+        >
+          HANBORO
+        </text>
+
+        {/* ── RED HAND (with needle, motion glow & counter-weight loop) ── */}
+        <g transform={`rotate(${sweepDeg}, 50, 50)`} filter="url(#handGlow)">
+          {/* Main Needle extending outwards */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="5"
+            stroke="#fa2d1d"
+            strokeWidth="0.85"
+            strokeLinecap="round"
+          />
+
+          {/* Slight tapered base line */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="22"
+            stroke="#fa2d1d"
+            strokeWidth="1.3"
+            strokeLinecap="round"
+          />
+
+          {/* Counter-arm extending backwards */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="60"
+            stroke="#fa2d1d"
+            strokeWidth="0.9"
+            strokeLinecap="round"
+          />
+
+          {/* Open circle / loop on the counter-arm (exact match to photo) */}
+          <circle
+            cx="50"
+            cy="65"
+            r="2.8"
+            fill="none"
+            stroke="#fa2d1d"
+            strokeWidth="1.0"
+          />
+        </g>
+
+        {/* ── CENTER HUB ── */}
+        <circle cx="50" cy="50" r="2.2" fill="#fa2d1d" />
+        <circle cx="50" cy="50" r="0.9" fill="#080808" />
+      </svg>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SPLASH
+══════════════════════════════════════════════════════════════════════════════ */
+function Splash({ onEnter, exiting }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  return (
+    <section
+      className={["splash", mounted ? "splash--in" : "", exiting ? "splash--exit" : ""].filter(Boolean).join(" ")}
+      aria-label="Hanboro intro"
+    >
+      <div className="splash__grain"/>
+      <div className="splash__header">
+        <div className="s-wordmark">
+          <HanboroLogo theme="light" size={26} />
+        </div>
+      </div>
+      <div className="splash__content">
+        <div className="s-clock">
+          <Clock onComplete={onEnter}/>
+        </div>
+      </div>
+      <div className="splash__footer s-footer">
+        <button className="text-button" type="button" onClick={onEnter}>Skip intro</button>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   WEBSITE
+══════════════════════════════════════════════════════════════════════════════ */
+function Website({ visible }) {
+  useScrollReveal();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  return (
+    <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
+      <header className="site__header">
+        <a href="#top" aria-label="Hanboro home">
+          <HanboroLogo theme="dark" size={28} />
+        </a>
+        <nav aria-label="Primary navigation">
+          <a href="#lookbook">Lookbook</a>
+          <a href="#packaging">Unboxing</a>
+          <a href="#approach">Approach</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a className="header__availability" href="mailto:connect@hanborowatches.in">Available now <span/></a>
+      </header>
+
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero__copy">
+          <p className="eyebrow h-eyebrow">Independent creative direction</p>
+          <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
+          <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
+          <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
+        </div>
+      </section>
+
+      {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
+      <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
+        <div className="stage-header" data-reveal>
+          <div className="stage-meta">
+            <span className="stage-index">01 / 02</span>
+            <span className="stage-tag">EDITORIAL LOOKBOOK</span>
+          </div>
+          <h2 id="lookbook-title" className="stage-title">Where time becomes <em>art.</em></h2>
+          <p className="stage-subtitle">
+            Authentic luxury timepieces, masterfully created with precision engineering and devotion to detail.
+          </p>
+        </div>
+
+        <div className="direct-stage-display" data-reveal data-reveal-delay="1">
+          <img
+            src="/hanboro-brochure-transparent.png"
+            alt="HANBORO luxury watch open editorial catalog brochure"
+            className="direct-stage__img direct-stage__img--brochure"
+            loading="lazy"
+          />
+        </div>
+
+        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
+          <div className="spec-pill"><span>Caliber</span><strong>Automatic Skeleton & Tourbillon</strong></div>
+          <div className="spec-pill"><span>Material</span><strong>18k Rose Gold & Titanium</strong></div>
+          <div className="spec-pill"><span>Glass</span><strong>Double Anti-Reflective Sapphire</strong></div>
+          <div className="spec-pill"><span>Strap</span><strong>Hand-Stitched Alligator</strong></div>
+        </div>
+      </section>
+
+      {/* ── STAGE 02: BESPOKE PACKAGING & SKELETON TIMEPIECE ── */}
+      <section className="stage-section stage-section--direct" id="packaging" aria-labelledby="packaging-title">
+        <div className="stage-header" data-reveal>
+          <div className="stage-meta">
+            <span className="stage-index">02 / 02</span>
+            <span className="stage-tag">THE UNBOXING CEREMONY</span>
+          </div>
+          <h2 id="packaging-title" className="stage-title">Bespoke <em>presentation.</em></h2>
+          <p className="stage-subtitle">
+            Crafted for the collector. Each Hanboro timepiece arrives in custom matte black presentation packaging with hand-braided cords and technical blueprint passport.
+          </p>
+        </div>
+
+        <div className="direct-stage-display" data-reveal data-reveal-delay="1">
+          <img
+            src="/hanboro-bag-transparent.png"
+            alt="HANBORO luxury packaging shopping bag and rose gold skeleton tourbillon"
+            className="direct-stage__img direct-stage__img--packaging"
+            loading="lazy"
+          />
+        </div>
+
+        <div className="stage-specs-bar" data-reveal data-reveal-delay="2">
+          <div className="spec-pill"><span>Vault</span><strong>Matte Black Magnetic Box</strong></div>
+          <div className="spec-pill"><span>Protection</span><strong>Hand-Stitched Suede Pillow</strong></div>
+          <div className="spec-pill"><span>Passport</span><strong>Laser-Engraved Warranty Card</strong></div>
+          <div className="spec-pill"><span>Care</span><strong>Microfiber Polishing Cloth</strong></div>
+        </div>
+      </section>
+
+      <section className="statement" id="approach">
+        <p className="eyebrow" data-reveal>The right moment, designed</p>
+        <p className="statement__line" data-reveal data-reveal-delay="1">We build the pause that gets noticed, the signal that creates momentum, and the system that keeps it moving.</p>
+      </section>
+
+      <section className="work" id="work" aria-labelledby="work-title">
+        <div className="work__heading" data-reveal>
+          <p className="eyebrow">Selected momentum</p>
+          <h2 id="work-title">Ideas made<br/>to <em>move.</em></h2>
+        </div>
+        <div className="work__list">
+          <article className="project project--red" data-reveal data-reveal-delay="1">
+            <span>01</span>
+            <div><p>BRAND DIRECTION</p><h3>New frequency</h3></div>
+            <a href="#contact" aria-label="Discuss New frequency">↗</a>
+          </article>
+          <article className="project project--white" data-reveal data-reveal-delay="2">
+            <span>02</span>
+            <div><p>DIGITAL EXPERIENCE</p><h3>Better, faster</h3></div>
+            <a href="#contact" aria-label="Discuss Better, faster">↗</a>
+          </article>
+          <article className="project project--black" data-reveal data-reveal-delay="3">
+            <span>03</span>
+            <div><p>CAMPAIGN SYSTEM</p><h3>All eyes forward</h3></div>
+            <a href="#contact" aria-label="Discuss All eyes forward">↗</a>
+          </article>
+        </div>
+      </section>
+
+      <footer className="footer" id="contact">
+        <p className="eyebrow" data-reveal>Have a moment?</p>
+        <a className="footer__email" href="mailto:connect@hanborowatches.in" data-reveal data-reveal-delay="1">
+          connect@hanborowatches.in
+        </a>
+
+        <div className="footer__address" data-reveal data-reveal-delay="2">
+          <p className="eyebrow">Studio Location</p>
+          <address className="footer__address-text">
+            M5 M-Block, DLF Phase-2, Sector 25<br />
+            Gurgaon, Haryana 122002, India
+          </address>
+        </div>
+
+        <div className="footer__bottom" data-reveal data-reveal-delay="3">
+          <HanboroLogo size={20} />
+          <span>© 2026 HANBORO</span>
+          <a href="#top">Back to top ↑</a>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   APP — orchestrates: idle → exiting → entered
+   Iris wipe transition effect
+══════════════════════════════════════════════════════════════════════════════ */
+export function App() {
+  const [phase, setPhase]     = useState("idle");     // idle / exiting / entered
+  const [iris, setIris]       = useState("off");      // off / expanding / retracting
+  const transitioned          = useRef(false);
+
+  const handleComplete = useCallback(() => {
+    if (transitioned.current) return;
+    transitioned.current = true;
+
+    // 1. Start splash exit + iris expand simultaneously
+    setPhase("exiting");
+    setIris("expanding");
+
+    // 2. At iris peak → mount website + start iris retract
+    setTimeout(() => {
+      setPhase("entered");
+      setIris("retracting");
+    }, IRIS_EXPAND);
+
+    // 3. Iris done → hide it
+    setTimeout(() => {
+      setIris("off");
+    }, IRIS_EXPAND + IRIS_RETRACT);
+  }, []);
+
+  return (
+    <div className="app-root">
+      {phase !== "entered" && (
+        <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
+      )}
+      {phase !== "idle" && (
+        <Website visible={phase === "entered"}/>
+      )}
+      {/* Iris transition overlay */}
+      {iris !== "off" && (
+        <div className={`iris iris--${iris}`} aria-hidden="true"/>
+      )}
+    </div>
+  );
+}
