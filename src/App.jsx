@@ -5,10 +5,20 @@ const IRIS_EXPAND   = 460;  // ms: smooth iris expansion
 const IRIS_RETRACT  = 540;  // ms: smooth iris retraction
 
 /* ── scroll-reveal hook ────────────────────────────────────────────────────── */
-function useScrollReveal() {
+function useScrollReveal(enabled) {
   useEffect(() => {
+    if (!enabled) return;
     const els = document.querySelectorAll("[data-reveal]");
     if (!els.length) return;
+    
+    // Mark immediate in-viewport elements
+    els.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add("is-visible");
+      }
+    });
+
     const io = new IntersectionObserver(
       (entries) => entries.forEach(e => {
         if (e.isIntersecting) {
@@ -16,11 +26,11 @@ function useScrollReveal() {
           io.unobserve(e.target);
         }
       }),
-      { threshold: 0.12 }
+      { threshold: 0.05, rootMargin: "100px" }
     );
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
-  }, []);
+  }, [enabled]);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -453,6 +463,7 @@ function LookbookBook() {
 
 function Website({ onRestart }) {
   const [visible, setVisible] = useState(false);
+  useScrollReveal(visible);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 120);
