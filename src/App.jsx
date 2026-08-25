@@ -550,14 +550,17 @@ function CloverKingExperience() {
 const WATCH_COLLECTION = [
   { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
   { id: "powerreserve", name: "Power Reserve 35h Automatic", img: "/watch-powerreserve-black.png" },
-  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" },
-  { id: "dragon", name: "Imperial Dragon Tourbillon", img: "/watch-carousel-dragon.png" },
-  { id: "octagonal", name: "Octagonal Skeleton Tourbillon", img: "/watch-carousel-octagonal.png" }
+  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" }
 ];
 
 function WatchCarouselSection() {
-  // 2 duplicates to create exact 50% seamless endless loop
-  const displayWatches = [...WATCH_COLLECTION, ...WATCH_COLLECTION];
+  // 4 duplicates (12 items total) for smooth 50% endless loop
+  const displayWatches = [
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION,
+    ...WATCH_COLLECTION
+  ];
 
   return (
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
