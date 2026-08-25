@@ -776,14 +776,14 @@ function SpatialWatchHero({ onNavigateToStores }) {
     const shockParticles = new THREE.Points(shockGeo, shockMat);
     scene.add(shockParticles);
 
-    // Watch 3D Meshes Creation
+    // Watch 3D Meshes Creation (Pure clean watch planes without artificial frames or glass domes)
     const textureLoader = new THREE.TextureLoader();
     const watchMeshes = [];
     const watchCount = SPATIAL_WATCHES.length;
 
     const getSlotTransform = (slot) => {
       if (slot === 0) {
-        return { x: 0, y: -0.15, z: 1.8, scale: 1.25, rotX: 0, rotY: 0, rotZ: 0 };
+        return { x: 0, y: -0.15, z: 1.8, scale: 1.25 };
       }
       const sign = Math.sign(slot);
       const n = Math.abs(slot);
@@ -791,8 +791,7 @@ function SpatialWatchHero({ onNavigateToStores }) {
       const y = -0.15 + n * 0.07;
       const z = 0.1 - n * 0.9;
       const scale = Math.max(0.46, 0.94 - n * 0.17);
-      const rotY = -sign * 0.32;
-      return { x, y, z, scale, rotX: 0, rotY, rotZ: 0 };
+      return { x, y, z, scale };
     };
 
     SPATIAL_WATCHES.forEach((watchData, i) => {
@@ -803,97 +802,39 @@ function SpatialWatchHero({ onNavigateToStores }) {
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = 16;
 
-      // Front watch face plane
+      // Pure clean watch artwork plane without artificial frames or glass domes
       const faceGeo = new THREE.PlaneGeometry(2.35, 3.52);
       const faceMat = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
-        alphaTest: 0.02,
-        side: THREE.FrontSide
+        side: THREE.DoubleSide,
+        depthWrite: false
       });
       const faceMesh = new THREE.Mesh(faceGeo, faceMat);
       watchGroup.add(faceMesh);
 
-      // Back caseback plane
-      const backMat = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        alphaTest: 0.02,
-        color: 0x1a1a20,
-        side: THREE.FrontSide
-      });
-      const backMesh = new THREE.Mesh(faceGeo, backMat);
-      backMesh.rotation.y = Math.PI;
-      watchGroup.add(backMesh);
-
-      // Polished metallic bezel ring
-      const ringGeo = new THREE.TorusGeometry(1.22, 0.06, 16, 48);
-      const ringMat = new THREE.MeshStandardMaterial({
-        color: 0xe0e6ed,
-        metalness: 0.95,
-        roughness: 0.14
-      });
-      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-      ringMesh.position.z = 0.02;
-      watchGroup.add(ringMesh);
-
-      // Curved sapphire crystal glass dome
-      const crystalGeo = new THREE.SphereGeometry(1.22, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.22);
-      const crystalMat = new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        transmission: 0.92,
-        opacity: 0.85,
-        transparent: true,
-        roughness: 0.05,
-        ior: 1.5
-      });
-      const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
-      crystalMesh.position.z = 0.04;
-      crystalMesh.rotation.x = Math.PI / 2;
-      watchGroup.add(crystalMesh);
-
-      // Soft shadow disc
-      const shadowGeo = new THREE.CircleGeometry(1.35, 32);
-      const shadowMat = new THREE.MeshBasicMaterial({
-        color: 0x000000,
-        transparent: true,
-        opacity: 0.45
-      });
-      const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-      shadowMesh.rotation.x = -Math.PI / 2;
-      shadowMesh.position.y = -2.1;
-      watchGroup.add(shadowMesh);
-
-      // Initial placement
+      // Initial placement (strictly upright, zero rotation)
       let slot = i - currentIndexRef.current;
       if (slot > 3) slot -= watchCount;
       if (slot < -3) slot += watchCount;
       const initialSlot = getSlotTransform(slot);
       watchGroup.position.set(initialSlot.x, initialSlot.y, initialSlot.z);
       watchGroup.scale.set(initialSlot.scale, initialSlot.scale, initialSlot.scale);
-      watchGroup.rotation.y = initialSlot.rotY;
+      watchGroup.rotation.set(0, 0, 0);
 
       scene.add(watchGroup);
       watchMeshes.push({
         group: watchGroup,
         index: i,
-        currentRotY: initialSlot.rotY,
-        currentRotX: 0,
-        spinY: 0,
       });
     });
 
-    // Rotation & Physics State
+    // Swipe & Interaction State (No mesh rotation)
     let isDragging = false;
     let dragStartTime = 0;
     let dragStartPos = { x: 0, y: 0 };
     let prevMousePos = { x: 0, y: 0 };
-    let activeRotationY = 0;
-    let activeRotationX = 0;
-    let targetRotationY = 0;
-    let targetRotationX = 0;
-    let velY = 0;
-    let velX = 0;
+    let dragDeltaX = 0;
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
@@ -901,10 +842,6 @@ function SpatialWatchHero({ onNavigateToStores }) {
     // Trigger Transition logic
     const triggerTransition = (newIndex) => {
       const watchData = SPATIAL_WATCHES[newIndex];
-      targetRotationY = 0;
-      targetRotationX = 0;
-      activeRotationY = 0;
-      activeRotationX = 0;
 
       // Burst shockwave
       const posArr = shockParticles.geometry.attributes.position.array;
@@ -921,12 +858,6 @@ function SpatialWatchHero({ onNavigateToStores }) {
       shockParticles.geometry.attributes.position.needsUpdate = true;
       shockMat.opacity = 0.9;
       shockMat.color.set(watchData.ambientColor);
-
-      // Celebrate active watch with a full 360° spin
-      const targetWatchMesh = watchMeshes[newIndex];
-      if (targetWatchMesh) {
-        targetWatchMesh.spinY = Math.PI * 2;
-      }
     };
 
     sceneRef.current = { triggerTransition };
@@ -939,8 +870,7 @@ function SpatialWatchHero({ onNavigateToStores }) {
       const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
       dragStartPos = { x: cx, y: cy };
       prevMousePos = { x: cx, y: cy };
-      velY = 0;
-      velX = 0;
+      dragDeltaX = 0;
       if (container) container.style.cursor = "grabbing";
     };
 
@@ -953,16 +883,7 @@ function SpatialWatchHero({ onNavigateToStores }) {
       mouse.y = -((cy - rect.top) / rect.height) * 2 + 1;
 
       if (isDragging) {
-        const dx = cx - prevMousePos.x;
-        const dy = cy - prevMousePos.y;
-        prevMousePos = { x: cx, y: cy };
-
-        targetRotationY += dx * 0.007;
-        targetRotationX += dy * 0.007;
-        targetRotationX = Math.max(-0.6, Math.min(0.6, targetRotationX));
-
-        velY = dx * 0.007;
-        velX = dy * 0.007;
+        dragDeltaX = cx - dragStartPos.x;
       } else {
         // Check hover over flanking watches
         raycaster.setFromCamera(mouse, camera);
@@ -1004,7 +925,17 @@ function SpatialWatchHero({ onNavigateToStores }) {
       const dragDist = Math.hypot(cx - dragStartPos.x, cy - dragStartPos.y);
       const dragDuration = Date.now() - dragStartTime;
 
-      // Click detection
+      // Horizontal swipe navigation
+      if (Math.abs(dragDeltaX) > 60 && dragDuration < 400) {
+        if (dragDeltaX < 0) {
+          handleNext();
+        } else {
+          handlePrev();
+        }
+        return;
+      }
+
+      // Click detection on flanking watch
       if (dragDist < 8 && dragDuration < 280) {
         const rect = container.getBoundingClientRect();
         mouse.x = ((cx - rect.left) / rect.width) * 2 - 1;
@@ -1050,26 +981,13 @@ function SpatialWatchHero({ onNavigateToStores }) {
     };
     window.addEventListener("keydown", onKeyDown);
 
-    // Animation Loop
+    // Animation Loop (Zero rotation, pure smooth spatial scaling & sliding)
     let animId;
     let clock = 0;
     const animate = () => {
       clock += 0.025;
 
-      // Smooth inertia & lerp for center watch drag rotation
-      if (!isDragging) {
-        velY *= 0.94;
-        velX *= 0.94;
-        targetRotationY += velY;
-        targetRotationX += velX;
-        // Gentle auto return to center alignment
-        targetRotationY *= 0.96;
-        targetRotationX *= 0.96;
-      }
-      activeRotationY += (targetRotationY - activeRotationY) * 0.12;
-      activeRotationX += (targetRotationX - activeRotationX) * 0.12;
-
-      // Update Watch Positions, Scales & Rotations
+      // Update Watch Positions & Scales (Strictly no rotation)
       const activeIdx = currentIndexRef.current;
       watchMeshes.forEach((w) => {
         let slot = w.index - activeIdx;
@@ -1092,18 +1010,8 @@ function SpatialWatchHero({ onNavigateToStores }) {
         const nextScale = s + (target.scale - s) * 0.1;
         w.group.scale.set(nextScale, nextScale, nextScale);
 
-        // Spin animation decay
-        w.spinY *= 0.92;
-
-        if (slot === 0) {
-          w.group.rotation.y = activeRotationY + w.spinY;
-          w.group.rotation.x = activeRotationX + Math.sin(clock * 1.4) * 0.04;
-          w.group.rotation.z = Math.sin(clock * 1.2) * 0.02;
-        } else {
-          w.group.rotation.y += (target.rotY - w.group.rotation.y) * 0.1;
-          w.group.rotation.x += (0 - w.group.rotation.x) * 0.1;
-          w.group.rotation.z += (0 - w.group.rotation.z) * 0.1;
-        }
+        // Zero rotation at all times
+        w.group.rotation.set(0, 0, 0);
       });
 
       // Lerp Rim Lights Color
@@ -1260,7 +1168,7 @@ function SpatialWatchHero({ onNavigateToStores }) {
         {/* Spatial Gesture Hint */}
         <div className="spatial-gesture-hint">
           <span className="hint-sparkle">✨</span>
-          <span>Tap any Hanboro 3D timepiece to inspect • Drag center watch to rotate 360° • Use ← → keys</span>
+          <span>Tap any Hanboro timepiece to select • Swipe or use ← → arrow keys</span>
         </div>
       </div>
     </section>
