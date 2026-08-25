@@ -566,8 +566,7 @@ function HeroWatchShowcase() {
 
     const scene = new THREE.Scene();
     const isMobile = width < 768;
-    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    camera.position.set(0, isMobile ? 0.08 : 0, isMobile ? 8.6 : 8.2);
+    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -575,6 +574,17 @@ function HeroWatchShowcase() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
     container.appendChild(renderer.domElement);
+
+    const updateCameraView = (w, h) => {
+      const asp = w / h;
+      camera.aspect = asp;
+      const mob = w < 768;
+      const zPos = mob ? (asp < 1.0 ? 11.6 : 10.4) : (asp < 1.25 ? 10.2 : 9.5);
+      camera.position.set(0, mob ? 0.08 : 0, zPos);
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    updateCameraView(width, height);
 
     // Natural studio lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
@@ -594,16 +604,34 @@ function HeroWatchShowcase() {
     const watchCount = HERO_WATCH_IMAGES.length;
 
     const getSlotTransform = (slot) => {
+      const mob = container ? container.clientWidth < 768 : false;
       if (slot === 0) {
-        return { x: 0, y: isMobile ? 0.12 : -0.05, z: 1.6, scale: isMobile ? 1.4 : 1.45 };
+        return { x: 0, y: mob ? 0.08 : -0.05, z: 1.2, scale: mob ? 1.22 : 1.28 };
       }
       const sign = Math.sign(slot);
       const n = Math.abs(slot);
-      const x = sign * ((isMobile ? 2.05 : 2.25) + (n - 1) * 1.75);
-      const y = (isMobile ? 0.12 : -0.05) + n * 0.06;
-      const z = 0.1 - n * 0.88;
-      const scale = Math.max(0.48, (isMobile ? 0.95 : 1.0) - n * 0.18);
-      return { x, y, z, scale };
+      if (n === 1) {
+        return {
+          x: sign * (mob ? 1.65 : 1.95),
+          y: (mob ? 0.08 : -0.05) + 0.04,
+          z: -0.25,
+          scale: mob ? 0.82 : 0.88
+        };
+      }
+      if (n === 2) {
+        return {
+          x: sign * (mob ? 2.75 : 3.25),
+          y: (mob ? 0.08 : -0.05) + 0.08,
+          z: -1.4,
+          scale: mob ? 0.56 : 0.62
+        };
+      }
+      return {
+        x: sign * (mob ? 3.5 : 4.1),
+        y: (mob ? 0.08 : -0.05) + 0.12,
+        z: -2.6,
+        scale: 0.38
+      };
     };
 
     HERO_WATCH_IMAGES.forEach((watchData, i) => {
@@ -726,9 +754,7 @@ function HeroWatchShowcase() {
       if (!container) return;
       const nw = container.clientWidth;
       const nh = container.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
+      updateCameraView(nw, nh);
     };
     window.addEventListener("resize", onResize);
 
