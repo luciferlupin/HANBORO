@@ -548,8 +548,10 @@ function CloverKingExperience() {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
+  { id: "astroworld-celestial", name: "Astroworld Celestial Tourbillon", img: "/watch-astroworld-celestial.png" },
   { id: "world-globe", name: "World Globe Tourbillon", img: "/watch-world-globe.png" },
   { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
+  { id: "arctic-tonneau", name: "Arctic Tonneau Skeleton", img: "/watch-arctic-tonneau-white.png" },
   { id: "blue-roulette", name: "Sapphire Blue Roulette Automatic", img: "/watch-blue-roulette.png" },
   { id: "orbital-moonphase", name: "Silver Moonphase Orbital", img: "/watch-orbital-moonphase.png" },
   { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue.png" },
