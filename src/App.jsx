@@ -328,12 +328,16 @@ function Splash({ onEnter, exiting }) {
 function LookbookBook() {
   const [spread, setSpread] = useState(1); // 1 = pages 1-2, 2 = pages 3-4
   const [isFlipping, setIsFlipping] = useState(false);
+  const [flipDirection, setFlipDirection] = useState("forward");
 
   const flipForward = () => {
     if (spread === 1 && !isFlipping) {
+      setFlipDirection("forward");
       setIsFlipping(true);
       setTimeout(() => {
         setSpread(2);
+      }, 350);
+      setTimeout(() => {
         setIsFlipping(false);
       }, 700);
     }
@@ -341,9 +345,12 @@ function LookbookBook() {
 
   const flipBackward = () => {
     if (spread === 2 && !isFlipping) {
+      setFlipDirection("backward");
       setIsFlipping(true);
       setTimeout(() => {
         setSpread(1);
+      }, 350);
+      setTimeout(() => {
         setIsFlipping(false);
       }, 700);
     }
@@ -352,61 +359,52 @@ function LookbookBook() {
   return (
     <div className="lookbook-stage" data-reveal data-reveal-delay="1">
       {/* 3D Book Container */}
-      <div className={`book-3d ${isFlipping ? "is-flipping" : ""} spread-${spread}`}>
-        {/* Left Side of the Open Book */}
-        <div
-          className="book-page-leaf book-page-leaf--left"
-          onClick={flipBackward}
-          title={spread === 2 ? "Click to flip back to Pages 01-02" : "Page 01"}
-        >
+      <div className={`book-3d ${isFlipping ? `is-flipping-${flipDirection}` : ""}`}>
+        {/* Full Open Book Spread */}
+        <div className="book-spread-wrapper">
           <img
-            src={spread === 1 ? "/lookbook-p1.png" : "/lookbook-p3.png"}
-            alt={spread === 1 ? "HANBORO Lookbook Page 01: Swiss Essence" : "HANBORO Lookbook Page 03: The Collection"}
-            className="book-page-img"
+            src={spread === 1 ? "/lookbook-spread-1.png" : "/lookbook-spread-2.png"}
+            alt={spread === 1 ? "HANBORO Lookbook Pages 01-02" : "HANBORO Lookbook Pages 03-04"}
+            className="book-spread-img"
             loading="lazy"
           />
-          {spread === 2 && (
-            <button className="page-turn-hint page-turn-hint--left" onClick={(e) => { e.stopPropagation(); flipBackward(); }} aria-label="Turn to previous page">
-              <span>❮ Flip to Page 01-02</span>
-            </button>
-          )}
-        </div>
 
-        {/* Central Book Spine Shadow */}
-        <div className="book-spine" aria-hidden="true" />
-
-        {/* Right Side of the Open Book */}
-        <div
-          className="book-page-leaf book-page-leaf--right"
-          onClick={flipForward}
-          title={spread === 1 ? "Click to flip to Pages 03-04" : "Page 04"}
-        >
-          <img
-            src={spread === 1 ? "/lookbook-p2.png" : "/lookbook-p4.png"}
-            alt={spread === 1 ? "HANBORO Lookbook Page 02: Our Story" : "HANBORO Lookbook Page 04: Orbita-980-1"}
-            className="book-page-img"
-            loading="lazy"
+          {/* Interactive Click Zones */}
+          <div
+            className="book-click-zone book-click-zone--left"
+            onClick={flipBackward}
+            title={spread === 2 ? "Click to flip back to Pages 01-02" : "Pages 01-02"}
           />
-          {spread === 1 && (
-            <button className="page-turn-hint page-turn-hint--right" onClick={(e) => { e.stopPropagation(); flipForward(); }} aria-label="Turn to next page">
-              <span>Flip to Page 03-04 ❯</span>
+          <div
+            className="book-click-zone book-click-zone--right"
+            onClick={flipForward}
+            title={spread === 1 ? "Click to flip to Pages 03-04" : "Pages 03-04"}
+          />
+
+          {/* Corner Interactive Pill */}
+          {spread === 1 ? (
+            <button
+              className="page-turn-hint page-turn-hint--right"
+              onClick={flipForward}
+              aria-label="Turn to Pages 03-04"
+            >
+              <span>Flip to Pages 03–04 ❯</span>
+            </button>
+          ) : (
+            <button
+              className="page-turn-hint page-turn-hint--left"
+              onClick={flipBackward}
+              aria-label="Turn to Pages 01-02"
+            >
+              <span>❮ Flip to Pages 01–02</span>
             </button>
           )}
-        </div>
 
-        {/* Dynamic 3D Flipping Sheet (animates during page turn) */}
-        {isFlipping && (
-          <div className={`flipping-leaf ${spread === 1 ? "flipping-leaf--forward" : "flipping-leaf--backward"}`}>
-            <div className="flipping-leaf__front">
-              <img src={spread === 1 ? "/lookbook-p2.png" : "/lookbook-p1.png"} alt="Flipping page front" />
-              <div className="page-lighting-shadow page-lighting-shadow--front" />
-            </div>
-            <div className="flipping-leaf__back">
-              <img src={spread === 1 ? "/lookbook-p3.png" : "/lookbook-p4.png"} alt="Flipping page back" />
-              <div className="page-lighting-shadow page-lighting-shadow--back" />
-            </div>
+          {/* Realistic 3D Paper Flip Overlay */}
+          <div className="book-flip-overlay" aria-hidden="true">
+            <div className="book-flip-shimmer" />
           </div>
-        )}
+        </div>
       </div>
 
       {/* Book Navigation Toolbar */}
