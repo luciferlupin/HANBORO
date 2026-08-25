@@ -588,8 +588,9 @@ function HeroWatchShowcase() {
     const height = container.clientHeight || 500;
 
     const scene = new THREE.Scene();
+    const isMobile = width < 768;
     const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    camera.position.set(0, 0, 8.6);
+    camera.position.set(0, 0, isMobile ? 9.0 : 8.2);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
@@ -599,32 +600,32 @@ function HeroWatchShowcase() {
     container.appendChild(renderer.domElement);
 
     // Natural studio lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.0);
     keyLight.position.set(4, 6, 6);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.6);
     fillLight.position.set(-5, -2, -3);
     scene.add(fillLight);
 
-    // Pure clean watch meshes without frames, rings, or glass domes
+    // Pure clean watch meshes with soft ground shadow
     const textureLoader = new THREE.TextureLoader();
     const watchMeshes = [];
     const watchCount = HERO_WATCH_IMAGES.length;
 
     const getSlotTransform = (slot) => {
       if (slot === 0) {
-        return { x: 0, y: -0.05, z: 1.6, scale: 1.25 };
+        return { x: 0, y: -0.05, z: 1.6, scale: isMobile ? 1.35 : 1.45 };
       }
       const sign = Math.sign(slot);
       const n = Math.abs(slot);
-      const x = sign * (2.15 + (n - 1) * 1.75);
+      const x = sign * (2.25 + (n - 1) * 1.8);
       const y = -0.05 + n * 0.06;
-      const z = 0.1 - n * 0.85;
-      const scale = Math.max(0.48, 0.94 - n * 0.18);
+      const z = 0.1 - n * 0.88;
+      const scale = Math.max(0.48, (isMobile ? 0.92 : 1.0) - n * 0.18);
       return { x, y, z, scale };
     };
 
@@ -645,6 +646,18 @@ function HeroWatchShowcase() {
       });
       const faceMesh = new THREE.Mesh(faceGeo, faceMat);
       watchGroup.add(faceMesh);
+
+      // Subtle soft grounding shadow
+      const shadowGeo = new THREE.CircleGeometry(1.2, 32);
+      const shadowMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0.28
+      });
+      const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowMesh.rotation.x = -Math.PI / 2;
+      shadowMesh.position.y = -1.95;
+      watchGroup.add(shadowMesh);
 
       let slot = i - currentIndexRef.current;
       if (slot > 3) slot -= watchCount;
