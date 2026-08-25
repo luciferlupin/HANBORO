@@ -1028,7 +1028,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .footer { padding: clamp(70px,10vw,140px) clamp(20px,7vw,105px) 24px; color: var(--cream); background: radial-gradient(circle at 89% 16%, var(--red) 0, rgba(250,45,29,.1) 22%, transparent 40%), #0a0a0a; position: relative; z-index: 1; }
-.footer__email { display: inline-block; margin: 20px 0 clamp(40px, 6vw, 70px); font-size: clamp(35px,8vw,112px); line-height: .9; letter-spacing: -.09em; font-weight: 700; border-bottom: 2px solid var(--red); transition: color .2s ease; word-break: break-all; }
+.footer__email { display: inline-block; margin: 16px 0 clamp(36px, 5vw, 64px); font-size: clamp(20px, 4.2vw, 84px); line-height: 1.05; letter-spacing: -.04em; font-weight: 700; border-bottom: 2px solid var(--red); transition: color .2s ease; white-space: nowrap; word-break: normal; max-width: 100%; }
 .footer__email:hover { color: var(--red); }
 
 .footer__address { margin-bottom: clamp(60px, 8vw, 110px); }
@@ -1675,17 +1675,42 @@ a { color: inherit; text-decoration: none; }
 
   /* Footer */
   .footer {
-    padding: 56px 18px max(28px, env(safe-area-inset-bottom));
+    padding: 48px 18px max(28px, env(safe-area-inset-bottom));
+  }
+
+  .footer .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .footer__email {
+    font-size: clamp(16px, 5.2vw, 22px);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin: 12px 0 32px;
+    white-space: nowrap;
+    word-break: normal;
+  }
+
+  .footer__address {
+    margin-bottom: 36px;
   }
 
   .footer__address-text {
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 8px;
+    color: rgba(245, 242, 237, 0.85);
   }
 
   .footer__bottom {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    font-size: 11px;
+    border-top: 1px solid rgba(245, 242, 237, 0.15);
   }
 }
 
@@ -1700,6 +1725,16 @@ a { color: inherit; text-decoration: none; }
 
   .clover-center {
     width: min(88vw, 290px);
+  }
+
+  .footer__email {
+    font-size: clamp(14px, 4.8vw, 17px);
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
   }
 }
 
