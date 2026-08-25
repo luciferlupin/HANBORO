@@ -556,20 +556,8 @@ const WATCH_COLLECTION = [
 ];
 
 function WatchCarouselSection() {
-  const scrollTrackRef = useRef(null);
-
-  const handleScroll = (direction) => {
-    if (!scrollTrackRef.current) return;
-    const amount = direction === "next" ? 340 : -340;
-    scrollTrackRef.current.scrollBy({ left: amount, behavior: "smooth" });
-  };
-
-  // Repeating array of the 5 official watches to maintain seamless continuous loop
-  const displayWatches = [
-    ...WATCH_COLLECTION,
-    ...WATCH_COLLECTION,
-    ...WATCH_COLLECTION
-  ];
+  // 2 duplicates to create exact 50% seamless endless loop
+  const displayWatches = [...WATCH_COLLECTION, ...WATCH_COLLECTION];
 
   return (
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
@@ -577,34 +565,14 @@ function WatchCarouselSection() {
         <div className="stage-meta">
           <span className="stage-tag">THE ESSENTIALS</span>
         </div>
-        <div className="carousel-title-row">
-          <h2 id="collection-title" className="carousel-heading">
-            HANBORO <em>collection.</em>
-          </h2>
-          <div className="carousel-arrows">
-            <button
-              type="button"
-              className="carousel-arrow-btn"
-              onClick={() => handleScroll("prev")}
-              aria-label="Previous watch"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              className="carousel-arrow-btn"
-              onClick={() => handleScroll("next")}
-              aria-label="Next watch"
-            >
-              →
-            </button>
-          </div>
-        </div>
+        <h2 id="collection-title" className="carousel-heading">
+          HANBORO <em>collection.</em>
+        </h2>
       </div>
 
-      {/* Infinite Marquee of Pure Floating Watch Photos (No background, No names) */}
+      {/* Apple-grade Pure Endless Marquee Track */}
       <div className="carousel-track-wrapper" data-reveal data-reveal-delay="1">
-        <div className="carousel-track" ref={scrollTrackRef}>
+        <div className="carousel-track">
           {displayWatches.map((watch, index) => (
             <div className="watch-float-item" key={`${watch.id}-${index}`}>
               <img
