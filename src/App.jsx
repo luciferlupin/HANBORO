@@ -546,6 +546,728 @@ function CloverKingExperience() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// 3D SPATIAL HERO WATCHES DATASET (COKECAN SPATIAL EXPERIENCE)
+// ══════════════════════════════════════════════════════════════════════════════
+const SPATIAL_WATCHES = [
+  {
+    id: "emerald-roulette",
+    tag: "LIMITED EDITION AUTOMATIC",
+    name: "CLOVER KING",
+    highlight: "ROYAL EMERALD",
+    subtitle: "EMERALD GUILLOCHÉ & ROSE GOLD BEZEL • ROTATING CASINO ROULETTE ROTOR",
+    image: "/watch-emerald-roulette.png",
+    colorPrimary: "#10b981",
+    colorSecondary: "#fbbf24",
+    colorAccent: "#34d399",
+    ambientColor: 0x059669,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(16, 185, 129, 0.28) 0%, rgba(6, 78, 59, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Automatic Cal. 8215",
+    case: "42mm 316L Rose Gold",
+    powerReserve: "42 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+  {
+    id: "octagonal-blue",
+    tag: "ROYAL TAPISSERIE HOROLOGY",
+    name: "ROYAL OCTAGONAL",
+    highlight: "BLUE GUILLOCHÉ",
+    subtitle: "DEEP NAVY TAPISSERIE DIAL • 18K ROSE GOLD ACCENTS • INTEGRATED BEZEL",
+    image: "/watch-rosegold-octagonal-blue.png",
+    colorPrimary: "#3b82f6",
+    colorSecondary: "#f43f5e",
+    colorAccent: "#60a5fa",
+    ambientColor: 0x2563eb,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(59, 130, 246, 0.28) 0%, rgba(30, 58, 138, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Precision Automatic",
+    case: "41mm Octagonal Steel",
+    powerReserve: "40 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+  {
+    id: "astroworld-celestial",
+    tag: "GRAND COMPLICATION",
+    name: "ASTROWORLD",
+    highlight: "CELESTIAL TOURBILLON",
+    subtitle: "REVOLVING 3D CELESTIAL GLOBE • EXPOSED FLYING TOURBILLON CAGE",
+    image: "/watch-astroworld-celestial.png",
+    colorPrimary: "#8b5cf6",
+    colorSecondary: "#ff2d1d",
+    colorAccent: "#a78bfa",
+    ambientColor: 0x7c3aed,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(139, 92, 246, 0.28) 0%, rgba(76, 29, 149, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Manual Flying Tourbillon",
+    case: "43mm Piano-Polished Steel",
+    powerReserve: "48 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+  {
+    id: "arctic-tonneau",
+    tag: "AVANT-GARDE OPENWORK",
+    name: "ARCTIC TONNEAU",
+    highlight: "SKELETON WHITE",
+    subtitle: "CURVED TONNEAU BARREL • OPENWORK SKELETONIZED CALIBER",
+    image: "/watch-arctic-tonneau-white.png",
+    colorPrimary: "#06b6d4",
+    colorSecondary: "#f1f5f9",
+    colorAccent: "#22d3ee",
+    ambientColor: 0x0891b2,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(6, 182, 212, 0.25) 0%, rgba(15, 23, 42, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Skeletonized Automatic",
+    case: "44mm Ergonomic Tonneau",
+    powerReserve: "42 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+  {
+    id: "blue-roulette",
+    tag: "ROULETTE COLLECTION",
+    name: "SAPPHIRE ROULETTE",
+    highlight: "AUTOMATIC LUXE",
+    subtitle: "ACTIVE CASINO WHEEL ROTOR • SUNRAY COBALT BLUE DIAL",
+    image: "/watch-blue-roulette.png",
+    colorPrimary: "#2563eb",
+    colorSecondary: "#f8fafc",
+    colorAccent: "#60a5fa",
+    ambientColor: 0x1d4ed8,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(37, 99, 235, 0.26) 0%, rgba(23, 37, 84, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Mechanical Roulette Caliber",
+    case: "42mm Brushed Steel",
+    powerReserve: "40 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+  {
+    id: "world-globe",
+    tag: "HOROLOGICAL MASTERPIECE",
+    name: "WORLD TIME",
+    highlight: "CELESTIAL GLOBE",
+    subtitle: "24-ZONE WORLD TIME INDICATOR • MINIATURE 3D GLOBE MOTOR",
+    image: "/watch-world-globe.png",
+    colorPrimary: "#ff2d1d",
+    colorSecondary: "#fbbf24",
+    colorAccent: "#f87171",
+    ambientColor: 0xdc2626,
+    bgGradient: "radial-gradient(circle at 50% 32%, rgba(255, 45, 29, 0.28) 0%, rgba(127, 29, 29, 0.16) 40%, rgba(0, 0, 0, 0.95) 80%, #000000 100%)",
+    caliber: "Dual-Time Automatic",
+    case: "43mm 316L Solid Steel",
+    powerReserve: "45 Hours",
+    waterResist: "5 ATM / 50M",
+  },
+];
+
+// ══════════════════════════════════════════════════════════════════════════════
+// 3D SPATIAL HERO SECTION (COKECAN SPATIAL EXPERIENCE)
+// ══════════════════════════════════════════════════════════════════════════════
+function SpatialWatchHero({ onNavigateToStores }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const containerRef = useRef(null);
+  const cursorBadgeRef = useRef(null);
+  const sceneRef = useRef(null);
+  const currentIndexRef = useRef(0);
+  currentIndexRef.current = currentIndex;
+
+  const currentWatch = SPATIAL_WATCHES[currentIndex];
+
+  const handleSelectWatch = useCallback((index) => {
+    if (index === currentIndexRef.current || index < 0 || index >= SPATIAL_WATCHES.length) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    if (sceneRef.current && sceneRef.current.triggerTransition) {
+      sceneRef.current.triggerTransition(index);
+    }
+    if (cursorBadgeRef.current) {
+      cursorBadgeRef.current.classList.remove("is-visible");
+    }
+    setTimeout(() => setIsTransitioning(false), 450);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    const nextIdx = (currentIndexRef.current - 1 + SPATIAL_WATCHES.length) % SPATIAL_WATCHES.length;
+    handleSelectWatch(nextIdx);
+  }, [handleSelectWatch]);
+
+  const handleNext = useCallback(() => {
+    const nextIdx = (currentIndexRef.current + 1) % SPATIAL_WATCHES.length;
+    handleSelectWatch(nextIdx);
+  }, [handleSelectWatch]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 0.1, 8.8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.65;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(renderer.domElement);
+
+    // Environment Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.9);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
+    keyLight.position.set(4, 8, 6);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    fillLight.position.set(-6, -2, -4);
+    scene.add(fillLight);
+
+    const initialColor = new THREE.Color(SPATIAL_WATCHES[0].ambientColor);
+    const rimLightCenter = new THREE.PointLight(initialColor, 10, 16);
+    rimLightCenter.position.set(0, 2.5, 3.5);
+    scene.add(rimLightCenter);
+
+    const rimLightLeft = new THREE.PointLight(initialColor, 6, 14);
+    rimLightLeft.position.set(-5, -1, 2);
+    scene.add(rimLightLeft);
+
+    const rimLightRight = new THREE.PointLight(initialColor, 6, 14);
+    rimLightRight.position.set(5, -1, 2);
+    scene.add(rimLightRight);
+
+    // Ambient floating starburst dust particles
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 140;
+    const particlePositions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      particlePositions[i * 3] = (Math.random() - 0.5) * 18;
+      particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 12;
+      particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+    }
+    particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xffe6a3,
+      size: 0.08,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending
+    });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // Shockwave burst particles
+    const shockCount = 90;
+    const shockGeo = new THREE.BufferGeometry();
+    const shockPositions = new Float32Array(shockCount * 3);
+    const shockVelocities = new Float32Array(shockCount * 3);
+    for (let i = 0; i < shockCount * 3; i++) {
+      shockPositions[i] = 0;
+      shockVelocities[i] = 0;
+    }
+    shockGeo.setAttribute("position", new THREE.BufferAttribute(shockPositions, 3));
+    const shockMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.16,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending
+    });
+    const shockParticles = new THREE.Points(shockGeo, shockMat);
+    scene.add(shockParticles);
+
+    // Watch 3D Meshes Creation
+    const textureLoader = new THREE.TextureLoader();
+    const watchMeshes = [];
+    const watchCount = SPATIAL_WATCHES.length;
+
+    const getSlotTransform = (slot) => {
+      if (slot === 0) {
+        return { x: 0, y: -0.15, z: 1.8, scale: 1.25, rotX: 0, rotY: 0, rotZ: 0 };
+      }
+      const sign = Math.sign(slot);
+      const n = Math.abs(slot);
+      const x = sign * (2.4 + (n - 1) * 1.85);
+      const y = -0.15 + n * 0.07;
+      const z = 0.1 - n * 0.9;
+      const scale = Math.max(0.46, 0.94 - n * 0.17);
+      const rotY = -sign * 0.32;
+      return { x, y, z, scale, rotX: 0, rotY, rotZ: 0 };
+    };
+
+    SPATIAL_WATCHES.forEach((watchData, i) => {
+      const watchGroup = new THREE.Group();
+      watchGroup.userData = { index: i, watchData };
+
+      const texture = textureLoader.load(watchData.image);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = 16;
+
+      // Front watch face plane
+      const faceGeo = new THREE.PlaneGeometry(2.35, 3.52);
+      const faceMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        alphaTest: 0.02,
+        side: THREE.FrontSide
+      });
+      const faceMesh = new THREE.Mesh(faceGeo, faceMat);
+      watchGroup.add(faceMesh);
+
+      // Back caseback plane
+      const backMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        alphaTest: 0.02,
+        color: 0x1a1a20,
+        side: THREE.FrontSide
+      });
+      const backMesh = new THREE.Mesh(faceGeo, backMat);
+      backMesh.rotation.y = Math.PI;
+      watchGroup.add(backMesh);
+
+      // Polished metallic bezel ring
+      const ringGeo = new THREE.TorusGeometry(1.22, 0.06, 16, 48);
+      const ringMat = new THREE.MeshStandardMaterial({
+        color: 0xe0e6ed,
+        metalness: 0.95,
+        roughness: 0.14
+      });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.position.z = 0.02;
+      watchGroup.add(ringMesh);
+
+      // Curved sapphire crystal glass dome
+      const crystalGeo = new THREE.SphereGeometry(1.22, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.22);
+      const crystalMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transmission: 0.92,
+        opacity: 0.85,
+        transparent: true,
+        roughness: 0.05,
+        ior: 1.5
+      });
+      const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
+      crystalMesh.position.z = 0.04;
+      crystalMesh.rotation.x = Math.PI / 2;
+      watchGroup.add(crystalMesh);
+
+      // Soft shadow disc
+      const shadowGeo = new THREE.CircleGeometry(1.35, 32);
+      const shadowMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0.45
+      });
+      const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+      shadowMesh.rotation.x = -Math.PI / 2;
+      shadowMesh.position.y = -2.1;
+      watchGroup.add(shadowMesh);
+
+      // Initial placement
+      let slot = i - currentIndexRef.current;
+      if (slot > 3) slot -= watchCount;
+      if (slot < -3) slot += watchCount;
+      const initialSlot = getSlotTransform(slot);
+      watchGroup.position.set(initialSlot.x, initialSlot.y, initialSlot.z);
+      watchGroup.scale.set(initialSlot.scale, initialSlot.scale, initialSlot.scale);
+      watchGroup.rotation.y = initialSlot.rotY;
+
+      scene.add(watchGroup);
+      watchMeshes.push({
+        group: watchGroup,
+        index: i,
+        currentRotY: initialSlot.rotY,
+        currentRotX: 0,
+        spinY: 0,
+      });
+    });
+
+    // Rotation & Physics State
+    let isDragging = false;
+    let dragStartTime = 0;
+    let dragStartPos = { x: 0, y: 0 };
+    let prevMousePos = { x: 0, y: 0 };
+    let activeRotationY = 0;
+    let activeRotationX = 0;
+    let targetRotationY = 0;
+    let targetRotationX = 0;
+    let velY = 0;
+    let velX = 0;
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // Trigger Transition logic
+    const triggerTransition = (newIndex) => {
+      const watchData = SPATIAL_WATCHES[newIndex];
+      targetRotationY = 0;
+      targetRotationX = 0;
+      activeRotationY = 0;
+      activeRotationX = 0;
+
+      // Burst shockwave
+      const posArr = shockParticles.geometry.attributes.position.array;
+      for (let s = 0; s < shockCount; s++) {
+        posArr[s * 3] = 0;
+        posArr[s * 3 + 1] = -0.15;
+        posArr[s * 3 + 2] = 1.8;
+        const angle = Math.random() * Math.PI * 2;
+        const spd = Math.random() * 0.18 + 0.08;
+        shockVelocities[s * 3] = Math.cos(angle) * spd;
+        shockVelocities[s * 3 + 1] = (Math.random() - 0.5) * 0.12;
+        shockVelocities[s * 3 + 2] = Math.sin(angle) * spd;
+      }
+      shockParticles.geometry.attributes.position.needsUpdate = true;
+      shockMat.opacity = 0.9;
+      shockMat.color.set(watchData.ambientColor);
+
+      // Celebrate active watch with a full 360° spin
+      const targetWatchMesh = watchMeshes[newIndex];
+      if (targetWatchMesh) {
+        targetWatchMesh.spinY = Math.PI * 2;
+      }
+    };
+
+    sceneRef.current = { triggerTransition };
+
+    // Pointer events
+    const onPointerDown = (e) => {
+      isDragging = true;
+      dragStartTime = Date.now();
+      const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+      const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+      dragStartPos = { x: cx, y: cy };
+      prevMousePos = { x: cx, y: cy };
+      velY = 0;
+      velX = 0;
+      if (container) container.style.cursor = "grabbing";
+    };
+
+    const onPointerMove = (e) => {
+      const cx = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+      const cy = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+
+      const rect = container.getBoundingClientRect();
+      mouse.x = ((cx - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((cy - rect.top) / rect.height) * 2 + 1;
+
+      if (isDragging) {
+        const dx = cx - prevMousePos.x;
+        const dy = cy - prevMousePos.y;
+        prevMousePos = { x: cx, y: cy };
+
+        targetRotationY += dx * 0.007;
+        targetRotationX += dy * 0.007;
+        targetRotationX = Math.max(-0.6, Math.min(0.6, targetRotationX));
+
+        velY = dx * 0.007;
+        velX = dy * 0.007;
+      } else {
+        // Check hover over flanking watches
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(
+          watchMeshes.map((w) => w.group),
+          true
+        );
+
+        if (intersects.length > 0) {
+          let hitGroup = intersects[0].object;
+          while (hitGroup.parent && hitGroup.parent !== scene) {
+            hitGroup = hitGroup.parent;
+          }
+          const hitIdx = hitGroup.userData && hitGroup.userData.index;
+          if (hitIdx !== undefined && hitIdx !== currentIndexRef.current) {
+            if (cursorBadgeRef.current) {
+              cursorBadgeRef.current.classList.add("is-visible");
+              cursorBadgeRef.current.style.left = `${cx}px`;
+              cursorBadgeRef.current.style.top = `${cy}px`;
+              cursorBadgeRef.current.textContent = `INSPECT ${SPATIAL_WATCHES[hitIdx].name} ✨`;
+            }
+            if (container) container.style.cursor = "pointer";
+          } else {
+            if (cursorBadgeRef.current) cursorBadgeRef.current.classList.remove("is-visible");
+            if (container) container.style.cursor = "grab";
+          }
+        } else {
+          if (cursorBadgeRef.current) cursorBadgeRef.current.classList.remove("is-visible");
+          if (container) container.style.cursor = "grab";
+        }
+      }
+    };
+
+    const onPointerUp = (e) => {
+      isDragging = false;
+      if (container) container.style.cursor = "grab";
+      const cx = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || 0;
+      const cy = e.clientY || (e.changedTouches && e.changedTouches[0].clientY) || 0;
+      const dragDist = Math.hypot(cx - dragStartPos.x, cy - dragStartPos.y);
+      const dragDuration = Date.now() - dragStartTime;
+
+      // Click detection
+      if (dragDist < 8 && dragDuration < 280) {
+        const rect = container.getBoundingClientRect();
+        mouse.x = ((cx - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((cy - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(
+          watchMeshes.map((w) => w.group),
+          true
+        );
+
+        if (intersects.length > 0) {
+          let hitGroup = intersects[0].object;
+          while (hitGroup.parent && hitGroup.parent !== scene) {
+            hitGroup = hitGroup.parent;
+          }
+          const hitIdx = hitGroup.userData && hitGroup.userData.index;
+          if (hitIdx !== undefined && hitIdx !== currentIndexRef.current) {
+            handleSelectWatch(hitIdx);
+          }
+        }
+      }
+    };
+
+    const dom = renderer.domElement;
+    dom.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+
+    const onResize = () => {
+      if (!container) return;
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    };
+    window.addEventListener("resize", onResize);
+
+    const onKeyDown = (e) => {
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    // Animation Loop
+    let animId;
+    let clock = 0;
+    const animate = () => {
+      clock += 0.025;
+
+      // Smooth inertia & lerp for center watch drag rotation
+      if (!isDragging) {
+        velY *= 0.94;
+        velX *= 0.94;
+        targetRotationY += velY;
+        targetRotationX += velX;
+        // Gentle auto return to center alignment
+        targetRotationY *= 0.96;
+        targetRotationX *= 0.96;
+      }
+      activeRotationY += (targetRotationY - activeRotationY) * 0.12;
+      activeRotationX += (targetRotationX - activeRotationX) * 0.12;
+
+      // Update Watch Positions, Scales & Rotations
+      const activeIdx = currentIndexRef.current;
+      watchMeshes.forEach((w) => {
+        let slot = w.index - activeIdx;
+        if (slot > 3) slot -= watchCount;
+        if (slot < -3) slot += watchCount;
+
+        const target = getSlotTransform(slot);
+
+        // Organic floating bobbing for active center watch
+        let bobY = 0;
+        if (slot === 0) {
+          bobY = Math.sin(clock * 1.8) * 0.08;
+        }
+
+        w.group.position.x += (target.x - w.group.position.x) * 0.1;
+        w.group.position.y += (target.y + bobY - w.group.position.y) * 0.1;
+        w.group.position.z += (target.z - w.group.position.z) * 0.1;
+
+        const s = w.group.scale.x;
+        const nextScale = s + (target.scale - s) * 0.1;
+        w.group.scale.set(nextScale, nextScale, nextScale);
+
+        // Spin animation decay
+        w.spinY *= 0.92;
+
+        if (slot === 0) {
+          w.group.rotation.y = activeRotationY + w.spinY;
+          w.group.rotation.x = activeRotationX + Math.sin(clock * 1.4) * 0.04;
+          w.group.rotation.z = Math.sin(clock * 1.2) * 0.02;
+        } else {
+          w.group.rotation.y += (target.rotY - w.group.rotation.y) * 0.1;
+          w.group.rotation.x += (0 - w.group.rotation.x) * 0.1;
+          w.group.rotation.z += (0 - w.group.rotation.z) * 0.1;
+        }
+      });
+
+      // Lerp Rim Lights Color
+      const activeWatch = SPATIAL_WATCHES[activeIdx];
+      if (activeWatch) {
+        const targetColor = new THREE.Color(activeWatch.ambientColor);
+        rimLightCenter.color.lerp(targetColor, 0.08);
+        rimLightLeft.color.lerp(targetColor, 0.08);
+        rimLightRight.color.lerp(targetColor, 0.08);
+        particleMat.color.lerp(targetColor, 0.08);
+      }
+
+      // Animate shockwave particles
+      if (shockMat.opacity > 0.01) {
+        shockMat.opacity *= 0.94;
+        const pos = shockParticles.geometry.attributes.position.array;
+        for (let s = 0; s < shockCount; s++) {
+          pos[s * 3] += shockVelocities[s * 3];
+          pos[s * 3 + 1] += shockVelocities[s * 3 + 1];
+          pos[s * 3 + 2] += shockVelocities[s * 3 + 2];
+        }
+        shockParticles.geometry.attributes.position.needsUpdate = true;
+      }
+
+      // Animate floating shimmer particles
+      const parts = particleGeo.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        parts[i * 3 + 1] += 0.004;
+        if (parts[i * 3 + 1] > 6) parts[i * 3 + 1] = -6;
+      }
+      particleGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
+      animId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("keydown", onKeyDown);
+      dom.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, [handlePrev, handleNext, handleSelectWatch]);
+
+  return (
+    <section className="spatial-hero-section" aria-label="3D Interactive Watch Spatial Hero">
+      {/* Ambient Morphing Background Gradient */}
+      <div
+        className="spatial-ambient-bg"
+        style={{ background: currentWatch.bgGradient }}
+        aria-hidden="true"
+      />
+
+      {/* 3D WebGL Canvas Container */}
+      <div className="spatial-canvas-container" ref={containerRef} />
+
+      {/* Magnetic Cursor Tooltip Badge */}
+      <div className="spatial-cursor-badge" ref={cursorBadgeRef} aria-hidden="true">
+        INSPECT 3D ✨
+      </div>
+
+      {/* Hero Content Overlay (Cokecan Spatial Layout) */}
+      <div className="spatial-hero-overlay">
+        {/* Edition Counter Indicator */}
+        <div className="spatial-edition-indicator">
+          <span className="spatial-edition-active">0{currentIndex + 1}</span>
+          <span className="spatial-edition-total"> / 0{SPATIAL_WATCHES.length}</span>
+        </div>
+
+        {/* Dynamic Watch Presentation Card */}
+        <div className={`spatial-hero-card ${isTransitioning ? "is-transitioning" : ""}`}>
+          <div className="spatial-tag-pill">
+            <span className="sparkle">✨</span> {currentWatch.tag} <span className="sparkle">✨</span>
+          </div>
+
+          <h1 className="spatial-hero-title">
+            {currentWatch.name} <span className="highlight" style={{ color: currentWatch.colorPrimary }}>{currentWatch.highlight}</span>
+          </h1>
+
+          <p className="spatial-hero-subtitle">
+            {currentWatch.subtitle}
+          </p>
+
+          {/* Specs Bar Pills */}
+          <div className="spatial-specs-pills">
+            <div className="spatial-spec-pill">
+              <span className="pill-label">CALIBER</span>
+              <span className="pill-val">{currentWatch.caliber}</span>
+            </div>
+            <div className="spatial-spec-pill">
+              <span className="pill-label">CASE</span>
+              <span className="pill-val">{currentWatch.case}</span>
+            </div>
+            <div className="spatial-spec-pill">
+              <span className="pill-label">RESERVE</span>
+              <span className="pill-val">{currentWatch.powerReserve}</span>
+            </div>
+            <div className="spatial-spec-pill">
+              <span className="pill-label">RESIST</span>
+              <span className="pill-val">{currentWatch.waterResist}</span>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="spatial-hero-actions">
+            <a className="spatial-primary-cta" href="mailto:connect@hanborowatches.in">
+              <span>Inquire Timepiece</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+            <button
+              type="button"
+              className="spatial-secondary-cta"
+              onClick={onNavigateToStores}
+            >
+              <span>Locate Boutiques ↗</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Navigation Arrow Controls */}
+        <div className="spatial-nav-controls">
+          <button
+            type="button"
+            className="spatial-nav-btn spatial-nav-btn--prev"
+            onClick={handlePrev}
+            aria-label="Previous Timepiece"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="spatial-nav-btn spatial-nav-btn--next"
+            onClick={handleNext}
+            aria-label="Next Timepiece"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Spatial Gesture Hint */}
+        <div className="spatial-gesture-hint">
+          <span className="hint-sparkle">✨</span>
+          <span>Tap any Hanboro 3D timepiece to inspect • Drag center watch to rotate 360° • Use ← → keys</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
@@ -1311,23 +2033,8 @@ function Website({ onRestart }) {
         <StoreLocatorView onNavigateHome={() => navigateTo("home", "#top")} />
       ) : (
         <>
-          <section className="hero" aria-labelledby="hero-title">
-            <div className="hero__copy">
-              <p className="eyebrow h-eyebrow">Independent creative direction</p>
-              <h1 id="hero-title" className="h-h1">Make time<br/><em>matter.</em></h1>
-              <p className="hero__description h-desc">HANBORO shapes striking identities and digital experiences for brands that refuse to stand still.</p>
-              <div className="hero__btn-row">
-                <a className="primary-link h-cta" href="#contact">Start a conversation <span aria-hidden="true">↘</span></a>
-                <button
-                  type="button"
-                  className="secondary-btn h-stores-btn"
-                  onClick={() => navigateTo("stores", "#stores")}
-                >
-                  Find a Store ↗
-                </button>
-              </div>
-            </div>
-          </section>
+          {/* ── 3D SPATIAL HERO SECTION (COKECAN SPATIAL EXPERIENCE) ── */}
+          <SpatialWatchHero onNavigateToStores={() => navigateTo("stores", "#stores")} />
 
           {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
           <WatchCarouselSection />
