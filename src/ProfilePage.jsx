@@ -1,7 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { useStore } from "./StoreContext";
-import { ordersService, SUPABASE_URL } from "./supabaseClient";
+import { ordersService } from "./supabaseClient";
 import { HanboroLogo } from "./HanboroLogo";
+
+/* ── APPLE-GRADE MINIMALIST VECTOR ICONS (No child/cartoon emojis) ── */
+const Icons = {
+  Bag: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
+    </svg>
+  ),
+  Box: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+      <line x1="12" y1="22.08" x2="12" y2="12" />
+    </svg>
+  ),
+  Shield: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  ),
+  ArrowLeft: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  ),
+  Trash: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  ),
+  Check: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  ),
+  LogOut: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  ),
+  Truck: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1" y="3" width="15" height="13" />
+      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+      <circle cx="5.5" cy="18.5" r="2.5" />
+      <circle cx="18.5" cy="18.5" r="2.5" />
+    </svg>
+  ),
+  Clock: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  ),
+};
 
 export function ProfilePage({ onNavigate }) {
   const {
@@ -25,7 +87,6 @@ export function ProfilePage({ onNavigate }) {
   // If user is not logged in, prompt sign in
   useEffect(() => {
     if (!user) {
-      // Auto open auth modal if guest lands on profile
       openAuthModal("signin");
     }
   }, [user, openAuthModal]);
@@ -54,7 +115,7 @@ export function ProfilePage({ onNavigate }) {
           </div>
           <h2 className="guest-title">Private Vault & Client Dossier</h2>
           <p className="guest-subtitle">
-            Please sign in to access your personal watch allocations, active database shopping bag, and shipment tracking.
+            Sign in to access your personal timepiece collection, active shopping bag, and shipment tracking.
           </p>
           <div className="guest-actions">
             <button
@@ -78,259 +139,257 @@ export function ProfilePage({ onNavigate }) {
   }
 
   const userInitial = (user.fullName || user.email || "H").charAt(0).toUpperCase();
+  const collectorRef = user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER";
 
   return (
-    <div className="profile-page-root">
-      {/* ── PROFILE TOP BAR ── */}
-      <header className="profile-topbar">
-        <div className="profile-topbar-left">
+    <div className="apple-profile-root">
+      {/* ── MINIMAL APPLE-STYLE TOP BAR ── */}
+      <header className="apple-profile-topbar">
+        <div className="apple-topbar-inner">
           <button
             type="button"
-            className="profile-back-link"
+            className="apple-back-btn"
             onClick={() => onNavigate && onNavigate("products", "#products")}
           >
-            ← Return to Timepieces
+            <Icons.ArrowLeft />
+            <span>Timepieces</span>
           </button>
-          <div className="profile-brand-wrap">
-            <HanboroLogo theme="light" size={20} />
-            <span className="profile-brand-tag">CLIENT VAULT</span>
-          </div>
-        </div>
 
-        <div className="profile-topbar-right">
-          <div className="profile-db-status-pill">
-            <span className="live-dot" />
-            <span>Private Vault Active</span>
+          <div className="apple-topbar-brand">
+            <HanboroLogo theme="light" size={22} />
+            <span className="apple-topbar-badge">ATELIER VAULT</span>
           </div>
-          {isAdmin && (
+
+          <div className="apple-topbar-actions">
+            {isAdmin && (
+              <button
+                type="button"
+                className="apple-admin-btn"
+                onClick={() => onNavigate && onNavigate("admin", "#admin")}
+              >
+                Admin Suite ↗
+              </button>
+            )}
             <button
               type="button"
-              className="profile-admin-nav-btn"
-              onClick={() => onNavigate && onNavigate("admin", "#admin")}
+              className="apple-logout-btn"
+              onClick={logout}
+              title="Sign Out"
             >
-              ⚙️ Admin Suite ↗
+              <Icons.LogOut />
+              <span>Sign Out</span>
             </button>
-          )}
-          <button
-            type="button"
-            className="profile-topbar-logout"
-            onClick={logout}
-          >
-            Sign Out
-          </button>
+          </div>
         </div>
       </header>
 
       {/* ── MAIN CONTENT CONTAINER ── */}
-      <main className="profile-main-container">
+      <main className="apple-profile-container">
         
-        {/* ── TOP HERO DOSSIER CARD ── */}
-        <section className="profile-hero-card">
-          <div className="profile-hero-left">
-            <div className="profile-avatar-large">
-              <span>{userInitial}</span>
-            </div>
-            <div className="profile-hero-info">
-              <div className="hero-name-row">
-                <h1 className="hero-user-name">{user.fullName || "Valued Client"}</h1>
-                <span className="hero-tier-badge">
-                  {isAdmin ? "✦ Verified Atelier Executive" : "✦ Private Vault Member"}
-                </span>
+        {/* ── APPLE-TIER HERO DOSSIER CARD ── */}
+        <section className="apple-hero-card">
+          <div className="apple-hero-glow" />
+          <div className="apple-hero-body">
+            <div className="apple-hero-identity">
+              <div className="apple-avatar-wrap">
+                <span className="apple-avatar-text">{userInitial}</span>
               </div>
-              <p className="hero-user-email">{user.email}</p>
-              {user.phone && <p className="hero-user-phone">📞 {user.phone}</p>}
+              <div className="apple-user-details">
+                <div className="apple-user-headline">
+                  <h1 className="apple-user-name">{user.fullName || "Valued Client"}</h1>
+                  <span className="apple-tier-tag">
+                    {isAdmin ? "Verified Executive" : "Private Vault Member"}
+                  </span>
+                </div>
+                <p className="apple-user-email">{user.email}</p>
+                {user.phone && <p className="apple-user-phone">{user.phone}</p>}
+              </div>
             </div>
-          </div>
 
-          <div className="profile-hero-stats">
-            <div className="profile-stat-box">
-              <span className="stat-label">COLLECTOR REFERENCE</span>
-              <span className="stat-val stat-val--code">
-                {user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER"}
-              </span>
-            </div>
-            <div className="profile-stat-box">
-              <span className="stat-label">BAG ITEMS</span>
-              <span className="stat-val">{cartCount} Timepieces</span>
-            </div>
-            <div className="profile-stat-box">
-              <span className="stat-label">CONFIRMED ORDERS</span>
-              <span className="stat-val">{userOrders.length} Allocations</span>
+            <div className="apple-hero-metrics">
+              <div className="apple-metric-item">
+                <span className="metric-title">COLLECTOR REF</span>
+                <span className="metric-value metric-value--mono">{collectorRef}</span>
+              </div>
+              <div className="apple-metric-divider" />
+              <div className="apple-metric-item">
+                <span className="metric-title">BAG ALLOCATION</span>
+                <span className="metric-value">{cartCount} {cartCount === 1 ? "Piece" : "Pieces"}</span>
+              </div>
+              <div className="apple-metric-divider" />
+              <div className="apple-metric-item">
+                <span className="metric-title">CONFIRMED ORDERS</span>
+                <span className="metric-value">{userOrders.length}</span>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── PAGE NAVIGATION TABS ── */}
-        <nav className="profile-section-nav" aria-label="Profile Tabs">
+        {/* ── SEGMENTED APPLE CONTROL TABS (No emojis, clean vector icons) ── */}
+        <nav className="apple-segmented-nav" aria-label="Profile Tabs">
           <button
             type="button"
-            className={`profile-nav-pill ${activeTab === "bag" ? "is-active" : ""}`}
+            className={`apple-segment-btn ${activeTab === "bag" ? "is-active" : ""}`}
             onClick={() => setActiveTab("bag")}
           >
-            <span className="pill-icon">🛍️</span>
-            <span className="pill-title">Active Shopping Bag</span>
-            <span className="pill-badge">{cartCount}</span>
+            <Icons.Bag />
+            <span>Shopping Bag</span>
+            {cartCount > 0 && <span className="segment-counter">{cartCount}</span>}
           </button>
 
           <button
             type="button"
-            className={`profile-nav-pill ${activeTab === "orders" ? "is-active" : ""}`}
+            className={`apple-segment-btn ${activeTab === "orders" ? "is-active" : ""}`}
             onClick={() => setActiveTab("orders")}
           >
-            <span className="pill-icon">📦</span>
-            <span className="pill-title">Orders & Allocations</span>
-            <span className="pill-badge">{userOrders.length}</span>
+            <Icons.Box />
+            <span>Orders & Tracking</span>
+            {userOrders.length > 0 && <span className="segment-counter">{userOrders.length}</span>}
           </button>
 
           <button
             type="button"
-            className={`profile-nav-pill ${activeTab === "settings" ? "is-active" : ""}`}
+            className={`apple-segment-btn ${activeTab === "settings" ? "is-active" : ""}`}
             onClick={() => setActiveTab("settings")}
           >
-            <span className="pill-icon">🛡️</span>
-            <span className="pill-title">Client Profile & Privileges</span>
+            <Icons.Shield />
+            <span>Membership & Privileges</span>
           </button>
         </nav>
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 1: ACTIVE DATABASE BAG
+            TAB 1: SHOPPING BAG
         ══════════════════════════════════════════════════════════════════════ */}
         {activeTab === "bag" && (
-          <section className="profile-pane-card">
-            <div className="pane-title-row">
+          <section className="apple-pane-card">
+            <div className="apple-pane-header">
               <div>
-                <h2 className="pane-heading">Active Shopping Bag</h2>
-                <p className="pane-subtext">
-                  Your selected timepieces are persistently stored in the Supabase <code>cart_items</code> database.
+                <h2 className="apple-pane-title">Active Timepiece Selection</h2>
+                <p className="apple-pane-desc">
+                  Curated watches allocated to your private collector account.
                 </p>
               </div>
               {cart.length > 0 && (
                 <button
                   type="button"
-                  className="pane-clear-cart-btn"
+                  className="apple-clear-btn"
                   onClick={clearCart}
                 >
-                  Clear Bag
+                  <Icons.Trash />
+                  <span>Clear Selection</span>
                 </button>
               )}
             </div>
 
             {cart.length === 0 ? (
-              <div className="profile-empty-bag-state">
-                <div className="empty-bag-icon">🛍️</div>
-                <h3 className="empty-bag-title">Your Database Bag is Empty</h3>
-                <p className="empty-bag-desc">
-                  Browse the Hanboro Haute Horlogerie catalog and allocate masterpieces directly to your account.
+              <div className="apple-empty-state">
+                <div className="apple-empty-icon">
+                  <Icons.Bag />
+                </div>
+                <h3 className="apple-empty-title">Your Private Bag is Empty</h3>
+                <p className="apple-empty-text">
+                  Discover exquisite skeleton and tourbillon creations in our latest catalog.
                 </p>
                 <button
                   type="button"
-                  className="profile-action-btn profile-action-btn--primary"
+                  className="apple-primary-btn"
                   onClick={() => onNavigate && onNavigate("products", "#products")}
                 >
-                  Explore Timepiece Collection →
+                  Explore Collection →
                 </button>
               </div>
             ) : (
-              <div className="profile-cart-table-wrap">
-                <div className="profile-table-container">
-                  <table className="profile-cart-table">
-                    <thead>
-                      <tr>
-                        <th>Timepiece</th>
-                        <th>Reference</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Subtotal</th>
-                        <th>Remove</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cart.map((item) => {
-                        const numericPrice =
-                          parseInt(
-                            item.product.price.toString().replace(/[^\d]/g, ""),
-                            10
-                          ) || 0;
-                        const lineTotal = numericPrice * item.quantity;
+              <div className="apple-cart-layout">
+                <div className="apple-cart-items-grid">
+                  {cart.map((item) => {
+                    const numericPrice =
+                      parseInt(
+                        item.product.price.toString().replace(/[^\d]/g, ""),
+                        10
+                      ) || 0;
+                    const lineTotal = numericPrice * item.quantity;
 
-                        return (
-                          <tr key={item.product.id}>
-                            <td className="timepiece-cell">
-                              <img
-                                src={item.product.image}
-                                alt={item.product.name}
-                                className="timepiece-cell-img"
-                              />
-                              <div>
-                                <strong className="timepiece-cell-name">{item.product.name}</strong>
-                                <span className="timepiece-cell-collection">{item.product.collectionName || "Haute Horlogerie"}</span>
-                              </div>
-                            </td>
-                            <td>
-                              <code className="timepiece-cell-sku">{item.product.sku}</code>
-                            </td>
-                            <td>
-                              <span className="timepiece-cell-price">{item.product.price}</span>
-                            </td>
-                            <td>
-                              <div className="profile-table-qty-stepper">
-                                <button
-                                  type="button"
-                                  className="qty-btn"
-                                  onClick={() => updateQuantity(item.product.id, -1)}
-                                >
-                                  −
-                                </button>
-                                <span className="qty-val">{item.quantity}</span>
-                                <button
-                                  type="button"
-                                  className="qty-btn"
-                                  onClick={() => updateQuantity(item.product.id, 1)}
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </td>
-                            <td>
-                              <strong className="timepiece-cell-total">
-                                ₹{lineTotal.toLocaleString("en-IN")}
-                              </strong>
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="table-remove-btn"
-                                onClick={() => removeFromCart(item.product.id)}
-                                title="Remove from bag"
-                              >
-                                ✕
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                    return (
+                      <div key={item.product.id} className="apple-cart-card">
+                        <div className="apple-cart-card-img-wrap">
+                          <img
+                            src={item.product.image}
+                            alt={item.product.name}
+                            className="apple-cart-card-img"
+                          />
+                        </div>
+
+                        <div className="apple-cart-card-info">
+                          <span className="apple-cart-sku">{item.product.sku}</span>
+                          <h4 className="apple-cart-name">{item.product.name}</h4>
+                          <span className="apple-cart-unit-price">{item.product.price}</span>
+                        </div>
+
+                        <div className="apple-cart-card-controls">
+                          <div className="apple-qty-stepper">
+                            <button
+                              type="button"
+                              className="apple-qty-btn"
+                              onClick={() => updateQuantity(item.product.id, -1)}
+                              aria-label="Decrease quantity"
+                            >
+                              −
+                            </button>
+                            <span className="apple-qty-val">{item.quantity}</span>
+                            <button
+                              type="button"
+                              className="apple-qty-btn"
+                              onClick={() => updateQuantity(item.product.id, 1)}
+                              aria-label="Increase quantity"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <span className="apple-line-total">
+                            ₹{lineTotal.toLocaleString("en-IN")}
+                          </span>
+
+                          <button
+                            type="button"
+                            className="apple-remove-btn"
+                            onClick={() => removeFromCart(item.product.id)}
+                            title="Remove watch"
+                          >
+                            <Icons.Trash />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
-                {/* Cart Summary Banner */}
-                <div className="profile-cart-summary-banner">
-                  <div className="summary-banner-left">
-                    <span className="banner-tag">COMPLIMENTARY PRIVILEGE</span>
-                    <p className="banner-desc">
-                      ✓ Insured White-Glove Express Courier & Wooden Presentation Case included.
-                    </p>
+                {/* Subtotal & Checkout Card */}
+                <div className="apple-summary-card">
+                  <div className="apple-summary-perks">
+                    <div className="apple-perk-row">
+                      <Icons.Check />
+                      <span>Complimentary Insured Express Courier</span>
+                    </div>
+                    <div className="apple-perk-row">
+                      <Icons.Check />
+                      <span>Wooden Lacquered Presentation Box</span>
+                    </div>
+                    <div className="apple-perk-row">
+                      <Icons.Check />
+                      <span>2-Year International Atelier Guarantee</span>
+                    </div>
                   </div>
 
-                  <div className="summary-banner-right">
-                    <div className="summary-price-col">
-                      <span className="summary-price-label">ESTIMATED TOTAL</span>
-                      <span className="summary-price-val">₹{subtotalInr.toLocaleString("en-IN")}</span>
+                  <div className="apple-summary-checkout-col">
+                    <div className="apple-summary-amount-block">
+                      <span className="amount-label">ESTIMATED TOTAL</span>
+                      <span className="amount-num">₹{subtotalInr.toLocaleString("en-IN")}</span>
                     </div>
 
                     <button
                       type="button"
-                      className="profile-checkout-primary-btn"
+                      className="apple-checkout-btn"
                       onClick={() => openCheckout()}
                     >
                       Proceed to Secure Checkout →
@@ -343,94 +402,93 @@ export function ProfilePage({ onNavigate }) {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 2: ORDERS & ALLOCATIONS HISTORY
+            TAB 2: ORDERS & TRACKING
         ══════════════════════════════════════════════════════════════════════ */}
         {activeTab === "orders" && (
-          <section className="profile-pane-card">
-            <div className="pane-title-row">
+          <section className="apple-pane-card">
+            <div className="apple-pane-header">
               <div>
-                <h2 className="pane-heading">Your Order Allocations</h2>
-                <p className="pane-subtext">
-                  Direct history of confirmed purchases and delivery dossiers stored in Supabase <code>orders</code>.
+                <h2 className="apple-pane-title">Order Allocations & Shipment</h2>
+                <p className="apple-pane-desc">
+                  Real-time status of your confirmed timepiece purchases.
                 </p>
               </div>
             </div>
 
             {loadingOrders ? (
-              <div className="profile-loading-orders-state">
-                <span className="btn-spinner">Querying Supabase Database...</span>
+              <div className="apple-loading-state">
+                <span className="apple-spinner" />
+                <span>Loading your allocations...</span>
               </div>
             ) : userOrders.length === 0 ? (
-              <div className="profile-empty-orders-state">
-                <div className="empty-orders-icon">📦</div>
-                <h3 className="empty-orders-title">No Confirmed Orders Found</h3>
-                <p className="empty-orders-desc">
-                  You haven't placed any watch orders yet. Your confirmed purchases and tracking airway bills will appear here.
+              <div className="apple-empty-state">
+                <div className="apple-empty-icon">
+                  <Icons.Box />
+                </div>
+                <h3 className="apple-empty-title">No Prior Orders</h3>
+                <p className="apple-empty-text">
+                  Confirmed timepiece allocations and tracking airway bills will appear here once purchased.
                 </p>
                 <button
                   type="button"
-                  className="profile-action-btn profile-action-btn--primary"
+                  className="apple-primary-btn"
                   onClick={() => onNavigate && onNavigate("products", "#products")}
                 >
                   Browse Catalog →
                 </button>
               </div>
             ) : (
-              <div className="profile-orders-grid">
+              <div className="apple-orders-stack">
                 {userOrders.map((ord) => (
-                  <div key={ord.id || ord.order_ref} className="profile-full-order-card">
-                    <div className="order-card-header">
-                      <div className="order-header-left">
-                        <span className="order-ref-title">{ord.order_ref}</span>
-                        <span className="order-placed-date">
-                          Placed on {new Date(ord.created_at).toLocaleDateString("en-IN", {
+                  <div key={ord.id || ord.order_ref} className="apple-order-card">
+                    <div className="apple-order-top">
+                      <div className="apple-order-ref-wrap">
+                        <span className="apple-order-ref">{ord.order_ref}</span>
+                        <span className="apple-order-date">
+                          {new Date(ord.created_at).toLocaleDateString("en-IN", {
                             day: "numeric",
-                            month: "long",
+                            month: "short",
                             year: "numeric",
                           })}
                         </span>
                       </div>
 
-                      <div className="order-header-right">
-                        <span className={`order-status-badge order-status-badge--${ord.order_status?.toLowerCase()}`}>
-                          {ord.order_status || "Processing"}
-                        </span>
-                      </div>
+                      <span className={`apple-status-pill apple-status-pill--${ord.order_status?.toLowerCase()}`}>
+                        {ord.order_status || "Processing"}
+                      </span>
                     </div>
 
-                    <div className="order-card-body">
-                      <div className="order-items-sublist">
-                        {ord.items &&
-                          ord.items.map((it, idx) => (
-                            <div key={idx} className="order-item-detail-row">
-                              {it.image && (
-                                <img src={it.image} alt={it.name} className="order-item-thumb" />
-                              )}
-                              <div className="order-item-desc">
-                                <strong className="order-item-title">{it.name}</strong>
-                                <span className="order-item-ref">SKU: {it.sku}</span>
-                              </div>
-                              <div className="order-item-qty-price">
-                                <span>Qty: {it.quantity || 1}</span>
-                                <strong>{it.price || `₹${ord.total_amount}`}</strong>
-                              </div>
+                    <div className="apple-order-items">
+                      {ord.items &&
+                        ord.items.map((it, idx) => (
+                          <div key={idx} className="apple-order-item-row">
+                            {it.image && (
+                              <img src={it.image} alt={it.name} className="apple-order-item-img" />
+                            )}
+                            <div className="apple-order-item-details">
+                              <span className="apple-order-item-name">{it.name}</span>
+                              <span className="apple-order-item-sku">REF: {it.sku}</span>
                             </div>
-                          ))}
-                      </div>
+                            <div className="apple-order-item-pricing">
+                              <span>Qty: {it.quantity || 1}</span>
+                              <strong>{it.price || `₹${ord.total_amount}`}</strong>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
 
-                      <div className="order-card-footer-info">
-                        <div className="footer-info-block">
-                          <span className="info-block-label">PAYMENT METHOD</span>
-                          <span className="info-block-val">{ord.payment_method || "Credit Card"}</span>
-                        </div>
-                        <div className="footer-info-block">
-                          <span className="info-block-label">AIRWAY BILL / TRACKING</span>
-                          <span className="info-block-val tracking-code">{ord.tracking_number || "Awaiting Dispatch"}</span>
-                        </div>
-                        <div className="footer-info-block footer-info-block--total">
-                          <span className="info-block-label">TOTAL ALLOCATION</span>
-                          <span className="info-block-total-val">₹{Number(ord.total_amount).toLocaleString("en-IN")}</span>
-                        </div>
+                    <div className="apple-order-footer">
+                      <div className="apple-footer-stat">
+                        <span className="stat-label">PAYMENT METHOD</span>
+                        <span className="stat-value">{ord.payment_method || "Credit Card"}</span>
+                      </div>
+                      <div className="apple-footer-stat">
+                        <span className="stat-label">AIRWAY BILL / TRACKING</span>
+                        <span className="stat-value stat-value--mono">{ord.tracking_number || "Awaiting Dispatch"}</span>
+                      </div>
+                      <div className="apple-footer-stat apple-footer-stat--total">
+                        <span className="stat-label">TOTAL ALLOCATION</span>
+                        <span className="stat-value-total">₹{Number(ord.total_amount).toLocaleString("en-IN")}</span>
                       </div>
                     </div>
                   </div>
@@ -441,70 +499,77 @@ export function ProfilePage({ onNavigate }) {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 3: CLIENT PRIVILEGES & ACCOUNT DETAILS
+            TAB 3: MEMBERSHIP & PRIVILEGES (Clean Apple Cards)
         ══════════════════════════════════════════════════════════════════════ */}
         {activeTab === "settings" && (
-          <section className="profile-pane-card">
-            <div className="pane-title-row">
+          <section className="apple-pane-card">
+            <div className="apple-pane-header">
               <div>
-                <h2 className="pane-heading">Client Profile & Atelier Privileges</h2>
-                <p className="pane-subtext">
-                  Your registered collector identity, private concierge status, and delivery preferences.
+                <h2 className="apple-pane-title">Collector Dossier & Privileges</h2>
+                <p className="apple-pane-desc">
+                  Personal profile details and private vault privileges.
                 </p>
               </div>
             </div>
 
-            <div className="profile-settings-grid">
-              <div className="settings-card">
-                <h3 className="settings-card-title">Collector Profile</h3>
-                <div className="settings-row">
-                  <span className="settings-label">Full Name</span>
-                  <span className="settings-val">{user.fullName || "Valued Client"}</span>
+            <div className="apple-grid-two">
+              {/* Card 1: Collector Details */}
+              <div className="apple-subcard">
+                <h3 className="apple-subcard-title">Collector Profile</h3>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Full Name</span>
+                  <span className="subcard-value">{user.fullName || "Valued Client"}</span>
                 </div>
-                <div className="settings-row">
-                  <span className="settings-label">Email Address</span>
-                  <span className="settings-val">{user.email}</span>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Registered Email</span>
+                  <span className="subcard-value">{user.email}</span>
                 </div>
-                <div className="settings-row">
-                  <span className="settings-label">Contact Phone</span>
-                  <span className="settings-val">{user.phone || "Not provided"}</span>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Contact Phone</span>
+                  <span className="subcard-value">{user.phone || "Not provided"}</span>
                 </div>
-                <div className="settings-row">
-                  <span className="settings-label">Membership Tier</span>
-                  <span className="settings-val">{isAdmin ? "Atelier Executive" : "Private Vault Collector"}</span>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Account Tier</span>
+                  <span className="subcard-value">{isAdmin ? "Atelier Executive" : "Private Vault Collector"}</span>
                 </div>
               </div>
 
-              <div className="settings-card">
-                <h3 className="settings-card-title">Private Vault Privileges</h3>
-                <div className="settings-row">
-                  <span className="settings-label">Collector Reference</span>
-                  <span className="settings-val settings-val--code">
-                    {user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER"}
+              {/* Card 2: Exclusive Privileges */}
+              <div className="apple-subcard">
+                <h3 className="apple-subcard-title">Atelier Privileges</h3>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Collector Reference</span>
+                  <span className="subcard-value subcard-value--mono">{collectorRef}</span>
+                </div>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">White-Glove Delivery</span>
+                  <span className="subcard-value text-green">
+                    <Icons.Check /> Complimentary Courier
                   </span>
                 </div>
-                <div className="settings-row">
-                  <span className="settings-label">White-Glove Shipping</span>
-                  <span className="settings-val text-green">✓ Complimentary Insured Courier</span>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Horology Concierge</span>
+                  <span className="subcard-value text-green">
+                    <Icons.Check /> Available 24/7
+                  </span>
                 </div>
-                <div className="settings-row">
-                  <span className="settings-label">Horology Concierge</span>
-                  <span className="settings-val text-green">🟢 Active & Available</span>
-                </div>
-                <div className="settings-row">
-                  <span className="settings-label">Presentation Packaging</span>
-                  <span className="settings-val text-green">✓ Lacquer Display Box Included</span>
+                <div className="apple-subcard-row">
+                  <span className="subcard-label">Presentation Case</span>
+                  <span className="subcard-value text-green">
+                    <Icons.Check /> Hardwood Lacquered Box
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="profile-settings-actions">
+            <div className="apple-pane-footer">
               <button
                 type="button"
-                className="profile-logout-danger-btn"
+                className="apple-signout-btn"
                 onClick={logout}
               >
-                Sign Out of Hanboro Atelier
+                <Icons.LogOut />
+                <span>Sign Out of Hanboro Atelier</span>
               </button>
             </div>
           </section>
