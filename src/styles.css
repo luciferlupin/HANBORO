@@ -10805,6 +10805,11 @@ a { color: inherit; text-decoration: none; }
   font-size: 12px;
   color: #71717a;
 }
+.apple-order-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .apple-status-pill {
   font-size: 11px;
   font-weight: 600;
@@ -10827,6 +10832,132 @@ a { color: inherit; text-decoration: none; }
   background: rgba(34, 197, 94, 0.12);
   color: #4ade80;
   border: 1px solid rgba(34, 197, 94, 0.25);
+}
+.apple-status-pill--cancelled {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.apple-order-cancel-trigger {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.apple-order-cancel-trigger:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+.apple-order-card--cancelled {
+  opacity: 0.85;
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.apple-order-cancelled-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.notice-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* Apple Modal Overlay */
+.apple-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
+.apple-modal-box {
+  background: #14141a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+}
+.modal-alert-symbol {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+.modal-text {
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+.modal-actions-row {
+  display: flex;
+  gap: 12px;
+}
+.modal-keep-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modal-keep-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.modal-cancel-confirm-btn {
+  flex: 1;
+  background: #dc2626;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+  transition: all 0.2s ease;
+}
+.modal-cancel-confirm-btn:hover:not(:disabled) {
+  background: #b91c1c;
+}
+.modal-cancel-confirm-btn:disabled, .modal-keep-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .apple-order-items {

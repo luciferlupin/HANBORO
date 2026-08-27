@@ -504,6 +504,38 @@ export const ordersService = {
 
     return updated;
   },
+
+  // Cancel order by user or admin
+  async cancelOrder(orderRefOrId, reason = "Requested by Client") {
+    const currentOrders = getLocalOrders();
+    const updated = currentOrders.map((o) =>
+      o.order_ref === orderRefOrId || o.id === orderRefOrId
+        ? {
+            ...o,
+            order_status: "Cancelled",
+            payment_status: "Refund Initiated",
+            cancellation_reason: reason,
+            updated_at: new Date().toISOString(),
+          }
+        : o
+    );
+    saveLocalOrders(updated);
+
+    try {
+      await supabase
+        .from("orders")
+        .update({
+          order_status: "Cancelled",
+          payment_status: "Refund Initiated",
+          updated_at: new Date().toISOString(),
+        })
+        .or(`order_ref.eq.${orderRefOrId},id.eq.${orderRefOrId}`);
+    } catch (err) {
+      console.warn("Supabase cancel order note:", err);
+    }
+
+    return updated;
+  },
 };
 
 // ── INVENTORY SERVICE ────────────────────────────────────────────────────────

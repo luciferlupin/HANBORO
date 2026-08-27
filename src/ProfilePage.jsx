@@ -83,6 +83,8 @@ export function ProfilePage({ onNavigate }) {
   const [activeTab, setActiveTab] = useState("bag"); // "bag" | "orders" | "settings"
   const [userOrders, setUserOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState(null);
+  const [cancelling, setCancelling] = useState(false);
 
   // If user is not logged in, prompt sign in
   useEffect(() => {
@@ -105,6 +107,26 @@ export function ProfilePage({ onNavigate }) {
       loadOrders();
     }
   }, [user]);
+
+  const handleConfirmCancelOrder = async () => {
+    if (!orderToCancel) return;
+    setCancelling(true);
+    try {
+      await ordersService.cancelOrder(orderToCancel.order_ref || orderToCancel.id);
+      setUserOrders((prev) =>
+        prev.map((o) =>
+          o.order_ref === orderToCancel.order_ref || o.id === orderToCancel.id
+            ? { ...o, order_status: "Cancelled", payment_status: "Refund Initiated" }
+            : o
+        )
+      );
+    } catch (err) {
+      console.warn("Cancellation error:", err);
+    } finally {
+      setCancelling(false);
+      setOrderToCancel(null);
+    }
+  };
 
   if (!user) {
     return (
@@ -439,60 +461,86 @@ export function ProfilePage({ onNavigate }) {
               </div>
             ) : (
               <div className="apple-orders-stack">
-                {userOrders.map((ord) => (
-                  <div key={ord.id || ord.order_ref} className="apple-order-card">
-                    <div className="apple-order-top">
-                      <div className="apple-order-ref-wrap">
-                        <span className="apple-order-ref">{ord.order_ref}</span>
-                        <span className="apple-order-date">
-                          {new Date(ord.created_at).toLocaleDateString("en-IN", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </span>
+                {userOrders.map((ord) => {
+                  const isCancelled = ord.order_status?.toLowerCase() === "cancelled";
+                  const isDelivered = ord.order_status?.toLowerCase() === "delivered";
+                  const canCancel = !isCancelled && !isDelivered;
+
+                  return (
+                    <div key={ord.id || ord.order_ref} className={`apple-order-card ${isCancelled ? "apple-order-card--cancelled" : ""}`}>
+                      <div className="apple-order-top">
+                        <div className="apple-order-ref-wrap">
+                          <span className="apple-order-ref">{ord.order_ref}</span>
+                          <span className="apple-order-date">
+                            {new Date(ord.created_at).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+
+                        <div className="apple-order-actions-top">
+                          <span className={`apple-status-pill apple-status-pill--${ord.order_status?.toLowerCase() || "processing"}`}>
+                            {ord.order_status || "Processing"}
+                          </span>
+
+                          {canCancel && (
+                            <button
+                              type="button"
+                              className="apple-order-cancel-trigger"
+                              onClick={() => setOrderToCancel(ord)}
+                              title="Request order cancellation"
+                            >
+                              Cancel Order
+                            </button>
+                          )}
+                        </div>
                       </div>
 
-                      <span className={`apple-status-pill apple-status-pill--${ord.order_status?.toLowerCase()}`}>
-                        {ord.order_status || "Processing"}
-                      </span>
-                    </div>
-
-                    <div className="apple-order-items">
-                      {ord.items &&
-                        ord.items.map((it, idx) => (
-                          <div key={idx} className="apple-order-item-row">
-                            {it.image && (
-                              <img src={it.image} alt={it.name} className="apple-order-item-img" />
-                            )}
-                            <div className="apple-order-item-details">
-                              <span className="apple-order-item-name">{it.name}</span>
-                              <span className="apple-order-item-sku">REF: {it.sku}</span>
+                      <div className="apple-order-items">
+                        {ord.items &&
+                          ord.items.map((it, idx) => (
+                            <div key={idx} className="apple-order-item-row">
+                              {it.image && (
+                                <img src={it.image} alt={it.name} className="apple-order-item-img" />
+                              )}
+                              <div className="apple-order-item-details">
+                                <span className="apple-order-item-name">{it.name}</span>
+                                <span className="apple-order-item-sku">REF: {it.sku}</span>
+                              </div>
+                              <div className="apple-order-item-pricing">
+                                <span>Qty: {it.quantity || 1}</span>
+                                <strong>{it.price || `₹${ord.total_amount}`}</strong>
+                              </div>
                             </div>
-                            <div className="apple-order-item-pricing">
-                              <span>Qty: {it.quantity || 1}</span>
-                              <strong>{it.price || `₹${ord.total_amount}`}</strong>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
+                          ))}
+                      </div>
 
-                    <div className="apple-order-footer">
-                      <div className="apple-footer-stat">
-                        <span className="stat-label">PAYMENT METHOD</span>
-                        <span className="stat-value">{ord.payment_method || "Credit Card"}</span>
-                      </div>
-                      <div className="apple-footer-stat">
-                        <span className="stat-label">AIRWAY BILL / TRACKING</span>
-                        <span className="stat-value stat-value--mono">{ord.tracking_number || "Awaiting Dispatch"}</span>
-                      </div>
-                      <div className="apple-footer-stat apple-footer-stat--total">
-                        <span className="stat-label">TOTAL ALLOCATION</span>
-                        <span className="stat-value-total">₹{Number(ord.total_amount).toLocaleString("en-IN")}</span>
+                      {isCancelled && (
+                        <div className="apple-order-cancelled-notice">
+                          <span className="notice-dot" />
+                          <span>Order cancelled • Full refund initiated to original payment source</span>
+                        </div>
+                      )}
+
+                      <div className="apple-order-footer">
+                        <div className="apple-footer-stat">
+                          <span className="stat-label">PAYMENT METHOD</span>
+                          <span className="stat-value">{ord.payment_method || "Credit Card"}</span>
+                        </div>
+                        <div className="apple-footer-stat">
+                          <span className="stat-label">AIRWAY BILL / TRACKING</span>
+                          <span className="stat-value stat-value--mono">{ord.tracking_number || "Awaiting Dispatch"}</span>
+                        </div>
+                        <div className="apple-footer-stat apple-footer-stat--total">
+                          <span className="stat-label">TOTAL ALLOCATION</span>
+                          <span className="stat-value-total">₹{Number(ord.total_amount).toLocaleString("en-IN")}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </section>
@@ -551,6 +599,37 @@ export function ProfilePage({ onNavigate }) {
         )}
 
       </main>
+
+      {/* ── CANCELLATION CONFIRMATION MODAL ── */}
+      {orderToCancel && (
+        <div className="apple-modal-overlay" onClick={() => !cancelling && setOrderToCancel(null)}>
+          <div className="apple-modal-box" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-alert-symbol">⚠️</div>
+            <h3 className="modal-title">Cancel Order Allocation?</h3>
+            <p className="modal-text">
+              Are you sure you want to cancel order <strong>{orderToCancel.order_ref}</strong>? Your reserved timepiece will be released back to atelier inventory and a full refund of <strong>₹{Number(orderToCancel.total_amount).toLocaleString("en-IN")}</strong> will be credited to your account.
+            </p>
+            <div className="modal-actions-row">
+              <button
+                type="button"
+                className="modal-keep-btn"
+                disabled={cancelling}
+                onClick={() => setOrderToCancel(null)}
+              >
+                Keep Order
+              </button>
+              <button
+                type="button"
+                className="modal-cancel-confirm-btn"
+                disabled={cancelling}
+                onClick={handleConfirmCancelOrder}
+              >
+                {cancelling ? "Cancelling..." : "Yes, Cancel Order"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
