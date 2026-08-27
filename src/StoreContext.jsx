@@ -98,6 +98,7 @@ export function StoreProvider({ children }) {
           setCart(userDbCart);
         }
       }
+      window.location.hash = "#profile";
     }
     return res;
   };
@@ -113,6 +114,7 @@ export function StoreProvider({ children }) {
       if (res.profile.id && cart.length > 0) {
         await cartService.syncLocalCart(res.profile.id, cart);
       }
+      window.location.hash = "#profile";
     }
     return res;
   };

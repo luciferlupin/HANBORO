@@ -9,6 +9,7 @@ import { AuthModal } from "./AuthModal";
 import { CartDrawer } from "./CartDrawer";
 import { CheckoutModal } from "./CheckoutModal";
 import { AdminDashboard } from "./AdminDashboard";
+import { ProfilePage } from "./ProfilePage";
 
 const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
@@ -2446,6 +2447,7 @@ function Website({ onRestart }) {
   const [view, setView] = useState(() => {
     const hash = window.location.hash.toLowerCase();
     if (hash.startsWith("#admin")) return "admin";
+    if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) return "profile";
     if (hash.startsWith("#stores")) return "stores";
     if (hash.startsWith("#sku/") || hash.startsWith("#product/") || hash.startsWith("#products") || hash.startsWith("#archive")) {
       return "products";
@@ -2467,6 +2469,9 @@ function Website({ onRestart }) {
       const hash = window.location.hash.toLowerCase();
       if (hash.startsWith("#admin")) {
         setView("admin");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) {
+        setView("profile");
         setSelectedSkuId(null);
       } else if (hash.startsWith("#stores")) {
         setView("stores");
@@ -2523,7 +2528,7 @@ function Website({ onRestart }) {
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       {/* ── LUXURY HEADER (Exact Match to Photo Reference) ── */}
-      {view === "stores" || view === "admin" ? null : (
+      {view === "stores" || view === "admin" || view === "profile" ? null : (
         <header className="luxury-header" role="banner">
           {/* Left: Minimal Hamburger Menu */}
           <button
@@ -2568,9 +2573,15 @@ function Website({ onRestart }) {
             <button
               type="button"
               className={`luxury-header__icon-btn luxury-header__user-btn ${user ? "is-logged-in" : ""}`}
-              onClick={() => openAuthModal("signin")}
-              aria-label={user ? `Account: ${user.fullName || user.email}` : "Client Sign In"}
-              title={user ? `Signed in as ${user.fullName || user.email}` : "Client Login / Register"}
+              onClick={() => {
+                if (user) {
+                  navigateTo("profile", "#profile");
+                } else {
+                  openAuthModal("signin");
+                }
+              }}
+              aria-label={user ? `Account Profile: ${user.fullName || user.email}` : "Client Sign In"}
+              title={user ? `Signed in as ${user.fullName || user.email} (View Vault Profile)` : "Client Login / Register"}
             >
               {user ? (
                 <span className="header-avatar-circle">
@@ -2647,6 +2658,24 @@ function Website({ onRestart }) {
 
           <button
             type="button"
+            className={`luxury-drawer__link ${view === "profile" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              if (user) {
+                navigateTo("profile", "#profile");
+              } else {
+                openAuthModal("signin");
+              }
+            }}
+          >
+            <span className="drawer-link-text">
+              {user ? `Private Dossier (${user.fullName?.split(" ")[0] || "Profile"})` : "Client Sign In / Register"}
+            </span>
+            <span className="drawer-link-arrow">👤</span>
+          </button>
+
+          <button
+            type="button"
             className="luxury-drawer__link"
             onClick={() => {
               setMenuOpen(false);
@@ -2655,20 +2684,6 @@ function Website({ onRestart }) {
           >
             <span className="drawer-link-text">Atelier Bag ({cartCount})</span>
             <span className="drawer-link-arrow">🛍️</span>
-          </button>
-
-          <button
-            type="button"
-            className="luxury-drawer__link"
-            onClick={() => {
-              setMenuOpen(false);
-              openAuthModal("signin");
-            }}
-          >
-            <span className="drawer-link-text">
-              {user ? `Account (${user.fullName?.split(" ")[0] || "Profile"})` : "Client Sign In / Register"}
-            </span>
-            <span className="drawer-link-arrow">👤</span>
           </button>
 
           {isAdmin && (
@@ -2698,6 +2713,8 @@ function Website({ onRestart }) {
 
       {view === "admin" ? (
         <AdminDashboard onNavigateHome={() => navigateTo("home", "#top")} />
+      ) : view === "profile" ? (
+        <ProfilePage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
       ) : view === "stores" ? (
         <StoreLocatorView
           onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
