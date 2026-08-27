@@ -309,7 +309,7 @@ export function AuthModal() {
             {profileSection === "orders" && (
               <div className="profile-orders-section">
                 {loadingOrders ? (
-                  <div className="profile-loading-orders">Querying Supabase orders...</div>
+                  <div className="profile-loading-orders">Loading your orders...</div>
                 ) : userOrders.length === 0 ? (
                   <div className="profile-orders-empty">
                     <p>No previous orders registered under this account.</p>

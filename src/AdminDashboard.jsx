@@ -305,7 +305,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
     navigator.clipboard.writeText(sql);
     setCopiedSql(true);
     setTimeout(() => setCopiedSql(false), 2000);
-    showAdminToast("Supabase PostgreSQL schema copied to clipboard");
+    showAdminToast("Cloud setup script copied to clipboard");
   };
 
   const combinedPromos = { ...PROMO_CODES, ...customPromos };
@@ -323,7 +323,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           <div className="admin-backend-indicator">
             <span className={`status-dot ${isSyncing ? "status-dot--syncing" : "status-dot--online"}`} />
             <span className="indicator-text">
-              {isSyncing ? "Syncing..." : "PostgreSQL Connected"}
+              {isSyncing ? "Refreshing..." : "Live Store Active"}
             </span>
           </div>
         </div>
@@ -333,9 +333,9 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
             type="button"
             className="admin-sync-pulse-btn"
             onClick={loadAllAdminData}
-            title="Refresh and sync data directly from Supabase"
+            title="Refresh and sync store data"
           >
-            <span>🔄 Sync DB</span>
+            <span>🔄 Refresh Data</span>
           </button>
 
           <button
@@ -436,7 +436,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               onClick={() => setActiveTab("supabase")}
             >
               <span className="nav-icon">⚡</span>
-              <span className="nav-label">Supabase Cloud</span>
+              <span className="nav-label">Cloud Settings</span>
             </button>
           </nav>
         </aside>
@@ -634,13 +634,13 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     {loadingCarts ? (
                       <tr>
                         <td colSpan="6" className="table-empty-cell">
-                          Scanning Supabase cart_items table...
+                          Retrieving active client shopping bags...
                         </td>
                       </tr>
                     ) : liveCarts.length === 0 ? (
                       <tr>
                         <td colSpan="6" className="table-empty-cell">
-                          No active user carts at this moment. When visitors click '+ Bag', their bags will stream here live.
+                          No active user carts at this moment. When visitors add timepieces to their bag, they will appear here live.
                         </td>
                       </tr>
                     ) : (
@@ -720,7 +720,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               <div className="pane-header-row">
                 <div>
                   <h1 className="pane-title">Order Transmissions & Logistics</h1>
-                  <p className="pane-subtitle">Live Supabase sync for order statuses, dispatch records, and airway bills.</p>
+                  <p className="pane-subtitle">Real-time status management, dispatch records, and airway bills.</p>
                 </div>
                 <div className="pane-header-actions">
                   <button
@@ -784,7 +784,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     {ordersLoading ? (
                       <tr>
                         <td colSpan="7" className="table-empty-cell">
-                          Connecting to Supabase PostgreSQL cluster...
+                          Loading client transmissions...
                         </td>
                       </tr>
                     ) : filteredOrders.length === 0 ? (
@@ -1084,14 +1084,14 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              TAB 7: SUPABASE CLOUD TELEMETRY
+              TAB 7: CLOUD INFRASTRUCTURE & SETTINGS
           ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "supabase" && (
             <div className="admin-tab-pane">
               <div className="pane-header-row">
                 <div>
-                  <h1 className="pane-title">Supabase Backend Telemetry</h1>
-                  <p className="pane-subtitle">Direct PostgreSQL connection credentials and database health.</p>
+                  <h1 className="pane-title">Cloud Infrastructure & Sync</h1>
+                  <p className="pane-subtitle">Live connectivity, data security status, and system architecture.</p>
                 </div>
                 <div className="pane-header-actions">
                   <button
@@ -1099,26 +1099,26 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     className="admin-action-btn admin-action-btn--primary"
                     onClick={handleCopySql}
                   >
-                    {copiedSql ? "✓ SQL Copied!" : "Copy SQL Migration Script"}
+                    {copiedSql ? "✓ Script Copied!" : "Copy Setup Script"}
                   </button>
                 </div>
               </div>
 
               <div className="supabase-telemetry-grid">
                 <div className="telemetry-card">
-                  <span className="telemetry-label">DATABASE HOST</span>
-                  <div className="telemetry-val">Supabase AWS (us-east-1)</div>
-                  <span className="telemetry-sub">PostgreSQL 15.1 Engine</span>
+                  <span className="telemetry-label">INFRASTRUCTURE</span>
+                  <div className="telemetry-val">Atelier Cloud Engine</div>
+                  <span className="telemetry-sub">High-Availability Active Cluster</span>
                 </div>
                 <div className="telemetry-card">
-                  <span className="telemetry-label">PROJECT URL</span>
-                  <div className="telemetry-val telemetry-val--mono">{SUPABASE_URL}</div>
-                  <span className="telemetry-sub">SSL Encrypted / TLS 1.3</span>
+                  <span className="telemetry-label">SECURITY & ENCRYPTION</span>
+                  <div className="telemetry-val">TLS 1.3 / End-to-End Secure</div>
+                  <span className="telemetry-sub">Enterprise Protected Database</span>
                 </div>
                 <div className="telemetry-card">
-                  <span className="telemetry-label">SYNC TABLES</span>
-                  <div className="telemetry-val">orders, cart_items, profiles</div>
-                  <span className="telemetry-sub">Row Level Security (RLS) Active</span>
+                  <span className="telemetry-label">SYNCHRONIZED DATA</span>
+                  <div className="telemetry-val">Orders, Bags, Client Profiles</div>
+                  <span className="telemetry-sub">Real-Time Row Protection Active</span>
                 </div>
               </div>
             </div>
