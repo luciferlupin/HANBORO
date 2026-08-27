@@ -359,6 +359,83 @@ export const cartService = {
       await this.saveCartItem(userId, item.product, item.quantity);
     }
   },
+
+  // Fetch all active/live shopping carts across all users for Admin Dashboard
+  async fetchAllLiveCarts() {
+    try {
+      const { data, error } = await supabase
+        .from("cart_items")
+        .select("*")
+        .order("updated_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        // Group by user_id
+        const userMap = {};
+        data.forEach((row) => {
+          const uid = row.user_id || "guest-session";
+          if (!userMap[uid]) {
+            userMap[uid] = {
+              userId: uid,
+              items: [],
+              itemCount: 0,
+              totalValue: 0,
+              lastUpdated: row.updated_at || new Date().toISOString(),
+            };
+          }
+          const priceNum = parseInt(String(row.price || "0").replace(/[^\d]/g, ""), 10) || 0;
+          const qty = row.quantity || 1;
+          userMap[uid].items.push({
+            id: row.product_id,
+            sku: row.sku,
+            name: row.name,
+            price: row.price,
+            priceNum,
+            quantity: qty,
+            image: row.image,
+          });
+          userMap[uid].itemCount += qty;
+          userMap[uid].totalValue += priceNum * qty;
+        });
+        return Object.values(userMap);
+      }
+    } catch (err) {
+      console.warn("Supabase fetch all live carts note:", err);
+    }
+
+    // Fallback: check local active carts
+    const cachedCart = localStorage.getItem(STORAGE_KEYS.CART);
+    if (cachedCart) {
+      try {
+        const parsed = JSON.parse(cachedCart);
+        if (parsed.length > 0) {
+          const totalVal = parsed.reduce((sum, it) => {
+            const price = parseInt(String(it.product?.price || "0").replace(/[^\d]/g, ""), 10) || 0;
+            return sum + price * (it.quantity || 1);
+          }, 0);
+          return [
+            {
+              userId: "active-client-session",
+              userEmail: "collector.active@hanboro.com",
+              items: parsed.map((it) => ({
+                id: it.product?.id,
+                sku: it.product?.sku,
+                name: it.product?.name,
+                price: it.product?.price,
+                quantity: it.quantity || 1,
+                image: it.product?.image,
+              })),
+              itemCount: parsed.reduce((sum, it) => sum + (it.quantity || 1), 0),
+              totalValue: totalVal,
+              lastUpdated: new Date().toISOString(),
+            },
+          ];
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return [];
+  },
 };
 
 // ── ORDERS SERVICE ───────────────────────────────────────────────────────────

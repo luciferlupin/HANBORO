@@ -9845,196 +9845,404 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 255, 255, 0.06);
   color: #8c8a92;
 }
-.tier-badge {
-  background: rgba(250, 45, 29, 0.15);
-  color: #ff857a;
-  border: 1px solid rgba(250, 45, 29, 0.3);
+.admin-sync-pulse-btn {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.admin-sync-pulse-btn:hover {
+  background: rgba(34, 197, 94, 0.22);
+}
+
+.status-dot--syncing {
+  background: #facc15;
+  box-shadow: 0 0 8px #facc15;
+  animation: pulse 1s infinite;
+}
+
+.nav-counter--accent {
+  background: var(--red);
+  color: #fff;
+}
+
+.admin-kpi-grid--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .admin-kpi-grid--three {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpi-trend--live {
+  color: #4ade80;
+  font-weight: 800;
+}
+
+.bento-badge {
   font-size: 11px;
   font-weight: 700;
+  color: #ff857a;
+  background: rgba(250, 45, 29, 0.1);
+  border: 1px solid rgba(250, 45, 29, 0.2);
   padding: 3px 8px;
   border-radius: 100px;
 }
 
-/* Supabase Tab */
-.supabase-config-card {
+/* Cart item preview stack */
+.cart-item-preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cart-mini-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #d4d4d8;
+}
+.cart-mini-thumb {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  background: #09090c;
+  border-radius: 4px;
+}
+.cart-more-badge {
+  font-size: 10px;
+  color: #71717a;
+}
+
+.table-actions-cluster {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.table-nudge-btn {
+  background: rgba(250, 45, 29, 0.15);
+  border: 1px solid rgba(250, 45, 29, 0.35);
+  color: #ff857a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.table-nudge-btn:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Airway tracking inline edit */
+.tracking-edit-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tracking-inline-input {
+  background: #0d0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #ff857a;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 8px;
+  width: 110px;
+  outline: none;
+}
+.tracking-inline-input:focus {
+  border-color: var(--red);
+}
+.tracking-save-btn {
+  background: #22c55e;
+  border: none;
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 5px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Promo Creator Form */
+.admin-form-box {
   background: #131318;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  padding: 20px 24px;
   margin-bottom: 24px;
 }
-.config-item {
+.form-box-title {
+  margin: 0 0 14px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.promo-create-form {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
-.config-item:last-child { border-bottom: none; }
-.config-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #8c8a92;
-}
-.config-val {
-  background: #09090c;
-  padding: 6px 12px;
-  border-radius: 6px;
+.promo-input {
+  background: #0d0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
   color: #fff;
-  font-size: 12px;
+  font-size: 13px;
+  padding: 9px 14px;
+  outline: none;
 }
-.sync-status-badge {
-  color: #22c55e;
-  font-size: 12px;
-  font-weight: 700;
+.promo-input:focus {
+  border-color: var(--red);
 }
-
-.sql-preview-box {
-  background: #0a0a0e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
+.promo-input--short {
+  width: 100px;
 }
-.sql-box-header {
-  background: #15151c;
-  padding: 12px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 700;
+.promo-select {
+  background: #0d0d12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
   color: #fff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-.sql-copy-small-btn {
-  background: var(--red);
-  border: none;
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 14px;
+  outline: none;
   cursor: pointer;
 }
-.sql-code-block {
-  margin: 0;
-  padding: 18px;
-  font-family: monospace;
+
+/* Supabase Telemetry Grid */
+.supabase-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 800px) {
+  .supabase-telemetry-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.telemetry-card {
+  background: #131318;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 20px;
+}
+.telemetry-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #71717a;
+  display: block;
+  margin-bottom: 8px;
+}
+.telemetry-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.telemetry-val--mono {
+  font-family: ui-monospace, monospace;
   font-size: 12px;
-  color: #c9c7be;
-  line-height: 1.6;
-  overflow-x: auto;
+  color: #4ade80;
+}
+.telemetry-sub {
+  font-size: 11px;
+  color: #a1a1aa;
 }
 
-/* Dossier Inspection Modal */
-.dossier-modal-card {
-  max-width: 640px;
-  padding: 32px;
+/* Admin Dossier Modal */
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
 }
-.dossier-head {
+.admin-dossier-modal {
+  background: #121217;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.dossier-modal-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.dossier-tag {
+.dossier-ref-tag {
   font-size: 10px;
-  letter-spacing: 0.15em;
-  color: var(--red);
   font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--red);
   display: block;
+  margin-bottom: 4px;
 }
-.dossier-title {
-  margin: 2px 0 0 0;
-  font-size: 22px;
+.dossier-modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
   color: #fff;
-  font-family: monospace;
+  font-family: ui-monospace, monospace;
+}
+.dossier-close-btn {
+  background: none;
+  border: none;
+  color: #71717a;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+}
+.dossier-close-btn:hover {
+  color: #fff;
 }
 .dossier-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
-@media (max-width: 600px) {
-  .dossier-grid { grid-template-columns: 1fr; }
+@media (max-width: 500px) {
+  .dossier-grid {
+    grid-template-columns: 1fr;
+  }
 }
-.dossier-card {
-  background: #141419;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 14px;
-}
-.dossier-card h4 {
-  margin: 0 0 10px 0;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: #8c8a92;
-  text-transform: uppercase;
-}
-.dossier-card p {
-  margin: 0 0 6px 0;
-  font-size: 12px;
-  color: #c4c2ba;
-  line-height: 1.4;
-}
-
-.dossier-items-table-wrap {
-  background: #0e0e12;
+.dossier-field {
+  background: #181820;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 22px;
+  padding: 10px 14px;
 }
-.dossier-items-table-wrap h4 {
-  margin: 0 0 12px 0;
-  font-size: 11px;
-  color: #8c8a92;
+.df-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #71717a;
+  display: block;
+  margin-bottom: 3px;
   text-transform: uppercase;
 }
-.dossier-item-row {
+.df-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+.df-val--mono {
+  font-family: ui-monospace, monospace;
+  color: #ff857a;
+}
+.df-val--price {
+  font-weight: 800;
+  color: #fff;
+}
+.dossier-shipping-box {
+  background: #181820;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+.shipping-text {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #e4e4e7;
+  line-height: 1.4;
+}
+.dossier-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.dossier-item-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  background: #181820;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 10px 12px;
 }
-.dossier-item-row:last-child { border-bottom: none; }
-.dossier-item-row img {
-  width: 44px;
-  height: 44px;
+.dossier-thumb {
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  background: #080808;
+  background: #09090c;
   border-radius: 6px;
 }
-.dossier-item-info { flex: 1; }
-.dossier-item-info strong { display: block; font-size: 13px; color: #fff; }
-.dossier-item-info span { font-size: 11px; color: #8c8a92; }
-.dossier-item-price { font-size: 13px; font-weight: 800; color: #fff; }
-
-.dossier-foot-actions {
+.dossier-item-info {
+  flex: 1;
+}
+.dossier-item-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+.dossier-item-sku {
+  font-size: 10px;
+  color: #71717a;
+}
+.dossier-item-qty-price {
+  text-align: right;
+  font-size: 11px;
+  color: #a1a1aa;
+}
+.dossier-item-qty-price strong {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+}
+.dossier-total-highlight {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.dossier-total-box {
+  background: rgba(250, 45, 29, 0.08);
+  border: 1px solid rgba(250, 45, 29, 0.2);
+  border-radius: 10px;
+  padding: 14px 16px;
   font-size: 13px;
-  color: #8c8a92;
-}
-.dossier-total-box strong {
-  display: block;
-  font-size: 18px;
   color: #fff;
-  margin-top: 2px;
+  margin-bottom: 20px;
+}
+.dossier-total-highlight strong {
+  font-size: 16px;
+  color: #ff857a;
+}
+.dossier-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
 }
 
 /* ── PDP & CATALOG COMMERCE BUTTONS ─────────────────────────────────────────── */
