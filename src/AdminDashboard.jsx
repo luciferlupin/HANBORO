@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { ordersService, inventoryService, cartService, SUPABASE_URL } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
+import { HanboroLogo } from "./HanboroLogo";
 
 export function AdminDashboard({ onNavigateHome }) {
   const { user, logout } = useStore();
@@ -316,7 +317,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
       <header className="admin-topbar">
         <div className="topbar-left">
           <div className="admin-brand-cluster">
-            <span className="admin-brand-name">HANBORO</span>
+            <HanboroLogo theme="light" size={20} />
             <span className="admin-badge-pill">ATELIER COMMAND</span>
           </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useStore } from "./StoreContext";
+import { HanboroLogo } from "./HanboroLogo";
 
 export function CheckoutModal() {
   const {
@@ -111,7 +112,7 @@ export function CheckoutModal() {
         {/* Header with Step Indicator */}
         <div className="checkout-modal-header">
           <div className="checkout-head-left">
-            <span className="checkout-brand">HANBORO</span>
+            <HanboroLogo theme="light" size={22} />
             <h2 id="checkout-modal-title" className="checkout-title">
               {step === 1
                 ? "Atelier Allocation & Shipping"
@@ -321,7 +322,9 @@ export function CheckoutModal() {
                 {/* Virtual Black Luxury Card Visual */}
                 <div className="luxury-credit-card-mockup">
                   <div className="card-chip" />
-                  <div className="card-brand-logo">HANBORO PRIVATE VAULT</div>
+                  <div className="card-brand-logo">
+                    <HanboroLogo theme="light" size={16} />
+                  </div>
                   <div className="card-mock-number">{cardNumber}</div>
                   <div className="card-mock-bottom">
                     <div>

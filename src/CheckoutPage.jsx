@@ -453,7 +453,7 @@ export function CheckoutPage({ onNavigate }) {
                       <div className="apple-black-card">
                         <div className="apple-card-top">
                           <span className="apple-card-chip">■■</span>
-                          <span className="apple-card-brand">HANBORO ATELIER</span>
+                          <HanboroLogo theme="light" size={16} />
                         </div>
                         <div className="apple-card-number">{cardNumber}</div>
                         <div className="apple-card-bottom">

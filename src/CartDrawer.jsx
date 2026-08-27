@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useStore } from "./StoreContext";
+import { HanboroLogo } from "./HanboroLogo";
 
 export function CartDrawer() {
   const {
@@ -56,8 +57,7 @@ export function CartDrawer() {
         {/* Drawer Header */}
         <div className="cart-drawer-head">
           <div className="cart-head-title-wrap">
-            <span className="cart-head-icon">🛍️</span>
-            <h2 className="cart-head-title">Atelier Bag</h2>
+            <HanboroLogo theme="light" size={20} />
             <span className="cart-count-badge">({cartCount} {cartCount === 1 ? "piece" : "pieces"})</span>
           </div>
           <button

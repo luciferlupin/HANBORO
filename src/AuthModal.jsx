@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useStore } from "./StoreContext";
 import { ordersService } from "./supabaseClient";
+import { HanboroLogo } from "./HanboroLogo";
 
 export function AuthModal() {
   const {
@@ -153,7 +154,7 @@ export function AuthModal() {
         {/* Modal Header */}
         <div className="auth-modal-header">
           <div className="auth-brand-emblem">
-            <span className="auth-brand-logo-text">HANBORO</span>
+            <HanboroLogo theme="light" size={26} />
             <span className="auth-brand-sub">HAUTE HORLOGERIE</span>
           </div>
 
