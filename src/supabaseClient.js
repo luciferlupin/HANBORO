@@ -22,83 +22,21 @@ const STORAGE_KEYS = {
   SESSION_USER: "hanboro_auth_user",
 };
 
-// Initial Seed Orders for demo and empty states
-const INITIAL_DEMO_ORDERS = [
-  {
-    id: "ord-demo-001",
-    order_ref: "HNB-78219-IN",
-    customer_name: "Vikramaditya Roy",
-    customer_email: "v.roy@luxury-estates.in",
-    customer_phone: "+91 98201 44521",
-    shipping_address: {
-      address: "14 Altamount Road, Penthouse B",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pincode: "400026",
-    },
-    items: [
-      {
-        id: "stealth-fighter-jet-tonneau",
-        sku: "8882-1",
-        name: "STEALTH FIGHTER JET TONNEAU",
-        price: "₹38,500",
-        priceUsd: "$465",
-        quantity: 1,
-        image: "/products/stealth-fighter-jet-tonneau.png",
-      },
-    ],
-    total_amount: 38500,
-    currency: "INR",
-    payment_method: "Credit Card (Amex Black)",
-    payment_status: "Paid",
-    order_status: "Dispatched",
-    tracking_number: "DHL-SEC-9920148",
-    created_at: new Date(Date.now() - 3600000 * 18).toISOString(),
-  },
-  {
-    id: "ord-demo-002",
-    order_ref: "HNB-64102-IN",
-    customer_name: "Ananya Singhal",
-    customer_email: "ananya.singhal@capital.com",
-    customer_phone: "+91 99110 88234",
-    shipping_address: {
-      address: "Bungalow 7, Golf Links",
-      city: "New Delhi",
-      state: "Delhi",
-      pincode: "110003",
-    },
-    items: [
-      {
-        id: "sichuan-opera-diamond-tonneau",
-        sku: "8882-2",
-        name: "SICHUAN OPERA DIAMOND TONNEAU",
-        price: "₹42,000",
-        priceUsd: "$510",
-        quantity: 1,
-        image: "/products/sichuan-opera-diamond-tonneau.png",
-      },
-    ],
-    total_amount: 42000,
-    currency: "INR",
-    payment_method: "UPI (Instant)",
-    payment_status: "Paid",
-    order_status: "Processing",
-    tracking_number: "BLUEDART-EXP-44012",
-    created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
-  },
-];
-
-// Helper: load local orders cache
+// Helper: load local orders cache (pure live orders only)
 export function getLocalOrders() {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.ORDERS);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(INITIAL_DEMO_ORDERS));
-      return INITIAL_DEMO_ORDERS;
+      return [];
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    // Filter out any legacy demo seed orders if present
+    const cleanOrders = (Array.isArray(parsed) ? parsed : []).filter(
+      (o) => !o.id?.startsWith("ord-demo") && o.order_ref !== "HNB-78219-IN" && o.order_ref !== "HNB-64102-IN"
+    );
+    return cleanOrders;
   } catch {
-    return INITIAL_DEMO_ORDERS;
+    return [];
   }
 }
 
@@ -402,20 +340,22 @@ export const cartService = {
       console.warn("Supabase fetch all live carts note:", err);
     }
 
-    // Fallback: check local active carts
-    const cachedCart = localStorage.getItem(STORAGE_KEYS.CART);
-    if (cachedCart) {
-      try {
+    // Fallback: check real local active cart in current visitor session
+    try {
+      const rawUser = localStorage.getItem(STORAGE_KEYS.SESSION_USER);
+      const sessionUser = rawUser ? JSON.parse(rawUser) : null;
+      const cachedCart = localStorage.getItem("hanboro_cart") || localStorage.getItem(STORAGE_KEYS.CART);
+      if (cachedCart) {
         const parsed = JSON.parse(cachedCart);
-        if (parsed.length > 0) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
           const totalVal = parsed.reduce((sum, it) => {
             const price = parseInt(String(it.product?.price || "0").replace(/[^\d]/g, ""), 10) || 0;
             return sum + price * (it.quantity || 1);
           }, 0);
           return [
             {
-              userId: "active-client-session",
-              userEmail: "collector.active@hanboro.com",
+              userId: sessionUser?.id ? `usr-${sessionUser.id.slice(0, 8)}` : "guest-visitor",
+              userEmail: sessionUser?.email || "Active Guest Shopper",
               items: parsed.map((it) => ({
                 id: it.product?.id,
                 sku: it.product?.sku,
@@ -430,9 +370,9 @@ export const cartService = {
             },
           ];
         }
-      } catch {
-        // ignore
       }
+    } catch {
+      // ignore
     }
     return [];
   },

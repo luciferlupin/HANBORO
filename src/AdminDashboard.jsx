@@ -124,7 +124,7 @@ export function AdminDashboard({ onNavigateHome }) {
     showAdminToast(`Promo voucher ${cleanCode} activated on storefront`);
   };
 
-  // Compute analytics
+  // Compute analytics (100% genuine live metrics from Supabase & Cart Pipeline)
   const analytics = useMemo(() => {
     const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
     const totalOrdersCount = orders.length;
@@ -134,16 +134,16 @@ export function AdminDashboard({ onNavigateHome }) {
     const deliveredOrders = orders.filter((o) => o.order_status === "Delivered").length;
     const cancelledOrders = orders.filter((o) => o.order_status === "Cancelled").length;
 
-    // Cart pipeline value
+    // Cart pipeline value from active sessions
     const totalPipelineValue = liveCarts.reduce((sum, c) => sum + (c.totalValue || 0), 0);
     const activeCartsCount = liveCarts.length;
 
     // Inventory value
     const totalInventoryUnits = inventory.reduce((sum, it) => sum + (it.stock || 0), 0);
 
-    // Unique customers count
-    const uniqueEmails = new Set(orders.map((o) => o.customer_email));
-    const totalCustomers = Math.max(uniqueEmails.size, 18);
+    // Unique customers count from live order records
+    const uniqueEmails = new Set(orders.map((o) => o.customer_email?.toLowerCase()).filter(Boolean));
+    const totalCustomers = uniqueEmails.size;
 
     return {
       totalRevenue,
@@ -157,7 +157,6 @@ export function AdminDashboard({ onNavigateHome }) {
       activeCartsCount,
       totalInventoryUnits,
       totalCustomers,
-      conversionRate: "4.2%",
     };
   }, [orders, liveCarts, inventory]);
 
@@ -193,17 +192,17 @@ export function AdminDashboard({ onNavigateHome }) {
     );
   }, [inventory, inventorySearch]);
 
-  // Customers aggregator
+  // Real VIP Customers directory from active placed orders
   const customersList = useMemo(() => {
     const map = {};
     orders.forEach((o) => {
-      const key = o.customer_email || "anonymous";
+      const key = o.customer_email?.toLowerCase() || "anonymous";
       if (!map[key]) {
         map[key] = {
-          email: key,
+          email: o.customer_email || "Anonymous",
           name: o.customer_name || "Valued Client",
-          phone: o.customer_phone || "+91 98200 48190",
-          city: o.shipping_address?.city || "Mumbai",
+          phone: o.customer_phone || "—",
+          city: o.shipping_address?.city || "—",
           totalSpent: 0,
           ordersCount: 0,
           lastOrderDate: o.created_at,
@@ -215,51 +214,10 @@ export function AdminDashboard({ onNavigateHome }) {
     return Object.values(map);
   }, [orders]);
 
-  // Generate Sample Order
-  const handleCreateSampleOrder = async () => {
-    const sampleWatch = PRODUCTS_DATA[Math.floor(Math.random() * PRODUCTS_DATA.length)];
-    const sampleNames = ["Maharaja Yuvraj Singh", "Karan Singhania", "Zara Merchant", "Kabir Bedi", "Rhea Oberoi", "Aditya Birla", "Samir Godrej"];
-    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-    const priceNum = parseInt(sampleWatch.price.replace(/[^\d]/g, ""), 10) || 142000;
-
-    const sample = {
-      customer_name: randomName,
-      customer_email: `${randomName.toLowerCase().replace(/\s+/g, ".")}@atelier-client.com`,
-      customer_phone: "+91 98" + Math.floor(10000000 + Math.random() * 90000000),
-      shipping_address: {
-        address: "Imperial Horizon Tower, Penthouse 48",
-        city: "Mumbai",
-        state: "Maharashtra",
-        pincode: "400034",
-      },
-      items: [
-        {
-          id: sampleWatch.id,
-          sku: sampleWatch.sku,
-          name: sampleWatch.name,
-          price: sampleWatch.price,
-          priceUsd: sampleWatch.priceUsd,
-          quantity: 1,
-          image: sampleWatch.image,
-        },
-      ],
-      total_amount: priceNum,
-      currency: "INR",
-      payment_method: "Credit Card (Amex Black Centurion)",
-      payment_status: "Paid",
-      order_status: "Processing",
-      tracking_number: `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
-    };
-
-    const newOrder = await ordersService.createOrder(sample);
-    setOrders((prev) => [newOrder, ...prev]);
-    showAdminToast(`New Allocation REF: ${newOrder.order_ref} created`);
-  };
-
   // Export orders to CSV
   const handleExportCSV = () => {
     if (orders.length === 0) {
-      alert("No orders available to export.");
+      showAdminToast("No live orders available to export yet.");
       return;
     }
     const headers = ["Order Ref", "Date", "Customer", "Email", "Phone", "Total (INR)", "Status", "Payment", "Tracking"];
@@ -506,9 +464,9 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                   <button
                     type="button"
                     className="admin-action-btn admin-action-btn--primary"
-                    onClick={handleCreateSampleOrder}
+                    onClick={loadAllAdminData}
                   >
-                    + Simulate Live Order
+                    🔄 Refresh Pulse
                   </button>
                   <button
                     type="button"
@@ -525,7 +483,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                 <div className="kpi-card">
                   <div className="kpi-card-top">
                     <span className="kpi-label">GROSS GMV REVENUE</span>
-                    <span className="kpi-trend kpi-trend--up">▲ +28.4%</span>
+                    <span className="kpi-trend kpi-trend--live">● Live Stream</span>
                   </div>
                   <div className="kpi-value">₹{analytics.totalRevenue.toLocaleString("en-IN")}</div>
                   <div className="kpi-subtext">approx. ${(analytics.totalRevenue / 83).toFixed(0)} USD</div>
@@ -534,7 +492,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                 <div className="kpi-card">
                   <div className="kpi-card-top">
                     <span className="kpi-label">TOTAL ALLOCATIONS</span>
-                    <span className="kpi-trend kpi-trend--up">▲ +14.2%</span>
+                    <span className="kpi-trend">All Time</span>
                   </div>
                   <div className="kpi-value">{analytics.totalOrdersCount}</div>
                   <div className="kpi-subtext">{analytics.processingOrders} in preparation • {analytics.dispatchedOrders} in transit</div>
@@ -543,7 +501,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                 <div className="kpi-card">
                   <div className="kpi-card-top">
                     <span className="kpi-label">LIVE CARTS PIPELINE</span>
-                    <span className="kpi-trend kpi-trend--live">● Live Now</span>
+                    <span className="kpi-trend kpi-trend--live">● Active Sessions</span>
                   </div>
                   <div className="kpi-value">₹{analytics.totalPipelineValue.toLocaleString("en-IN")}</div>
                   <div className="kpi-subtext">{analytics.activeCartsCount} active customer bag(s) in session</div>
@@ -552,7 +510,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                 <div className="kpi-card">
                   <div className="kpi-card-top">
                     <span className="kpi-label">AVERAGE ORDER VALUE</span>
-                    <span className="kpi-trend">✦ High-Conversion</span>
+                    <span className="kpi-trend">Live AOV</span>
                   </div>
                   <div className="kpi-value">₹{analytics.avgOrderValue.toLocaleString("en-IN")}</div>
                   <div className="kpi-subtext">Haute Horlogerie Complications</div>
@@ -600,7 +558,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
 
                   <div className="bento-orders-feed">
                     {orders.length === 0 ? (
-                      <div className="feed-empty">No orders recorded yet. Use '+ Simulate Live Order' above.</div>
+                      <div className="feed-empty">No client orders recorded yet. As orders are completed on the storefront, they will be transmitted here.</div>
                     ) : (
                       orders.slice(0, 5).map((o) => (
                         <div key={o.order_ref || o.id} className="feed-order-item">
@@ -775,9 +733,9 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                   <button
                     type="button"
                     className="admin-action-btn admin-action-btn--primary"
-                    onClick={handleCreateSampleOrder}
+                    onClick={loadAllAdminData}
                   >
-                    + New Test Order
+                    🔄 Refresh Orders
                   </button>
                   <button
                     type="button"
@@ -839,7 +797,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     ) : filteredOrders.length === 0 ? (
                       <tr>
                         <td colSpan="7" className="table-empty-cell">
-                          No orders found. Click '+ New Test Order' to populate a test record.
+                          No orders found. When clients complete checkout, their order transmission will appear here live.
                         </td>
                       </tr>
                     ) : (
@@ -1038,23 +996,31 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     </tr>
                   </thead>
                   <tbody>
-                    {customersList.map((cust, idx) => (
-                      <tr key={idx}>
-                        <td>
-                          <strong>{cust.name}</strong>
-                          <div className="client-cell-email">{cust.email}</div>
-                        </td>
-                        <td>{cust.phone}</td>
-                        <td>{cust.city}</td>
-                        <td><strong>₹{cust.totalSpent.toLocaleString("en-IN")}</strong></td>
-                        <td>{cust.ordersCount} Piece(s)</td>
-                        <td>
-                          <span className="tier-badge">
-                            {cust.totalSpent > 100000 ? "✦ Sovereign Tier" : "✦ Collector Tier"}
-                          </span>
+                    {customersList.length === 0 ? (
+                      <tr>
+                        <td colSpan="6" className="table-empty-cell">
+                          No collectors registered yet. Collectors will be indexed here automatically as orders are placed.
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      customersList.map((cust, idx) => (
+                        <tr key={idx}>
+                          <td>
+                            <strong>{cust.name}</strong>
+                            <div className="client-cell-email">{cust.email}</div>
+                          </td>
+                          <td>{cust.phone}</td>
+                          <td>{cust.city}</td>
+                          <td><strong>₹{cust.totalSpent.toLocaleString("en-IN")}</strong></td>
+                          <td>{cust.ordersCount} Piece(s)</td>
+                          <td>
+                            <span className="tier-badge">
+                              {cust.totalSpent > 100000 ? "✦ Sovereign Tier" : "✦ Collector Tier"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
