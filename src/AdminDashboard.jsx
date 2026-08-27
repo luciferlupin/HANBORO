@@ -317,13 +317,13 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
         <div className="topbar-left">
           <div className="admin-brand-cluster">
             <span className="admin-brand-name">HANBORO</span>
-            <span className="admin-badge-pill">EXECUTIVE SHOPIFY SUITE</span>
+            <span className="admin-badge-pill">ATELIER COMMAND</span>
           </div>
 
           <div className="admin-backend-indicator">
             <span className={`status-dot ${isSyncing ? "status-dot--syncing" : "status-dot--online"}`} />
             <span className="indicator-text">
-              {isSyncing ? "Syncing Supabase..." : "Live PostgreSQL Connected"}
+              {isSyncing ? "Syncing..." : "PostgreSQL Connected"}
             </span>
           </div>
         </div>
@@ -439,13 +439,6 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               <span className="nav-label">Supabase Cloud</span>
             </button>
           </nav>
-
-          <div className="admin-sidebar-footer">
-            <div className="atelier-version-box">
-              <span className="version-label">HANBORO OS v4.8</span>
-              <span className="version-status">Shopify Cloud Cluster</span>
-            </div>
-          </div>
         </aside>
 
         {/* Right Main Stage View */}

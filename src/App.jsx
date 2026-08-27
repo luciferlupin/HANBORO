@@ -2866,51 +2866,53 @@ function Website({ onRestart }) {
 
 
 
-      <footer className="footer" id="contact">
-        <div className="footer__top-wrap">
-          <div className="footer__main-col">
-            <p className="eyebrow" data-reveal>Have a moment?</p>
-            <a className="footer__email" href="mailto:connect@hanborowatches.in" data-reveal data-reveal-delay="1">
-              connect@hanborowatches.in
-            </a>
+      {view !== "admin" && view !== "profile" && view !== "checkout" && view !== "stores" && (
+        <footer className="footer" id="contact">
+          <div className="footer__top-wrap">
+            <div className="footer__main-col">
+              <p className="eyebrow" data-reveal>Have a moment?</p>
+              <a className="footer__email" href="mailto:connect@hanborowatches.in" data-reveal data-reveal-delay="1">
+                connect@hanborowatches.in
+              </a>
 
-            <div className="footer__address" data-reveal data-reveal-delay="2">
-              <p className="eyebrow">Studio Location</p>
-              <address className="footer__address-text">
-                M5 M-Block, DLF Phase-2, Sector 25<br />
-                Gurgaon, Haryana 122002, India
-              </address>
+              <div className="footer__address" data-reveal data-reveal-delay="2">
+                <p className="eyebrow">Studio Location</p>
+                <address className="footer__address-text">
+                  M5 M-Block, DLF Phase-2, Sector 25<br />
+                  Gurgaon, Haryana 122002, India
+                </address>
+              </div>
+
+              <div className="footer__address" data-reveal data-reveal-delay="2">
+                <p className="eyebrow">Call Us</p>
+                <a className="footer__phone" href="tel:+918882069334">+91 88820 69334</a>
+              </div>
             </div>
 
-            <div className="footer__address" data-reveal data-reveal-delay="2">
-              <p className="eyebrow">Call Us</p>
-              <a className="footer__phone" href="tel:+918882069334">+91 88820 69334</a>
+            <div className="footer__clock-col" data-reveal data-reveal-delay="1">
+              <FooterLiveClock />
             </div>
           </div>
 
-          <div className="footer__clock-col" data-reveal data-reveal-delay="1">
-            <FooterLiveClock />
+          <div className="footer__bottom" data-reveal data-reveal-delay="3">
+            <HanboroLogo size={20} theme="light" />
+            <span>© 2026 HANBORO</span>
+            {isAdmin && (
+              <a
+                href="#admin"
+                className="footer-admin-portal-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("admin", "#admin");
+                }}
+              >
+                Atelier Owner Portal ↗
+              </a>
+            )}
+            <a href="#top">Back to top ↑</a>
           </div>
-        </div>
-
-        <div className="footer__bottom" data-reveal data-reveal-delay="3">
-          <HanboroLogo size={20} theme="light" />
-          <span>© 2026 HANBORO</span>
-          {isAdmin && (
-            <a
-              href="#admin"
-              className="footer-admin-portal-link"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("admin", "#admin");
-              }}
-            >
-              Atelier Owner Portal ↗
-            </a>
-          )}
-          <a href="#top">Back to top ↑</a>
-        </div>
-      </footer>
+        </footer>
+      )}
 
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <AuthModal />
