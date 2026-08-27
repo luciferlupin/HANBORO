@@ -17,6 +17,15 @@ export function ProductsView({
 
   const heroSpotlightList = useMemo(() => {
     return [
+      PRODUCTS_DATA.find((p) => p.id === "stealth-fighter-jet-tonneau") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "sichuan-opera-diamond-tonneau") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "arachnid-geometric-skeleton") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "architectural-skeleton-black") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "forged-carbon-tonneau-tourbillon") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "aurora-celestial-frost") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-celestial") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-bronze") || PRODUCTS_DATA[0],
+      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-emerald") || PRODUCTS_DATA[0],
       PRODUCTS_DATA.find((p) => p.id === "astroworld-celestial") || PRODUCTS_DATA[0],
       PRODUCTS_DATA.find((p) => p.id === "clover-king-crimson") || PRODUCTS_DATA[1],
       PRODUCTS_DATA.find((p) => p.id === "emerald-roulette") || PRODUCTS_DATA[2],

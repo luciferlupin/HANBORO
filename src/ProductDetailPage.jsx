@@ -20,6 +20,19 @@ export function ProductDetailPage({
   const [inquirySent, setInquirySent] = useState(false);
   const [showInquiryForm, setShowInquiryForm] = useState(false);
 
+  // Lightbox Modal state
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  // All images available for this timepiece
+  const allImages = product.gallery && product.gallery.length > 0
+    ? product.gallery
+    : (product.altImages || [product.image]).map((img, i) => ({
+        url: img,
+        title: `${product.name} — View ${i + 1}`,
+        label: `View 0${i + 1}`,
+        caption: `Precision horological inspection of ${product.name}.`
+      }));
+
   // Scroll to top on product change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -28,7 +41,24 @@ export function ProductDetailPage({
     setIsZoomed(false);
     setShowInquiryForm(false);
     setInquirySent(false);
+    setLightboxIndex(null);
   }, [skuId, product]);
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowLeft") {
+        setLightboxIndex((prev) => (prev > 0 ? prev - 1 : allImages.length - 1));
+      }
+      if (e.key === "ArrowRight") {
+        setLightboxIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxIndex, allImages.length]);
 
   const currentIndex = PRODUCTS_DATA.findIndex((p) => p.id === product.id);
   const prevProduct = currentIndex > 0 ? PRODUCTS_DATA[currentIndex - 1] : PRODUCTS_DATA[PRODUCTS_DATA.length - 1];
@@ -72,6 +102,11 @@ export function ProductDetailPage({
       `Inquiring for HANBORO Timepiece:\nModel: ${product.name}\nReference SKU: ${product.sku}\nPrice: ${product.price}\nWebsite: https://hanborowatches.in/#sku/${product.sku}`
     );
     window.open(`https://wa.me/918882069334?text=${text}`, "_blank");
+  };
+
+  const openLightboxForImage = (imgUrl) => {
+    const idx = allImages.findIndex((item) => item.url === imgUrl);
+    setLightboxIndex(idx >= 0 ? idx : 0);
   };
 
   return (
@@ -142,6 +177,8 @@ export function ProductDetailPage({
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
               onMouseMove={handleMouseMove}
+              onClick={() => openLightboxForImage(activeImage)}
+              title="Click to view full-resolution lightbox gallery"
             >
               <img
                 src={activeImage}
@@ -161,26 +198,49 @@ export function ProductDetailPage({
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
-                <span>Hover & pan to inspect micro-horology</span>
+                <span>Hover to zoom • Click for Fullscreen HD</span>
               </div>
+
+              <button
+                type="button"
+                className="pdp-fullscreen-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openLightboxForImage(activeImage);
+                }}
+                aria-label="View fullscreen gallery"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="15 3 21 3 21 9" />
+                  <polyline points="9 21 3 21 3 15" />
+                  <line x1="21" y1="3" x2="14" y2="10" />
+                  <line x1="3" y1="21" x2="10" y2="14" />
+                </svg>
+              </button>
             </div>
 
-            {/* Thumbnail selector */}
+            {/* Thumbnail selector with photo labels */}
             {product.altImages && product.altImages.length > 1 && (
               <div className="pdp-thumbnails-strip">
-                {product.altImages.map((img, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    className={`pdp-thumb-card ${activeImage === img ? "is-selected" : ""}`}
-                    onClick={() => {
-                      setActiveImage(img);
-                      setIsNightMode(img.includes("night"));
-                    }}
-                  >
-                    <img src={img} alt={`${product.name} view ${i + 1}`} />
-                  </button>
-                ))}
+                {product.altImages.map((img, i) => {
+                  const galleryItem = product.gallery && product.gallery[i];
+                  const label = galleryItem?.label || `View 0${i + 1}`;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      className={`pdp-thumb-card ${activeImage === img ? "is-selected" : ""}`}
+                      onClick={() => {
+                        setActiveImage(img);
+                        setIsNightMode(img.includes("night"));
+                      }}
+                      title={galleryItem?.title || `${product.name} view ${i + 1}`}
+                    >
+                      <img src={img} alt={`${product.name} view ${i + 1}`} />
+                      <span className="pdp-thumb-badge">{label}</span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -338,6 +398,57 @@ export function ProductDetailPage({
         </div>
       </section>
 
+      {/* ── SECTION: HAUTE HORLOGERIE PHOTOGRAPHIC PORTFOLIO & GALLERY ── */}
+      {allImages && allImages.length > 0 && (
+        <section className="pdp-gallery-showcase-section">
+          <div className="pdp-gallery-showcase-container">
+            <div className="pdp-section-header">
+              <span className="section-eyebrow">VISUAL HOROLOGY & PERSPECTIVES</span>
+              <h2 className="section-title">Photographic Portfolio & Atelier Gallery</h2>
+              <p className="section-desc">
+                High-definition studio, sartorial on-wrist, and cinematic captures of Reference {product.sku}. Click any image to view in ultra-high resolution.
+              </p>
+            </div>
+
+            <div className="pdp-gallery-grid">
+              {allImages.map((item, index) => (
+                <div
+                  key={index}
+                  className={`pdp-gallery-item-card ${index === 0 ? "is-featured" : ""}`}
+                  onClick={() => setLightboxIndex(index)}
+                  tabIndex={0}
+                  role="button"
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setLightboxIndex(index); }}
+                >
+                  <div className="pdp-gallery-media-wrapper">
+                    <img src={item.url} alt={item.title || product.name} loading="lazy" />
+                    <div className="pdp-gallery-overlay">
+                      <div className="pdp-gallery-overlay-badge">{item.label || `Angle 0${index + 1}`}</div>
+                      <div className="pdp-gallery-overlay-action">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                          <line x1="11" y1="8" x2="11" y2="14" />
+                          <line x1="8" y1="11" x2="14" y2="11" />
+                        </svg>
+                        <span>Enlarge Micro-Horology</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pdp-gallery-card-info">
+                    <div className="pdp-gallery-card-title-row">
+                      <span className="pdp-gallery-index">0{index + 1}</span>
+                      <h4 className="pdp-gallery-item-title">{item.title}</h4>
+                    </div>
+                    {item.caption && <p className="pdp-gallery-item-caption">{item.caption}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── SECTION: COMPLETE HOROLOGICAL SPECIFICATION MATRIX ── */}
       <section className="pdp-specs-section">
         <div className="pdp-specs-container">
@@ -455,6 +566,103 @@ export function ProductDetailPage({
           </div>
         </div>
       </section>
+
+      {/* ── FULLSCREEN HD LIGHTBOX MODAL ── */}
+      {lightboxIndex !== null && allImages[lightboxIndex] && (
+        <div
+          className="pdp-lightbox-backdrop"
+          onClick={() => setLightboxIndex(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="High Resolution Photo Gallery"
+        >
+          <div
+            className="pdp-lightbox-stage"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header / Counter & Close */}
+            <div className="pdp-lightbox-header">
+              <div className="pdp-lightbox-counter">
+                <span className="lightbox-cur">0{lightboxIndex + 1}</span>
+                <span className="lightbox-slash">/</span>
+                <span className="lightbox-tot">0{allImages.length}</span>
+                <span className="lightbox-tag">— {allImages[lightboxIndex].label || `Perspective 0${lightboxIndex + 1}`}</span>
+              </div>
+
+              <div className="pdp-lightbox-tools">
+                <button
+                  type="button"
+                  className="lightbox-close-btn"
+                  onClick={() => setLightboxIndex(null)}
+                  title="Close Lightbox (Esc)"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Main Stage Image */}
+            <div className="pdp-lightbox-viewport">
+              <button
+                type="button"
+                className="lightbox-nav-btn is-prev"
+                onClick={() => setLightboxIndex((prev) => (prev > 0 ? prev - 1 : allImages.length - 1))}
+                aria-label="Previous photo"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <div className="pdp-lightbox-img-wrap">
+                <img
+                  src={allImages[lightboxIndex].url}
+                  alt={allImages[lightboxIndex].title}
+                  className="pdp-lightbox-img"
+                />
+              </div>
+
+              <button
+                type="button"
+                className="lightbox-nav-btn is-next"
+                onClick={() => setLightboxIndex((prev) => (prev < allImages.length - 1 ? prev + 1 : 0))}
+                aria-label="Next photo"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Caption bar & thumbnail strip */}
+            <div className="pdp-lightbox-footer">
+              <div className="lightbox-caption-box">
+                <h3 className="lightbox-img-title">{allImages[lightboxIndex].title}</h3>
+                {allImages[lightboxIndex].caption && (
+                  <p className="lightbox-img-desc">{allImages[lightboxIndex].caption}</p>
+                )}
+              </div>
+
+              <div className="lightbox-thumb-tray">
+                {allImages.map((item, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`lightbox-thumb-btn ${idx === lightboxIndex ? "is-active" : ""}`}
+                    onClick={() => setLightboxIndex(idx)}
+                    title={item.title}
+                  >
+                    <img src={item.url} alt={item.title} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
