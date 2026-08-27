@@ -100,7 +100,7 @@ export function ProfilePage({ onNavigate }) {
         <div className="profile-topbar-right">
           <div className="profile-db-status-pill">
             <span className="live-dot" />
-            <span>Supabase Synced</span>
+            <span>Private Vault Active</span>
           </div>
           {isAdmin && (
             <button
@@ -144,18 +144,18 @@ export function ProfilePage({ onNavigate }) {
 
           <div className="profile-hero-stats">
             <div className="profile-stat-box">
-              <span className="stat-label">DATABASE USER ID</span>
-              <code className="stat-val stat-val--code">
-                {user.id ? `${user.id.slice(0, 14)}...` : "usr-synced"}
-              </code>
+              <span className="stat-label">COLLECTOR REFERENCE</span>
+              <span className="stat-val stat-val--code">
+                {user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER"}
+              </span>
             </div>
             <div className="profile-stat-box">
-              <span className="stat-label">BAG ITEMS (DB)</span>
+              <span className="stat-label">BAG ITEMS</span>
               <span className="stat-val">{cartCount} Timepieces</span>
             </div>
             <div className="profile-stat-box">
-              <span className="stat-label">TOTAL ALLOCATIONS</span>
-              <span className="stat-val">{userOrders.length} Confirmed</span>
+              <span className="stat-label">CONFIRMED ORDERS</span>
+              <span className="stat-val">{userOrders.length} Allocations</span>
             </div>
           </div>
         </section>
@@ -168,7 +168,7 @@ export function ProfilePage({ onNavigate }) {
             onClick={() => setActiveTab("bag")}
           >
             <span className="pill-icon">🛍️</span>
-            <span className="pill-title">Active Database Bag</span>
+            <span className="pill-title">Active Shopping Bag</span>
             <span className="pill-badge">{cartCount}</span>
           </button>
 
@@ -188,7 +188,7 @@ export function ProfilePage({ onNavigate }) {
             onClick={() => setActiveTab("settings")}
           >
             <span className="pill-icon">🛡️</span>
-            <span className="pill-title">Account & Database Info</span>
+            <span className="pill-title">Client Profile & Privileges</span>
           </button>
         </nav>
 
@@ -441,57 +441,59 @@ export function ProfilePage({ onNavigate }) {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 3: ACCOUNT & DATABASE INFO
+            TAB 3: CLIENT PRIVILEGES & ACCOUNT DETAILS
         ══════════════════════════════════════════════════════════════════════ */}
         {activeTab === "settings" && (
           <section className="profile-pane-card">
             <div className="pane-title-row">
               <div>
-                <h2 className="pane-heading">Account & Database Connection</h2>
+                <h2 className="pane-heading">Client Profile & Atelier Privileges</h2>
                 <p className="pane-subtext">
-                  Direct client records and authentication telemetry connected to Supabase PostgreSQL.
+                  Your registered collector identity, private concierge status, and delivery preferences.
                 </p>
               </div>
             </div>
 
             <div className="profile-settings-grid">
               <div className="settings-card">
-                <h3 className="settings-card-title">Client Details</h3>
+                <h3 className="settings-card-title">Collector Profile</h3>
                 <div className="settings-row">
                   <span className="settings-label">Full Name</span>
-                  <span className="settings-val">{user.fullName || "Not provided"}</span>
+                  <span className="settings-val">{user.fullName || "Valued Client"}</span>
                 </div>
                 <div className="settings-row">
                   <span className="settings-label">Email Address</span>
                   <span className="settings-val">{user.email}</span>
                 </div>
                 <div className="settings-row">
-                  <span className="settings-label">Phone</span>
+                  <span className="settings-label">Contact Phone</span>
                   <span className="settings-val">{user.phone || "Not provided"}</span>
                 </div>
                 <div className="settings-row">
-                  <span className="settings-label">Role Tier</span>
-                  <span className="settings-val">{user.role || "Customer"}</span>
+                  <span className="settings-label">Membership Tier</span>
+                  <span className="settings-val">{isAdmin ? "Atelier Executive" : "Private Vault Collector"}</span>
                 </div>
               </div>
 
               <div className="settings-card">
-                <h3 className="settings-card-title">Supabase Database Telemetry</h3>
+                <h3 className="settings-card-title">Private Vault Privileges</h3>
                 <div className="settings-row">
-                  <span className="settings-label">Backend Provider</span>
-                  <span className="settings-val">Supabase PostgreSQL</span>
+                  <span className="settings-label">Collector Reference</span>
+                  <span className="settings-val settings-val--code">
+                    {user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER"}
+                  </span>
                 </div>
                 <div className="settings-row">
-                  <span className="settings-label">Project URL</span>
-                  <code className="settings-val settings-val--code">{SUPABASE_URL}</code>
+                  <span className="settings-label">White-Glove Shipping</span>
+                  <span className="settings-val text-green">✓ Complimentary Insured Courier</span>
                 </div>
                 <div className="settings-row">
-                  <span className="settings-label">User UUID</span>
-                  <code className="settings-val settings-val--code">{user.id || "Local Session"}</code>
+                  <span className="settings-label">Horology Concierge</span>
+                  <span className="settings-val text-green">🟢 Active & Available</span>
                 </div>
                 <div className="settings-row">
-                  <span className="settings-label">Row Level Security</span>
-                  <span className="settings-val text-green">✓ Enabled & Protected</span>
+                  <span className="settings-label">Presentation Packaging</span>
+                  <span className="settings-val text-green">✓ Lacquer Display Box Included</span>
                 </div>
               </div>
             </div>

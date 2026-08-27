@@ -192,8 +192,8 @@ export function AuthModal() {
                 {user.phone && <p className="profile-phone">📞 {user.phone}</p>}
                 
                 <div className="profile-db-meta">
-                  <span className="db-sync-indicator">🟢 Database Connected</span>
-                  <span className="db-user-id">ID: <code>{user.id?.slice(0, 16) || "usr-sync-ready"}...</code></span>
+                  <span className="db-sync-indicator">✦ Private Vault Active</span>
+                  <span className="db-user-id">REF: <code>{user.id ? `HNB-${user.id.slice(0, 8).toUpperCase()}` : "HNB-MEMBER"}</code></span>
                 </div>
               </div>
             </div>
