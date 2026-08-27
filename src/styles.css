@@ -3994,11 +3994,12 @@ a { color: inherit; text-decoration: none; }
   border-radius: 6px;
 }
 
-.card-bottom-row {
+.card-pricing-meta-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-top: 14px;
+  margin-bottom: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -4008,63 +4009,95 @@ a { color: inherit; text-decoration: none; }
 }
 
 .price-main {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 24px;
-  letter-spacing: 0.04em;
+  font-family: 'Bebas Neue', 'Inter', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.03em;
   color: #ffffff;
   line-height: 1;
 }
 
 .price-usd {
   font-size: 11px;
-  color: rgba(245, 242, 237, 0.4);
-  margin-top: 2px;
+  color: rgba(245, 242, 237, 0.45);
+  margin-top: 3px;
+  font-weight: 500;
 }
 
-.card-action-pills {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-compare-pill {
+.card-compare-action-btn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(245, 242, 237, 0.75);
+  color: #a1a1aa;
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 999px;
+  padding: 5px 10px;
+  border-radius: 100px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   transition: all 0.2s ease;
 }
-
-.card-compare-pill:hover {
+.card-compare-action-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
-
-.card-compare-pill.is-selected {
-  background: var(--red);
+.card-compare-action-btn.is-selected {
+  background: rgba(250, 45, 29, 0.15);
   border-color: var(--red);
+  color: #ff857a;
+}
+
+.card-cta-btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.card-cta-bag-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e4e4e7;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-cta-bag-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
 
-.card-view-dossier-btn {
-  background: #ffffff;
+.card-cta-buy-btn {
+  background: var(--red);
   border: none;
-  color: #050505;
+  color: #fff;
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
-  padding: 7px 15px;
-  border-radius: 999px;
-  cursor: pointer;
-  display: flex;
+  padding: 8px 12px;
+  border-radius: 100px;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(250, 45, 29, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-cta-buy-btn:hover {
+  background: #e02415;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(250, 45, 29, 0.5);
 }
 
 .apple-watch-card:hover .card-view-dossier-btn {

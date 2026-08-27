@@ -356,56 +356,60 @@ export function ProductsView({
                       <span className="feature-chip">{watch.specs.waterResistance.split(" ")[0]}</span>
                     </div>
 
-                    {/* Bottom Price & Action Row */}
-                    <div className="card-bottom-row">
+                    {/* Bottom Price & Compare Row */}
+                    <div className="card-pricing-meta-row">
                       <div className="card-price-display">
                         <span className="price-main">{watch.price}</span>
                         <span className="price-usd">{watch.priceUsd}</span>
                       </div>
 
-                      <div className="card-action-pills" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          type="button"
-                          className="card-quick-cart-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addToCart(watch, 1, true);
-                          }}
-                          title="Add to Luxury Bag"
-                        >
-                          + Bag
-                        </button>
+                      <button
+                        type="button"
+                        className={`card-compare-action-btn ${isCompared ? "is-selected" : ""}`}
+                        onClick={(e) => handleToggleCompare(watch, e)}
+                        title={isCompared ? "Remove from comparison" : "Compare with another SKU"}
+                      >
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+                        </svg>
+                        <span>{isCompared ? "Comparing" : "Compare"}</span>
+                      </button>
+                    </div>
 
-                        <button
-                          type="button"
-                          className="card-quick-buy-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            buyNow(watch);
-                          }}
-                          title="Instant Buy Now"
-                        >
-                          Buy
-                        </button>
+                    {/* Apple-Grade Action Buttons */}
+                    <div className="card-cta-btn-group" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        className="card-cta-bag-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(watch, 1, true);
+                        }}
+                        title="Add to Shopping Bag"
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                          <line x1="3" y1="6" x2="21" y2="6" />
+                          <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                        <span>+ Bag</span>
+                      </button>
 
-                        <button
-                          type="button"
-                          className={`card-compare-pill ${isCompared ? "is-selected" : ""}`}
-                          onClick={(e) => handleToggleCompare(watch, e)}
-                          title={isCompared ? "Remove from comparison" : "Compare with another SKU"}
-                        >
-                          {isCompared ? "✓" : "Compare"}
-                        </button>
-
-                        <button
-                          type="button"
-                          className="card-view-dossier-btn"
-                          onClick={() => handleProductClick(watch)}
-                        >
-                          <span>Explore</span>
-                          <span aria-hidden="true">↗</span>
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        className="card-cta-buy-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          buyNow(watch);
+                        }}
+                        title="Instant Acquisition"
+                      >
+                        <span>Buy Now</span>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </article>
