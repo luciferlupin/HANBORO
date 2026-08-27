@@ -8,6 +8,7 @@ import { StoreProvider, useStore } from "./StoreContext";
 import { AuthModal } from "./AuthModal";
 import { CartDrawer } from "./CartDrawer";
 import { CheckoutModal } from "./CheckoutModal";
+import { CheckoutPage } from "./CheckoutPage";
 import { AdminDashboard } from "./AdminDashboard";
 import { ProfilePage } from "./ProfilePage";
 
@@ -2447,6 +2448,7 @@ function Website({ onRestart }) {
   const [view, setView] = useState(() => {
     const hash = window.location.hash.toLowerCase();
     if (hash.startsWith("#admin")) return "admin";
+    if (hash.startsWith("#checkout")) return "checkout";
     if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) return "profile";
     if (hash.startsWith("#stores")) return "stores";
     if (hash.startsWith("#sku/") || hash.startsWith("#product/") || hash.startsWith("#products") || hash.startsWith("#archive")) {
@@ -2469,6 +2471,9 @@ function Website({ onRestart }) {
       const hash = window.location.hash.toLowerCase();
       if (hash.startsWith("#admin")) {
         setView("admin");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#checkout")) {
+        setView("checkout");
         setSelectedSkuId(null);
       } else if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) {
         setView("profile");
@@ -2713,6 +2718,8 @@ function Website({ onRestart }) {
 
       {view === "admin" ? (
         <AdminDashboard onNavigateHome={() => navigateTo("home", "#top")} />
+      ) : view === "checkout" ? (
+        <CheckoutPage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
       ) : view === "profile" ? (
         <ProfilePage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
       ) : view === "stores" ? (
@@ -2908,7 +2915,6 @@ function Website({ onRestart }) {
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <AuthModal />
       <CartDrawer />
-      <CheckoutModal />
     </main>
   );
 }

@@ -205,27 +205,27 @@ export function StoreProvider({ children }) {
   const buyNow = (product) => {
     if (product) {
       setDirectCheckoutItem({ product, quantity: 1 });
-      setIsCheckoutOpen(true);
       setIsCartOpen(false);
+      window.location.hash = "#checkout";
     } else if (cart.length > 0) {
       setDirectCheckoutItem(null);
-      setIsCheckoutOpen(true);
       setIsCartOpen(false);
+      window.location.hash = "#checkout";
     } else {
       showToast("Your cart is empty. Please select a timepiece.");
     }
   };
 
-  // Open & Close Checkout Modal
+  // Open & Close Checkout Page
   const openCheckout = (directItem = null) => {
     setDirectCheckoutItem(directItem);
     setIsCartOpen(false);
-    setIsCheckoutOpen(true);
+    window.location.hash = "#checkout";
   };
 
   const closeCheckout = () => {
-    setIsCheckoutOpen(false);
     setDirectCheckoutItem(null);
+    window.location.hash = "#profile";
   };
 
   // Apply promo code
