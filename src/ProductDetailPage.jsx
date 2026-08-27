@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { PRODUCTS_DATA, getProductByIdOrSku } from "./productsData";
+import { useStore } from "./StoreContext";
 
 export function ProductDetailPage({
   skuId,
@@ -8,6 +9,8 @@ export function ProductDetailPage({
   onNavigateToStores
 }) {
   const product = getProductByIdOrSku(skuId) || PRODUCTS_DATA[0];
+  const { addToCart, buyNow } = useStore();
+  const [buyQty, setBuyQty] = useState(1);
 
   const [activeImage, setActiveImage] = useState(product?.image);
   const [isNightMode, setIsNightMode] = useState(false);
@@ -307,8 +310,56 @@ export function ProductDetailPage({
                 </div>
               </div>
 
-              {/* Action Buttons / Concierge Inquire */}
+              {/* Action Buttons / Commerce & Concierge Inquire */}
               <div className="pdp-action-section">
+                {/* ── HIGH-CONVERSION COMMERCE ROW (ADD TO CART & BUY NOW) ── */}
+                <div className="pdp-commerce-cta-row">
+                  <div className="pdp-qty-stepper">
+                    <button
+                      type="button"
+                      className="pdp-qty-btn"
+                      onClick={() => setBuyQty((q) => Math.max(1, q - 1))}
+                      aria-label="Decrease quantity"
+                    >
+                      −
+                    </button>
+                    <span className="pdp-qty-val">{buyQty}</span>
+                    <button
+                      type="button"
+                      className="pdp-qty-btn"
+                      onClick={() => setBuyQty((q) => q + 1)}
+                      aria-label="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="pdp-add-cart-btn"
+                    onClick={() => addToCart(product, buyQty, true)}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    <span>Add to Bag</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="pdp-buy-now-btn"
+                    onClick={() => buyNow(product)}
+                  >
+                    <span>Instant Buy Now</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </button>
+                </div>
+
                 {!showInquiryForm ? (
                   <div className="pdp-buttons-row">
                     <button

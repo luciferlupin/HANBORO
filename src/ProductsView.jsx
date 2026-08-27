@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { CATEGORIES, PRODUCTS_DATA } from "./productsData";
 import { CompareModal } from "./CompareModal";
+import { useStore } from "./StoreContext";
 
 export function ProductsView({
   selectedSkuId,
@@ -8,6 +9,7 @@ export function ProductsView({
   onNavigateHome,
   onNavigateToStores
 }) {
+  const { addToCart, buyNow } = useStore();
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
@@ -154,6 +156,30 @@ export function ProductsView({
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
+              </button>
+
+              <button
+                type="button"
+                className="spotlight-add-cart-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addToCart(activeHeroWatch, 1, true);
+                }}
+                title="Add to Luxury Bag"
+              >
+                <span>+ Add to Bag</span>
+              </button>
+
+              <button
+                type="button"
+                className="spotlight-buy-now-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  buyNow(activeHeroWatch);
+                }}
+                title="Instant Buy Now"
+              >
+                <span>Buy Now</span>
               </button>
 
               <span className="spotlight-price-tag">{activeHeroWatch.price}</span>
@@ -340,11 +366,35 @@ export function ProductsView({
                       <div className="card-action-pills" onClick={(e) => e.stopPropagation()}>
                         <button
                           type="button"
+                          className="card-quick-cart-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(watch, 1, true);
+                          }}
+                          title="Add to Luxury Bag"
+                        >
+                          + Bag
+                        </button>
+
+                        <button
+                          type="button"
+                          className="card-quick-buy-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            buyNow(watch);
+                          }}
+                          title="Instant Buy Now"
+                        >
+                          Buy
+                        </button>
+
+                        <button
+                          type="button"
                           className={`card-compare-pill ${isCompared ? "is-selected" : ""}`}
                           onClick={(e) => handleToggleCompare(watch, e)}
                           title={isCompared ? "Remove from comparison" : "Compare with another SKU"}
                         >
-                          {isCompared ? "✓ Compared" : "+ Compare"}
+                          {isCompared ? "✓" : "Compare"}
                         </button>
 
                         <button

@@ -4,6 +4,11 @@ import { ProductsView } from "./ProductsView";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { PRODUCTS_DATA, getProductByIdOrSku } from "./productsData";
 import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
+import { StoreProvider, useStore } from "./StoreContext";
+import { AuthModal } from "./AuthModal";
+import { CartDrawer } from "./CartDrawer";
+import { CheckoutModal } from "./CheckoutModal";
+import { AdminDashboard } from "./AdminDashboard";
 
 const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
@@ -1845,32 +1850,11 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
           </button>
           <button
             type="button"
-            className="network-nav-link"
-            onClick={() => onNavigate && onNavigate("home", "#lookbook")}
-          >
-            LOOKBOOK
-          </button>
-          <button
-            type="button"
-            className="network-nav-link"
-            onClick={() => onNavigate && onNavigate("home", "#roulette")}
-          >
-            UNBOXING
-          </button>
-          <button
-            type="button"
             className="network-nav-link is-active"
             onClick={() => onNavigate && onNavigate("stores", "#stores")}
           >
             STORE LOCATOR
             <span className="network-nav-indicator" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="network-nav-link"
-            onClick={() => onNavigate && onNavigate("home", "#contact")}
-          >
-            CONTACT
           </button>
         </nav>
 
@@ -2457,9 +2441,11 @@ function FooterLiveClock() {
 }
 
 function Website({ onRestart }) {
+  const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen } = useStore();
   const [visible, setVisible] = useState(false);
   const [view, setView] = useState(() => {
     const hash = window.location.hash.toLowerCase();
+    if (hash.startsWith("#admin")) return "admin";
     if (hash.startsWith("#stores")) return "stores";
     if (hash.startsWith("#sku/") || hash.startsWith("#product/") || hash.startsWith("#products") || hash.startsWith("#archive")) {
       return "products";
@@ -2479,7 +2465,10 @@ function Website({ onRestart }) {
     const timer = setTimeout(() => setVisible(true), 120);
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash.startsWith("#stores")) {
+      if (hash.startsWith("#admin")) {
+        setView("admin");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#stores")) {
         setView("stores");
         setSelectedSkuId(null);
       } else if (hash.startsWith("#sku/")) {
@@ -2534,7 +2523,7 @@ function Website({ onRestart }) {
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       {/* ── LUXURY HEADER (Exact Match to Photo Reference) ── */}
-      {view === "stores" ? null : (
+      {view === "stores" || view === "admin" ? null : (
         <header className="luxury-header" role="banner">
           {/* Left: Minimal Hamburger Menu */}
           <button
@@ -2560,20 +2549,8 @@ function Website({ onRestart }) {
             <HanboroLogo theme="light" size={24} />
           </button>
 
-          {/* Right: Minimal Icons (Search, Account / Stores, Bag) */}
+          {/* Right: Minimal Icons (Stores, Account / Profile, Bag with badge) */}
           <div className="luxury-header__actions">
-            <button
-              type="button"
-              className="luxury-header__icon-btn"
-              onClick={() => navigateTo("products", "#products")}
-              aria-label="Search timepieces"
-              title="Search Timepieces"
-            >
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </button>
             <button
               type="button"
               className="luxury-header__icon-btn"
@@ -2582,22 +2559,45 @@ function Website({ onRestart }) {
               title="Boutiques & Stores"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
               </svg>
             </button>
+
+            {/* Account / User Button */}
+            <button
+              type="button"
+              className={`luxury-header__icon-btn luxury-header__user-btn ${user ? "is-logged-in" : ""}`}
+              onClick={() => openAuthModal("signin")}
+              aria-label={user ? `Account: ${user.fullName || user.email}` : "Client Sign In"}
+              title={user ? `Signed in as ${user.fullName || user.email}` : "Client Login / Register"}
+            >
+              {user ? (
+                <span className="header-avatar-circle">
+                  {(user.fullName || user.email || "H").charAt(0).toUpperCase()}
+                </span>
+              ) : (
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              )}
+            </button>
+
+            {/* Bag / Cart Button with live Badge */}
             <button
               type="button"
               className="luxury-header__icon-btn luxury-header__bag-btn"
-              onClick={() => navigateTo("products", "#products")}
-              aria-label="Shop all timepieces collection"
-              title="Shop All"
+              onClick={() => setIsCartOpen(true)}
+              aria-label={`Shopping Bag (${cartCount} items)`}
+              title="Shopping Bag"
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
+              {cartCount > 0 && <span className="header-cart-badge">{cartCount}</span>}
             </button>
           </div>
         </header>
@@ -2642,17 +2642,45 @@ function Website({ onRestart }) {
             onClick={() => navigateTo("stores", "#stores")}
           >
             <span className="drawer-link-text">Store Locator</span>
-            <span className="drawer-link-arrow">↗</span>
+            <span className="drawer-link-arrow">📍</span>
           </button>
 
           <button
             type="button"
             className="luxury-drawer__link"
-            onClick={() => navigateTo("home", "#contact")}
+            onClick={() => {
+              setMenuOpen(false);
+              setIsCartOpen(true);
+            }}
           >
-            <span className="drawer-link-text">Contact</span>
-            <span className="drawer-link-arrow">↗</span>
+            <span className="drawer-link-text">Atelier Bag ({cartCount})</span>
+            <span className="drawer-link-arrow">🛍️</span>
           </button>
+
+          <button
+            type="button"
+            className="luxury-drawer__link"
+            onClick={() => {
+              setMenuOpen(false);
+              openAuthModal("signin");
+            }}
+          >
+            <span className="drawer-link-text">
+              {user ? `Account (${user.fullName?.split(" ")[0] || "Profile"})` : "Client Sign In / Register"}
+            </span>
+            <span className="drawer-link-arrow">👤</span>
+          </button>
+
+          {isAdmin && (
+            <button
+              type="button"
+              className={`luxury-drawer__link ${view === "admin" ? "is-active" : ""}`}
+              onClick={() => navigateTo("admin", "#admin")}
+            >
+              <span className="drawer-link-text">Staff Dashboard</span>
+              <span className="drawer-link-arrow">⚙️</span>
+            </button>
+          )}
         </nav>
 
         <div className="luxury-drawer__foot">
@@ -2668,7 +2696,9 @@ function Website({ onRestart }) {
         </div>
       </aside>
 
-      {view === "stores" ? (
+      {view === "admin" ? (
+        <AdminDashboard onNavigateHome={() => navigateTo("home", "#top")} />
+      ) : view === "stores" ? (
         <StoreLocatorView
           onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
           onOpenConcierge={() => navigateTo("home", "#contact")}
@@ -2842,16 +2872,33 @@ function Website({ onRestart }) {
         <div className="footer__bottom" data-reveal data-reveal-delay="3">
           <HanboroLogo size={20} theme="light" />
           <span>© 2026 HANBORO</span>
+          {isAdmin && (
+            <a
+              href="#admin"
+              className="footer-admin-portal-link"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("admin", "#admin");
+              }}
+            >
+              Atelier Owner Portal ↗
+            </a>
+          )}
           <a href="#top">Back to top ↑</a>
         </div>
       </footer>
+
+      {/* ── LUXURY MODALS & DRAWERS ── */}
+      <AuthModal />
+      <CartDrawer />
+      <CheckoutModal />
     </main>
   );
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    APP — orchestrates: idle → exiting → entered
-   Iris wipe transition effect
+   Iris wipe transition effect & Store Provider
 ══════════════════════════════════════════════════════════════════════════════ */
 export function App() {
   const [phase, setPhase]     = useState("idle");     // idle / exiting / entered
@@ -2879,17 +2926,19 @@ export function App() {
   }, []);
 
   return (
-    <div className="app-root">
-      {phase !== "entered" && (
-        <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
-      )}
-      {phase === "entered" && (
-        <Website visible={true}/>
-      )}
-      {/* Iris transition overlay */}
-      {iris !== "off" && (
-        <div className={`iris iris--${iris}`} aria-hidden="true"/>
-      )}
-    </div>
+    <StoreProvider>
+      <div className="app-root">
+        {phase !== "entered" && (
+          <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
+        )}
+        {phase === "entered" && (
+          <Website visible={true}/>
+        )}
+        {/* Iris transition overlay */}
+        {iris !== "off" && (
+          <div className={`iris iris--${iris}`} aria-hidden="true"/>
+        )}
+      </div>
+    </StoreProvider>
   );
 }
