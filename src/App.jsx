@@ -1262,16 +1262,21 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                 role="button"
                 tabIndex={0}
               >
+                <div className="watch-float-halo" aria-hidden="true" />
                 <img
                   src={watch.img}
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
                   decoding="async"
-                  width="190"
-                  height="280"
+                  width="250"
+                  height="370"
                   draggable={false}
                 />
+                <div className="watch-float-badge">
+                  <span className="watch-float-name">{watch.name}</span>
+                  <span className="watch-float-cta">Inspect Model <span aria-hidden="true">→</span></span>
+                </div>
               </div>
             ))}
           </div>
@@ -1285,16 +1290,21 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                 role="button"
                 tabIndex={0}
               >
+                <div className="watch-float-halo" aria-hidden="true" />
                 <img
                   src={watch.img}
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
                   decoding="async"
-                  width="190"
-                  height="280"
+                  width="250"
+                  height="370"
                   draggable={false}
                 />
+                <div className="watch-float-badge">
+                  <span className="watch-float-name">{watch.name}</span>
+                  <span className="watch-float-cta">Inspect Model <span aria-hidden="true">→</span></span>
+                </div>
               </div>
             ))}
           </div>
@@ -1308,7 +1318,7 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
           className="view-all-skus-cta"
           onClick={onViewAllProducts}
         >
-          <span>Explore All 15 Timepieces & SKUs</span>
+          <span>Explore All 81 Timepieces &amp; SKUs</span>
           <span aria-hidden="true">↗</span>
         </button>
       </div>
