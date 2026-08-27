@@ -22,21 +22,24 @@ function AmbientDustCanvas() {
     const ctx = canvas.getContext("2d");
     let raf;
     let t = 0;
+    let isVisible = true;
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
-    const N = 180;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const N = isMobile ? 45 : 90;
     const pts = Array.from({ length: N }, () => ({
       x: Math.random(), y: Math.random(),
-      vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.16,
-      r: Math.random() * 1.8 + 0.3,
-      op: Math.random() * 0.13 + 0.04,
-      freq: Math.random() * 0.018 + 0.005,
+      vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.14,
+      r: Math.random() * 1.5 + 0.3,
+      op: Math.random() * 0.12 + 0.03,
+      freq: Math.random() * 0.016 + 0.005,
       ph: Math.random() * Math.PI * 2,
-      amp: Math.random() * 0.5 + 0.12,
+      amp: Math.random() * 0.4 + 0.1,
     }));
     const draw = () => {
+      if (!isVisible || document.hidden) return;
       t++;
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
@@ -52,10 +55,32 @@ function AmbientDustCanvas() {
       }
       raf = requestAnimationFrame(draw);
     };
-    const onVis = () => document.hidden ? cancelAnimationFrame(raf) : draw();
+
+    const io = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !document.hidden) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(draw);
+      }
+    }, { threshold: 0.05 });
+    io.observe(canvas);
+
+    const onVis = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+      } else if (isVisible) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(draw);
+      }
+    };
     document.addEventListener("visibilitychange", onVis);
     draw();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); document.removeEventListener("visibilitychange", onVis); };
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, []);
   return <canvas ref={cvs} className="hp-dust" aria-hidden="true" />;
 }

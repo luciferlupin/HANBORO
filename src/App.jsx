@@ -670,7 +670,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     };
   }, []);
 
-  const watchImgSrc = selectedVariant === "emerald" ? "/watch-emerald-roulette.png" : "/watch-blue-roulette.png";
+  const watchImgSrc = selectedVariant === "emerald" ? "/watch-emerald-roulette.webp" : "/watch-blue-roulette.webp";
   const watchSku = selectedVariant === "emerald" ? "emerald-roulette" : "blue-roulette";
 
   return (
@@ -1036,12 +1036,32 @@ function HeroVideoSection({ onDiscover }) {
     if (!video) return;
     const nextMuted = !video.muted;
     video.muted = nextMuted;
-    setIsMuted(nextMuted);
-    // If paused, ensure it continues playing when unmuted
     if (video.paused) {
       video.play().then(() => setIsPlaying(true)).catch(() => {});
     }
   };
+
+  // Pause video when scrolled out of viewport to free mobile/laptop decoders
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (video.paused && isPlaying) {
+            video.play().catch(() => {});
+          }
+        } else {
+          if (!video.paused) {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [isPlaying]);
 
   return (
     <section className="hero-video-section" aria-label="Astonia Chronograph Video Showcase">
@@ -1055,7 +1075,7 @@ function HeroVideoSection({ onDiscover }) {
           loop
           muted={isMuted}
           playsInline
-          preload="auto"
+          preload="metadata"
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
         />
@@ -1129,86 +1149,86 @@ function HeroVideoSection({ onDiscover }) {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
-  { id: "astroworld-celestial", name: "Astroworld Celestial Moon Rose Gold", img: "/watch-astroworld-moon-rosegold-front-transparent.png" },
-  { id: "astroworld-celestial-silver", name: "Astroworld Celestial Moon Silver", img: "/watch-astroworld-moon-silver-front-transparent.png" },
-  { id: "astroworld-tourbillon-black-dlc", name: "Astroworld Celestial Tourbillon Black DLC", img: "/watch-astroworld-tourbillon-dlc-front-transparent.png" },
-  { id: "astroworld-tourbillon-fluted-rosegold", name: "Astroworld Celestial Tourbillon Rose Gold", img: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.png" },
-  { id: "astroworld-tourbillon-fluted-silver", name: "Astroworld Celestial Tourbillon Classic Silver", img: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.png" },
-  { id: "volcano-glacier-compass-gold", name: "Volcano Glacier Compass Gold", img: "/watch-volcano-glacier-compass-gold-front-transparent.png" },
-  { id: "volcano-glacier-compass-rosegold", name: "Volcano Glacier Compass Rose Gold", img: "/watch-volcano-glacier-compass-rosegold-front-transparent.png" },
-  { id: "volcano-glacier-compass-silver", name: "Volcano Glacier Compass Silver", img: "/watch-volcano-glacier-compass-silver-front-transparent.png" },
-  { id: "supercar-engine-block-rosegold", name: "V12 Engine Supercar Rose Gold", img: "/watch-supercar-engine-block-rosegold-front-transparent.png" },
-  { id: "supercar-engine-block-silver", name: "V12 Engine Supercar Silver", img: "/watch-supercar-engine-block-silver-front-transparent.png" },
-  { id: "casino-roulette-wheel-rosegold", name: "Casino Roulette Rose Gold", img: "/watch-casino-roulette-rosegold-front-transparent.png" },
-  { id: "casino-roulette-wheel-silver", name: "Casino Roulette Classic Silver", img: "/watch-casino-roulette-silver-front-transparent.png" },
-  { id: "casino-roulette-wheel-diamond-emerald", name: "Casino Roulette Baguette Diamond", img: "/watch-casino-roulette-diamond-emerald-front-transparent.png" },
-  { id: "casino-roulette-wheel-sapphire-diamond", name: "Casino Roulette Blue Sapphire", img: "/watch-casino-roulette-sapphire-diamond-front-transparent.png" },
-  { id: "casino-roulette-wheel-emerald-alligator", name: "Casino Roulette Imperial Emerald", img: "/watch-casino-roulette-emerald-alligator-front-transparent.png" },
-  { id: "casino-roulette-wheel-ruby-diamond", name: "Casino Roulette Pigeon Blood Ruby", img: "/watch-casino-roulette-ruby-diamond-front-transparent.png" },
-  { id: "casino-roulette-wheel-silver-diamond-emerald", name: "Casino Roulette Silver Diamond", img: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.png" },
-  { id: "casino-roulette-wheel-silver-sapphire-diamond", name: "Casino Roulette Silver Sapphire", img: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.png" },
-  { id: "casino-roulette-wheel-silver-emerald-alligator", name: "Casino Roulette Silver Emerald", img: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.png" },
-  { id: "casino-roulette-wheel-silver-ruby-diamond", name: "Casino Roulette Silver Ruby", img: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.png" },
-  { id: "celestial-dragon-tourbillon-rosegold", name: "Celestial Dragon Tourbillon Rose Gold", img: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.png" },
-  { id: "celestial-dragon-tourbillon-silver", name: "Celestial Dragon Tourbillon Silver", img: "/watch-celestial-dragon-tourbillon-silver-front-transparent.png" },
-  { id: "planetary-cosmos-tourbillon-rosegold", name: "Planetary Cosmos Tourbillon Rose Gold", img: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.png" },
-  { id: "planetary-cosmos-tourbillon-silver", name: "Planetary Cosmos Tourbillon Silver", img: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.png" },
-  { id: "oceanic-diver-200m-green", name: "Oceanic Pro Diver 200M Emerald", img: "/watch-oceanic-diver-200m-green-front-transparent.png" },
-  { id: "seamaster-chronograph-diver-teal", name: "Seamaster Chronograph Diver Teal", img: "/watch-seamaster-chronograph-diver-teal-front-transparent.png" },
-  { id: "seamaster-chronograph-diver-olive", name: "Seamaster Chronograph Diver Olive", img: "/watch-seamaster-chronograph-diver-olive-front-transparent.png" },
-  { id: "seamaster-chronograph-diver-amber", name: "Seamaster Chronograph Diver Amber", img: "/watch-seamaster-chronograph-diver-amber-front-transparent.png" },
-  { id: "seamaster-chronograph-diver-violet", name: "Seamaster Chronograph Diver Violet", img: "/watch-seamaster-chronograph-diver-violet-front-transparent.png" },
-  { id: "mecha-cantilever-tourbillon-iceblue", name: "Mecha Cantilever Tourbillon Ice Blue", img: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.png" },
-  { id: "world-map-tourbillon-rosegold", name: "World Map Tourbillon Rose Gold", img: "/watch-world-map-tourbillon-rosegold-front-transparent.png" },
-  { id: "world-map-tourbillon-blue", name: "World Map Tourbillon Royal Blue", img: "/watch-world-map-tourbillon-blue-front-transparent.png" },
-  { id: "world-map-tourbillon-silver", name: "World Map Tourbillon Silver", img: "/watch-world-map-tourbillon-silver-front-transparent.png" },
-  { id: "world-map-tourbillon-silver-dual", name: "World Map Tourbillon Silver Dual", img: "/watch-world-map-tourbillon-silver-dual-front-transparent.png" },
-  { id: "overseas-perpetual-skeleton-steel", name: "Overseas Perpetual Skeleton Steel", img: "/watch-overseas-perpetual-skeleton-steel-front-transparent.png" },
-  { id: "celestial-pilot-moonphase-black", name: "Celestial Pilot Moonphase Black", img: "/watch-celestial-pilot-moonphase-black-front-transparent.png" },
-  { id: "celestial-pilot-moonphase-rosegold", name: "Celestial Pilot Moonphase Rose Gold", img: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.png" },
-  { id: "dual-hemispheres-moonphase-steel", name: "Dual Hemispheres Moonphase Steel", img: "/watch-dual-hemispheres-moonphase-steel-front-transparent.png" },
-  { id: "dual-hemispheres-moonphase-blue", name: "Dual Hemispheres Moonphase Blue", img: "/watch-dual-hemispheres-moonphase-blue-front-transparent.png" },
-  { id: "dual-hemispheres-moonphase-rosegold", name: "Dual Hemispheres Moonphase Rose Gold", img: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.png" },
-  { id: "sonnerie-bell-iceblue", name: "Mechanical Sonnerie Bell Ice Blue", img: "/watch-sonnerie-bell-iceblue-front-transparent.png" },
-  { id: "sonnerie-bell-blue", name: "Mechanical Sonnerie Bell Royal Blue", img: "/watch-sonnerie-bell-blue-front-transparent.png" },
-  { id: "cyber-cogwheel-skeleton-rosegold", name: "Cyber Cogwheel Skeleton Rose Gold", img: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.png" },
-  { id: "cyber-cogwheel-skeleton-twotone", name: "Cyber Cogwheel Skeleton Two-Tone", img: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.png" },
-  { id: "cyber-cogwheel-skeleton-steel", name: "Cyber Cogwheel Skeleton Classic Steel", img: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.png" },
-  { id: "sapphire-kanagawa-wave", name: "Great Wave Ocean Sapphire Tonneau", img: "/watch-sapphire-kanagawa-wave-front-transparent.png" },
-  { id: "stealth-fighter-jet-tonneau", name: "Stealth Fighter Jet Earth Diamond", img: "/watch-stealth-fighter-jet-front-transparent.png" },
-  { id: "sichuan-opera-diamond-tonneau", name: "Sichuan Opera Diamond Rose Gold", img: "/watch-sichuan-opera-diamond-front-transparent.png" },
-  { id: "sichuan-opera-diamond-steel", name: "Sichuan Opera Diamond Silver Steel", img: "/watch-sichuan-opera-steel-front-transparent.png" },
-  { id: "forged-carbon-tonneau-tourbillon", name: "Forged Carbon Damascus Lume", img: "/watch-forged-carbon-tonneau-front-transparent.png" },
-  { id: "forged-carbon-damascus-10atm", name: "Forged Carbon Damascus 100M", img: "/watch-forged-carbon-damascus-10atm-front-transparent.png" },
-  { id: "arctic-tonneau-10atm-white", name: "Arctic White Ceramic 100M", img: "/watch-arctic-tonneau-10atm-white-front-transparent.png" },
-  { id: "forged-carbon-ribbed-shield", name: "Forged Carbon Ribbed Shield", img: "/watch-forged-carbon-ribbed-shield-front-transparent.png" },
-  { id: "forged-carbon-ribbed-shield-blue", name: "Forged Carbon Ribbed Blue", img: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.png" },
-  { id: "forged-carbon-ribbed-shield-green", name: "Forged Carbon Ribbed Green", img: "/watch-forged-carbon-ribbed-shield-green-front-transparent.png" },
-  { id: "forged-carbon-ribbed-shield-red", name: "Forged Carbon Ribbed Rosso Corsa", img: "/watch-forged-carbon-ribbed-shield-red-front-transparent.png" },
-  { id: "forged-carbon-ribbed-shield-white", name: "Forged Carbon Ribbed Arctic White", img: "/watch-forged-carbon-ribbed-shield-white-front-transparent.png" },
-  { id: "double-balance-cantilever-rosegold", name: "Twin-Turbine Double Balance Rose Gold", img: "/watch-double-balance-cantilever-rosegold-front-transparent.png" },
-  { id: "double-balance-cantilever-yellow", name: "Twin-Turbine Double Balance Yellow", img: "/watch-double-balance-cantilever-yellow-front-transparent.png" },
-  { id: "double-balance-cantilever-red", name: "Twin-Turbine Double Balance Red", img: "/watch-double-balance-cantilever-red-front-transparent.png" },
-  { id: "aurora-celestial-frost", name: "Aurora Celestial Frost Automatic", img: "/watch-aurora-celestial-frost-front-transparent.png" },
-  { id: "octagonal-diamond-celestial", name: "Royal Octagonal Diamond Celestial", img: "/watch-diamond-octagonal-front-transparent.png" },
-  { id: "octagonal-diamond-bronze", name: "Royal Octagonal Diamond Tobacco Bronze", img: "/watch-diamond-octagonal-bronze-front-transparent.png" },
-  { id: "octagonal-diamond-emerald", name: "Royal Octagonal Diamond Emerald Forest", img: "/watch-diamond-octagonal-green-front-transparent.png" },
-  { id: "arachnid-geometric-skeleton", name: "Arachnid Geometric Skeleton", img: "/watch-arachnid-geometric-front-transparent.png" },
-  { id: "cyber-green-skeleton", name: "Cyber Octagonal Neon Green", img: "/watch-cyber-green-skeleton-front-transparent.png" },
-  { id: "world-globe", name: "World Globe Tourbillon", img: "/watch-world-globe.png" },
-  { id: "architectural-skeleton-black", name: "Architectural Skeleton DLC", img: "/watch-architectural-skeleton-black-front-transparent.png" },
-  { id: "architectural-skeleton-rosegold", name: "Architectural Skeleton Two-Tone", img: "/watch-architectural-skeleton-rosegold-front-transparent.png" },
-  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette.png" },
-  { id: "arctic-tonneau", name: "Arctic Tonneau Skeleton", img: "/watch-arctic-tonneau-white.png" },
-  { id: "blue-roulette", name: "Sapphire Blue Roulette Automatic", img: "/watch-blue-roulette.png" },
-  { id: "orbital-moonphase", name: "Silver Moonphase Orbital", img: "/watch-orbital-moonphase.png" },
-  { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue.png" },
-  { id: "powerreserve-black", name: "Power Reserve 35h Midnight", img: "/watch-powerreserve-midnight-front-transparent.png" },
-  { id: "powerreserve-silver", name: "Power Reserve 35h Classic Silver", img: "/watch-powerreserve-silver-front-transparent.png" },
-  { id: "powerreserve-opaline", name: "Power Reserve 35h Opaline Silver", img: "/watch-powerreserve-opaline-front-transparent.png" },
-  { id: "powerreserve-twotone", name: "Power Reserve 35h Two-Tone", img: "/watch-powerreserve-twotone-front-transparent.png" },
-  { id: "green-diver", name: "Green Emerald Diver Submariner", img: "/watch-green-diver.png" },
-  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell.png" }
+  { id: "astroworld-celestial", name: "Astroworld Celestial Moon Rose Gold", img: "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp" },
+  { id: "astroworld-celestial-silver", name: "Astroworld Celestial Moon Silver", img: "/watch-astroworld-moon-silver-front-transparent-thumb.webp" },
+  { id: "astroworld-tourbillon-black-dlc", name: "Astroworld Celestial Tourbillon Black DLC", img: "/watch-astroworld-tourbillon-dlc-front-transparent-thumb.webp" },
+  { id: "astroworld-tourbillon-fluted-rosegold", name: "Astroworld Celestial Tourbillon Rose Gold", img: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent-thumb.webp" },
+  { id: "astroworld-tourbillon-fluted-silver", name: "Astroworld Celestial Tourbillon Classic Silver", img: "/watch-astroworld-tourbillon-fluted-silver-front-transparent-thumb.webp" },
+  { id: "volcano-glacier-compass-gold", name: "Volcano Glacier Compass Gold", img: "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp" },
+  { id: "volcano-glacier-compass-rosegold", name: "Volcano Glacier Compass Rose Gold", img: "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp" },
+  { id: "volcano-glacier-compass-silver", name: "Volcano Glacier Compass Silver", img: "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp" },
+  { id: "supercar-engine-block-rosegold", name: "V12 Engine Supercar Rose Gold", img: "/watch-supercar-engine-block-rosegold-front-transparent-thumb.webp" },
+  { id: "supercar-engine-block-silver", name: "V12 Engine Supercar Silver", img: "/watch-supercar-engine-block-silver-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-rosegold", name: "Casino Roulette Rose Gold", img: "/watch-casino-roulette-rosegold-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-silver", name: "Casino Roulette Classic Silver", img: "/watch-casino-roulette-silver-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-diamond-emerald", name: "Casino Roulette Baguette Diamond", img: "/watch-casino-roulette-diamond-emerald-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-sapphire-diamond", name: "Casino Roulette Blue Sapphire", img: "/watch-casino-roulette-sapphire-diamond-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-emerald-alligator", name: "Casino Roulette Imperial Emerald", img: "/watch-casino-roulette-emerald-alligator-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-ruby-diamond", name: "Casino Roulette Pigeon Blood Ruby", img: "/watch-casino-roulette-ruby-diamond-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-silver-diamond-emerald", name: "Casino Roulette Silver Diamond", img: "/watch-casino-roulette-silver-diamond-emerald-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-silver-sapphire-diamond", name: "Casino Roulette Silver Sapphire", img: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-silver-emerald-alligator", name: "Casino Roulette Silver Emerald", img: "/watch-casino-roulette-silver-emerald-alligator-front-transparent-thumb.webp" },
+  { id: "casino-roulette-wheel-silver-ruby-diamond", name: "Casino Roulette Silver Ruby", img: "/watch-casino-roulette-silver-ruby-diamond-front-transparent-thumb.webp" },
+  { id: "celestial-dragon-tourbillon-rosegold", name: "Celestial Dragon Tourbillon Rose Gold", img: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent-thumb.webp" },
+  { id: "celestial-dragon-tourbillon-silver", name: "Celestial Dragon Tourbillon Silver", img: "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp" },
+  { id: "planetary-cosmos-tourbillon-rosegold", name: "Planetary Cosmos Tourbillon Rose Gold", img: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp" },
+  { id: "planetary-cosmos-tourbillon-silver", name: "Planetary Cosmos Tourbillon Silver", img: "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp" },
+  { id: "oceanic-diver-200m-green", name: "Oceanic Pro Diver 200M Emerald", img: "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp" },
+  { id: "seamaster-chronograph-diver-teal", name: "Seamaster Chronograph Diver Teal", img: "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp" },
+  { id: "seamaster-chronograph-diver-olive", name: "Seamaster Chronograph Diver Olive", img: "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp" },
+  { id: "seamaster-chronograph-diver-amber", name: "Seamaster Chronograph Diver Amber", img: "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp" },
+  { id: "seamaster-chronograph-diver-violet", name: "Seamaster Chronograph Diver Violet", img: "/watch-seamaster-chronograph-diver-violet-front-transparent-thumb.webp" },
+  { id: "mecha-cantilever-tourbillon-iceblue", name: "Mecha Cantilever Tourbillon Ice Blue", img: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent-thumb.webp" },
+  { id: "world-map-tourbillon-rosegold", name: "World Map Tourbillon Rose Gold", img: "/watch-world-map-tourbillon-rosegold-front-transparent-thumb.webp" },
+  { id: "world-map-tourbillon-blue", name: "World Map Tourbillon Royal Blue", img: "/watch-world-map-tourbillon-blue-front-transparent-thumb.webp" },
+  { id: "world-map-tourbillon-silver", name: "World Map Tourbillon Silver", img: "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp" },
+  { id: "world-map-tourbillon-silver-dual", name: "World Map Tourbillon Silver Dual", img: "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp" },
+  { id: "overseas-perpetual-skeleton-steel", name: "Overseas Perpetual Skeleton Steel", img: "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp" },
+  { id: "celestial-pilot-moonphase-black", name: "Celestial Pilot Moonphase Black", img: "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp" },
+  { id: "celestial-pilot-moonphase-rosegold", name: "Celestial Pilot Moonphase Rose Gold", img: "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp" },
+  { id: "dual-hemispheres-moonphase-steel", name: "Dual Hemispheres Moonphase Steel", img: "/watch-dual-hemispheres-moonphase-steel-front-transparent-thumb.webp" },
+  { id: "dual-hemispheres-moonphase-blue", name: "Dual Hemispheres Moonphase Blue", img: "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp" },
+  { id: "dual-hemispheres-moonphase-rosegold", name: "Dual Hemispheres Moonphase Rose Gold", img: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent-thumb.webp" },
+  { id: "sonnerie-bell-iceblue", name: "Mechanical Sonnerie Bell Ice Blue", img: "/watch-sonnerie-bell-iceblue-front-transparent-thumb.webp" },
+  { id: "sonnerie-bell-blue", name: "Mechanical Sonnerie Bell Royal Blue", img: "/watch-sonnerie-bell-blue-front-transparent-thumb.webp" },
+  { id: "cyber-cogwheel-skeleton-rosegold", name: "Cyber Cogwheel Skeleton Rose Gold", img: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent-thumb.webp" },
+  { id: "cyber-cogwheel-skeleton-twotone", name: "Cyber Cogwheel Skeleton Two-Tone", img: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent-thumb.webp" },
+  { id: "cyber-cogwheel-skeleton-steel", name: "Cyber Cogwheel Skeleton Classic Steel", img: "/watch-cyber-cogwheel-skeleton-steel-front-transparent-thumb.webp" },
+  { id: "sapphire-kanagawa-wave", name: "Great Wave Ocean Sapphire Tonneau", img: "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp" },
+  { id: "stealth-fighter-jet-tonneau", name: "Stealth Fighter Jet Earth Diamond", img: "/watch-stealth-fighter-jet-front-transparent-thumb.webp" },
+  { id: "sichuan-opera-diamond-tonneau", name: "Sichuan Opera Diamond Rose Gold", img: "/watch-sichuan-opera-diamond-front-transparent-thumb.webp" },
+  { id: "sichuan-opera-diamond-steel", name: "Sichuan Opera Diamond Silver Steel", img: "/watch-sichuan-opera-steel-front-transparent-thumb.webp" },
+  { id: "forged-carbon-tonneau-tourbillon", name: "Forged Carbon Damascus Lume", img: "/watch-forged-carbon-tonneau-front-transparent-thumb.webp" },
+  { id: "forged-carbon-damascus-10atm", name: "Forged Carbon Damascus 100M", img: "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp" },
+  { id: "arctic-tonneau-10atm-white", name: "Arctic White Ceramic 100M", img: "/watch-arctic-tonneau-10atm-white-front-transparent-thumb.webp" },
+  { id: "forged-carbon-ribbed-shield", name: "Forged Carbon Ribbed Shield", img: "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp" },
+  { id: "forged-carbon-ribbed-shield-blue", name: "Forged Carbon Ribbed Blue", img: "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp" },
+  { id: "forged-carbon-ribbed-shield-green", name: "Forged Carbon Ribbed Green", img: "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp" },
+  { id: "forged-carbon-ribbed-shield-red", name: "Forged Carbon Ribbed Rosso Corsa", img: "/watch-forged-carbon-ribbed-shield-red-front-transparent-thumb.webp" },
+  { id: "forged-carbon-ribbed-shield-white", name: "Forged Carbon Ribbed Arctic White", img: "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp" },
+  { id: "double-balance-cantilever-rosegold", name: "Twin-Turbine Double Balance Rose Gold", img: "/watch-double-balance-cantilever-rosegold-front-transparent-thumb.webp" },
+  { id: "double-balance-cantilever-yellow", name: "Twin-Turbine Double Balance Yellow", img: "/watch-double-balance-cantilever-yellow-front-transparent-thumb.webp" },
+  { id: "double-balance-cantilever-red", name: "Twin-Turbine Double Balance Red", img: "/watch-double-balance-cantilever-red-front-transparent-thumb.webp" },
+  { id: "aurora-celestial-frost", name: "Aurora Celestial Frost Automatic", img: "/watch-aurora-celestial-frost-front-transparent-thumb.webp" },
+  { id: "octagonal-diamond-celestial", name: "Royal Octagonal Diamond Celestial", img: "/watch-diamond-octagonal-front-transparent-thumb.webp" },
+  { id: "octagonal-diamond-bronze", name: "Royal Octagonal Diamond Tobacco Bronze", img: "/watch-diamond-octagonal-bronze-front-transparent-thumb.webp" },
+  { id: "octagonal-diamond-emerald", name: "Royal Octagonal Diamond Emerald Forest", img: "/watch-diamond-octagonal-green-front-transparent-thumb.webp" },
+  { id: "arachnid-geometric-skeleton", name: "Arachnid Geometric Skeleton", img: "/watch-arachnid-geometric-front-transparent-thumb.webp" },
+  { id: "cyber-green-skeleton", name: "Cyber Octagonal Neon Green", img: "/watch-cyber-green-skeleton-front-transparent-thumb.webp" },
+  { id: "world-globe", name: "World Globe Tourbillon", img: "/watch-world-globe-thumb.webp" },
+  { id: "architectural-skeleton-black", name: "Architectural Skeleton DLC", img: "/watch-architectural-skeleton-black-front-transparent-thumb.webp" },
+  { id: "architectural-skeleton-rosegold", name: "Architectural Skeleton Two-Tone", img: "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp" },
+  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette-thumb.webp" },
+  { id: "arctic-tonneau", name: "Arctic Tonneau Skeleton", img: "/watch-arctic-tonneau-white-thumb.webp" },
+  { id: "blue-roulette", name: "Sapphire Blue Roulette Automatic", img: "/watch-blue-roulette-thumb.webp" },
+  { id: "orbital-moonphase", name: "Silver Moonphase Orbital", img: "/watch-orbital-moonphase-thumb.webp" },
+  { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue-thumb.webp" },
+  { id: "powerreserve-black", name: "Power Reserve 35h Midnight", img: "/watch-powerreserve-midnight-front-transparent-thumb.webp" },
+  { id: "powerreserve-silver", name: "Power Reserve 35h Classic Silver", img: "/watch-powerreserve-silver-front-transparent-thumb.webp" },
+  { id: "powerreserve-opaline", name: "Power Reserve 35h Opaline Silver", img: "/watch-powerreserve-opaline-front-transparent-thumb.webp" },
+  { id: "powerreserve-twotone", name: "Power Reserve 35h Two-Tone", img: "/watch-powerreserve-twotone-front-transparent-thumb.webp" },
+  { id: "green-diver", name: "Green Emerald Diver Submariner", img: "/watch-green-diver-thumb.webp" },
+  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell-thumb.webp" }
 ];
 
 function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
@@ -1247,6 +1267,9 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
+                  decoding="async"
+                  width="190"
+                  height="280"
                   draggable={false}
                 />
               </div>
@@ -1267,6 +1290,9 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
+                  decoding="async"
+                  width="190"
+                  height="280"
                   draggable={false}
                 />
               </div>
@@ -1672,12 +1698,29 @@ function InteractiveDottedGlobe() {
       });
 
       renderer.render(scene, camera);
-      animId = requestAnimationFrame(animate);
+      if (isGlobeVisible) {
+        animId = requestAnimationFrame(animate);
+      }
     };
+
+    let isGlobeVisible = true;
+    const globeObserver = new IntersectionObserver(
+      ([entry]) => {
+        isGlobeVisible = entry.isIntersecting;
+        if (isGlobeVisible) {
+          cancelAnimationFrame(animId);
+          animId = requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    globeObserver.observe(container);
+
     animate();
 
     return () => {
       cancelAnimationFrame(animId);
+      globeObserver.disconnect();
       window.removeEventListener("resize", onResize);
       dom.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
@@ -2252,13 +2295,16 @@ const FOOTER_CLOCK_TICKS = Array.from({ length: 60 }, (_, i) => {
 });
 
 function FooterLiveClock() {
+  const containerRef = useRef(null);
   const hourHandRef = useRef(null);
   const minHandRef = useRef(null);
   const secHandRef = useRef(null);
 
   useEffect(() => {
     let animId;
+    let isClockVisible = true;
     const updateTime = () => {
+      if (!isClockVisible) return;
       const now = new Date();
       const ms = now.getMilliseconds();
       const s = now.getSeconds() + ms / 1000;
@@ -2282,12 +2328,30 @@ function FooterLiveClock() {
       animId = requestAnimationFrame(updateTime);
     };
 
+    const clockObserver = new IntersectionObserver(
+      ([entry]) => {
+        isClockVisible = entry.isIntersecting;
+        if (isClockVisible) {
+          cancelAnimationFrame(animId);
+          animId = requestAnimationFrame(updateTime);
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      clockObserver.observe(containerRef.current);
+    }
+
     animId = requestAnimationFrame(updateTime);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      clockObserver.disconnect();
+    };
   }, []);
 
   return (
-    <div className="footer-live-clock-wrap" aria-label="Real-time precision outline clock">
+    <div className="footer-live-clock-wrap" ref={containerRef} aria-label="Real-time precision outline clock">
       <svg className="footer-clock-svg" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
           <filter id="redSecGlow" x="-50%" y="-50%" width="200%" height="200%">

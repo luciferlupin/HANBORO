@@ -22,42 +22,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Flagship Grand Complication",
-    image: "/watch-astroworld-moon-rosegold-front-transparent.png",
-    transparentImage: "/watch-astroworld-moon-rosegold-front-transparent.png",
+    image: "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    transparentImage: "/watch-astroworld-moon-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-astroworld-moon-rosegold-front-transparent.png",
-      "/watch-astroworld-moon-rosegold-isometric-transparent.png",
-      "/watch-astroworld-moon-rosegold-profile-transparent.png",
-      "/watch-astroworld-moon-rosegold-neon.jpg",
-      "/watch-astroworld-moon-rosegold-macro.jpg"
+      "/watch-astroworld-moon-rosegold-front-transparent.webp",
+      "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
+      "/watch-astroworld-moon-rosegold-profile-transparent.webp",
+      "/watch-astroworld-moon-rosegold-neon.webp",
+      "/watch-astroworld-moon-rosegold-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-astroworld-moon-rosegold-front-transparent.png",
+        url: "/watch-astroworld-moon-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold organic case showcasing the 3D micro-carved moon sphere in the lower sapphire chamber, central tourbillon, 24H earth disk, and aventurine dial."
       },
       {
-        url: "/watch-astroworld-moon-rosegold-isometric-transparent.png",
+        url: "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Moon Chamber Isometric",
         label: "02 3D Moon Chamber",
         caption: "Isometric studio perspective with a transparent view into the extended panoramic lower sapphire chamber housing the 3D textured moon sphere."
       },
       {
-        url: "/watch-astroworld-moon-rosegold-profile-transparent.png",
+        url: "/watch-astroworld-moon-rosegold-profile-transparent.webp",
         title: "Rose Gold Sculptural Profile",
         label: "03 Sculptural Profile",
         caption: "Side profile angle highlighting the flowing ergonomic rose gold case flanks, titanium bezel screws, and knurled crown."
       },
       {
-        url: "/watch-astroworld-moon-rosegold-neon.jpg",
+        url: "/watch-astroworld-moon-rosegold-neon.webp",
         title: "Sartorial Neon Festival Presence",
         label: "04 Neon Lifestyle",
         caption: "Dynamic on-wrist presence framed against vibrant Japanese neon street festival lights, capturing the celestial reflections."
       },
       {
-        url: "/watch-astroworld-moon-rosegold-macro.jpg",
+        url: "/watch-astroworld-moon-rosegold-macro.webp",
         title: "Macro Celestial Micro-Horology",
         label: "05 Macro Horizon",
         caption: "Macro on-wrist capture under neon illumination revealing the craters of the 3D moon sphere, the pulsing tourbillon cage, and the rotating Earth disk."
@@ -100,35 +100,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Flagship Grand Complication",
-    image: "/watch-astroworld-moon-silver-front-transparent.png",
-    transparentImage: "/watch-astroworld-moon-silver-front-transparent.png",
+    image: "/watch-astroworld-moon-silver-front-transparent.webp",
+    transparentImage: "/watch-astroworld-moon-silver-front-transparent.webp",
     altImages: [
-      "/watch-astroworld-moon-silver-front-transparent.png",
-      "/watch-astroworld-moon-silver-racetrack.jpg",
-      "/watch-astroworld-moon-silver-wrist.jpg",
-      "/watch-astroworld-moon-silver-moon.jpg"
+      "/watch-astroworld-moon-silver-front-transparent.webp",
+      "/watch-astroworld-moon-silver-racetrack.webp",
+      "/watch-astroworld-moon-silver-wrist.webp",
+      "/watch-astroworld-moon-silver-moon.webp"
     ],
     gallery: [
       {
-        url: "/watch-astroworld-moon-silver-front-transparent.png",
+        url: "/watch-astroworld-moon-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel organic case showcasing the 3D micro-carved moon sphere in the lower sapphire chamber, central tourbillon, 24H earth disk, and aventurine dial."
       },
       {
-        url: "/watch-astroworld-moon-silver-racetrack.jpg",
+        url: "/watch-astroworld-moon-silver-racetrack.webp",
         title: "Motorsport Circuit Track Setting",
         label: "02 Racetrack Setting",
         caption: "Dynamic composition on high-speed racing circuit asphalt alongside red supercar."
       },
       {
-        url: "/watch-astroworld-moon-silver-wrist.jpg",
+        url: "/watch-astroworld-moon-silver-wrist.webp",
         title: "Cockpit On-Wrist Denim Sartorial Presence",
         label: "03 Cockpit On-Wrist",
         caption: "On-wrist perspective in supercar cockpit paired with denim jacket exhibiting the organic steel curves."
       },
       {
-        url: "/watch-astroworld-moon-silver-moon.jpg",
+        url: "/watch-astroworld-moon-silver-moon.webp",
         title: "Lunar Surface Horizon Perspective",
         label: "04 Lunar Horizon",
         caption: "Studio astronomical composition resting on lunar surface with planet Earth floating in deep space."
@@ -171,35 +171,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Astronomical Tourbillon",
-    image: "/watch-astroworld-tourbillon-dlc-front-transparent.png",
-    transparentImage: "/watch-astroworld-tourbillon-dlc-front-transparent.png",
+    image: "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
+    transparentImage: "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
     altImages: [
-      "/watch-astroworld-tourbillon-dlc-front-transparent.png",
-      "/watch-astroworld-tourbillon-dlc-landscape.jpg",
-      "/watch-astroworld-tourbillon-dlc-pedestal.jpg",
-      "/watch-astroworld-tourbillon-dlc-wrist.jpg"
+      "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
+      "/watch-astroworld-tourbillon-dlc-landscape.webp",
+      "/watch-astroworld-tourbillon-dlc-pedestal.webp",
+      "/watch-astroworld-tourbillon-dlc-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-astroworld-tourbillon-dlc-front-transparent.png",
+        url: "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical midnight black DLC round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
       },
       {
-        url: "/watch-astroworld-tourbillon-dlc-landscape.jpg",
+        url: "/watch-astroworld-tourbillon-dlc-landscape.webp",
         title: "Volcanic Horizon Astronomical Setting",
         label: "02 Volcanic Horizon",
         caption: "Editorial astronomical composition on dark volcanic sand landscape with horizon backdrop."
       },
       {
-        url: "/watch-astroworld-tourbillon-dlc-pedestal.jpg",
+        url: "/watch-astroworld-tourbillon-dlc-pedestal.webp",
         title: "Volcanic Monolith Pedestal Perspective",
         label: "03 Volcanic Pedestal",
         caption: "Angled isometric studio perspective resting on rugged volcanic rock bedrock."
       },
       {
-        url: "/watch-astroworld-tourbillon-dlc-wrist.jpg",
+        url: "/watch-astroworld-tourbillon-dlc-wrist.webp",
         title: "Sartorial Formal On-Wrist Horizon",
         label: "04 Formal Wrist",
         caption: "On-wrist perspective in formal dark tailoring showcasing the stealth DLC profile and tourbillon presence."
@@ -243,28 +243,28 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Astronomical Tourbillon",
-    image: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.png",
-    transparentImage: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.png",
+    image: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
+    transparentImage: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.png",
-      "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.png",
-      "/watch-astroworld-tourbillon-fluted-rosegold-wrist.jpg"
+      "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
+      "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.webp",
+      "/watch-astroworld-tourbillon-fluted-rosegold-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.png",
+        url: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with off-center fluted dial, diamond-frosted rose gold ring, twin planetary gears, and flying tourbillon."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.png",
+        url: "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved bezel, domed sapphire crystal, and open 18K rose gold deployant clasp."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-rosegold-wrist.jpg",
+        url: "/watch-astroworld-tourbillon-fluted-rosegold-wrist.webp",
         title: "Sartorial Formal On-Wrist Horizon",
         label: "03 Formal Wrist",
         caption: "On-wrist perspective in formal dark tailoring showcasing the warm rose gold facets and flying tourbillon presence."
@@ -308,42 +308,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Astronomical Tourbillon",
-    image: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.png",
-    transparentImage: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.png",
+    image: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
+    transparentImage: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
     altImages: [
-      "/watch-astroworld-tourbillon-fluted-silver-front-transparent.png",
-      "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.png",
-      "/watch-astroworld-tourbillon-fluted-silver-caseback.jpg",
-      "/watch-astroworld-tourbillon-fluted-silver-display.jpg",
-      "/watch-astroworld-tourbillon-fluted-silver-wrist.jpg"
+      "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
+      "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.webp",
+      "/watch-astroworld-tourbillon-fluted-silver-caseback.webp",
+      "/watch-astroworld-tourbillon-fluted-silver-display.webp",
+      "/watch-astroworld-tourbillon-fluted-silver-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.png",
+        url: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.png",
+        url: "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the mirror-polished steel bezel, domed sapphire crystal, and open deployant clasp."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-silver-caseback.jpg",
+        url: "/watch-astroworld-tourbillon-fluted-silver-caseback.webp",
         title: "Exhibition Sapphire Movement Caseback",
         label: "03 Movement Caseback",
         caption: "High-definition caseback perspective revealing the 21-jewel automatic movement, radial sunburst golden rotor, and Côtes de Genève stripes."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-silver-display.jpg",
+        url: "/watch-astroworld-tourbillon-fluted-silver-display.webp",
         title: "Atelier Display Horizon",
         label: "04 Display Horizon",
         caption: "Three-quarter display perspective on midnight blue leather backdrop highlighting dial depth and planetary gears."
       },
       {
-        url: "/watch-astroworld-tourbillon-fluted-silver-wrist.jpg",
+        url: "/watch-astroworld-tourbillon-fluted-silver-wrist.webp",
         title: "Sartorial On-Wrist Horizon",
         label: "05 Sartorial Wrist",
         caption: "On-wrist perspective in studio tailoring showcasing the natural steel reflections, fluted dial, and tourbillon presence."
@@ -387,37 +387,37 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Dual Elements & Compass",
-    image: "/watch-volcano-glacier-compass-gold-front-transparent.png",
-    nightImage: "/watch-volcano-glacier-compass-gold-night-glow.jpg",
+    image: "/watch-volcano-glacier-compass-gold-front-transparent.webp",
+    nightImage: "/watch-volcano-glacier-compass-gold-night-glow.webp",
     hasNightMode: true,
-    transparentImage: "/watch-volcano-glacier-compass-gold-front-transparent.png",
+    transparentImage: "/watch-volcano-glacier-compass-gold-front-transparent.webp",
     altImages: [
-      "/watch-volcano-glacier-compass-gold-front-transparent.png",
-      "/watch-volcano-glacier-compass-gold-night-glow.jpg",
-      "/watch-volcano-glacier-compass-gold-isometric-transparent.png",
-      "/watch-volcano-glacier-compass-gold-macro-transparent.png"
+      "/watch-volcano-glacier-compass-gold-front-transparent.webp",
+      "/watch-volcano-glacier-compass-gold-night-glow.webp",
+      "/watch-volcano-glacier-compass-gold-isometric-transparent.webp",
+      "/watch-volcano-glacier-compass-gold-macro-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-volcano-glacier-compass-gold-front-transparent.png",
+        url: "/watch-volcano-glacier-compass-gold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
       {
-        url: "/watch-volcano-glacier-compass-gold-night-glow.jpg",
+        url: "/watch-volcano-glacier-compass-gold-night-glow.webp",
         title: "Bioluminescent Dial & Index Night Glow",
         label: "02 Night Glow",
         caption: "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
       },
       {
-        url: "/watch-volcano-glacier-compass-gold-isometric-transparent.png",
+        url: "/watch-volcano-glacier-compass-gold-isometric-transparent.webp",
         title: "Three-Quarter Compass Bubble Isometric",
         label: "03 3D Compass Bubble",
         caption: "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and gold butterfly deployant clasp."
       },
       {
-        url: "/watch-volcano-glacier-compass-gold-macro-transparent.png",
+        url: "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
         title: "Macro Texture & Dial Dichotomy",
         label: "04 Macro Dichotomy",
         caption: "High-contrast macro view of the textured volcanic rock fissures, frost crystals, and central tourbillon escapement."
@@ -460,37 +460,37 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Dual Elements & Compass",
-    image: "/watch-volcano-glacier-compass-rosegold-front-transparent.png",
-    nightImage: "/watch-volcano-glacier-compass-rosegold-night-glow.jpg",
+    image: "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
+    nightImage: "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
     hasNightMode: true,
-    transparentImage: "/watch-volcano-glacier-compass-rosegold-front-transparent.png",
+    transparentImage: "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-volcano-glacier-compass-rosegold-front-transparent.png",
-      "/watch-volcano-glacier-compass-rosegold-night-glow.jpg",
-      "/watch-volcano-glacier-compass-rosegold-isometric-transparent.png",
-      "/watch-volcano-glacier-compass-rosegold-angle-transparent.png"
+      "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
+      "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
+      "/watch-volcano-glacier-compass-rosegold-isometric-transparent.webp",
+      "/watch-volcano-glacier-compass-rosegold-angle-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-volcano-glacier-compass-rosegold-front-transparent.png",
+        url: "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
       {
-        url: "/watch-volcano-glacier-compass-rosegold-night-glow.jpg",
+        url: "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
         title: "Bioluminescent Dial & Index Night Glow",
         label: "02 Night Glow",
         caption: "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
       },
       {
-        url: "/watch-volcano-glacier-compass-rosegold-isometric-transparent.png",
+        url: "/watch-volcano-glacier-compass-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Compass Bubble Isometric",
         label: "03 3D Compass Bubble",
         caption: "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and rose gold butterfly deployant clasp."
       },
       {
-        url: "/watch-volcano-glacier-compass-rosegold-angle-transparent.png",
+        url: "/watch-volcano-glacier-compass-rosegold-angle-transparent.webp",
         title: "Rose Gold Architectural Presence",
         label: "04 Rose Gold Angle",
         caption: "Frontal angled view highlighting the warm rose gold case curves, titanium screws, and exposed tourbillon cage."
@@ -533,37 +533,37 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Dual Elements & Compass",
-    image: "/watch-volcano-glacier-compass-silver-front-transparent.png",
-    nightImage: "/watch-volcano-glacier-compass-silver-night-glow.jpg",
+    image: "/watch-volcano-glacier-compass-silver-front-transparent.webp",
+    nightImage: "/watch-volcano-glacier-compass-silver-night-glow.webp",
     hasNightMode: true,
-    transparentImage: "/watch-volcano-glacier-compass-silver-front-transparent.png",
+    transparentImage: "/watch-volcano-glacier-compass-silver-front-transparent.webp",
     altImages: [
-      "/watch-volcano-glacier-compass-silver-front-transparent.png",
-      "/watch-volcano-glacier-compass-silver-night-glow.jpg",
-      "/watch-volcano-glacier-compass-silver-isometric-transparent.png",
-      "/watch-volcano-glacier-compass-silver-macro-transparent.png"
+      "/watch-volcano-glacier-compass-silver-front-transparent.webp",
+      "/watch-volcano-glacier-compass-silver-night-glow.webp",
+      "/watch-volcano-glacier-compass-silver-isometric-transparent.webp",
+      "/watch-volcano-glacier-compass-silver-macro-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-volcano-glacier-compass-silver-front-transparent.png",
+        url: "/watch-volcano-glacier-compass-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
       {
-        url: "/watch-volcano-glacier-compass-silver-night-glow.jpg",
+        url: "/watch-volcano-glacier-compass-silver-night-glow.webp",
         title: "Bioluminescent Dial & Index Night Glow",
         label: "02 Night Glow",
         caption: "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
       },
       {
-        url: "/watch-volcano-glacier-compass-silver-isometric-transparent.png",
+        url: "/watch-volcano-glacier-compass-silver-isometric-transparent.webp",
         title: "Three-Quarter Compass Bubble Isometric",
         label: "03 3D Compass Bubble",
         caption: "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and steel butterfly deployant clasp."
       },
       {
-        url: "/watch-volcano-glacier-compass-silver-macro-transparent.png",
+        url: "/watch-volcano-glacier-compass-silver-macro-transparent.webp",
         title: "Macro Texture & Dial Dichotomy",
         label: "04 Macro Dichotomy",
         caption: "High-contrast macro view of the textured volcanic rock fissures, frost crystals, and central tourbillon escapement."
@@ -606,42 +606,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "V12 Engine Block",
-    image: "/watch-supercar-engine-block-rosegold-front-transparent.png",
-    transparentImage: "/watch-supercar-engine-block-rosegold-front-transparent.png",
+    image: "/watch-supercar-engine-block-rosegold-front-transparent.webp",
+    transparentImage: "/watch-supercar-engine-block-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-supercar-engine-block-rosegold-front-transparent.png",
-      "/watch-supercar-engine-block-rosegold-isometric-transparent.png",
-      "/watch-supercar-engine-block-rosegold-racetrack.jpg",
-      "/watch-supercar-engine-block-rosegold-headlights.jpg",
-      "/watch-supercar-engine-block-rosegold-vault.jpg"
+      "/watch-supercar-engine-block-rosegold-front-transparent.webp",
+      "/watch-supercar-engine-block-rosegold-isometric-transparent.webp",
+      "/watch-supercar-engine-block-rosegold-racetrack.webp",
+      "/watch-supercar-engine-block-rosegold-headlights.webp",
+      "/watch-supercar-engine-block-rosegold-vault.webp"
     ],
     gallery: [
       {
-        url: "/watch-supercar-engine-block-rosegold-front-transparent.png",
+        url: "/watch-supercar-engine-block-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold aerodynamic case with alloy wheel dial, central tourbillon, and operative 6 o'clock gear cylinder."
       },
       {
-        url: "/watch-supercar-engine-block-rosegold-isometric-transparent.png",
+        url: "/watch-supercar-engine-block-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Aerodynamic Isometric",
         label: "02 Aerodynamic Profile",
         caption: "Angled perspective highlighting the curved 3D sapphire window, radiator grille plaque, and exposed transmission train."
       },
       {
-        url: "/watch-supercar-engine-block-rosegold-racetrack.jpg",
+        url: "/watch-supercar-engine-block-rosegold-racetrack.webp",
         title: "Motorsport Racetrack Setting",
         label: "03 Racetrack Presence",
         caption: "Racetrack curb composition resting beside red Ferrari supercar demonstrating high-octane automotive heritage."
       },
       {
-        url: "/watch-supercar-engine-block-rosegold-headlights.jpg",
+        url: "/watch-supercar-engine-block-rosegold-headlights.webp",
         title: "Supercar Headlights Atelier Horizon",
         label: "04 Supercar Horizon",
         caption: "Editorial studio composition framed against supercar headlights highlighting the sculpted 18K rose gold chassis."
       },
       {
-        url: "/watch-supercar-engine-block-rosegold-vault.jpg",
+        url: "/watch-supercar-engine-block-rosegold-vault.webp",
         title: "Collector Vault Presentation",
         label: "05 Collector Vault",
         caption: "Resting on collector presentation cushion showcasing the mirror-polished bevels and tactile rose gold crown."
@@ -684,42 +684,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "V12 Engine Block",
-    image: "/watch-supercar-engine-block-silver-front-transparent.png",
-    transparentImage: "/watch-supercar-engine-block-silver-front-transparent.png",
+    image: "/watch-supercar-engine-block-silver-front-transparent.webp",
+    transparentImage: "/watch-supercar-engine-block-silver-front-transparent.webp",
     altImages: [
-      "/watch-supercar-engine-block-silver-front-transparent.png",
-      "/watch-supercar-engine-block-silver-isometric.jpg",
-      "/watch-supercar-engine-block-silver-headlights.jpg",
-      "/watch-supercar-engine-block-silver-denim.jpg",
-      "/watch-supercar-engine-block-silver-driving.jpg"
+      "/watch-supercar-engine-block-silver-front-transparent.webp",
+      "/watch-supercar-engine-block-silver-isometric.webp",
+      "/watch-supercar-engine-block-silver-headlights.webp",
+      "/watch-supercar-engine-block-silver-denim.webp",
+      "/watch-supercar-engine-block-silver-driving.webp"
     ],
     gallery: [
       {
-        url: "/watch-supercar-engine-block-silver-front-transparent.png",
+        url: "/watch-supercar-engine-block-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel aerodynamic case with alloy wheel dial, central tourbillon, and operative 6 o'clock gear cylinder."
       },
       {
-        url: "/watch-supercar-engine-block-silver-isometric.jpg",
+        url: "/watch-supercar-engine-block-silver-isometric.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled perspective highlighting the curved 3D sapphire window, radiator grille plaque, and exposed transmission train."
       },
       {
-        url: "/watch-supercar-engine-block-silver-headlights.jpg",
+        url: "/watch-supercar-engine-block-silver-headlights.webp",
         title: "Supercar Headlights Atelier Horizon",
         label: "03 Supercar Horizon",
         caption: "Editorial studio composition framed against supercar headlights highlighting the sculpted stainless steel chassis."
       },
       {
-        url: "/watch-supercar-engine-block-silver-denim.jpg",
+        url: "/watch-supercar-engine-block-silver-denim.webp",
         title: "Sartorial Cockpit Denim Presence",
         label: "04 Cockpit Denim",
         caption: "On-wrist cockpit composition with denim jacket demonstrating daily ergonomics and high-contrast dial."
       },
       {
-        url: "/watch-supercar-engine-block-silver-driving.jpg",
+        url: "/watch-supercar-engine-block-silver-driving.webp",
         title: "High-Speed Ferrari Cockpit Driving",
         label: "05 Ferrari Cockpit",
         caption: "High-speed driving perspective behind Ferrari steering wheel showcasing the exposed engine block caliber in motion."
@@ -762,42 +762,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Casino Complication",
-    image: "/watch-casino-roulette-rosegold-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-rosegold-front-transparent.png",
+    image: "/watch-casino-roulette-rosegold-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-rosegold-front-transparent.png",
-      "/watch-casino-roulette-rosegold-felt.jpg",
-      "/watch-casino-roulette-rosegold-wheel.jpg",
-      "/watch-casino-roulette-rosegold-wrist-angle.jpg",
-      "/watch-casino-roulette-rosegold-wrist-closeup.jpg"
+      "/watch-casino-roulette-rosegold-front-transparent.webp",
+      "/watch-casino-roulette-rosegold-felt.webp",
+      "/watch-casino-roulette-rosegold-wheel.webp",
+      "/watch-casino-roulette-rosegold-wrist-angle.webp",
+      "/watch-casino-roulette-rosegold-wrist-closeup.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-rosegold-front-transparent.png",
+        url: "/watch-casino-roulette-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with dynamic 37-pocket roulette disk, onyx black dial, and alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-rosegold-felt.jpg",
+        url: "/watch-casino-roulette-rosegold-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "02 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the high-stakes roulette complication."
       },
       {
-        url: "/watch-casino-roulette-rosegold-wheel.jpg",
+        url: "/watch-casino-roulette-rosegold-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-rosegold-wrist-angle.jpg",
+        url: "/watch-casino-roulette-rosegold-wrist-angle.webp",
         title: "Sartorial Wrist Horizon Angle",
         label: "04 Wrist Angle",
         caption: "On-wrist high-angle perspective showcasing the depth of the 3D roulette flange and luminous rose gold hands."
       },
       {
-        url: "/watch-casino-roulette-rosegold-wrist-closeup.jpg",
+        url: "/watch-casino-roulette-rosegold-wrist-closeup.webp",
         title: "Close-Up On-Wrist Dial Perspective",
         label: "05 Wrist Close-Up",
         caption: "Detailed macro wrist perspective demonstrating crisp pocket typography, white ball marker alignment, and supple alligator strap."
@@ -840,42 +840,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Casino Complication",
-    image: "/watch-casino-roulette-silver-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-silver-front-transparent.png",
+    image: "/watch-casino-roulette-silver-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-silver-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-silver-front-transparent.png",
-      "/watch-casino-roulette-silver-wheel.jpg",
-      "/watch-casino-roulette-silver-felt.jpg",
-      "/watch-casino-roulette-silver-wrist-angle.jpg",
-      "/watch-casino-roulette-silver-wrist-closeup.jpg"
+      "/watch-casino-roulette-silver-front-transparent.webp",
+      "/watch-casino-roulette-silver-wheel.webp",
+      "/watch-casino-roulette-silver-felt.webp",
+      "/watch-casino-roulette-silver-wrist-angle.webp",
+      "/watch-casino-roulette-silver-wrist-closeup.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-silver-front-transparent.png",
+        url: "/watch-casino-roulette-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with dynamic 37-pocket roulette disk, onyx black dial, and alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-silver-wheel.jpg",
+        url: "/watch-casino-roulette-silver-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "02 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-silver-felt.jpg",
+        url: "/watch-casino-roulette-silver-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "03 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the high-stakes roulette complication."
       },
       {
-        url: "/watch-casino-roulette-silver-wrist-angle.jpg",
+        url: "/watch-casino-roulette-silver-wrist-angle.webp",
         title: "Sartorial Wrist Horizon Angle",
         label: "04 Wrist Angle",
         caption: "On-wrist high-angle perspective showcasing the depth of the 3D roulette flange and luminous steel hands."
       },
       {
-        url: "/watch-casino-roulette-silver-wrist-closeup.jpg",
+        url: "/watch-casino-roulette-silver-wrist-closeup.webp",
         title: "Close-Up On-Wrist Dial Perspective",
         label: "05 Wrist Close-Up",
         caption: "Detailed macro wrist perspective demonstrating crisp pocket typography, white ball marker alignment, and supple alligator strap."
@@ -918,42 +918,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-diamond-emerald-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-diamond-emerald-front-transparent.png",
+    image: "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-diamond-emerald-front-transparent.png",
-      "/watch-casino-roulette-diamond-emerald-felt.jpg",
-      "/watch-casino-roulette-diamond-emerald-macro.jpg",
-      "/watch-casino-roulette-diamond-emerald-wheel.jpg",
-      "/watch-casino-roulette-diamond-emerald-isometric-transparent.png"
+      "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+      "/watch-casino-roulette-diamond-emerald-felt.webp",
+      "/watch-casino-roulette-diamond-emerald-macro.webp",
+      "/watch-casino-roulette-diamond-emerald-wheel.webp",
+      "/watch-casino-roulette-diamond-emerald-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-diamond-emerald-front-transparent.png",
+        url: "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric baguette diamond dial, emerald hour markers, and dynamic roulette ring."
       },
       {
-        url: "/watch-casino-roulette-diamond-emerald-felt.jpg",
+        url: "/watch-casino-roulette-diamond-emerald-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "02 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the diamond and emerald paved dial."
       },
       {
-        url: "/watch-casino-roulette-diamond-emerald-macro.jpg",
+        url: "/watch-casino-roulette-diamond-emerald-macro.webp",
         title: "High Joaillerie Macro Perspective",
         label: "03 Macro Setting",
         caption: "Detailed macro perspective showcasing the precision concentric diamond pave and vibrant green baguette emeralds."
       },
       {
-        url: "/watch-casino-roulette-diamond-emerald-wheel.jpg",
+        url: "/watch-casino-roulette-diamond-emerald-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "04 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-diamond-emerald-isometric-transparent.png",
+        url: "/watch-casino-roulette-diamond-emerald-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "05 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and alligator leather strap."
@@ -996,35 +996,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-sapphire-diamond-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-sapphire-diamond-front-transparent.png",
+    image: "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-sapphire-diamond-front-transparent.png",
-      "/watch-casino-roulette-sapphire-diamond-isometric-transparent.png",
-      "/watch-casino-roulette-sapphire-diamond-wheel.jpg",
-      "/watch-casino-roulette-sapphire-diamond-macro.jpg"
+      "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
+      "/watch-casino-roulette-sapphire-diamond-isometric-transparent.webp",
+      "/watch-casino-roulette-sapphire-diamond-wheel.webp",
+      "/watch-casino-roulette-sapphire-diamond-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-sapphire-diamond-front-transparent.png",
+        url: "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric baguette blue sapphire dial, white diamond hour markers, and dynamic roulette ring."
       },
       {
-        url: "/watch-casino-roulette-sapphire-diamond-isometric-transparent.png",
+        url: "/watch-casino-roulette-sapphire-diamond-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and navy blue alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-sapphire-diamond-wheel.jpg",
+        url: "/watch-casino-roulette-sapphire-diamond-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-sapphire-diamond-macro.jpg",
+        url: "/watch-casino-roulette-sapphire-diamond-macro.webp",
         title: "Casino Gaming Table Macro Perspective",
         label: "04 Casino Macro",
         caption: "Detailed macro perspective on casino roulette felt showcasing the brilliant blue sapphires and white diamond indices."
@@ -1067,35 +1067,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-emerald-alligator-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-emerald-alligator-front-transparent.png",
+    image: "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-emerald-alligator-front-transparent.png",
-      "/watch-casino-roulette-emerald-alligator-isometric-transparent.png",
-      "/watch-casino-roulette-emerald-alligator-macro.jpg",
-      "/watch-casino-roulette-emerald-alligator-felt.jpg"
+      "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
+      "/watch-casino-roulette-emerald-alligator-isometric-transparent.webp",
+      "/watch-casino-roulette-emerald-alligator-macro.webp",
+      "/watch-casino-roulette-emerald-alligator-felt.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-emerald-alligator-front-transparent.png",
+        url: "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with full concentric baguette emerald dial, diamond hour markers, and emerald alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-emerald-alligator-isometric-transparent.png",
+        url: "/watch-casino-roulette-emerald-alligator-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and emerald green alligator strap."
       },
       {
-        url: "/watch-casino-roulette-emerald-alligator-macro.jpg",
+        url: "/watch-casino-roulette-emerald-alligator-macro.webp",
         title: "Casino Gaming Table Macro Perspective",
         label: "03 Casino Macro",
         caption: "Detailed macro perspective on green roulette table showcasing the brilliant green emeralds and white diamond indices."
       },
       {
-        url: "/watch-casino-roulette-emerald-alligator-felt.jpg",
+        url: "/watch-casino-roulette-emerald-alligator-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "04 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the all-green gemstone luxury."
@@ -1138,28 +1138,28 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-ruby-diamond-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-ruby-diamond-front-transparent.png",
+    image: "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-ruby-diamond-front-transparent.png",
-      "/watch-casino-roulette-ruby-diamond-isometric-transparent.png",
-      "/watch-casino-roulette-ruby-diamond-wheel.jpg"
+      "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
+      "/watch-casino-roulette-ruby-diamond-isometric-transparent.webp",
+      "/watch-casino-roulette-ruby-diamond-wheel.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-ruby-diamond-front-transparent.png",
+        url: "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with full concentric baguette ruby dial, diamond hour markers, and black alligator strap."
       },
       {
-        url: "/watch-casino-roulette-ruby-diamond-isometric-transparent.png",
+        url: "/watch-casino-roulette-ruby-diamond-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-ruby-diamond-wheel.jpg",
+        url: "/watch-casino-roulette-ruby-diamond-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
@@ -1202,42 +1202,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.png",
+    image: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-silver-diamond-emerald-front-transparent.png",
-      "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.png",
-      "/watch-casino-roulette-silver-diamond-emerald-felt.jpg",
-      "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.jpg",
-      "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.jpg"
+      "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
+      "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.webp",
+      "/watch-casino-roulette-silver-diamond-emerald-felt.webp",
+      "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.webp",
+      "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.png",
+        url: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette diamond dial, emerald hour markers, and black alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.png",
+        url: "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "02 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-silver-diamond-emerald-felt.jpg",
+        url: "/watch-casino-roulette-silver-diamond-emerald-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "03 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the diamond and emerald paved dial."
       },
       {
-        url: "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.jpg",
+        url: "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.webp",
         title: "Sartorial Wrist Horizon Angle",
         label: "04 Wrist Angle",
         caption: "On-wrist high-angle perspective showcasing the depth of the 3D roulette flange and luminous steel hands."
       },
       {
-        url: "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.jpg",
+        url: "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.webp",
         title: "Close-Up On-Wrist Dial Perspective",
         label: "05 Wrist Close-Up",
         caption: "Detailed macro wrist perspective demonstrating crisp pocket typography, white ball marker alignment, and crown profile."
@@ -1280,35 +1280,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.png",
+    image: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.png",
-      "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.png",
-      "/watch-casino-roulette-silver-sapphire-diamond-wheel.jpg",
-      "/watch-casino-roulette-silver-sapphire-diamond-wrist.jpg"
+      "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
+      "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.webp",
+      "/watch-casino-roulette-silver-sapphire-diamond-wheel.webp",
+      "/watch-casino-roulette-silver-sapphire-diamond-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.png",
+        url: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette blue sapphire dial, white diamond hour markers, and navy alligator strap."
       },
       {
-        url: "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.png",
+        url: "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and navy blue alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-silver-sapphire-diamond-wheel.jpg",
+        url: "/watch-casino-roulette-silver-sapphire-diamond-wheel.webp",
         title: "Gaming Wheel Atelier Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel and chips highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
       {
-        url: "/watch-casino-roulette-silver-sapphire-diamond-wrist.jpg",
+        url: "/watch-casino-roulette-silver-sapphire-diamond-wrist.webp",
         title: "Sartorial Casino Wrist Perspective",
         label: "04 Wrist Perspective",
         caption: "On-wrist perspective at casino gaming table showcasing the radiant blue sapphire dial and polished stainless steel case."
@@ -1351,35 +1351,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.png",
+    image: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-silver-emerald-alligator-front-transparent.png",
-      "/watch-casino-roulette-silver-emerald-alligator-felt.jpg",
-      "/watch-casino-roulette-silver-emerald-alligator-wrist.jpg",
-      "/watch-casino-roulette-silver-emerald-alligator-isometric-transparent.png"
+      "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+      "/watch-casino-roulette-silver-emerald-alligator-felt.webp",
+      "/watch-casino-roulette-silver-emerald-alligator-wrist.webp",
+      "/watch-casino-roulette-silver-emerald-alligator-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.png",
+        url: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette emerald dial, white diamond hour markers, and emerald alligator strap."
       },
       {
-        url: "/watch-casino-roulette-silver-emerald-alligator-felt.jpg",
+        url: "/watch-casino-roulette-silver-emerald-alligator-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "02 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the vivid green gemstone luxury."
       },
       {
-        url: "/watch-casino-roulette-silver-emerald-alligator-wrist.jpg",
+        url: "/watch-casino-roulette-silver-emerald-alligator-wrist.webp",
         title: "Sartorial Casino Wrist Perspective",
         label: "03 Wrist Perspective",
         caption: "On-wrist perspective at casino gaming table showcasing the emerald dial brilliance and polished steel case."
       },
       {
-        url: "/watch-casino-roulette-silver-emerald-alligator-isometric-transparent.png",
+        url: "/watch-casino-roulette-silver-emerald-alligator-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "04 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and emerald green alligator leather strap."
@@ -1422,35 +1422,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "High Jewellery Roulette",
-    image: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.png",
-    transparentImage: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.png",
+    image: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
+    transparentImage: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
     altImages: [
-      "/watch-casino-roulette-silver-ruby-diamond-front-transparent.png",
-      "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.png",
-      "/watch-casino-roulette-silver-ruby-diamond-felt.jpg",
-      "/watch-casino-roulette-silver-ruby-diamond-wrist.jpg"
+      "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
+      "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.webp",
+      "/watch-casino-roulette-silver-ruby-diamond-felt.webp",
+      "/watch-casino-roulette-silver-ruby-diamond-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.png",
+        url: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette ruby dial, white diamond hour markers, and black alligator strap."
       },
       {
-        url: "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.png",
+        url: "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and midnight black alligator leather strap."
       },
       {
-        url: "/watch-casino-roulette-silver-ruby-diamond-felt.jpg",
+        url: "/watch-casino-roulette-silver-ruby-diamond-felt.webp",
         title: "Monte Carlo Green Felt Casino Setting",
         label: "03 Casino Felt",
         caption: "Editorial casino composition on green felt table surrounded by gaming chips highlighting the vivid red pigeon blood ruby dial."
       },
       {
-        url: "/watch-casino-roulette-silver-ruby-diamond-wrist.jpg",
+        url: "/watch-casino-roulette-silver-ruby-diamond-wrist.webp",
         title: "Sartorial Casino Wrist Perspective",
         label: "04 Wrist Perspective",
         caption: "On-wrist perspective at casino gaming table showcasing the fiery ruby dial brilliance and polished steel case."
@@ -1493,42 +1493,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Imperial Metiers d'Art",
-    image: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.png",
-    transparentImage: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.png",
+    image: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+    transparentImage: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.png",
-      "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.png",
-      "/watch-celestial-dragon-tourbillon-rosegold-lantern.jpg",
-      "/watch-celestial-dragon-tourbillon-rosegold-macro.jpg",
-      "/watch-celestial-dragon-tourbillon-rosegold-wrist.jpg"
+      "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+      "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.webp",
+      "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
+      "/watch-celestial-dragon-tourbillon-rosegold-macro.webp",
+      "/watch-celestial-dragon-tourbillon-rosegold-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.png",
+        url: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with sculpted 3D gold dragon, aventurine dial, flying tourbillon, and navy alligator strap."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.png",
+        url: "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective showcasing the high-relief dragon anatomy, blue fluted crown, and deployant clasp."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-rosegold-lantern.jpg",
+        url: "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
         title: "Lantern Festival Dragon Horizon",
         label: "03 Lantern Setting",
         caption: "Editorial oriental composition framed against atmospheric glowing lanterns and dragon artwork."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-rosegold-macro.jpg",
+        url: "/watch-celestial-dragon-tourbillon-rosegold-macro.webp",
         title: "Imperial Dragon High Art Setting",
         label: "04 Dragon Horizon",
         caption: "Macro perspective framed against golden dragon motif highlighting the aventurine dial stars and openwork tourbillon."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-rosegold-wrist.jpg",
+        url: "/watch-celestial-dragon-tourbillon-rosegold-wrist.webp",
         title: "Sartorial On-Wrist Perspective",
         label: "05 Wrist Perspective",
         caption: "Outdoor on-wrist perspective demonstrating the dramatic presence of the sculpted dragon, blued hands, and rose gold case."
@@ -1571,42 +1571,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Imperial Metiers d'Art",
-    image: "/watch-celestial-dragon-tourbillon-silver-front-transparent.png",
-    transparentImage: "/watch-celestial-dragon-tourbillon-silver-front-transparent.png",
+    image: "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+    transparentImage: "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
     altImages: [
-      "/watch-celestial-dragon-tourbillon-silver-front-transparent.png",
-      "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.png",
-      "/watch-celestial-dragon-tourbillon-silver-lantern.jpg",
-      "/watch-celestial-dragon-tourbillon-silver-macro.jpg",
-      "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.png"
+      "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+      "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.webp",
+      "/watch-celestial-dragon-tourbillon-silver-lantern.webp",
+      "/watch-celestial-dragon-tourbillon-silver-macro.webp",
+      "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-celestial-dragon-tourbillon-silver-front-transparent.png",
+        url: "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with sculpted 3D silver dragon, aventurine dial, flying tourbillon, and navy alligator strap."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.png",
+        url: "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective showcasing the high-relief silver dragon anatomy, blue fluted crown, and deployant clasp."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-silver-lantern.jpg",
+        url: "/watch-celestial-dragon-tourbillon-silver-lantern.webp",
         title: "Lantern Festival Dragon Horizon",
         label: "03 Lantern Setting",
         caption: "Editorial oriental composition framed against atmospheric glowing lanterns and dragon artwork."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-silver-macro.jpg",
+        url: "/watch-celestial-dragon-tourbillon-silver-macro.webp",
         title: "Imperial Dragon High Art Setting",
         label: "04 Dragon Horizon",
         caption: "Macro perspective framed against golden dragon motif highlighting the silver dragon scales, aventurine stars, and openwork tourbillon."
       },
       {
-        url: "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.png",
+        url: "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.webp",
         title: "Isometric Atelier Detail",
         label: "05 Isometric Detail",
         caption: "Angled macro studio perspective highlighting the double-domed sapphire crystal, blue crown ring, and supple alligator strap."
@@ -1649,42 +1649,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Astronomical Complication",
-    image: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.png",
-    transparentImage: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.png",
+    image: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
+    transparentImage: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.png",
-      "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.jpg",
-      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.jpg",
-      "/watch-planetary-cosmos-tourbillon-rosegold-planets.jpg",
-      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.jpg"
+      "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
+      "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.webp",
+      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.webp",
+      "/watch-planetary-cosmos-tourbillon-rosegold-planets.webp",
+      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.png",
+        url: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D Earth sphere, aventurine planetary dial, flying tourbillon, and black alligator strap."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.webp",
         title: "Deep Space Nebula Horizon",
         label: "02 Nebula Galaxy",
         caption: "Celestial editorial composition framed against deep cosmic nebula and orbiting planets highlighting the luminous earth sphere."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.webp",
         title: "Sartorial Luxury Wrist Perspective",
         label: "03 Sartorial Wrist",
         caption: "On-wrist perspective in luxury setting showcasing the 18K rose gold case, blued hands, and planetary depth."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-rosegold-planets.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-rosegold-planets.webp",
         title: "Solar System Orbiting Horizon",
         label: "04 Solar Horizon",
         caption: "Atmospheric astronomical setting with solar planets demonstrating the depth and micro-sculpted details."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.webp",
         title: "Macro On-Wrist Celestial Detail",
         label: "05 Macro Wrist",
         caption: "Angled macro on-wrist perspective highlighting the 3D double-domed sapphire crystal, blue crown ring, and supple alligator leather."
@@ -1727,42 +1727,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Astronomical Complication",
-    image: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.png",
-    transparentImage: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.png",
+    image: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+    transparentImage: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
     altImages: [
-      "/watch-planetary-cosmos-tourbillon-silver-front-transparent.png",
-      "/watch-planetary-cosmos-tourbillon-silver-galaxy.jpg",
-      "/watch-planetary-cosmos-tourbillon-silver-planets.jpg",
-      "/watch-planetary-cosmos-tourbillon-silver-wrist-sartorial.jpg",
-      "/watch-planetary-cosmos-tourbillon-silver-wrist-macro.jpg"
+      "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+      "/watch-planetary-cosmos-tourbillon-silver-galaxy.webp",
+      "/watch-planetary-cosmos-tourbillon-silver-planets.webp",
+      "/watch-planetary-cosmos-tourbillon-silver-wrist-sartorial.webp",
+      "/watch-planetary-cosmos-tourbillon-silver-wrist-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.png",
+        url: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D Earth sphere, aventurine planetary dial, flying tourbillon, and black alligator strap."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-silver-galaxy.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-silver-galaxy.webp",
         title: "Deep Space Nebula Horizon",
         label: "02 Nebula Galaxy",
         caption: "Celestial editorial composition framed against deep cosmic nebula and orbiting planets highlighting the luminous earth sphere."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-silver-planets.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-silver-planets.webp",
         title: "Solar System Orbiting Horizon",
         label: "03 Solar Horizon",
         caption: "Atmospheric astronomical setting with solar planets demonstrating the depth and micro-sculpted details."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-silver-wrist-sartorial.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-silver-wrist-sartorial.webp",
         title: "Sartorial Luxury Wrist Perspective",
         label: "04 Sartorial Wrist",
         caption: "On-wrist perspective in luxury setting showcasing the mirror-polished steel case, blued hands, and planetary depth."
       },
       {
-        url: "/watch-planetary-cosmos-tourbillon-silver-wrist-macro.jpg",
+        url: "/watch-planetary-cosmos-tourbillon-silver-wrist-macro.webp",
         title: "Macro On-Wrist Celestial Detail",
         label: "05 Macro Wrist",
         caption: "Angled macro on-wrist perspective highlighting the 3D double-domed sapphire crystal, blue crown ring, and supple alligator leather."
@@ -1805,42 +1805,42 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Professional Diver",
-    image: "/watch-oceanic-diver-200m-green-front-transparent.png",
-    transparentImage: "/watch-oceanic-diver-200m-green-front-transparent.png",
+    image: "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    transparentImage: "/watch-oceanic-diver-200m-green-front-transparent.webp",
     altImages: [
-      "/watch-oceanic-diver-200m-green-front-transparent.png",
-      "/watch-oceanic-diver-200m-green-underwater.jpg",
-      "/watch-oceanic-diver-200m-green-splash.jpg",
-      "/watch-oceanic-diver-200m-green-isometric-transparent.png",
-      "/watch-oceanic-diver-200m-green-wrist-sartorial.jpg"
+      "/watch-oceanic-diver-200m-green-front-transparent.webp",
+      "/watch-oceanic-diver-200m-green-underwater.webp",
+      "/watch-oceanic-diver-200m-green-splash.webp",
+      "/watch-oceanic-diver-200m-green-isometric-transparent.webp",
+      "/watch-oceanic-diver-200m-green-wrist-sartorial.webp"
     ],
     gallery: [
       {
-        url: "/watch-oceanic-diver-200m-green-front-transparent.png",
+        url: "/watch-oceanic-diver-200m-green-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel diver case with emerald ceramic bezel, sunburst green dial, and Oyster bracelet."
       },
       {
-        url: "/watch-oceanic-diver-200m-green-underwater.jpg",
+        url: "/watch-oceanic-diver-200m-green-underwater.webp",
         title: "200M Oceanic Hydro-Test Horizon",
         label: "02 Hydro Dive",
         caption: "On-wrist underwater perspective in dynamic water splash showcasing extreme waterproof integrity and emerald reflection."
       },
       {
-        url: "/watch-oceanic-diver-200m-green-splash.jpg",
+        url: "/watch-oceanic-diver-200m-green-splash.webp",
         title: "Marine Coastal Rock Horizon",
         label: "03 Marine Horizon",
         caption: "Marine perspective resting on sea rocks surrounded by ocean spray highlighting the ceramic bezel and brushed steel luster."
       },
       {
-        url: "/watch-oceanic-diver-200m-green-isometric-transparent.png",
+        url: "/watch-oceanic-diver-200m-green-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "04 Isometric Profile",
         caption: "Angled studio perspective on acrylic display highlighting the 120-click ceramic bezel teeth, date window, and Oyster links."
       },
       {
-        url: "/watch-oceanic-diver-200m-green-wrist-sartorial.jpg",
+        url: "/watch-oceanic-diver-200m-green-wrist-sartorial.webp",
         title: "Tailored Sartorial Urban Horizon",
         label: "05 Sartorial Wrist",
         caption: "On-wrist perspective paired with tailored coat showcasing the versatility from ocean depths to boardroom refinement."
@@ -1879,35 +1879,35 @@ export const PRODUCTS_DATA = [
     collection: "CHRONOGRAPH",
     collectionName: "Chronograph & Sport",
     tag: "Diver Chronograph",
-    image: "/watch-seamaster-chronograph-diver-teal-front-transparent.png",
-    transparentImage: "/watch-seamaster-chronograph-diver-teal-front-transparent.png",
+    image: "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
+    transparentImage: "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
     altImages: [
-      "/watch-seamaster-chronograph-diver-teal-front-transparent.png",
-      "/watch-seamaster-chronograph-diver-teal-isometric-transparent.png",
-      "/watch-seamaster-chronograph-diver-teal-horizon.jpg",
-      "/watch-seamaster-chronograph-diver-teal-splash.jpg"
+      "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
+      "/watch-seamaster-chronograph-diver-teal-isometric-transparent.webp",
+      "/watch-seamaster-chronograph-diver-teal-horizon.webp",
+      "/watch-seamaster-chronograph-diver-teal-splash.webp"
     ],
     gallery: [
       {
-        url: "/watch-seamaster-chronograph-diver-teal-front-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, teal sunburst dial, and Oyster bracelet."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-teal-isometric-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-teal-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-teal-horizon.jpg",
+        url: "/watch-seamaster-chronograph-diver-teal-horizon.webp",
         title: "Coastal Sea Foam Marine Horizon",
         label: "03 Coastal Horizon",
         caption: "Editorial maritime composition framed against ocean foam and sea ice highlighting the sunburst teal dial reflections."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-teal-splash.jpg",
+        url: "/watch-seamaster-chronograph-diver-teal-splash.webp",
         title: "Wet Rock Splash Hydro-Chronograph",
         label: "04 Splash Action",
         caption: "Marine dynamic splash perspective on coastal rocks highlighting the waterproof case construction and polished center links."
@@ -1953,42 +1953,42 @@ export const PRODUCTS_DATA = [
     collection: "CHRONOGRAPH",
     collectionName: "Chronograph & Sport",
     tag: "Diver Chronograph",
-    image: "/watch-seamaster-chronograph-diver-olive-front-transparent.png",
-    transparentImage: "/watch-seamaster-chronograph-diver-olive-front-transparent.png",
+    image: "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
+    transparentImage: "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
     altImages: [
-      "/watch-seamaster-chronograph-diver-olive-front-transparent.png",
-      "/watch-seamaster-chronograph-diver-olive-underwater.jpg",
-      "/watch-seamaster-chronograph-diver-olive-isometric-transparent.png",
-      "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.png",
-      "/watch-seamaster-chronograph-diver-olive-surf.jpg"
+      "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
+      "/watch-seamaster-chronograph-diver-olive-underwater.webp",
+      "/watch-seamaster-chronograph-diver-olive-isometric-transparent.webp",
+      "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.webp",
+      "/watch-seamaster-chronograph-diver-olive-surf.webp"
     ],
     gallery: [
       {
-        url: "/watch-seamaster-chronograph-diver-olive-front-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with olive ceramic bezel, olive sunburst dial, and Oyster bracelet."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-olive-underwater.jpg",
+        url: "/watch-seamaster-chronograph-diver-olive-underwater.webp",
         title: "Underwater Dynamic Bubble Horizon",
         label: "02 Deep Bubble Plunge",
         caption: "Deep water plunge perspective surrounded by air bubbles showcasing the high-contrast green ceramic bezel and lume."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-olive-isometric-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-olive-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "03 Isometric Profile",
         caption: "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.webp",
         title: "Isometric Acrylic Display Setting",
         label: "04 Display Stand",
         caption: "Three-quarter perspective highlighting the embossed ceramic bezel teeth and polished center bracelet links."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-olive-surf.jpg",
+        url: "/watch-seamaster-chronograph-diver-olive-surf.webp",
         title: "Oceanic Surf Wave Horizon",
         label: "05 Surf Horizon",
         caption: "Coastal surf perspective surrounded by ocean spray highlighting the radiant green dial and brushed steel casing."
@@ -2034,35 +2034,35 @@ export const PRODUCTS_DATA = [
     collection: "CHRONOGRAPH",
     collectionName: "Chronograph & Sport",
     tag: "Diver Chronograph",
-    image: "/watch-seamaster-chronograph-diver-amber-front-transparent.png",
-    transparentImage: "/watch-seamaster-chronograph-diver-amber-front-transparent.png",
+    image: "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
+    transparentImage: "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
     altImages: [
-      "/watch-seamaster-chronograph-diver-amber-front-transparent.png",
-      "/watch-seamaster-chronograph-diver-amber-isometric-transparent.png",
-      "/watch-seamaster-chronograph-diver-amber-sunset.jpg",
-      "/watch-seamaster-chronograph-diver-amber-wrist.jpg"
+      "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
+      "/watch-seamaster-chronograph-diver-amber-isometric-transparent.webp",
+      "/watch-seamaster-chronograph-diver-amber-sunset.webp",
+      "/watch-seamaster-chronograph-diver-amber-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-seamaster-chronograph-diver-amber-front-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, sunset amber fumé dial, and Oyster bracelet."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-amber-isometric-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-amber-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-amber-sunset.jpg",
+        url: "/watch-seamaster-chronograph-diver-amber-sunset.webp",
         title: "Golden Hour Coastal Sunset Horizon",
         label: "03 Sunset Horizon",
         caption: "Editorial sunset maritime composition framed against ocean surf and golden twilight highlighting the fiery cognac dial."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-amber-wrist.jpg",
+        url: "/watch-seamaster-chronograph-diver-amber-wrist.webp",
         title: "Sartorial On-Wrist Horizon",
         label: "04 On-Wrist Horizon",
         caption: "On-wrist perspective against clear sky and coastal rocks highlighting the amber dial gradient and polished center links."
@@ -2108,35 +2108,35 @@ export const PRODUCTS_DATA = [
     collection: "CHRONOGRAPH",
     collectionName: "Chronograph & Sport",
     tag: "Diver Chronograph",
-    image: "/watch-seamaster-chronograph-diver-violet-front-transparent.png",
-    transparentImage: "/watch-seamaster-chronograph-diver-violet-front-transparent.png",
+    image: "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
+    transparentImage: "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
     altImages: [
-      "/watch-seamaster-chronograph-diver-violet-front-transparent.png",
-      "/watch-seamaster-chronograph-diver-violet-supercar.jpg",
-      "/watch-seamaster-chronograph-diver-violet-wrist.jpg",
-      "/watch-seamaster-chronograph-diver-violet-isometric-transparent.png"
+      "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
+      "/watch-seamaster-chronograph-diver-violet-supercar.webp",
+      "/watch-seamaster-chronograph-diver-violet-wrist.webp",
+      "/watch-seamaster-chronograph-diver-violet-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-seamaster-chronograph-diver-violet-front-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, cyber ultraviolet fumé dial, and Oyster bracelet."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-violet-supercar.jpg",
+        url: "/watch-seamaster-chronograph-diver-violet-supercar.webp",
         title: "Cyber Supercar Neon Speed Horizon",
         label: "02 Neon Cyber Speed",
         caption: "Neon cyberpunk automotive setting with motion speed blur highlighting the electrifying ultraviolet dial radiance."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-violet-wrist.jpg",
+        url: "/watch-seamaster-chronograph-diver-violet-wrist.webp",
         title: "Sartorial On-Wrist Horizon",
         label: "03 On-Wrist Horizon",
         caption: "On-wrist perspective against clear sky and coastal rocks showcasing the purple dial reflections and brushed steel links."
       },
       {
-        url: "/watch-seamaster-chronograph-diver-violet-isometric-transparent.png",
+        url: "/watch-seamaster-chronograph-diver-violet-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "04 Isometric Profile",
         caption: "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
@@ -2182,42 +2182,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Mecha Skeleton Complication",
-    image: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.png",
-    transparentImage: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.png",
+    image: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
+    transparentImage: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
     altImages: [
-      "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.png",
-      "/watch-mecha-cantilever-tourbillon-iceblue-mecha.jpg",
-      "/watch-mecha-cantilever-tourbillon-iceblue-isometric.jpg",
-      "/watch-mecha-cantilever-tourbillon-iceblue-splash.jpg",
-      "/watch-mecha-cantilever-tourbillon-iceblue-wrist.jpg"
+      "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
+      "/watch-mecha-cantilever-tourbillon-iceblue-mecha.webp",
+      "/watch-mecha-cantilever-tourbillon-iceblue-isometric.webp",
+      "/watch-mecha-cantilever-tourbillon-iceblue-splash.webp",
+      "/watch-mecha-cantilever-tourbillon-iceblue-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.png",
+        url: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel mecha case with central tourbillon, ice blue skeleton bridges, and black FKM strap."
       },
       {
-        url: "/watch-mecha-cantilever-tourbillon-iceblue-mecha.jpg",
+        url: "/watch-mecha-cantilever-tourbillon-iceblue-mecha.webp",
         title: "Mecha Cyberpunk Horizon",
         label: "02 Mecha Cyber",
         caption: "Futuristic robotic anime/mecha backdrop showcasing the high-contrast glacier blue accents and central tourbillon."
       },
       {
-        url: "/watch-mecha-cantilever-tourbillon-iceblue-isometric.jpg",
+        url: "/watch-mecha-cantilever-tourbillon-iceblue-isometric.webp",
         title: "Three-Quarter Isometric Profile",
         label: "03 Isometric Profile",
         caption: "Angled studio perspective on dark pedestal with open deployant clasp showing the multi-layer skeleton depth."
       },
       {
-        url: "/watch-mecha-cantilever-tourbillon-iceblue-splash.jpg",
+        url: "/watch-mecha-cantilever-tourbillon-iceblue-splash.webp",
         title: "Dynamic Hydro-Splash Action",
         label: "04 Splash Action",
         caption: "Dynamic water splash perspective demonstrating waterproof resilience and mirror-polished steel bezel."
       },
       {
-        url: "/watch-mecha-cantilever-tourbillon-iceblue-wrist.jpg",
+        url: "/watch-mecha-cantilever-tourbillon-iceblue-wrist.webp",
         title: "Sartorial On-Wrist Perspective",
         label: "05 Sartorial Wrist",
         caption: "On-wrist perspective in casual denim jacket highlighting the futuristic presence and wrist ergonomics."
@@ -2260,42 +2260,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Global Complication",
-    image: "/watch-world-map-tourbillon-rosegold-front-transparent.png",
-    transparentImage: "/watch-world-map-tourbillon-rosegold-front-transparent.png",
+    image: "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
+    transparentImage: "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-world-map-tourbillon-rosegold-front-transparent.png",
-      "/watch-world-map-tourbillon-rosegold-clasp-transparent.png",
-      "/watch-world-map-tourbillon-rosegold-isometric-transparent.png",
-      "/watch-world-map-tourbillon-rosegold-earth-orbit.jpg",
-      "/watch-world-map-tourbillon-rosegold-night-orbit.jpg"
+      "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
+      "/watch-world-map-tourbillon-rosegold-clasp-transparent.webp",
+      "/watch-world-map-tourbillon-rosegold-isometric-transparent.webp",
+      "/watch-world-map-tourbillon-rosegold-earth-orbit.webp",
+      "/watch-world-map-tourbillon-rosegold-night-orbit.webp"
     ],
     gallery: [
       {
-        url: "/watch-world-map-tourbillon-rosegold-front-transparent.png",
+        url: "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D bas-relief continents, central tourbillon, and orange/green enamel sub-dials."
       },
       {
-        url: "/watch-world-map-tourbillon-rosegold-clasp-transparent.png",
+        url: "/watch-world-map-tourbillon-rosegold-clasp-transparent.webp",
         title: "Deployant Clasp Studio Horizon",
         label: "02 Deployant Clasp",
         caption: "Top-down perspective highlighting the solid 18K rose gold butterfly deployant clasp and supple black alligator leather."
       },
       {
-        url: "/watch-world-map-tourbillon-rosegold-isometric-transparent.png",
+        url: "/watch-world-map-tourbillon-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "03 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved bezel, sapphire crystal dome, and continent relief."
       },
       {
-        url: "/watch-world-map-tourbillon-rosegold-earth-orbit.jpg",
+        url: "/watch-world-map-tourbillon-rosegold-earth-orbit.webp",
         title: "Low Earth Orbit Space Horizon",
         label: "04 Space Orbit",
         caption: "Celestial orbital perspective against planet Earth and the Moon highlighting the deep lapis blue ocean dial."
       },
       {
-        url: "/watch-world-map-tourbillon-rosegold-night-orbit.jpg",
+        url: "/watch-world-map-tourbillon-rosegold-night-orbit.webp",
         title: "Nocturnal Space Orbit Horizon",
         label: "05 Night Orbit",
         caption: "Orbital space night perspective above Earth city lights highlighting the frosted rose gold continents and central tourbillon."
@@ -2338,21 +2338,21 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Global Complication",
-    image: "/watch-world-map-tourbillon-blue-front-transparent.png",
-    transparentImage: "/watch-world-map-tourbillon-blue-front-transparent.png",
+    image: "/watch-world-map-tourbillon-blue-front-transparent.webp",
+    transparentImage: "/watch-world-map-tourbillon-blue-front-transparent.webp",
     altImages: [
-      "/watch-world-map-tourbillon-blue-front-transparent.png",
-      "/watch-world-map-tourbillon-blue-isometric-transparent.png"
+      "/watch-world-map-tourbillon-blue-front-transparent.webp",
+      "/watch-world-map-tourbillon-blue-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-world-map-tourbillon-blue-front-transparent.png",
+        url: "/watch-world-map-tourbillon-blue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D bas-relief continents, central tourbillon, and royal blue enamel sub-dials."
       },
       {
-        url: "/watch-world-map-tourbillon-blue-isometric-transparent.png",
+        url: "/watch-world-map-tourbillon-blue-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved bezel, sapphire crystal dome, and royal ocean blue alligator leather."
@@ -2395,42 +2395,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Global Complication",
-    image: "/watch-world-map-tourbillon-silver-front-transparent.png",
-    transparentImage: "/watch-world-map-tourbillon-silver-front-transparent.png",
+    image: "/watch-world-map-tourbillon-silver-front-transparent.webp",
+    transparentImage: "/watch-world-map-tourbillon-silver-front-transparent.webp",
     altImages: [
-      "/watch-world-map-tourbillon-silver-front-transparent.png",
-      "/watch-world-map-tourbillon-silver-isometric-transparent.png",
-      "/watch-world-map-tourbillon-silver-space.jpg",
-      "/watch-world-map-tourbillon-silver-wrist-studio.jpg",
-      "/watch-world-map-tourbillon-silver-wrist-sky.jpg"
+      "/watch-world-map-tourbillon-silver-front-transparent.webp",
+      "/watch-world-map-tourbillon-silver-isometric-transparent.webp",
+      "/watch-world-map-tourbillon-silver-space.webp",
+      "/watch-world-map-tourbillon-silver-wrist-studio.webp",
+      "/watch-world-map-tourbillon-silver-wrist-sky.webp"
     ],
     gallery: [
       {
-        url: "/watch-world-map-tourbillon-silver-front-transparent.png",
+        url: "/watch-world-map-tourbillon-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D frosted continents, central tourbillon, and royal blue sub-dials."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-isometric-transparent.png",
+        url: "/watch-world-map-tourbillon-silver-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved steel bezel, double-domed sapphire crystal, and deployant clasp."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-space.jpg",
+        url: "/watch-world-map-tourbillon-silver-space.webp",
         title: "Low Earth Orbit Space Horizon",
         label: "03 Space Orbit",
         caption: "Macro celestial perspective framed against planet Earth highlighting the frosted silver continent relief and tourbillon cage."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-wrist-studio.jpg",
+        url: "/watch-world-map-tourbillon-silver-wrist-studio.webp",
         title: "Sartorial Studio Wrist Perspective",
         label: "04 Studio Wrist",
         caption: "On-wrist perspective paired with dark tailoring showcasing the high-contrast silver case and ocean blue dial."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-wrist-sky.jpg",
+        url: "/watch-world-map-tourbillon-silver-wrist-sky.webp",
         title: "Skyline Coastal Wrist Horizon",
         label: "05 Sky Horizon",
         caption: "Outdoor on-wrist perspective under open skies demonstrating the depth of the 3D double-domed sapphire crystal."
@@ -2473,42 +2473,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Global Complication",
-    image: "/watch-world-map-tourbillon-silver-dual-front-transparent.png",
-    transparentImage: "/watch-world-map-tourbillon-silver-dual-front-transparent.png",
+    image: "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
+    transparentImage: "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
     altImages: [
-      "/watch-world-map-tourbillon-silver-dual-front-transparent.png",
-      "/watch-world-map-tourbillon-silver-dual-isometric-transparent.png",
-      "/watch-world-map-tourbillon-silver-dual-space.jpg",
-      "/watch-world-map-tourbillon-silver-dual-wrist-studio.jpg",
-      "/watch-world-map-tourbillon-silver-dual-wrist-sky.jpg"
+      "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
+      "/watch-world-map-tourbillon-silver-dual-isometric-transparent.webp",
+      "/watch-world-map-tourbillon-silver-dual-space.webp",
+      "/watch-world-map-tourbillon-silver-dual-wrist-studio.webp",
+      "/watch-world-map-tourbillon-silver-dual-wrist-sky.webp"
     ],
     gallery: [
       {
-        url: "/watch-world-map-tourbillon-silver-dual-front-transparent.png",
+        url: "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D frosted rose gold continents, central tourbillon, and dual orange/green sub-dials."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-dual-isometric-transparent.png",
+        url: "/watch-world-map-tourbillon-silver-dual-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved steel bezel, double-domed sapphire crystal, and deployant clasp."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-dual-space.jpg",
+        url: "/watch-world-map-tourbillon-silver-dual-space.webp",
         title: "Low Earth Orbit Space Horizon",
         label: "03 Space Orbit",
         caption: "Macro celestial perspective framed against planet Earth highlighting the frosted rose gold continent relief and tourbillon cage."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-dual-wrist-studio.jpg",
+        url: "/watch-world-map-tourbillon-silver-dual-wrist-studio.webp",
         title: "Sartorial Studio Wrist Perspective",
         label: "04 Studio Wrist",
         caption: "On-wrist perspective paired with dark tailoring showcasing the contrast between the steel case, rose gold continents, and colorful registers."
       },
       {
-        url: "/watch-world-map-tourbillon-silver-dual-wrist-sky.jpg",
+        url: "/watch-world-map-tourbillon-silver-dual-wrist-sky.webp",
         title: "Skyline Coastal Wrist Horizon",
         label: "05 Sky Horizon",
         caption: "Outdoor on-wrist perspective under open skies demonstrating the depth of the 3D double-domed sapphire crystal."
@@ -2551,21 +2551,21 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Grand Complication",
-    image: "/watch-overseas-perpetual-skeleton-steel-front-transparent.png",
-    transparentImage: "/watch-overseas-perpetual-skeleton-steel-front-transparent.png",
+    image: "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
+    transparentImage: "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
     altImages: [
-      "/watch-overseas-perpetual-skeleton-steel-front-transparent.png",
-      "/watch-overseas-perpetual-skeleton-steel-wrist.jpg"
+      "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
+      "/watch-overseas-perpetual-skeleton-steel-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-overseas-perpetual-skeleton-steel-front-transparent.png",
+        url: "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel integrated case with openwork skeleton dial, quad calendar registers, and steel bracelet."
       },
       {
-        url: "/watch-overseas-perpetual-skeleton-steel-wrist.jpg",
+        url: "/watch-overseas-perpetual-skeleton-steel-wrist.webp",
         title: "Supercar Cockpit On-Wrist Horizon",
         label: "02 Supercar Cockpit",
         caption: "On-wrist perspective in luxury sports supercar setting highlighting the integrated steel geometry and skeleton depth."
@@ -2610,42 +2610,42 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Astronomical Complication",
-    image: "/watch-celestial-pilot-moonphase-black-front-transparent.png",
-    transparentImage: "/watch-celestial-pilot-moonphase-black-front-transparent.png",
+    image: "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
+    transparentImage: "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
     altImages: [
-      "/watch-celestial-pilot-moonphase-black-front-transparent.png",
-      "/watch-celestial-pilot-moonphase-black-cosmic.jpg",
-      "/watch-celestial-pilot-moonphase-black-moon.jpg",
-      "/watch-celestial-pilot-moonphase-black-wrist-close.jpg",
-      "/watch-celestial-pilot-moonphase-black-wrist-seated.jpg"
+      "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
+      "/watch-celestial-pilot-moonphase-black-cosmic.webp",
+      "/watch-celestial-pilot-moonphase-black-moon.webp",
+      "/watch-celestial-pilot-moonphase-black-wrist-close.webp",
+      "/watch-celestial-pilot-moonphase-black-wrist-seated.webp"
     ],
     gallery: [
       {
-        url: "/watch-celestial-pilot-moonphase-black-front-transparent.png",
+        url: "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel round case with concentric grooved black dial, open-heart escapement, and celestial moonphase."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-black-cosmic.jpg",
+        url: "/watch-celestial-pilot-moonphase-black-cosmic.webp",
         title: "Bioluminescent Cosmic Horizon",
         label: "02 Cosmic Bedrock",
         caption: "Editorial dark aesthetic on luminescent blue crystalline bedrock showcasing the pilot geometry and dial complications."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-black-moon.jpg",
+        url: "/watch-celestial-pilot-moonphase-black-moon.webp",
         title: "Full Moon Celestial Horizon",
         label: "03 Lunar Horizon",
         caption: "Nocturnal alpine landscape composition framed against a massive lunar sphere highlighting the astronomical moonphase."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-black-wrist-close.jpg",
+        url: "/watch-celestial-pilot-moonphase-black-wrist-close.webp",
         title: "Sartorial Denim On-Wrist Macro",
         label: "04 Wrist Macro",
         caption: "Macro on-wrist perspective paired with denim jacket highlighting the domed sapphire crystal and open-heart balance."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-black-wrist-seated.jpg",
+        url: "/watch-celestial-pilot-moonphase-black-wrist-seated.webp",
         title: "Lifestyle Horizon On-Wrist Perspective",
         label: "05 Seated Horizon",
         caption: "Relaxed seated on-wrist perspective showcasing the rugged pilot leather strap with contrast saddle stitching."
@@ -2689,35 +2689,35 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Astronomical Complication",
-    image: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.png",
-    transparentImage: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.png",
+    image: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
+    transparentImage: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-celestial-pilot-moonphase-rosegold-front-transparent.png",
-      "/watch-celestial-pilot-moonphase-rosegold-cosmic.jpg",
-      "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.jpg",
-      "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.jpg"
+      "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
+      "/watch-celestial-pilot-moonphase-rosegold-cosmic.webp",
+      "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.webp",
+      "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.png",
+        url: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric grooved opaline silver dial, open-heart balance, and celestial moonphase."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-rosegold-cosmic.jpg",
+        url: "/watch-celestial-pilot-moonphase-rosegold-cosmic.webp",
         title: "Bioluminescent Cosmic Horizon",
         label: "02 Cosmic Bedrock",
         caption: "Editorial dark aesthetic on luminescent blue crystalline bedrock showcasing the rose gold case and opaline dial."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.jpg",
+        url: "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.webp",
         title: "Lifestyle Horizon On-Wrist Perspective",
         label: "03 Seated Horizon",
         caption: "Relaxed seated on-wrist perspective showcasing the warm rose gold case and saddle-stitched pilot strap."
       },
       {
-        url: "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.jpg",
+        url: "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.webp",
         title: "Sartorial Denim On-Wrist Macro",
         label: "04 Wrist Macro",
         caption: "Macro on-wrist perspective paired with denim jacket highlighting the domed sapphire crystal, date pointer, and moonphase disc."
@@ -2761,35 +2761,35 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Dual-Hemisphere Complication",
-    image: "/watch-dual-hemispheres-moonphase-steel-front-transparent.png",
-    transparentImage: "/watch-dual-hemispheres-moonphase-steel-front-transparent.png",
+    image: "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
+    transparentImage: "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
     altImages: [
-      "/watch-dual-hemispheres-moonphase-steel-front-transparent.png",
-      "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.png",
-      "/watch-dual-hemispheres-moonphase-steel-studio-blue.jpg",
-      "/watch-dual-hemispheres-moonphase-steel-wrist.jpg"
+      "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-steel-studio-blue.webp",
+      "/watch-dual-hemispheres-moonphase-steel-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-dual-hemispheres-moonphase-steel-front-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with dual-hemisphere moonphase sub-dials and transverse open-heart bridge."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the curved bezel, sapphire crystal dome, and deployant clasp."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-steel-studio-blue.jpg",
+        url: "/watch-dual-hemispheres-moonphase-steel-studio-blue.webp",
         title: "Studio Macro Horizon",
         label: "03 Studio Macro",
         caption: "Macro three-quarter perspective on blue backdrop highlighting the sunburst dial, guilloché bridge, and blued screws."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-steel-wrist.jpg",
+        url: "/watch-dual-hemispheres-moonphase-steel-wrist.webp",
         title: "Sartorial Tailored On-Wrist Horizon",
         label: "04 Tailored Wrist",
         caption: "On-wrist perspective in business tailoring demonstrating the presence and balanced geometry of the dual-hemisphere complication."
@@ -2833,28 +2833,28 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Dual-Hemisphere Complication",
-    image: "/watch-dual-hemispheres-moonphase-blue-front-transparent.png",
-    transparentImage: "/watch-dual-hemispheres-moonphase-blue-front-transparent.png",
+    image: "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
+    transparentImage: "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
     altImages: [
-      "/watch-dual-hemispheres-moonphase-blue-front-transparent.png",
-      "/watch-dual-hemispheres-moonphase-blue-side-transparent.png",
-      "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.png"
+      "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-blue-side-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-dual-hemispheres-moonphase-blue-front-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with sunburst royal ocean blue dial, dual-hemisphere moonphase discs, and transverse open-heart bridge."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-blue-side-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-blue-side-transparent.webp",
         title: "Sculptural Angled Profile",
         label: "02 Angled Profile",
         caption: "Angled perspective on white showcasing the curved lugs, deep blue alligator strap contour, and polished steel bezel."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "03 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the sapphire crystal dome, crown knurling, and open butterfly deployant clasp."
@@ -2898,28 +2898,28 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Dual-Hemisphere Complication",
-    image: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.png",
-    transparentImage: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.png",
+    image: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+    transparentImage: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.png",
-      "/watch-dual-hemispheres-moonphase-rosegold-side-transparent.png",
-      "/watch-dual-hemispheres-moonphase-rosegold-isometric-transparent.png"
+      "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-rosegold-side-transparent.webp",
+      "/watch-dual-hemispheres-moonphase-rosegold-isometric-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with opaline ivory dial, dual-hemisphere moonphase discs, and transverse open-heart bridge."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-rosegold-side-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-rosegold-side-transparent.webp",
         title: "Sculptural Angled Profile",
         label: "02 Angled Profile",
         caption: "Angled perspective on white showcasing the warm rose gold case flanks, curved lugs, and cognac brown alligator strap."
       },
       {
-        url: "/watch-dual-hemispheres-moonphase-rosegold-isometric-transparent.png",
+        url: "/watch-dual-hemispheres-moonphase-rosegold-isometric-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "03 Isometric Profile",
         caption: "Angled studio perspective on white showcasing the sapphire crystal dome, crown knurling, and open 18K rose gold butterfly deployant clasp."
@@ -2963,42 +2963,42 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Acoustic Complication",
-    image: "/watch-sonnerie-bell-iceblue-front-transparent.png",
-    transparentImage: "/watch-sonnerie-bell-iceblue-front-transparent.png",
+    image: "/watch-sonnerie-bell-iceblue-front-transparent.webp",
+    transparentImage: "/watch-sonnerie-bell-iceblue-front-transparent.webp",
     altImages: [
-      "/watch-sonnerie-bell-iceblue-front-transparent.png",
-      "/watch-sonnerie-bell-iceblue-forest.jpg",
-      "/watch-sonnerie-bell-iceblue-vinyl.jpg",
-      "/watch-sonnerie-bell-iceblue-wrist-tailored.jpg",
-      "/watch-sonnerie-bell-iceblue-wrist-casual.jpg"
+      "/watch-sonnerie-bell-iceblue-front-transparent.webp",
+      "/watch-sonnerie-bell-iceblue-forest.webp",
+      "/watch-sonnerie-bell-iceblue-vinyl.webp",
+      "/watch-sonnerie-bell-iceblue-wrist-tailored.webp",
+      "/watch-sonnerie-bell-iceblue-wrist-casual.webp"
     ],
     gallery: [
       {
-        url: "/watch-sonnerie-bell-iceblue-front-transparent.png",
+        url: "/watch-sonnerie-bell-iceblue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with ice blue stippled dial, baguette diamond halo, and striking hammer aperture."
       },
       {
-        url: "/watch-sonnerie-bell-iceblue-forest.jpg",
+        url: "/watch-sonnerie-bell-iceblue-forest.webp",
         title: "Acoustic Nature Harmony Horizon",
         label: "02 Nature Horizon",
         caption: "Editorial acoustic soundwave composition set against lush alpine forest canopy."
       },
       {
-        url: "/watch-sonnerie-bell-iceblue-vinyl.jpg",
+        url: "/watch-sonnerie-bell-iceblue-vinyl.webp",
         title: "Vintage Vinyl Acoustic Horizon",
         label: "03 Vinyl Acoustic",
         caption: "Macro musical composition resting on a vintage vinyl record player and golden tonearm."
       },
       {
-        url: "/watch-sonnerie-bell-iceblue-wrist-tailored.jpg",
+        url: "/watch-sonnerie-bell-iceblue-wrist-tailored.webp",
         title: "Sartorial Tailored On-Wrist Horizon",
         label: "04 Tailored Wrist",
         caption: "On-wrist perspective in bespoke business tailoring highlighting the baguette diamonds and vibrant ice blue texture."
       },
       {
-        url: "/watch-sonnerie-bell-iceblue-wrist-casual.jpg",
+        url: "/watch-sonnerie-bell-iceblue-wrist-casual.webp",
         title: "Contemporary Urban On-Wrist Horizon",
         label: "05 Urban Wrist",
         caption: "Casual on-wrist perspective in black coat demonstrating wrist presence and integrated steel bracelet."
@@ -3044,42 +3044,42 @@ export const PRODUCTS_DATA = [
     collection: "AUTOMATIC",
     collectionName: "Automatic Masterpieces",
     tag: "Acoustic Complication",
-    image: "/watch-sonnerie-bell-blue-front-transparent.png",
-    transparentImage: "/watch-sonnerie-bell-blue-front-transparent.png",
+    image: "/watch-sonnerie-bell-blue-front-transparent.webp",
+    transparentImage: "/watch-sonnerie-bell-blue-front-transparent.webp",
     altImages: [
-      "/watch-sonnerie-bell-blue-front-transparent.png",
-      "/watch-sonnerie-bell-blue-display.jpg",
-      "/watch-sonnerie-bell-blue-vinyl.jpg",
-      "/watch-sonnerie-bell-blue-splash.jpg",
-      "/watch-sonnerie-bell-blue-wrist.jpg"
+      "/watch-sonnerie-bell-blue-front-transparent.webp",
+      "/watch-sonnerie-bell-blue-display.webp",
+      "/watch-sonnerie-bell-blue-vinyl.webp",
+      "/watch-sonnerie-bell-blue-splash.webp",
+      "/watch-sonnerie-bell-blue-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-sonnerie-bell-blue-front-transparent.png",
+        url: "/watch-sonnerie-bell-blue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with royal blue stippled dial, baguette diamond halo, and striking hammer aperture."
       },
       {
-        url: "/watch-sonnerie-bell-blue-display.jpg",
+        url: "/watch-sonnerie-bell-blue-display.webp",
         title: "Carbon Horizon Display Perspective",
         label: "02 Carbon Display",
         caption: "Three-quarter isometric display perspective on dark carbon fiber backdrop highlighting the baguette diamond ring and case chamfers."
       },
       {
-        url: "/watch-sonnerie-bell-blue-vinyl.jpg",
+        url: "/watch-sonnerie-bell-blue-vinyl.webp",
         title: "Vintage Vinyl Acoustic Horizon",
         label: "03 Vinyl Acoustic",
         caption: "Macro musical composition resting on a vintage vinyl record player and golden tonearm."
       },
       {
-        url: "/watch-sonnerie-bell-blue-splash.jpg",
+        url: "/watch-sonnerie-bell-blue-splash.webp",
         title: "Hydrodynamic Splash Horizon",
         label: "04 Dynamic Splash",
         caption: "High-speed aquatic splash perspective demonstrating dynamic sealed engineering and diamond brilliance."
       },
       {
-        url: "/watch-sonnerie-bell-blue-wrist.jpg",
+        url: "/watch-sonnerie-bell-blue-wrist.webp",
         title: "Sartorial Tailored On-Wrist Horizon",
         label: "05 Tailored Wrist",
         caption: "On-wrist perspective in bespoke business tailoring highlighting the deep royal blue dial and integrated steel bracelet."
@@ -3125,28 +3125,28 @@ export const PRODUCTS_DATA = [
     collection: "SKELETON",
     collectionName: "Skeleton & Openwork",
     tag: "Mecha Architecture",
-    image: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.png",
-    transparentImage: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.png",
+    image: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
+    transparentImage: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.png",
-      "/watch-cyber-cogwheel-skeleton-rosegold-wrist.jpg",
-      "/watch-cyber-cogwheel-skeleton-rosegold-industrial.jpg"
+      "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
+      "/watch-cyber-cogwheel-skeleton-rosegold-wrist.webp",
+      "/watch-cyber-cogwheel-skeleton-rosegold-industrial.webp"
     ],
     gallery: [
       {
-        url: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.png",
+        url: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with riveted gear-toothed bezel, openwork cogwheel skeleton, and cognac leather strap."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-rosegold-wrist.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-rosegold-wrist.webp",
         title: "Sartorial Denim On-Wrist Horizon",
         label: "02 Denim Horizon",
         caption: "Outdoor on-wrist perspective in denim jacket showcasing the warm rose gold facets, mint luminous indices, and skeleton depth."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-rosegold-industrial.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-rosegold-industrial.webp",
         title: "Cyberpunk Industrial Horizon",
         label: "03 Industrial Horizon",
         caption: "Angled isometric perspective on industrial mesh grille showcasing the crown red ring, riveted bezel, and gear train."
@@ -3191,35 +3191,35 @@ export const PRODUCTS_DATA = [
     collection: "SKELETON",
     collectionName: "Skeleton & Openwork",
     tag: "Mecha Architecture",
-    image: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.png",
-    transparentImage: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.png",
+    image: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
+    transparentImage: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
     altImages: [
-      "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.png",
-      "/watch-cyber-cogwheel-skeleton-twotone-tactical.jpg",
-      "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.jpg",
-      "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.jpg"
+      "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
+      "/watch-cyber-cogwheel-skeleton-twotone-tactical.webp",
+      "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.webp",
+      "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.webp"
     ],
     gallery: [
       {
-        url: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.png",
+        url: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone steel and rose gold round case with riveted gear-toothed bezel, openwork cogwheel skeleton, and black leather strap."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-twotone-tactical.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-twotone-tactical.webp",
         title: "Tactical Field Horizon",
         label: "02 Tactical Field",
         caption: "Editorial macro on nautical rope and military binoculars highlighting the rugged two-tone architecture and red crown ring."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.webp",
         title: "Sartorial Denim On-Wrist Horizon",
         label: "03 Denim Horizon",
         caption: "Outdoor on-wrist perspective in denim jacket showcasing the high-contrast two-tone finish and luminous mint markers."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.webp",
         title: "Macro Perspective On-Wrist Detail",
         label: "04 Wrist Macro",
         caption: "Close-up on-wrist angle under daylight highlighting the domed sapphire crystal, gear train, and riveted bezel."
@@ -3264,42 +3264,42 @@ export const PRODUCTS_DATA = [
     collection: "SKELETON",
     collectionName: "Skeleton & Openwork",
     tag: "Mecha Architecture",
-    image: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.png",
-    transparentImage: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.png",
+    image: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+    transparentImage: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
     altImages: [
-      "/watch-cyber-cogwheel-skeleton-steel-front-transparent.png",
-      "/watch-cyber-cogwheel-skeleton-steel-display.jpg",
-      "/watch-cyber-cogwheel-skeleton-steel-tactical.jpg",
-      "/watch-cyber-cogwheel-skeleton-steel-cockpit.jpg",
-      "/watch-cyber-cogwheel-skeleton-steel-wrist.jpg"
+      "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+      "/watch-cyber-cogwheel-skeleton-steel-display.webp",
+      "/watch-cyber-cogwheel-skeleton-steel-tactical.webp",
+      "/watch-cyber-cogwheel-skeleton-steel-cockpit.webp",
+      "/watch-cyber-cogwheel-skeleton-steel-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.png",
+        url: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with riveted gear-toothed bezel, flame-blued skeleton hands, and black leather strap."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-steel-display.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-steel-display.webp",
         title: "Industrial Balance Horizon",
         label: "02 Balance Horizon",
         caption: "Studio three-quarter display perspective on steel industrial bar showcasing the gear train and domed sapphire crystal."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-steel-tactical.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-steel-tactical.webp",
         title: "Tactical Field Horizon",
         label: "03 Tactical Field",
         caption: "Macro field setting on nautical rope and military binoculars highlighting the rugged steel chassis and flame-blued hands."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-steel-cockpit.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-steel-cockpit.webp",
         title: "Cockpit Horizon On-Wrist",
         label: "04 Cockpit Horizon",
         caption: "Editorial cockpit perspective on wrist demonstrating the mechanical depth and industrial presence."
       },
       {
-        url: "/watch-cyber-cogwheel-skeleton-steel-wrist.jpg",
+        url: "/watch-cyber-cogwheel-skeleton-steel-wrist.webp",
         title: "Sartorial Denim On-Wrist Horizon",
         label: "05 Denim Horizon",
         caption: "Outdoor daylight on-wrist angle in denim jacket highlighting the vibrant flame-blued hands and mint luminous markers."
@@ -3346,9 +3346,9 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Dual-Time Horizon",
-    image: "/watch-world-globe.png",
+    image: "/watch-world-globe.webp",
     altImages: [
-      "/watch-world-globe.png",
+      "/watch-world-globe.webp",
       "/hanboro-celestial-watch.png"
     ],
     price: "₹1,32,000",
@@ -3382,35 +3382,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Architectural Openwork Bridge",
-    image: "/watch-architectural-skeleton-black-front-transparent.png",
-    transparentImage: "/watch-architectural-skeleton-black-front-transparent.png",
+    image: "/watch-architectural-skeleton-black-front-transparent.webp",
+    transparentImage: "/watch-architectural-skeleton-black-front-transparent.webp",
     altImages: [
-      "/watch-architectural-skeleton-black-front-transparent.png",
-      "/watch-architectural-skeleton-black-briefcase.jpg",
-      "/watch-architectural-skeleton-black-sunlight.jpg",
-      "/watch-architectural-skeleton-black-leather.jpg"
+      "/watch-architectural-skeleton-black-front-transparent.webp",
+      "/watch-architectural-skeleton-black-briefcase.webp",
+      "/watch-architectural-skeleton-black-sunlight.webp",
+      "/watch-architectural-skeleton-black-leather.webp"
     ],
     gallery: [
       {
-        url: "/watch-architectural-skeleton-black-front-transparent.png",
+        url: "/watch-architectural-skeleton-black-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical stealth black DLC 316L case showcasing the openwork bridge architecture, 10 o'clock balance wheel, and signal red hands."
       },
       {
-        url: "/watch-architectural-skeleton-black-briefcase.jpg",
+        url: "/watch-architectural-skeleton-black-briefcase.webp",
         title: "Executive Leather Setting",
         label: "02 Executive Leather",
         caption: "Dramatic composition against luxury black leather briefcase highlighting the polished faceted gear bezel."
       },
       {
-        url: "/watch-architectural-skeleton-black-sunlight.jpg",
+        url: "/watch-architectural-skeleton-black-sunlight.webp",
         title: "Natural Sunlight Depth Macro",
         label: "03 Sunlight Depth",
         caption: "Macro on-wrist capture revealing three-dimensional bridge layering, heat-blued screws, and ruby jewel pivots under natural sunlight."
       },
       {
-        url: "/watch-architectural-skeleton-black-leather.jpg",
+        url: "/watch-architectural-skeleton-black-leather.webp",
         title: "Sartorial Biker Jacket Presence",
         label: "04 Sartorial Biker",
         caption: "Dynamic lifestyle on-wrist presence paired with black leather biker jacket, exhibiting the solid DLC steel bracelet."
@@ -3452,42 +3452,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Two-Tone Rose Gold Openwork",
-    image: "/watch-architectural-skeleton-rosegold-front-transparent.png",
-    transparentImage: "/watch-architectural-skeleton-rosegold-front-transparent.png",
+    image: "/watch-architectural-skeleton-rosegold-front-transparent.webp",
+    transparentImage: "/watch-architectural-skeleton-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-architectural-skeleton-rosegold-front-transparent.png",
-      "/watch-architectural-skeleton-rosegold-dark.jpg",
-      "/watch-architectural-skeleton-rosegold-splash.jpg",
-      "/watch-architectural-skeleton-rosegold-leather.jpg",
-      "/watch-architectural-skeleton-rosegold-wrist.jpg"
+      "/watch-architectural-skeleton-rosegold-front-transparent.webp",
+      "/watch-architectural-skeleton-rosegold-dark.webp",
+      "/watch-architectural-skeleton-rosegold-splash.webp",
+      "/watch-architectural-skeleton-rosegold-leather.webp",
+      "/watch-architectural-skeleton-rosegold-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-architectural-skeleton-rosegold-front-transparent.png",
+        url: "/watch-architectural-skeleton-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone 316L steel and rose gold case showcasing the openwork bridge architecture, 10 o'clock balance wheel, and signal red hands."
       },
       {
-        url: "/watch-architectural-skeleton-rosegold-dark.jpg",
+        url: "/watch-architectural-skeleton-rosegold-dark.webp",
         title: "Dark Mineral Studio Setting",
         label: "02 Dark Mineral",
         caption: "High-contrast macro perspective resting on dark mineral stone highlighting the warm glow of the faceted rose gold bezel."
       },
       {
-        url: "/watch-architectural-skeleton-rosegold-splash.jpg",
+        url: "/watch-architectural-skeleton-rosegold-splash.webp",
         title: "Hydrodynamic Splash & 50M Rating",
         label: "03 Water Splash",
         caption: "Dynamic high-speed liquid capture demonstrating 50-meter water resistance and hermetic seal."
       },
       {
-        url: "/watch-architectural-skeleton-rosegold-leather.jpg",
+        url: "/watch-architectural-skeleton-rosegold-leather.webp",
         title: "Full-Grain Leather Setting",
         label: "04 Leather Horizon",
         caption: "Curated artistic composition resting on textured black leather highlighting the heat-blued screws and rose gold crown."
       },
       {
-        url: "/watch-architectural-skeleton-rosegold-wrist.jpg",
+        url: "/watch-architectural-skeleton-rosegold-wrist.webp",
         title: "Sartorial Biker Lifestyle Presence",
         label: "05 Sartorial Biker",
         caption: "Lifestyle on-wrist presence paired with black leather biker jacket, exhibiting the solid two-tone articulated bracelet."
@@ -3529,35 +3529,35 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Haute Métiers d'Art",
-    image: "/watch-arachnid-geometric-front-transparent.png",
-    transparentImage: "/watch-arachnid-geometric-front-transparent.png",
+    image: "/watch-arachnid-geometric-front-transparent.webp",
+    transparentImage: "/watch-arachnid-geometric-front-transparent.webp",
     altImages: [
-      "/watch-arachnid-geometric-front-transparent.png",
-      "/watch-arachnid-geometric-dark.jpg",
-      "/watch-arachnid-geometric-wrist-macro.jpg",
-      "/watch-arachnid-geometric-wrist-audio.jpg"
+      "/watch-arachnid-geometric-front-transparent.webp",
+      "/watch-arachnid-geometric-dark.webp",
+      "/watch-arachnid-geometric-wrist-macro.webp",
+      "/watch-arachnid-geometric-wrist-audio.webp"
     ],
     gallery: [
       {
-        url: "/watch-arachnid-geometric-front-transparent.png",
+        url: "/watch-arachnid-geometric-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical faceted polygon 316L case featuring the 3D micro-sculpted silver hero, spider-web bridges, 9 o'clock balance wheel, and electric blue hands."
       },
       {
-        url: "/watch-arachnid-geometric-dark.jpg",
+        url: "/watch-arachnid-geometric-dark.webp",
         title: "Dark Mineral Studio Perspective",
         label: "02 Dark Mineral",
         caption: "Three-quarter isometric profile on dark stone exhibiting the diamond-cut polygonal bezel facets and black DLC crown."
       },
       {
-        url: "/watch-arachnid-geometric-wrist-macro.jpg",
+        url: "/watch-arachnid-geometric-wrist-macro.webp",
         title: "Haute Horlogerie Macro On-Wrist",
         label: "03 Macro On-Wrist",
         caption: "Close-up on-wrist capture revealing the microscopic muscle striations and web texture of the silver hero sculpture."
       },
       {
-        url: "/watch-arachnid-geometric-wrist-audio.jpg",
+        url: "/watch-arachnid-geometric-wrist-audio.webp",
         title: "Contemporary Creative Lifestyle Presence",
         label: "04 Creative Lifestyle",
         caption: "Lifestyle wrist capture emphasizing the modern avant-garde presence and ergonomic fluororubber strap."
@@ -3600,42 +3600,42 @@ export const PRODUCTS_DATA = [
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
     tag: "Cyberpunk Supercar Skeleton",
-    image: "/watch-cyber-green-skeleton-front-transparent.png",
-    transparentImage: "/watch-cyber-green-skeleton-front-transparent.png",
+    image: "/watch-cyber-green-skeleton-front-transparent.webp",
+    transparentImage: "/watch-cyber-green-skeleton-front-transparent.webp",
     altImages: [
-      "/watch-cyber-green-skeleton-front-transparent.png",
-      "/watch-cyber-green-skeleton-cockpit.jpg",
-      "/watch-cyber-green-skeleton-wrist-car.jpg",
-      "/watch-cyber-green-skeleton-beam.jpg",
-      "/watch-cyber-green-skeleton-chrome-transparent.png"
+      "/watch-cyber-green-skeleton-front-transparent.webp",
+      "/watch-cyber-green-skeleton-cockpit.webp",
+      "/watch-cyber-green-skeleton-wrist-car.webp",
+      "/watch-cyber-green-skeleton-beam.webp",
+      "/watch-cyber-green-skeleton-chrome-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-cyber-green-skeleton-front-transparent.png",
+        url: "/watch-cyber-green-skeleton-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical stealth black DLC case featuring the neon green engraved polygon bezel, 10 o'clock balance wheel, spoke bridges, and hybrid strap."
       },
       {
-        url: "/watch-cyber-green-skeleton-cockpit.jpg",
+        url: "/watch-cyber-green-skeleton-cockpit.webp",
         title: "Automotive Cockpit On-Wrist Presence",
         label: "02 Cockpit On-Wrist",
         caption: "On-wrist perspective in supercar cockpit showing the anti-reflective blue sapphire flare and neon green accents."
       },
       {
-        url: "/watch-cyber-green-skeleton-wrist-car.jpg",
+        url: "/watch-cyber-green-skeleton-wrist-car.webp",
         title: "Supercar Exterior Lifestyle Presence",
         label: "03 Supercar Lifestyle",
         caption: "Lifestyle wrist capture on supercar door frame exhibiting the ergonomic case contouring and neon stitching."
       },
       {
-        url: "/watch-cyber-green-skeleton-beam.jpg",
+        url: "/watch-cyber-green-skeleton-beam.webp",
         title: "Copper & Industrial Beam Studio Macro",
         label: "04 Industrial Copper",
         caption: "Three-quarter perspective resting on architectural copper beams highlighting the satin bezel brushing and titanium screws."
       },
       {
-        url: "/watch-cyber-green-skeleton-chrome-transparent.png",
+        url: "/watch-cyber-green-skeleton-chrome-transparent.webp",
         title: "Polished Chrome Beam Perspective",
         label: "05 Chrome Structure",
         caption: "Isometric studio perspective on chrome beams displaying the openwork gear train depth and high-lume hour markers."
@@ -3677,10 +3677,10 @@ export const PRODUCTS_DATA = [
     collection: "ROULETTE",
     collectionName: "Casino & Roulette",
     tag: "Mechanical Casino Action",
-    image: "/watch-emerald-roulette.png",
+    image: "/watch-emerald-roulette.webp",
     altImages: [
-      "/watch-emerald-roulette.png",
-      "/watch-carousel-roulette.png"
+      "/watch-emerald-roulette.webp",
+      "/watch-carousel-roulette.webp"
     ],
     price: "₹88,000",
     priceUsd: "$1,060",
@@ -3713,10 +3713,10 @@ export const PRODUCTS_DATA = [
     collection: "ROULETTE",
     collectionName: "Casino & Roulette",
     tag: "Mechanical Casino Action",
-    image: "/watch-blue-roulette.png",
+    image: "/watch-blue-roulette.webp",
     altImages: [
-      "/watch-blue-roulette.png",
-      "/watch-carousel-roulette.png"
+      "/watch-blue-roulette.webp",
+      "/watch-carousel-roulette.webp"
     ],
     price: "₹88,000",
     priceUsd: "$1,060",
@@ -3749,9 +3749,9 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Avant-Garde Ergonomics",
-    image: "/watch-arctic-tonneau-white.png",
+    image: "/watch-arctic-tonneau-white.webp",
     altImages: [
-      "/watch-arctic-tonneau-white.png",
+      "/watch-arctic-tonneau-white.webp",
       "/clover-king-day.png"
     ],
     price: "₹76,000",
@@ -3785,28 +3785,28 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Haute Métiers d'Art",
-    image: "/watch-sichuan-opera-diamond-front-transparent.png",
-    transparentImage: "/watch-sichuan-opera-diamond-front-transparent.png",
+    image: "/watch-sichuan-opera-diamond-front-transparent.webp",
+    transparentImage: "/watch-sichuan-opera-diamond-front-transparent.webp",
     altImages: [
-      "/watch-sichuan-opera-diamond-front-transparent.png",
-      "/watch-sichuan-opera-diamond-wrist-fan.jpg",
-      "/watch-sichuan-opera-diamond-wrist-angle.jpg"
+      "/watch-sichuan-opera-diamond-front-transparent.webp",
+      "/watch-sichuan-opera-diamond-wrist-fan.webp",
+      "/watch-sichuan-opera-diamond-wrist-angle.webp"
     ],
     gallery: [
       {
-        url: "/watch-sichuan-opera-diamond-front-transparent.png",
+        url: "/watch-sichuan-opera-diamond-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold tonneau case with full pavé diamond bezel, hand-enameled Sichuan Opera mask at 6H, and folding fan sector at 12H."
       },
       {
-        url: "/watch-sichuan-opera-diamond-wrist-fan.jpg",
+        url: "/watch-sichuan-opera-diamond-wrist-fan.webp",
         title: "Sartorial Chinese Folding Fan Composition",
         label: "02 Opera Fan Heritage",
         caption: "Dramatic on-wrist capture framed against traditional Sichuan Opera mask folding fan showcasing cultural heritage."
       },
       {
-        url: "/watch-sichuan-opera-diamond-wrist-angle.jpg",
+        url: "/watch-sichuan-opera-diamond-wrist-angle.webp",
         title: "Pavé Diamond Brilliance & Profile",
         label: "03 Diamond Fire Profile",
         caption: "Three-quarter on-wrist perspective highlighting the curved 3D sapphire crystal, diamond pave fire, and ergonomic rubber strap."
@@ -3848,35 +3848,35 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Haute Métiers d'Art",
-    image: "/watch-sichuan-opera-steel-front-transparent.png",
-    transparentImage: "/watch-sichuan-opera-steel-front-transparent.png",
+    image: "/watch-sichuan-opera-steel-front-transparent.webp",
+    transparentImage: "/watch-sichuan-opera-steel-front-transparent.webp",
     altImages: [
-      "/watch-sichuan-opera-steel-front-transparent.png",
-      "/watch-sichuan-opera-steel-box.jpg",
-      "/watch-sichuan-opera-steel-wrist.jpg",
-      "/watch-sichuan-opera-steel-macro.jpg"
+      "/watch-sichuan-opera-steel-front-transparent.webp",
+      "/watch-sichuan-opera-steel-box.webp",
+      "/watch-sichuan-opera-steel-wrist.webp",
+      "/watch-sichuan-opera-steel-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-sichuan-opera-steel-front-transparent.png",
+        url: "/watch-sichuan-opera-steel-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical silver 316L steel tonneau case with full pavé diamond bezel, hand-enameled Sichuan Opera mask at 6H, and folding fan sector at 12H."
       },
       {
-        url: "/watch-sichuan-opera-steel-box.jpg",
+        url: "/watch-sichuan-opera-steel-box.webp",
         title: "Imperial Gift Box & Cultural Fan Set",
         label: "02 Imperial Vault",
         caption: "Complete collector's presentation with the lacquered imperial red Bian Lian gift shrine, traditional mask folding fan, and passport."
       },
       {
-        url: "/watch-sichuan-opera-steel-wrist.jpg",
+        url: "/watch-sichuan-opera-steel-wrist.webp",
         title: "Sartorial Chinese Folding Fan On-Wrist",
         label: "03 Opera Fan On-Wrist",
         caption: "Front on-wrist capture framed against traditional Sichuan Opera mask folding fan showcasing cultural heritage."
       },
       {
-        url: "/watch-sichuan-opera-steel-macro.jpg",
+        url: "/watch-sichuan-opera-steel-macro.webp",
         title: "Pavé Diamond Brilliance & Perspective",
         label: "04 Diamond Fire Profile",
         caption: "Three-quarter isometric profile on black reflective base with mask fan in backdrop highlighting diamond pave fire and curved tonneau lines."
@@ -3918,35 +3918,35 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Art Horlogerie",
-    image: "/watch-sapphire-kanagawa-wave-front-transparent.png",
-    transparentImage: "/watch-sapphire-kanagawa-wave-front-transparent.png",
+    image: "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+    transparentImage: "/watch-sapphire-kanagawa-wave-front-transparent.webp",
     altImages: [
-      "/watch-sapphire-kanagawa-wave-front-transparent.png",
-      "/watch-sapphire-kanagawa-wave-motorsport.jpg",
-      "/watch-sapphire-kanagawa-wave-ocean.jpg",
-      "/watch-sapphire-kanagawa-wave-wrist.jpg"
+      "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+      "/watch-sapphire-kanagawa-wave-motorsport.webp",
+      "/watch-sapphire-kanagawa-wave-ocean.webp",
+      "/watch-sapphire-kanagawa-wave-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-sapphire-kanagawa-wave-front-transparent.png",
+        url: "/watch-sapphire-kanagawa-wave-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical curved transparent sapphire tonneau case with Great Wave micro-painted dial, full moon sphere, and cyan blue strap."
       },
       {
-        url: "/watch-sapphire-kanagawa-wave-motorsport.jpg",
+        url: "/watch-sapphire-kanagawa-wave-motorsport.webp",
         title: "Motorsport Wheel Neon Horizon",
         label: "02 Motorsport Horizon",
         caption: "Isometric perspective on high-performance supercar wheel showcasing vibrant blue neon reflections and transparent sapphire case."
       },
       {
-        url: "/watch-sapphire-kanagawa-wave-ocean.jpg",
+        url: "/watch-sapphire-kanagawa-wave-ocean.webp",
         title: "Pacific Coastal Ocean Bedrock",
         label: "03 Ocean Bedrock",
         caption: "Editorial nature perspective on coastal rocks amidst crashing waves and azure ocean horizons."
       },
       {
-        url: "/watch-sapphire-kanagawa-wave-wrist.jpg",
+        url: "/watch-sapphire-kanagawa-wave-wrist.webp",
         title: "Sartorial Coastal Denim On-Wrist Horizon",
         label: "04 Coastal Wrist",
         caption: "On-wrist perspective paired with denim shirt highlighting the transparent case curve and vivid wave artwork."
@@ -3990,42 +3990,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Haute Aviation Complication",
-    image: "/watch-stealth-fighter-jet-front-transparent.png",
-    transparentImage: "/watch-stealth-fighter-jet-front-transparent.png",
+    image: "/watch-stealth-fighter-jet-front-transparent.webp",
+    transparentImage: "/watch-stealth-fighter-jet-front-transparent.webp",
     altImages: [
-      "/watch-stealth-fighter-jet-front-transparent.png",
-      "/watch-stealth-fighter-jet-wing.jpg",
-      "/watch-stealth-fighter-jet-sky.jpg",
-      "/watch-stealth-fighter-jet-steel.jpg",
-      "/watch-stealth-fighter-jet-back.jpg"
+      "/watch-stealth-fighter-jet-front-transparent.webp",
+      "/watch-stealth-fighter-jet-wing.webp",
+      "/watch-stealth-fighter-jet-sky.webp",
+      "/watch-stealth-fighter-jet-steel.webp",
+      "/watch-stealth-fighter-jet-back.webp"
     ],
     gallery: [
       {
-        url: "/watch-stealth-fighter-jet-front-transparent.png",
+        url: "/watch-stealth-fighter-jet-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with diamond-pavé side flanks, 3D sculpted supersonic fighter jet, rotating blue earth disk, and electric blue hands."
       },
       {
-        url: "/watch-stealth-fighter-jet-wing.jpg",
+        url: "/watch-stealth-fighter-jet-wing.webp",
         title: "Aviation Fuselage Perspective",
         label: "02 Aircraft Wing",
         caption: "Dramatic composition resting on aircraft wing under open skies, highlighting the aviation DNA and turbine crown."
       },
       {
-        url: "/watch-stealth-fighter-jet-sky.jpg",
+        url: "/watch-stealth-fighter-jet-sky.webp",
         title: "In-Flight Aerial Horizon",
         label: "03 Flight Horizon",
         caption: "Perspective framed against open skies with aircraft in flight demonstrating the high-contrast stencil numerals and curved sapphire."
       },
       {
-        url: "/watch-stealth-fighter-jet-steel.jpg",
+        url: "/watch-stealth-fighter-jet-steel.webp",
         title: "Aircraft Carrier Steel Studio",
         label: "04 Steel Structure",
         caption: "Three-quarter isometric studio capture on aircraft-grade reflective steel plate exhibiting the diamond pave fire."
       },
       {
-        url: "/watch-stealth-fighter-jet-back.jpg",
+        url: "/watch-stealth-fighter-jet-back.webp",
         title: "Exhibition Caliber & Turbine Rotor",
         label: "05 Exhibition Rotor",
         caption: "Detailed caseback exhibition showing the high-beat automatic caliber, skeleton turbine rotor, and engraved Hanboro buckle."
@@ -4068,44 +4068,44 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Bioluminescent Carbon Lume",
-    image: "/watch-forged-carbon-tonneau-front-transparent.png",
-    nightImage: "/watch-forged-carbon-tonneau-night-glow.jpg",
+    image: "/watch-forged-carbon-tonneau-front-transparent.webp",
+    nightImage: "/watch-forged-carbon-tonneau-night-glow.webp",
     hasNightMode: true,
-    transparentImage: "/watch-forged-carbon-tonneau-front-transparent.png",
+    transparentImage: "/watch-forged-carbon-tonneau-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-tonneau-front-transparent.png",
-      "/watch-forged-carbon-tonneau-night-glow.jpg",
-      "/watch-forged-carbon-tonneau-ferrari.jpg",
-      "/watch-forged-carbon-tonneau-wrist-leather.jpg",
-      "/watch-forged-carbon-tonneau-wrist-macro.jpg"
+      "/watch-forged-carbon-tonneau-front-transparent.webp",
+      "/watch-forged-carbon-tonneau-night-glow.webp",
+      "/watch-forged-carbon-tonneau-ferrari.webp",
+      "/watch-forged-carbon-tonneau-wrist-leather.webp",
+      "/watch-forged-carbon-tonneau-wrist-macro.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-tonneau-front-transparent.png",
+        url: "/watch-forged-carbon-tonneau-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Forged Damascus carbon case architecture showcasing the multi-layer skeleton caliber, Big Date panorama at 12 o'clock, and exposed balance bridge."
       },
       {
-        url: "/watch-forged-carbon-tonneau-night-glow.jpg",
+        url: "/watch-forged-carbon-tonneau-night-glow.webp",
         title: "Bioluminescent Damascus Night Glow",
         label: "02 Night Lume Metamorphosis",
         caption: "Darkness reveals glowing emerald green phosphor veins running throughout the Damascus carbon case paired with luminous cyan skeleton numerals."
       },
       {
-        url: "/watch-forged-carbon-tonneau-ferrari.jpg",
+        url: "/watch-forged-carbon-tonneau-ferrari.webp",
         title: "Motorsport DNA & Red Scuderia Profile",
         label: "03 Motorsport Scuderia",
         caption: "Isometric perspective against crimson supercar bodywork highlighting the titanium spline screws and anodized racing yellow crown."
       },
       {
-        url: "/watch-forged-carbon-tonneau-wrist-leather.jpg",
+        url: "/watch-forged-carbon-tonneau-wrist-leather.webp",
         title: "Sartorial Biker Leather Presence",
         label: "04 On-Wrist Biker Style",
         caption: "Bold high-performance wrist presence paired with perforated black leather tailoring."
       },
       {
-        url: "/watch-forged-carbon-tonneau-wrist-macro.jpg",
+        url: "/watch-forged-carbon-tonneau-wrist-macro.webp",
         title: "Precision Macro Horology View",
         label: "05 Macro Inspection",
         caption: "Close-up ergonomic inspection of the curved 3D sapphire crystal, openwork gear trains, and red flange tachymeter."
@@ -4148,42 +4148,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Forged Damascus Carbon 100M",
-    image: "/watch-forged-carbon-damascus-10atm-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-damascus-10atm-front-transparent.png",
+    image: "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-damascus-10atm-front-transparent.png",
-      "/watch-forged-carbon-damascus-10atm-angle-transparent.png",
-      "/watch-forged-carbon-damascus-10atm-exploded-transparent.png",
-      "/watch-forged-carbon-damascus-10atm-supercar.jpg",
-      "/watch-forged-carbon-damascus-10atm-lifestyle.jpg"
+      "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
+      "/watch-forged-carbon-damascus-10atm-angle-transparent.webp",
+      "/watch-forged-carbon-damascus-10atm-exploded-transparent.webp",
+      "/watch-forged-carbon-damascus-10atm-supercar.webp",
+      "/watch-forged-carbon-damascus-10atm-lifestyle.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-damascus-10atm-front-transparent.png",
+        url: "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical forged Damascus carbon tonneau case with multi-register skeleton caliber, red caliper hand, and crimson crown."
       },
       {
-        url: "/watch-forged-carbon-damascus-10atm-angle-transparent.png",
+        url: "/watch-forged-carbon-damascus-10atm-angle-transparent.webp",
         title: "Three-Quarter Studio Architecture",
         label: "02 Damascus Waves",
         caption: "Angled perspective highlighting the organic carbon wave layers, titanium spline screws, and curved sapphire glass."
       },
       {
-        url: "/watch-forged-carbon-damascus-10atm-exploded-transparent.png",
+        url: "/watch-forged-carbon-damascus-10atm-exploded-transparent.webp",
         title: "Quick-Release Modular Architecture",
         label: "03 Quick-Release Lugs",
         caption: "Exploded technical view exhibiting the patented steel quick-release strap inserts and black deployant buckle."
       },
       {
-        url: "/watch-forged-carbon-damascus-10atm-supercar.jpg",
+        url: "/watch-forged-carbon-damascus-10atm-supercar.webp",
         title: "Supercar Combustion Dynamic Studio",
         label: "04 Supercar Flames",
         caption: "Dramatic studio setting against supercar flame aura showcasing the automotive carbon heritage."
       },
       {
-        url: "/watch-forged-carbon-damascus-10atm-lifestyle.jpg",
+        url: "/watch-forged-carbon-damascus-10atm-lifestyle.webp",
         title: "Cyber Ambient On-Wrist Lifestyle",
         label: "05 Cyber Lifestyle",
         caption: "On-wrist perspective under neon ambient lighting showcasing the lightweight presence and ergonomic drape."
@@ -4227,28 +4227,28 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Arctic Ceramic 100M",
-    image: "/watch-arctic-tonneau-10atm-white-front-transparent.png",
-    transparentImage: "/watch-arctic-tonneau-10atm-white-front-transparent.png",
+    image: "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+    transparentImage: "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
     altImages: [
-      "/watch-arctic-tonneau-10atm-white-front-transparent.png",
-      "/watch-arctic-tonneau-10atm-white-straps.jpg",
-      "/watch-arctic-tonneau-10atm-white-back-transparent.png"
+      "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+      "/watch-arctic-tonneau-10atm-white-straps.webp",
+      "/watch-arctic-tonneau-10atm-white-back-transparent.webp"
     ],
     gallery: [
       {
-        url: "/watch-arctic-tonneau-10atm-white-front-transparent.png",
+        url: "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical Arctic White ceramic-composite tonneau case with multi-register skeleton caliber and signal red caliper hand."
       },
       {
-        url: "/watch-arctic-tonneau-10atm-white-straps.jpg",
+        url: "/watch-arctic-tonneau-10atm-white-straps.webp",
         title: "Modular Quick-Release Strap Collection",
         label: "02 Strap Suite",
         caption: "Studio exhibition showing the Arctic White & Forged Carbon editions alongside the multi-colored interchangeable fluororubber strap suite."
       },
       {
-        url: "/watch-arctic-tonneau-10atm-white-back-transparent.png",
+        url: "/watch-arctic-tonneau-10atm-white-back-transparent.webp",
         title: "Limited Edition Exhibition Caseback",
         label: "03 Limited Caseback",
         caption: "Three-quarter exhibition caseback showing the limited edition 0478 serial engraving, skeleton rotor, and 10ATM rating."
@@ -4292,42 +4292,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Ribbed Forged Carbon",
-    image: "/watch-forged-carbon-ribbed-shield-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-ribbed-shield-front-transparent.png",
+    image: "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-ribbed-shield-front-transparent.png",
-      "/watch-forged-carbon-ribbed-shield-ferrari.jpg",
-      "/watch-forged-carbon-ribbed-shield-biker.jpg",
-      "/watch-forged-carbon-ribbed-shield-supercar.jpg",
-      "/watch-forged-carbon-ribbed-shield-wrist.jpg"
+      "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
+      "/watch-forged-carbon-ribbed-shield-ferrari.webp",
+      "/watch-forged-carbon-ribbed-shield-biker.webp",
+      "/watch-forged-carbon-ribbed-shield-supercar.webp",
+      "/watch-forged-carbon-ribbed-shield-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-ribbed-shield-front-transparent.png",
+        url: "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical black forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and 4-point arrow skeleton caliber."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-ferrari.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-ferrari.webp",
         title: "Ferrari Supercar Cockpit Setting",
         label: "02 Ferrari Console",
         caption: "Automotive composition on red Ferrari interior console highlighting the racing composite engineering."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-biker.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-biker.webp",
         title: "Biker Leather Sartorial Presence",
         label: "03 Biker Leather",
         caption: "On-wrist perspective with black leather motorcycle jacket and yellow helmet demonstrating the aggressive wrist silhouette."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-supercar.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-supercar.webp",
         title: "Supercar Wheel Studio Perspective",
         label: "04 Supercar Studio",
         caption: "Moody dark studio capture against sports car wheel showcasing the ribbed carbon striations."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-wrist.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-wrist.webp",
         title: "Perforated Driving Leather Macro",
         label: "05 Driving Leather",
         caption: "Close-up on-wrist capture with perforated leather driving jacket revealing the dual shield bridges and exposed rubies."
@@ -4370,42 +4370,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Ribbed Forged Carbon",
-    image: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.png",
+    image: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-ribbed-shield-blue-front-transparent.png",
-      "/watch-forged-carbon-ribbed-shield-blue-ferrari.jpg",
-      "/watch-forged-carbon-ribbed-shield-blue-lamborghini.jpg",
-      "/watch-forged-carbon-ribbed-shield-blue-mesh.jpg",
-      "/watch-forged-carbon-ribbed-shield-blue-supercar.jpg"
+      "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+      "/watch-forged-carbon-ribbed-shield-blue-ferrari.webp",
+      "/watch-forged-carbon-ribbed-shield-blue-lamborghini.webp",
+      "/watch-forged-carbon-ribbed-shield-blue-mesh.webp",
+      "/watch-forged-carbon-ribbed-shield-blue-supercar.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.png",
+        url: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical royal blue forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and blue fluororubber strap."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-blue-ferrari.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-blue-ferrari.webp",
         title: "Ferrari Supercar Cockpit Setting",
         label: "02 Ferrari Console",
         caption: "Automotive composition on red Ferrari interior console highlighting the cobalt carbon contrast."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-blue-lamborghini.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-blue-lamborghini.webp",
         title: "Lamborghini Supercar Display",
         label: "03 Supercar Display",
         caption: "High-octane tabletop composition with miniature Lamborghini supercar exhibiting motorsport pedigree."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-blue-mesh.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-blue-mesh.webp",
         title: "Cybertech Radiator Mesh Studio",
         label: "04 Radiator Mesh",
         caption: "Detailed macro perspective on red honeycomb radiator mesh showcasing the 4-point arrow skeleton framework."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-blue-supercar.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-blue-supercar.webp",
         title: "Supercar Wheel Studio Perspective",
         label: "05 Supercar Studio",
         caption: "Moody dark studio capture beside a sports car wheel highlighting the blue carbon striations."
@@ -4448,35 +4448,35 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Ribbed Forged Carbon",
-    image: "/watch-forged-carbon-ribbed-shield-green-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-ribbed-shield-green-front-transparent.png",
+    image: "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-ribbed-shield-green-front-transparent.png",
-      "/watch-forged-carbon-ribbed-shield-green-ferrari.jpg",
-      "/watch-forged-carbon-ribbed-shield-green-lamborghini.jpg",
-      "/watch-forged-carbon-ribbed-shield-green-mesh.jpg"
+      "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+      "/watch-forged-carbon-ribbed-shield-green-ferrari.webp",
+      "/watch-forged-carbon-ribbed-shield-green-lamborghini.webp",
+      "/watch-forged-carbon-ribbed-shield-green-mesh.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-ribbed-shield-green-front-transparent.png",
+        url: "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical cyber neon green forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and green fluororubber strap."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-green-ferrari.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-green-ferrari.webp",
         title: "Ferrari Supercar Cockpit Setting",
         label: "02 Ferrari Console",
         caption: "Automotive composition on red Ferrari interior console highlighting the vivid neon green carbon contrast."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-green-lamborghini.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-green-lamborghini.webp",
         title: "Lamborghini Supercar Display",
         label: "03 Supercar Display",
         caption: "High-octane tabletop composition with miniature Lamborghini supercar exhibiting motorsport pedigree."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-green-mesh.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-green-mesh.webp",
         title: "Cybertech Radiator Mesh Studio",
         label: "04 Radiator Mesh",
         caption: "Detailed macro perspective on red honeycomb radiator mesh showcasing the 4-point arrow skeleton framework."
@@ -4519,35 +4519,35 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Ribbed Forged Carbon",
-    image: "/watch-forged-carbon-ribbed-shield-red-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-ribbed-shield-red-front-transparent.png",
+    image: "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-ribbed-shield-red-front-transparent.png",
-      "/watch-forged-carbon-ribbed-shield-red-ferrari.jpg",
-      "/watch-forged-carbon-ribbed-shield-red-mesh.jpg",
-      "/watch-forged-carbon-ribbed-shield-red-lamborghini.jpg"
+      "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
+      "/watch-forged-carbon-ribbed-shield-red-ferrari.webp",
+      "/watch-forged-carbon-ribbed-shield-red-mesh.webp",
+      "/watch-forged-carbon-ribbed-shield-red-lamborghini.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-ribbed-shield-red-front-transparent.png",
+        url: "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical crimson rosso corsa tonneau case with horizontal ribbed hoods, dual shield bridges, and red fluororubber strap."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-red-ferrari.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-red-ferrari.webp",
         title: "Ferrari Supercar Cockpit Setting",
         label: "02 Ferrari Console",
         caption: "Automotive composition on red Ferrari interior console highlighting the Rosso Corsa racing pedigree."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-red-mesh.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-red-mesh.webp",
         title: "Cybertech Radiator Mesh Studio",
         label: "03 Radiator Mesh",
         caption: "Detailed macro perspective on red honeycomb radiator mesh showcasing the 4-point arrow skeleton framework."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-red-lamborghini.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-red-lamborghini.webp",
         title: "Lamborghini Supercar Display",
         label: "04 Supercar Display",
         caption: "High-octane tabletop composition with miniature Lamborghini supercar exhibiting motorsport pedigree."
@@ -4590,42 +4590,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Ribbed Ceramic & Carbon",
-    image: "/watch-forged-carbon-ribbed-shield-white-front-transparent.png",
-    transparentImage: "/watch-forged-carbon-ribbed-shield-white-front-transparent.png",
+    image: "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+    transparentImage: "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
     altImages: [
-      "/watch-forged-carbon-ribbed-shield-white-front-transparent.png",
-      "/watch-forged-carbon-ribbed-shield-white-studio.jpg",
-      "/watch-forged-carbon-ribbed-shield-white-ferrari.jpg",
-      "/watch-forged-carbon-ribbed-shield-white-mesh.jpg",
-      "/watch-forged-carbon-ribbed-shield-white-lamborghini.jpg"
+      "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+      "/watch-forged-carbon-ribbed-shield-white-studio.webp",
+      "/watch-forged-carbon-ribbed-shield-white-ferrari.webp",
+      "/watch-forged-carbon-ribbed-shield-white-mesh.webp",
+      "/watch-forged-carbon-ribbed-shield-white-lamborghini.webp"
     ],
     gallery: [
       {
-        url: "/watch-forged-carbon-ribbed-shield-white-front-transparent.png",
+        url: "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical arctic white ceramic tonneau case with horizontal ribbed hoods, cobalt blue hands, and white fluororubber strap."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-white-studio.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-white-studio.webp",
         title: "Dark Atelier Horizon Studio View",
         label: "02 Dark Studio",
         caption: "High-contrast front perspective against dark moody backdrop highlighting the pristine white ceramic and cobalt hands."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-white-ferrari.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-white-ferrari.webp",
         title: "Ferrari Supercar Cockpit Setting",
         label: "03 Ferrari Console",
         caption: "Automotive composition on red Ferrari interior console highlighting the crisp polar ceramic contrast."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-white-mesh.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-white-mesh.webp",
         title: "Cybertech Radiator Mesh Studio",
         label: "04 Radiator Mesh",
         caption: "Detailed macro perspective on red honeycomb radiator mesh showcasing the 4-point arrow skeleton framework."
       },
       {
-        url: "/watch-forged-carbon-ribbed-shield-white-lamborghini.jpg",
+        url: "/watch-forged-carbon-ribbed-shield-white-lamborghini.webp",
         title: "Lamborghini Supercar Display",
         label: "05 Supercar Display",
         caption: "High-octane tabletop composition with miniature Lamborghini supercar exhibiting motorsport pedigree."
@@ -4668,35 +4668,35 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Dual Balance Complication",
-    image: "/watch-double-balance-cantilever-rosegold-front-transparent.png",
-    transparentImage: "/watch-double-balance-cantilever-rosegold-front-transparent.png",
+    image: "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+    transparentImage: "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
     altImages: [
-      "/watch-double-balance-cantilever-rosegold-front-transparent.png",
-      "/watch-double-balance-cantilever-rosegold-car.jpg",
-      "/watch-double-balance-cantilever-rosegold-cockpit.jpg",
-      "/watch-double-balance-cantilever-rosegold-steering.jpg"
+      "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+      "/watch-double-balance-cantilever-rosegold-car.webp",
+      "/watch-double-balance-cantilever-rosegold-cockpit.webp",
+      "/watch-double-balance-cantilever-rosegold-steering.webp"
     ],
     gallery: [
       {
-        url: "/watch-double-balance-cantilever-rosegold-front-transparent.png",
+        url: "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold tonneau case with dual balance wheels, crimson stencil numerals, and cantilever crown lock."
       },
       {
-        url: "/watch-double-balance-cantilever-rosegold-car.jpg",
+        url: "/watch-double-balance-cantilever-rosegold-car.webp",
         title: "Porsche Supercar Key Sartorial Presence",
         label: "02 Porsche Key",
         caption: "On-wrist automotive composition holding supercar key beside black Porsche sports car."
       },
       {
-        url: "/watch-double-balance-cantilever-rosegold-cockpit.jpg",
+        url: "/watch-double-balance-cantilever-rosegold-cockpit.webp",
         title: "Sports Cockpit Lateral Ergonomics",
         label: "03 Cockpit Ergonomics",
         caption: "Cockpit on-wrist perspective highlighting the cantilever crown lock mechanism and curved sapphire crystal."
       },
       {
-        url: "/watch-double-balance-cantilever-rosegold-steering.jpg",
+        url: "/watch-double-balance-cantilever-rosegold-steering.webp",
         title: "Driver's Cockpit Steering Perspective",
         label: "04 Steering Presence",
         caption: "Dynamic driving perspective behind steering wheel showcasing the exposed pulsing twin balance wheels."
@@ -4739,42 +4739,42 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Dual Balance Complication",
-    image: "/watch-double-balance-cantilever-yellow-front-transparent.png",
-    transparentImage: "/watch-double-balance-cantilever-yellow-front-transparent.png",
+    image: "/watch-double-balance-cantilever-yellow-front-transparent.webp",
+    transparentImage: "/watch-double-balance-cantilever-yellow-front-transparent.webp",
     altImages: [
-      "/watch-double-balance-cantilever-yellow-front-transparent.png",
-      "/watch-double-balance-cantilever-yellow-macro.jpg",
-      "/watch-double-balance-cantilever-yellow-steering.jpg",
-      "/watch-double-balance-cantilever-yellow-cockpit.jpg",
-      "/watch-double-balance-cantilever-yellow-car.jpg"
+      "/watch-double-balance-cantilever-yellow-front-transparent.webp",
+      "/watch-double-balance-cantilever-yellow-macro.webp",
+      "/watch-double-balance-cantilever-yellow-steering.webp",
+      "/watch-double-balance-cantilever-yellow-cockpit.webp",
+      "/watch-double-balance-cantilever-yellow-car.webp"
     ],
     gallery: [
       {
-        url: "/watch-double-balance-cantilever-yellow-front-transparent.png",
+        url: "/watch-double-balance-cantilever-yellow-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with dual balance wheels, electric cyber yellow racing flange, and cantilever crown lock."
       },
       {
-        url: "/watch-double-balance-cantilever-yellow-macro.jpg",
+        url: "/watch-double-balance-cantilever-yellow-macro.webp",
         title: "Sartorial Fabric Macro Inspection",
         label: "02 Fabric Macro",
         caption: "Close-up macro perspective on textured black fabric showcasing the hand-finished brushed bevels and dual balance assembly."
       },
       {
-        url: "/watch-double-balance-cantilever-yellow-steering.jpg",
+        url: "/watch-double-balance-cantilever-yellow-steering.webp",
         title: "Porsche Steering Wheel Driver's Perspective",
         label: "03 Steering Presence",
         caption: "Dynamic driver's cockpit view behind the steering wheel highlighting the high-contrast yellow racing accents."
       },
       {
-        url: "/watch-double-balance-cantilever-yellow-cockpit.jpg",
+        url: "/watch-double-balance-cantilever-yellow-cockpit.webp",
         title: "Sports Cockpit Lateral Ergonomics",
         label: "04 Cockpit Ergonomics",
         caption: "Cockpit on-wrist capture displaying the cantilever crown locking bridge and curved sapphire glass."
       },
       {
-        url: "/watch-double-balance-cantilever-yellow-car.jpg",
+        url: "/watch-double-balance-cantilever-yellow-car.webp",
         title: "Porsche Supercar Key Sartorial Presence",
         label: "05 Porsche Key",
         caption: "Automotive on-wrist composition holding key beside black Porsche sports car."
@@ -4817,28 +4817,28 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Dual Balance Complication",
-    image: "/watch-double-balance-cantilever-red-front-transparent.png",
-    transparentImage: "/watch-double-balance-cantilever-red-front-transparent.png",
+    image: "/watch-double-balance-cantilever-red-front-transparent.webp",
+    transparentImage: "/watch-double-balance-cantilever-red-front-transparent.webp",
     altImages: [
-      "/watch-double-balance-cantilever-red-front-transparent.png",
-      "/watch-double-balance-cantilever-red-ferrari.jpg",
-      "/watch-double-balance-cantilever-red-cockpit.jpg"
+      "/watch-double-balance-cantilever-red-front-transparent.webp",
+      "/watch-double-balance-cantilever-red-ferrari.webp",
+      "/watch-double-balance-cantilever-red-cockpit.webp"
     ],
     gallery: [
       {
-        url: "/watch-double-balance-cantilever-red-front-transparent.png",
+        url: "/watch-double-balance-cantilever-red-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with dual balance wheels, crimson red racing flange, and cantilever crown lock."
       },
       {
-        url: "/watch-double-balance-cantilever-red-ferrari.jpg",
+        url: "/watch-double-balance-cantilever-red-ferrari.webp",
         title: "Ferrari Rosso Corsa Automotive Presence",
         label: "02 Ferrari Console",
         caption: "Automotive composition resting on red Ferrari interior console highlighting the racing spirit."
       },
       {
-        url: "/watch-double-balance-cantilever-red-cockpit.jpg",
+        url: "/watch-double-balance-cantilever-red-cockpit.webp",
         title: "Sports Cockpit Driver's Perspective",
         label: "03 Cockpit Perspective",
         caption: "Cockpit on-wrist perspective behind the steering wheel showcasing the exposed dual balance wheels and crimson accents."
@@ -4921,9 +4921,9 @@ export const PRODUCTS_DATA = [
     collection: "TONNEAU",
     collectionName: "Tonneau Skeleton",
     tag: "Haute Métiers d'Art",
-    image: "/watch-carousel-dragon.png",
+    image: "/watch-carousel-dragon.webp",
     altImages: [
-      "/watch-carousel-dragon.png"
+      "/watch-carousel-dragon.webp"
     ],
     price: "₹1,25,000",
     priceUsd: "$1,500",
@@ -4956,42 +4956,42 @@ export const PRODUCTS_DATA = [
     collection: "OCTAGONAL",
     collectionName: "Royal Octagonal",
     tag: "Haute Joaillerie & Grand Date",
-    image: "/watch-diamond-octagonal-front-transparent.png",
-    transparentImage: "/watch-diamond-octagonal-front-transparent.png",
+    image: "/watch-diamond-octagonal-front-transparent.webp",
+    transparentImage: "/watch-diamond-octagonal-front-transparent.webp",
     altImages: [
-      "/watch-diamond-octagonal-front-transparent.png",
-      "/watch-diamond-octagonal-angle-transparent.png",
-      "/watch-diamond-octagonal-wrist.jpg",
-      "/watch-diamond-octagonal-lifestyle-dune.jpg",
-      "/watch-diamond-octagonal-lifestyle-sunset.jpg"
+      "/watch-diamond-octagonal-front-transparent.webp",
+      "/watch-diamond-octagonal-angle-transparent.webp",
+      "/watch-diamond-octagonal-wrist.webp",
+      "/watch-diamond-octagonal-lifestyle-dune.webp",
+      "/watch-diamond-octagonal-lifestyle-sunset.webp"
     ],
     gallery: [
       {
-        url: "/watch-diamond-octagonal-front-transparent.png",
+        url: "/watch-diamond-octagonal-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical horological architecture featuring the double-digit Big Date aperture at 12 o'clock and precision baguette-cut diamond bezel."
       },
       {
-        url: "/watch-diamond-octagonal-angle-transparent.png",
+        url: "/watch-diamond-octagonal-angle-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 3/4 Perspective",
         caption: "Multi-faceted octagonal casing, satin-brushed chamfers, and fluted crown bearing the engraved Hanboro emblem."
       },
       {
-        url: "/watch-diamond-octagonal-wrist.jpg",
+        url: "/watch-diamond-octagonal-wrist.webp",
         title: "On-Wrist Sartorial Presence",
         label: "03 On-Wrist Atelier",
         caption: "Bespoke wrist presence paired with tailored sartorial suiting, demonstrating the ergonomic multi-link bracelet drape."
       },
       {
-        url: "/watch-diamond-octagonal-lifestyle-dune.jpg",
+        url: "/watch-diamond-octagonal-lifestyle-dune.webp",
         title: "Dune Horizon & Obsidian Texture",
         label: "04 Dune Horizon",
         caption: "Dynamic warm ambient lighting catching the midnight cobalt blue fluted dial and diamond-set geometry."
       },
       {
-        url: "/watch-diamond-octagonal-lifestyle-sunset.jpg",
+        url: "/watch-diamond-octagonal-lifestyle-sunset.webp",
         title: "Sunset Amber Flare Showcase",
         label: "05 Sunset Flare",
         caption: "Front-facing dramatic composition illuminated by warm golden hour radiance."
@@ -5034,35 +5034,35 @@ export const PRODUCTS_DATA = [
     collection: "OCTAGONAL",
     collectionName: "Royal Octagonal",
     tag: "Haute Joaillerie & Grand Date",
-    image: "/watch-diamond-octagonal-bronze-front-transparent.png",
-    transparentImage: "/watch-diamond-octagonal-bronze-front-transparent.png",
+    image: "/watch-diamond-octagonal-bronze-front-transparent.webp",
+    transparentImage: "/watch-diamond-octagonal-bronze-front-transparent.webp",
     altImages: [
-      "/watch-diamond-octagonal-bronze-front-transparent.png",
-      "/watch-diamond-octagonal-bronze-angle-transparent.png",
-      "/watch-diamond-octagonal-bronze-wrist.jpg",
-      "/watch-diamond-octagonal-bronze-sunset.jpg"
+      "/watch-diamond-octagonal-bronze-front-transparent.webp",
+      "/watch-diamond-octagonal-bronze-angle-transparent.webp",
+      "/watch-diamond-octagonal-bronze-wrist.webp",
+      "/watch-diamond-octagonal-bronze-sunset.webp"
     ],
     gallery: [
       {
-        url: "/watch-diamond-octagonal-bronze-front-transparent.png",
+        url: "/watch-diamond-octagonal-bronze-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical rose gold casing and baguette-cut bezel showcasing the rich tobacco bronze fluted dial and double-digit Big Date aperture."
       },
       {
-        url: "/watch-diamond-octagonal-bronze-angle-transparent.png",
+        url: "/watch-diamond-octagonal-bronze-angle-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 3/4 Perspective",
         caption: "Sculpted octagonal geometry with vertical satin brushing, diamond-set chamfers, and Hanboro insignia fluted crown."
       },
       {
-        url: "/watch-diamond-octagonal-bronze-wrist.jpg",
+        url: "/watch-diamond-octagonal-bronze-wrist.webp",
         title: "Sartorial On-Wrist Presence",
         label: "03 Sartorial On-Wrist",
         caption: "Striking wrist presence paired with dark sartorial styling, demonstrating the ergonomic rose gold bracelet contours."
       },
       {
-        url: "/watch-diamond-octagonal-bronze-sunset.jpg",
+        url: "/watch-diamond-octagonal-bronze-sunset.webp",
         title: "Sunset Amber Flare Showcase",
         label: "04 Sunset Amber",
         caption: "Dramatic composition bathed in golden amber sunset radiance highlighting the champagne bronze dial nuances."
@@ -5105,35 +5105,35 @@ export const PRODUCTS_DATA = [
     collection: "OCTAGONAL",
     collectionName: "Royal Octagonal",
     tag: "Haute Joaillerie & Grand Date",
-    image: "/watch-diamond-octagonal-green-front-transparent.png",
-    transparentImage: "/watch-diamond-octagonal-green-front-transparent.png",
+    image: "/watch-diamond-octagonal-green-front-transparent.webp",
+    transparentImage: "/watch-diamond-octagonal-green-front-transparent.webp",
     altImages: [
-      "/watch-diamond-octagonal-green-front-transparent.png",
-      "/watch-diamond-octagonal-green-angle-transparent.png",
-      "/watch-diamond-octagonal-green-wrist.jpg",
-      "/watch-diamond-octagonal-green-sunset.jpg"
+      "/watch-diamond-octagonal-green-front-transparent.webp",
+      "/watch-diamond-octagonal-green-angle-transparent.webp",
+      "/watch-diamond-octagonal-green-wrist.webp",
+      "/watch-diamond-octagonal-green-sunset.webp"
     ],
     gallery: [
       {
-        url: "/watch-diamond-octagonal-green-front-transparent.png",
+        url: "/watch-diamond-octagonal-green-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel architecture highlighting the deep emerald olive fluted dial, Big Date aperture at 12 o'clock, and baguette diamond bezel."
       },
       {
-        url: "/watch-diamond-octagonal-green-angle-transparent.png",
+        url: "/watch-diamond-octagonal-green-angle-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 3/4 Perspective",
         caption: "Precision-machined steel octagonal bevels, satin-brushed link articulation, and fluted winding crown."
       },
       {
-        url: "/watch-diamond-octagonal-green-wrist.jpg",
+        url: "/watch-diamond-octagonal-green-wrist.webp",
         title: "Sartorial On-Wrist Presence",
         label: "03 Sartorial On-Wrist",
         caption: "Ergonomic wrist drape and high-contrast diamond luminescence paired with clean dark sartorial attire."
       },
       {
-        url: "/watch-diamond-octagonal-green-sunset.jpg",
+        url: "/watch-diamond-octagonal-green-sunset.webp",
         title: "Sunset Amber Flare Showcase",
         label: "04 Sunset Amber",
         caption: "Dramatic front composition bathed in warm golden sunset light reflecting off the baguette diamonds and emerald green dial."
@@ -5176,10 +5176,10 @@ export const PRODUCTS_DATA = [
     collection: "OCTAGONAL",
     collectionName: "Royal Octagonal",
     tag: "Integrated Luxury Sport",
-    image: "/watch-rosegold-octagonal-blue.png",
+    image: "/watch-rosegold-octagonal-blue.webp",
     altImages: [
-      "/watch-rosegold-octagonal-blue.png",
-      "/watch-carousel-octagonal.png"
+      "/watch-rosegold-octagonal-blue.webp",
+      "/watch-carousel-octagonal.webp"
     ],
     price: "₹68,000",
     priceUsd: "$820",
@@ -5212,10 +5212,10 @@ export const PRODUCTS_DATA = [
     collection: "OCTAGONAL",
     collectionName: "Royal Octagonal",
     tag: "Architectural Openwork",
-    image: "/watch-carousel-octagonal.png",
+    image: "/watch-carousel-octagonal.webp",
     altImages: [
-      "/watch-carousel-octagonal.png",
-      "/watch-rosegold-octagonal-blue.png"
+      "/watch-carousel-octagonal.webp",
+      "/watch-rosegold-octagonal-blue.webp"
     ],
     price: "₹72,000",
     priceUsd: "$865",
@@ -5248,9 +5248,9 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Astronomical Lunar",
-    image: "/watch-orbital-moonphase.png",
+    image: "/watch-orbital-moonphase.webp",
     altImages: [
-      "/watch-orbital-moonphase.png"
+      "/watch-orbital-moonphase.webp"
     ],
     price: "₹62,000",
     priceUsd: "$745",
@@ -5283,42 +5283,42 @@ export const PRODUCTS_DATA = [
     collection: "DIVER_SPORT",
     collectionName: "Diver & Sport Chrono",
     tag: "Orbital Aurora Complication",
-    image: "/watch-aurora-celestial-frost-front-transparent.png",
-    transparentImage: "/watch-aurora-celestial-frost-front-transparent.png",
+    image: "/watch-aurora-celestial-frost-front-transparent.webp",
+    transparentImage: "/watch-aurora-celestial-frost-front-transparent.webp",
     altImages: [
-      "/watch-aurora-celestial-frost-front-transparent.png",
-      "/watch-aurora-celestial-frost-space.jpg",
-      "/watch-aurora-celestial-frost-aurora.jpg",
-      "/watch-aurora-celestial-frost-wrist-macro.jpg",
-      "/watch-aurora-celestial-frost-wrist-denim.jpg"
+      "/watch-aurora-celestial-frost-front-transparent.webp",
+      "/watch-aurora-celestial-frost-space.webp",
+      "/watch-aurora-celestial-frost-aurora.webp",
+      "/watch-aurora-celestial-frost-wrist-macro.webp",
+      "/watch-aurora-celestial-frost-wrist-denim.webp"
     ],
     gallery: [
       {
-        url: "/watch-aurora-celestial-frost-front-transparent.png",
+        url: "/watch-aurora-celestial-frost-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel architecture featuring the 6-screw bezel, stardust silver frost dial, pave diamond halo, and 24H Aurora sphere."
       },
       {
-        url: "/watch-aurora-celestial-frost-space.jpg",
+        url: "/watch-aurora-celestial-frost-space.webp",
         title: "Cosmic Aurora & Obsidian Terrain",
         label: "02 Cosmic Perspective",
         caption: "Three-quarter isometric composition framed against deep space starlight and cosmic aurora clouds."
       },
       {
-        url: "/watch-aurora-celestial-frost-aurora.jpg",
+        url: "/watch-aurora-celestial-frost-aurora.webp",
         title: "Northern Lights Horizon Glow",
         label: "03 Polar Aurora",
         caption: "Front-facing showcase illuminated by the vibrant emerald glow of polar aurora borealis."
       },
       {
-        url: "/watch-aurora-celestial-frost-wrist-macro.jpg",
+        url: "/watch-aurora-celestial-frost-wrist-macro.webp",
         title: "Celestial Night Sky Macro Inspection",
         label: "04 Macro On-Wrist",
         caption: "Close-up on-wrist tactile handling capturing the crystalline dial texture and diamond halo luminescence."
       },
       {
-        url: "/watch-aurora-celestial-frost-wrist-denim.jpg",
+        url: "/watch-aurora-celestial-frost-wrist-denim.webp",
         title: "Sartorial Denim Lifestyle Presence",
         label: "05 Sartorial Denim",
         caption: "Effortless luxury sport styling with tailored denim, highlighting ergonomic fluororubber strap drape."
@@ -5361,10 +5361,10 @@ export const PRODUCTS_DATA = [
     collection: "DIVER_SPORT",
     collectionName: "Diver & Sport Chrono",
     tag: "Sport Chronograph",
-    image: "/watch-purple-chronograph.png",
+    image: "/watch-purple-chronograph.webp",
     altImages: [
-      "/watch-purple-chronograph.png",
-      "/watch-green-diver.png"
+      "/watch-purple-chronograph.webp",
+      "/watch-green-diver.webp"
     ],
     price: "₹58,000",
     priceUsd: "$700",
@@ -5397,10 +5397,10 @@ export const PRODUCTS_DATA = [
     collection: "DIVER_SPORT",
     collectionName: "Diver & Sport Chrono",
     tag: "200M Professional Diver",
-    image: "/watch-green-diver.png",
+    image: "/watch-green-diver.webp",
     altImages: [
-      "/watch-green-diver.png",
-      "/watch-purple-chronograph.png"
+      "/watch-green-diver.webp",
+      "/watch-purple-chronograph.webp"
     ],
     price: "₹64,000",
     priceUsd: "$770",
@@ -5433,35 +5433,35 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Minimalist Mechanical Gauge",
-    image: "/watch-powerreserve-midnight-front-transparent.png",
-    transparentImage: "/watch-powerreserve-midnight-front-transparent.png",
+    image: "/watch-powerreserve-midnight-front-transparent.webp",
+    transparentImage: "/watch-powerreserve-midnight-front-transparent.webp",
     altImages: [
-      "/watch-powerreserve-midnight-front-transparent.png",
-      "/watch-powerreserve-midnight-bronze.jpg",
-      "/watch-powerreserve-midnight-dark.jpg",
-      "/watch-powerreserve-midnight-wrist.jpg"
+      "/watch-powerreserve-midnight-front-transparent.webp",
+      "/watch-powerreserve-midnight-bronze.webp",
+      "/watch-powerreserve-midnight-dark.webp",
+      "/watch-powerreserve-midnight-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-powerreserve-midnight-front-transparent.png",
+        url: "/watch-powerreserve-midnight-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Pure monochromatic Bauhaus architecture with sunburst charcoal dial, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
       {
-        url: "/watch-powerreserve-midnight-bronze.jpg",
+        url: "/watch-powerreserve-midnight-bronze.webp",
         title: "Three-Quarter Bronze Horizon Profile",
         label: "02 Bronze Horizon",
         caption: "Macro perspective showing the multi-row stealth black DLC link bracelet, ergonomic bevels, and offset crown guard."
       },
       {
-        url: "/watch-powerreserve-midnight-dark.jpg",
+        url: "/watch-powerreserve-midnight-dark.webp",
         title: "Tactile Velvet Studio Macro",
         label: "03 Velvet Texture",
         caption: "Detailed inspection of the curved sapphire crystal, slender baton hands, and contrasting red reserve gauge needle tip."
       },
       {
-        url: "/watch-powerreserve-midnight-wrist.jpg",
+        url: "/watch-powerreserve-midnight-wrist.webp",
         title: "Sartorial Business On-Wrist Presence",
         label: "04 Sartorial On-Wrist",
         caption: "Sophisticated executive wrist presence paired with tailored shirt cuff and solid DLC steel bracelet drape."
@@ -5503,35 +5503,35 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Minimalist Mechanical Gauge",
-    image: "/watch-powerreserve-silver-front-transparent.png",
-    transparentImage: "/watch-powerreserve-silver-front-transparent.png",
+    image: "/watch-powerreserve-silver-front-transparent.webp",
+    transparentImage: "/watch-powerreserve-silver-front-transparent.webp",
     altImages: [
-      "/watch-powerreserve-silver-front-transparent.png",
-      "/watch-powerreserve-silver-angle-transparent.png",
-      "/watch-powerreserve-silver-studio.jpg",
-      "/watch-powerreserve-silver-wrist.jpg"
+      "/watch-powerreserve-silver-front-transparent.webp",
+      "/watch-powerreserve-silver-angle-transparent.webp",
+      "/watch-powerreserve-silver-studio.webp",
+      "/watch-powerreserve-silver-wrist.webp"
     ],
     gallery: [
       {
-        url: "/watch-powerreserve-silver-front-transparent.png",
+        url: "/watch-powerreserve-silver-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel case with sunburst charcoal dial, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
       {
-        url: "/watch-powerreserve-silver-angle-transparent.png",
+        url: "/watch-powerreserve-silver-angle-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 3/4 Perspective",
         caption: "Macro perspective displaying the multi-row articulated link bracelet, mirror-polished bezel bevels, and offset crown guard."
       },
       {
-        url: "/watch-powerreserve-silver-studio.jpg",
+        url: "/watch-powerreserve-silver-studio.webp",
         title: "Architectural Studio Reflection",
         label: "03 Studio Reflection",
         caption: "Curated artistic presentation highlighting the interplay of ambient light across the steel case and dial crystal."
       },
       {
-        url: "/watch-powerreserve-silver-wrist.jpg",
+        url: "/watch-powerreserve-silver-wrist.webp",
         title: "Sartorial Executive On-Wrist Presence",
         label: "04 Sartorial On-Wrist",
         caption: "Sophisticated executive wrist presence paired with tailored business suiting and crisp white dress shirt."
@@ -5573,42 +5573,42 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Blued Steel Minimalist Gauge",
-    image: "/watch-powerreserve-opaline-front-transparent.png",
-    transparentImage: "/watch-powerreserve-opaline-front-transparent.png",
+    image: "/watch-powerreserve-opaline-front-transparent.webp",
+    transparentImage: "/watch-powerreserve-opaline-front-transparent.webp",
     altImages: [
-      "/watch-powerreserve-opaline-front-transparent.png",
-      "/watch-powerreserve-opaline-angle-transparent.png",
-      "/watch-powerreserve-opaline-bracelet-transparent.png",
-      "/watch-powerreserve-opaline-profile-transparent.png",
-      "/watch-powerreserve-opaline-studio.jpg"
+      "/watch-powerreserve-opaline-front-transparent.webp",
+      "/watch-powerreserve-opaline-angle-transparent.webp",
+      "/watch-powerreserve-opaline-bracelet-transparent.webp",
+      "/watch-powerreserve-opaline-profile-transparent.webp",
+      "/watch-powerreserve-opaline-studio.webp"
     ],
     gallery: [
       {
-        url: "/watch-powerreserve-opaline-front-transparent.png",
+        url: "/watch-powerreserve-opaline-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel case with radiant opaline silver dial, blued steel hands, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
       {
-        url: "/watch-powerreserve-opaline-angle-transparent.png",
+        url: "/watch-powerreserve-opaline-angle-transparent.webp",
         title: "Three-Quarter Isometric Profile",
         label: "02 3/4 Perspective",
         caption: "Macro perspective displaying the high-flex articulated link bracelet, mirror-polished bezel bevels, and offset crown guard."
       },
       {
-        url: "/watch-powerreserve-opaline-bracelet-transparent.png",
+        url: "/watch-powerreserve-opaline-bracelet-transparent.webp",
         title: "Articulated Steel Link Integration",
         label: "03 Bracelet Detail",
         caption: "Bottom-up architectural capture exhibiting the multi-row link curvature, solid end-links, and seamless case integration."
       },
       {
-        url: "/watch-powerreserve-opaline-profile-transparent.png",
+        url: "/watch-powerreserve-opaline-profile-transparent.webp",
         title: "Crown Guard & Curved Crystal Profile",
         label: "04 Profile Silhouette",
         caption: "Side silhouette highlighting the ultra-slim 11.8mm case depth, engraved 'H' crown, and domed anti-reflective sapphire crystal."
       },
       {
-        url: "/watch-powerreserve-opaline-studio.jpg",
+        url: "/watch-powerreserve-opaline-studio.webp",
         title: "Dark Studio Texture Macro",
         label: "05 Studio Plinth",
         caption: "High-contrast studio composition resting on textured stone, highlighting the vivid cobalt-blue reflections of the hands."
@@ -5651,35 +5651,35 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Two-Tone Rose Gold Bauhaus",
-    image: "/watch-powerreserve-twotone-front-transparent.png",
-    transparentImage: "/watch-powerreserve-twotone-front-transparent.png",
+    image: "/watch-powerreserve-twotone-front-transparent.webp",
+    transparentImage: "/watch-powerreserve-twotone-front-transparent.webp",
     altImages: [
-      "/watch-powerreserve-twotone-front-transparent.png",
-      "/watch-powerreserve-twotone-wrist.jpg",
-      "/watch-powerreserve-twotone-dark.jpg",
-      "/watch-powerreserve-twotone-bronze.jpg"
+      "/watch-powerreserve-twotone-front-transparent.webp",
+      "/watch-powerreserve-twotone-wrist.webp",
+      "/watch-powerreserve-twotone-dark.webp",
+      "/watch-powerreserve-twotone-bronze.webp"
     ],
     gallery: [
       {
-        url: "/watch-powerreserve-twotone-front-transparent.png",
+        url: "/watch-powerreserve-twotone-front-transparent.webp",
         title: "Haute Atelier Studio Front",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone 316L steel and rose gold case with radiant opaline silver dial, blued steel hands, and 35-hour energy arc gauge."
       },
       {
-        url: "/watch-powerreserve-twotone-wrist.jpg",
+        url: "/watch-powerreserve-twotone-wrist.webp",
         title: "Sartorial Cashmere On-Wrist Presence",
         label: "02 Sartorial Cashmere",
         caption: "Lifestyle wrist capture paired with luxury cream cashmere knitwear highlighting the warmth of the rose gold bezel."
       },
       {
-        url: "/watch-powerreserve-twotone-dark.jpg",
+        url: "/watch-powerreserve-twotone-dark.webp",
         title: "Tactile Velvet Studio Macro",
         label: "03 Velvet Texture",
         caption: "High-contrast macro perspective capturing the polished rose gold bezel bevels and thermally blued steel hands."
       },
       {
-        url: "/watch-powerreserve-twotone-bronze.jpg",
+        url: "/watch-powerreserve-twotone-bronze.webp",
         title: "Three-Quarter Bronze Horizon Profile",
         label: "04 Bronze Horizon",
         caption: "Curated artistic composition against warm golden bronze light showing the two-tone bracelet curvature and crown guard."
@@ -5722,9 +5722,9 @@ export const PRODUCTS_DATA = [
     collection: "CLASSIC",
     collectionName: "Classic & Moonphase",
     tag: "Vibrant Open-Heart",
-    image: "/watch-turquoise-ringbell.png",
+    image: "/watch-turquoise-ringbell.webp",
     altImages: [
-      "/watch-turquoise-ringbell.png"
+      "/watch-turquoise-ringbell.webp"
     ],
     price: "₹48,000",
     priceUsd: "$580",

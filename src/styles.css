@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;0,800;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-
 /* ── Design tokens ─────────────────────────────────────────────────────────── */
 :root {
   --red:   #fa2d1d;
@@ -1084,8 +1081,14 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   width: max-content;
   overflow: visible;
-  animation: endlessAppleGlide 24s linear infinite;
+  animation: endlessAppleGlide 130s linear infinite;
   will-change: transform;
+}
+
+.carousel-track:hover,
+.carousel-track:focus-within,
+.carousel-track:active {
+  animation-play-state: paused;
 }
 
 .carousel-group {
@@ -2529,7 +2532,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   .carousel-track {
-    animation: endlessAppleGlide 11s linear infinite;
+    animation: endlessAppleGlide 95s linear infinite;
   }
 
   .carousel-group {
@@ -5582,8 +5585,9 @@ a { color: inherit; text-decoration: none; }
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.pdp-gallery-media-wrapper img[src*="-transparent.png"],
-.pdp-gallery-media-wrapper img[src$=".png"] {
+.pdp-gallery-media-wrapper img[src*="-transparent."],
+.pdp-gallery-media-wrapper img[src$=".png"],
+.pdp-gallery-media-wrapper img[src*="-thumb.webp"] {
   object-fit: contain;
   max-width: 86%;
   max-height: 86%;
