@@ -11,13 +11,13 @@ const Icons = {
     </svg>
   ),
   Lock: () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
   Check: () => (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
@@ -43,8 +43,13 @@ const Icons = {
     </svg>
   ),
   Shield: () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  ),
+  ChevronDown: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9" />
     </svg>
   ),
   Box: () => (
@@ -198,17 +203,17 @@ export function CheckoutPage({ onNavigate }) {
             }}
           >
             <Icons.ArrowLeft />
-            <span>{step === 2 ? "Shipping Details" : "Return to Atelier"}</span>
+            <span>{step === 2 ? "Shipping Details" : "Timepieces"}</span>
           </button>
 
           <div className="apple-checkout-brand">
             <HanboroLogo theme="light" size={22} />
-            <span className="apple-checkout-brand-sub">ACQUISITION CHECKOUT</span>
+            <span className="apple-checkout-brand-sub">CHECKOUT</span>
           </div>
 
           <div className="apple-secure-badge">
             <Icons.Lock />
-            <span>256-Bit SSL Encrypted</span>
+            <span>256-Bit SSL</span>
           </div>
         </div>
       </header>
@@ -240,46 +245,44 @@ export function CheckoutPage({ onNavigate }) {
             {/* ── STEP 1: SHIPPING & CONTACT DETAILS ── */}
             {step === 1 && (
               <form className="apple-checkout-form" onSubmit={handleGoToPayment}>
-                <div className="form-card">
-                  <h2 className="form-card-title">1. Client & Contact Information</h2>
+                <div className="apple-form-card">
+                  <h2 className="apple-form-card-title">1. Client & Contact Information</h2>
                   
-                  <div className="form-row">
-                    <div className="form-field">
-                      <label htmlFor="chk-name" className="form-label">Full Name / Title *</label>
-                      <input
-                        id="chk-name"
-                        type="text"
-                        className="form-input"
-                        placeholder="e.g. Jai Goel"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value);
-                          setCardHolder(e.target.value.toUpperCase());
-                        }}
-                        required
-                      />
-                    </div>
+                  <div className="apple-form-group">
+                    <label htmlFor="chk-name" className="apple-form-label">Full Name / Title *</label>
+                    <input
+                      id="chk-name"
+                      type="text"
+                      className="apple-form-input"
+                      placeholder="e.g. Jai Goel"
+                      value={name}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        setCardHolder(e.target.value.toUpperCase());
+                      }}
+                      required
+                    />
                   </div>
 
-                  <div className="form-row form-row--two">
-                    <div className="form-field">
-                      <label htmlFor="chk-email" className="form-label">Email Address (For Certificate & Tracking) *</label>
+                  <div className="apple-form-row apple-form-row--two">
+                    <div className="apple-form-group">
+                      <label htmlFor="chk-email" className="apple-form-label">Email Address (For Tracking & Invoice) *</label>
                       <input
                         id="chk-email"
                         type="email"
-                        className="form-input"
+                        className="apple-form-input"
                         placeholder="yourname@email.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                       />
                     </div>
-                    <div className="form-field">
-                      <label htmlFor="chk-phone" className="form-label">Contact Phone / VIP Concierge *</label>
+                    <div className="apple-form-group">
+                      <label htmlFor="chk-phone" className="apple-form-label">Contact Phone / VIP Concierge *</label>
                       <input
                         id="chk-phone"
                         type="tel"
-                        className="form-input"
+                        className="apple-form-input"
                         placeholder="+91 98765 43210"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -289,31 +292,29 @@ export function CheckoutPage({ onNavigate }) {
                   </div>
                 </div>
 
-                <div className="form-card">
-                  <h2 className="form-card-title">2. Destination & Courier Dossier</h2>
+                <div className="apple-form-card">
+                  <h2 className="apple-form-card-title">2. Destination & Courier Dossier</h2>
 
-                  <div className="form-row">
-                    <div className="form-field">
-                      <label htmlFor="chk-address" className="form-label">Delivery Address (Apartment, Suite, Street) *</label>
-                      <input
-                        id="chk-address"
-                        type="text"
-                        className="form-input"
-                        placeholder="e.g. Penthouse 4B, Luxury Boulevard"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required
-                      />
-                    </div>
+                  <div className="apple-form-group">
+                    <label htmlFor="chk-address" className="apple-form-label">Delivery Address (Apartment, Suite, Street) *</label>
+                    <input
+                      id="chk-address"
+                      type="text"
+                      className="apple-form-input"
+                      placeholder="e.g. Penthouse 4B, Luxury Boulevard"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      required
+                    />
                   </div>
 
-                  <div className="form-row form-row--three">
-                    <div className="form-field">
-                      <label htmlFor="chk-city" className="form-label">City *</label>
+                  <div className="apple-form-row apple-form-row--three">
+                    <div className="apple-form-group">
+                      <label htmlFor="chk-city" className="apple-form-label">City *</label>
                       <input
                         id="chk-city"
                         type="text"
-                        className="form-input"
+                        className="apple-form-input"
                         placeholder="e.g. New Delhi"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
@@ -321,34 +322,39 @@ export function CheckoutPage({ onNavigate }) {
                       />
                     </div>
 
-                    <div className="form-field">
-                      <label htmlFor="chk-state" className="form-label">State *</label>
-                      <select
-                        id="chk-state"
-                        className="form-select"
-                        value={stateName}
-                        onChange={(e) => setStateName(e.target.value)}
-                      >
-                        <option value="Delhi NCR">Delhi NCR</option>
-                        <option value="Maharashtra">Maharashtra (Mumbai)</option>
-                        <option value="Karnataka">Karnataka (Bengaluru)</option>
-                        <option value="Telangana">Telangana (Hyderabad)</option>
-                        <option value="Tamil Nadu">Tamil Nadu (Chennai)</option>
-                        <option value="Gujarat">Gujarat (Ahmedabad)</option>
-                        <option value="West Bengal">West Bengal (Kolkata)</option>
-                        <option value="Rajasthan">Rajasthan (Jaipur)</option>
-                        <option value="Haryana">Haryana (Gurugram)</option>
-                        <option value="Uttar Pradesh">Uttar Pradesh (Noida)</option>
-                        <option value="Other States">Other States / UT</option>
-                      </select>
+                    <div className="apple-form-group">
+                      <label htmlFor="chk-state" className="apple-form-label">State *</label>
+                      <div className="apple-select-wrap">
+                        <select
+                          id="chk-state"
+                          className="apple-form-select"
+                          value={stateName}
+                          onChange={(e) => setStateName(e.target.value)}
+                        >
+                          <option value="Delhi NCR">Delhi NCR</option>
+                          <option value="Maharashtra">Maharashtra (Mumbai)</option>
+                          <option value="Karnataka">Karnataka (Bengaluru)</option>
+                          <option value="Telangana">Telangana (Hyderabad)</option>
+                          <option value="Tamil Nadu">Tamil Nadu (Chennai)</option>
+                          <option value="Gujarat">Gujarat (Ahmedabad)</option>
+                          <option value="West Bengal">West Bengal (Kolkata)</option>
+                          <option value="Rajasthan">Rajasthan (Jaipur)</option>
+                          <option value="Haryana">Haryana (Gurugram)</option>
+                          <option value="Uttar Pradesh">Uttar Pradesh (Noida)</option>
+                          <option value="Other States">Other States / UT</option>
+                        </select>
+                        <div className="apple-select-chevron">
+                          <Icons.ChevronDown />
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="form-field">
-                      <label htmlFor="chk-pin" className="form-label">PIN Code *</label>
+                    <div className="apple-form-group">
+                      <label htmlFor="chk-pin" className="apple-form-label">PIN Code *</label>
                       <input
                         id="chk-pin"
                         type="text"
-                        className="form-input"
+                        className="apple-form-input"
                         placeholder="110001"
                         value={pincode}
                         onChange={(e) => setPincode(e.target.value)}
@@ -357,19 +363,19 @@ export function CheckoutPage({ onNavigate }) {
                     </div>
                   </div>
 
-                  <div className="courier-perk-banner">
-                    <div className="perk-icon-circle">
+                  <div className="apple-courier-banner">
+                    <div className="apple-courier-icon">
                       <Icons.Check />
                     </div>
-                    <div>
-                      <strong className="perk-title">Complimentary Insured White-Glove Delivery</strong>
-                      <p className="perk-desc">Dispatched in tamper-proof armored packaging with live GPS courier tracking.</p>
+                    <div className="apple-courier-text">
+                      <strong>Complimentary Insured White-Glove Delivery</strong>
+                      <p>Dispatched in tamper-proof armored presentation packaging with GPS tracking.</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-actions-row">
-                  <button type="submit" className="apple-submit-btn">
+                <div className="apple-form-actions">
+                  <button type="submit" className="apple-primary-submit-btn">
                     <span>Continue to Payment Method →</span>
                   </button>
                 </div>
@@ -379,12 +385,12 @@ export function CheckoutPage({ onNavigate }) {
             {/* ── STEP 2: PAYMENT METHOD ── */}
             {step === 2 && (
               <div className="apple-checkout-payment-step">
-                <div className="form-card">
-                  <h2 className="form-card-title">Select Acquisition Payment Mode</h2>
+                <div className="apple-form-card">
+                  <h2 className="apple-form-card-title">Select Acquisition Payment Mode</h2>
                   
-                  <div className="payment-options-grid">
+                  <div className="apple-payment-grid">
                     <label
-                      className={`payment-option-card ${paymentMethod === "card" ? "is-selected" : ""}`}
+                      className={`apple-payment-pill ${paymentMethod === "card" ? "is-selected" : ""}`}
                       onClick={() => setPaymentMethod("card")}
                     >
                       <input
@@ -393,17 +399,17 @@ export function CheckoutPage({ onNavigate }) {
                         checked={paymentMethod === "card"}
                         onChange={() => setPaymentMethod("card")}
                       />
-                      <div className="payment-opt-content">
-                        <div className="payment-opt-header">
+                      <div className="apple-payment-info">
+                        <div className="apple-payment-head">
                           <Icons.Card />
-                          <span className="payment-opt-title">Credit / Debit Card</span>
+                          <span className="apple-payment-title">Credit / Debit Card</span>
                         </div>
-                        <span className="payment-opt-sub">Visa, Mastercard, Amex, Diners</span>
+                        <span className="apple-payment-desc">Visa, Mastercard, Amex, Diners</span>
                       </div>
                     </label>
 
                     <label
-                      className={`payment-option-card ${paymentMethod === "upi" ? "is-selected" : ""}`}
+                      className={`apple-payment-pill ${paymentMethod === "upi" ? "is-selected" : ""}`}
                       onClick={() => setPaymentMethod("upi")}
                     >
                       <input
@@ -412,17 +418,17 @@ export function CheckoutPage({ onNavigate }) {
                         checked={paymentMethod === "upi"}
                         onChange={() => setPaymentMethod("upi")}
                       />
-                      <div className="payment-opt-content">
-                        <div className="payment-opt-header">
+                      <div className="apple-payment-info">
+                        <div className="apple-payment-head">
                           <Icons.Qr />
-                          <span className="payment-opt-title">Instant UPI / QR Code</span>
+                          <span className="apple-payment-title">Instant UPI / QR Code</span>
                         </div>
-                        <span className="payment-opt-sub">GPay, PhonePe, Paytm, BHIM</span>
+                        <span className="apple-payment-desc">GPay, PhonePe, Paytm, BHIM</span>
                       </div>
                     </label>
 
                     <label
-                      className={`payment-option-card ${paymentMethod === "cod" ? "is-selected" : ""}`}
+                      className={`apple-payment-pill ${paymentMethod === "cod" ? "is-selected" : ""}`}
                       onClick={() => setPaymentMethod("cod")}
                     >
                       <input
@@ -431,62 +437,62 @@ export function CheckoutPage({ onNavigate }) {
                         checked={paymentMethod === "cod"}
                         onChange={() => setPaymentMethod("cod")}
                       />
-                      <div className="payment-opt-content">
-                        <div className="payment-opt-header">
+                      <div className="apple-payment-info">
+                        <div className="apple-payment-head">
                           <Icons.Cash />
-                          <span className="payment-opt-title">White-Glove COD</span>
+                          <span className="apple-payment-title">White-Glove COD</span>
                         </div>
-                        <span className="payment-opt-sub">Pay on verification upon delivery</span>
+                        <span className="apple-payment-desc">Pay upon delivery verification</span>
                       </div>
                     </label>
                   </div>
 
                   {/* Card Simulator */}
                   {paymentMethod === "card" && (
-                    <div className="card-simulator-wrap">
-                      <div className="virtual-black-card">
-                        <div className="card-top-row">
-                          <span className="card-chip">■■</span>
-                          <span className="card-brand-name">HANBORO PRIVATE</span>
+                    <div className="apple-card-simulator">
+                      <div className="apple-black-card">
+                        <div className="apple-card-top">
+                          <span className="apple-card-chip">■■</span>
+                          <span className="apple-card-brand">HANBORO ATELIER</span>
                         </div>
-                        <div className="card-num-row">{cardNumber}</div>
-                        <div className="card-bottom-row">
+                        <div className="apple-card-number">{cardNumber}</div>
+                        <div className="apple-card-bottom">
                           <div>
-                            <span className="card-sub-label">CARDHOLDER</span>
-                            <span className="card-sub-val">{cardHolder || "VALUED COLLECTOR"}</span>
+                            <span className="card-lbl">CARDHOLDER</span>
+                            <span className="card-val">{cardHolder || "VALUED CLIENT"}</span>
                           </div>
                           <div>
-                            <span className="card-sub-label">EXPIRES</span>
-                            <span className="card-sub-val">{cardExpiry}</span>
+                            <span className="card-lbl">EXPIRES</span>
+                            <span className="card-val">{cardExpiry}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="card-inputs-row">
-                        <div className="form-field">
-                          <label className="form-label">Card Number</label>
+                      <div className="apple-card-inputs">
+                        <div className="apple-form-group">
+                          <label className="apple-form-label">Card Number</label>
                           <input
                             type="text"
-                            className="form-input"
+                            className="apple-form-input"
                             value={cardNumber}
                             onChange={(e) => setCardNumber(e.target.value)}
                           />
                         </div>
-                        <div className="form-field">
-                          <label className="form-label">Expiry (MM/YY)</label>
+                        <div className="apple-form-group">
+                          <label className="apple-form-label">Expiry (MM/YY)</label>
                           <input
                             type="text"
-                            className="form-input"
+                            className="apple-form-input"
                             value={cardExpiry}
                             onChange={(e) => setCardExpiry(e.target.value)}
                           />
                         </div>
-                        <div className="form-field">
-                          <label className="form-label">CVV</label>
+                        <div className="apple-form-group">
+                          <label className="apple-form-label">CVV</label>
                           <input
                             type="password"
                             maxLength="4"
-                            className="form-input"
+                            className="apple-form-input"
                             value={cardCvv}
                             onChange={(e) => setCardCvv(e.target.value)}
                           />
@@ -497,30 +503,28 @@ export function CheckoutPage({ onNavigate }) {
 
                   {/* UPI Simulator */}
                   {paymentMethod === "upi" && (
-                    <div className="upi-simulator-wrap">
-                      <div className="upi-qr-box">
-                        <div className="qr-visual">
-                          <div className="qr-inner-pattern" />
-                        </div>
-                        <div className="upi-details">
-                          <strong className="upi-id-text">hanboro.atelier@icici</strong>
-                          <span className="upi-hint">Scan with any UPI App or authorize direct request</span>
-                        </div>
+                    <div className="apple-upi-box">
+                      <div className="apple-upi-qr">
+                        <div className="apple-qr-grid" />
+                      </div>
+                      <div className="apple-upi-details">
+                        <span className="apple-upi-id">hanboro.atelier@icici</span>
+                        <span className="apple-upi-sub">Scan using any UPI App or authorize request</span>
                       </div>
                     </div>
                   )}
 
                   {/* COD info */}
                   {paymentMethod === "cod" && (
-                    <div className="cod-info-wrap">
-                      <p className="cod-desc">
-                        An executive horology courier will personally deliver the timepiece in an armored presentation case. Payment accepted via Card on Delivery, UPI, or Cash.
+                    <div className="apple-cod-box">
+                      <p>
+                        An executive horology courier will personally hand-deliver the timepiece in an armored presentation case. Card, UPI, and Cash accepted upon inspection.
                       </p>
                     </div>
                   )}
                 </div>
 
-                <div className="form-actions-row">
+                <div className="apple-form-actions">
                   <button
                     type="button"
                     className="apple-secondary-btn"
@@ -531,12 +535,12 @@ export function CheckoutPage({ onNavigate }) {
 
                   <button
                     type="button"
-                    className="apple-submit-btn"
+                    className="apple-primary-submit-btn"
                     disabled={isSubmitting}
                     onClick={handlePlaceOrder}
                   >
                     {isSubmitting ? (
-                      <span className="apple-spinner-text">Securing Allocation...</span>
+                      <span>Securing Allocation...</span>
                     ) : (
                       <span>Complete Acquisition (Pay ₹{finalTotalInr.toLocaleString("en-IN")}) →</span>
                     )}
@@ -555,7 +559,7 @@ export function CheckoutPage({ onNavigate }) {
                 <span className="confirm-tag">ACQUISITION COMPLETE</span>
                 <h1 className="confirm-title">Timepiece Allocation Confirmed</h1>
                 <p className="confirm-desc">
-                  Thank you, <strong>{completedOrder.customer_name}</strong>. Your horological masterpiece has been registered under your account in Supabase.
+                  Thank you, <strong>{completedOrder.customer_name}</strong>. Your horological allocation has been confirmed and saved to your account.
                 </p>
 
                 <div className="confirm-dossier-box">
@@ -617,56 +621,58 @@ export function CheckoutPage({ onNavigate }) {
           {/* ════ RIGHT COLUMN: ORDER SUMMARY DOSSIER (Sticky) ════ */}
           {step < 3 && (
             <aside className="apple-checkout-summary-col">
-              <div className="apple-summary-sticky-card">
-                <h3 className="summary-card-title">Allocation Summary</h3>
+              <div className="apple-summary-card-body">
+                <h3 className="apple-summary-title">Allocation Summary</h3>
 
-                <div className="summary-items-list">
+                <div className="apple-summary-list">
                   {activeCheckoutItems.map((item) => {
                     const priceNum = parseInt(item.product.price.toString().replace(/[^\d]/g, ""), 10) || 0;
                     const lineTotal = priceNum * item.quantity;
 
                     return (
-                      <div key={item.product.id} className="summary-item-row">
-                        <div className="summary-item-thumb-wrap">
-                          <img src={item.product.image} alt={item.product.name} className="summary-item-thumb" />
-                          <span className="summary-item-qty-tag">{item.quantity}</span>
+                      <div key={item.product.id} className="apple-summary-item-card">
+                        <div className="summary-thumb-wrap">
+                          <img src={item.product.image} alt={item.product.name} className="summary-thumb" />
+                          <span className="summary-qty-badge">{item.quantity}</span>
                         </div>
-                        <div className="summary-item-info">
+                        <div className="summary-item-meta">
                           <span className="summary-item-sku">{item.product.sku}</span>
-                          <strong className="summary-item-name">{item.product.name}</strong>
-                          <span className="summary-item-price">{item.product.price}</span>
+                          <span className="summary-item-name">{item.product.name}</span>
+                          <span className="summary-item-unit-price">{item.product.price}</span>
                         </div>
-                        <span className="summary-item-line-total">₹{lineTotal.toLocaleString("en-IN")}</span>
+                        <div className="summary-item-total">
+                          ₹{lineTotal.toLocaleString("en-IN")}
+                        </div>
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="summary-breakdown">
-                  <div className="breakdown-row">
-                    <span>Subtotal</span>
-                    <span>₹{subtotalInr.toLocaleString("en-IN")}</span>
+                <div className="apple-summary-totals">
+                  <div className="totals-row">
+                    <span className="totals-label">Subtotal</span>
+                    <span className="totals-val">₹{subtotalInr.toLocaleString("en-IN")}</span>
                   </div>
-                  <div className="breakdown-row">
-                    <span>Insured White-Glove Courier</span>
-                    <span className="text-green">FREE</span>
+                  <div className="totals-row">
+                    <span className="totals-label">Insured White-Glove Courier</span>
+                    <span className="totals-val text-green">FREE</span>
                   </div>
-                  <div className="breakdown-row">
-                    <span>Lacquered Presentation Box</span>
-                    <span className="text-green">FREE</span>
+                  <div className="totals-row">
+                    <span className="totals-label">Lacquered Presentation Box</span>
+                    <span className="totals-val text-green">FREE</span>
                   </div>
-                  <div className="breakdown-row breakdown-row--total">
-                    <span>Total Payable</span>
-                    <span className="breakdown-total-val">₹{finalTotalInr.toLocaleString("en-IN")}</span>
+                  <div className="totals-row totals-row--grand">
+                    <span className="grand-label">Total Payable</span>
+                    <span className="grand-val">₹{finalTotalInr.toLocaleString("en-IN")}</span>
                   </div>
                 </div>
 
-                <div className="summary-guarantees">
-                  <div className="guarantee-chip">
+                <div className="apple-summary-badges">
+                  <div className="badge-item">
                     <Icons.Shield />
                     <span>100% Genuine Certified</span>
                   </div>
-                  <div className="guarantee-chip">
+                  <div className="badge-item">
                     <Icons.Check />
                     <span>2-Year Atelier Guarantee</span>
                   </div>

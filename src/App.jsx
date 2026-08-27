@@ -2533,7 +2533,7 @@ function Website({ onRestart }) {
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       {/* ── LUXURY HEADER (Exact Match to Photo Reference) ── */}
-      {view === "stores" || view === "admin" || view === "profile" ? null : (
+      {view === "stores" || view === "admin" || view === "profile" || view === "checkout" ? null : (
         <header className="luxury-header" role="banner">
           {/* Left: Minimal Hamburger Menu */}
           <button
