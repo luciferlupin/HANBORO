@@ -253,7 +253,7 @@ export function ProfilePage({ onNavigate }) {
             onClick={() => setActiveTab("settings")}
           >
             <Icons.Shield />
-            <span>Membership & Privileges</span>
+            <span>Account Profile</span>
           </button>
         </nav>
 
@@ -499,66 +499,41 @@ export function ProfilePage({ onNavigate }) {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 3: MEMBERSHIP & PRIVILEGES (Clean Apple Cards)
+            TAB 3: ACCOUNT & PROFILE DETAILS
         ══════════════════════════════════════════════════════════════════════ */}
         {activeTab === "settings" && (
           <section className="apple-pane-card">
             <div className="apple-pane-header">
               <div>
-                <h2 className="apple-pane-title">Collector Dossier & Privileges</h2>
+                <h2 className="apple-pane-title">Account Profile</h2>
                 <p className="apple-pane-desc">
-                  Personal profile details and private vault privileges.
+                  Your registered client details and account credentials.
                 </p>
               </div>
             </div>
 
-            <div className="apple-grid-two">
-              {/* Card 1: Collector Details */}
-              <div className="apple-subcard">
-                <h3 className="apple-subcard-title">Collector Profile</h3>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Full Name</span>
-                  <span className="subcard-value">{user.fullName || "Valued Client"}</span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Registered Email</span>
-                  <span className="subcard-value">{user.email}</span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Contact Phone</span>
-                  <span className="subcard-value">{user.phone || "Not provided"}</span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Account Tier</span>
-                  <span className="subcard-value">{isAdmin ? "Atelier Executive" : "Private Vault Collector"}</span>
-                </div>
+            <div className="apple-profile-details-card">
+              <div className="apple-subcard-row">
+                <span className="subcard-label">Full Name</span>
+                <span className="subcard-value">{user.fullName || "Valued Client"}</span>
               </div>
-
-              {/* Card 2: Exclusive Privileges */}
-              <div className="apple-subcard">
-                <h3 className="apple-subcard-title">Atelier Privileges</h3>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Collector Reference</span>
-                  <span className="subcard-value subcard-value--mono">{collectorRef}</span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">White-Glove Delivery</span>
-                  <span className="subcard-value text-green">
-                    <Icons.Check /> Complimentary Courier
-                  </span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Horology Concierge</span>
-                  <span className="subcard-value text-green">
-                    <Icons.Check /> Available 24/7
-                  </span>
-                </div>
-                <div className="apple-subcard-row">
-                  <span className="subcard-label">Presentation Case</span>
-                  <span className="subcard-value text-green">
-                    <Icons.Check /> Hardwood Lacquered Box
-                  </span>
-                </div>
+              <div className="apple-subcard-row">
+                <span className="subcard-label">Registered Email</span>
+                <span className="subcard-value">{user.email}</span>
+              </div>
+              <div className="apple-subcard-row">
+                <span className="subcard-label">Contact Phone</span>
+                <span className="subcard-value">{user.phone || "Not provided"}</span>
+              </div>
+              <div className="apple-subcard-row">
+                <span className="subcard-label">Collector Reference</span>
+                <span className="subcard-value subcard-value--mono">{collectorRef}</span>
+              </div>
+              <div className="apple-subcard-row">
+                <span className="subcard-label">Account Status</span>
+                <span className="subcard-value text-green">
+                  <Icons.Check /> Active & Verified
+                </span>
               </div>
             </div>
 
