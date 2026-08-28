@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import Lenis from "lenis";
 import * as THREE from "three";
 import { ProductsView } from "./ProductsView";
 import { ProductDetailPage } from "./ProductDetailPage";
@@ -73,66 +74,171 @@ const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
 const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
 
-/* ── scroll-reveal hook ────────────────────────────────────────────────────── */
+/* ── scroll-reveal & dynamic text color motion hook ──────────────────────── */
 function useScrollReveal(enabled, view, selectedSkuId) {
   useEffect(() => {
     let io = null;
+    let sectionIo = null;
+
     const scanAndObserve = () => {
       const els = document.querySelectorAll("[data-reveal]");
-      if (!els.length) return;
+      const sections = document.querySelectorAll(
+        ".stage-section, .statement, .work, .footer, .watch-carousel-section, .hero-video-section"
+      );
 
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 900;
 
-      // Mark immediate in-viewport elements as visible
-      els.forEach(el => {
+      // Mark immediate in-viewport elements
+      els.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.top < viewportHeight + 250 && rect.bottom > -150) {
+        if (rect.top < viewportHeight + 180 && rect.bottom > -120) {
           el.classList.add("is-visible");
+        }
+      });
+
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < viewportHeight + 100 && rect.bottom > -50) {
+          sec.classList.add("section-in-view");
         }
       });
 
       if (io) io.disconnect();
       io = new IntersectionObserver(
-        (entries) => entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-visible");
-            io.unobserve(e.target);
-          }
-        }),
-        { threshold: 0.01, rootMargin: "200px" }
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-visible");
+            }
+          }),
+        { threshold: [0.02, 0.15, 0.4], rootMargin: "80px 0px -40px 0px" }
       );
 
-      els.forEach(el => {
-        if (!el.classList.contains("is-visible")) {
-          io.observe(el);
-        }
-      });
+      els.forEach((el) => io.observe(el));
+
+      if (sectionIo) sectionIo.disconnect();
+      sectionIo = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("section-in-view");
+            }
+          }),
+        { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      sections.forEach((sec) => sectionIo.observe(sec));
     };
 
-    // 1. Immediate scan
+    // Real-time scroll listener for dynamic text color reveal on scroll
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const vh = window.innerHeight || 900;
+          const textElements = document.querySelectorAll(
+            ".statement__line, .stage-title, .work h2, .hero-photo-title, .hero-photo-subtitle, .carousel-title, .editorial-card__title, .project h3, .stage-subtitle, .roulette-col-heading"
+          );
+
+          textElements.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            // Compute percentage how far the element is into the viewport
+            const visibleRatio = Math.min(Math.max((vh - rect.top) / (vh * 0.7), 0), 1);
+            el.style.setProperty("--text-scroll-progress", visibleRatio.toFixed(3));
+            if (visibleRatio > 0.12) {
+              el.classList.add("text-color-active");
+            } else {
+              el.classList.remove("text-color-active");
+            }
+          });
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    // Scan on mount and delayed frames
     scanAndObserve();
-
-    // 2. Next animation frame and delayed scans for smooth mounting
     const rId = requestAnimationFrame(scanAndObserve);
-    const t1 = setTimeout(scanAndObserve, 50);
-    const t2 = setTimeout(scanAndObserve, 250);
-    const t3 = setTimeout(scanAndObserve, 600);
+    const t1 = setTimeout(scanAndObserve, 60);
+    const t2 = setTimeout(scanAndObserve, 280);
+    const t3 = setTimeout(scanAndObserve, 700);
 
-    // 3. MutationObserver to handle dynamically mounted stage sections
     const mo = new MutationObserver(() => {
       scanAndObserve();
+      handleScroll();
     });
     mo.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rId);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
       mo.disconnect();
       if (io) io.disconnect();
+      if (sectionIo) sectionIo.disconnect();
     };
   }, [enabled, view, selectedSkuId]);
+}
+
+/* ── Apple-Grade Butter Smooth Scroll Hook (Lenis Physics Engine) ────────── */
+function useSmoothScroll() {
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-grade exponential deceleration
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      wheelMultiplier: 0.92,
+      touchMultiplier: 1.15,
+      infinite: false,
+    });
+
+    lenisRef.current = lenis;
+    window.__hanboro_lenis = lenis;
+
+    let rafId;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    // Global listener for smooth anchor navigation
+    const handleAnchorClick = (e) => {
+      const target = e.target.closest("a[href^='#']");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (href && href.length > 1) {
+        const el = document.querySelector(href);
+        if (el) {
+          e.preventDefault();
+          lenis.scrollTo(el, { offset: -64, duration: 1.1 });
+        }
+      }
+    };
+    document.addEventListener("click", handleAnchorClick, { passive: false });
+
+    return () => {
+      document.removeEventListener("click", handleAnchorClick);
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      window.__hanboro_lenis = null;
+    };
+  }, []);
+
+  return lenisRef;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -671,7 +777,7 @@ const PREDEFINED_ROULETTE_OUTCOMES = [
 
 function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
   const { user, rouletteService, showToast } = useStore();
-  const [selectedVariant, setSelectedVariant] = useState("emerald"); // 'emerald' | 'blue'
+  const [selectedVariant, setSelectedVariant] = useState("blue"); // Sapphire Blue edition
   const [isSpinning, setIsSpinning] = useState(false);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [ballRotation, setBallRotation] = useState(0);
@@ -936,8 +1042,8 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     };
   }, []);
 
-  const watchImgSrc = selectedVariant === "emerald" ? "/watch-emerald-roulette.webp" : "/watch-blue-roulette.webp";
-  const watchSku = selectedVariant === "emerald" ? "emerald-roulette" : "blue-roulette";
+  const watchImgSrc = "/watch-blue-roulette.webp";
+  const watchSku = "blue-roulette";
   const daysLeft = activeReward?.expiresAt
     ? Math.max(0, Math.ceil((new Date(activeReward.expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : 7;
@@ -973,35 +1079,16 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
               The customer spins the watch/roulette visually, but the discount should be limited to predefined outcomes.
             </p>
 
-            {/* Edition Switcher */}
+            {/* Edition Indicator */}
             <div className="roulette-variant-selector">
               <span className="variant-label">TIMEPIECE REFERENCE</span>
               <div className="variant-pills">
-                <button
-                  type="button"
-                  className={`variant-pill ${selectedVariant === "emerald" ? "is-active" : ""}`}
-                  onClick={() => setSelectedVariant("emerald")}
-                >
-                  <span className="variant-dot variant-dot--emerald" />
-                  <span>Emerald Green Gold (REF. HBR-7704-EM)</span>
-                </button>
-                <button
-                  type="button"
-                  className={`variant-pill ${selectedVariant === "blue" ? "is-active" : ""}`}
-                  onClick={() => setSelectedVariant("blue")}
-                >
+                <div className="variant-pill is-active">
                   <span className="variant-dot variant-dot--blue" />
                   <span>Sapphire Blue Steel (REF. HBR-7705-BL)</span>
-                </button>
+                </div>
               </div>
             </div>
-
-            <ul className="roulette-points">
-              <li><span className="roulette-bullet">•</span> 37 Enamel European Numbered Pockets</li>
-              <li><span className="roulette-bullet">•</span> Free-Spinning Micro Ceramic Ball-Bearing Track</li>
-              <li><span className="roulette-bullet">•</span> Double-Domed Curved 3D Sapphire Glass</li>
-              <li><span className="roulette-bullet">•</span> Ergonomic 316L Tonneau Architecture</li>
-            </ul>
 
             {/* Privilege Rules Summary */}
             <div className="privilege-rules-box">
@@ -1022,7 +1109,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
               {/* Real Watch Base Image */}
               <img
                 src={watchImgSrc}
-                alt={`HANBORO ${selectedVariant === "emerald" ? "Emerald Rose Gold" : "Sapphire Blue"} Casino Roulette Watch`}
+                alt="HANBORO Sapphire Blue Steel Casino Roulette Watch (REF. HBR-7705-BL)"
                 className="roulette-watch-img"
                 draggable={false}
               />
@@ -1430,7 +1517,8 @@ function HeroVideoSection({ onDiscover }) {
           className="hero-photo-cta"
           onClick={onDiscover}
         >
-          Discover Astonia
+          <span>Discover Astonia</span>
+          <span className="hero-cta-arrow" aria-hidden="true">↗</span>
         </button>
       </div>
 
@@ -3387,6 +3475,8 @@ function Website({ onRestart }) {
    Iris wipe transition effect & Store Provider
 ══════════════════════════════════════════════════════════════════════════════ */
 export function App() {
+  useSmoothScroll();
+
   const hash = typeof window !== "undefined" ? window.location.hash : "";
   const hasDirectRoute = Boolean(hash && hash !== "#top" && hash !== "#home");
   const [phase, setPhase]     = useState(hasDirectRoute ? "entered" : "idle");     // idle / exiting / entered
