@@ -17,32 +17,65 @@ const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
 const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
 
 /* ── scroll-reveal hook ────────────────────────────────────────────────────── */
-function useScrollReveal(enabled) {
+function useScrollReveal(enabled, view, selectedSkuId) {
   useEffect(() => {
     if (!enabled) return;
-    const els = document.querySelectorAll("[data-reveal]");
-    if (!els.length) return;
-    
-    // Mark immediate in-viewport elements
-    els.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        el.classList.add("is-visible");
-      }
-    });
 
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-visible");
-          io.unobserve(e.target);
+    let io = null;
+    const scanAndObserve = () => {
+      const els = document.querySelectorAll("[data-reveal]");
+      if (!els.length) return;
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 900;
+
+      // Mark immediate in-viewport elements
+      els.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < viewportHeight + 150 && rect.bottom > -100) {
+          el.classList.add("is-visible");
         }
-      }),
-      { threshold: 0.05, rootMargin: "100px" }
-    );
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, [enabled]);
+      });
+
+      if (io) io.disconnect();
+      io = new IntersectionObserver(
+        (entries) => entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        }),
+        { threshold: 0.02, rootMargin: "150px" }
+      );
+
+      els.forEach(el => {
+        if (!el.classList.contains("is-visible")) {
+          io.observe(el);
+        }
+      });
+    };
+
+    // 1. Immediate scan
+    scanAndObserve();
+
+    // 2. Next animation frame and delayed scans for smooth mounting
+    const rId = requestAnimationFrame(scanAndObserve);
+    const t1 = setTimeout(scanAndObserve, 80);
+    const t2 = setTimeout(scanAndObserve, 300);
+
+    // 3. MutationObserver to handle dynamically mounted stage sections
+    const mo = new MutationObserver(() => {
+      scanAndObserve();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      cancelAnimationFrame(rId);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      mo.disconnect();
+      if (io) io.disconnect();
+    };
+  }, [enabled, view, selectedSkuId]);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -552,23 +585,74 @@ const ROULETTE_NUMBERS = [
   16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
 ];
 
-const ROULETTE_REWARD_5PCT = {
-  label: "5% COLLECTOR PRIVILEGE",
-  code: "HANBORO5",
-  discount: "5% OFF",
-  desc: "5% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications"
-};
+const PREDEFINED_ROULETTE_OUTCOMES = [
+  {
+    code: "HANBORO10",
+    discount: "10% OFF",
+    label: "10% ATELIER WELCOME PRIVILEGE",
+    desc: "10% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications."
+  },
+  {
+    code: "VIP1000",
+    discount: "₹1,000 OFF",
+    label: "₹1,000 HOROLOGY COLLECTOR CREDIT",
+    desc: "₹1,000 Direct Collector Credit applied to your Hanboro timepiece acquisition."
+  },
+  {
+    code: "SWISS15",
+    discount: "15% OFF",
+    label: "15% PRIVATE COLLECTOR TIER",
+    desc: "15% Private Collector Tier privilege applied across your entire atelier acquisition."
+  },
+  {
+    code: "HANBORO5",
+    discount: "5% OFF",
+    label: "5% COLLECTOR PRIVILEGE",
+    desc: "5% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications."
+  }
+];
 
 function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
+  const { user, rouletteService, showToast } = useStore();
   const [selectedVariant, setSelectedVariant] = useState("emerald"); // 'emerald' | 'blue'
   const [isSpinning, setIsSpinning] = useState(false);
   const [wheelRotation, setWheelRotation] = useState(0);
   const [ballRotation, setBallRotation] = useState(0);
   const [activeReward, setActiveReward] = useState(null);
+  const [existingSpin, setExistingSpin] = useState(null);
   const [winningNumber, setWinningNumber] = useState(null);
   const [winningColor, setWinningColor] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [showIdentifierModal, setShowIdentifierModal] = useState(false);
+  const [identifierInput, setIdentifierInput] = useState("");
+  const [identifierError, setIdentifierError] = useState("");
   const animFrameRef = useRef(null);
+
+  // Check if current user or saved local session has already claimed their 1-time spin
+  useEffect(() => {
+    async function checkUserSpin() {
+      const idToCheck = user?.email || user?.phone || localStorage.getItem("hanboro_roulette_customer_id");
+      if (idToCheck && rouletteService) {
+        const found = await rouletteService.getSpinByIdentifier(idToCheck);
+        if (found) {
+          setExistingSpin(found);
+          setWinningNumber(found.winning_pocket);
+          setWinningColor(found.winning_color);
+          setActiveReward({
+            code: found.voucher_code,
+            discount: found.discount_tier,
+            label: found.discount_tier,
+            desc: `Exclusive 1-Time Collector Privilege linked to ${found.customer_email || found.customer_phone || found.customer_identifier}`,
+            expiresAt: found.expires_at,
+            isUsed: found.is_used,
+            usedOrderRef: found.used_order_ref,
+            linkedTo: found.customer_email || found.customer_phone || found.customer_identifier,
+          });
+        }
+      }
+    }
+    checkUserSpin();
+  }, [user, rouletteService]);
 
   // Synthesize realistic horological ticking and winning chime sound
   const playTickSound = (pitch = 900) => {
@@ -605,8 +689,59 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     } catch {}
   };
 
-  const spinRoulette = () => {
+  // Initiate Spin Button Handler
+  const handleInitiateSpin = () => {
     if (isSpinning) return;
+
+    if (existingSpin) {
+      if (existingSpin.is_used) {
+        showToast?.(`You have already redeemed your 1-time privilege voucher on Order #${existingSpin.used_order_ref || ""}.`);
+      } else {
+        const isExp = new Date(existingSpin.expires_at).getTime() < Date.now();
+        if (isExp) {
+          showToast?.("Your 1-time privilege voucher has expired after 7 days.");
+        } else {
+          showToast?.(`You already have an active privilege voucher: ${existingSpin.voucher_code}`);
+        }
+      }
+      return;
+    }
+
+    const currentId = user?.email || user?.phone || localStorage.getItem("hanboro_roulette_customer_id");
+    if (!currentId) {
+      setShowIdentifierModal(true);
+      return;
+    }
+
+    executeSpinWithIdentifier(currentId);
+  };
+
+  // Execute Spin with Verified Customer Identity (1-spin enforcement)
+  const executeSpinWithIdentifier = async (identifier) => {
+    if (isSpinning) return;
+
+    // Check database to ensure no duplicate spins for this identifier
+    if (rouletteService) {
+      const found = await rouletteService.getSpinByIdentifier(identifier);
+      if (found) {
+        setExistingSpin(found);
+        setWinningNumber(found.winning_pocket);
+        setWinningColor(found.winning_color);
+        setActiveReward({
+          code: found.voucher_code,
+          discount: found.discount_tier,
+          label: found.discount_tier,
+          desc: `Exclusive 1-Time Collector Privilege linked to ${found.customer_email || found.customer_phone || found.customer_identifier}`,
+          expiresAt: found.expires_at,
+          isUsed: found.is_used,
+          usedOrderRef: found.used_order_ref,
+          linkedTo: found.customer_email || found.customer_phone || found.customer_identifier,
+        });
+        showToast?.(`Retrieved your existing 1-time voucher: ${found.voucher_code}`);
+        return;
+      }
+    }
+
     setIsSpinning(true);
     setActiveReward(null);
     setCopied(false);
@@ -616,8 +751,17 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     const targetNumber = ROULETTE_NUMBERS[targetIndex];
     const color = targetNumber === 0 ? "green" : targetIndex % 2 === 0 ? "red" : "black";
 
-    // Always award 5% discount
-    const reward = ROULETTE_REWARD_5PCT;
+    // Random selection from predefined outcomes (capped at 15% maximum discount)
+    const outcomeIndex = Math.floor(Math.random() * PREDEFINED_ROULETTE_OUTCOMES.length);
+    const predefinedOutcome = PREDEFINED_ROULETTE_OUTCOMES[outcomeIndex];
+
+    const isEmail = identifier.includes("@");
+    const customerEmail = isEmail ? identifier : user?.email || "";
+    const customerPhone = !isEmail ? identifier : user?.phone || "";
+
+    // Generate unique single-use voucher code e.g. HNB-10-8K2F or HNB-15-X91A
+    const codeTag = predefinedOutcome.discount.replace(/[^\d]/g, "");
+    const uniqueVoucherCode = `HNB-${codeTag || "VIP"}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
 
     const extraWheelSpins = 5 + Math.floor(Math.random() * 3);
     const extraBallSpins = -(7 + Math.floor(Math.random() * 3));
@@ -632,7 +776,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     const startTime = performance.now();
     let lastTick = 0;
 
-    const animateSpin = (now) => {
+    const animateSpin = async (now) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
@@ -657,18 +801,76 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
         setIsSpinning(false);
         setWinningNumber(targetNumber);
         setWinningColor(color);
-        setActiveReward(reward);
+
+        // Record spin to Supabase internal audit log and generate 7-day single-use voucher
+        let savedSpinRecord = null;
+        if (rouletteService) {
+          try {
+            const spinRes = await rouletteService.recordSpin({
+              user_id: user?.id || null,
+              customer_email: customerEmail,
+              customer_phone: customerPhone,
+              winning_pocket: targetNumber,
+              winning_color: color,
+              discount_tier: predefinedOutcome.discount,
+              discount_type: predefinedOutcome.code.includes("1000") ? "flat" : "percent",
+              discount_value: predefinedOutcome.code.includes("1000") ? 1000 : parseInt(codeTag, 10) || 10,
+              voucher_code: uniqueVoucherCode,
+            });
+            savedSpinRecord = spinRes.spin;
+            setExistingSpin(savedSpinRecord);
+            localStorage.setItem("hanboro_roulette_customer_id", identifier);
+          } catch (recErr) {
+            console.warn("Could not record roulette spin:", recErr);
+          }
+        }
+
+        const nowTime = new Date();
+        const expiry = new Date(nowTime.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+        setActiveReward({
+          code: uniqueVoucherCode,
+          discount: predefinedOutcome.discount,
+          label: predefinedOutcome.label,
+          desc: predefinedOutcome.desc,
+          expiresAt: savedSpinRecord?.expires_at || expiry,
+          isUsed: false,
+          usedOrderRef: null,
+          linkedTo: identifier,
+        });
+
         playWinSound();
+        showToast?.(`Privilege Voucher ${uniqueVoucherCode} unlocked and linked to ${identifier}!`);
       }
     };
 
     animFrameRef.current = requestAnimationFrame(animateSpin);
   };
 
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+    const clean = identifierInput.trim();
+    if (!clean) {
+      setIdentifierError("Please enter a valid email or mobile number.");
+      return;
+    }
+    const isEmail = clean.includes("@") && clean.includes(".");
+    const isPhone = clean.replace(/[^\d+]/g, "").length >= 8;
+    if (!isEmail && !isPhone) {
+      setIdentifierError("Please enter a valid email address or mobile number.");
+      return;
+    }
+
+    setIdentifierError("");
+    setShowIdentifierModal(false);
+    executeSpinWithIdentifier(clean);
+  };
+
   const handleCopyCode = (code) => {
     navigator.clipboard?.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2600);
+    showToast?.(`Privilege Voucher ${code} copied to clipboard!`);
   };
 
   useEffect(() => {
@@ -678,7 +880,9 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
   }, []);
 
   const watchImgSrc = selectedVariant === "emerald" ? "/watch-emerald-roulette.webp" : "/watch-blue-roulette.webp";
-  const watchSku = selectedVariant === "emerald" ? "emerald-roulette" : "blue-roulette";
+  const daysLeft = activeReward?.expiresAt
+    ? Math.max(0, Math.ceil((new Date(activeReward.expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+    : 7;
 
   return (
     <section className="stage-section stage-section--direct stage-section--roulette" id="roulette" aria-labelledby="roulette-title">
@@ -689,10 +893,10 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
           <span className="stage-tag">MECHANICAL CASINO ROULETTE</span>
         </div>
         <h2 id="roulette-title" className="stage-title">
-          The Casino Roulette <em>ceremony.</em>
+          DISCOVER YOUR <em>PRIVILEGE.</em>
         </h2>
         <p className="stage-subtitle">
-          Experience the kinetic mechanical wonder of the Hanboro Roulette timepiece. Press the button below to spin the internal ball-bearing rotor and unlock your privileged collector discount.
+          Interact with the Casino Roulette and reveal your exclusive Hanboro offer.
         </p>
       </div>
 
@@ -708,7 +912,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
             </h3>
 
             <p className="roulette-col-desc">
-              Natural wrist acceleration activates a 37-pocket European roulette wheel mounted on ultra-low-friction ceramic micro ball-bearings beneath curved sapphire crystal.
+              The customer spins the watch/roulette visually, but the discount should be limited to predefined outcomes.
             </p>
 
             {/* Edition Switcher */}
@@ -740,6 +944,18 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
               <li><span className="roulette-bullet">•</span> Double-Domed Curved 3D Sapphire Glass</li>
               <li><span className="roulette-bullet">•</span> Ergonomic 316L Tonneau Architecture</li>
             </ul>
+
+            {/* Privilege Rules Summary */}
+            <div className="privilege-rules-box">
+              <div className="privilege-rules-title">Privilege Terms & Conditions</div>
+              <ul className="privilege-rules-list">
+                <li>• 1 unique voucher per user (linked to email/phone)</li>
+                <li>• Voucher expires in 7 days • Single-use only</li>
+                <li>• No stacking with other coupons • No cash alternative</li>
+                <li>• Maximum discount strictly capped at 15%</li>
+                <li>• Cancelled/returned orders don't generate replacement spin</li>
+              </ul>
+            </div>
           </div>
 
           {/* Center Column: Interactive Roulette Watch Dial Stage */}
@@ -857,24 +1073,29 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
               <button
                 type="button"
                 className={`roulette-spin-btn ${isSpinning ? "is-spinning-active" : ""}`}
-                onClick={spinRoulette}
-                disabled={isSpinning}
+                onClick={handleInitiateSpin}
+                disabled={isSpinning || Boolean(existingSpin)}
               >
                 <svg className="spin-btn-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
                 </svg>
                 <span className="spin-btn-label">
-                  {isSpinning ? "Spinning Rotor at 28,800 BPH..." : "Spin Casino Roulette"}
+                  {isSpinning
+                    ? "Spinning Rotor at 28,800 BPH..."
+                    : existingSpin
+                    ? "1-Time Spin Claimed"
+                    : "Spin Casino Roulette"}
                 </span>
               </button>
 
               <div className="roulette-spin-subtext">
-                Natural wrist kinetic action • Guaranteed collector voucher allocation
+                {existingSpin
+                  ? `Voucher assigned to ${existingSpin.customer_email || existingSpin.customer_phone || existingSpin.customer_identifier}`
+                  : "1 spin per customer • Linked to email/phone • Expires in 7 days"}
               </div>
             </div>
           </div>
 
-          {/* Right Column: Live Outcome / Discount Reward Card */}
           {/* Right Column: Always-Visible Live Discount Reward Card */}
           <div className="roulette-outcome-col">
             <span className="roulette-col-tag">COLLECTOR PRIVILEGE</span>
@@ -883,28 +1104,40 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
               {activeReward ? (
                 <div className="reward-unlocked-content">
                   <div className="reward-card-badge">
-                    <span>POCKET #{winningNumber} • {winningColor?.toUpperCase()}</span>
+                    <span>
+                      {winningNumber !== null ? `POCKET #${winningNumber} • ${winningColor?.toUpperCase()}` : "EXCLUSIVE PRIVILEGE"}
+                    </span>
                   </div>
 
-                  <h4 className="reward-card-title">5% OFF</h4>
-                  <p className="reward-card-label">5% COLLECTOR PRIVILEGE</p>
+                  <h4 className="reward-card-title">{activeReward.discount}</h4>
+                  <p className="reward-card-label">{activeReward.label}</p>
                   <p className="reward-card-desc">
-                    5% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications.
+                    {activeReward.desc}
                   </p>
 
                   {/* Promo Code Box with 1-Click Copy */}
                   <div className="reward-code-box">
-                    <span className="code-tag">VOUCHER CODE</span>
+                    <span className="code-tag">UNIQUE VOUCHER CODE</span>
                     <div className="code-row">
-                      <span className="code-text">HANBORO5</span>
+                      <span className="code-text">{activeReward.code}</span>
                       <button
                         type="button"
                         className="copy-code-btn"
-                        onClick={() => handleCopyCode("HANBORO5")}
+                        onClick={() => handleCopyCode(activeReward.code)}
                       >
                         {copied ? "COPIED ✓" : "COPY CODE"}
                       </button>
                     </div>
+                  </div>
+
+                  {/* Validity and Status Details */}
+                  <div className="reward-validity-bar">
+                    <span className="validity-chip">
+                      ⏳ {activeReward.isUsed ? "Redeemed" : `Valid for ${daysLeft} days`}
+                    </span>
+                    <span className="validity-chip validity-chip--secondary">
+                      🔒 Single-use only
+                    </span>
                   </div>
 
                   <div className="reward-action-buttons">
@@ -915,13 +1148,6 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
                     >
                       <span>Claim & Shop All Timepieces</span>
                       <span aria-hidden="true">↗</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="spin-again-btn"
-                      onClick={spinRoulette}
-                    >
-                      Spin Again ↻
                     </button>
                   </div>
                 </div>
@@ -934,25 +1160,25 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
                   </div>
                   <h4 className="reward-spinning-title">Spinning Kinetic Rotor...</h4>
                   <p className="reward-spinning-desc">
-                    Calibre HB-RL07 rotating at 28,800 bph. Determining lucky winning pocket and discount voucher.
+                    Calibre HB-RL07 rotating at 28,800 bph. Determining winning pocket and generating your unique 7-day privilege voucher...
                   </p>
                 </div>
               ) : (
                 <div className="reward-locked-content">
                   <div className="reward-card-badge reward-card-badge--preview">
-                    <span>GUARANTEED • 5% OFF</span>
+                    <span>EXCLUSIVE OFFER</span>
                   </div>
 
-                  <h4 className="reward-card-title">5% OFF</h4>
-                  <p className="reward-card-label">COLLECTOR PRIVILEGE</p>
+                  <h4 className="reward-card-title">EXCLUSIVE PRIVILEGE</h4>
+                  <p className="reward-card-label">COLLECTOR TIERS (MAX 15% OFF)</p>
                   <p className="reward-card-desc">
-                    Spin the mechanical roulette rotor on the left to activate your official Hanboro 5% collector discount code.
+                    Spin the mechanical roulette rotor to reveal your exclusive Hanboro offer. 1 unique voucher per user, valid for 7 days.
                   </p>
 
                   <div className="reward-code-box reward-code-box--locked">
                     <span className="code-tag">VOUCHER CODE</span>
                     <div className="code-row">
-                      <span className="code-text code-text--locked">HANBORO5</span>
+                      <span className="code-text code-text--locked">HNB-PRIVILEGE</span>
                       <span className="code-locked-badge">SPIN TO ACTIVATE</span>
                     </div>
                   </div>
@@ -960,7 +1186,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
                   <button
                     type="button"
                     className="reward-idle-trigger"
-                    onClick={spinRoulette}
+                    onClick={handleInitiateSpin}
                   >
                     Spin Roulette to Unlock ↘
                   </button>
@@ -970,6 +1196,53 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
           </div>
 
         </div>
+
+        {/* ── CUSTOMER VERIFICATION MODAL FOR 1-SPIN ENFORCEMENT ── */}
+        {showIdentifierModal && (
+          <div className="roulette-modal-overlay" onClick={() => setShowIdentifierModal(false)}>
+            <div className="roulette-modal-card" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="roulette-modal-close"
+                onClick={() => setShowIdentifierModal(false)}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+
+              <div className="roulette-modal-badge">1-TIME CUSTOMER PRIVILEGE</div>
+              <h3 className="roulette-modal-title">Verify Your Collector Identity</h3>
+              <p className="roulette-modal-desc">
+                Each customer is entitled to <strong>one exclusive Roulette spin</strong>. Enter your email or mobile number to link your unique 7-day privilege voucher.
+              </p>
+
+              <form onSubmit={handleModalSubmit} className="roulette-modal-form">
+                <input
+                  type="text"
+                  placeholder="Email Address or Mobile Number"
+                  value={identifierInput}
+                  onChange={(e) => {
+                    setIdentifierInput(e.target.value);
+                    setIdentifierError("");
+                  }}
+                  className={`roulette-modal-input ${identifierError ? "is-error" : ""}`}
+                  autoFocus
+                />
+                {identifierError && (
+                  <div className="roulette-modal-error">{identifierError}</div>
+                )}
+
+                <button type="submit" className="roulette-modal-submit">
+                  Verify & Spin Roulette →
+                </button>
+              </form>
+
+              <div className="roulette-modal-footer">
+                <span>🔒 Single-use voucher • Max 15% discount • Expires in 7 days</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Technical Movement Specifications Strip */}
         <div className="movement-strip" data-reveal data-reveal-delay="2">
@@ -1265,25 +1538,18 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                 className="watch-float-item"
                 key={`a-${watch.id}-${index}`}
                 onClick={() => onSelectProduct && onSelectProduct(watch.id)}
-                title={`Inspect ${watch.name}`}
+                aria-label={`Select ${watch.name}`}
                 role="button"
                 tabIndex={0}
               >
-                <div className="watch-float-halo" aria-hidden="true" />
                 <img
                   src={watch.img}
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
                   decoding="async"
-                  width="250"
-                  height="370"
                   draggable={false}
                 />
-                <div className="watch-float-badge">
-                  <span className="watch-float-name">{watch.name}</span>
-                  <span className="watch-float-cta">Inspect Model <span aria-hidden="true">→</span></span>
-                </div>
               </div>
             ))}
           </div>
@@ -1293,25 +1559,18 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
                 className="watch-float-item"
                 key={`b-${watch.id}-${index}`}
                 onClick={() => onSelectProduct && onSelectProduct(watch.id)}
-                title={`Inspect ${watch.name}`}
+                aria-label={`Select ${watch.name}`}
                 role="button"
                 tabIndex={0}
               >
-                <div className="watch-float-halo" aria-hidden="true" />
                 <img
                   src={watch.img}
                   alt={watch.name}
                   className="watch-float-img"
                   loading="lazy"
                   decoding="async"
-                  width="250"
-                  height="370"
                   draggable={false}
                 />
-                <div className="watch-float-badge">
-                  <span className="watch-float-name">{watch.name}</span>
-                  <span className="watch-float-cta">Inspect Model <span aria-hidden="true">→</span></span>
-                </div>
               </div>
             ))}
           </div>
@@ -2350,8 +2609,8 @@ function FooterLiveClock() {
     <div className="footer-live-clock-wrap" ref={containerRef} aria-label="Real-time precision outline clock">
       <svg className="footer-clock-svg" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          <filter id="redSecGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="blur" />
+          <filter id="redSecGlow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -2359,22 +2618,22 @@ function FooterLiveClock() {
           </filter>
         </defs>
 
-        {/* Clean Horology Outline Bezel & Chapter Track */}
+        {/* Clean Horology Outline Bezel & Chapter Tracks */}
         <circle
           cx="50"
           cy="50"
           r="47.5"
           fill="none"
-          stroke="rgba(245, 242, 237, 0.25)"
-          strokeWidth="1.2"
+          stroke="rgba(245, 242, 237, 0.3)"
+          strokeWidth="1.3"
         />
         <circle
           cx="50"
           cy="50"
           r="42"
           fill="none"
-          stroke="rgba(245, 242, 237, 0.08)"
-          strokeWidth="0.6"
+          stroke="rgba(245, 242, 237, 0.12)"
+          strokeWidth="0.7"
           strokeDasharray="1 2.5"
         />
         <circle
@@ -2382,8 +2641,8 @@ function FooterLiveClock() {
           cy="50"
           r="28"
           fill="none"
-          stroke="rgba(250, 45, 29, 0.18)"
-          strokeWidth="0.5"
+          stroke="rgba(250, 45, 29, 0.22)"
+          strokeWidth="0.6"
         />
 
         {/* 60 Precision Dial Ticks */}
@@ -2398,45 +2657,109 @@ function FooterLiveClock() {
               t.isCardinal
                 ? "#fa2d1d"
                 : t.isHour
-                ? "rgba(245, 242, 237, 0.85)"
-                : "rgba(245, 242, 237, 0.25)"
+                ? "rgba(245, 242, 237, 0.9)"
+                : "rgba(245, 242, 237, 0.3)"
             }
-            strokeWidth={t.isCardinal ? 1.4 : t.isHour ? 1.1 : 0.6}
+            strokeWidth={t.isCardinal ? 1.6 : t.isHour ? 1.2 : 0.65}
             strokeLinecap="round"
           />
         ))}
 
         {/* Cardinal Numerals: 12, 3, 6, 9 */}
-        <text x="50" y="21" textAnchor="middle" fill="rgba(245, 242, 237, 0.9)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace" letterSpacing="0.02em">12</text>
-        <text x="81" y="52" textAnchor="middle" fill="rgba(245, 242, 237, 0.9)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">3</text>
-        <text x="50" y="82.5" textAnchor="middle" fill="rgba(245, 242, 237, 0.9)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">6</text>
-        <text x="19" y="52" textAnchor="middle" fill="rgba(245, 242, 237, 0.9)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">9</text>
+        <text x="50" y="20.5" textAnchor="middle" fill="rgba(245, 242, 237, 0.92)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace" letterSpacing="0.02em">12</text>
+        <text x="81.5" y="52" textAnchor="middle" fill="rgba(245, 242, 237, 0.92)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">3</text>
+        <text x="50" y="83" textAnchor="middle" fill="rgba(245, 242, 237, 0.92)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">6</text>
+        <text x="18.5" y="52" textAnchor="middle" fill="rgba(245, 242, 237, 0.92)" fontSize="5.5" fontWeight="700" fontFamily="'JetBrains Mono', monospace">9</text>
 
         {/* Subtle Hanboro Wordmark */}
-        <text x="50" y="36" textAnchor="middle" fill="rgba(245, 242, 237, 0.45)" fontSize="3.2" fontWeight="700" letterSpacing="0.16em" fontFamily="'Inter', sans-serif">HANBORO</text>
-        <text x="50" y="65" textAnchor="middle" fill="rgba(250, 45, 29, 0.7)" fontSize="2.6" fontWeight="600" letterSpacing="0.12em" fontFamily="'JetBrains Mono', monospace">AUTOMATIC</text>
+        <text x="50" y="34.5" textAnchor="middle" fill="rgba(245, 242, 237, 0.55)" fontSize="3.3" fontWeight="800" letterSpacing="0.18em" fontFamily="'Inter', sans-serif">HANBORO</text>
+        <text x="50" y="65.5" textAnchor="middle" fill="rgba(250, 45, 29, 0.75)" fontSize="2.6" fontWeight="600" letterSpacing="0.14em" fontFamily="'JetBrains Mono', monospace">AUTOMATIC</text>
 
-        {/* Hour Hand (Baton Sword) */}
+        {/* Central Hands Pivot Underlay */}
+        <circle cx="50" cy="50" r="3.2" fill="#0d0d10" stroke="rgba(245, 242, 237, 0.35)" strokeWidth="0.8" />
+
+        {/* Hour Hand (Luxury Sword Baton) */}
         <g ref={hourHandRef}>
-          <line x1="50" y1="54" x2="50" y2="28" stroke="#f5f2ed" strokeWidth="2.2" strokeLinecap="round" />
-          <line x1="50" y1="52" x2="50" y2="30" stroke="#08080a" strokeWidth="0.8" strokeLinecap="round" />
+          <line x1="50" y1="52" x2="50" y2="27" stroke="rgba(0,0,0,0.8)" strokeWidth="3.4" strokeLinecap="round" />
+          <line x1="50" y1="52" x2="50" y2="27" stroke="#f5f2ed" strokeWidth="2.4" strokeLinecap="round" />
+          <line x1="50" y1="50" x2="50" y2="30" stroke="#08080a" strokeWidth="0.8" strokeLinecap="round" />
         </g>
 
-        {/* Minute Hand (Tapered Baton) */}
+        {/* Minute Hand (Tapered Precision Baton) */}
         <g ref={minHandRef}>
-          <line x1="50" y1="56" x2="50" y2="18" stroke="#f5f2ed" strokeWidth="1.6" strokeLinecap="round" />
-          <line x1="50" y1="54" x2="50" y2="20" stroke="#fa2d1d" strokeWidth="0.6" strokeLinecap="round" />
+          <line x1="50" y1="54" x2="50" y2="16" stroke="rgba(0,0,0,0.8)" strokeWidth="2.6" strokeLinecap="round" />
+          <line x1="50" y1="54" x2="50" y2="16" stroke="#f5f2ed" strokeWidth="1.8" strokeLinecap="round" />
+          <line x1="50" y1="52" x2="50" y2="18" stroke="#fa2d1d" strokeWidth="0.7" strokeLinecap="round" />
         </g>
 
-        {/* Second Hand (Signal Red Sweep with counterweight) */}
+        {/* Second Hand (Signature Hanboro Signal-Red Needle & Open Ring Counterweight) */}
         <g ref={secHandRef}>
-          <line x1="50" y1="60" x2="50" y2="12" stroke="#fa2d1d" strokeWidth="0.85" strokeLinecap="round" filter="url(#redSecGlow)" />
-          <circle cx="50" cy="58" r="1.4" fill="#fa2d1d" />
+          {/* Subtle Red Energy Aura */}
+          <line
+            x1="50"
+            y1="64"
+            x2="50"
+            y2="7"
+            stroke="#fa2d1d"
+            strokeWidth="2.6"
+            strokeLinecap="round"
+            opacity="0.32"
+            filter="url(#redSecGlow)"
+          />
+          {/* Main Needle Shaft (Extended to outer track at y=7) */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="7"
+            stroke="#fa2d1d"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          {/* Reinforced Hand Center Body */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="24"
+            stroke="#fa2d1d"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+          />
+          {/* Opposing Counter-Balance Tail */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="61"
+            stroke="#fa2d1d"
+            strokeWidth="1.3"
+            strokeLinecap="round"
+          />
+          {/* Precision Open Counter-Balance Ring */}
+          <circle
+            cx="50"
+            cy="65"
+            r="3.2"
+            fill="none"
+            stroke="#fa2d1d"
+            strokeWidth="1.2"
+          />
+          {/* Tail Extension Tip */}
+          <line
+            x1="50"
+            y1="68.2"
+            x2="50"
+            y2="71"
+            stroke="#fa2d1d"
+            strokeWidth="1.0"
+            strokeLinecap="round"
+          />
+          {/* Center Hub Boss */}
+          <circle cx="50" cy="50" r="2.5" fill="#fa2d1d" />
+          <circle cx="50" cy="50" r="1.0" fill="#08080a" />
+          <circle cx="49.5" cy="49.5" r="0.45" fill="#ffffff" opacity="0.85" />
         </g>
-
-        {/* Center Cap & Jewel Pivot */}
-        <circle cx="50" cy="50" r="2.6" fill="#f5f2ed" stroke="#08080a" strokeWidth="0.6" />
-        <circle cx="50" cy="50" r="1.2" fill="#fa2d1d" />
       </svg>
     </div>
   );
@@ -2463,7 +2786,7 @@ function Website({ onRestart }) {
     return null;
   });
 
-  useScrollReveal(visible);
+  useScrollReveal(visible, view, selectedSkuId);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 120);
@@ -2492,6 +2815,7 @@ function Website({ onRestart }) {
         setSelectedSkuId(null);
       } else if (hash === "#home" || hash === "#top" || !hash || hash.startsWith("#collection") || hash.startsWith("#lookbook") || hash.startsWith("#packaging") || hash.startsWith("#contact")) {
         setView("home");
+        setSelectedSkuId(null);
       }
     };
     window.addEventListener("hashchange", handleHashChange);
@@ -2513,13 +2837,20 @@ function Website({ onRestart }) {
     if (hashTarget) {
       window.location.hash = hashTarget;
       if (newView === "home") {
+        window.scrollTo({ top: 0, behavior: "instant" });
         setTimeout(() => {
-          const el = document.querySelector(hashTarget);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }, 80);
+          if (hashTarget !== "#top" && hashTarget !== "#home") {
+            const el = document.querySelector(hashTarget);
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }, 50);
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -2631,7 +2962,14 @@ function Website({ onRestart }) {
         aria-hidden={!menuOpen}
       >
         <div className="luxury-drawer__head">
-          <HanboroLogo theme="light" size={22} />
+          <button
+            type="button"
+            onClick={() => navigateTo("home", "#top")}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+            aria-label="Hanboro Home"
+          >
+            <HanboroLogo theme="light" size={22} />
+          </button>
           <button
             type="button"
             className="luxury-drawer__close"
@@ -2833,31 +3171,98 @@ function Website({ onRestart }) {
         onShopAll={() => navigateTo("products", "#products")}
       />
 
+      {/* ── STATEMENT: HAUTE HORLOGERIE PHILOSOPHY ── */}
       <section className="statement" id="approach">
-        <p className="eyebrow" data-reveal>The right moment, designed</p>
-        <p className="statement__line" data-reveal data-reveal-delay="1">We build the pause that gets noticed, the signal that creates momentum, and the system that keeps it moving.</p>
+        <p className="eyebrow" data-reveal>HAUTE HORLOGERIE PHILOSOPHY</p>
+        <p className="statement__line" data-reveal data-reveal-delay="1">
+          Every Hanboro timepiece is an encounter with mechanical mastery — sculpted from forged carbon, high-grade titanium, and sapphire crystal to make time an art form.
+        </p>
       </section>
 
+      {/* ── ATELIER PILLARS & DIRECT EXPLORATION ── */}
       <section className="work" id="work" aria-labelledby="work-title">
         <div className="work__heading" data-reveal>
-          <p className="eyebrow">Selected momentum</p>
-          <h2 id="work-title">Ideas made<br/>to <em>move.</em></h2>
+          <p className="eyebrow">HAUTE HORLOGERIE ATELIER</p>
+          <h2 id="work-title">Artistry in<br/>every <em>calibre.</em></h2>
+          <p className="work__subdesc">
+            Explore the signature complications, kinetic innovations, and material engineering that define the Hanboro collection.
+          </p>
+          <button
+            type="button"
+            className="view-all-skus-cta"
+            style={{ marginTop: "24px" }}
+            onClick={() => navigateTo("products", "#products")}
+          >
+            <span>Explore All 81 Complications</span>
+            <span aria-hidden="true">↗</span>
+          </button>
         </div>
+
         <div className="work__list">
-          <article className="project project--red" data-reveal data-reveal-delay="1">
+          {/* Card 01: Tourbillons & Dual Balance */}
+          <article
+            className="project project--red"
+            data-reveal
+            data-reveal-delay="1"
+            onClick={() => navigateTo("products", "#products")}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: "pointer" }}
+          >
             <span>01</span>
-            <div><p>BRAND DIRECTION</p><h3>New frequency</h3></div>
-            <a href="#contact" aria-label="Discuss New frequency">↗</a>
+            <div>
+              <p>AVANT-GARDE COMPLICATIONS</p>
+              <h3>Twin-Turbine & Tourbillon Calibres</h3>
+              <div className="project__detail">
+                Synchronized dual-balance cantilever escapements operating at 28,800 BPH with 3D open-worked titanium bridges.
+              </div>
+            </div>
+            <span className="project-arrow" aria-label="Explore Dual Balance">↗</span>
           </article>
-          <article className="project project--white" data-reveal data-reveal-delay="2">
+
+          {/* Card 02: Casino & Clover Complications */}
+          <article
+            className="project project--white"
+            data-reveal
+            data-reveal-delay="2"
+            onClick={() => {
+              const el = document.getElementById("roulette");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: "pointer" }}
+          >
             <span>02</span>
-            <div><p>DIGITAL EXPERIENCE</p><h3>Better, faster</h3></div>
-            <a href="#contact" aria-label="Discuss Better, faster">↗</a>
+            <div>
+              <p>KINETIC MECHANISMS</p>
+              <h3>Roulette & Clover Day/Night Dials</h3>
+              <div className="project__detail">
+                Patented 37-pocket micro-bearing rotors and luminescent Swiss Super-LumiNova dual daylight/night transitions.
+              </div>
+            </div>
+            <span className="project-arrow" aria-label="Explore Roulette Mechanism">↘</span>
           </article>
-          <article className="project project--black" data-reveal data-reveal-delay="3">
+
+          {/* Card 03: Materials & Warranty */}
+          <article
+            className="project project--black"
+            data-reveal
+            data-reveal-delay="3"
+            onClick={() => navigateTo("stores", "#stores")}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: "pointer" }}
+          >
             <span>03</span>
-            <div><p>CAMPAIGN SYSTEM</p><h3>All eyes forward</h3></div>
-            <a href="#contact" aria-label="Discuss All eyes forward">↗</a>
+            <div>
+              <p>PRECISION & PRIVILEGE</p>
+              <h3>Damascus Carbon & Boutique Warranty</h3>
+              <div className="project__detail">
+                High-density forged carbon, double-domed sapphire crystal, 100M water resistance, and 2-Year International Atelier Warranty.
+              </div>
+            </div>
+            <span className="project-arrow" aria-label="Visit Boutique Network">↗</span>
           </article>
         </div>
       </section>

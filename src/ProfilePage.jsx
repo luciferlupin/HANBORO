@@ -177,10 +177,16 @@ export function ProfilePage({ onNavigate }) {
             <span>Timepieces</span>
           </button>
 
-          <div className="apple-topbar-brand">
+          <button
+            type="button"
+            className="apple-topbar-brand"
+            onClick={() => onNavigate && onNavigate("home", "#top")}
+            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", padding: 0 }}
+            aria-label="Hanboro Home"
+          >
             <HanboroLogo theme="light" size={22} />
             <span className="apple-topbar-badge">ATELIER VAULT</span>
-          </div>
+          </button>
 
           <div className="apple-topbar-actions">
             {isAdmin && (

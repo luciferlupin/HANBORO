@@ -156,7 +156,14 @@ export function CheckoutPage({ onNavigate }) {
               <Icons.ArrowLeft />
               <span>Timepieces</span>
             </button>
-            <HanboroLogo theme="light" size={22} />
+            <button
+              type="button"
+              onClick={() => onNavigate && onNavigate("home", "#top")}
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+              aria-label="Hanboro Home"
+            >
+              <HanboroLogo theme="light" size={22} />
+            </button>
             <div className="apple-secure-badge">
               <Icons.Lock />
               <span>256-Bit Encrypted</span>
@@ -206,10 +213,16 @@ export function CheckoutPage({ onNavigate }) {
             <span>{step === 2 ? "Shipping Details" : "Timepieces"}</span>
           </button>
 
-          <div className="apple-checkout-brand">
+          <button
+            type="button"
+            className="apple-checkout-brand"
+            onClick={() => onNavigate && onNavigate("home", "#top")}
+            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", padding: 0 }}
+            aria-label="Hanboro Home"
+          >
             <HanboroLogo theme="light" size={22} />
             <span className="apple-checkout-brand-sub">CHECKOUT</span>
-          </div>
+          </button>
 
           <div className="apple-secure-badge">
             <Icons.Lock />

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { ordersService, inventoryService, cartService, SUPABASE_URL } from "./supabaseClient";
+import { ordersService, inventoryService, cartService, rouletteService, SUPABASE_URL } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
 
 export function AdminDashboard({ onNavigateHome }) {
   const { user, logout } = useStore();
-  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "live-carts" | "orders" | "inventory" | "customers" | "discounts" | "supabase"
+  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "live-carts" | "orders" | "inventory" | "customers" | "discounts" | "roulette" | "supabase"
 
   // Live Orders State
   const [orders, setOrders] = useState([]);
@@ -24,6 +24,11 @@ export function AdminDashboard({ onNavigateHome }) {
   // Live Inventory State
   const [inventory, setInventory] = useState([]);
   const [inventorySearch, setInventorySearch] = useState("");
+
+  // Roulette Privilege Audit State
+  const [rouletteSpins, setRouletteSpins] = useState([]);
+  const [rouletteSearch, setRouletteSearch] = useState("");
+  const [rouletteFilter, setRouletteFilter] = useState("ALL"); // "ALL" | "ACTIVE" | "USED" | "EXPIRED"
 
   // Promo Codes State
   const [customPromos, setCustomPromos] = useState({});
@@ -48,12 +53,14 @@ export function AdminDashboard({ onNavigateHome }) {
     setLoadingCarts(true);
 
     try {
-      const [loadedOrders, loadedCarts] = await Promise.all([
+      const [loadedOrders, loadedCarts, loadedSpins] = await Promise.all([
         ordersService.fetchOrders(),
         cartService.fetchAllLiveCarts(),
+        rouletteService.getSpins(),
       ]);
       setOrders(loadedOrders || []);
       setLiveCarts(loadedCarts || []);
+      setRouletteSpins(loadedSpins || []);
       setInventory(inventoryService.getInventory() || []);
     } catch (err) {
       console.warn("Admin data load warning:", err);
@@ -245,6 +252,45 @@ export function AdminDashboard({ onNavigateHome }) {
     showAdminToast("Orders CSV exported successfully");
   };
 
+  // Roulette filtered data and KPI metrics
+  const filteredSpins = useMemo(() => {
+    return rouletteSpins.filter((s) => {
+      const q = rouletteSearch.toLowerCase();
+      const matchesQuery =
+        !q ||
+        s.customer_identifier?.toLowerCase().includes(q) ||
+        s.customer_email?.toLowerCase().includes(q) ||
+        s.customer_phone?.toLowerCase().includes(q) ||
+        s.voucher_code?.toLowerCase().includes(q) ||
+        s.used_order_ref?.toLowerCase().includes(q);
+
+      const isExpired = new Date(s.expires_at).getTime() < Date.now();
+      const isUsed = s.is_used;
+      const isActive = !isUsed && !isExpired;
+
+      if (rouletteFilter === "ACTIVE") return matchesQuery && isActive;
+      if (rouletteFilter === "USED") return matchesQuery && isUsed;
+      if (rouletteFilter === "EXPIRED") return matchesQuery && isExpired && !isUsed;
+      return matchesQuery;
+    });
+  }, [rouletteSpins, rouletteSearch, rouletteFilter]);
+
+  const rouletteKpis = useMemo(() => {
+    const total = rouletteSpins.length;
+    let active = 0;
+    let redeemed = 0;
+    let expired = 0;
+
+    rouletteSpins.forEach((s) => {
+      const isExp = new Date(s.expires_at).getTime() < Date.now();
+      if (s.is_used) redeemed++;
+      else if (isExp) expired++;
+      else active++;
+    });
+
+    return { total, active, redeemed, expired };
+  }, [rouletteSpins]);
+
   const handleCopySql = () => {
     const sql = `-- 1. Create profiles table
 CREATE TABLE IF NOT EXISTS public.profiles (
@@ -316,10 +362,16 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
       {/* ── TOP EXECUTIVE ADMIN BAR ── */}
       <header className="admin-topbar">
         <div className="topbar-left">
-          <div className="admin-brand-cluster">
+          <button
+            type="button"
+            className="admin-brand-cluster"
+            onClick={onNavigateHome}
+            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", padding: 0 }}
+            aria-label="Hanboro Storefront"
+          >
             <HanboroLogo theme="light" size={20} />
             <span className="admin-badge-pill">ATELIER COMMAND</span>
-          </div>
+          </button>
 
           <div className="admin-backend-indicator">
             <span className={`status-dot ${isSyncing ? "status-dot--syncing" : "status-dot--online"}`} />
@@ -429,6 +481,16 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
             >
               <span className="nav-icon">🏷️</span>
               <span className="nav-label">Privilege Promos</span>
+            </button>
+
+            <button
+              type="button"
+              className={`admin-nav-item ${activeTab === "roulette" ? "is-active" : ""}`}
+              onClick={() => setActiveTab("roulette")}
+            >
+              <span className="nav-icon">🎲</span>
+              <span className="nav-label">Roulette Spins Audit</span>
+              <span className="nav-counter nav-counter--accent">{rouletteSpins.length}</span>
             </button>
 
             <button
@@ -1080,6 +1142,220 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     <p className="promo-card-desc">{details.label}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              TAB: ROULETTE PRIVILEGE AUDIT LOG
+          ══════════════════════════════════════════════════════════════════ */}
+          {activeTab === "roulette" && (
+            <div className="admin-tab-pane">
+              <div className="pane-header-row">
+                <div>
+                  <h1 className="pane-title">Casino Roulette Privilege Audit</h1>
+                  <p className="pane-subtitle">
+                    Internal record of every kinetic roulette spin: customer identity, timestamp, outcome, single-use 7-day voucher, and order redemption.
+                  </p>
+                </div>
+                <div className="pane-header-actions">
+                  <button
+                    type="button"
+                    className="admin-action-btn admin-action-btn--secondary"
+                    onClick={loadAllAdminData}
+                  >
+                    🔄 Refresh Audit Logs
+                  </button>
+                </div>
+              </div>
+
+              {/* KPI Cards */}
+              <div className="admin-kpi-grid">
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-title">Total Customer Spins</span>
+                    <span className="kpi-icon">🎰</span>
+                  </div>
+                  <div className="kpi-value">{rouletteKpis.total}</div>
+                  <div className="kpi-trend kpi-trend--neutral">1 spin per customer/email/phone</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-title">Active 7-Day Vouchers</span>
+                    <span className="kpi-icon">🎟️</span>
+                  </div>
+                  <div className="kpi-value text-green">{rouletteKpis.active}</div>
+                  <div className="kpi-trend kpi-trend--up">Available for checkout</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-title">Redeemed on Orders</span>
+                    <span className="kpi-icon">✅</span>
+                  </div>
+                  <div className="kpi-value text-gold">{rouletteKpis.redeemed}</div>
+                  <div className="kpi-trend kpi-trend--up">Single-use completed</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-title">Expired (Over 7 Days)</span>
+                    <span className="kpi-icon">⏳</span>
+                  </div>
+                  <div className="kpi-value text-muted">{rouletteKpis.expired}</div>
+                  <div className="kpi-trend kpi-trend--neutral">7-day window passed</div>
+                </div>
+              </div>
+
+              {/* Filters Bar */}
+              <div className="admin-filter-bar">
+                <div className="filter-search-box">
+                  <span className="search-icon">🔍</span>
+                  <input
+                    type="text"
+                    placeholder="Search by customer email, phone, voucher code, or order ref..."
+                    value={rouletteSearch}
+                    onChange={(e) => setRouletteSearch(e.target.value)}
+                    className="filter-search-input"
+                  />
+                  {rouletteSearch && (
+                    <button
+                      type="button"
+                      className="clear-search-btn"
+                      onClick={() => setRouletteSearch("")}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="filter-pill-group">
+                  {["ALL", "ACTIVE", "USED", "EXPIRED"].map((status) => (
+                    <button
+                      key={status}
+                      type="button"
+                      className={`filter-pill ${rouletteFilter === status ? "is-active" : ""}`}
+                      onClick={() => setRouletteFilter(status)}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Audit Table */}
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Customer (Email / Phone)</th>
+                      <th>Spin Timestamp</th>
+                      <th>Winning Pocket</th>
+                      <th>Discount Tier</th>
+                      <th>Unique Voucher Code</th>
+                      <th>Status & Validity</th>
+                      <th>Linked Order Ref</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredSpins.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="table-empty-cell">
+                          No roulette privilege spin records found matching your filters.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredSpins.map((spin) => {
+                        const isExpired = new Date(spin.expires_at).getTime() < Date.now();
+                        const isUsed = spin.is_used;
+                        const daysLeft = Math.max(0, Math.ceil((new Date(spin.expires_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
+
+                        return (
+                          <tr key={spin.id || spin.voucher_code}>
+                            <td>
+                              <strong>{spin.customer_email || spin.customer_phone || spin.customer_identifier}</strong>
+                              {spin.customer_email && spin.customer_phone && (
+                                <div style={{ fontSize: "11px", color: "rgba(245,242,237,0.5)" }}>{spin.customer_phone}</div>
+                              )}
+                            </td>
+                            <td>
+                              <div>{new Date(spin.created_at).toLocaleDateString()}</div>
+                              <div style={{ fontSize: "11px", color: "rgba(245,242,237,0.5)" }}>
+                                {new Date(spin.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
+                            </td>
+                            <td>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "6px",
+                                  fontFamily: "'JetBrains Mono', monospace",
+                                  fontSize: "11px",
+                                  fontWeight: "700"
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "8px",
+                                    height: "8px",
+                                    borderRadius: "50%",
+                                    backgroundColor: spin.winning_color === "green" ? "#00ff66" : spin.winning_color === "red" ? "#fa2d1d" : "#888888"
+                                  }}
+                                />
+                                #{spin.winning_pocket} • {spin.winning_color?.toUpperCase()}
+                              </span>
+                            </td>
+                            <td>
+                              <span style={{ fontWeight: "700", color: "#fa2d1d" }}>
+                                {spin.discount_tier}
+                              </span>
+                              <div style={{ fontSize: "10px", color: "rgba(245,242,237,0.5)" }}>Capped at 15% Max</div>
+                            </td>
+                            <td>
+                              <code
+                                style={{
+                                  fontFamily: "'JetBrains Mono', monospace",
+                                  fontSize: "12px",
+                                  fontWeight: "800",
+                                  letterSpacing: "0.08em",
+                                  color: "#00ff66",
+                                  background: "rgba(0,0,0,0.6)",
+                                  padding: "3px 8px",
+                                  borderRadius: "4px",
+                                  border: "1px solid rgba(255,255,255,0.1)"
+                                }}
+                              >
+                                {spin.voucher_code}
+                              </code>
+                            </td>
+                            <td>
+                              {isUsed ? (
+                                <span className="status-badge status-badge--dispatched">Redeemed</span>
+                              ) : isExpired ? (
+                                <span className="status-badge status-badge--cancelled">Expired</span>
+                              ) : (
+                                <span className="status-badge status-badge--active">
+                                  Active ({daysLeft}d left)
+                                </span>
+                              )}
+                            </td>
+                            <td>
+                              {spin.used_order_ref ? (
+                                <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: "700", color: "#fa2d1d" }}>
+                                  #{spin.used_order_ref}
+                                </span>
+                              ) : (
+                                <span style={{ color: "rgba(245,242,237,0.3)" }}>—</span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}

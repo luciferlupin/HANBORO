@@ -20,6 +20,7 @@ const STORAGE_KEYS = {
   CUSTOMERS: "hanboro_customers_cache",
   INVENTORY: "hanboro_inventory_cache",
   SESSION_USER: "hanboro_auth_user",
+  ROULETTE_SPINS: "hanboro_roulette_spins_cache",
 };
 
 // Helper: load local orders cache (pure live orders only)
@@ -611,6 +612,271 @@ export const inventoryService = {
     } catch {
       // ignore
     }
+    return updated;
+  },
+};
+
+// ── ROULETTE & CUSTOMER PRIVILEGE SERVICE ─────────────────────────────────────
+export const rouletteService = {
+  // Helper: Normalize customer email or phone into a unique identifier
+  normalizeIdentifier(input) {
+    if (!input) return "";
+    const str = String(input).trim().toLowerCase();
+    if (str.includes("@")) {
+      return str;
+    }
+    // Clean phone number to digits only
+    return str.replace(/[^\d+]/g, "");
+  },
+
+  // Helper: Load local cached spins
+  getLocalSpins() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.ROULETTE_SPINS);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  // Helper: Save local cached spins
+  saveLocalSpins(spins) {
+    try {
+      localStorage.setItem(STORAGE_KEYS.ROULETTE_SPINS, JSON.stringify(spins));
+    } catch (err) {
+      console.warn("Could not cache roulette spins", err);
+    }
+  },
+
+  // Fetch all spins from Supabase & local cache
+  async getSpins() {
+    const local = this.getLocalSpins();
+    try {
+      const { data, error } = await supabase
+        .from("roulette_spins")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        // Merge Supabase data with local entries
+        const mergedMap = new Map();
+        [...local, ...data].forEach((item) => {
+          const key = item.voucher_code || item.customer_identifier || item.id;
+          mergedMap.set(key, { ...mergedMap.get(key), ...item });
+        });
+        const merged = Array.from(mergedMap.values());
+        this.saveLocalSpins(merged);
+        return merged;
+      }
+    } catch (err) {
+      console.warn("Supabase fetch spins note:", err);
+    }
+    return local;
+  },
+
+  // Check if a customer identifier has already performed their 1-time spin
+  async getSpinByIdentifier(emailOrPhone) {
+    const identifier = this.normalizeIdentifier(emailOrPhone);
+    if (!identifier) return null;
+
+    // Check local cache first
+    const local = this.getLocalSpins();
+    const foundLocal = local.find(
+      (s) =>
+        s.customer_identifier === identifier ||
+        (s.customer_email && s.customer_email.toLowerCase() === identifier) ||
+        (s.customer_phone && this.normalizeIdentifier(s.customer_phone) === identifier)
+    );
+    if (foundLocal) return foundLocal;
+
+    // Check Supabase
+    try {
+      const { data, error } = await supabase
+        .from("roulette_spins")
+        .select("*")
+        .or(`customer_identifier.eq.${identifier},customer_email.eq.${identifier}`)
+        .limit(1);
+
+      if (!error && data && data.length > 0) {
+        return data[0];
+      }
+    } catch (err) {
+      console.warn("Supabase check spin note:", err);
+    }
+
+    return null;
+  },
+
+  // Record a new customer spin and issue a unique 7-day single-use voucher
+  async recordSpin({
+    user_id = null,
+    customer_email = "",
+    customer_phone = "",
+    winning_pocket,
+    winning_color,
+    discount_tier,
+    discount_type = "percent",
+    discount_value = 10,
+    voucher_code,
+  }) {
+    const identifier = this.normalizeIdentifier(customer_email || customer_phone);
+    if (!identifier) {
+      throw new Error("Customer Email or Phone is required to verify 1-spin privilege eligibility.");
+    }
+
+    // Check if already spun
+    const existing = await this.getSpinByIdentifier(identifier);
+    if (existing) {
+      return { spin: existing, isNew: false, message: "Customer has already claimed their 1-time privilege voucher." };
+    }
+
+    // 7-day expiration timestamp
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+    const record = {
+      id: `spin-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+      user_id: user_id || null,
+      customer_email: customer_email ? customer_email.trim().toLowerCase() : "",
+      customer_phone: customer_phone ? customer_phone.trim() : "",
+      customer_identifier: identifier,
+      winning_pocket,
+      winning_color,
+      discount_tier,
+      discount_type,
+      discount_value: Number(discount_value),
+      voucher_code: voucher_code || `HNB-${discount_value}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`,
+      is_used: false,
+      used_at: null,
+      used_order_ref: null,
+      expires_at: expiresAt,
+      created_at: now.toISOString(),
+    };
+
+    // Save to local cache immediately
+    const currentSpins = this.getLocalSpins();
+    const updatedSpins = [record, ...currentSpins];
+    this.saveLocalSpins(updatedSpins);
+
+    // Save to Supabase `roulette_spins` table
+    try {
+      const { error } = await supabase.from("roulette_spins").insert({
+        user_id: record.user_id,
+        customer_email: record.customer_email,
+        customer_phone: record.customer_phone,
+        customer_identifier: record.customer_identifier,
+        winning_pocket: record.winning_pocket,
+        winning_color: record.winning_color,
+        discount_tier: record.discount_tier,
+        discount_type: record.discount_type,
+        discount_value: record.discount_value,
+        voucher_code: record.voucher_code,
+        is_used: false,
+        expires_at: record.expires_at,
+        created_at: record.created_at,
+      });
+
+      if (error) {
+        console.warn("Supabase record spin warning (cached locally):", error.message);
+      }
+    } catch (err) {
+      console.warn("Supabase record spin network note:", err);
+    }
+
+    return { spin: record, isNew: true, message: "1-Time Privilege Voucher successfully generated and linked." };
+  },
+
+  // Validate voucher for single-use, 7-day expiration, and customer linkage
+  async validateVoucher(voucherCode, customerEmail = "", customerPhone = "") {
+    if (!voucherCode) return { valid: false, message: "Please enter a voucher code." };
+    const code = voucherCode.trim().toUpperCase();
+
+    // Check spins cache / database
+    const allSpins = await this.getSpins();
+    const found = allSpins.find((s) => s.voucher_code?.toUpperCase() === code);
+
+    if (found) {
+      // 1. Check if used
+      if (found.is_used) {
+        return {
+          valid: false,
+          message: `Privilege voucher ${code} was already redeemed on Order ${found.used_order_ref || ""}. (Single-use policy).`,
+        };
+      }
+
+      // 2. Check 7-day expiration
+      const expiryDate = new Date(found.expires_at).getTime();
+      if (Date.now() > expiryDate) {
+        return {
+          valid: false,
+          message: `Privilege voucher ${code} has expired. (Vouchers are valid for 7 days from spin).`,
+        };
+      }
+
+      // 3. Check customer linkage (if provided)
+      const inputId = this.normalizeIdentifier(customerEmail || customerPhone);
+      if (inputId && found.customer_identifier) {
+        if (
+          inputId !== found.customer_identifier &&
+          inputId !== this.normalizeIdentifier(found.customer_email) &&
+          inputId !== this.normalizeIdentifier(found.customer_phone)
+        ) {
+          return {
+            valid: false,
+            message: `Voucher ${code} is exclusively linked to ${found.customer_email || found.customer_phone}.`,
+          };
+        }
+      }
+
+      return {
+        valid: true,
+        isRouletteVoucher: true,
+        voucher: found,
+        promo: {
+          code: found.voucher_code,
+          type: found.discount_type,
+          value: found.discount_value,
+          label: `${found.discount_tier} (Exclusive Privilege)`,
+        },
+      };
+    }
+
+    return { valid: false, isRouletteVoucher: false, message: "Invalid or unrecognized privilege voucher code." };
+  },
+
+  // Mark voucher as redeemed on order placement (Permanent - No replacement on cancellation)
+  async markVoucherUsed(voucherCode, orderRef) {
+    if (!voucherCode) return;
+    const code = voucherCode.trim().toUpperCase();
+
+    // 1. Update local cache
+    const currentSpins = this.getLocalSpins();
+    const updated = currentSpins.map((s) =>
+      s.voucher_code?.toUpperCase() === code
+        ? {
+            ...s,
+            is_used: true,
+            used_at: new Date().toISOString(),
+            used_order_ref: orderRef,
+          }
+        : s
+    );
+    this.saveLocalSpins(updated);
+
+    // 2. Update Supabase
+    try {
+      await supabase
+        .from("roulette_spins")
+        .update({
+          is_used: true,
+          used_at: new Date().toISOString(),
+          used_order_ref: orderRef,
+        })
+        .eq("voucher_code", code);
+    } catch (err) {
+      console.warn("Supabase mark voucher used note:", err);
+    }
+
     return updated;
   },
 };

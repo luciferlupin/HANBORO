@@ -11,6 +11,7 @@ export const PROMO_CODES = {
   HANBORO10: { type: "percent", value: 10, label: "10% Atelier Welcome Privilege" },
   VIP1000: { type: "flat", value: 1000, label: "₹1,000 Horology Collector Credit" },
   SWISS15: { type: "percent", value: 15, label: "15% Private Collector Tier" },
+  HANBORO5: { type: "percent", value: 5, label: "5% Collector Privilege" },
 };
 
 export function StoreProvider({ children }) {
@@ -228,14 +229,47 @@ export function StoreProvider({ children }) {
     window.location.hash = "#profile";
   };
 
-  // Apply promo code
-  const applyPromoCode = (codeStr) => {
+  // Apply promo code or unique roulette privilege voucher (No stacking - 1 active promo)
+  const applyPromoCode = async (codeStr, customerEmail = "", customerPhone = "") => {
+    if (!codeStr) return { success: false, message: "Please enter a privilege voucher code." };
     const clean = codeStr.toUpperCase().trim();
+
+    // 1. Check built-in static promo codes
     if (PROMO_CODES[clean]) {
-      setAppliedPromo({ code: clean, ...PROMO_CODES[clean] });
+      setAppliedPromo({ code: clean, isRouletteVoucher: false, ...PROMO_CODES[clean] });
       showToast(`Privilege code ${clean} applied!`);
       return { success: true, message: PROMO_CODES[clean].label };
     }
+
+    // 2. Check dynamic single-use 7-day Roulette Privilege vouchers
+    try {
+      const emailToCheck = customerEmail || user?.email || "";
+      const phoneToCheck = customerPhone || user?.phone || "";
+      const valRes = await rouletteService.validateVoucher(clean, emailToCheck, phoneToCheck);
+
+      if (valRes.valid && valRes.promo) {
+        // Enforce maximum 15% discount ceiling
+        let discountValue = valRes.promo.value;
+        if (valRes.promo.type === "percent" && discountValue > 15) {
+          discountValue = 15;
+        }
+
+        setAppliedPromo({
+          code: clean,
+          isRouletteVoucher: true,
+          type: valRes.promo.type,
+          value: discountValue,
+          label: valRes.promo.label,
+        });
+        showToast(`Exclusive Privilege ${clean} applied!`);
+        return { success: true, message: valRes.promo.label };
+      } else {
+        return { success: false, message: valRes.message || "Invalid or expired privilege voucher." };
+      }
+    } catch (err) {
+      console.warn("Voucher validation error:", err);
+    }
+
     return { success: false, message: "Invalid or expired privilege voucher." };
   };
 
@@ -268,7 +302,9 @@ export function StoreProvider({ children }) {
   const discountAmount = useMemo(() => {
     if (!appliedPromo) return 0;
     if (appliedPromo.type === "percent") {
-      return Math.round((subtotalInr * appliedPromo.value) / 100);
+      // Hard cap at max 15% discount
+      const cappedPercent = Math.min(15, appliedPromo.value);
+      return Math.round((subtotalInr * cappedPercent) / 100);
     }
     return Math.min(appliedPromo.value, subtotalInr);
   }, [appliedPromo, subtotalInr]);
@@ -306,10 +342,16 @@ export function StoreProvider({ children }) {
       payment_method: orderCustomerData.paymentMethod || "Credit Card",
       payment_status: "Paid",
       order_status: "Processing",
+      discount_applied: appliedPromo ? { code: appliedPromo.code, amount: discountAmount } : null,
     };
 
     const created = await ordersService.createOrder(orderPayload);
     setRecentOrder(created);
+
+    // If a dynamic roulette single-use voucher was applied, mark it permanently redeemed
+    if (appliedPromo?.isRouletteVoucher) {
+      await rouletteService.markVoucherUsed(appliedPromo.code, created.order_ref);
+    }
 
     // If it was standard cart, clear it locally and in Supabase
     if (!directCheckoutItem) {
@@ -347,29 +389,28 @@ export function StoreProvider({ children }) {
         removeFromCart,
         updateQuantity,
         clearCart,
-        buyNow,
 
-        // Promos & Calculation
-        appliedPromo,
-        applyPromoCode,
-        removePromoCode,
+        // Checkout & Buy Now
+        isCheckoutOpen,
+        directCheckoutItem,
+        activeCheckoutItems,
         subtotalInr,
         discountAmount,
         finalTotalInr,
         finalTotalUsd,
-
-        // Checkout
-        isCheckoutOpen,
+        appliedPromo,
+        applyPromoCode,
+        removePromoCode,
         openCheckout,
         closeCheckout,
-        directCheckoutItem,
-        activeCheckoutItems,
+        buyNow,
         placeOrder,
         recentOrder,
-
-        // Notifications
-        toastMessage,
         showToast,
+        toastMessage,
+
+        // Roulette & Privilege Services
+        rouletteService,
       }}
     >
       {children}

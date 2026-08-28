@@ -65,17 +65,39 @@ CREATE TABLE IF NOT EXISTS public.inventory (
     updated_at TIMESTAMPTZ DEFAULT now()
 );
 
--- 5. Enable Row Level Security (RLS)
+-- 5. Create `roulette_spins` table for tracking customer privilege spins & single-use vouchers
+CREATE TABLE IF NOT EXISTS public.roulette_spins (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id TEXT,
+    customer_email TEXT,
+    customer_phone TEXT,
+    customer_identifier TEXT UNIQUE NOT NULL, -- normalized email or phone for 1-spin enforcement
+    winning_pocket INTEGER,
+    winning_color TEXT,
+    discount_tier TEXT NOT NULL, -- '10% OFF', '15% OFF', '₹1,000 OFF', '5% OFF'
+    discount_type TEXT NOT NULL, -- 'percent' | 'flat'
+    discount_value NUMERIC NOT NULL,
+    voucher_code TEXT UNIQUE NOT NULL,
+    is_used BOOLEAN DEFAULT false,
+    used_at TIMESTAMPTZ,
+    used_order_ref TEXT,
+    expires_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 6. Enable Row Level Security (RLS)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.cart_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.inventory ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.roulette_spins ENABLE ROW LEVEL SECURITY;
 
--- 6. Public Anon Key Policies (Allow read/write from storefront & admin)
+-- 7. Public Anon Key Policies (Allow read/write from storefront & admin)
 DROP POLICY IF EXISTS "Anon public full access profiles" ON public.profiles;
 DROP POLICY IF EXISTS "Anon public full access cart_items" ON public.cart_items;
 DROP POLICY IF EXISTS "Anon public full access orders" ON public.orders;
 DROP POLICY IF EXISTS "Anon public full access inventory" ON public.inventory;
+DROP POLICY IF EXISTS "Anon public full access roulette_spins" ON public.roulette_spins;
 
 CREATE POLICY "Anon public full access profiles" ON public.profiles
     FOR ALL
@@ -97,8 +119,16 @@ CREATE POLICY "Anon public full access inventory" ON public.inventory
     USING (true)
     WITH CHECK (true);
 
--- 7. Indices for fast lookup
+CREATE POLICY "Anon public full access roulette_spins" ON public.roulette_spins
+    FOR ALL
+    USING (true)
+    WITH CHECK (true);
+
+-- 8. Indices for fast lookup
 CREATE INDEX IF NOT EXISTS idx_cart_user ON public.cart_items (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_user ON public.orders (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_ref ON public.orders (order_ref);
 CREATE INDEX IF NOT EXISTS idx_orders_created ON public.orders (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_roulette_identifier ON public.roulette_spins (customer_identifier);
+CREATE INDEX IF NOT EXISTS idx_roulette_voucher ON public.roulette_spins (voucher_code);
+CREATE INDEX IF NOT EXISTS idx_roulette_created ON public.roulette_spins (created_at DESC);
