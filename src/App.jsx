@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { ProductsView } from "./ProductsView";
 import { ProductDetailPage } from "./ProductDetailPage";
@@ -12,6 +12,63 @@ import { CheckoutPage } from "./CheckoutPage";
 import { AdminDashboard } from "./AdminDashboard";
 import { ProfilePage } from "./ProfilePage";
 
+/* ── Error Boundary ────────────────────────────────────────────────────────── */
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("Hanboro Atelier Runtime Caught Error:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: "100vh",
+          backgroundColor: "#08080a",
+          color: "#f5f2ed",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "24px",
+          textAlign: "center",
+          fontFamily: "'Inter', sans-serif"
+        }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "12px", color: "#fa2d1d" }}>
+            HANBORO ATELIER
+          </h1>
+          <p style={{ fontSize: "14px", color: "rgba(245,242,237,0.7)", maxWidth: "480px", marginBottom: "24px" }}>
+            An unexpected complication occurred. Reloading the atelier will restore precision movement.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "#fa2d1d",
+              color: "#fff",
+              border: "none",
+              padding: "12px 28px",
+              borderRadius: "8px",
+              fontWeight: 700,
+              fontSize: "13px",
+              cursor: "pointer",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase"
+            }}
+          >
+            Reload Hanboro Atelier ↻
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
 const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
@@ -19,8 +76,6 @@ const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
 /* ── scroll-reveal hook ────────────────────────────────────────────────────── */
 function useScrollReveal(enabled, view, selectedSkuId) {
   useEffect(() => {
-    if (!enabled) return;
-
     let io = null;
     const scanAndObserve = () => {
       const els = document.querySelectorAll("[data-reveal]");
@@ -28,10 +83,10 @@ function useScrollReveal(enabled, view, selectedSkuId) {
 
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 900;
 
-      // Mark immediate in-viewport elements
+      // Mark immediate in-viewport elements as visible
       els.forEach(el => {
         const rect = el.getBoundingClientRect();
-        if (rect.top < viewportHeight + 150 && rect.bottom > -100) {
+        if (rect.top < viewportHeight + 250 && rect.bottom > -150) {
           el.classList.add("is-visible");
         }
       });
@@ -44,7 +99,7 @@ function useScrollReveal(enabled, view, selectedSkuId) {
             io.unobserve(e.target);
           }
         }),
-        { threshold: 0.02, rootMargin: "150px" }
+        { threshold: 0.01, rootMargin: "200px" }
       );
 
       els.forEach(el => {
@@ -59,8 +114,9 @@ function useScrollReveal(enabled, view, selectedSkuId) {
 
     // 2. Next animation frame and delayed scans for smooth mounting
     const rId = requestAnimationFrame(scanAndObserve);
-    const t1 = setTimeout(scanAndObserve, 80);
-    const t2 = setTimeout(scanAndObserve, 300);
+    const t1 = setTimeout(scanAndObserve, 50);
+    const t2 = setTimeout(scanAndObserve, 250);
+    const t3 = setTimeout(scanAndObserve, 600);
 
     // 3. MutationObserver to handle dynamically mounted stage sections
     const mo = new MutationObserver(() => {
@@ -72,6 +128,7 @@ function useScrollReveal(enabled, view, selectedSkuId) {
       cancelAnimationFrame(rId);
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(t3);
       mo.disconnect();
       if (io) io.disconnect();
     };
@@ -2767,7 +2824,7 @@ function FooterLiveClock() {
 
 function Website({ onRestart }) {
   const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen } = useStore();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [view, setView] = useState(() => {
     const hash = window.location.hash.toLowerCase();
     if (hash.startsWith("#admin")) return "admin";
@@ -2789,7 +2846,6 @@ function Website({ onRestart }) {
   useScrollReveal(visible, view, selectedSkuId);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 120);
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase();
       if (hash.startsWith("#admin")) {
@@ -2821,7 +2877,6 @@ function Website({ onRestart }) {
     window.addEventListener("hashchange", handleHashChange);
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener("hashchange", handleHashChange);
     };
   }, []);
@@ -3331,12 +3386,14 @@ function Website({ onRestart }) {
    Iris wipe transition effect & Store Provider
 ══════════════════════════════════════════════════════════════════════════════ */
 export function App() {
-  const [phase, setPhase]     = useState("idle");     // idle / exiting / entered
+  const hash = typeof window !== "undefined" ? window.location.hash : "";
+  const hasDirectRoute = Boolean(hash && hash !== "#top" && hash !== "#home");
+  const [phase, setPhase]     = useState(hasDirectRoute ? "entered" : "idle");     // idle / exiting / entered
   const [iris, setIris]       = useState("off");      // off / expanding / retracting
-  const transitioned          = useRef(false);
+  const transitioned          = useRef(hasDirectRoute);
 
   const handleComplete = useCallback(() => {
-    if (transitioned.current) return;
+    if (transitioned.current && phase === "entered") return;
     transitioned.current = true;
 
     // 1. Start splash exit + iris expand simultaneously
@@ -3353,22 +3410,33 @@ export function App() {
     setTimeout(() => {
       setIris("off");
     }, IRIS_EXPAND + IRIS_RETRACT);
-  }, []);
+  }, [phase]);
+
+  // Failsafe auto-transition: guarantee the site opens even on slow devices or background tabs
+  useEffect(() => {
+    if (phase === "entered") return;
+    const timer = setTimeout(() => {
+      handleComplete();
+    }, 2200);
+    return () => clearTimeout(timer);
+  }, [phase, handleComplete]);
 
   return (
-    <StoreProvider>
-      <div className="app-root">
-        {phase !== "entered" && (
-          <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
-        )}
-        {phase === "entered" && (
-          <Website visible={true}/>
-        )}
-        {/* Iris transition overlay */}
-        {iris !== "off" && (
-          <div className={`iris iris--${iris}`} aria-hidden="true"/>
-        )}
-      </div>
-    </StoreProvider>
+    <ErrorBoundary>
+      <StoreProvider>
+        <div className="app-root">
+          {phase !== "entered" && (
+            <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
+          )}
+          {phase === "entered" && (
+            <Website />
+          )}
+          {/* Iris transition overlay */}
+          {iris !== "off" && (
+            <div className={`iris iris--${iris}`} aria-hidden="true"/>
+          )}
+        </div>
+      </StoreProvider>
+    </ErrorBoundary>
   );
 }
