@@ -2,9 +2,10 @@ import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS_DATA } from "./productsData";
 
 export const SUPABASE_URL =
-  import.meta.env.VITE_SUPABASE_URL || "https://fhaurmmbgxfuumwegshy.supabase.co";
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_URL) ||
+  "https://fhaurmmbgxfuumwegshy.supabase.co";
 export const SUPABASE_ANON_KEY =
-  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_ANON_KEY) ||
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoYXVybW1iZ3hmdXVtd2Vnc2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzU3MzgsImV4cCI6MjEwMzE1MTczOH0.s8BkJPk-4BVZQWQ9L1cacgV3uJ6oiTm0MxRqpHWFUm0";
 
 // Initialize official Supabase JS client

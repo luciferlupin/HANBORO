@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { authService, ordersService, inventoryService, cartService } from "./supabaseClient";
+import { authService, ordersService, inventoryService, cartService, rouletteService } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);

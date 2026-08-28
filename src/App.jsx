@@ -937,6 +937,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
   }, []);
 
   const watchImgSrc = selectedVariant === "emerald" ? "/watch-emerald-roulette.webp" : "/watch-blue-roulette.webp";
+  const watchSku = selectedVariant === "emerald" ? "emerald-roulette" : "blue-roulette";
   const daysLeft = activeReward?.expiresAt
     ? Math.max(0, Math.ceil((new Date(activeReward.expiresAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : 7;
