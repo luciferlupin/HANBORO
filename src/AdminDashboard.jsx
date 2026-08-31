@@ -1,12 +1,33 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ordersService, inventoryService, cartService, rouletteService, SUPABASE_URL } from "./supabaseClient";
-import { PRODUCTS_DATA } from "./productsData";
+import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
+import { WatchEditorModal } from "./WatchEditorModal";
+import { DeleteWatchModal } from "./DeleteWatchModal";
 
 export function AdminDashboard({ onNavigateHome }) {
-  const { user, logout } = useStore();
-  const [activeTab, setActiveTab] = useState("overview"); // "overview" | "live-carts" | "orders" | "inventory" | "customers" | "discounts" | "roulette" | "supabase"
+  const {
+    user,
+    logout,
+    products,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    duplicateProduct,
+    resetProductsToDefault,
+  } = useStore();
+
+  // Default to the Watch Catalog & Editor Studio tab
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash || "";
+    if (hash.includes("orders")) return "orders";
+    if (hash.includes("live-carts")) return "live-carts";
+    if (hash.includes("customers")) return "customers";
+    if (hash.includes("roulette")) return "roulette";
+    if (hash.includes("overview")) return "overview";
+    return "inventory"; // Default directly to Timepieces & Catalog Management
+  });
 
   // Live Orders State
   const [orders, setOrders] = useState([]);
@@ -24,6 +45,14 @@ export function AdminDashboard({ onNavigateHome }) {
   // Live Inventory State
   const [inventory, setInventory] = useState([]);
   const [inventorySearch, setInventorySearch] = useState("");
+
+  // Owner Catalog Modals
+  const [editorModalOpen, setEditorModalOpen] = useState(false);
+  const [editingWatch, setEditingWatch] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deletingWatch, setDeletingWatch] = useState(null);
+  const [catalogCategoryFilter, setCatalogCategoryFilter] = useState("ALL");
+  const [catalogViewMode, setCatalogViewMode] = useState("table"); // "table" | "grid"
 
   // Roulette Privilege Audit State
   const [rouletteSpins, setRouletteSpins] = useState([]);
@@ -45,6 +74,21 @@ export function AdminDashboard({ onNavigateHome }) {
     setStatusNotification(msg);
     setTimeout(() => setStatusNotification(null), 3500);
   };
+
+  const anyAdminModalOpen = Boolean(inspectingOrder || inspectingCart || editorModalOpen || deleteModalOpen);
+  useEffect(() => {
+    if (!anyAdminModalOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [anyAdminModalOpen]);
 
   // Initial Data Load
   const loadAllAdminData = async () => {
@@ -101,18 +145,62 @@ export function AdminDashboard({ onNavigateHome }) {
 
   // Inventory stock adjustments
   const handleStockChange = (productId, delta) => {
-    const current = inventory.find((p) => p.id === productId);
-    if (!current) return;
-    const nextVal = Math.max(0, current.stock + delta);
-    const updated = inventoryService.updateStock(productId, nextVal);
-    setInventory(updated);
-    showAdminToast(`Stock for SKU ${current.sku} updated to ${nextVal} units`);
+    const current = (products || []).find((p) => p.id === productId || p.sku === productId) || inventory.find((p) => p.id === productId);
+    const nextVal = Math.max(0, (current?.stock || 0) + delta);
+    updateProduct(productId, { stock: nextVal });
+    setInventory((prev) => prev.map((it) => (it.id === productId ? { ...it, stock: nextVal } : it)));
+    showAdminToast(`Stock for SKU ${current?.sku || productId} updated to ${nextVal} units`);
   };
 
   const handleToggleActive = (productId) => {
-    const updated = inventoryService.toggleActive(productId);
-    setInventory(updated);
+    const current = (products || []).find((p) => p.id === productId || p.sku === productId) || inventory.find((p) => p.id === productId);
+    const nextActive = current ? !current.isActive : true;
+    updateProduct(productId, { isActive: nextActive });
+    setInventory((prev) => prev.map((it) => (it.id === productId ? { ...it, isActive: nextActive } : it)));
     showAdminToast(`Storefront visibility updated`);
+  };
+
+  // Watch CRUD Handlers
+  const handleOpenCreateWatch = () => {
+    setEditingWatch(null);
+    setEditorModalOpen(true);
+  };
+
+  const handleOpenEditWatch = (watch) => {
+    setEditingWatch(watch);
+    setEditorModalOpen(true);
+  };
+
+  const handleDuplicateWatch = (watch) => {
+    duplicateProduct(watch.id || watch.sku);
+    showAdminToast(`Cloned variant created`);
+  };
+
+  const handleOpenDeleteWatch = (watch) => {
+    setDeletingWatch(watch);
+    setDeleteModalOpen(true);
+  };
+
+  const handleSaveWatch = async (watchData) => {
+    if (editingWatch && (editingWatch.id || editingWatch.sku)) {
+      await updateProduct(editingWatch.id || editingWatch.sku, watchData);
+      showAdminToast(`Updated ${watchData.name}`);
+    } else {
+      await addProduct(watchData);
+      showAdminToast(`Created ${watchData.name}`);
+    }
+  };
+
+  const handleConfirmDeleteWatch = async (watchId) => {
+    await deleteProduct(watchId);
+    showAdminToast(`Timepiece removed from catalog`);
+  };
+
+  const handleResetCatalog = async () => {
+    if (window.confirm("Restore factory master catalog references? Custom additions and edits will be reset.")) {
+      await resetProductsToDefault();
+      showAdminToast("Factory master catalog restored");
+    }
   };
 
   // Add custom promo code
@@ -188,17 +276,23 @@ export function AdminDashboard({ onNavigateHome }) {
     });
   }, [orders, statusFilter, orderSearch]);
 
-  // Filtered inventory list
+  // Filtered inventory list deriving directly from dynamic products catalog
   const filteredInventory = useMemo(() => {
+    let catalog = Array.isArray(products) && products.length > 0 ? products : inventory;
+    if (catalogCategoryFilter !== "ALL") {
+      catalog = catalog.filter((it) => it.collection === catalogCategoryFilter);
+    }
     const q = inventorySearch.toLowerCase().trim();
-    if (!q) return inventory;
-    return inventory.filter(
+    if (!q) return catalog;
+    return catalog.filter(
       (it) =>
         it.name?.toLowerCase().includes(q) ||
         it.sku?.toLowerCase().includes(q) ||
-        it.collection?.toLowerCase().includes(q)
+        it.collection?.toLowerCase().includes(q) ||
+        it.collectionName?.toLowerCase().includes(q) ||
+        it.tag?.toLowerCase().includes(q)
     );
-  }, [inventory, inventorySearch]);
+  }, [products, inventory, inventorySearch, catalogCategoryFilter]);
 
   // Real VIP Customers directory from active placed orders
   const customersList = useMemo(() => {
@@ -384,11 +478,20 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
         <div className="topbar-right">
           <button
             type="button"
+            className="admin-action-btn admin-action-btn--primary"
+            onClick={handleOpenCreateWatch}
+            style={{ padding: "7px 14px", fontSize: "11.5px", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "6px" }}
+          >
+            <span>+ Add Timepiece</span>
+          </button>
+
+          <button
+            type="button"
             className="admin-sync-pulse-btn"
             onClick={loadAllAdminData}
             title="Refresh and sync store data"
           >
-            <span>🔄 Refresh Data</span>
+            <span>🔄 Refresh</span>
           </button>
 
           <button
@@ -427,6 +530,16 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           <nav className="admin-nav-menu">
             <button
               type="button"
+              className={`admin-nav-item ${activeTab === "inventory" ? "is-active" : ""}`}
+              onClick={() => setActiveTab("inventory")}
+            >
+              <span className="nav-icon">⌚</span>
+              <span className="nav-label">Timepieces & Catalog (Edit / Add / Delete)</span>
+              <span className="nav-counter nav-counter--accent">{(products || []).length || PRODUCTS_DATA.length}</span>
+            </button>
+
+            <button
+              type="button"
               className={`admin-nav-item ${activeTab === "overview" ? "is-active" : ""}`}
               onClick={() => setActiveTab("overview")}
             >
@@ -452,16 +565,6 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               <span className="nav-icon">📦</span>
               <span className="nav-label">Order Transmissions</span>
               <span className="nav-counter">{orders.length}</span>
-            </button>
-
-            <button
-              type="button"
-              className={`admin-nav-item ${activeTab === "inventory" ? "is-active" : ""}`}
-              onClick={() => setActiveTab("inventory")}
-            >
-              <span className="nav-icon">⌚</span>
-              <span className="nav-label">Vault & Stock</span>
-              <span className="nav-counter">{inventory.length || PRODUCTS_DATA.length}</span>
             </button>
 
             <button
@@ -582,20 +685,49 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                     <span className="bento-badge">In Vault: {analytics.totalInventoryUnits} pcs</span>
                   </div>
                   <div className="bento-items-list">
-                    {PRODUCTS_DATA.slice(0, 5).map((watch, i) => (
+                    {(products || PRODUCTS_DATA).slice(0, 5).map((watch, i) => (
                       <div key={watch.id} className="bento-product-row">
                         <span className="product-rank">0{i + 1}</span>
-                        <img src={watch.image} alt={watch.name} className="bento-img" />
+                        <img src={watch.image} alt={watch.name} className="bento-img" onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }} />
                         <div className="bento-info">
                           <span className="bento-name">{watch.name}</span>
-                          <span className="bento-sku">REF. {watch.sku} • {watch.collectionName}</span>
+                          <span className="bento-sku">REF. {watch.sku} • {watch.collectionName || watch.collection}</span>
                         </div>
-                        <div className="bento-price-wrap">
-                          <span className="bento-price">{watch.price}</span>
-                          <span className="bento-stock-tag">In Stock</span>
+                        <div className="bento-price-wrap" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div>
+                            <span className="bento-price">{watch.price}</span>
+                            <span className="bento-stock-tag">{watch.stock || 12} in Vault</span>
+                          </div>
+                          <button
+                            type="button"
+                            className="admin-row-action-btn admin-row-action-btn--edit"
+                            onClick={() => handleOpenEditWatch(watch)}
+                            title="Edit this timepiece"
+                            style={{ padding: "4px 8px", fontSize: "10.5px" }}
+                          >
+                            ✏️ Edit
+                          </button>
                         </div>
                       </div>
                     ))}
+                  </div>
+                  <div style={{ marginTop: "14px", borderTop: "1px solid rgba(255, 255, 255, 0.06)", paddingTop: "12px", display: "flex", justifyContent: "space-between" }}>
+                    <button
+                      type="button"
+                      className="admin-action-btn admin-action-btn--primary"
+                      onClick={handleOpenCreateWatch}
+                      style={{ padding: "6px 14px", fontSize: "11px" }}
+                    >
+                      + Add New Timepiece
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-action-btn"
+                      onClick={() => setActiveTab("inventory")}
+                      style={{ padding: "6px 14px", fontSize: "11px" }}
+                    >
+                      View Full Catalog ({ (products || PRODUCTS_DATA).length }) →
+                    </button>
                   </div>
                 </div>
 
@@ -947,83 +1079,376 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              TAB 4: PRODUCTS & INVENTORY VAULT
+              TAB 4: PRODUCTS & INVENTORY VAULT (FULL CRUD STUDIO)
           ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "inventory" && (
             <div className="admin-tab-pane">
               <div className="pane-header-row">
                 <div>
-                  <h1 className="pane-title">Timepieces Vault & Inventory</h1>
-                  <p className="pane-subtitle">Manage vault stock allocation, price points, and active storefront visibility.</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+                    <h1 className="pane-title">Timepieces & Master Catalog Studio</h1>
+                    <span className="admin-badge-pill" style={{ background: "rgba(212, 175, 55, 0.15)", color: "#ffd700", borderColor: "rgba(212, 175, 55, 0.4)" }}>
+                      DIRECT ATELIER CRUD
+                    </span>
+                  </div>
+                  <p className="pane-subtitle">
+                    Add new timepieces to the store, modify technical specs and pricing, duplicate reference variants, and manage live vault inventory reserves.
+                  </p>
                 </div>
+
                 <div className="pane-header-actions">
-                  <input
-                    type="text"
-                    className="toolbar-search-input"
-                    placeholder="Search SKU or Watch Name..."
-                    value={inventorySearch}
-                    onChange={(e) => setInventorySearch(e.target.value)}
-                  />
+                  <button
+                    type="button"
+                    className="admin-action-btn admin-action-btn--primary"
+                    onClick={handleOpenCreateWatch}
+                    style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "10px 18px", fontWeight: "700" }}
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <line x1="12" y1="5" x2="12" y2="19" />
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    <span>+ Add New Timepiece</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="admin-action-btn"
+                    onClick={handleResetCatalog}
+                    title="Restore default factory catalog references"
+                  >
+                    <span>Factory Reset</span>
+                  </button>
                 </div>
               </div>
 
-              <div className="admin-table-card">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Timepiece</th>
-                      <th>Reference SKU</th>
-                      <th>Collection</th>
-                      <th>Retail Price</th>
-                      <th>Vault Stock</th>
-                      <th>Visibility</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredInventory.map((item) => (
-                      <tr key={item.id}>
-                        <td className="product-table-cell">
-                          <img src={item.image} alt={item.name} className="product-table-thumb" />
-                          <span className="product-table-name">{item.name}</span>
-                        </td>
-                        <td><code>{item.sku}</code></td>
-                        <td>{item.collection}</td>
-                        <td><strong>{item.price}</strong> <span className="price-usd-sub">({item.priceUsd})</span></td>
-                        <td>
-                          <div className="stock-control-cell">
+              {/* ── CATALOG QUICK KPI STATS ── */}
+              <div className="admin-kpi-grid" style={{ marginBottom: "20px" }}>
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-label">TOTAL TIMEPIECES</span>
+                    <span className="kpi-trend">Master References</span>
+                  </div>
+                  <div className="kpi-value">{(products || []).length || PRODUCTS_DATA.length}</div>
+                  <div className="kpi-subtext">Active catalog models</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-label">BOUTIQUE ACTIVE</span>
+                    <span className="kpi-trend kpi-trend--live">● Visible</span>
+                  </div>
+                  <div className="kpi-value">
+                    {(products || PRODUCTS_DATA).filter((p) => p.isActive !== false).length}
+                  </div>
+                  <div className="kpi-subtext">Discoverable by collectors</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-label">VAULT RESERVES</span>
+                    <span className="kpi-trend">Units in Vault</span>
+                  </div>
+                  <div className="kpi-value">
+                    {(products || PRODUCTS_DATA).reduce((sum, p) => sum + (p.stock || 0), 0)}
+                  </div>
+                  <div className="kpi-subtext">Total allocated physical units</div>
+                </div>
+
+                <div className="kpi-card">
+                  <div className="kpi-card-top">
+                    <span className="kpi-label">LOW STOCK ALERTS</span>
+                    <span className="kpi-trend" style={{ color: "#ff857a" }}>&lt; 3 Units</span>
+                  </div>
+                  <div className="kpi-value" style={{ color: "#ff857a" }}>
+                    {(products || PRODUCTS_DATA).filter((p) => (p.stock || 0) < 3).length}
+                  </div>
+                  <div className="kpi-subtext">Require allocation replenishment</div>
+                </div>
+              </div>
+
+              {/* ── FILTER & SEARCH TOOLBAR ── */}
+              <div className="admin-toolbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, minWidth: "280px" }}>
+                  <input
+                    type="text"
+                    className="toolbar-search-input"
+                    placeholder="Search by SKU, Model Name, or Complication..."
+                    value={inventorySearch}
+                    onChange={(e) => setInventorySearch(e.target.value)}
+                    style={{ flex: 1, maxWidth: "420px" }}
+                  />
+                  {inventorySearch && (
+                    <button
+                      type="button"
+                      className="admin-action-btn"
+                      onClick={() => setInventorySearch("")}
+                      style={{ padding: "6px 12px", fontSize: "11px" }}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div className="view-mode-toggle" style={{ display: "inline-flex", background: "rgba(255, 255, 255, 0.05)", borderRadius: "8px", padding: "3px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    <button
+                      type="button"
+                      className={`admin-tab-mode-btn ${catalogViewMode === "table" ? "is-active" : ""}`}
+                      onClick={() => setCatalogViewMode("table")}
+                      style={{
+                        background: catalogViewMode === "table" ? "rgba(255, 255, 255, 0.12)" : "transparent",
+                        color: catalogViewMode === "table" ? "#fff" : "#71717a",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "5px 10px",
+                        fontSize: "11.5px",
+                        cursor: "pointer",
+                        fontWeight: "600",
+                      }}
+                    >
+                      📋 Table View
+                    </button>
+                    <button
+                      type="button"
+                      className={`admin-tab-mode-btn ${catalogViewMode === "grid" ? "is-active" : ""}`}
+                      onClick={() => setCatalogViewMode("grid")}
+                      style={{
+                        background: catalogViewMode === "grid" ? "rgba(255, 255, 255, 0.12)" : "transparent",
+                        color: catalogViewMode === "grid" ? "#fff" : "#71717a",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "5px 10px",
+                        fontSize: "11.5px",
+                        cursor: "pointer",
+                        fontWeight: "600",
+                      }}
+                    >
+                      🖼️ Cards Grid
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── CATEGORY FILTER PILLS ── */}
+              <div className="admin-category-pills" style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "12px", scrollbarWidth: "none" }}>
+                {CATEGORIES.map((cat) => {
+                  const count =
+                    cat.id === "ALL"
+                      ? (products || PRODUCTS_DATA).length
+                      : (products || PRODUCTS_DATA).filter((p) => p.collection === cat.id).length;
+                  const isSelected = catalogCategoryFilter === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setCatalogCategoryFilter(cat.id)}
+                      style={{
+                        background: isSelected ? "rgba(250, 45, 29, 0.15)" : "rgba(255, 255, 255, 0.03)",
+                        border: isSelected ? "1px solid #fa2d1d" : "1px solid rgba(255, 255, 255, 0.08)",
+                        color: isSelected ? "#fff" : "#a1a1aa",
+                        borderRadius: "9999px",
+                        padding: "6px 14px",
+                        fontSize: "11px",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
+                        transition: "all 0.15s ease",
+                      }}
+                    >
+                      <span>{cat.label}</span>
+                      <span style={{ marginLeft: "6px", opacity: 0.7, fontSize: "10px" }}>({count})</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* ── VIEW 1: TABLE VIEW ── */}
+              {catalogViewMode === "table" ? (
+                <div className="admin-table-card">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Timepiece</th>
+                        <th>Reference SKU</th>
+                        <th>Collection</th>
+                        <th>Retail Valuation</th>
+                        <th>Vault Stock</th>
+                        <th>Visibility</th>
+                        <th style={{ textAlign: "right" }}>Atelier Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredInventory.length === 0 ? (
+                        <tr>
+                          <td colSpan={7} style={{ textAlign: "center", padding: "40px 20px", color: "#71717a" }}>
+                            <div style={{ fontSize: "24px", marginBottom: "8px" }}>✦</div>
+                            <p style={{ margin: "0 0 12px 0", color: "#fff", fontWeight: "600" }}>No timepieces found matching criteria</p>
                             <button
                               type="button"
-                              className="stock-btn"
-                              onClick={() => handleStockChange(item.id, -1)}
+                              className="admin-action-btn admin-action-btn--primary"
+                              onClick={handleOpenCreateWatch}
                             >
-                              −
+                              + Create New Timepiece Now
                             </button>
-                            <span className={`stock-number ${item.stock < 3 ? "stock-number--low" : ""}`}>
-                              {item.stock}
-                            </span>
-                            <button
-                              type="button"
-                              className="stock-btn"
-                              onClick={() => handleStockChange(item.id, 1)}
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
-                        <td>
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredInventory.map((item) => (
+                          <tr key={item.id}>
+                            <td className="product-table-cell">
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="product-table-thumb"
+                                onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }}
+                              />
+                              <div>
+                                <span className="product-table-name">{item.name}</span>
+                                {item.tag && <span className="product-table-tag">{item.tag}</span>}
+                              </div>
+                            </td>
+                            <td><code>{item.sku}</code></td>
+                            <td>{item.collectionName || item.collection}</td>
+                            <td><strong>{item.price}</strong> <span className="price-usd-sub">({item.priceUsd})</span></td>
+                            <td>
+                              <div className="stock-control-cell">
+                                <button
+                                  type="button"
+                                  className="stock-btn"
+                                  onClick={() => handleStockChange(item.id, -1)}
+                                  title="Decrease Stock"
+                                >
+                                  −
+                                </button>
+                                <span className={`stock-number ${(item.stock || 0) < 3 ? "stock-number--low" : ""}`}>
+                                  {item.stock || 0}
+                                </span>
+                                <button
+                                  type="button"
+                                  className="stock-btn"
+                                  onClick={() => handleStockChange(item.id, 1)}
+                                  title="Increase Stock"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className={`visibility-toggle-btn ${item.isActive !== false ? "is-active" : "is-hidden"}`}
+                                onClick={() => handleToggleActive(item.id)}
+                                title={item.isActive !== false ? "Click to deactivate from storefront" : "Click to activate in boutique catalog"}
+                              >
+                                <span className="visibility-dot" />
+                                <span className="visibility-label">
+                                  {item.isActive !== false ? "Active in Boutique" : "Hidden"}
+                                </span>
+                              </button>
+                            </td>
+                            <td style={{ textAlign: "right" }}>
+                              <div className="admin-row-actions-group" style={{ justifyContent: "flex-end" }}>
+                                <button
+                                  type="button"
+                                  className="admin-row-action-btn admin-row-action-btn--edit"
+                                  onClick={() => handleOpenEditWatch(item)}
+                                  title="Edit Timepiece Dossier & Specs"
+                                >
+                                  <span>✏️ Edit</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="admin-row-action-btn"
+                                  onClick={() => handleDuplicateWatch(item)}
+                                  title="Clone Reference Variant"
+                                >
+                                  <span>📋 Clone</span>
+                                </button>
+                                <button
+                                  type="button"
+                                  className="admin-row-action-btn admin-row-action-btn--delete"
+                                  onClick={() => handleOpenDeleteWatch(item)}
+                                  title="Archive / Delete Timepiece"
+                                >
+                                  <span>🗑️ Delete</span>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                /* ── VIEW 2: CARDS GRID VIEW ── */
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+                  {filteredInventory.map((item) => (
+                    <div
+                      key={item.id}
+                      style={{
+                        background: "rgba(255, 255, 255, 0.03)",
+                        border: "1px solid rgba(255, 255, 255, 0.08)",
+                        borderRadius: "14px",
+                        padding: "16px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "12px",
+                        position: "relative",
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ fontSize: "10px", fontWeight: "700", color: "#ffd700", background: "rgba(212, 175, 55, 0.1)", padding: "2px 8px", borderRadius: "4px" }}>
+                          REF. {item.sku}
+                        </span>
+                        <span style={{ fontSize: "11px", color: (item.stock || 0) < 3 ? "#ff857a" : "#4ade80", fontWeight: "600" }}>
+                          {item.stock || 0} in Vault
+                        </span>
+                      </div>
+
+                      <div style={{ height: "160px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          style={{ maxHeight: "150px", maxWidth: "100%", objectFit: "contain", filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.6))" }}
+                          onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }}
+                        />
+                      </div>
+
+                      <div>
+                        <h4 style={{ fontSize: "13px", fontWeight: "700", color: "#fff", margin: "0 0 4px 0", lineHeight: "1.3" }}>
+                          {item.name}
+                        </h4>
+                        <span style={{ fontSize: "11px", color: "#71717a" }}>{item.collectionName || item.collection}</span>
+                      </div>
+
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid rgba(255, 255, 255, 0.06)", paddingTop: "10px" }}>
+                        <div>
+                          <span style={{ fontSize: "14px", fontWeight: "800", color: "#fff", display: "block" }}>{item.price}</span>
+                          <span style={{ fontSize: "10.5px", color: "#71717a" }}>{item.priceUsd}</span>
+                        </div>
+
+                        <div className="admin-row-actions-group">
                           <button
                             type="button"
-                            className={`visibility-toggle-btn ${item.isActive ? "is-active" : "is-hidden"}`}
-                            onClick={() => handleToggleActive(item.id)}
+                            className="admin-row-action-btn admin-row-action-btn--edit"
+                            onClick={() => handleOpenEditWatch(item)}
                           >
-                            {item.isActive ? "● Active in Boutique" : "○ Hidden"}
+                            ✏️ Edit
                           </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                          <button
+                            type="button"
+                            className="admin-row-action-btn admin-row-action-btn--delete"
+                            onClick={() => handleOpenDeleteWatch(item)}
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -1405,8 +1830,8 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
 
       {/* ── INSPECT ORDER DOSSIER MODAL ── */}
       {inspectingOrder && (
-        <div className="admin-modal-overlay" onClick={() => setInspectingOrder(null)}>
-          <div className="admin-dossier-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-overlay" onClick={() => setInspectingOrder(null)} data-lenis-prevent="true">
+          <div className="admin-dossier-modal" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
             <div className="dossier-modal-head">
               <div>
                 <span className="dossier-ref-tag">ALLOCATION DOSSIER</span>
@@ -1421,7 +1846,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               </button>
             </div>
 
-            <div className="dossier-modal-body">
+            <div className="dossier-modal-body" data-lenis-prevent="true">
               <div className="dossier-grid">
                 <div className="dossier-field">
                   <span className="df-label">Client Full Name</span>
@@ -1498,8 +1923,8 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
 
       {/* ── INSPECT LIVE CART MODAL ── */}
       {inspectingCart && (
-        <div className="admin-modal-overlay" onClick={() => setInspectingCart(null)}>
-          <div className="admin-dossier-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-modal-overlay" onClick={() => setInspectingCart(null)} data-lenis-prevent="true">
+          <div className="admin-dossier-modal" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
             <div className="dossier-modal-head">
               <div>
                 <span className="dossier-ref-tag">ACTIVE SHOPPING BAG</span>
@@ -1559,6 +1984,33 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           </div>
         </div>
       )}
+
+      {/* ── ATELIER WATCH EDITOR MODAL ── */}
+      <WatchEditorModal
+        isOpen={editorModalOpen}
+        initialData={editingWatch}
+        onClose={() => {
+          setEditorModalOpen(false);
+          setEditingWatch(null);
+        }}
+        onSave={handleSaveWatch}
+        onDeleteRequest={(watch) => {
+          setEditorModalOpen(false);
+          setDeletingWatch(watch);
+          setDeleteModalOpen(true);
+        }}
+      />
+
+      {/* ── ATELIER DELETE WATCH MODAL ── */}
+      <DeleteWatchModal
+        isOpen={deleteModalOpen}
+        watch={deletingWatch}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setDeletingWatch(null);
+        }}
+        onConfirm={handleConfirmDeleteWatch}
+      />
     </div>
   );
 }

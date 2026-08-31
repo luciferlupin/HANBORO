@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export function CompareModal({ comparedProducts, onRemove, onClear, onClose, onSelectProduct }) {
-  if (!comparedProducts || comparedProducts.length === 0) return null;
+  const isOpen = Boolean(comparedProducts && comparedProducts.length > 0);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
-    <div className="compare-modal-overlay" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="compare-modal-box" onClick={(e) => e.stopPropagation()}>
+    <div className="compare-modal-overlay" onClick={onClose} role="dialog" aria-modal="true" data-lenis-prevent="true">
+      <div className="compare-modal-box" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
         <div className="compare-modal-top">
           <div className="compare-title-group">
             <span className="compare-tag">HOROLOGICAL COMPARISON</span>

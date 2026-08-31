@@ -52,6 +52,21 @@ export function CheckoutModal() {
     }
   }, [user]);
 
+  // Lock background scroll and pause Lenis while Checkout is open
+  useEffect(() => {
+    if (!isCheckoutOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [isCheckoutOpen]);
+
   // Reset steps when modal opens/closes
   useEffect(() => {
     if (isCheckoutOpen) {
@@ -101,13 +116,14 @@ export function CheckoutModal() {
   };
 
   return (
-    <div className="luxury-modal-backdrop checkout-backdrop" onClick={closeCheckout}>
+    <div className="luxury-modal-backdrop checkout-backdrop" onClick={closeCheckout} data-lenis-prevent="true">
       <div
         className="luxury-modal-card checkout-modal-card"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="checkout-modal-title"
+        data-lenis-prevent="true"
       >
         {/* Header with Step Indicator */}
         <div className="checkout-modal-header">

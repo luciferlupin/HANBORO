@@ -203,6 +203,44 @@ function useSmoothScroll() {
       wheelMultiplier: 0.92,
       touchMultiplier: 1.15,
       infinite: false,
+      prevent: (node) => {
+        if (!node) return false;
+        // Never scroll page when body is locked for modal/form/dialog
+        if (
+          document.body.style.overflow === "hidden" ||
+          document.body.classList.contains("modal-open")
+        ) {
+          return true;
+        }
+        // Never scroll background if pointer/wheel is inside any modal, drawer, or scrollable dialog
+        if (typeof node.closest === "function") {
+          return Boolean(
+            node.closest("[data-lenis-prevent]") ||
+            node.closest("[role='dialog']") ||
+            node.closest(".watch-editor-overlay") ||
+            node.closest(".watch-editor-modal") ||
+            node.closest(".watch-editor-body") ||
+            node.closest(".roulette-modal-overlay") ||
+            node.closest(".roulette-modal-card") ||
+            node.closest(".luxury-modal-backdrop") ||
+            node.closest(".luxury-modal-card") ||
+            node.closest(".auth-modal-card") ||
+            node.closest(".checkout-modal-card") ||
+            node.closest(".apple-modal-overlay") ||
+            node.closest(".apple-modal-box") ||
+            node.closest(".admin-modal-overlay") ||
+            node.closest(".admin-dossier-modal") ||
+            node.closest(".compare-modal-overlay") ||
+            node.closest(".compare-modal-box") ||
+            node.closest(".luxury-cart-drawer") ||
+            node.closest(".luxury-cart-backdrop") ||
+            node.closest(".luxury-drawer") ||
+            node.closest(".delete-modal-overlay") ||
+            node.closest(".delete-modal-dialog")
+          );
+        }
+        return false;
+      },
     });
 
     lenisRef.current = lenis;
@@ -817,6 +855,21 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
     checkUserSpin();
   }, [user, rouletteService]);
 
+  // Lock body scroll and pause Lenis while roulette verification modal is open
+  useEffect(() => {
+    if (!showIdentifierModal) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [showIdentifierModal]);
+
   // Synthesize realistic horological ticking and winning chime sound
   const playTickSound = (pitch = 900) => {
     try {
@@ -1344,8 +1397,8 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
 
         {/* ── CUSTOMER VERIFICATION MODAL FOR 1-SPIN ENFORCEMENT ── */}
         {showIdentifierModal && (
-          <div className="roulette-modal-overlay" onClick={() => setShowIdentifierModal(false)}>
-            <div className="roulette-modal-card" onClick={(e) => e.stopPropagation()}>
+          <div className="roulette-modal-overlay" onClick={() => setShowIdentifierModal(false)} data-lenis-prevent="true">
+            <div className="roulette-modal-card" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
               <button
                 type="button"
                 className="roulette-modal-close"
@@ -2972,6 +3025,21 @@ function Website({ onRestart }) {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Lock background scroll and pause Lenis while menu drawer is open
+  useEffect(() => {
+    if (!menuOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [menuOpen]);
+
   const navigateTo = (newView, hashTarget) => {
     setView(newView);
     setMenuOpen(false);
@@ -3099,11 +3167,13 @@ function Website({ onRestart }) {
         className={`luxury-drawer-backdrop ${menuOpen ? "is-open" : ""}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden={!menuOpen}
+        data-lenis-prevent="true"
       />
       <aside
         className={`luxury-drawer ${menuOpen ? "is-open" : ""}`}
         aria-label="Site navigation menu"
         aria-hidden={!menuOpen}
+        data-lenis-prevent="true"
       >
         <div className="luxury-drawer__head">
           <button

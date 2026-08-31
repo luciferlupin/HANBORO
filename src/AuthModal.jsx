@@ -61,6 +61,21 @@ export function AuthModal() {
     }
   }, [user, isAuthModalOpen]);
 
+  // Lock body scroll and pause Lenis while Auth Modal is open
+  useEffect(() => {
+    if (!isAuthModalOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [isAuthModalOpen]);
+
   if (!isAuthModalOpen) return null;
 
   const handleTabChange = (newTab) => {
@@ -133,13 +148,14 @@ export function AuthModal() {
   };
 
   return (
-    <div className="luxury-modal-backdrop" onClick={closeAuthModal}>
+    <div className="luxury-modal-backdrop" onClick={closeAuthModal} data-lenis-prevent="true">
       <div
         className={`luxury-modal-card auth-modal-card ${user ? "auth-modal-card--profile" : ""}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
+        data-lenis-prevent="true"
       >
         {/* Close Button */}
         <button

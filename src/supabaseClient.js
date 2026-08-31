@@ -24,6 +24,7 @@ const STORAGE_KEYS = {
   INVENTORY: "hanboro_inventory_cache",
   SESSION_USER: "hanboro_auth_user",
   ROULETTE_SPINS: "hanboro_roulette_spins_cache",
+  PRODUCTS: "hanboro_custom_products",
 };
 
 // Helper: load local orders cache (pure live orders only)
@@ -883,3 +884,147 @@ export const rouletteService = {
     return updated;
   },
 };
+
+// ── PRODUCTS SERVICE ─────────────────────────────────────────────────────────
+export const productsService = {
+  // Get locally cached products or fallback to default PRODUCTS_DATA
+  getLocalProducts() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((p, idx) => ({
+            ...p,
+            stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+          }));
+        }
+      }
+    } catch (e) {
+      console.warn("Could not parse cached products:", e);
+    }
+    return PRODUCTS_DATA.map((p, idx) => ({
+      ...p,
+      stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+    }));
+  },
+
+  // Save full products list to local storage
+  saveLocalProducts(products) {
+    try {
+      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+    } catch (e) {
+      console.warn("Could not save products locally:", e);
+    }
+  },
+
+  // Fetch products from Supabase with fallback to local/master
+  async fetchProducts() {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        // Map database columns to application camelCase if needed
+        const mapped = data.map((row) => ({
+          id: row.id,
+          sku: row.sku,
+          name: row.name,
+          subtitle: row.subtitle || "",
+          collection: row.collection || "TOURBILLON",
+          collectionName: row.collection_name || "Tourbillon & Complications",
+          tag: row.tag || "Haute Horlogerie",
+          price: row.price,
+          priceUsd: row.price_usd || "$1,200",
+          availability: row.availability || "In Stock",
+          year: row.year || "2026",
+          summary: row.summary || "",
+          image: row.image,
+          transparentImage: row.transparent_image || row.image,
+          altImages: Array.isArray(row.alt_images) ? row.alt_images : [row.image],
+          gallery: Array.isArray(row.gallery) ? row.gallery : [],
+          specs: typeof row.specs === "object" && row.specs !== null ? row.specs : {},
+          stock: typeof row.stock === "number" ? row.stock : 10,
+          isActive: row.is_active !== false,
+        }));
+        this.saveLocalProducts(mapped);
+        return mapped;
+      }
+    } catch (err) {
+      console.warn("Supabase fetch products note:", err);
+    }
+
+    return this.getLocalProducts();
+  },
+
+  // Save (insert or update) a product
+  async saveProduct(product) {
+    const local = this.getLocalProducts();
+    const existingIndex = local.findIndex((p) => p.id === product.id || p.sku === product.sku);
+    let updated;
+    if (existingIndex >= 0) {
+      updated = [...local];
+      updated[existingIndex] = { ...updated[existingIndex], ...product, updatedAt: new Date().toISOString() };
+    } else {
+      updated = [product, ...local];
+    }
+    this.saveLocalProducts(updated);
+
+    // Sync to Supabase
+    try {
+      const dbPayload = {
+        id: product.id,
+        sku: product.sku,
+        name: product.name,
+        subtitle: product.subtitle || "",
+        collection: product.collection || "TOURBILLON",
+        collection_name: product.collectionName || "Tourbillon & Complications",
+        tag: product.tag || "Haute Horlogerie",
+        price: product.price,
+        price_usd: product.priceUsd || "$1,200",
+        availability: product.availability || "In Stock",
+        year: product.year || "2026",
+        summary: product.summary || "",
+        image: product.image,
+        transparent_image: product.transparentImage || product.image,
+        alt_images: product.altImages || [product.image],
+        gallery: product.gallery || [],
+        specs: product.specs || {},
+        stock: typeof product.stock === "number" ? product.stock : 10,
+        is_active: product.isActive !== false,
+        updated_at: new Date().toISOString(),
+      };
+      await supabase.from("products").upsert(dbPayload);
+    } catch (err) {
+      console.warn("Supabase upsert product note:", err);
+    }
+
+    return updated;
+  },
+
+  // Delete a product by id
+  async deleteProduct(productId) {
+    const local = this.getLocalProducts();
+    const updated = local.filter((p) => p.id !== productId && p.sku !== productId);
+    this.saveLocalProducts(updated);
+
+    try {
+      await supabase.from("products").delete().eq("id", productId);
+    } catch (err) {
+      console.warn("Supabase delete product note:", err);
+    }
+
+    return updated;
+  },
+
+  // Factory reset to master factory catalog
+  async resetToMaster() {
+    localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+    const defaults = [...PRODUCTS_DATA];
+    this.saveLocalProducts(defaults);
+    return defaults;
+  },
+};
+

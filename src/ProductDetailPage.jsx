@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { PRODUCTS_DATA, getProductByIdOrSku } from "./productsData";
+import React, { useState, useEffect, useMemo } from "react";
+import { PRODUCTS_DATA } from "./productsData";
 import { useStore } from "./StoreContext";
 
 export function ProductDetailPage({
@@ -8,8 +8,17 @@ export function ProductDetailPage({
   onSelectSku,
   onNavigateToStores
 }) {
-  const product = getProductByIdOrSku(skuId) || PRODUCTS_DATA[0];
-  const { addToCart, buyNow } = useStore();
+  const {
+    products,
+    getProductByIdOrSku,
+    addToCart,
+    buyNow,
+  } = useStore();
+
+  const product = useMemo(() => {
+    return getProductByIdOrSku(skuId) || (products && products[0]) || PRODUCTS_DATA[0];
+  }, [skuId, getProductByIdOrSku, products]);
+
   const [buyQty, setBuyQty] = useState(1);
 
   const [activeImage, setActiveImage] = useState(product?.image);

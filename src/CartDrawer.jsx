@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
 
@@ -24,6 +24,21 @@ export function CartDrawer() {
   const [promoError, setPromoError] = useState("");
   const [luxuryGiftBox, setLuxuryGiftBox] = useState(true);
 
+  // Lock background body scroll and pause Lenis while Cart Drawer is open
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [isCartOpen]);
+
   if (!isCartOpen) return null;
 
   const handleApplyPromo = (e) => {
@@ -45,6 +60,7 @@ export function CartDrawer() {
         className="luxury-cart-backdrop"
         onClick={() => setIsCartOpen(false)}
         aria-hidden="true"
+        data-lenis-prevent="true"
       />
 
       {/* Slide-out Drawer */}
@@ -53,6 +69,7 @@ export function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping Bag"
+        data-lenis-prevent="true"
       >
         {/* Drawer Header */}
         <div className="cart-drawer-head">

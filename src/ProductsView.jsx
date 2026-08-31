@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
-import { CATEGORIES, PRODUCTS_DATA } from "./productsData";
+import React, { useState, useMemo } from "react";
+import { CATEGORIES } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
 
@@ -9,7 +9,8 @@ export function ProductsView({
   onNavigateHome,
   onNavigateToStores
 }) {
-  const { addToCart, buyNow } = useStore();
+  const { products, addToCart, buyNow } = useStore();
+
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
@@ -17,39 +18,34 @@ export function ProductsView({
   const [showCompareModal, setShowCompareModal] = useState(false);
   const [sortOrder, setSortOrder] = useState("DEFAULT");
 
+  const catalogList = useMemo(() => {
+    return Array.isArray(products) && products.length > 0 ? products : [];
+  }, [products]);
+
   const heroSpotlightList = useMemo(() => {
+    if (catalogList.length === 0) return [];
     return [
-      PRODUCTS_DATA.find((p) => p.id === "stealth-fighter-jet-tonneau") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "sichuan-opera-diamond-tonneau") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "arachnid-geometric-skeleton") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "architectural-skeleton-black") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "forged-carbon-tonneau-tourbillon") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "aurora-celestial-frost") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-celestial") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-bronze") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "octagonal-diamond-emerald") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "astroworld-celestial") || PRODUCTS_DATA[0],
-      PRODUCTS_DATA.find((p) => p.id === "clover-king-crimson") || PRODUCTS_DATA[1],
-      PRODUCTS_DATA.find((p) => p.id === "emerald-roulette") || PRODUCTS_DATA[2],
-      PRODUCTS_DATA.find((p) => p.id === "octagonal-blue") || PRODUCTS_DATA[3]
+      catalogList.find((p) => p.id === "stealth-fighter-jet-tonneau") || catalogList[0],
+      catalogList.find((p) => p.id === "sichuan-opera-diamond-tonneau") || catalogList[0],
+      catalogList.find((p) => p.id === "arachnid-geometric-skeleton") || catalogList[0],
+      catalogList.find((p) => p.id === "architectural-skeleton-black") || catalogList[0],
+      catalogList.find((p) => p.id === "forged-carbon-tonneau-tourbillon") || catalogList[0],
+      catalogList.find((p) => p.id === "aurora-celestial-frost") || catalogList[0],
+      catalogList.find((p) => p.id === "octagonal-diamond-celestial") || catalogList[0],
+      catalogList.find((p) => p.id === "octagonal-diamond-bronze") || catalogList[0],
+      catalogList.find((p) => p.id === "octagonal-diamond-emerald") || catalogList[0],
+      catalogList.find((p) => p.id === "astroworld-celestial") || catalogList[0],
+      catalogList.find((p) => p.id === "clover-king-crimson") || catalogList[1] || catalogList[0],
+      catalogList.find((p) => p.id === "emerald-roulette") || catalogList[2] || catalogList[0],
+      catalogList.find((p) => p.id === "octagonal-blue") || catalogList[3] || catalogList[0]
     ].filter(Boolean);
-  }, []);
+  }, [catalogList]);
 
-  const activeHeroWatch = heroSpotlightList[activeHeroIndex] || heroSpotlightList[0];
-
-  // Active product for detail modal
-  const activeProduct = useMemo(() => {
-    if (!selectedSkuId) return null;
-    return (
-      PRODUCTS_DATA.find(
-        (p) => p.id === selectedSkuId || p.sku.toLowerCase() === selectedSkuId.toLowerCase()
-      ) || null
-    );
-  }, [selectedSkuId]);
+  const activeHeroWatch = heroSpotlightList[activeHeroIndex] || catalogList[0] || null;
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let list = [...PRODUCTS_DATA];
+    let list = [...catalogList];
 
     // Category filter
     if (activeCategory !== "ALL") {
@@ -61,25 +57,25 @@ export function ProductsView({
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(
         (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.sku.toLowerCase().includes(q) ||
-          p.subtitle.toLowerCase().includes(q) ||
-          p.collectionName.toLowerCase().includes(q) ||
-          p.specs.movement.toLowerCase().includes(q) ||
-          p.tag.toLowerCase().includes(q) ||
-          p.specs.complications?.some((c) => c.toLowerCase().includes(q))
+          p.name?.toLowerCase().includes(q) ||
+          p.sku?.toLowerCase().includes(q) ||
+          p.subtitle?.toLowerCase().includes(q) ||
+          p.collectionName?.toLowerCase().includes(q) ||
+          p.specs?.movement?.toLowerCase().includes(q) ||
+          p.tag?.toLowerCase().includes(q) ||
+          p.specs?.complications?.some((c) => c.toLowerCase().includes(q))
       );
     }
 
     // Sorting
     if (sortOrder === "PRICE_DESC") {
-      list.sort((a, b) => parseInt(b.price.replace(/[^\d]/g, "")) - parseInt(a.price.replace(/[^\d]/g, "")));
+      list.sort((a, b) => parseInt(String(b.price || "0").replace(/[^\d]/g, "")) - parseInt(String(a.price || "0").replace(/[^\d]/g, "")));
     } else if (sortOrder === "PRICE_ASC") {
-      list.sort((a, b) => parseInt(a.price.replace(/[^\d]/g, "")) - parseInt(b.price.replace(/[^\d]/g, "")));
+      list.sort((a, b) => parseInt(String(a.price || "0").replace(/[^\d]/g, "")) - parseInt(String(b.price || "0").replace(/[^\d]/g, "")));
     }
 
     return list;
-  }, [activeCategory, searchQuery, sortOrder]);
+  }, [catalogList, activeCategory, searchQuery, sortOrder]);
 
   // Comparison helpers
   const handleToggleCompare = (product, e) => {
@@ -97,8 +93,8 @@ export function ProductsView({
   };
 
   const comparedProducts = useMemo(() => {
-    return PRODUCTS_DATA.filter((p) => comparedIds.includes(p.id));
-  }, [comparedIds]);
+    return catalogList.filter((p) => comparedIds.includes(p.id));
+  }, [catalogList, comparedIds]);
 
   const handleProductClick = (product) => {
     if (onSelectSku) {
@@ -106,115 +102,83 @@ export function ProductsView({
     }
   };
 
-  const closeModal = () => {
-    if (onSelectSku) {
-      onSelectSku(null);
-    }
-  };
-
   return (
     <div className="apple-catalog-view" id="products-catalog">
       {/* ── CINEMATIC APPLE-STYLE SPOTLIGHT STAGE ── */}
-      <section className="apple-spotlight-stage" aria-label="Featured Masterpiece Spotlight">
-        <div className="spotlight-stage__backdrop" />
-        <div className="spotlight-stage__aura" />
+      {activeHeroWatch && (
+        <section className="apple-spotlight-stage" aria-label="Featured Masterpiece Spotlight">
+          <div className="spotlight-stage__backdrop" />
+          <div className="spotlight-stage__aura" />
 
-        <div className="spotlight-stage__container">
-          <div className="spotlight-content-side">
-            <div className="spotlight-eyebrow">
-              <span className="spotlight-pill">ATELIER SPOTLIGHT</span>
-              <span className="spotlight-sku-ref">REF. {activeHeroWatch.sku}</span>
-            </div>
-
-            <h1 className="spotlight-title">{activeHeroWatch.name}</h1>
-            <p className="spotlight-desc">{activeHeroWatch.summary}</p>
-
-            {/* Apple-grade Key Specs Pill Row */}
-            <div className="spotlight-specs-row">
-              <div className="spotlight-spec-chip">
-                <span className="chip-value">{activeHeroWatch.specs.frequency}</span>
-                <span className="chip-label">High-Beat Beat</span>
+          <div className="spotlight-stage__container">
+            <div className="spotlight-content-side">
+              <div className="spotlight-eyebrow">
+                <span className="spotlight-pill">ATELIER SPOTLIGHT</span>
+                <span className="spotlight-sku-ref">REF. {activeHeroWatch.sku}</span>
               </div>
-              <div className="spotlight-spec-chip">
-                <span className="chip-value">{activeHeroWatch.specs.powerReserve}</span>
-                <span className="chip-label">Power Reserve</span>
+
+              <h1 className="spotlight-title">{activeHeroWatch.name}</h1>
+              <p className="spotlight-desc">{activeHeroWatch.summary}</p>
+
+              {/* Apple-grade Key Specs Pill Row */}
+              <div className="spotlight-specs-row">
+                <div className="spotlight-spec-chip">
+                  <span className="chip-value">{activeHeroWatch.specs?.frequency || "28,800 VPH"}</span>
+                  <span className="chip-label">High-Beat Beat</span>
+                </div>
+                <div className="spotlight-spec-chip">
+                  <span className="chip-value">{activeHeroWatch.specs?.powerReserve || "72 Hours"}</span>
+                  <span className="chip-label">Power Reserve</span>
+                </div>
+                <div className="spotlight-spec-chip">
+                  <span className="chip-value">{activeHeroWatch.specs?.waterResistance || "50M"}</span>
+                  <span className="chip-label">Aquatic Seal</span>
+                </div>
               </div>
-              <div className="spotlight-spec-chip">
-                <span className="chip-value">{activeHeroWatch.specs.waterResistance}</span>
-                <span className="chip-label">Aquatic Seal</span>
-              </div>
-            </div>
 
-            <div className="spotlight-cta-row">
-              <button
-                type="button"
-                className="apple-primary-btn"
-                onClick={() => handleProductClick(activeHeroWatch)}
-              >
-                <span>Inspect Timepiece</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </button>
-
-              <button
-                type="button"
-                className="spotlight-add-cart-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addToCart(activeHeroWatch, 1, true);
-                }}
-                title="Add to Luxury Bag"
-              >
-                <span>+ Add to Bag</span>
-              </button>
-
-              <button
-                type="button"
-                className="spotlight-buy-now-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  buyNow(activeHeroWatch);
-                }}
-                title="Instant Buy Now"
-              >
-                <span>Buy Now</span>
-              </button>
-
-              <span className="spotlight-price-tag">{activeHeroWatch.price}</span>
-            </div>
-
-            {/* Spotlight Watch Pagination Dots */}
-            <div className="spotlight-carousel-dots">
-              {heroSpotlightList.map((item, idx) => (
+              <div className="spotlight-cta-row">
                 <button
-                  key={item.id}
                   type="button"
-                  className={`spotlight-dot ${activeHeroIndex === idx ? "is-active" : ""}`}
-                  onClick={() => setActiveHeroIndex(idx)}
-                  aria-label={`Show ${item.name}`}
+                  className="apple-primary-btn"
+                  onClick={() => handleProductClick(activeHeroWatch)}
                 >
-                  <span className="dot-label">{item.name.split(" ")[0]}</span>
+                  <span>Inspect Timepiece</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
                 </button>
-              ))}
-            </div>
-          </div>
+              </div>
 
-          <div className="spotlight-visual-side" onClick={() => handleProductClick(activeHeroWatch)}>
-            <div className="spotlight-watch-halo" />
-            <img
-              key={activeHeroWatch.id}
-              src={activeHeroWatch.image}
-              alt={activeHeroWatch.name}
-              className="spotlight-watch-img"
-            />
-            <div className="spotlight-inspect-hint">
-              <span>Click to view technical dossier ↗</span>
+              {/* Carousel Indicator Dots */}
+              <div className="spotlight-dots-nav">
+                {heroSpotlightList.slice(0, 8).map((w, idx) => (
+                  <button
+                    key={w.id}
+                    type="button"
+                    aria-label={`Show ${w.name}`}
+                    className={`spotlight-dot ${activeHeroIndex === idx ? "is-active" : ""}`}
+                    onClick={() => setActiveHeroIndex(idx)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="spotlight-visual-side" onClick={() => handleProductClick(activeHeroWatch)}>
+              <div className="spotlight-watch-halo" />
+              <img
+                key={activeHeroWatch.id}
+                src={activeHeroWatch.image}
+                alt={activeHeroWatch.name}
+                className="spotlight-watch-img"
+              />
+              <div className="spotlight-inspect-hint">
+                <span>Click to view technical dossier ↗</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── MINIMAL APPLE-STYLE FILTER BAR ── */}
       <section className="apple-filter-bar">
@@ -223,7 +187,7 @@ export function ProductsView({
             <div className="filter-headline">
               <h2 className="catalog-section-title">The Complete Collection</h2>
               <p className="catalog-section-sub">
-                Explore all <strong>{PRODUCTS_DATA.length}</strong> master references engineered with avant-garde horology.
+                Explore all <strong>{catalogList.length}</strong> master references engineered with avant-garde horology.
               </p>
             </div>
 
@@ -265,13 +229,13 @@ export function ProductsView({
             </div>
           </div>
 
-          {/* Segmented Series Navigation Tabs (Apple Style) */}
+          {/* Segmented Series Navigation Tabs */}
           <div className="apple-series-tabs" role="tablist">
             {CATEGORIES.map((cat) => {
               const count =
                 cat.id === "ALL"
-                  ? PRODUCTS_DATA.length
-                  : PRODUCTS_DATA.filter((p) => p.collection === cat.id).length;
+                  ? catalogList.length
+                  : catalogList.filter((p) => p.collection === cat.id).length;
               return (
                 <button
                   key={cat.id}
@@ -290,23 +254,25 @@ export function ProductsView({
         </div>
       </section>
 
-      {/* ── LUXURY APPLE-GRADE PRODUCT SHOWCASE GRID ── */}
+      {/* ── LUXURY PRODUCT SHOWCASE GRID ── */}
       <section className="apple-grid-section">
         {filteredProducts.length === 0 ? (
           <div className="apple-empty-state">
             <div className="empty-symbol">✦</div>
             <h3>No Timepieces Found</h3>
             <p>No reference matches your search criteria. Try adjusting keywords or clear filters.</p>
-            <button
-              type="button"
-              className="apple-reset-btn"
-              onClick={() => {
-                setSearchQuery("");
-                setActiveCategory("ALL");
-              }}
-            >
-              Reset Filters
-            </button>
+            <div className="empty-actions-row">
+              <button
+                type="button"
+                className="apple-reset-btn"
+                onClick={() => {
+                  setSearchQuery("");
+                  setActiveCategory("ALL");
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
           </div>
         ) : (
           <div className="apple-product-grid">
@@ -341,6 +307,9 @@ export function ProductsView({
                       alt={watch.name}
                       className="card-watch-photo"
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+                      }}
                     />
                   </div>
 
@@ -349,11 +318,17 @@ export function ProductsView({
                     <h3 className="card-watch-title">{watch.name}</h3>
                     <p className="card-watch-tagline">{watch.subtitle}</p>
 
-                    {/* Apple-style Specs Pills */}
+                    {/* Specs Pills */}
                     <div className="card-feature-chips">
-                      <span className="feature-chip">{watch.specs.caseDimensions.split(" ")[0]}</span>
-                      <span className="feature-chip">{watch.specs.powerReserve.split(" ")[0]} {watch.specs.powerReserve.split(" ")[1]}</span>
-                      <span className="feature-chip">{watch.specs.waterResistance.split(" ")[0]}</span>
+                      <span className="feature-chip">
+                        {watch.specs?.caseDimensions ? watch.specs.caseDimensions.split(" ")[0] : "44mm"}
+                      </span>
+                      <span className="feature-chip">
+                        {watch.specs?.powerReserve ? `${watch.specs.powerReserve.split(" ")[0]} ${watch.specs.powerReserve.split(" ")[1] || ""}` : "72H"}
+                      </span>
+                      <span className="feature-chip">
+                        {watch.specs?.waterResistance ? watch.specs.waterResistance.split(" ")[0] : "50M"}
+                      </span>
                     </div>
 
                     {/* Bottom Price & Compare Row */}
@@ -376,7 +351,7 @@ export function ProductsView({
                       </button>
                     </div>
 
-                    {/* Apple-Grade Action Buttons */}
+                    {/* Commerce Action Buttons */}
                     <div className="card-cta-btn-group" onClick={(e) => e.stopPropagation()}>
                       <button
                         type="button"
@@ -419,7 +394,7 @@ export function ProductsView({
         )}
       </section>
 
-      {/* ── FLOATING APPLE-STYLE COMPARISON BAR ── */}
+      {/* ── FLOATING COMPARISON BAR ── */}
       {comparedProducts.length > 0 && (
         <aside className="apple-compare-dock">
           <div className="dock-glass-wrap">
@@ -462,7 +437,7 @@ export function ProductsView({
         </aside>
       )}
 
-      {/* ── SIDE-BY-SIDE TECHNICAL COMPARISON MODAL ── */}
+      {/* ── COMPARISON MODAL ── */}
       {showCompareModal && (
         <CompareModal
           comparedProducts={comparedProducts}

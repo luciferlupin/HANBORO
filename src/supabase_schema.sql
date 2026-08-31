@@ -85,19 +85,46 @@ CREATE TABLE IF NOT EXISTS public.roulette_spins (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- 6. Enable Row Level Security (RLS)
+-- 6. Create `products` table for dynamic watch catalog management
+CREATE TABLE IF NOT EXISTS public.products (
+    id TEXT PRIMARY KEY,
+    sku TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    subtitle TEXT,
+    collection TEXT NOT NULL DEFAULT 'TOURBILLON',
+    collection_name TEXT NOT NULL DEFAULT 'Tourbillon & Complications',
+    tag TEXT DEFAULT 'Haute Horlogerie',
+    price TEXT NOT NULL,
+    price_usd TEXT,
+    availability TEXT DEFAULT 'In Stock',
+    year TEXT DEFAULT '2026',
+    summary TEXT,
+    image TEXT NOT NULL,
+    transparent_image TEXT,
+    alt_images JSONB DEFAULT '[]'::jsonb,
+    gallery JSONB DEFAULT '[]'::jsonb,
+    specs JSONB NOT NULL DEFAULT '{}'::jsonb,
+    stock INTEGER DEFAULT 10,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 7. Enable Row Level Security (RLS)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.cart_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.inventory ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.roulette_spins ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 
--- 7. Public Anon Key Policies (Allow read/write from storefront & admin)
+-- 8. Public Anon Key Policies (Allow read/write from storefront & admin)
 DROP POLICY IF EXISTS "Anon public full access profiles" ON public.profiles;
 DROP POLICY IF EXISTS "Anon public full access cart_items" ON public.cart_items;
 DROP POLICY IF EXISTS "Anon public full access orders" ON public.orders;
 DROP POLICY IF EXISTS "Anon public full access inventory" ON public.inventory;
 DROP POLICY IF EXISTS "Anon public full access roulette_spins" ON public.roulette_spins;
+DROP POLICY IF EXISTS "Anon public full access products" ON public.products;
 
 CREATE POLICY "Anon public full access profiles" ON public.profiles
     FOR ALL
@@ -124,7 +151,12 @@ CREATE POLICY "Anon public full access roulette_spins" ON public.roulette_spins
     USING (true)
     WITH CHECK (true);
 
--- 8. Indices for fast lookup
+CREATE POLICY "Anon public full access products" ON public.products
+    FOR ALL
+    USING (true)
+    WITH CHECK (true);
+
+-- 9. Indices for fast lookup
 CREATE INDEX IF NOT EXISTS idx_cart_user ON public.cart_items (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_user ON public.orders (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_ref ON public.orders (order_ref);
@@ -132,3 +164,6 @@ CREATE INDEX IF NOT EXISTS idx_orders_created ON public.orders (created_at DESC)
 CREATE INDEX IF NOT EXISTS idx_roulette_identifier ON public.roulette_spins (customer_identifier);
 CREATE INDEX IF NOT EXISTS idx_roulette_voucher ON public.roulette_spins (voucher_code);
 CREATE INDEX IF NOT EXISTS idx_roulette_created ON public.roulette_spins (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_sku ON public.products (sku);
+CREATE INDEX IF NOT EXISTS idx_products_collection ON public.products (collection);
+

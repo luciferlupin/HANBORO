@@ -108,6 +108,21 @@ export function ProfilePage({ onNavigate }) {
     }
   }, [user]);
 
+  // Lock body scroll and pause Lenis while cancellation modal is open
+  useEffect(() => {
+    if (!orderToCancel) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("modal-open");
+    window.__hanboro_lenis?.stop();
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.classList.remove("modal-open");
+      window.__hanboro_lenis?.start();
+    };
+  }, [orderToCancel]);
+
   const handleConfirmCancelOrder = async () => {
     if (!orderToCancel) return;
     setCancelling(true);
@@ -608,8 +623,8 @@ export function ProfilePage({ onNavigate }) {
 
       {/* ── CANCELLATION CONFIRMATION MODAL ── */}
       {orderToCancel && (
-        <div className="apple-modal-overlay" onClick={() => !cancelling && setOrderToCancel(null)}>
-          <div className="apple-modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="apple-modal-overlay" onClick={() => !cancelling && setOrderToCancel(null)} data-lenis-prevent="true">
+          <div className="apple-modal-box" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
             <div className="modal-alert-symbol">⚠️</div>
             <h3 className="modal-title">Cancel Order Allocation?</h3>
             <p className="modal-text">

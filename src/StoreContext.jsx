@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { authService, ordersService, inventoryService, cartService, rouletteService } from "./supabaseClient";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
+import { authService, ordersService, inventoryService, cartService, rouletteService, productsService } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);
 
 const CART_STORAGE_KEY = "hanboro_cart_items";
+const OWNER_MODE_KEY = "hanboro_atelier_owner_mode";
 
 // Built-in Luxury Promo Codes
 export const PROMO_CODES = {
@@ -38,6 +39,30 @@ export function StoreProvider({ children }) {
   const [directCheckoutItem, setDirectCheckoutItem] = useState(null);
   const [recentOrder, setRecentOrder] = useState(null);
 
+  // ── DYNAMIC PRODUCTS CATALOG STATE ──
+  const [products, setProducts] = useState(() => productsService.getLocalProducts());
+  const [productsLoading, setProductsLoading] = useState(false);
+
+  // ── ATELIER OWNER MODE STATE ──
+  const [isOwnerMode, setIsOwnerMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem(OWNER_MODE_KEY);
+      return saved !== null ? saved === "true" : true; // Default enabled for seamless owner control
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleOwnerMode = useCallback(() => {
+    setIsOwnerMode((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(OWNER_MODE_KEY, String(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
   // ── TOAST NOTIFICATIONS ──
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -48,28 +73,39 @@ export function StoreProvider({ children }) {
     }, duration);
   };
 
-  // Sync initial user session & Supabase cart
+  // Sync initial user session, Supabase cart, and cloud products
   useEffect(() => {
-    async function loadUserAndCart() {
+    async function loadInitialData() {
       setAuthLoading(true);
-      const currentUser = await authService.getCurrentUser();
-      setUser(currentUser);
+      setProductsLoading(true);
+      try {
+        const [currentUser, remoteProducts] = await Promise.all([
+          authService.getCurrentUser(),
+          productsService.fetchProducts(),
+        ]);
+        setUser(currentUser);
+        if (remoteProducts && remoteProducts.length > 0) {
+          setProducts(remoteProducts);
+        }
 
-      if (currentUser?.id) {
-        // 1. Sync any existing local cart items to Supabase
-        const currentLocal = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
-        if (currentLocal.length > 0) {
-          await cartService.syncLocalCart(currentUser.id, currentLocal);
+        if (currentUser?.id) {
+          const currentLocal = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+          if (currentLocal.length > 0) {
+            await cartService.syncLocalCart(currentUser.id, currentLocal);
+          }
+          const remoteCart = await cartService.getCart(currentUser.id);
+          if (remoteCart.length > 0) {
+            setCart(remoteCart);
+          }
         }
-        // 2. Fetch latest cart from Supabase database
-        const remoteCart = await cartService.getCart(currentUser.id);
-        if (remoteCart.length > 0) {
-          setCart(remoteCart);
-        }
+      } catch (err) {
+        console.warn("Error loading initial store data:", err);
+      } finally {
+        setAuthLoading(false);
+        setProductsLoading(false);
       }
-      setAuthLoading(false);
     }
-    loadUserAndCart();
+    loadInitialData();
   }, []);
 
   // Save cart to local storage whenever it changes
@@ -141,6 +177,160 @@ export function StoreProvider({ children }) {
     user?.email === "admin@hanboro.com" ||
     user?.email === "owner@hanborowatches.in"
   );
+
+  // ── DYNAMIC CATALOG CRUD ACTIONS ──
+  const getProductByIdOrSku = useCallback((idOrSku) => {
+    if (!idOrSku) return null;
+    const clean = String(idOrSku).trim().toLowerCase();
+    return (
+      products.find(
+        (p) =>
+          p.id.toLowerCase() === clean ||
+          p.sku.toLowerCase() === clean
+      ) ||
+      PRODUCTS_DATA.find(
+        (p) =>
+          p.id.toLowerCase() === clean ||
+          p.sku.toLowerCase() === clean
+      ) ||
+      null
+    );
+  }, [products]);
+
+  const addProduct = async (productData) => {
+    const rawId = productData.name ? productData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : `watch-${Date.now()}`;
+    const id = productData.id || `${rawId}-${Math.floor(100 + Math.random() * 900)}`;
+    const sku = productData.sku ? productData.sku.toUpperCase() : `HBR-${Math.floor(1000 + Math.random() * 9000)}-NEW`;
+
+    const formatted = {
+      id,
+      sku,
+      name: productData.name || "Untitled Haute Timepiece",
+      subtitle: productData.subtitle || "Avant-Garde Skeleton Automatic • Haute Horlogerie",
+      collection: productData.collection || "TOURBILLON",
+      collectionName: productData.collectionName || (
+        productData.collection === "TONNEAU" ? "Tonneau Skeleton" :
+        productData.collection === "ROULETTE" ? "Casino & Roulette" :
+        productData.collection === "OCTAGONAL" ? "Royal Octagonal" :
+        productData.collection === "DIVER_SPORT" ? "Diver & Sport Chrono" :
+        productData.collection === "CLASSIC" ? "Classic & Moonphase" :
+        "Tourbillon & Complications"
+      ),
+      tag: productData.tag || "New Masterpiece",
+      price: productData.price || "₹1,25,000",
+      priceUsd: productData.priceUsd || "$1,500",
+      availability: productData.availability || "In Stock",
+      year: productData.year || "2026",
+      summary: productData.summary || "Bespoke handcrafted horological creation engineered for exceptional timekeeping precision and striking wrist presence.",
+      image: productData.image || "/watch-astroworld-moon-rosegold-front-transparent.webp",
+      transparentImage: productData.transparentImage || productData.image || "/watch-astroworld-moon-rosegold-front-transparent.webp",
+      altImages: Array.isArray(productData.altImages) && productData.altImages.length > 0
+        ? productData.altImages
+        : [productData.image || "/watch-astroworld-moon-rosegold-front-transparent.webp"],
+      gallery: Array.isArray(productData.gallery) && productData.gallery.length > 0
+        ? productData.gallery
+        : [
+            {
+              url: productData.image || "/watch-astroworld-moon-rosegold-front-transparent.webp",
+              title: "Haute Studio Front",
+              label: "01 Studio Front",
+              caption: "Primary studio capture highlighting dial depth and case finishing."
+            }
+          ],
+      specs: {
+        movement: productData.specs?.movement || "Caliber H-8000 Automatic Skeleton Movement",
+        frequency: productData.specs?.frequency || "28,800 VPH (4.0 Hz)",
+        powerReserve: productData.specs?.powerReserve || "48 Hours Power Reserve",
+        jewels: productData.specs?.jewels || "24 Synthetic Rubies",
+        caseMaterial: productData.specs?.caseMaterial || "316L Surgical Grade Stainless Steel",
+        caseDimensions: productData.specs?.caseDimensions || "42.0 mm × 13.5 mm",
+        lugToLug: productData.specs?.lugToLug || "49.0 mm",
+        glass: productData.specs?.glass || "Double-Domed Sapphire Crystal with Dual Anti-Reflective Coating",
+        caseback: productData.specs?.caseback || "Full Exhibition Sapphire Exhibition Caseback",
+        dial: productData.specs?.dial || "Three-Dimensional Multi-Layer Skeleton Dial",
+        waterResistance: productData.specs?.waterResistance || "50 Meters (5 ATM / 165 Feet)",
+        strap: productData.specs?.strap || "Fluororubber Ergonomic Strap with Quick-Release",
+        clasp: productData.specs?.clasp || "Precision Double-Security Deployant Buckle",
+        complications: Array.isArray(productData.specs?.complications)
+          ? productData.specs.complications
+          : ["Co-Axial Balance Assembly", "Luminous Super-LumiNova Hands", "Exhibition Skeleton Architecture"],
+        packaging: productData.specs?.packaging || "Piano-Black Lacquered Wooden Presentation Vault"
+      },
+      stock: typeof productData.stock === "number" ? productData.stock : 12,
+      isActive: productData.isActive !== false,
+      createdAt: new Date().toISOString(),
+    };
+
+    const updatedCatalog = await productsService.saveProduct(formatted);
+    setProducts(updatedCatalog);
+    inventoryService.updateStock(formatted.id, formatted.stock);
+    showToast(`Timepiece "${formatted.name}" added to catalog!`);
+    return formatted;
+  };
+
+  const updateProduct = async (productId, updatedFields) => {
+    const existing = products.find((p) => p.id === productId || p.sku === productId);
+    if (!existing) return null;
+
+    const merged = {
+      ...existing,
+      ...updatedFields,
+      specs: {
+        ...existing.specs,
+        ...(updatedFields.specs || {}),
+      },
+      stock: typeof updatedFields.stock === "number" ? updatedFields.stock : existing.stock,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const updatedCatalog = await productsService.saveProduct(merged);
+    setProducts(updatedCatalog);
+    if (typeof merged.stock === "number") {
+      inventoryService.updateStock(merged.id, merged.stock);
+    }
+    showToast(`Updated "${merged.name}" (Ref: ${merged.sku})`);
+    return merged;
+  };
+
+  const deleteProduct = async (productId) => {
+    const target = products.find((p) => p.id === productId || p.sku === productId);
+    const name = target?.name || productId;
+    const updatedCatalog = await productsService.deleteProduct(productId);
+    setProducts(updatedCatalog);
+    setCart((prev) => prev.filter((it) => it.product.id !== productId && it.product.sku !== productId));
+    showToast(`Timepiece "${name}" removed from catalog`);
+    return updatedCatalog;
+  };
+
+  const duplicateProduct = async (productId) => {
+    const existing = products.find((p) => p.id === productId || p.sku === productId);
+    if (!existing) return null;
+
+    const cloneId = `${existing.id}-clone-${Date.now().toString().slice(-4)}`;
+    const cloneSku = `${existing.sku}-V${Math.floor(10 + Math.random() * 90)}`;
+    const cloned = {
+      ...existing,
+      id: cloneId,
+      sku: cloneSku,
+      name: `${existing.name} (Variant)`,
+      tag: "New Edition",
+      stock: 8,
+      createdAt: new Date().toISOString(),
+    };
+
+    const updatedCatalog = await productsService.saveProduct(cloned);
+    setProducts(updatedCatalog);
+    inventoryService.updateStock(cloned.id, cloned.stock);
+    showToast(`Cloned new variant: ${cloned.name}`);
+    return cloned;
+  };
+
+  const resetProductsToDefault = async () => {
+    const defaults = await productsService.resetToMaster();
+    setProducts(defaults);
+    showToast("Master catalog restored to factory references");
+    return defaults;
+  };
 
   // Cart actions with live Supabase database sync
   const addToCart = (product, quantity = 1, openDrawer = true) => {
@@ -408,6 +598,19 @@ export function StoreProvider({ children }) {
         recentOrder,
         showToast,
         toastMessage,
+
+        // Dynamic Products Catalog & Atelier Owner Controls
+        products,
+        productsLoading,
+        isOwnerMode,
+        setIsOwnerMode,
+        toggleOwnerMode,
+        getProductByIdOrSku,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        duplicateProduct,
+        resetProductsToDefault,
 
         // Roulette & Privilege Services
         rouletteService,
