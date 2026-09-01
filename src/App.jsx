@@ -12,6 +12,10 @@ import { CheckoutModal } from "./CheckoutModal";
 import { CheckoutPage } from "./CheckoutPage";
 import { AdminDashboard } from "./AdminDashboard";
 import { ProfilePage } from "./ProfilePage";
+import { PrivacyPolicy } from "./PrivacyPolicy";
+import { ShippingPolicy } from "./ShippingPolicy";
+import { RefundPolicy } from "./RefundPolicy";
+import { TermsOfService } from "./TermsOfService";
 
 /* ── Error Boundary ────────────────────────────────────────────────────────── */
 class ErrorBoundary extends React.Component {
@@ -2973,6 +2977,10 @@ function Website({ onRestart }) {
     if (hash.startsWith("#checkout")) return "checkout";
     if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) return "profile";
     if (hash.startsWith("#stores")) return "stores";
+    if (hash.startsWith("#privacy")) return "privacy";
+    if (hash.startsWith("#shipping")) return "shipping";
+    if (hash.startsWith("#refund") || hash.startsWith("#returns") || hash.startsWith("#replacement")) return "refund";
+    if (hash.startsWith("#terms") || hash.startsWith("#tos") || hash.startsWith("#legal")) return "terms";
     if (hash.startsWith("#sku/") || hash.startsWith("#product/") || hash.startsWith("#products") || hash.startsWith("#archive")) {
       return "products";
     }
@@ -3001,6 +3009,18 @@ function Website({ onRestart }) {
         setSelectedSkuId(null);
       } else if (hash.startsWith("#stores")) {
         setView("stores");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#privacy")) {
+        setView("privacy");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#shipping")) {
+        setView("shipping");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#refund") || hash.startsWith("#returns") || hash.startsWith("#replacement")) {
+        setView("refund");
+        setSelectedSkuId(null);
+      } else if (hash.startsWith("#terms") || hash.startsWith("#tos") || hash.startsWith("#legal")) {
+        setView("terms");
         setSelectedSkuId(null);
       } else if (hash.startsWith("#sku/")) {
         setView("products");
@@ -3076,7 +3096,7 @@ function Website({ onRestart }) {
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
       {/* ── LUXURY HEADER (Exact Match to Photo Reference) ── */}
-      {view === "stores" || view === "admin" || view === "profile" || view === "checkout" ? null : (
+      {view === "stores" || view === "admin" || view === "profile" || view === "checkout" || view === "privacy" || view === "shipping" || view === "refund" || view === "terms" ? null : (
         <header className="luxury-header" role="banner">
           {/* Left: Minimal Hamburger Menu */}
           <button
@@ -3243,6 +3263,54 @@ function Website({ onRestart }) {
             <span className="drawer-link-arrow">🛍️</span>
           </button>
 
+          <button
+            type="button"
+            className={`luxury-drawer__link ${view === "privacy" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              navigateTo("privacy", "#privacy");
+            }}
+          >
+            <span className="drawer-link-text">Privacy Policy</span>
+            <span className="drawer-link-arrow">📜</span>
+          </button>
+
+          <button
+            type="button"
+            className={`luxury-drawer__link ${view === "shipping" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              navigateTo("shipping", "#shipping");
+            }}
+          >
+            <span className="drawer-link-text">Shipping Policy</span>
+            <span className="drawer-link-arrow">📦</span>
+          </button>
+
+          <button
+            type="button"
+            className={`luxury-drawer__link ${view === "refund" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              navigateTo("refund", "#refund");
+            }}
+          >
+            <span className="drawer-link-text">Refund & Returns</span>
+            <span className="drawer-link-arrow">🔄</span>
+          </button>
+
+          <button
+            type="button"
+            className={`luxury-drawer__link ${view === "terms" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              navigateTo("terms", "#terms");
+            }}
+          >
+            <span className="drawer-link-text">Terms of Service</span>
+            <span className="drawer-link-arrow">📋</span>
+          </button>
+
           {isAdmin && (
             <button
               type="button"
@@ -3274,6 +3342,34 @@ function Website({ onRestart }) {
         <CheckoutPage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
       ) : view === "profile" ? (
         <ProfilePage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
+      ) : view === "privacy" ? (
+        <PrivacyPolicy
+          onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigateToProducts={() => navigateTo("products", "#products")}
+          onNavigateToStores={() => navigateTo("stores", "#stores")}
+          onOpenConcierge={() => navigateTo("home", "#contact")}
+        />
+      ) : view === "shipping" ? (
+        <ShippingPolicy
+          onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigateToProducts={() => navigateTo("products", "#products")}
+          onNavigateToStores={() => navigateTo("stores", "#stores")}
+          onOpenConcierge={() => navigateTo("home", "#contact")}
+        />
+      ) : view === "refund" ? (
+        <RefundPolicy
+          onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigateToProducts={() => navigateTo("products", "#products")}
+          onNavigateToStores={() => navigateTo("stores", "#stores")}
+          onOpenConcierge={() => navigateTo("home", "#contact")}
+        />
+      ) : view === "terms" ? (
+        <TermsOfService
+          onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigateToProducts={() => navigateTo("products", "#products")}
+          onNavigateToStores={() => navigateTo("stores", "#stores")}
+          onOpenConcierge={() => navigateTo("home", "#contact")}
+        />
       ) : view === "stores" ? (
         <StoreLocatorView
           onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
@@ -3485,7 +3581,7 @@ function Website({ onRestart }) {
 
 
 
-      {view !== "admin" && view !== "profile" && view !== "checkout" && view !== "stores" && (
+      {view !== "admin" && view !== "profile" && view !== "checkout" && view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && (
         <footer className="footer" id="contact">
           <div className="footer__top-wrap">
             <div className="footer__main-col">
@@ -3516,6 +3612,46 @@ function Website({ onRestart }) {
           <div className="footer__bottom" data-reveal data-reveal-delay="3">
             <HanboroLogo size={20} theme="light" />
             <span>© 2026 HANBORO</span>
+            <a
+              href="#privacy"
+              className="footer-privacy-link"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("privacy", "#privacy");
+              }}
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="#shipping"
+              className="footer-privacy-link"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("shipping", "#shipping");
+              }}
+            >
+              Shipping Policy
+            </a>
+            <a
+              href="#refund"
+              className="footer-privacy-link"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("refund", "#refund");
+              }}
+            >
+              Refund Policy
+            </a>
+            <a
+              href="#terms"
+              className="footer-privacy-link"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("terms", "#terms");
+              }}
+            >
+              Terms of Service
+            </a>
             {isAdmin && (
               <a
                 href="#admin"
