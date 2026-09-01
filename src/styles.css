@@ -15126,6 +15126,45 @@ body.modal-open {
   gap: 28px;
 }
 
+/* ── Refined Footer Legal & Policies Bar ── */
+.footer-bottom-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-policies-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.footer-policy-dot {
+  color: rgba(245, 242, 237, 0.25);
+  font-size: 10px;
+}
+
+.footer-bottom-links-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+@media (max-width: 900px) {
+  .footer__bottom {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+    align-items: center;
+  }
+  .footer-policies-list {
+    gap: 10px;
+  }
+}
+
+
 
 
 

@@ -3263,54 +3263,6 @@ function Website({ onRestart }) {
             <span className="drawer-link-arrow">🛍️</span>
           </button>
 
-          <button
-            type="button"
-            className={`luxury-drawer__link ${view === "privacy" ? "is-active" : ""}`}
-            onClick={() => {
-              setMenuOpen(false);
-              navigateTo("privacy", "#privacy");
-            }}
-          >
-            <span className="drawer-link-text">Privacy Policy</span>
-            <span className="drawer-link-arrow">📜</span>
-          </button>
-
-          <button
-            type="button"
-            className={`luxury-drawer__link ${view === "shipping" ? "is-active" : ""}`}
-            onClick={() => {
-              setMenuOpen(false);
-              navigateTo("shipping", "#shipping");
-            }}
-          >
-            <span className="drawer-link-text">Shipping Policy</span>
-            <span className="drawer-link-arrow">📦</span>
-          </button>
-
-          <button
-            type="button"
-            className={`luxury-drawer__link ${view === "refund" ? "is-active" : ""}`}
-            onClick={() => {
-              setMenuOpen(false);
-              navigateTo("refund", "#refund");
-            }}
-          >
-            <span className="drawer-link-text">Refund & Returns</span>
-            <span className="drawer-link-arrow">🔄</span>
-          </button>
-
-          <button
-            type="button"
-            className={`luxury-drawer__link ${view === "terms" ? "is-active" : ""}`}
-            onClick={() => {
-              setMenuOpen(false);
-              navigateTo("terms", "#terms");
-            }}
-          >
-            <span className="drawer-link-text">Terms of Service</span>
-            <span className="drawer-link-arrow">📋</span>
-          </button>
-
           {isAdmin && (
             <button
               type="button"
@@ -3610,61 +3562,72 @@ function Website({ onRestart }) {
           </div>
 
           <div className="footer__bottom" data-reveal data-reveal-delay="3">
-            <HanboroLogo size={20} theme="light" />
-            <span>© 2026 HANBORO</span>
-            <a
-              href="#privacy"
-              className="footer-privacy-link"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("privacy", "#privacy");
-              }}
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#shipping"
-              className="footer-privacy-link"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("shipping", "#shipping");
-              }}
-            >
-              Shipping Policy
-            </a>
-            <a
-              href="#refund"
-              className="footer-privacy-link"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("refund", "#refund");
-              }}
-            >
-              Refund Policy
-            </a>
-            <a
-              href="#terms"
-              className="footer-privacy-link"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo("terms", "#terms");
-              }}
-            >
-              Terms of Service
-            </a>
-            {isAdmin && (
+            <div className="footer-bottom-brand-group">
+              <HanboroLogo size={20} theme="light" />
+              <span>© 2026 HANBORO</span>
+            </div>
+
+            <div className="footer-policies-list">
               <a
-                href="#admin"
-                className="footer-admin-portal-link"
+                href="#privacy"
+                className="footer-privacy-link"
                 onClick={(e) => {
                   e.preventDefault();
-                  navigateTo("admin", "#admin");
+                  navigateTo("privacy", "#privacy");
                 }}
               >
-                Atelier Owner Portal ↗
+                Privacy Policy
               </a>
-            )}
-            <a href="#top">Back to top ↑</a>
+              <span className="footer-policy-dot">•</span>
+              <a
+                href="#shipping"
+                className="footer-privacy-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("shipping", "#shipping");
+                }}
+              >
+                Shipping Policy
+              </a>
+              <span className="footer-policy-dot">•</span>
+              <a
+                href="#refund"
+                className="footer-privacy-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("refund", "#refund");
+                }}
+              >
+                Refund Policy
+              </a>
+              <span className="footer-policy-dot">•</span>
+              <a
+                href="#terms"
+                className="footer-privacy-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("terms", "#terms");
+                }}
+              >
+                Terms of Service
+              </a>
+            </div>
+
+            <div className="footer-bottom-links-group">
+              {isAdmin && (
+                <a
+                  href="#admin"
+                  className="footer-admin-portal-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("admin", "#admin");
+                  }}
+                >
+                  Atelier Owner Portal ↗
+                </a>
+              )}
+              <a href="#top">Back to top ↑</a>
+            </div>
           </div>
         </footer>
       )}
