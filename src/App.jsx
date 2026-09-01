@@ -3538,15 +3538,15 @@ function Website({ onRestart }) {
 
 
       {view !== "admin" && view !== "profile" && view !== "checkout" && view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && (
-        <footer className="footer" id="contact">
+        <footer className="footer is-always-visible" id="contact">
           <div className="footer__top-wrap">
             <div className="footer__main-col">
-              <p className="eyebrow" data-reveal>Have a moment?</p>
-              <a className="footer__email" href="mailto:connect@hanborowatches.in" data-reveal data-reveal-delay="1">
+              <p className="eyebrow">Have a moment?</p>
+              <a className="footer__email" href="mailto:connect@hanborowatches.in">
                 connect@hanborowatches.in
               </a>
 
-              <div className="footer__address" data-reveal data-reveal-delay="2">
+              <div className="footer__address">
                 <p className="eyebrow">Studio Location</p>
                 <address className="footer__address-text">
                   M5 M-Block, DLF Phase-2, Sector 25<br />
@@ -3554,21 +3554,72 @@ function Website({ onRestart }) {
                 </address>
               </div>
 
-              <div className="footer__address" data-reveal data-reveal-delay="2">
+              <div className="footer__address">
                 <p className="eyebrow">Call Us</p>
                 <a className="footer__phone" href="tel:+918882069334">+91 88820 69334</a>
               </div>
             </div>
 
-            <div className="footer__clock-col" data-reveal data-reveal-delay="1">
+            {/* ── DEDICATED LEGAL & POLICIES FOOTER SECTION ── */}
+            <div className="footer__policy-col">
+              <p className="eyebrow">Legal & Policies</p>
+              <nav className="footer-nav-policies" aria-label="Legal policies">
+                <a
+                  href="#privacy"
+                  className="footer-nav-policy-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("privacy", "#privacy");
+                  }}
+                >
+                  <span>Privacy Policy</span>
+                  <span className="footer-policy-arrow">↗</span>
+                </a>
+                <a
+                  href="#shipping"
+                  className="footer-nav-policy-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("shipping", "#shipping");
+                  }}
+                >
+                  <span>Shipping Policy</span>
+                  <span className="footer-policy-arrow">↗</span>
+                </a>
+                <a
+                  href="#refund"
+                  className="footer-nav-policy-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("refund", "#refund");
+                  }}
+                >
+                  <span>Refund & Replacement</span>
+                  <span className="footer-policy-arrow">↗</span>
+                </a>
+                <a
+                  href="#terms"
+                  className="footer-nav-policy-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("terms", "#terms");
+                  }}
+                >
+                  <span>Terms of Service</span>
+                  <span className="footer-policy-arrow">↗</span>
+                </a>
+              </nav>
+            </div>
+
+            <div className="footer__clock-col">
               <FooterLiveClock />
             </div>
           </div>
 
-          <div className="footer__bottom" data-reveal data-reveal-delay="3">
+          <div className="footer__bottom is-always-visible">
             <div className="footer-bottom-brand-group">
               <HanboroLogo size={20} theme="light" />
-              <span>© 2026 HANBORO</span>
+              <span>© 2026 HANBORO • ALL RIGHTS RESERVED</span>
             </div>
 
             <div className="footer-policies-list">

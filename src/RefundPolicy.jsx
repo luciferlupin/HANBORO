@@ -225,6 +225,15 @@ export function RefundPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPro
         <div className="privacy-footer__inner">
           <HanboroLogo theme="light" size={18} />
           <p>© 2026 HANBORO WATCHES • CLIENT GUARANTEE & SERVICE</p>
+          <div className="footer-policies-list">
+            <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("privacy")}>Privacy Policy</button>
+            <span className="footer-policy-dot">•</span>
+            <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("shipping")}>Shipping Policy</button>
+            <span className="footer-policy-dot">•</span>
+            <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("refund")}>Refund Policy</button>
+            <span className="footer-policy-dot">•</span>
+            <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("terms")}>Terms of Service</button>
+          </div>
           <button type="button" className="privacy-footer-top-btn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             Back to top ↑
           </button>
