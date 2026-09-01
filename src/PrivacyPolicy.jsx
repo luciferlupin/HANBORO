@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { HanboroLogo } from "./HanboroLogo";
+import { PolicyNavTabs } from "./PolicyNavTabs";
 
-export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigateToStores, onOpenConcierge }) {
+export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToProducts, onNavigateToStores }) {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
 
@@ -16,20 +17,20 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
   };
 
   const sections = [
-    { id: "overview", label: "1. Overview & Scope" },
-    { id: "collected-info", label: "2. Information Collected" },
-    { id: "sources", label: "3. Information Sources" },
-    { id: "usage", label: "4. How We Use Data" },
-    { id: "disclosure", label: "5. Disclosure to Third Parties" },
-    { id: "shopify", label: "6. Relationship with Shopify" },
-    { id: "third-party", label: "7. External Sites & Links" },
-    { id: "children", label: "8. Children's Data" },
-    { id: "security-retention", label: "9. Security & Retention" },
-    { id: "your-rights", label: "10. Your Rights & Choices" },
-    { id: "complaints", label: "11. Complaints & Appeals" },
-    { id: "transfers", label: "12. International Transfers" },
-    { id: "updates", label: "13. Policy Updates" },
-    { id: "contact", label: "14. Contact & Inquiries" },
+    { id: "overview", label: "Overview & Scope" },
+    { id: "collected-info", label: "Information We Collect" },
+    { id: "sources", label: "Information Sources" },
+    { id: "usage", label: "How We Use Information" },
+    { id: "disclosure", label: "Disclosure to Third Parties" },
+    { id: "shopify", label: "Relationship with Shopify" },
+    { id: "third-party", label: "External Sites & Links" },
+    { id: "children", label: "Children's Data" },
+    { id: "security-retention", label: "Security & Retention" },
+    { id: "your-rights", label: "Your Rights & Choices" },
+    { id: "complaints", label: "Complaints & Inquiries" },
+    { id: "transfers", label: "International Transfers" },
+    { id: "updates", label: "Policy Updates" },
+    { id: "contact", label: "Contact & Privacy Office" },
   ];
 
   const scrollToSection = (id) => {
@@ -43,8 +44,8 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
   };
 
   return (
-    <div className="privacy-page-root">
-      {/* ── TOP DEDICATED LUXURY NAVBAR ── */}
+    <div className="privacy-page-root apple-legal-page">
+      {/* ── TOP DEDICATED APPLE LUXURY NAVBAR ── */}
       <header className="privacy-navbar" role="banner">
         <div className="privacy-navbar__left">
           <button
@@ -53,11 +54,11 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
             onClick={onNavigateHome}
             aria-label="Return to Hanboro Home"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12" />
               <polyline points="12 19 5 12 12 5" />
             </svg>
-            <span>Return to Boutique</span>
+            <span>Boutique</span>
           </button>
         </div>
 
@@ -67,7 +68,7 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
           onClick={onNavigateHome}
           aria-label="Hanboro Home"
         >
-          <HanboroLogo theme="light" size={24} />
+          <HanboroLogo theme="light" size={22} />
         </button>
 
         <div className="privacy-navbar__actions">
@@ -92,27 +93,27 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
         </div>
       </header>
 
-      {/* ── HERO BANNER ── */}
+      {/* ── HERO HEADER ── */}
       <section className="privacy-hero">
-        <div className="privacy-hero__badge">
-          <span className="privacy-hero__badge-dot" />
-          <span>Legal & Transparency Protocol</span>
-        </div>
+        <span className="apple-legal-eyebrow">Legal & Compliance</span>
         <h1 className="privacy-hero__title">Privacy Policy</h1>
         <p className="privacy-hero__sub">
-          Last updated: <span className="privacy-highlight-date">October 24, 2025</span>
+          Last updated: October 24, 2025
         </p>
         <p className="privacy-hero__desc">
-          Hanboro Watches operates this store and website to provide you with a curated, luxury horological shopping experience. This document outlines our transparent practices regarding the collection, processing, and protection of your personal information.
+          Hanboro Watches operates this store and website to provide you with a curated, luxury horological experience. This policy explains how your personal data is collected, processed, and safeguarded.
         </p>
+
+        {/* Apple-style Policy Switcher */}
+        <PolicyNavTabs activePolicy="privacy" onNavigatePolicy={onNavigatePolicy} />
       </section>
 
-      {/* ── MAIN CONTENT WRAPPER WITH TABLE OF CONTENTS ── */}
+      {/* ── MAIN CONTENT LAYOUT ── */}
       <div className="privacy-layout">
-        {/* Sticky Table of Contents Navigation */}
-        <aside className="privacy-sidebar" aria-label="Privacy Policy Sections">
+        {/* Apple-style Minimal Sticky Sidebar */}
+        <aside className="privacy-sidebar" aria-label="Privacy Policy Navigation">
           <div className="privacy-sidebar__inner">
-            <h2 className="privacy-sidebar__heading">Table of Contents</h2>
+            <h2 className="privacy-sidebar__heading">Contents</h2>
             <nav className="privacy-toc-list">
               {sections.map((sec) => (
                 <button
@@ -127,34 +128,40 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
             </nav>
 
             <div className="privacy-sidebar__concierge-box">
-              <span className="privacy-concierge-tag">Legal Concierge</span>
-              <p className="privacy-concierge-text">Questions regarding your privacy rights or data deletion?</p>
+              <span className="privacy-concierge-tag">Data Protection</span>
+              <p className="privacy-concierge-text">Questions regarding your personal information or rights?</p>
               <a href="mailto:shaktikart@gmail.com" className="privacy-concierge-btn">
-                Contact DPO / Concierge
+                Contact Privacy Desk
               </a>
             </div>
           </div>
         </aside>
 
-        {/* Policy Body */}
+        {/* Content Articles */}
         <main className="privacy-content" role="main">
-          {/* Section 1: Overview */}
+          {/* Section 1 */}
           <article id="overview" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">01</span>
-              <h2>Overview & Service Architecture</h2>
+              <span className="apple-badge-num">01</span>
+              <h2>Overview & Scope</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                <strong>Hanboro Watches</strong> operates this store and website, including all related information, content, features, tools, products, and services, in order to provide you, the customer, with a curated shopping experience (the <em>"Services"</em>).
+                <strong>Hanboro Watches</strong> operates this store and website, including all related information, content, features, tools, products and services in order to provide you, the customer, with a curated shopping experience (the <em>"Services"</em>). Hanboro Watches is powered by Shopify, which enables us to provide the Services to you.
               </p>
               <p>
-                Hanboro Watches is powered by Shopify, which enables us to provide the Services to you. This Privacy Policy describes how we collect, use, and disclose your personal information when you visit, use, or make a purchase or other transaction using the Services or otherwise communicate with us.
+                This Privacy Policy describes how we collect, use, and disclose your personal information when you visit, use, or make a purchase or other transaction using the Services or otherwise communicate with us.
               </p>
               <div className="privacy-callout">
-                <div className="privacy-callout__icon">⚖️</div>
+                <div className="privacy-callout__icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                </div>
                 <div className="privacy-callout__text">
-                  <strong>Conflict Resolution:</strong> If there is a conflict between our Terms of Service and this Privacy Policy, this Privacy Policy controls with respect to the collection, processing, and disclosure of your personal information.
+                  If there is a conflict between our Terms of Service and this Privacy Policy, this Privacy Policy controls with respect to the collection, processing, and disclosure of your personal information.
                 </div>
               </div>
               <p>
@@ -163,15 +170,15 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
             </div>
           </article>
 
-          {/* Section 2: Personal Information Collected */}
+          {/* Section 2 */}
           <article id="collected-info" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">02</span>
+              <span className="apple-badge-num">02</span>
               <h2>Personal Information We Collect or Process</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                When we use the term <strong>"personal information,"</strong> we are referring to information that identifies or can reasonably be linked to you or another person. Personal information does not include information that is collected anonymously or that has been de-identified, so that it cannot identify or be reasonably linked to you.
+                When we use the term <em>"personal information,"</em> we are referring to information that identifies or can reasonably be linked to you or another person. Personal information does not include information that is collected anonymously or that has been de-identified, so that it cannot identify or be reasonably linked to you.
               </p>
               <p>
                 We may collect or process the following categories of personal information, including inferences drawn from this personal information, depending on how you interact with the Services, where you live, and as permitted or required by applicable law:
@@ -180,332 +187,335 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
               <div className="privacy-grid">
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">📇</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
                     <h3>Contact Details</h3>
                   </div>
-                  <p>Your full legal name, residential address, billing address, global shipping address, verified phone number, and email address.</p>
+                  <p>Your name, address, billing address, shipping address, phone number, and email address.</p>
                 </div>
 
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">💳</span>
-                    <h3>Financial & Payment Data</h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                      <line x1="1" y1="10" x2="23" y2="10" />
+                    </svg>
+                    <h3>Financial Information</h3>
                   </div>
-                  <p>Credit card, debit card, and financial account numbers, encrypted payment card tokens, transaction logs, form of payment, payment confirmations, and related settlement details.</p>
+                  <p>Credit card, debit card, and financial account numbers, payment card information, financial account information, transaction details, form of payment, payment confirmation and other payment details.</p>
                 </div>
 
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">🔐</span>
-                    <h3>Account Credentials</h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    <h3>Account Information</h3>
                   </div>
-                  <p>Client dossier username, password hash, biometric tokens where supported, security question parameters, horological preferences, and curated site settings.</p>
+                  <p>Username, password, security questions, horological preferences and curated settings.</p>
                 </div>
 
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">📦</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
                     <h3>Transaction Information</h3>
                   </div>
-                  <p>Timepieces viewed, items added to bag or wishlist, purchased chronographs, returns, bespoke exchanges, cancellations, and historical purchase records.</p>
+                  <p>Items you view, put in your cart, add to your wishlist, or purchase, return, exchange or cancel and your past transactions.</p>
                 </div>
 
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">💬</span>
-                    <h3>Client Communications</h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <h3>Communications</h3>
                   </div>
-                  <p>Direct inquiries submitted to our concierge, customer support dialogues, email correspondence, and feedback transcripts.</p>
+                  <p>Information you include in communications with us, for example, when sending a customer support inquiry.</p>
                 </div>
 
                 <div className="privacy-info-item">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">💻</span>
-                    <h3>Device & Network Data</h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                      <line x1="8" y1="21" x2="16" y2="21" />
+                      <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    <h3>Device Information</h3>
                   </div>
-                  <p>Information about your operating system, browser engine, network routing, IP address, device fingerprints, and cryptographic unique session identifiers.</p>
+                  <p>Information about your device, browser, or network connection, your IP address, and other unique identifiers.</p>
                 </div>
 
                 <div className="privacy-info-item privacy-info-item--full">
                   <div className="privacy-info-item__header">
-                    <span className="privacy-info-icon">📊</span>
-                    <h3>Usage & Behavioral Diagnostics</h3>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a1a1a6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="20" x2="18" y2="10" />
+                      <line x1="12" y1="20" x2="12" y2="4" />
+                      <line x1="6" y1="20" x2="6" y2="14" />
+                    </svg>
+                    <h3>Usage Information</h3>
                   </div>
-                  <p>Granular interactions regarding navigation rhythms, stage scroll depths, timepiece configuration clicks, and how you discover and interact with the Services.</p>
+                  <p>Information regarding your interaction with the Services, including how and when you interact with or navigate the platform.</p>
                 </div>
               </div>
             </div>
           </article>
 
-          {/* Section 3: Sources */}
+          {/* Section 3 */}
           <article id="sources" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">03</span>
+              <span className="apple-badge-num">03</span>
               <h2>Personal Information Sources</h2>
             </div>
             <div className="privacy-card__body">
-              <p>We may collect personal information from the following verified sources:</p>
+              <p>We may collect personal information from the following sources:</p>
               <ul className="privacy-list">
                 <li>
-                  <strong>Directly from you:</strong> When you create an account, complete a timepiece order, communicate with our concierge, or otherwise provide us with your information.
+                  <strong>Directly from you:</strong> Including when you create an account, visit or use the Services, communicate with us, or otherwise provide us with your personal information.
                 </li>
                 <li>
-                  <strong>Automatically through the Services:</strong> From your device as you navigate our platform, via secure telemetry, cookies, local storage tokens, and modern tracking safeguards.
+                  <strong>Automatically through the Services:</strong> From your device when you use our products or services or visit our websites, and through the use of cookies and similar technologies.
                 </li>
                 <li>
-                  <strong>From our service providers:</strong> When we engage vetted infrastructure partners to enable payment processing, cloud hosting, and horological fulfillment.
+                  <strong>From our service providers:</strong> When we engage them to enable certain technology and when they collect or process your personal information on our behalf.
                 </li>
                 <li>
-                  <strong>From our partners or other third parties:</strong> Including verified advertising networks and horology marketplace partners.
+                  <strong>From our partners or other third parties:</strong> In accordance with applicable laws.
                 </li>
               </ul>
             </div>
           </article>
 
-          {/* Section 4: How We Use Your Personal Information */}
+          {/* Section 4 */}
           <article id="usage" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">04</span>
+              <span className="apple-badge-num">04</span>
               <h2>How We Use Your Personal Information</h2>
             </div>
             <div className="privacy-card__body">
-              <p>Depending on how you interact with us or which of the Services you use, we utilize personal information for the following operational purposes:</p>
+              <p>Depending on how you interact with us or which of the Services you use, we may use personal information for the following purposes:</p>
 
               <div className="privacy-features">
                 <div className="privacy-feature-card">
-                  <div className="privacy-feature-badge">Fulfillment</div>
-                  <h4>Provide, Tailor, and Improve the Services</h4>
-                  <p>
-                    To execute our purchase contract with you, process payments, fulfill bespoke timepiece orders, remember horology preferences, dispatch status notifications, manage your account, arrange armored/express shipping, facilitate returns/exchanges, enable verified reviews, and curate personalized product recommendations.
-                  </p>
+                  <div className="apple-tag">Services</div>
+                  <h4>Provide, Tailor, and Improve</h4>
+                  <p>To provide you with the Services, process payments, fulfill orders, remember preferences, send account notifications, arrange shipping, facilitate returns/exchanges, enable reviews, and personalize recommendations.</p>
                 </div>
 
                 <div className="privacy-feature-card">
-                  <div className="privacy-feature-badge">Curation</div>
+                  <div className="apple-tag">Promotions</div>
                   <h4>Marketing and Advertising</h4>
-                  <p>
-                    To send marketing, advertising, and promotional communications by email, SMS, or direct post, and to present tailored showcase advertisements on our platform or partner websites based on your browsing patterns and cart additions.
-                  </p>
+                  <p>To send promotional communications by email, text message, or mail, and show personalized online advertisements based on your browsing and purchases.</p>
                 </div>
 
                 <div className="privacy-feature-card">
-                  <div className="privacy-feature-badge">Integrity</div>
+                  <div className="apple-tag">Protection</div>
                   <h4>Security and Fraud Prevention</h4>
-                  <p>
-                    To authenticate account access, detect and prevent malicious or unauthorized transactions, safeguard customer assets, enforce account safety protocols, and ensure platform integrity. <em>Note: Never share your credentials with unauthorized third parties.</em>
-                  </p>
+                  <p>To authenticate accounts, provide secure checkout, detect malicious activity, and secure the platform. <em>Keep your credentials confidential.</em></p>
                 </div>
 
                 <div className="privacy-feature-card">
-                  <div className="privacy-feature-badge">Dialogue</div>
+                  <div className="apple-tag">Support</div>
                   <h4>Communicating with You</h4>
-                  <p>
-                    To deliver white-glove customer concierge service, provide prompt responses to technical or order queries, and maintain a seamless client relationship.
-                  </p>
+                  <p>To provide responsive customer support and maintain our business relationship with you.</p>
                 </div>
 
                 <div className="privacy-feature-card privacy-feature-card--full">
-                  <div className="privacy-feature-badge">Compliance</div>
-                  <h4>Legal and Regulatory Reasons</h4>
-                  <p>
-                    To comply with applicable statutory laws, respond to lawful subpoenas or court warrants, conduct necessary civil discovery, participate in litigation, and uphold our contractual terms.
-                  </p>
+                  <div className="apple-tag">Statutory</div>
+                  <h4>Legal Reasons</h4>
+                  <p>To comply with applicable law, respond to valid legal process, participate in discovery or litigation, and enforce our terms and policies.</p>
                 </div>
               </div>
             </div>
           </article>
 
-          {/* Section 5: How We Disclose Personal Information */}
+          {/* Section 5 */}
           <article id="disclosure" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">05</span>
+              <span className="apple-badge-num">05</span>
               <h2>How We Disclose Personal Information</h2>
             </div>
             <div className="privacy-card__body">
-              <p>In specific circumstances, we may disclose your personal information to third parties for legitimate business purposes:</p>
+              <p>In certain circumstances, we may disclose your personal information to third parties for legitimate purposes subject to this Privacy Policy:</p>
               <ul className="privacy-list">
                 <li>
-                  <strong>Shopify & Infrastructure Vendors:</strong> Trusted third parties performing services on our behalf (IT management, encrypted payment gateways, data analytics, customer support, cloud storage, logistics, and global courier dispatch).
+                  <strong>With Shopify & Service Providers:</strong> Third parties who perform services on our behalf (IT management, payment processing, data analytics, customer support, cloud storage, fulfillment, and shipping).
                 </li>
                 <li>
-                  <strong>Business & Marketing Partners:</strong> To provide targeted advertising. For example, we utilize Shopify systems to support personalized advertisements across digital networks. You retain the right to opt out of targeted ad processing at any time.
+                  <strong>With Business & Marketing Partners:</strong> To provide marketing services and personalized advertisements. You may opt out of targeted ad processing at any time.
                 </li>
                 <li>
-                  <strong>User-Directed Third Parties:</strong> When you direct or explicitly consent to disclosure, such as for specialized courier tracking or social authentication widgets.
+                  <strong>Direct Consent:</strong> When you direct, request, or consent to disclosures (e.g. shipping carriers or login integrations).
                 </li>
                 <li>
-                  <strong>Corporate Affiliates:</strong> Within our luxury horology corporate group for unified customer experience management.
+                  <strong>Affiliates:</strong> Within our corporate group.
                 </li>
                 <li>
-                  <strong>Corporate Transactions & Legal Obligations:</strong> In connection with a merger, acquisition, restructuring, or bankruptcy; or to satisfy valid statutory obligations and protect our platform and community rights.
+                  <strong>Legal & Corporate Transactions:</strong> In connection with a merger, acquisition, bankruptcy, or to comply with statutory legal processes and protect user rights.
                 </li>
               </ul>
             </div>
           </article>
 
-          {/* Section 6: Relationship with Shopify */}
+          {/* Section 6 */}
           <article id="shopify" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">06</span>
+              <span className="apple-badge-num">06</span>
               <h2>Relationship with Shopify</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                The Services are hosted on and powered by <strong>Shopify</strong>, which collects and processes personal information regarding your access to and usage of the store in order to facilitate and enhance the shopping ecosystem.
+                The Services are hosted by <strong>Shopify</strong>, which collects and processes personal information about your access to and use of the Services in order to provide and improve the platform.
               </p>
               <p>
-                Information you submit to the Services is transmitted to and shared with Shopify and its global infrastructure nodes across various jurisdictions to ensure uninterrupted transaction processing.
+                Information you submit to the Services will be transmitted to and shared with Shopify and third parties across global infrastructure nodes.
               </p>
               <p>
-                Additionally, to help protect, develop, and refine our services, we deploy certain Shopify enhanced analytics features that evaluate cross-merchant interactions. In these contexts, Shopify acts as an independent or joint controller for specific processing tasks, including fulfilling applicable data subject requests.
+                To provide enhanced features, Shopify may process data obtained across merchant interactions. In these circumstances, Shopify is responsible for processing and responding to data rights requests.
               </p>
             </div>
           </article>
 
-          {/* Section 7: Third Party Websites & Links */}
+          {/* Section 7 */}
           <article id="third-party" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">07</span>
+              <span className="apple-badge-num">07</span>
               <h2>Third Party Websites and Links</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                Our Services may contain links to external websites, boutique registries, or social platforms. If you navigate to non-affiliated third-party domains, please review their respective privacy and security statements.
-              </p>
-              <p>
-                We do not warrant or assume liability for the practices, accuracy, or security standards of third-party platforms. Any personal data shared in public horology forums or social networks will be accessible according to those third-party platforms' rules.
+                The Services may provide links to external websites or platforms. If you follow non-affiliated links, please review their respective privacy notices. We do not guarantee and are not responsible for the privacy practices or security of third-party domains.
               </p>
             </div>
           </article>
 
-          {/* Section 8: Children's Data */}
+          {/* Section 8 */}
           <article id="children" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">08</span>
-              <h2>Children's Privacy Protection</h2>
+              <span className="apple-badge-num">08</span>
+              <h2>Children's Data</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                The Services are strictly designed for adult collectors and consumers and are not intended for use by minors under the age of majority in their applicable jurisdiction. We do not knowingly collect personal data from children.
-              </p>
-              <p>
-                If you are a parent or guardian and believe your child has submitted personal details to our store, please reach out to our privacy concierge to have the information promptly purged. As of the Effective Date, we have no actual knowledge of selling or sharing data of individuals under 16 years of age.
+                The Services are not intended for use by children, and we do not knowingly collect personal information about children under the age of majority. If a minor has provided information, please contact us for immediate deletion. We have no actual knowledge of sharing or selling personal data of individuals under 16 years of age.
               </p>
             </div>
           </article>
 
-          {/* Section 9: Security and Retention of Your Information */}
+          {/* Section 9 */}
           <article id="security-retention" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">09</span>
+              <span className="apple-badge-num">09</span>
               <h2>Security and Retention of Your Information</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                We implement industry-standard encryption, SSL transport safeguards, and strict database access controls. However, no digital transmission or electronic storage protocol can be guaranteed to be 100% impenetrable. We advise clients to protect their credentials and avoid transmitting sensitive financial data over insecure public channels.
+                We implement industry-standard technical measures, but no digital security is impenetrable. We recommend avoiding unsecure channels for sensitive data.
               </p>
               <p>
-                <strong>Data Retention:</strong> We retain your personal data only as long as necessary to maintain your account, deliver purchased timepieces, comply with statutory tax and accounting laws, settle dispute arbitrations, and enforce our binding agreements.
+                We retain your information only as long as necessary to maintain your account, deliver orders, comply with legal obligations, and enforce agreements.
               </p>
             </div>
           </article>
 
-          {/* Section 10: Your Rights and Choices */}
+          {/* Section 10 */}
           <article id="your-rights" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">10</span>
+              <span className="apple-badge-num">10</span>
               <h2>Your Rights and Choices</h2>
             </div>
             <div className="privacy-card__body">
-              <p>
-                Depending on your jurisdiction (such as under GDPR, UK GDPR, CCPA/CPRA, or the Digital Personal Data Protection laws), you may hold specific legal rights:
-              </p>
+              <p>Depending on your jurisdiction, you may have specific statutory rights:</p>
 
               <div className="privacy-rights-grid">
                 <div className="privacy-right-box">
                   <h4>Right to Access / Know</h4>
-                  <p>Request disclosure of the specific categories and pieces of personal data we retain about you.</p>
+                  <p>Request access to personal information that we hold about you.</p>
                 </div>
                 <div className="privacy-right-box">
                   <h4>Right to Delete</h4>
-                  <p>Request permanent deletion or erasure of your personal data from our operational repositories.</p>
+                  <p>Request that we delete personal data we maintain about you.</p>
                 </div>
                 <div className="privacy-right-box">
                   <h4>Right to Correct</h4>
-                  <p>Request rectification of any inaccurate, outdated, or incomplete personal records.</p>
+                  <p>Request correction of inaccurate or outdated personal records.</p>
                 </div>
                 <div className="privacy-right-box">
-                  <h4>Right to Portability</h4>
-                  <p>Receive an electronic export of your data in a structured, commonly used machine-readable format.</p>
+                  <h4>Right of Portability</h4>
+                  <p>Receive a structured, portable electronic copy of your personal data.</p>
                 </div>
               </div>
 
               <div className="privacy-optout-note">
-                <strong>Marketing Communication Preferences:</strong> You can opt out of promotional emails at any time by clicking the <em>"Unsubscribe"</em> link included in every newsletter. Essential transactional notices (such as order status and shipping tracking) will continue to be delivered.
+                <strong>Communication Preferences:</strong> Opt out of promotional emails at any time via the unsubscribe link. Essential transactional and order notices will continue to be sent.
               </div>
-
-              <p style={{ marginTop: "16px" }}>
-                <strong>Verification & Authorized Agents:</strong> To protect your privacy, we may verify your identity before fulfilling rights requests. You may designate an authorized legal agent by submitting documented power of attorney or verified authorization.
-              </p>
             </div>
           </article>
 
-          {/* Section 11: Complaints */}
+          {/* Section 11 */}
           <article id="complaints" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">11</span>
-              <h2>Complaints and Regulatory Inquiries</h2>
+              <span className="apple-badge-num">11</span>
+              <h2>Complaints</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                If you have concerns regarding our processing of your personal information, please contact our Data Protection Concierge. Depending on your location, you may also have the right to lodge a formal complaint with your local supervisory or data protection authority.
+                If you have complaints regarding data processing, please contact us. Depending on where you live, you may have the right to lodge a formal complaint with your local data protection authority.
               </p>
             </div>
           </article>
 
-          {/* Section 12: International Transfers */}
+          {/* Section 12 */}
           <article id="transfers" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">12</span>
+              <span className="apple-badge-num">12</span>
               <h2>International Transfers</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                Please note that we may store and process your personal data across secure servers outside your home country.
-              </p>
-              <p>
-                If data is transferred outside the European Economic Area (EEA) or the United Kingdom, we implement recognized cross-border transfer mechanisms, including European Commission Standard Contractual Clauses (SCCs) and UK International Data Transfer Agreements, ensuring equivalent security standards.
+                We may transfer and process data outside your country of residence. Where required, we rely on Standard Contractual Clauses (SCCs) and recognized cross-border transfer safeguards.
               </p>
             </div>
           </article>
 
-          {/* Section 13: Policy Updates */}
+          {/* Section 13 */}
           <article id="updates" className="privacy-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">13</span>
+              <span className="apple-badge-num">13</span>
               <h2>Changes to This Privacy Policy</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                We may periodically update this Privacy Policy to reflect evolving horological operations, regulatory mandates, or technological updates. Any modifications will be posted directly to this URL with a revised <strong>"Last updated"</strong> timestamp.
+                We may update this Privacy Policy from time to time. Revisions will be published directly on this page with an updated "Last updated" date.
               </p>
             </div>
           </article>
 
-          {/* Section 14: Contact Information */}
-          <article id="contact" className="privacy-card privacy-card--highlight">
+          {/* Section 14: Contact */}
+          <article id="contact" className="privacy-card apple-highlight-card">
             <div className="privacy-card__header">
-              <span className="privacy-section-number">14</span>
-              <h2>Contact Our Horological Concierge</h2>
+              <span className="apple-badge-num">14</span>
+              <h2>Contact</h2>
             </div>
             <div className="privacy-card__body">
               <p>
-                Should you have any questions regarding this Privacy Policy, wish to exercise your legal privacy rights, or request account data removal, please connect with our team:
+                Should you have any questions about our privacy practices or wish to exercise your rights, please contact our privacy desk:
               </p>
 
               <div className="privacy-contact-grid">
                 <div className="privacy-contact-card">
-                  <span className="privacy-contact-icon">✉️</span>
+                  <div className="apple-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                  </div>
                   <h3>Direct Privacy Email</h3>
                   <a href="mailto:shaktikart@gmail.com" className="privacy-contact-link">
                     shaktikart@gmail.com
@@ -515,13 +525,18 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
                     className="privacy-copy-btn"
                     onClick={copyEmailToClipboard}
                   >
-                    {copiedEmail ? "✓ Email Copied" : "Copy Email Address"}
+                    {copiedEmail ? "Copied" : "Copy Email"}
                   </button>
                 </div>
 
                 <div className="privacy-contact-card">
-                  <span className="privacy-contact-icon">📍</span>
-                  <h3>Registered Studio & HQ</h3>
+                  <div className="apple-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                  </div>
+                  <h3>Registered Studio</h3>
                   <address className="privacy-address">
                     opposite rapid metro pillar no. 86 N1/27 DLF PHASE 2 GURUGRAM HARYANA,<br />
                     dlf phase 2, GURUGRAM, HR, 122008, INDIA
@@ -529,7 +544,11 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
                 </div>
 
                 <div className="privacy-contact-card">
-                  <span className="privacy-contact-icon">📞</span>
+                  <div className="apple-card-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </div>
                   <h3>Concierge Helpline</h3>
                   <a href="tel:+918882069334" className="privacy-contact-link">
                     +91 88820 69334
@@ -545,7 +564,7 @@ export function PrivacyPolicy({ onNavigateHome, onNavigateToProducts, onNavigate
       {/* ── FOOTER ── */}
       <footer className="privacy-footer">
         <div className="privacy-footer__inner">
-          <HanboroLogo theme="light" size={20} />
+          <HanboroLogo theme="light" size={18} />
           <p>© 2026 HANBORO WATCHES • ALL RIGHTS RESERVED</p>
           <button type="button" className="privacy-footer-top-btn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             Back to top ↑

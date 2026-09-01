@@ -14436,27 +14436,31 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   PRIVACY POLICY LUXURY VIEW STYLES
+   APPLE-GRADE LEGAL & POLICY DESIGN SYSTEM (MINIMAL, CLEAN, SF PRO TYPOGRAPHY)
    ══════════════════════════════════════════════════════════════════════════════ */
+.privacy-page-root.apple-legal-page,
 .privacy-page-root {
-  background-color: #050507;
-  color: #f5f2ed;
+  background-color: #000000;
+  color: #f5f5f7;
   min-height: 100vh;
   width: 100%;
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
 }
 
+/* Apple Floating Frosted Navbar */
 .privacy-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px clamp(20px, 4vw, 56px);
-  background: rgba(8, 8, 10, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  padding: 14px clamp(20px, 4vw, 64px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
@@ -14466,24 +14470,23 @@ body.modal-open {
 .privacy-back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #f5f2ed;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f7;
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 8px 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 6px 14px;
   border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .privacy-back-btn:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateX(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(-1px);
 }
 
 .privacy-navbar__brand {
@@ -14493,6 +14496,12 @@ body.modal-open {
   padding: 0;
   display: flex;
   align-items: center;
+  opacity: 0.95;
+  transition: opacity 0.2s ease;
+}
+
+.privacy-navbar__brand:hover {
+  opacity: 1;
 }
 
 .privacy-navbar__actions {
@@ -14504,89 +14513,119 @@ body.modal-open {
 .privacy-nav-btn {
   background: transparent;
   border: none;
-  color: rgba(245, 242, 237, 0.7);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  color: #86868b;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
   transition: color 0.2s ease;
 }
 
 .privacy-nav-btn:hover {
-  color: #ffffff;
+  color: #f5f5f7;
 }
 
-/* Hero Section */
+/* Apple Hero Header */
 .privacy-hero {
-  padding: clamp(48px, 8vw, 96px) clamp(20px, 4vw, 56px) clamp(32px, 5vw, 64px);
-  max-width: 1000px;
+  padding: clamp(48px, 7vw, 84px) clamp(20px, 4vw, 64px) clamp(32px, 5vw, 56px);
+  max-width: 980px;
   margin: 0 auto;
   text-align: center;
 }
 
-.privacy-hero__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(225, 29, 72, 0.1);
-  border: 1px solid rgba(225, 29, 72, 0.3);
-  color: #ff4d6d;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+.apple-legal-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-
-.privacy-hero__badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ff2a2a;
-  box-shadow: 0 0 8px #ff2a2a;
+  color: #86868b;
+  margin-bottom: 12px;
 }
 
 .privacy-hero__title {
-  font-size: clamp(34px, 5.5vw, 64px);
-  font-weight: 800;
+  font-size: clamp(36px, 5.5vw, 56px);
+  font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 1.05;
+  line-height: 1.08;
   color: #ffffff;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .privacy-hero__sub {
-  font-size: 14px;
-  color: rgba(245, 242, 237, 0.6);
-  letter-spacing: 0.05em;
-  margin-bottom: 20px;
-}
-
-.privacy-highlight-date {
-  color: #ffd700;
-  font-weight: 600;
+  font-size: 13.5px;
+  color: #86868b;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
 }
 
 .privacy-hero__desc {
   font-size: clamp(15px, 1.8vw, 17px);
-  line-height: 1.65;
-  color: rgba(245, 242, 237, 0.8);
-  max-width: 760px;
-  margin: 0 auto;
+  line-height: 1.6;
+  color: #a1a1a6;
+  max-width: 720px;
+  margin: 0 auto 32px;
+  letter-spacing: -0.015em;
 }
 
-/* Layout */
+/* Apple Frosted Segmented Policy Switcher */
+.apple-policy-tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.apple-policy-tabs__inner {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 3px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.apple-policy-tab-btn {
+  background: transparent;
+  border: none;
+  color: #86868b;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-policy-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.apple-policy-tab-btn.is-active {
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Main Layout */
 .privacy-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 260px 1fr;
   gap: 48px;
-  max-width: 1240px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
+  padding: 0 clamp(20px, 4vw, 64px);
 }
 
 @media (max-width: 960px) {
@@ -14596,20 +14635,20 @@ body.modal-open {
   }
 }
 
-/* Sticky Sidebar */
+/* Apple Sidebar */
 .privacy-sidebar {
   position: relative;
 }
 
 .privacy-sidebar__inner {
   position: sticky;
-  top: 96px;
-  background: rgba(18, 18, 22, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-  padding: 24px 18px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  top: 88px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 20px 14px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 @media (max-width: 960px) {
@@ -14620,17 +14659,17 @@ body.modal-open {
 
 .privacy-sidebar__heading {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(245, 242, 237, 0.45);
-  margin: 0 0 14px 8px;
+  color: #636366;
+  margin: 0 0 12px 8px;
 }
 
 .privacy-toc-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .privacy-toc-link {
@@ -14639,13 +14678,14 @@ body.modal-open {
   text-align: left;
   background: transparent;
   border: none;
-  padding: 7px 10px;
+  padding: 6px 10px;
   border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: rgba(245, 242, 237, 0.7);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: #86868b;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -14653,47 +14693,47 @@ body.modal-open {
 
 .privacy-toc-link:hover {
   background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  color: #f5f5f7;
 }
 
 .privacy-toc-link.is-active {
   background: rgba(255, 255, 255, 0.08);
-  color: #ffd700;
+  color: #ffffff;
   font-weight: 600;
 }
 
 .privacy-sidebar__concierge-box {
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .privacy-concierge-tag {
   display: inline-block;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #ff4d6d;
-  margin-bottom: 6px;
+  color: #a1a1a6;
+  margin-bottom: 4px;
 }
 
 .privacy-concierge-text {
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.45;
-  color: rgba(245, 242, 237, 0.6);
-  margin: 0 0 12px;
+  color: #86868b;
+  margin: 0 0 10px;
 }
 
 .privacy-concierge-btn {
   display: block;
   text-align: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #f5f2ed;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f7;
   font-size: 11.5px;
-  font-weight: 600;
-  padding: 8px 12px;
+  font-weight: 500;
+  padding: 7px 12px;
   border-radius: 8px;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -14704,106 +14744,116 @@ body.modal-open {
   color: #000000;
 }
 
-/* Privacy Content Cards */
+/* Apple Document Cards */
 .privacy-content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 
 .privacy-card {
-  background: rgba(18, 18, 22, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
-  padding: clamp(24px, 3.5vw, 40px);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: clamp(24px, 3vw, 36px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: border-color 0.2s ease;
 }
 
 .privacy-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.privacy-card--highlight {
-  border-color: rgba(212, 175, 55, 0.35);
-  background: linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, rgba(18, 18, 22, 0.7) 100%);
+.privacy-card.apple-highlight-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0.015) 100%);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .privacy-card__header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.privacy-section-number {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffd700;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  padding: 4px 8px;
+.apple-badge-num {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #86868b;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 7px;
   border-radius: 6px;
 }
 
 .privacy-card__header h2 {
-  font-size: clamp(18px, 2.2vw, 24px);
-  font-weight: 700;
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: #ffffff;
   margin: 0;
 }
 
 .privacy-card__body p {
-  font-size: 15px;
-  line-height: 1.7;
-  color: rgba(245, 242, 237, 0.85);
-  margin: 0 0 16px;
+  font-size: 14.5px;
+  line-height: 1.68;
+  color: #a1a1a6;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
 }
 
 .privacy-card__body p:last-child {
   margin-bottom: 0;
 }
 
+.privacy-card__body strong {
+  color: #f5f5f7;
+  font-weight: 600;
+}
+
 .privacy-callout {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border-left: 3px solid #ff4d6d;
-  border-radius: 0 12px 12px 0;
-  padding: 16px 20px;
-  margin: 20px 0;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 2px solid #0071e3;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 18px;
+  margin: 16px 0;
 }
 
 .privacy-callout__icon {
-  font-size: 20px;
-  line-height: 1;
+  color: #0071e3;
+  display: flex;
+  align-items: center;
+  margin-top: 1px;
 }
 
 .privacy-callout__text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #ffffff;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #d1d1d6;
+  letter-spacing: -0.01em;
 }
 
 /* Category Grid */
 .privacy-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .privacy-info-item {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px 18px;
 }
 
 .privacy-info-item--full {
@@ -14813,60 +14863,54 @@ body.modal-open {
 .privacy-info-item__header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.privacy-info-icon {
-  font-size: 16px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .privacy-info-item__header h3 {
-  font-size: 14.5px;
-  font-weight: 700;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #ffffff;
   margin: 0;
 }
 
 .privacy-info-item p {
-  font-size: 13.5px !important;
-  line-height: 1.6 !important;
-  color: rgba(245, 242, 237, 0.7) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #86868b !important;
   margin: 0 !important;
 }
 
-/* Lists */
+/* Clean Apple Lists */
 .privacy-list {
-  margin: 16px 0;
-  padding-left: 20px;
+  margin: 14px 0;
+  padding-left: 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .privacy-list li {
-  font-size: 14.5px;
-  line-height: 1.65;
-  color: rgba(245, 242, 237, 0.85);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a1a1a6;
+  letter-spacing: -0.01em;
 }
 
-.privacy-list strong {
-  color: #ffffff;
-}
-
-/* Features Cards */
+/* Feature Cards */
 .privacy-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 18px;
-  margin-top: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
 }
 
 .privacy-feature-card {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 14px;
-  padding: 20px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
 }
@@ -14875,154 +14919,226 @@ body.modal-open {
   grid-column: 1 / -1;
 }
 
-.privacy-feature-badge {
+.apple-tag {
   align-self: flex-start;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #ffd700;
-  background: rgba(212, 175, 55, 0.1);
-  padding: 3px 8px;
+  color: #86868b;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 7px;
   border-radius: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .privacy-feature-card h4 {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #ffffff;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .privacy-feature-card p {
-  font-size: 13.5px !important;
-  line-height: 1.65 !important;
-  color: rgba(245, 242, 237, 0.75) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  color: #86868b !important;
   margin: 0 !important;
 }
 
 /* Rights Grid */
 .privacy-rights-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
 }
 
 .privacy-right-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px 16px;
 }
 
 .privacy-right-box h4 {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: #ffffff;
-  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
 }
 
 .privacy-right-box p {
-  font-size: 13px !important;
-  line-height: 1.55 !important;
-  color: rgba(245, 242, 237, 0.7) !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+  color: #86868b !important;
   margin: 0 !important;
 }
 
 .privacy-optout-note {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 14px 18px;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: rgba(245, 242, 237, 0.85);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #a1a1a6;
 }
 
-/* Contact Details Cards */
+/* Contact Cards */
 .privacy-contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  margin-top: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
 }
 
 .privacy-contact-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 22px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.privacy-contact-icon {
-  font-size: 24px;
+.apple-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
   margin-bottom: 12px;
 }
 
 .privacy-contact-card h3 {
-  font-size: 14.5px;
-  font-weight: 700;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: #ffffff;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .privacy-contact-link {
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffd700;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2997ff;
   text-decoration: none;
   word-break: break-all;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   transition: color 0.2s ease;
 }
 
 .privacy-contact-link:hover {
-  color: #ffffff;
   text-decoration: underline;
 }
 
 .privacy-copy-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #f5f2ed;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f7;
   font-size: 11px;
-  font-weight: 600;
-  padding: 6px 12px;
+  font-weight: 500;
+  padding: 4px 10px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .privacy-copy-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .privacy-address {
   font-style: normal;
   font-size: 13px;
-  line-height: 1.6;
-  color: rgba(245, 242, 237, 0.8);
+  line-height: 1.55;
+  color: #a1a1a6;
 }
 
 .privacy-contact-hours {
-  font-size: 12px;
-  color: rgba(245, 242, 237, 0.5);
+  font-size: 11.5px;
+  color: #636366;
+}
+
+/* Shipping Metrics Grid */
+.shipping-metrics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 980px;
+  margin: 0 auto 36px;
+  padding: 0 clamp(20px, 4vw, 64px);
+}
+
+.shipping-metric-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 22px;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.shipping-metric-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.shipping-metric-card .apple-card-icon {
+  margin-bottom: 10px;
+}
+
+.shipping-metric-card__val {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.shipping-metric-card__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #a1a1a6;
+  margin-bottom: 4px;
+}
+
+.shipping-metric-card__sub {
+  font-size: 11.5px;
+  color: #636366;
+  margin: 0;
+}
+
+.shipping-content-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* Privacy Footer */
 .privacy-footer {
   margin-top: 80px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 32px clamp(20px, 4vw, 56px) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 28px clamp(20px, 4vw, 64px) 0;
 }
 
 .privacy-footer__inner {
-  max-width: 1240px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -15032,18 +15148,18 @@ body.modal-open {
 }
 
 .privacy-footer__inner p {
-  font-size: 11.5px;
-  letter-spacing: 0.08em;
-  color: rgba(245, 242, 237, 0.4);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #636366;
   margin: 0;
 }
 
 .privacy-footer-top-btn {
   background: transparent;
   border: none;
-  color: rgba(245, 242, 237, 0.7);
-  font-size: 12px;
-  font-weight: 600;
+  color: #86868b;
+  font-size: 11.5px;
+  font-weight: 500;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -15052,11 +15168,12 @@ body.modal-open {
   color: #ffffff;
 }
 
-/* Footer Link Style in Main App */
+/* Refined Footer Legal & Policies Bar */
 .footer-privacy-link {
   color: rgba(245, 242, 237, 0.6);
-  font-size: 12px;
+  font-size: 11.5px;
   text-decoration: none;
+  letter-spacing: -0.01em;
   transition: color 0.2s ease;
 }
 
@@ -15065,68 +15182,6 @@ body.modal-open {
   text-decoration: underline;
 }
 
-/* Shipping Policy Specific Layout */
-.shipping-metrics-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 0 auto 40px;
-  padding: 0 clamp(20px, 4vw, 56px);
-}
-
-.shipping-metric-card {
-  background: rgba(18, 18, 22, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 24px;
-  text-align: center;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.shipping-metric-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.shipping-metric-card__icon {
-  font-size: 28px;
-  margin-bottom: 12px;
-}
-
-.shipping-metric-card__val {
-  font-size: 22px;
-  font-weight: 800;
-  color: #ffd700;
-  letter-spacing: -0.02em;
-  margin-bottom: 6px;
-}
-
-.shipping-metric-card__label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 4px;
-}
-
-.shipping-metric-card__sub {
-  font-size: 11.5px;
-  color: rgba(245, 242, 237, 0.55);
-  margin: 0;
-}
-
-.shipping-content-wrap {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-/* ── Refined Footer Legal & Policies Bar ── */
 .footer-bottom-brand-group {
   display: flex;
   align-items: center;
@@ -15142,8 +15197,8 @@ body.modal-open {
 }
 
 .footer-policy-dot {
-  color: rgba(245, 242, 237, 0.25);
-  font-size: 10px;
+  color: rgba(245, 242, 237, 0.2);
+  font-size: 9px;
 }
 
 .footer-bottom-links-group {
@@ -15155,7 +15210,7 @@ body.modal-open {
 @media (max-width: 900px) {
   .footer__bottom {
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
     text-align: center;
     align-items: center;
   }
@@ -15163,6 +15218,7 @@ body.modal-open {
     gap: 10px;
   }
 }
+
 
 
 

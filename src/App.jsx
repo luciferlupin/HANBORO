@@ -3297,6 +3297,7 @@ function Website({ onRestart }) {
       ) : view === "privacy" ? (
         <PrivacyPolicy
           onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
           onNavigateToProducts={() => navigateTo("products", "#products")}
           onNavigateToStores={() => navigateTo("stores", "#stores")}
           onOpenConcierge={() => navigateTo("home", "#contact")}
@@ -3304,6 +3305,7 @@ function Website({ onRestart }) {
       ) : view === "shipping" ? (
         <ShippingPolicy
           onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
           onNavigateToProducts={() => navigateTo("products", "#products")}
           onNavigateToStores={() => navigateTo("stores", "#stores")}
           onOpenConcierge={() => navigateTo("home", "#contact")}
@@ -3311,6 +3313,7 @@ function Website({ onRestart }) {
       ) : view === "refund" ? (
         <RefundPolicy
           onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
           onNavigateToProducts={() => navigateTo("products", "#products")}
           onNavigateToStores={() => navigateTo("stores", "#stores")}
           onOpenConcierge={() => navigateTo("home", "#contact")}
@@ -3318,6 +3321,7 @@ function Website({ onRestart }) {
       ) : view === "terms" ? (
         <TermsOfService
           onNavigateHome={() => navigateTo("home", "#top")}
+          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
           onNavigateToProducts={() => navigateTo("products", "#products")}
           onNavigateToStores={() => navigateTo("stores", "#stores")}
           onOpenConcierge={() => navigateTo("home", "#contact")}
