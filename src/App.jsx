@@ -3560,57 +3560,6 @@ function Website({ onRestart }) {
               </div>
             </div>
 
-            {/* ── DEDICATED LEGAL & POLICIES FOOTER SECTION ── */}
-            <div className="footer__policy-col">
-              <p className="eyebrow">Legal & Policies</p>
-              <nav className="footer-nav-policies" aria-label="Legal policies">
-                <a
-                  href="#privacy"
-                  className="footer-nav-policy-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateTo("privacy", "#privacy");
-                  }}
-                >
-                  <span>Privacy Policy</span>
-                  <span className="footer-policy-arrow">↗</span>
-                </a>
-                <a
-                  href="#shipping"
-                  className="footer-nav-policy-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateTo("shipping", "#shipping");
-                  }}
-                >
-                  <span>Shipping Policy</span>
-                  <span className="footer-policy-arrow">↗</span>
-                </a>
-                <a
-                  href="#refund"
-                  className="footer-nav-policy-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateTo("refund", "#refund");
-                  }}
-                >
-                  <span>Refund & Replacement</span>
-                  <span className="footer-policy-arrow">↗</span>
-                </a>
-                <a
-                  href="#terms"
-                  className="footer-nav-policy-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateTo("terms", "#terms");
-                  }}
-                >
-                  <span>Terms of Service</span>
-                  <span className="footer-policy-arrow">↗</span>
-                </a>
-              </nav>
-            </div>
-
             <div className="footer__clock-col">
               <FooterLiveClock />
             </div>

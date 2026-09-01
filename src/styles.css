@@ -15168,7 +15168,7 @@ body.modal-open {
   color: #ffffff;
 }
 
-/* ── Guaranteed Visibility & Dedicated Footer Legal Column ── */
+/* ── Guaranteed Footer Visibility & Bottom Policies Bar ── */
 .footer.is-always-visible,
 .footer__bottom.is-always-visible {
   opacity: 1 !important;
@@ -15177,65 +15177,18 @@ body.modal-open {
   filter: none !important;
 }
 
-.footer__policy-col {
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 4px;
-}
-
-.footer__policy-col .eyebrow {
-  margin-bottom: 16px;
-}
-
-.footer-nav-policies {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.footer-nav-policy-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  color: rgba(245, 242, 237, 0.8);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.2s ease;
-  max-width: 240px;
-}
-
-.footer-nav-policy-link:hover {
-  color: #ffffff;
-  border-bottom-color: var(--red, #ff2a2a);
-  padding-left: 4px;
-}
-
-.footer-policy-arrow {
-  font-size: 12px;
-  color: rgba(245, 242, 237, 0.4);
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.footer-nav-policy-link:hover .footer-policy-arrow {
-  color: #ffffff;
-  transform: translate(2px, -2px);
-}
-
-/* Refined Footer Legal & Policies Bar */
 .footer-privacy-link {
   color: rgba(245, 242, 237, 0.85);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;
   letter-spacing: -0.01em;
-  padding: 4px 6px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
@@ -15255,13 +15208,13 @@ body.modal-open {
 .footer-policies-list {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .footer-policy-dot {
-  color: rgba(245, 242, 237, 0.3);
+  color: rgba(245, 242, 237, 0.25);
   font-size: 10px;
 }
 
@@ -15273,16 +15226,6 @@ body.modal-open {
 }
 
 @media (max-width: 900px) {
-  .footer__top-wrap {
-    flex-direction: column;
-    gap: 36px;
-  }
-  .footer__policy-col {
-    width: 100%;
-  }
-  .footer-nav-policy-link {
-    max-width: 100%;
-  }
   .footer__bottom {
     flex-direction: column;
     gap: 16px;
@@ -15290,9 +15233,10 @@ body.modal-open {
     align-items: center;
   }
   .footer-policies-list {
-    gap: 8px;
+    gap: 6px;
   }
 }
+
 
 
 
