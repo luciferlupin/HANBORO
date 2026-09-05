@@ -92,7 +92,7 @@ export function CartDrawer() {
           <span className="ribbon-icon">🛡️</span>
           <div className="ribbon-text">
             <strong>Complimentary Insured Courier</strong>
-            <span>Direct from Swiss Atelier • Hand-Delivered with Certificate</span>
+            <span>Direct from Official Store • Hand-Delivered with Certificate</span>
           </div>
         </div>
 
@@ -101,8 +101,8 @@ export function CartDrawer() {
           {cart.length === 0 ? (
             <div className="cart-empty-state">
               <div className="cart-empty-icon">⌚</div>
-              <h3>Your Atelier Bag is Empty</h3>
-              <p>Explore our limited reference timepieces and select a masterpiece to reserve.</p>
+              <h3>Your Shopping Bag is Empty</h3>
+              <p>Explore our limited edition timepieces and select a watch to order.</p>
               <button
                 type="button"
                 className="cart-browse-btn"
@@ -111,7 +111,7 @@ export function CartDrawer() {
                   window.location.hash = "#products";
                 }}
               >
-                Browse Haute Horlogerie →
+                Browse Watches →
               </button>
             </div>
           ) : (
@@ -178,8 +178,8 @@ export function CartDrawer() {
                     onChange={(e) => setLuxuryGiftBox(e.target.checked)}
                   />
                   <div className="addon-text">
-                    <span className="addon-title">🎁 Complimentary Wooden Atelier Presentation Box</span>
-                    <span className="addon-desc">Includes micro-fiber polishing kit, warranty card, and collector dossier.</span>
+                    <span className="addon-title">🎁 Complimentary Wooden Luxury Presentation Box</span>
+                    <span className="addon-desc">Includes micro-fiber polishing kit, warranty card, and collector guide.</span>
                   </div>
                 </label>
               </div>
@@ -205,7 +205,7 @@ export function CartDrawer() {
                     <input
                       type="text"
                       className="promo-input"
-                      placeholder="Privilege Voucher (e.g. HANBORO10)"
+                      placeholder="Discount Code (e.g. HANBORO10)"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                     />
@@ -231,7 +231,7 @@ export function CartDrawer() {
 
               {appliedPromo && (
                 <div className="summary-row summary-row--discount">
-                  <span>Privilege Discount ({appliedPromo.code})</span>
+                  <span>Discount ({appliedPromo.code})</span>
                   <span>−₹{discountAmount.toLocaleString("en-IN")}</span>
                 </div>
               )}
@@ -242,7 +242,7 @@ export function CartDrawer() {
               </div>
 
               <div className="summary-row">
-                <span>GST & Atelier Duties</span>
+                <span>GST & Taxes</span>
                 <span className="tax-included-tag">INCLUDED</span>
               </div>
 
@@ -267,7 +267,7 @@ export function CartDrawer() {
             </button>
 
             <p className="cart-secure-notice">
-              🔒 256-Bit Encrypted Atelier Transaction • Direct Swiss Heritage Guarantee
+              🔒 256-Bit Encrypted Secure Checkout • Official Brand Guarantee
             </p>
           </div>
         )}

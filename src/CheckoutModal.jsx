@@ -131,10 +131,10 @@ export function CheckoutModal() {
             <HanboroLogo theme="light" size={22} />
             <h2 id="checkout-modal-title" className="checkout-title">
               {step === 1
-                ? "Atelier Allocation & Shipping"
+                ? "Shipping & Delivery"
                 : step === 2
-                ? "Secure Atelier Payment"
-                : "Acquisition Confirmed"}
+                ? "Secure Payment"
+                : "Order Confirmed"}
             </h2>
           </div>
 
@@ -501,7 +501,7 @@ export function CheckoutModal() {
                 className="conf-close-btn"
                 onClick={closeCheckout}
               >
-                Return to Hanboro Atelier
+                Return to Hanboro Watches
               </button>
 
               {isAdmin && (

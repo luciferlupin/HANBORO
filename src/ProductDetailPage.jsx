@@ -136,7 +136,7 @@ export function ProductDetailPage({
           </button>
 
           <div className="pdp-breadcrumbs">
-            <span className="crumb-dim">Atelier</span>
+            <span className="crumb-dim">Collection</span>
             <span className="crumb-sep">/</span>
             <span className="crumb-dim">{product.collectionName}</span>
             <span className="crumb-sep">/</span>
@@ -464,7 +464,7 @@ export function ProductDetailPage({
           <div className="pdp-gallery-showcase-container">
             <div className="pdp-section-header">
               <span className="section-eyebrow">VISUAL HOROLOGY & PERSPECTIVES</span>
-              <h2 className="section-title">Photographic Portfolio & Atelier Gallery</h2>
+              <h2 className="section-title">Photographic Portfolio & Watch Gallery</h2>
               <p className="section-desc">
                 High-definition studio, sartorial on-wrist, and cinematic captures of Reference {product.sku}. Click any image to view in ultra-high resolution.
               </p>

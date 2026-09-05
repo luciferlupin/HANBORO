@@ -16,6 +16,12 @@ import { PrivacyPolicy } from "./PrivacyPolicy";
 import { ShippingPolicy } from "./ShippingPolicy";
 import { RefundPolicy } from "./RefundPolicy";
 import { TermsOfService } from "./TermsOfService";
+import { TestimonialsSection } from "./TestimonialsSection";
+import { MediaSection } from "./MediaSection";
+import { SubtleMasterySection } from "./SubtleMasterySection";
+import { CraftedWithLegacySection } from "./CraftedWithLegacySection";
+import { CollectionsOrbitalSection } from "./CollectionsOrbitalSection";
+import { AboutMaisonSection } from "./AboutMaisonSection";
 
 /* ── Error Boundary ────────────────────────────────────────────────────────── */
 class ErrorBoundary extends React.Component {
@@ -27,7 +33,7 @@ class ErrorBoundary extends React.Component {
     return { hasError: true, error };
   }
   componentDidCatch(error, errorInfo) {
-    console.error("Hanboro Atelier Runtime Caught Error:", error, errorInfo);
+    console.error("Hanboro Runtime Caught Error:", error, errorInfo);
   }
   render() {
     if (this.state.hasError) {
@@ -45,10 +51,10 @@ class ErrorBoundary extends React.Component {
           fontFamily: "'Inter', sans-serif"
         }}>
           <h1 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "12px", color: "#fa2d1d" }}>
-            HANBORO ATELIER
+            HANBORO WATCHES
           </h1>
           <p style={{ fontSize: "14px", color: "rgba(245,242,237,0.7)", maxWidth: "480px", marginBottom: "24px" }}>
-            An unexpected complication occurred. Reloading the atelier will restore precision movement.
+            An unexpected error occurred. Reloading the page will restore normal operation.
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -65,7 +71,7 @@ class ErrorBoundary extends React.Component {
               textTransform: "uppercase"
             }}
           >
-            Reload Hanboro Atelier ↻
+            Reload Store ↻
           </button>
         </div>
       );
@@ -576,8 +582,10 @@ function Splash({ onEnter, exiting }) {
 /* ══════════════════════════════════════════════════════════════════════════════
    WEBSITE
 ══════════════════════════════════════════════════════════════════════════════ */
+
+
 // ══════════════════════════════════════════════════════════════════════════════
-// INTERACTIVE EXPERIENCE 001: CLOVER KING DAY vs NIGHT REVEAL
+// INTERACTIVE EXPERIENCE 002: CLOVER KING DAY vs NIGHT REVEAL
 // ══════════════════════════════════════════════════════════════════════════════
 function CloverKingExperience({ onInspectSku }) {
   const [glowProgress, setGlowProgress] = useState(50); // 0 = 100% Day, 100 = 100% Night (glow sweeps left-to-right)
@@ -619,8 +627,8 @@ function CloverKingExperience({ onInspectSku }) {
       {/* Section Header */}
       <div className="stage-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-index">02 / 03</span>
-          <span className="stage-tag">INTERACTIVE EXPERIENCE</span>
+          <span className="stage-index">CHAPTER 03 / 07</span>
+          <span className="stage-tag">KINETIC METAMORPHOSIS</span>
         </div>
         <h2 id="clover-title" className="stage-title">
           How rare does time <em>need to be?</em>
@@ -773,7 +781,7 @@ function CloverKingExperience({ onInspectSku }) {
             className="view-all-skus-cta"
             onClick={() => onInspectSku && onInspectSku("clover-king-crimson")}
           >
-            <span>Inspect Clover King Dossier & Full Specs (REF. HBR-7701-CK)</span>
+            <span>View Clover King Specs & Details (REF. HBR-7701-CK)</span>
             <span aria-hidden="true">↗</span>
           </button>
         </div>
@@ -794,26 +802,26 @@ const PREDEFINED_ROULETTE_OUTCOMES = [
   {
     code: "HANBORO10",
     discount: "10% OFF",
-    label: "10% ATELIER WELCOME PRIVILEGE",
-    desc: "10% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications."
+    label: "10% WELCOME DISCOUNT",
+    desc: "10% Exclusive discount applied across all Hanboro watches."
   },
   {
     code: "VIP1000",
     discount: "₹1,000 OFF",
-    label: "₹1,000 HOROLOGY COLLECTOR CREDIT",
-    desc: "₹1,000 Direct Collector Credit applied to your Hanboro timepiece acquisition."
+    label: "₹1,000 COLLECTOR CREDIT",
+    desc: "₹1,000 Direct Credit applied to your Hanboro watch purchase."
   },
   {
     code: "SWISS15",
     discount: "15% OFF",
-    label: "15% PRIVATE COLLECTOR TIER",
-    desc: "15% Private Collector Tier privilege applied across your entire atelier acquisition."
+    label: "15% SPECIAL DISCOUNT",
+    desc: "15% Special Discount applied across your entire order."
   },
   {
     code: "HANBORO5",
     discount: "5% OFF",
-    label: "5% COLLECTOR PRIVILEGE",
-    desc: "5% Exclusive Collector Privilege applied across all Hanboro Timepiece Complications."
+    label: "5% MEMBER DISCOUNT",
+    desc: "5% Exclusive discount applied across all Hanboro watches."
   }
 ];
 
@@ -1107,297 +1115,132 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
 
   return (
     <section className="stage-section stage-section--direct stage-section--roulette" id="roulette" aria-labelledby="roulette-title">
-      {/* Section Header */}
-      <div className="stage-header" data-reveal>
-        <div className="stage-meta">
-          <span className="stage-index">03 / 03</span>
-          <span className="stage-tag">MECHANICAL CASINO ROULETTE</span>
-        </div>
-        <h2 id="roulette-title" className="stage-title">
-          DISCOVER YOUR <em>PRIVILEGE.</em>
-        </h2>
-        <p className="stage-subtitle">
-          Interact with the Casino Roulette and reveal your exclusive Hanboro offer.
-        </p>
-      </div>
+      <div className="roulette-stage-container" data-reveal data-reveal-delay="1">
+        
+        {/* Left Column: Editorial & Interactive Terminal */}
+        <div className="roulette-editorial-col">
+          <div className="stage-meta">
+            <span className="stage-index">CHAPTER 07 / 07</span>
+            <span className="stage-tag">KINETIC CHANCE</span>
+          </div>
 
-      {/* Main Interactive Stage Display */}
-      <div className="roulette-interactive-stage" data-reveal data-reveal-delay="1">
-        <div className="roulette-showcase-grid">
-          
-          {/* Left Column: Watch Specs & Variant Switcher */}
-          <div className="roulette-specs-col">
-            <span className="roulette-col-tag">HOROLOGICAL MECHANISM</span>
-            <h3 className="roulette-col-heading">
-              Kinetic <em>momentum.</em>
-            </h3>
+          <h2 id="roulette-title" className="roulette-stage-title">
+            Discover your <em>privilege.</em>
+          </h2>
 
-            <p className="roulette-col-desc">
-              The customer spins the watch/roulette visually, but the discount should be limited to predefined outcomes.
-            </p>
+          <p className="roulette-stage-desc">
+            Engineered with a free-spinning micro-ceramic rotor. Flick the mechanical roulette dial to unlock up to 15% instant collector allocation.
+          </p>
 
-            {/* Edition Indicator */}
-            <div className="roulette-variant-selector">
-              <span className="variant-label">TIMEPIECE REFERENCE</span>
-              <div className="variant-pills">
-                <div className="variant-pill is-active">
-                  <span className="variant-dot variant-dot--blue" />
-                  <span>Sapphire Blue Steel (REF. HBR-7705-BL)</span>
-                </div>
-              </div>
+          {/* Quick Technical Horology Badges */}
+          <div className="roulette-quick-specs">
+            <div className="roulette-spec-pill">
+              <span className="pill-dot" aria-hidden="true" />
+              <span>0.002mm Ceramic Track</span>
             </div>
-
-            {/* Privilege Rules Summary */}
-            <div className="privilege-rules-box">
-              <div className="privilege-rules-title">Privilege Terms & Conditions</div>
-              <ul className="privilege-rules-list">
-                <li>• 1 unique voucher per user (linked to email/phone)</li>
-                <li>• Voucher expires in 7 days • Single-use only</li>
-                <li>• No stacking with other coupons • No cash alternative</li>
-                <li>• Maximum discount strictly capped at 15%</li>
-                <li>• Cancelled/returned orders don't generate replacement spin</li>
-              </ul>
+            <div className="roulette-spec-pill">
+              <span className="pill-dot" aria-hidden="true" />
+              <span>28,800 BPH Kinetic Escapement</span>
+            </div>
+            <div className="roulette-spec-pill">
+              <span className="pill-dot" aria-hidden="true" />
+              <span>Single-Use Vault Lock</span>
             </div>
           </div>
 
-          {/* Center Column: Interactive Roulette Watch Dial Stage */}
-          <div className="roulette-watch-center">
-            <div className="roulette-watch-display">
-              {/* Real Watch Base Image */}
-              <img
-                src={watchImgSrc}
-                alt="HANBORO Sapphire Blue Steel Casino Roulette Watch (REF. HBR-7705-BL)"
-                className="roulette-watch-img"
-                draggable={false}
-              />
-
-              {/* Realistic Kinetic Roulette Rotor Overlay on Dial Center */}
-              <div className="roulette-rotor-container">
-                <div
-                  className={`roulette-rotor-disc ${isSpinning ? "is-spinning-fast" : ""}`}
-                  style={{ transform: `rotate(${wheelRotation}deg)` }}
-                >
-                  <svg className="roulette-rotor-svg" viewBox="0 0 300 300" aria-hidden="true">
-                    <defs>
-                      <radialGradient id="rotorMetal" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#2a2a2e" />
-                        <stop offset="60%" stopColor="#18181b" />
-                        <stop offset="100%" stopColor="#0c0c0e" />
-                      </radialGradient>
-                      <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#f5f2ed" />
-                        <stop offset="50%" stopColor="#c0bbb4" />
-                        <stop offset="100%" stopColor="#807b74" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* Outer Bezel */}
-                    <circle cx="150" cy="150" r="146" fill="none" stroke="url(#goldRim)" strokeWidth="5" />
-                    <circle cx="150" cy="150" r="140" fill="#08080a" />
-
-                    {/* 37 Roulette Pockets */}
-                    {ROULETTE_NUMBERS.map((num, i) => {
-                      const angle = (i * 360) / 37;
-                      const isZero = num === 0;
-                      const isRed = !isZero && i % 2 === 0;
-                      const fillColor = isZero ? "#008f4c" : isRed ? "#d91a1a" : "#121214";
-                      const rad1 = ((angle - 90 - 180 / 37) * Math.PI) / 180;
-                      const rad2 = ((angle - 90 + 180 / 37) * Math.PI) / 180;
-                      const rOuter = 138;
-                      const rInner = 82;
-
-                      const x1 = 150 + rOuter * Math.cos(rad1);
-                      const y1 = 150 + rOuter * Math.sin(rad1);
-                      const x2 = 150 + rOuter * Math.cos(rad2);
-                      const y2 = 150 + rOuter * Math.sin(rad2);
-                      const x3 = 150 + rInner * Math.cos(rad2);
-                      const y3 = 150 + rInner * Math.sin(rad2);
-                      const x4 = 150 + rInner * Math.cos(rad1);
-                      const y4 = 150 + rInner * Math.sin(rad1);
-
-                      const numRad = ((angle - 90) * Math.PI) / 180;
-                      const numR = 110;
-                      const numX = 150 + numR * Math.cos(numRad);
-                      const numY = 150 + numR * Math.sin(numRad);
-
-                      return (
-                        <g key={`pocket-${num}-${i}`}>
-                          <path
-                            d={`M ${x1} ${y1} A ${rOuter} ${rOuter} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${rInner} ${rInner} 0 0 0 ${x4} ${y4} Z`}
-                            fill={fillColor}
-                            stroke="rgba(255,255,255,0.18)"
-                            strokeWidth="0.8"
-                          />
-                          <text
-                            x={numX}
-                            y={numY}
-                            fill="#ffffff"
-                            fontSize="8.5"
-                            fontWeight="800"
-                            fontFamily="'Inter', sans-serif"
-                            textAnchor="middle"
-                            dominantBaseline="central"
-                            transform={`rotate(${angle}, ${numX}, ${numY})`}
-                          >
-                            {num}
-                          </text>
-                        </g>
-                      );
-                    })}
-
-                    {/* Inner Hub & Four-Leaf Clover Axis */}
-                    <circle cx="150" cy="150" r="78" fill="url(#rotorMetal)" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-                    <circle cx="150" cy="150" r="54" fill="#050507" stroke="#fa2d1d" strokeWidth="1.2" />
-                    
-                    {/* Clover Turret Cone */}
-                    <circle cx="150" cy="150" r="28" fill="#18181c" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-                    <path
-                      d="M 150 126 C 144 138 144 144 132 150 C 144 156 144 162 150 174 C 156 162 156 156 168 150 C 156 144 156 138 150 126 Z"
-                      fill="#ffffff"
-                      opacity="0.9"
-                    />
-                    <circle cx="150" cy="150" r="6" fill="#fa2d1d" />
-                  </svg>
+          {/* Spin Action CTA / Unlocked Privilege Terminal */}
+          <div className="roulette-terminal-wrap">
+            {activeReward ? (
+              <div className="roulette-reward-unlocked-banner">
+                <div className="reward-unlocked-header">
+                  <span className="reward-pill-badge">
+                    {winningNumber !== null ? `POCKET #${winningNumber} · ${winningColor?.toUpperCase()}` : "PRIVILEGE UNLOCKED"}
+                  </span>
+                  <span className="reward-tier-text">{activeReward.discount} COLLECTOR PRIVILEGE</span>
                 </div>
-
-                {/* Counter-Spinning Ceramic Roulette Ball */}
-                <div
-                  className={`roulette-ball-orbit ${isSpinning ? "is-spinning" : ""}`}
-                  style={{ transform: `rotate(${ballRotation}deg)` }}
-                >
-                  <div className="roulette-ball-dot" />
-                </div>
-              </div>
-            </div>
-
-            {/* Main Spin Action CTA Button */}
-            <div className="roulette-cta-wrap">
-              <button
-                type="button"
-                className={`roulette-spin-btn ${isSpinning ? "is-spinning-active" : ""}`}
-                onClick={handleInitiateSpin}
-                disabled={isSpinning || Boolean(existingSpin)}
-              >
-                <svg className="spin-btn-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-                </svg>
-                <span className="spin-btn-label">
-                  {isSpinning
-                    ? "Spinning Rotor at 28,800 BPH..."
-                    : existingSpin
-                    ? "1-Time Spin Claimed"
-                    : "Spin Casino Roulette"}
-                </span>
-              </button>
-
-              <div className="roulette-spin-subtext">
-                {existingSpin
-                  ? `Voucher assigned to ${existingSpin.customer_email || existingSpin.customer_phone || existingSpin.customer_identifier}`
-                  : "1 spin per customer • Linked to email/phone • Expires in 7 days"}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Always-Visible Live Discount Reward Card */}
-          <div className="roulette-outcome-col">
-            <span className="roulette-col-tag">COLLECTOR PRIVILEGE</span>
-            
-            <div className={`roulette-reward-card ${activeReward ? "is-unlocked" : isSpinning ? "is-spinning-state" : "is-locked"}`}>
-              {activeReward ? (
-                <div className="reward-unlocked-content">
-                  <div className="reward-card-badge">
-                    <span>
-                      {winningNumber !== null ? `POCKET #${winningNumber} • ${winningColor?.toUpperCase()}` : "EXCLUSIVE PRIVILEGE"}
-                    </span>
-                  </div>
-
-                  <h4 className="reward-card-title">{activeReward.discount}</h4>
-                  <p className="reward-card-label">{activeReward.label}</p>
-                  <p className="reward-card-desc">
-                    {activeReward.desc}
-                  </p>
-
-                  {/* Promo Code Box with 1-Click Copy */}
-                  <div className="reward-code-box">
-                    <span className="code-tag">UNIQUE VOUCHER CODE</span>
-                    <div className="code-row">
-                      <span className="code-text">{activeReward.code}</span>
-                      <button
-                        type="button"
-                        className="copy-code-btn"
-                        onClick={() => handleCopyCode(activeReward.code)}
-                      >
-                        {copied ? "COPIED ✓" : "COPY CODE"}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Validity and Status Details */}
-                  <div className="reward-validity-bar">
-                    <span className="validity-chip">
-                      ⏳ {activeReward.isUsed ? "Redeemed" : `Valid for ${daysLeft} days`}
-                    </span>
-                    <span className="validity-chip validity-chip--secondary">
-                      🔒 Single-use only
-                    </span>
-                  </div>
-
-                  <div className="reward-action-buttons">
-                    <button
-                      type="button"
-                      className="apply-code-cta"
-                      onClick={onShopAll}
-                    >
-                      <span>Claim & Shop All Timepieces</span>
-                      <span aria-hidden="true">↗</span>
-                    </button>
-                  </div>
-                </div>
-              ) : isSpinning ? (
-                <div className="reward-spinning-inner">
-                  <div className="reward-spin-spinner">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="spin-btn-icon-svg">
-                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-                    </svg>
-                  </div>
-                  <h4 className="reward-spinning-title">Spinning Kinetic Rotor...</h4>
-                  <p className="reward-spinning-desc">
-                    Calibre HB-RL07 rotating at 28,800 bph. Determining winning pocket and generating your unique 7-day privilege voucher...
-                  </p>
-                </div>
-              ) : (
-                <div className="reward-locked-content">
-                  <div className="reward-card-badge reward-card-badge--preview">
-                    <span>EXCLUSIVE OFFER</span>
-                  </div>
-
-                  <h4 className="reward-card-title">EXCLUSIVE PRIVILEGE</h4>
-                  <p className="reward-card-label">COLLECTOR TIERS (MAX 15% OFF)</p>
-                  <p className="reward-card-desc">
-                    Spin the mechanical roulette rotor to reveal your exclusive Hanboro offer. 1 unique voucher per user, valid for 7 days.
-                  </p>
-
-                  <div className="reward-code-box reward-code-box--locked">
-                    <span className="code-tag">VOUCHER CODE</span>
-                    <div className="code-row">
-                      <span className="code-text code-text--locked">HNB-PRIVILEGE</span>
-                      <span className="code-locked-badge">SPIN TO ACTIVATE</span>
-                    </div>
-                  </div>
-
+                <div className="reward-code-strip">
+                  <span className="reward-voucher-code">{activeReward.code}</span>
                   <button
                     type="button"
-                    className="reward-idle-trigger"
-                    onClick={handleInitiateSpin}
+                    className="reward-copy-btn"
+                    onClick={() => handleCopyCode(activeReward.code)}
                   >
-                    Spin Roulette to Unlock ↘
+                    {copied ? "COPIED ✓" : "COPY CODE"}
+                  </button>
+                  <button
+                    type="button"
+                    className="reward-claim-btn"
+                    onClick={onShopAll}
+                  >
+                    <span>Claim & Shop All</span>
+                    <span aria-hidden="true">↗</span>
                   </button>
                 </div>
-              )}
-            </div>
+                <div className="reward-meta-sub">
+                  <span>⏳ Valid for {daysLeft} days</span>
+                  <span>•</span>
+                  <span>Single-use code linked to profile</span>
+                </div>
+              </div>
+            ) : (
+              <div className="roulette-action-box">
+                <button
+                  type="button"
+                  className={`roulette-spin-btn ${isSpinning ? "is-spinning-active" : ""}`}
+                  onClick={handleInitiateSpin}
+                  disabled={isSpinning}
+                >
+                  <svg className="spin-btn-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                  </svg>
+                  <span className="spin-btn-label">
+                    {isSpinning ? "Spinning Rotor at 28,800 BPH..." : "Spin Casino Roulette"}
+                  </span>
+                </button>
+
+                <div className="roulette-spin-subtext">
+                  1 allocation per collector • Valid for 7 days • Direct checkout redemption
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Watch Details Action Link */}
+          <button
+            type="button"
+            className="roulette-dossier-link"
+            onClick={() => onInspectSku && onInspectSku(watchSku)}
+          >
+            <span>View Watch Details & Specs (REF. HBR-7705-BL)</span>
+            <span aria-hidden="true">↗</span>
+          </button>
         </div>
+
+        {/* Right Column: Dramatic Majestic Roulette Timepiece */}
+        <div className="roulette-visual-col">
+          <div className="roulette-watch-display">
+            <div className="roulette-watch-halo" aria-hidden="true" />
+            {/* Real Watch Base Image */}
+            <img
+              src={watchImgSrc}
+              alt="HANBORO Sapphire Blue Steel Casino Roulette Watch (REF. HBR-7705-BL)"
+              className="roulette-watch-img"
+              draggable={false}
+            />
+
+            {/* Authentic Kinetic Ceramic Ball Orbit along real watch roulette track */}
+            <div className="roulette-track-overlay">
+              <div
+                className={`roulette-ball-orbit ${isSpinning ? "is-spinning" : ""}`}
+                style={{ transform: `rotate(${ballRotation}deg)` }}
+              >
+                <div className="roulette-ball-dot" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
         {/* ── CUSTOMER VERIFICATION MODAL FOR 1-SPIN ENFORCEMENT ── */}
         {showIdentifierModal && (
@@ -1412,10 +1255,10 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
                 ✕
               </button>
 
-              <div className="roulette-modal-badge">1-TIME CUSTOMER PRIVILEGE</div>
-              <h3 className="roulette-modal-title">Verify Your Collector Identity</h3>
+              <div className="roulette-modal-badge">1-TIME COLLECTOR PRIVILEGE</div>
+              <h3 className="roulette-modal-title">Verify Collector Identity</h3>
               <p className="roulette-modal-desc">
-                Each customer is entitled to <strong>one exclusive Roulette spin</strong>. Enter your email or mobile number to link your unique 7-day privilege voucher.
+                Each collector is entitled to <strong>one exclusive Roulette spin</strong>. Enter your email or mobile number to link your unique 7-day privilege voucher.
               </p>
 
               <form onSubmit={handleModalSubmit} className="roulette-modal-form">
@@ -1435,7 +1278,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
                 )}
 
                 <button type="submit" className="roulette-modal-submit">
-                  Verify & Spin Roulette →
+                  Verify & Spin Rotor →
                 </button>
               </form>
 
@@ -1446,48 +1289,17 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
           </div>
         )}
 
-        {/* Technical Movement Specifications Strip */}
-        <div className="movement-strip" data-reveal data-reveal-delay="2">
-          <div className="movement-strip__label">ROULETTE HOROLOGICAL SPECIFICATIONS</div>
-          <div className="movement-strip__grid">
-            <div className="movement-spec">
-              <span className="movement-spec__value">Automatic</span>
-              <span className="movement-spec__key">Movement Type</span>
-            </div>
-            <div className="movement-spec">
-              <span className="movement-spec__value">HB-RL07</span>
-              <span className="movement-spec__key">Calibre</span>
-            </div>
-            <div className="movement-spec">
-              <span className="movement-spec__value">48h</span>
-              <span className="movement-spec__key">Power Reserve</span>
-            </div>
-            <div className="movement-spec">
-              <span className="movement-spec__value">28,800 bph</span>
-              <span className="movement-spec__key">Frequency</span>
-            </div>
-            <div className="movement-spec">
-              <span className="movement-spec__value">25</span>
-              <span className="movement-spec__key">Jewels</span>
-            </div>
-            <div className="movement-spec">
-              <span className="movement-spec__value">Micro Ceramic</span>
-              <span className="movement-spec__key">Ball Bearing Track</span>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ textAlign: "center", marginTop: "28px" }} data-reveal data-reveal-delay="3">
+        {/* Direct Action to Product Sku Detail */}
+        <div className="roulette-bottom-action" data-reveal data-reveal-delay="2">
           <button
             type="button"
             className="view-all-skus-cta"
             onClick={() => onInspectSku && onInspectSku(watchSku)}
           >
-            <span>Inspect Casino Roulette Dossier & Specs (REF. {selectedVariant === "emerald" ? "HBR-7704-EM" : "HBR-7705-BL"})</span>
+            <span>View Full Watch Details & Specifications (REF. HBR-7705-BL)</span>
             <span aria-hidden="true">↗</span>
           </button>
         </div>
-      </div>
     </section>
   );
 }
@@ -1629,6 +1441,57 @@ function HeroVideoSection({ onDiscover }) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// LIVE HOROLOGICAL TICKER MARQUEE (Between Hero & Collection)
+// ══════════════════════════════════════════════════════════════════════════════
+const TICKER_ITEMS = [
+  "SWISS-INSPIRED TONNEAU ARCHITECTURE",
+  "28,800 BPH HIGH-BEAT ESCAPEMENT",
+  "37-POCKET KINETIC ROULETTE ROTORS",
+  "DOUBLE-DOMED SAPPHIRE CRYSTAL",
+  "100M WATER RESISTANCE",
+  "SUPER-LUMINOVA DUAL MATRIX",
+  "2-YEAR INTERNATIONAL WARRANTY",
+  "GLOBAL BOUTIQUE NETWORK"
+];
+
+function HeroBrandTicker() {
+  return (
+    <div className="hero-brand-ticker" aria-label="Brand Engineering Highlights">
+      <div className="ticker-track-wrap">
+        {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, idx) => (
+          <div key={`tick-${idx}`} className="ticker-item">
+            <span className="ticker-dot" aria-hidden="true">◆</span>
+            <span className="ticker-text">{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BRAND MANIFESTO STATEMENT SECTION
+// ══════════════════════════════════════════════════════════════════════════════
+function BrandManifestoSection({ onExplore }) {
+  return (
+    <section className="statement" id="approach" data-reveal>
+      <div className="stage-meta" style={{ justifyContent: "center", marginBottom: "16px" }}>
+        <span className="stage-index">CHAPTER 02 / 08</span>
+        <span className="stage-tag">THE PHILOSOPHY</span>
+      </div>
+      <h2 className="statement__line">
+        WE DO NOT MEASURE SECONDS. WE SCULPT <em>MOMENTUM.</em>
+      </h2>
+      <p className="stage-subtitle" style={{ maxWidth: "680px", margin: "14px auto 0", textAlign: "center" }}>
+        Every calibre is an architectural manifesto of precision horology, fusing high-frequency Swiss escapements with sculptural titanium architecture.
+      </p>
+    </section>
+  );
+}
+
+
+
+// ══════════════════════════════════════════════════════════════════════════════
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
@@ -1719,7 +1582,8 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
       <div className="carousel-section-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-tag">THE ESSENTIALS</span>
+          <span className="stage-index">CHAPTER 01 / 07</span>
+          <span className="stage-tag">THE VAULT</span>
         </div>
         <h2 id="collection-title" className="carousel-heading">
           <img
@@ -1778,18 +1642,6 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Direct CTA to All Products / SKUs Archive */}
-      <div className="carousel-action-bar" data-reveal data-reveal-delay="2">
-        <button
-          type="button"
-          className="view-all-skus-cta"
-          onClick={onViewAllProducts}
-        >
-          <span>Explore All 81 Timepieces &amp; SKUs</span>
-          <span aria-hidden="true">↗</span>
-        </button>
       </div>
     </section>
   );
@@ -3095,6 +2947,9 @@ function Website({ onRestart }) {
 
   return (
     <main className={["site", visible ? "site--visible" : ""].filter(Boolean).join(" ")} id="top">
+      {/* ── LUXURY FILM GRAIN TEXTURE OVERLAY ── */}
+      <div className="site__grain-overlay" aria-hidden="true" />
+
       {/* ── LUXURY HEADER (Exact Match to Photo Reference) ── */}
       {view === "stores" || view === "admin" || view === "profile" || view === "checkout" || view === "privacy" || view === "shipping" || view === "refund" || view === "terms" ? null : (
         <header className="luxury-header" role="banner">
@@ -3220,7 +3075,7 @@ function Website({ onRestart }) {
             className={`luxury-drawer__link ${view === "products" ? "is-active" : ""}`}
             onClick={() => navigateTo("products", "#products")}
           >
-            <span className="drawer-link-text">Shop All</span>
+            <span className="drawer-link-text">Shop All Watches</span>
             <span className="drawer-link-arrow">↗</span>
           </button>
 
@@ -3246,7 +3101,7 @@ function Website({ onRestart }) {
             }}
           >
             <span className="drawer-link-text">
-              {user ? `Private Dossier (${user.fullName?.split(" ")[0] || "Profile"})` : "Client Sign In / Register"}
+              {user ? `My Account (${user.fullName?.split(" ")[0] || "Profile"})` : "Sign In / Register"}
             </span>
             <span className="drawer-link-arrow">👤</span>
           </button>
@@ -3259,7 +3114,7 @@ function Website({ onRestart }) {
               setIsCartOpen(true);
             }}
           >
-            <span className="drawer-link-text">Atelier Bag ({cartCount})</span>
+            <span className="drawer-link-text">Shopping Bag ({cartCount})</span>
             <span className="drawer-link-arrow">🛍️</span>
           </button>
 
@@ -3349,196 +3204,82 @@ function Website({ onRestart }) {
         />
       ) : (
         <>
-          {/* ── CINEMATIC VIDEO HERO SECTION ONLY (Exact match to photo + Apple controls) ── */}
+          {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
           <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
 
-          {/* ── WATCH COLLECTION CAROUSEL LOOP (Just after Hero) ── */}
+          {/* ── ACT I.5: ABOUT THE MAISON / ABOUT US (Sacred Geometry Architectural Editorial) ── */}
+          <AboutMaisonSection />
+
+          {/* ── ACT II: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
+          <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+          {/* ── ACT III: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
+          <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+          {/* ── ACT IV: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
           <WatchCarouselSection
             onSelectProduct={handleOpenSku}
             onViewAllProducts={() => navigateTo("products", "#products")}
           />
 
-          {/* ── STAGE 01: HAUTE HORLOGERIE LOOKBOOK & CATALOG ── */}
-      <section className="stage-section stage-section--direct" id="lookbook" aria-labelledby="lookbook-title">
-        <div className="stage-header" data-reveal>
-          <div className="stage-meta">
-            <span className="stage-index">01 / 03</span>
-            <span className="stage-tag">EDITORIAL LOOKBOOK</span>
-          </div>
-          <h2 id="lookbook-title" className="stage-title">Where time becomes <em>art.</em></h2>
-          <p className="stage-subtitle">
-            The official Hanboro Lookbook. Experience our heritage, Swiss-inspired design, and fine horological precision.
-          </p>
-        </div>
+          {/* ── ACT V: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
+          <CloverKingExperience onInspectSku={handleOpenSku} />
 
-        <div className="direct-stage-display" data-reveal data-reveal-delay="1">
-          <img
-            src="/lookbook-spread-1.png"
-            alt="HANBORO luxury watch open editorial catalog — Pages 01 and 02"
-            className="direct-stage__img direct-stage__img--brochure"
-            loading="lazy"
-          />
-        </div>
 
-        {/* Stage 01 Editorial Pillars Grid */}
-        <div className="stage-editorial-grid" data-reveal data-reveal-delay="2">
-          <div className="editorial-card">
-            <div className="editorial-card__top">
-              <span className="editorial-card__idx">01</span>
-              <span className="editorial-card__tag">HERITAGE</span>
-            </div>
-            <h3 className="editorial-card__title">Swiss Inspiration & Design</h3>
-            <p className="editorial-card__desc">
-              Alpine horological mastery married to futuristic tonneau geometry and openworked mechanics.
-            </p>
-          </div>
+          {/* ── ACT VIII: OUR MEDIA (Genesis of Time Accordion Slat Gallery) ── */}
+          <MediaSection onInspectSku={handleOpenSku} />
 
-          <div className="editorial-card">
-            <div className="editorial-card__top">
-              <span className="editorial-card__idx">02</span>
-              <span className="editorial-card__tag">PHILOSOPHY</span>
-            </div>
-            <h3 className="editorial-card__title">Crafted for Visionaries</h3>
-            <p className="editorial-card__desc">
-              Engineered for those who move with distinct purpose, commanding momentum and timeless presence.
-            </p>
-          </div>
+          {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
+          <TestimonialsSection onInspectSku={handleOpenSku} />
+          {/* ── ACT X: CONTACT US ── */}
+          <section className="contact-section" id="contact-section" aria-labelledby="contact-section-title">
+            <div className="contact-inner">
+              {/* Left: heading + CTA */}
+              <div className="contact-left">
+                <p className="contact-eyebrow">— Get in touch</p>
+                <h2 className="contact-heading" id="contact-section-title">
+                  We'd love to<br /><em>hear from you.</em>
+                </h2>
+                <a
+                  href="mailto:connect@hanborowatches.in"
+                  className="contact-cta"
+                >
+                  Write to us ↗
+                </a>
+              </div>
 
-          <div className="editorial-card">
-            <div className="editorial-card__top">
-              <span className="editorial-card__idx">03</span>
-              <span className="editorial-card__tag">ATELIER</span>
-            </div>
-            <h3 className="editorial-card__title">Artisan Assembly</h3>
-            <p className="editorial-card__desc">
-              Hand-finished movement bridges, high-frequency balance wheels, and exposed synthetic ruby bearings.
-            </p>
-          </div>
-
-          <div className="editorial-card">
-            <div className="editorial-card__top">
-              <span className="editorial-card__idx">04</span>
-              <span className="editorial-card__tag">VISION</span>
-            </div>
-            <h3 className="editorial-card__title">Time as Modern Art</h3>
-            <p className="editorial-card__desc">
-              Sculptural wrist architecture designed to transform each passing second into an expressive statement.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STAGE 02: CLOVER KING DAY vs NIGHT INTERACTIVE REVEAL ── */}
-      <CloverKingExperience onInspectSku={handleOpenSku} />
-
-      {/* ── STAGE 03: MECHANICAL CASINO ROULETTE WATCH & DISCOUNT CEREMONY ── */}
-      <CasinoRouletteExperience
-        onInspectSku={handleOpenSku}
-        onShopAll={() => navigateTo("products", "#products")}
-      />
-
-      {/* ── STATEMENT: HAUTE HORLOGERIE PHILOSOPHY ── */}
-      <section className="statement" id="approach">
-        <p className="eyebrow" data-reveal>HAUTE HORLOGERIE PHILOSOPHY</p>
-        <p className="statement__line" data-reveal data-reveal-delay="1">
-          Every Hanboro timepiece is an encounter with mechanical mastery — sculpted from forged carbon, high-grade titanium, and sapphire crystal to make time an art form.
-        </p>
-      </section>
-
-      {/* ── ATELIER PILLARS & DIRECT EXPLORATION ── */}
-      <section className="work" id="work" aria-labelledby="work-title">
-        <div className="work__heading" data-reveal>
-          <p className="eyebrow">HAUTE HORLOGERIE ATELIER</p>
-          <h2 id="work-title">Artistry in<br/>every <em>calibre.</em></h2>
-          <p className="work__subdesc">
-            Explore the signature complications, kinetic innovations, and material engineering that define the Hanboro collection.
-          </p>
-          <button
-            type="button"
-            className="view-all-skus-cta"
-            style={{ marginTop: "24px" }}
-            onClick={() => navigateTo("products", "#products")}
-          >
-            <span>Explore All 81 Complications</span>
-            <span aria-hidden="true">↗</span>
-          </button>
-        </div>
-
-        <div className="work__list">
-          {/* Card 01: Tourbillons & Dual Balance */}
-          <article
-            className="project project--red"
-            data-reveal
-            data-reveal-delay="1"
-            onClick={() => navigateTo("products", "#products")}
-            role="button"
-            tabIndex={0}
-            style={{ cursor: "pointer" }}
-          >
-            <span>01</span>
-            <div>
-              <p>AVANT-GARDE COMPLICATIONS</p>
-              <h3>Twin-Turbine & Tourbillon Calibres</h3>
-              <div className="project__detail">
-                Synchronized dual-balance cantilever escapements operating at 28,800 BPH with 3D open-worked titanium bridges.
+              {/* Right: details */}
+              <div className="contact-right">
+                <div className="contact-detail">
+                  <span className="contact-label">Email</span>
+                  <a href="mailto:connect@hanborowatches.in" className="contact-value">
+                    connect@hanborowatches.in
+                  </a>
+                </div>
+                <div className="contact-detail">
+                  <span className="contact-label">Phone</span>
+                  <a href="tel:+918882069334" className="contact-value">
+                    +91 88820 69334
+                  </a>
+                </div>
+                <div className="contact-detail">
+                  <span className="contact-label">Studio</span>
+                  <address className="contact-value contact-address">
+                    M5 M-Block, DLF Phase-2<br />
+                    Gurgaon, Haryana 122002, India
+                  </address>
+                </div>
               </div>
             </div>
-            <span className="project-arrow" aria-label="Explore Dual Balance">↗</span>
-          </article>
+          </section>
 
-          {/* Card 02: Casino & Clover Complications */}
-          <article
-            className="project project--white"
-            data-reveal
-            data-reveal-delay="2"
-            onClick={() => {
-              const el = document.getElementById("roulette");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            role="button"
-            tabIndex={0}
-            style={{ cursor: "pointer" }}
-          >
-            <span>02</span>
-            <div>
-              <p>KINETIC MECHANISMS</p>
-              <h3>Roulette & Clover Day/Night Dials</h3>
-              <div className="project__detail">
-                Patented 37-pocket micro-bearing rotors and luminescent Swiss Super-LumiNova dual daylight/night transitions.
-              </div>
-            </div>
-            <span className="project-arrow" aria-label="Explore Roulette Mechanism">↘</span>
-          </article>
-
-          {/* Card 03: Materials & Warranty */}
-          <article
-            className="project project--black"
-            data-reveal
-            data-reveal-delay="3"
-            onClick={() => navigateTo("stores", "#stores")}
-            role="button"
-            tabIndex={0}
-            style={{ cursor: "pointer" }}
-          >
-            <span>03</span>
-            <div>
-              <p>PRECISION & PRIVILEGE</p>
-              <h3>Damascus Carbon & Boutique Warranty</h3>
-              <div className="project__detail">
-                High-density forged carbon, double-domed sapphire crystal, 100M water resistance, and 2-Year International Atelier Warranty.
-              </div>
-            </div>
-            <span className="project-arrow" aria-label="Visit Boutique Network">↗</span>
-          </article>
-        </div>
-      </section>
         </>
       )}
 
 
 
       {view !== "admin" && view !== "profile" && view !== "checkout" && view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && (
-        <footer className="footer is-always-visible" id="contact">
+        <footer className="footer is-always-visible" id="contact" style={{ position: 'relative' }}>
           <div className="footer__top-wrap">
             <div className="footer__main-col">
               <p className="eyebrow">Have a moment?</p>
@@ -3563,6 +3304,28 @@ function Website({ onRestart }) {
             <div className="footer__clock-col">
               <FooterLiveClock />
             </div>
+          </div>
+
+          {/* ── HANBORO Outline Watermark ── */}
+          <div className="footer__watermark" aria-hidden="true">
+            <svg className="footer__watermark-svg" viewBox="0 0 1000 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <text
+                x="50%"
+                y="78%"
+                textAnchor="middle"
+                dominantBaseline="auto"
+                fontFamily="'Playfair Display', 'Cinzel', serif"
+                fontSize="160"
+                fontWeight="800"
+                letterSpacing="0.04em"
+                fill="none"
+                stroke="#d91414"
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+              >
+                HANBORO
+              </text>
+            </svg>
           </div>
 
           <div className="footer__bottom is-always-visible">
@@ -3627,7 +3390,7 @@ function Website({ onRestart }) {
                     navigateTo("admin", "#admin");
                   }}
                 >
-                  Atelier Owner Portal ↗
+                  Admin Portal ↗
                 </a>
               )}
               <a href="#top">Back to top ↑</a>

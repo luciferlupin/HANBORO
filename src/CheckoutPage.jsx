@@ -306,7 +306,7 @@ export function CheckoutPage({ onNavigate }) {
                 </div>
 
                 <div className="apple-form-card">
-                  <h2 className="apple-form-card-title">2. Destination & Courier Dossier</h2>
+                  <h2 className="apple-form-card-title">2. Shipping & Delivery Address</h2>
 
                   <div className="apple-form-group">
                     <label htmlFor="chk-address" className="apple-form-label">Delivery Address (Apartment, Suite, Street) *</label>
@@ -521,7 +521,7 @@ export function CheckoutPage({ onNavigate }) {
                         <div className="apple-qr-grid" />
                       </div>
                       <div className="apple-upi-details">
-                        <span className="apple-upi-id">hanboro.atelier@icici</span>
+                        <span className="apple-upi-id">hanboro.official@icici</span>
                         <span className="apple-upi-sub">Scan using any UPI App or authorize request</span>
                       </div>
                     </div>
@@ -610,7 +610,7 @@ export function CheckoutPage({ onNavigate }) {
                       }
                     }}
                   >
-                    View in Client Profile Dossier →
+                    View in My Account →
                   </button>
                   <button
                     type="button"
@@ -687,7 +687,7 @@ export function CheckoutPage({ onNavigate }) {
                   </div>
                   <div className="badge-item">
                     <Icons.Check />
-                    <span>2-Year Atelier Guarantee</span>
+                    <span>2-Year Brand Guarantee</span>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const OWNER_MODE_KEY = "hanboro_atelier_owner_mode";
 
 // Built-in Luxury Promo Codes
 export const PROMO_CODES = {
-  HANBORO10: { type: "percent", value: 10, label: "10% Atelier Welcome Privilege" },
+  HANBORO10: { type: "percent", value: 10, label: "10% Welcome Discount" },
   VIP1000: { type: "flat", value: 1000, label: "₹1,000 Horology Collector Credit" },
   SWISS15: { type: "percent", value: 15, label: "15% Private Collector Tier" },
   HANBORO5: { type: "percent", value: 5, label: "5% Collector Privilege" },
@@ -159,7 +159,7 @@ export function StoreProvider({ children }) {
   const logout = async () => {
     await authService.signOut();
     setUser(null);
-    showToast("Signed out of Hanboro Atelier");
+    showToast("Signed out of Hanboro");
   };
 
   const openAuthModal = (tab = "signin") => {

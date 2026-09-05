@@ -1,7 +1,59 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { CATEGORIES } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
+
+/**
+ * ProductsView (Maison Elegance Collection Page)
+ * Inspired by high-fashion Behance editorial watch catalogues.
+ * Features giant "ELEGANCE" title, dual-column editorial intro,
+ * refined minimalist filter/sort bar, luxury 3-column product pedestals,
+ * interactive wishlist hearts, and interstitial editorial showcase banners.
+ */
+const INTERSTITIAL_SPOTLIGHTS = {
+  3: {
+    sku: "astroworld-tourbillon-fluted-silver",
+    bg: "/watch-astroworld-moon-silver-moon.webp",
+    tag: "CELESTIAL COMPLICATION",
+    title: "Astroworld Celestial Tourbillon",
+    desc: "Photorealistic 3D cratered Moonphase complication with unconstrained kinetic balance."
+  },
+  8: {
+    sku: "casino-roulette-wheel-diamond-emerald",
+    bg: "/watch-casino-roulette-diamond-emerald-felt.webp",
+    tag: "CASINO ROULETTE COLLECTION",
+    title: "Casino Roulette Automatic Watch",
+    desc: "Precision weighted rotor with ceramic bearings and authentic spinning roulette wheel."
+  },
+  15: {
+    sku: "arctic-tonneau-white-10atm",
+    bg: "/watch-arctic-tonneau-10atm-white-straps.webp",
+    tag: "FORGED CARBON COLLECTION",
+    title: "Damascus Carbon 10ATM Chronometer",
+    desc: "Ultralight forged carbon architecture with scratchproof sapphire crystal and 100M water resistance."
+  },
+  22: {
+    sku: "cyber-cogwheel-skeleton-steel",
+    bg: "/watch-cyber-cogwheel-skeleton-steel-tactical.webp",
+    tag: "SKELETON AUTOMATIC",
+    title: "Cyber Cogwheel Dual-Axis Skeleton",
+    desc: "Openworked kinetic dial with 28,800 BPH movement and exposed skeleton gear-trains."
+  },
+  29: {
+    sku: "celestial-dragon-tourbillon-rosegold",
+    bg: "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
+    tag: "SPECIAL EDITION",
+    title: "Celestial Imperial Dragon Tourbillon",
+    desc: "Hand-crafted 3D rose-gold dragon coiling through the flying tourbillon cage."
+  },
+  38: {
+    sku: "aurora-celestial-frost",
+    bg: "/watch-aurora-celestial-frost-aurora.webp",
+    tag: "COSMIC LUMINESCENCE",
+    title: "Aurora Celestial Frost Edition",
+    desc: "Super-LumiNova BGW9 celestial map illuminated under anti-reflective sapphire crystal."
+  }
+};
 
 export function ProductsView({
   selectedSkuId,
@@ -13,35 +65,20 @@ export function ProductsView({
 
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeHeroIndex, setActiveHeroIndex] = useState(0);
+  const [sortOrder, setSortOrder] = useState("DEFAULT");
+  const [wishlist, setWishlist] = useState({});
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [comparedIds, setComparedIds] = useState([]);
   const [showCompareModal, setShowCompareModal] = useState(false);
-  const [sortOrder, setSortOrder] = useState("DEFAULT");
+
+  // Scroll to top immediately when entering catalog
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   const catalogList = useMemo(() => {
     return Array.isArray(products) && products.length > 0 ? products : [];
   }, [products]);
-
-  const heroSpotlightList = useMemo(() => {
-    if (catalogList.length === 0) return [];
-    return [
-      catalogList.find((p) => p.id === "stealth-fighter-jet-tonneau") || catalogList[0],
-      catalogList.find((p) => p.id === "sichuan-opera-diamond-tonneau") || catalogList[0],
-      catalogList.find((p) => p.id === "arachnid-geometric-skeleton") || catalogList[0],
-      catalogList.find((p) => p.id === "architectural-skeleton-black") || catalogList[0],
-      catalogList.find((p) => p.id === "forged-carbon-tonneau-tourbillon") || catalogList[0],
-      catalogList.find((p) => p.id === "aurora-celestial-frost") || catalogList[0],
-      catalogList.find((p) => p.id === "octagonal-diamond-celestial") || catalogList[0],
-      catalogList.find((p) => p.id === "octagonal-diamond-bronze") || catalogList[0],
-      catalogList.find((p) => p.id === "octagonal-diamond-emerald") || catalogList[0],
-      catalogList.find((p) => p.id === "astroworld-celestial") || catalogList[0],
-      catalogList.find((p) => p.id === "clover-king-crimson") || catalogList[1] || catalogList[0],
-      catalogList.find((p) => p.id === "emerald-roulette") || catalogList[2] || catalogList[0],
-      catalogList.find((p) => p.id === "octagonal-blue") || catalogList[3] || catalogList[0]
-    ].filter(Boolean);
-  }, [catalogList]);
-
-  const activeHeroWatch = heroSpotlightList[activeHeroIndex] || catalogList[0] || null;
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
@@ -71,30 +108,16 @@ export function ProductsView({
     if (sortOrder === "PRICE_DESC") {
       list.sort((a, b) => parseInt(String(b.price || "0").replace(/[^\d]/g, "")) - parseInt(String(a.price || "0").replace(/[^\d]/g, "")));
     } else if (sortOrder === "PRICE_ASC") {
-      list.sort((a, b) => parseInt(String(a.price || "0").replace(/[^\d]/g, "")) - parseInt(String(b.price || "0").replace(/[^\d]/g, "")));
+      list.sort((a, b) => parseInt(String(a.price || "0").replace(/[^\d]/g, "")) - parseInt(String(a.price || "0").replace(/[^\d]/g, "")));
     }
 
     return list;
   }, [catalogList, activeCategory, searchQuery, sortOrder]);
 
-  // Comparison helpers
-  const handleToggleCompare = (product, e) => {
-    if (e) e.stopPropagation();
-    setComparedIds((prev) => {
-      if (prev.includes(product.id)) {
-        return prev.filter((id) => id !== product.id);
-      }
-      if (prev.length >= 4) {
-        alert("You can compare up to 4 timepieces simultaneously.");
-        return prev;
-      }
-      return [...prev, product.id];
-    });
+  const handleToggleWishlist = (id, e) => {
+    e.stopPropagation();
+    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-
-  const comparedProducts = useMemo(() => {
-    return catalogList.filter((p) => comparedIds.includes(p.id));
-  }, [catalogList, comparedIds]);
 
   const handleProductClick = (product) => {
     if (onSelectSku) {
@@ -102,135 +125,52 @@ export function ProductsView({
     }
   };
 
+  const comparedProducts = useMemo(() => {
+    return catalogList.filter((p) => comparedIds.includes(p.id));
+  }, [catalogList, comparedIds]);
+
   return (
-    <div className="apple-catalog-view" id="products-catalog">
-      {/* ── CINEMATIC APPLE-STYLE SPOTLIGHT STAGE ── */}
-      {activeHeroWatch && (
-        <section className="apple-spotlight-stage" aria-label="Featured Masterpiece Spotlight">
-          <div className="spotlight-stage__backdrop" />
-          <div className="spotlight-stage__aura" />
+    <div className="maison-catalog-view" id="products-catalog">
+      {/* ── TOP NAVIGATION BREADCRUMB ── */}
+      <header className="maison-top-bar">
+        <div className="maison-top-bar__inner">
+          <nav className="maison-breadcrumb" aria-label="Breadcrumb">
+            <button type="button" onClick={onNavigateHome} className="maison-breadcrumb-btn">
+              <span>← Back to Home</span>
+            </button>
+            <span className="maison-breadcrumb-sep">/</span>
+            <span className="maison-breadcrumb-curr">Luxury Automatic Watches</span>
+          </nav>
 
-          <div className="spotlight-stage__container">
-            <div className="spotlight-content-side">
-              <div className="spotlight-eyebrow">
-                <span className="spotlight-pill">ATELIER SPOTLIGHT</span>
-                <span className="spotlight-sku-ref">REF. {activeHeroWatch.sku}</span>
-              </div>
-
-              <h1 className="spotlight-title">{activeHeroWatch.name}</h1>
-              <p className="spotlight-desc">{activeHeroWatch.summary}</p>
-
-              {/* Apple-grade Key Specs Pill Row */}
-              <div className="spotlight-specs-row">
-                <div className="spotlight-spec-chip">
-                  <span className="chip-value">{activeHeroWatch.specs?.frequency || "28,800 VPH"}</span>
-                  <span className="chip-label">High-Beat Beat</span>
-                </div>
-                <div className="spotlight-spec-chip">
-                  <span className="chip-value">{activeHeroWatch.specs?.powerReserve || "72 Hours"}</span>
-                  <span className="chip-label">Power Reserve</span>
-                </div>
-                <div className="spotlight-spec-chip">
-                  <span className="chip-value">{activeHeroWatch.specs?.waterResistance || "50M"}</span>
-                  <span className="chip-label">Aquatic Seal</span>
-                </div>
-              </div>
-
-              <div className="spotlight-cta-row">
-                <button
-                  type="button"
-                  className="apple-primary-btn"
-                  onClick={() => handleProductClick(activeHeroWatch)}
-                >
-                  <span>Inspect Timepiece</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Carousel Indicator Dots */}
-              <div className="spotlight-dots-nav">
-                {heroSpotlightList.slice(0, 8).map((w, idx) => (
-                  <button
-                    key={w.id}
-                    type="button"
-                    aria-label={`Show ${w.name}`}
-                    className={`spotlight-dot ${activeHeroIndex === idx ? "is-active" : ""}`}
-                    onClick={() => setActiveHeroIndex(idx)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="spotlight-visual-side" onClick={() => handleProductClick(activeHeroWatch)}>
-              <div className="spotlight-watch-halo" />
-              <img
-                key={activeHeroWatch.id}
-                src={activeHeroWatch.image}
-                alt={activeHeroWatch.name}
-                className="spotlight-watch-img"
-              />
-              <div className="spotlight-inspect-hint">
-                <span>Click to view technical dossier ↗</span>
-              </div>
-            </div>
+          <div className="maison-top-badge">
+            <span className="top-badge-dot" />
+            <span>{catalogList.length} Watches</span>
           </div>
-        </section>
-      )}
+        </div>
+      </header>
 
-      {/* ── MINIMAL APPLE-STYLE FILTER BAR ── */}
-      <section className="apple-filter-bar">
-        <div className="apple-filter-container">
-          <div className="filter-bar-top">
-            <div className="filter-headline">
-              <h2 className="catalog-section-title">The Complete Collection</h2>
-              <p className="catalog-section-sub">
-                Explore all <strong>{catalogList.length}</strong> master references engineered with avant-garde horology.
+      {/* ── EDITORIAL HEADER: CLEAN LUXURY TYPOGRAPHY & DUAL PARAGRAPH INTRO ── */}
+      <section className="maison-editorial-header">
+        <div className="maison-header-container">
+          <h1 className="maison-giant-title">
+            {activeCategory === "ALL" ? "COLLECTION" : activeCategory.replace(/_/g, " ")}
+          </h1>
+
+          <div className="maison-intro-columns">
+            <div className="intro-column">
+              <p>
+                Engineered without compromise. The Hanboro catalog unites 81 avant-garde mechanical complications, from rotating 3D lunar orbits and kinetic casino roulette dials to high-frequency flying tourbillons. Each calibre operates at 28,800 BPH with synthetic ruby bearings for frictionless chronometric precision.
               </p>
             </div>
-
-            {/* Minimal Search & Sort Pill */}
-            <div className="filter-search-group">
-              <div className="apple-search-input-wrap">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Search by SKU, complication or series..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="apple-search-input"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    className="apple-search-clear"
-                    onClick={() => setSearchQuery("")}
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-                className="apple-sort-select"
-                aria-label="Sort products"
-              >
-                <option value="DEFAULT">Featured Order</option>
-                <option value="PRICE_DESC">Price: High to Low</option>
-                <option value="PRICE_ASC">Price: Low to High</option>
-              </select>
-            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Segmented Series Navigation Tabs */}
-          <div className="apple-series-tabs" role="tablist">
+      {/* ── MINIMALIST SINGLE-LINE FILTER & SORT BAR ── */}
+      <section className="maison-filter-bar">
+        <div className="maison-filter-inner">
+          {/* Clean Series Tabs */}
+          <nav className="maison-series-nav" role="tablist" aria-label="Complication Series">
             {CATEGORIES.map((cat) => {
               const count =
                 cat.id === "ALL"
@@ -242,152 +182,179 @@ export function ProductsView({
                   type="button"
                   role="tab"
                   aria-selected={activeCategory === cat.id}
-                  className={`apple-tab-btn ${activeCategory === cat.id ? "is-active" : ""}`}
+                  className={`maison-nav-tab ${activeCategory === cat.id ? "is-active" : ""}`}
                   onClick={() => setActiveCategory(cat.id)}
                 >
-                  <span className="tab-text">{cat.label}</span>
-                  <span className="tab-count">{count}</span>
+                  <span className="tab-name">{cat.label.replace(" & Complications", "").replace(" Skeleton", "").replace(" & Roulette", "").replace(" & Sport Chrono", "")}</span>
+                  <span className="tab-num">({count})</span>
                 </button>
               );
             })}
+          </nav>
+
+          {/* Right Controls: Search + Sort */}
+          <div className="maison-controls-group">
+            <div className="maison-search-input-wrap">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search collection..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="maison-search-field"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="maison-search-clear-btn"
+                  onClick={() => setSearchQuery("")}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <div className="maison-sort-dropdown-wrap">
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="maison-sort-dropdown"
+                aria-label="Sort collection"
+              >
+                <option value="DEFAULT">Sort: New Arrivals</option>
+                <option value="PRICE_DESC">Price: High to Low</option>
+                <option value="PRICE_ASC">Price: Low to High</option>
+              </select>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── LUXURY PRODUCT SHOWCASE GRID ── */}
-      <section className="apple-grid-section">
+      {/* ── REFINED 3-COLUMN PRODUCT GALLERY GRID ── */}
+      <section className="maison-gallery-section">
         {filteredProducts.length === 0 ? (
-          <div className="apple-empty-state">
-            <div className="empty-symbol">✦</div>
+          <div className="maison-empty-state">
+            <span className="empty-symbol">✦</span>
             <h3>No Timepieces Found</h3>
-            <p>No reference matches your search criteria. Try adjusting keywords or clear filters.</p>
-            <div className="empty-actions-row">
-              <button
-                type="button"
-                className="apple-reset-btn"
-                onClick={() => {
-                  setSearchQuery("");
-                  setActiveCategory("ALL");
-                }}
-              >
-                Reset Filters
-              </button>
-            </div>
+            <p>No master reference matches your selected filters. Reset to view the complete catalog.</p>
+            <button
+              type="button"
+              className="maison-reset-btn"
+              onClick={() => {
+                setSearchQuery("");
+                setActiveCategory("ALL");
+              }}
+            >
+              Reset Filters
+            </button>
           </div>
         ) : (
-          <div className="apple-product-grid">
-            {filteredProducts.map((watch) => {
-              const isCompared = comparedIds.includes(watch.id);
+          <div className="maison-gallery-grid">
+            {filteredProducts.map((watch, index) => {
+              const isWishlisted = !!wishlist[watch.id];
+
+              // Render an interstitial 2-span editorial poster at key rhythmic intervals
+              const spotlight = INTERSTITIAL_SPOTLIGHTS[index];
+
               return (
-                <article
-                  key={watch.id}
-                  className="apple-watch-card"
-                  onClick={() => handleProductClick(watch)}
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      handleProductClick(watch);
-                    }
-                  }}
-                >
-                  {/* Subtle Light Aura */}
-                  <div className="card-aura-glow" />
+                <React.Fragment key={watch.id}>
+                  {spotlight && (
+                    <div
+                      className="maison-interstitial-card"
+                      onClick={() => onSelectSku && onSelectSku(spotlight.sku)}
+                    >
+                      <div
+                        className="interstitial-bg-img"
+                        style={{ backgroundImage: `url('${spotlight.bg}')` }}
+                      />
+                      <div className="interstitial-overlay">
+                        <span className="interstitial-tag">{spotlight.tag}</span>
+                        <h3 className="interstitial-title">{spotlight.title}</h3>
+                        <p className="interstitial-desc">{spotlight.desc}</p>
+                        <span className="interstitial-cta">Explore Watch Details →</span>
+                      </div>
+                    </div>
+                  )}
 
-                  {/* Card Header Info */}
-                  <div className="card-header-meta">
-                    <span className="card-series-tag">{watch.collectionName}</span>
-                    <span className="card-sku-code">{watch.sku}</span>
-                  </div>
+                  <article
+                    className="maison-watch-card"
+                    onClick={() => handleProductClick(watch)}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleProductClick(watch);
+                      }
+                    }}
+                  >
+                    {/* Top Wishlist Heart Button */}
+                    <button
+                      type="button"
+                      className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
+                      onClick={(e) => handleToggleWishlist(watch.id, e)}
+                      aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      </svg>
+                    </button>
 
-                  {/* High-Resolution Watch Visual */}
-                  <div className="card-media-stage">
-                    <img
-                      src={watch.image}
-                      alt={watch.name}
-                      className="card-watch-photo"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
-                      }}
-                    />
-                  </div>
-
-                  {/* Card Descriptive Content */}
-                  <div className="card-body-content">
-                    <h3 className="card-watch-title">{watch.name}</h3>
-                    <p className="card-watch-tagline">{watch.subtitle}</p>
-
-                    {/* Specs Pills */}
-                    <div className="card-feature-chips">
-                      <span className="feature-chip">
-                        {watch.specs?.caseDimensions ? watch.specs.caseDimensions.split(" ")[0] : "44mm"}
-                      </span>
-                      <span className="feature-chip">
-                        {watch.specs?.powerReserve ? `${watch.specs.powerReserve.split(" ")[0]} ${watch.specs.powerReserve.split(" ")[1] || ""}` : "72H"}
-                      </span>
-                      <span className="feature-chip">
-                        {watch.specs?.waterResistance ? watch.specs.waterResistance.split(" ")[0] : "50M"}
-                      </span>
+                    {/* Centered Large Watch Visual Stage */}
+                    <div className="maison-card-stage">
+                      <div className="maison-card-shadow" aria-hidden="true" />
+                      <img
+                        src={watch.image}
+                        alt={watch.name}
+                        className="maison-watch-img"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+                        }}
+                      />
                     </div>
 
-                    {/* Bottom Price & Compare Row */}
-                    <div className="card-pricing-meta-row">
-                      <div className="card-price-display">
-                        <span className="price-main">{watch.price}</span>
-                        <span className="price-usd">{watch.priceUsd}</span>
+                    {/* Clean Single-Line Bottom Info: Model Name (Left) + Price (Right) */}
+                    <div className="maison-card-footer">
+                      <div className="maison-card-title-wrap">
+                        <h3 className="maison-card-title">{watch.name}</h3>
+                        {watch.collectionName && (
+                          <span className="maison-card-collection">{watch.collectionName}</span>
+                        )}
                       </div>
 
-                      <button
-                        type="button"
-                        className={`card-compare-action-btn ${isCompared ? "is-selected" : ""}`}
-                        onClick={(e) => handleToggleCompare(watch, e)}
-                        title={isCompared ? "Remove from comparison" : "Compare with another SKU"}
-                      >
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
-                        </svg>
-                        <span>{isCompared ? "Comparing" : "Compare"}</span>
-                      </button>
+                      <div className="maison-card-price-wrap">
+                        <span className="maison-price-val">{watch.price}</span>
+                      </div>
                     </div>
 
-                    {/* Commerce Action Buttons */}
-                    <div className="card-cta-btn-group" onClick={(e) => e.stopPropagation()}>
+                    {/* Hover Quick Actions */}
+                    <div className="maison-card-hover-actions" onClick={(e) => e.stopPropagation()}>
                       <button
                         type="button"
-                        className="card-cta-bag-btn"
+                        className="maison-quick-bag-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           addToCart(watch, 1, true);
                         }}
-                        title="Add to Shopping Bag"
                       >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                          <line x1="3" y1="6" x2="21" y2="6" />
-                          <path d="M16 10a4 4 0 0 1-8 0" />
-                        </svg>
-                        <span>+ Bag</span>
+                        <span>+ Add to Bag</span>
                       </button>
-
                       <button
                         type="button"
-                        className="card-cta-buy-btn"
+                        className="maison-quick-buy-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           buyNow(watch);
                         }}
-                        title="Instant Acquisition"
                       >
-                        <span>Buy Now</span>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <line x1="5" y1="12" x2="19" y2="12" />
-                          <polyline points="12 5 19 12 12 19" />
-                        </svg>
+                        <span>Buy Now ↗</span>
                       </button>
                     </div>
-                  </div>
-                </article>
+                  </article>
+                </React.Fragment>
               );
             })}
           </div>

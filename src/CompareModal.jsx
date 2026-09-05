@@ -163,7 +163,7 @@ export function CompareModal({ comparedProducts, onRemove, onClear, onClose, onS
                         onSelectProduct(p);
                       }}
                     >
-                      View Full Dossier ↗
+                      View Watch Details ↗
                     </button>
                   </td>
                 ))}

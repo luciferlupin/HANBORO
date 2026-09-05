@@ -4,7 +4,7 @@ import { CATEGORIES } from "./productsData";
 const TAG_PRESETS = [
   "Flagship Grand Complication",
   "Limited Allocation",
-  "Atelier Masterpiece",
+  "Masterpiece Reference",
   "New 2026 Reference",
   "Royal Diamond Edition",
   "Tonneau Haute Skeleton",
@@ -412,7 +412,7 @@ export function WatchEditorModal({
       priceUsd: form.priceUsd.trim().startsWith("$") ? form.priceUsd.trim() : `$${form.priceUsd.trim()}`,
       availability: form.availability,
       year: form.year.trim() || "2026",
-      summary: form.summary.trim() || "Bespoke Haute Horlogerie mechanical timepiece engineered by Hanboro Atelier.",
+      summary: form.summary.trim() || "Precision mechanical luxury timepiece engineered by Hanboro Watches.",
       image: form.image.trim(),
       transparentImage: form.transparentImage.trim() || form.image.trim(),
       nightImage: form.nightImage.trim() || null,
@@ -731,7 +731,7 @@ export function WatchEditorModal({
                       <option value="In Stock">In Stock (Immediate Dispatch)</option>
                       <option value="Limited Allocation">Limited Allocation (VIP Priority)</option>
                       <option value="Only 3 Units Remaining">Only 3 Units Remaining</option>
-                      <option value="Made to Order (Bespoke)">Made to Order (Bespoke Atelier)</option>
+                      <option value="Made to Order (Bespoke)">Made to Order (Custom Order)</option>
                       <option value="Vault Reserve">Vault Reserve (Inquiry Required)</option>
                     </select>
                   </div>

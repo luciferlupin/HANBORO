@@ -34,7 +34,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-astroworld-moon-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold organic case showcasing the 3D micro-carved moon sphere in the lower sapphire chamber, central tourbillon, 24H earth disk, and aventurine dial."
       },
@@ -111,7 +111,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-astroworld-moon-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel organic case showcasing the 3D micro-carved moon sphere in the lower sapphire chamber, central tourbillon, 24H earth disk, and aventurine dial."
       },
@@ -182,7 +182,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical midnight black DLC round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
       },
@@ -253,7 +253,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with off-center fluted dial, diamond-frosted rose gold ring, twin planetary gears, and flying tourbillon."
       },
@@ -320,7 +320,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
       },
@@ -338,7 +338,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-astroworld-tourbillon-fluted-silver-display.webp",
-        title: "Atelier Display Horizon",
+        title: "Studio Display Horizon",
         label: "04 Display Horizon",
         caption: "Three-quarter display perspective on midnight blue leather backdrop highlighting dial depth and planetary gears."
       },
@@ -400,7 +400,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-volcano-glacier-compass-gold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
@@ -473,7 +473,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
@@ -546,7 +546,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-volcano-glacier-compass-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
       },
@@ -618,7 +618,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-supercar-engine-block-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold aerodynamic case with alloy wheel dial, central tourbillon, and operative 6 o'clock gear cylinder."
       },
@@ -636,7 +636,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-supercar-engine-block-rosegold-headlights.webp",
-        title: "Supercar Headlights Atelier Horizon",
+        title: "Supercar Headlights Horizon",
         label: "04 Supercar Horizon",
         caption: "Editorial studio composition framed against supercar headlights highlighting the sculpted 18K rose gold chassis."
       },
@@ -696,7 +696,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-supercar-engine-block-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel aerodynamic case with alloy wheel dial, central tourbillon, and operative 6 o'clock gear cylinder."
       },
@@ -708,7 +708,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-supercar-engine-block-silver-headlights.webp",
-        title: "Supercar Headlights Atelier Horizon",
+        title: "Supercar Headlights Horizon",
         label: "03 Supercar Horizon",
         caption: "Editorial studio composition framed against supercar headlights highlighting the sculpted stainless steel chassis."
       },
@@ -774,7 +774,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with dynamic 37-pocket roulette disk, onyx black dial, and alligator leather strap."
       },
@@ -786,7 +786,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-casino-roulette-rosegold-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
@@ -852,13 +852,13 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with dynamic 37-pocket roulette disk, onyx black dial, and alligator leather strap."
       },
       {
         url: "/watch-casino-roulette-silver-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "02 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
@@ -930,7 +930,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric baguette diamond dial, emerald hour markers, and dynamic roulette ring."
       },
@@ -948,7 +948,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-casino-roulette-diamond-emerald-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "04 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
@@ -1007,7 +1007,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric baguette blue sapphire dial, white diamond hour markers, and dynamic roulette ring."
       },
@@ -1019,7 +1019,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-casino-roulette-sapphire-diamond-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       },
@@ -1078,7 +1078,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with full concentric baguette emerald dial, diamond hour markers, and emerald alligator leather strap."
       },
@@ -1148,7 +1148,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with full concentric baguette ruby dial, diamond hour markers, and black alligator strap."
       },
@@ -1160,7 +1160,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-casino-roulette-ruby-diamond-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
       }
@@ -1214,13 +1214,13 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette diamond dial, emerald hour markers, and black alligator leather strap."
       },
       {
         url: "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "02 Casino Horizon",
         caption: "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
@@ -1291,7 +1291,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette blue sapphire dial, white diamond hour markers, and navy alligator strap."
       },
@@ -1303,7 +1303,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-casino-roulette-silver-sapphire-diamond-wheel.webp",
-        title: "Gaming Wheel Atelier Horizon",
+        title: "Gaming Wheel Horizon",
         label: "03 Casino Horizon",
         caption: "Angled perspective framed against casino wheel and chips highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
       },
@@ -1362,7 +1362,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette emerald dial, white diamond hour markers, and emerald alligator strap."
       },
@@ -1433,7 +1433,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with concentric baguette ruby dial, white diamond hour markers, and black alligator strap."
       },
@@ -1505,7 +1505,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with sculpted 3D gold dragon, aventurine dial, flying tourbillon, and navy alligator strap."
       },
@@ -1583,7 +1583,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with sculpted 3D silver dragon, aventurine dial, flying tourbillon, and navy alligator strap."
       },
@@ -1607,7 +1607,7 @@ export const PRODUCTS_DATA = [
       },
       {
         url: "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.webp",
-        title: "Isometric Atelier Detail",
+        title: "Isometric Watch Detail",
         label: "05 Isometric Detail",
         caption: "Angled macro studio perspective highlighting the double-domed sapphire crystal, blue crown ring, and supple alligator strap."
       }
@@ -1661,7 +1661,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D Earth sphere, aventurine planetary dial, flying tourbillon, and black alligator strap."
       },
@@ -1739,7 +1739,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D Earth sphere, aventurine planetary dial, flying tourbillon, and black alligator strap."
       },
@@ -1817,7 +1817,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-oceanic-diver-200m-green-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel diver case with emerald ceramic bezel, sunburst green dial, and Oyster bracelet."
       },
@@ -1890,7 +1890,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, teal sunburst dial, and Oyster bracelet."
       },
@@ -1965,7 +1965,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with olive ceramic bezel, olive sunburst dial, and Oyster bracelet."
       },
@@ -2045,7 +2045,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, sunset amber fumé dial, and Oyster bracelet."
       },
@@ -2119,7 +2119,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, cyber ultraviolet fumé dial, and Oyster bracelet."
       },
@@ -2194,7 +2194,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel mecha case with central tourbillon, ice blue skeleton bridges, and black FKM strap."
       },
@@ -2272,7 +2272,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D bas-relief continents, central tourbillon, and orange/green enamel sub-dials."
       },
@@ -2347,7 +2347,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-world-map-tourbillon-blue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with 3D bas-relief continents, central tourbillon, and royal blue enamel sub-dials."
       },
@@ -2407,7 +2407,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-world-map-tourbillon-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D frosted continents, central tourbillon, and royal blue sub-dials."
       },
@@ -2485,7 +2485,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with 3D frosted rose gold continents, central tourbillon, and dual orange/green sub-dials."
       },
@@ -2560,7 +2560,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel integrated case with openwork skeleton dial, quad calendar registers, and steel bracelet."
       },
@@ -2622,7 +2622,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical steel round case with concentric grooved black dial, open-heart escapement, and celestial moonphase."
       },
@@ -2700,7 +2700,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with concentric grooved opaline silver dial, open-heart balance, and celestial moonphase."
       },
@@ -2772,7 +2772,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with dual-hemisphere moonphase sub-dials and transverse open-heart bridge."
       },
@@ -2843,7 +2843,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L surgical stainless steel round case with sunburst royal ocean blue dial, dual-hemisphere moonphase discs, and transverse open-heart bridge."
       },
@@ -2908,7 +2908,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with opaline ivory dial, dual-hemisphere moonphase discs, and transverse open-heart bridge."
       },
@@ -2975,7 +2975,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-sonnerie-bell-iceblue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with ice blue stippled dial, baguette diamond halo, and striking hammer aperture."
       },
@@ -3056,7 +3056,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-sonnerie-bell-blue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with royal blue stippled dial, baguette diamond halo, and striking hammer aperture."
       },
@@ -3135,7 +3135,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold round case with riveted gear-toothed bezel, openwork cogwheel skeleton, and cognac leather strap."
       },
@@ -3202,7 +3202,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone steel and rose gold round case with riveted gear-toothed bezel, openwork cogwheel skeleton, and black leather strap."
       },
@@ -3276,7 +3276,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel round case with riveted gear-toothed bezel, flame-blued skeleton hands, and black leather strap."
       },
@@ -3393,7 +3393,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-architectural-skeleton-black-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical stealth black DLC 316L case showcasing the openwork bridge architecture, 10 o'clock balance wheel, and signal red hands."
       },
@@ -3464,7 +3464,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-architectural-skeleton-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone 316L steel and rose gold case showcasing the openwork bridge architecture, 10 o'clock balance wheel, and signal red hands."
       },
@@ -3540,7 +3540,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-arachnid-geometric-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical faceted polygon 316L case featuring the 3D micro-sculpted silver hero, spider-web bridges, 9 o'clock balance wheel, and electric blue hands."
       },
@@ -3612,7 +3612,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-cyber-green-skeleton-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical stealth black DLC case featuring the neon green engraved polygon bezel, 10 o'clock balance wheel, spoke bridges, and hybrid strap."
       },
@@ -3795,7 +3795,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-sichuan-opera-diamond-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold tonneau case with full pavé diamond bezel, hand-enameled Sichuan Opera mask at 6H, and folding fan sector at 12H."
       },
@@ -3859,7 +3859,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-sichuan-opera-steel-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical silver 316L steel tonneau case with full pavé diamond bezel, hand-enameled Sichuan Opera mask at 6H, and folding fan sector at 12H."
       },
@@ -3929,7 +3929,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-sapphire-kanagawa-wave-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical curved transparent sapphire tonneau case with Great Wave micro-painted dial, full moon sphere, and cyan blue strap."
       },
@@ -4002,7 +4002,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-stealth-fighter-jet-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with diamond-pavé side flanks, 3D sculpted supersonic fighter jet, rotating blue earth disk, and electric blue hands."
       },
@@ -4082,7 +4082,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-tonneau-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Forged Damascus carbon case architecture showcasing the multi-layer skeleton caliber, Big Date panorama at 12 o'clock, and exposed balance bridge."
       },
@@ -4160,7 +4160,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical forged Damascus carbon tonneau case with multi-register skeleton caliber, red caliper hand, and crimson crown."
       },
@@ -4237,7 +4237,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical Arctic White ceramic-composite tonneau case with multi-register skeleton caliber and signal red caliper hand."
       },
@@ -4304,7 +4304,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical black forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and 4-point arrow skeleton caliber."
       },
@@ -4382,7 +4382,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical royal blue forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and blue fluororubber strap."
       },
@@ -4459,7 +4459,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical cyber neon green forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and green fluororubber strap."
       },
@@ -4530,7 +4530,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical crimson rosso corsa tonneau case with horizontal ribbed hoods, dual shield bridges, and red fluororubber strap."
       },
@@ -4602,13 +4602,13 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical arctic white ceramic tonneau case with horizontal ribbed hoods, cobalt blue hands, and white fluororubber strap."
       },
       {
         url: "/watch-forged-carbon-ribbed-shield-white-studio.webp",
-        title: "Dark Atelier Horizon Studio View",
+        title: "Dark Horizon Studio View",
         label: "02 Dark Studio",
         caption: "High-contrast front perspective against dark moody backdrop highlighting the pristine white ceramic and cobalt hands."
       },
@@ -4679,7 +4679,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 18K rose gold tonneau case with dual balance wheels, crimson stencil numerals, and cantilever crown lock."
       },
@@ -4751,7 +4751,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-double-balance-cantilever-yellow-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with dual balance wheels, electric cyber yellow racing flange, and cantilever crown lock."
       },
@@ -4827,7 +4827,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-double-balance-cantilever-red-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel tonneau case with dual balance wheels, crimson red racing flange, and cantilever crown lock."
       },
@@ -4968,7 +4968,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-diamond-octagonal-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical horological architecture featuring the double-digit Big Date aperture at 12 o'clock and precision baguette-cut diamond bezel."
       },
@@ -4981,7 +4981,7 @@ export const PRODUCTS_DATA = [
       {
         url: "/watch-diamond-octagonal-wrist.webp",
         title: "On-Wrist Sartorial Presence",
-        label: "03 On-Wrist Atelier",
+        label: "03 On-Wrist Collection",
         caption: "Bespoke wrist presence paired with tailored sartorial suiting, demonstrating the ergonomic multi-link bracelet drape."
       },
       {
@@ -5045,7 +5045,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-diamond-octagonal-bronze-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical rose gold casing and baguette-cut bezel showcasing the rich tobacco bronze fluted dial and double-digit Big Date aperture."
       },
@@ -5116,7 +5116,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-diamond-octagonal-green-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel architecture highlighting the deep emerald olive fluted dial, Big Date aperture at 12 o'clock, and baguette diamond bezel."
       },
@@ -5295,7 +5295,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-aurora-celestial-frost-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L stainless steel architecture featuring the 6-screw bezel, stardust silver frost dial, pave diamond halo, and 24H Aurora sphere."
       },
@@ -5444,7 +5444,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-powerreserve-midnight-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Pure monochromatic Bauhaus architecture with sunburst charcoal dial, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
@@ -5514,7 +5514,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-powerreserve-silver-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel case with sunburst charcoal dial, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
@@ -5585,7 +5585,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-powerreserve-opaline-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical 316L steel case with radiant opaline silver dial, blued steel hands, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
       },
@@ -5662,7 +5662,7 @@ export const PRODUCTS_DATA = [
     gallery: [
       {
         url: "/watch-powerreserve-twotone-front-transparent.webp",
-        title: "Haute Atelier Studio Front",
+        title: "Studio Front Profile",
         label: "01 Studio Front",
         caption: "Symmetrical two-tone 316L steel and rose gold case with radiant opaline silver dial, blued steel hands, and 35-hour energy arc gauge."
       },

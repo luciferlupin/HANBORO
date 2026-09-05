@@ -150,9 +150,9 @@ export function ProfilePage({ onNavigate }) {
           <div className="guest-emblem">
             <HanboroLogo theme="light" size={28} />
           </div>
-          <h2 className="guest-title">Private Vault & Client Dossier</h2>
+          <h2 className="guest-title">Your Account & Orders</h2>
           <p className="guest-subtitle">
-            Sign in to access your personal timepiece collection, active shopping bag, and shipment tracking.
+            Sign in to view your orders, saved watches, and active shopping bag.
           </p>
           <div className="guest-actions">
             <button
@@ -200,7 +200,7 @@ export function ProfilePage({ onNavigate }) {
             aria-label="Hanboro Home"
           >
             <HanboroLogo theme="light" size={22} />
-            <span className="apple-topbar-badge">ATELIER VAULT</span>
+            <span className="apple-topbar-badge">ACCOUNT VAULT</span>
           </button>
 
           <div className="apple-topbar-actions">
@@ -420,7 +420,7 @@ export function ProfilePage({ onNavigate }) {
                     </div>
                     <div className="apple-perk-row">
                       <Icons.Check />
-                      <span>2-Year International Atelier Guarantee</span>
+                      <span>2-Year International Brand Guarantee</span>
                     </div>
                   </div>
 
@@ -613,7 +613,7 @@ export function ProfilePage({ onNavigate }) {
                 onClick={logout}
               >
                 <Icons.LogOut />
-                <span>Sign Out of Hanboro Atelier</span>
+                <span>Sign Out of Hanboro</span>
               </button>
             </div>
           </section>
@@ -628,7 +628,7 @@ export function ProfilePage({ onNavigate }) {
             <div className="modal-alert-symbol">⚠️</div>
             <h3 className="modal-title">Cancel Order Allocation?</h3>
             <p className="modal-text">
-              Are you sure you want to cancel order <strong>{orderToCancel.order_ref}</strong>? Your reserved timepiece will be released back to atelier inventory and a full refund of <strong>₹{Number(orderToCancel.total_amount).toLocaleString("en-IN")}</strong> will be credited to your account.
+              Are you sure you want to cancel order <strong>{orderToCancel.order_ref}</strong>? Your reserved timepiece will be released back to store inventory and a full refund of <strong>₹{Number(orderToCancel.total_amount).toLocaleString("en-IN")}</strong> will be credited to your account.
             </p>
             <div className="modal-actions-row">
               <button

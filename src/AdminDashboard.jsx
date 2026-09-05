@@ -464,7 +464,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
             aria-label="Hanboro Storefront"
           >
             <HanboroLogo theme="light" size={20} />
-            <span className="admin-badge-pill">ATELIER COMMAND</span>
+            <span className="admin-badge-pill">ADMIN COMMAND</span>
           </button>
 
           <div className="admin-backend-indicator">
@@ -503,7 +503,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
           </button>
 
           <div className="admin-user-menu">
-            <span className="admin-user-name">{user?.fullName || "Atelier Executive"}</span>
+            <span className="admin-user-name">{user?.fullName || "Staff Executive"}</span>
             <button
               type="button"
               className="admin-logout-link"
@@ -1088,7 +1088,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
                     <h1 className="pane-title">Timepieces & Master Catalog Studio</h1>
                     <span className="admin-badge-pill" style={{ background: "rgba(212, 175, 55, 0.15)", color: "#ffd700", borderColor: "rgba(212, 175, 55, 0.4)" }}>
-                      DIRECT ATELIER CRUD
+                      DIRECT CATALOG CRUD
                     </span>
                   </div>
                   <p className="pane-subtitle">
@@ -1274,7 +1274,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
                         <th>Retail Valuation</th>
                         <th>Vault Stock</th>
                         <th>Visibility</th>
-                        <th style={{ textAlign: "right" }}>Atelier Actions</th>
+                        <th style={{ textAlign: "right" }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1809,7 +1809,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               <div className="supabase-telemetry-grid">
                 <div className="telemetry-card">
                   <span className="telemetry-label">INFRASTRUCTURE</span>
-                  <div className="telemetry-val">Atelier Cloud Engine</div>
+                  <div className="telemetry-val">Hanboro Cloud Engine</div>
                   <span className="telemetry-sub">High-Availability Active Cluster</span>
                 </div>
                 <div className="telemetry-card">
@@ -1877,7 +1877,7 @@ CREATE POLICY "Anon public full access orders" ON public.orders FOR ALL USING (t
               <div className="dossier-shipping-box">
                 <span className="df-label">Shipping Destination</span>
                 <p className="shipping-text">
-                  {inspectingOrder.shipping_address?.address || "Atelier Private Delivery"}, {inspectingOrder.shipping_address?.city || ""}, {inspectingOrder.shipping_address?.state || ""} {inspectingOrder.shipping_address?.pincode || ""}
+                  {inspectingOrder.shipping_address?.address || "Private Delivery"}, {inspectingOrder.shipping_address?.city || ""}, {inspectingOrder.shipping_address?.state || ""} {inspectingOrder.shipping_address?.pincode || ""}
                 </p>
               </div>
 

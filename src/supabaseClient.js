@@ -124,7 +124,7 @@ export const authService = {
         const ownerProfile = {
           id: "usr-owner-master",
           email: "admin@hanboro.com",
-          fullName: "Atelier Executive Owner",
+          fullName: "Hanboro Executive Owner",
           role: "admin",
           created_at: new Date().toISOString(),
         };

@@ -118,7 +118,7 @@ export function AuthModal() {
         }
       } else {
         if (!cleanName) {
-          setErrorMsg("Please provide your full name for your atelier account.");
+          setErrorMsg("Please provide your full name for your account.");
           setLoading(false);
           return;
         }
@@ -380,7 +380,7 @@ export function AuthModal() {
                     window.location.hash = "#admin";
                   }}
                 >
-                  ⚙️ Atelier Executive Suite ↗
+                  ⚙️ Staff Admin Suite ↗
                 </button>
               )}
 
