@@ -3331,7 +3331,7 @@ function Website({ onRestart }) {
           <div className="footer__bottom is-always-visible">
             <div className="footer-bottom-brand-group">
               <HanboroLogo size={20} theme="light" />
-              <span>© 2026 HANBORO • ALL RIGHTS RESERVED</span>
+              <span>© 2026 Rise and Be Original Private Limited • ALL RIGHTS RESERVED</span>
             </div>
 
             <div className="footer-policies-list">
