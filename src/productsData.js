@@ -4894,12 +4894,12 @@ export const PRODUCTS_DATA = [
     priceUsd: "$990",
     availability: "In Stock",
     year: "2026",
-    summary: "The definitive hero timepiece of the Hanboro catalog. Features an audacious signal-red tonneau profile that undergoes a dramatic metamorphosis when darkness falls, igniting vibrant bioluminescent phosphor dial tracks.",
+    summary: "The definitive hero timepiece of the Hanboro catalog, powered by the authentic Japanese CITIZEN 8N24 skeletonized mechanical movement (21 jewels, 21,600 vph, ~42h power reserve, hacking & hand-winding). Features an audacious signal-red tonneau profile that undergoes a dramatic metamorphosis when darkness falls, igniting vibrant bioluminescent phosphor dial tracks.",
     specs: {
-      movement: "Caliber H-7720 Open-Work Automatic with Dual-Time Indicator",
-      frequency: "28,800 VPH (4.0 Hz)",
-      powerReserve: "45 Hours",
-      jewels: "26 Jewels",
+      movement: "Japanese Citizen 8N24 Skeleton Automatic Movement (Hand-Winding & Hacking)",
+      frequency: "21,600 VPH (3.0 Hz)",
+      powerReserve: "Approx. 42 Hours",
+      jewels: "21 Jewels",
       caseMaterial: "Anodized Signal Red Aluminum & DLC Carbon-Forged Hybrid Structure",
       caseDimensions: "43.0 mm × 51.0 mm × 13.8 mm",
       lugToLug: "51.0 mm",
@@ -4909,7 +4909,7 @@ export const PRODUCTS_DATA = [
       waterResistance: "50 Meters (5 ATM)",
       strap: "Dual-Tone Signal Red & Carbon Black Textured Rubber Strap",
       clasp: "Black DLC Tang Buckle",
-      complications: ["Day/Night Dual-Luminescence Metamorphosis", "Exposed Balance Spring", "Skeletonized Hour Ring"],
+      complications: ["Day/Night Dual-Luminescence Metamorphosis", "Stop-Second Hacking Function", "Exposed Balance Spring", "Skeletonized Hour Ring"],
       packaging: "Collector's Vault Presentation Box with UV Lume Torch"
     }
   },

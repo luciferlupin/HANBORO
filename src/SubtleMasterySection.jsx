@@ -3,27 +3,27 @@ import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 const ADVANTAGES_DATA = [
   {
     num: "01",
-    tag: "EXCLUSIVITY",
-    title: "Timed Rarity",
-    desc: "Limited to 100 pieces per reference. No reissues. No exceptions. True exclusivity you can wear with pride."
+    tag: "JAPANESE AUTOMATIC MOVEMENTS",
+    title: "Precision in Every Revolution",
+    desc: "Selected automatic movements engineered for reliable performance and the mechanical experience that defines true watchmaking."
   },
   {
     num: "02",
-    tag: "BALL BEARING CALIBRE",
-    title: "Invisible Craft",
-    desc: "Hand-finished down to the core. Micro-ceramic ball bearings ensure zero wobble and a 20-second frictionless hypnotic rotor spin."
+    tag: "BOLD DESIGN LANGUAGE",
+    title: "Built to Be Noticed",
+    desc: "From skeleton dials and tonneau cases to racing-inspired forms, every HANBORO timepiece is designed to make a statement."
   },
   {
     num: "03",
-    tag: "CHRONOMETER TESTING",
-    title: "Signed by Hand",
-    desc: "500 hours of master chronometer calibration. Assembled with extreme care, tested for 100M water resistance."
+    tag: "PREMIUM MATERIALS",
+    title: "Crafted Beyond the Surface",
+    desc: "Sapphire crystal, stainless steel, carbon-inspired construction and carefully selected materials built for everyday performance."
   },
   {
     num: "04",
-    tag: "HIGH FREQUENCY",
-    title: "Swiss-Inspired Precision",
-    desc: "Operating at 28,800 BPH high frequency. Crafted from 316L surgical steel, forged Damascus carbon, and double-domed sapphire."
+    tag: "MADE FOR THE NEXT GENERATION",
+    title: "Luxury Without Convention",
+    desc: "HANBORO combines traditional mechanical watchmaking with bold contemporary design—created for those who choose their own direction."
   }
 ];
 
@@ -152,7 +152,7 @@ export function SubtleMasterySection({ onExploreCatalog }) {
         <div className="vertical-timeline__left" data-reveal>
           <h2 id="subtle-mastery-title" className="vertical-timeline__title">
             The Art<br />
-            <span>of Subtle Mastery</span>
+            <span>of Modern Horology</span>
           </h2>
         </div>
 
@@ -199,9 +199,8 @@ export function SubtleMasterySection({ onExploreCatalog }) {
                   <div className="vertical-step-content">
                     <div className="vertical-step-meta">
                       <span className="vertical-step-num">{item.num}</span>
-                      <span className="vertical-step-badge">
-                        {isCurrent ? "ACTIVE" : isPassed ? "VERIFIED" : "ATELIER"}
-                      </span>
+                      <span className="vertical-step-sep" aria-hidden="true">—</span>
+                      <span className="vertical-step-badge">{item.tag}</span>
                     </div>
                     <h3 className="vertical-step-title">{item.title}</h3>
                     <p className="vertical-step-desc">{item.desc}</p>

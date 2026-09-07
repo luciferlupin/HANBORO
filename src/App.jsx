@@ -649,10 +649,10 @@ function CloverKingExperience({ onInspectSku }) {
             </h3>
 
             <ul className="clover-points">
-              <li><span className="clover-bullet" aria-hidden="true">•</span> Sculpted Anodized Tonneau Case</li>
-              <li><span className="clover-bullet" aria-hidden="true">•</span> Double-Domed Sapphire Glass</li>
-              <li><span className="clover-bullet" aria-hidden="true">•</span> Skeletonized Automatic Movement</li>
-              <li><span className="clover-bullet" aria-hidden="true">•</span> Ergonomic Fluororubber Strap</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Sculpted Anodized Tonneau Case</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Double-Domed Sapphire Glass</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Skeletonized Automatic Movement</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Ergonomic Fluororubber Strap</li>
             </ul>
           </div>
 
@@ -736,10 +736,10 @@ function CloverKingExperience({ onInspectSku }) {
             </h3>
 
             <ul className="clover-points clover-points--green">
-              <li><span className="clover-bullet green" aria-hidden="true">•</span> Swiss Super-LumiNova Grade X1</li>
-              <li><span className="clover-bullet green" aria-hidden="true">•</span> Glowing Clover Bridges & Indices</li>
-              <li><span className="clover-bullet green" aria-hidden="true">•</span> High-Contrast Midnight Hands</li>
-              <li><span className="clover-bullet green" aria-hidden="true">•</span> 50M Pressure Aquatic Seal</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> Swiss Super-LumiNova Grade X1</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> Glowing Clover Bridges & Indices</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> High-Contrast Midnight Hands</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> 50M Pressure Aquatic Seal</li>
             </ul>
           </div>
         </div>
@@ -753,15 +753,15 @@ function CloverKingExperience({ onInspectSku }) {
               <span className="movement-spec__key">Movement Type</span>
             </div>
             <div className="movement-spec">
-              <span className="movement-spec__value">HB-SK01</span>
+              <span className="movement-spec__value">Citizen 8N24</span>
               <span className="movement-spec__key">Calibre</span>
             </div>
             <div className="movement-spec">
-              <span className="movement-spec__value">42h</span>
+              <span className="movement-spec__value">~42h</span>
               <span className="movement-spec__key">Power Reserve</span>
             </div>
             <div className="movement-spec">
-              <span className="movement-spec__value">28,800 bph</span>
+              <span className="movement-spec__value">21,600 bph</span>
               <span className="movement-spec__key">Frequency</span>
             </div>
             <div className="movement-spec">
@@ -773,6 +773,9 @@ function CloverKingExperience({ onInspectSku }) {
               <span className="movement-spec__key">Architecture</span>
             </div>
           </div>
+          <p className="movement-strip__desc">
+            The Japanese <strong>CITIZEN 8N24</strong> mechanical movement is a beautifully engineered, skeletonized automatic caliber with a slim 5.55mm profile, 21 jewels, and 21,600 vibrations per hour. Featuring automatic and manual winding with a stop-second (hacking) mechanism and ~42 hours of power reserve.
+          </p>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "28px" }} data-reveal data-reveal-delay="3">
@@ -1358,7 +1361,7 @@ function HeroVideoSection({ onDiscover }) {
   }, [isPlaying]);
 
   return (
-    <section className="hero-video-section" aria-label="Astonia Chronograph Video Showcase">
+    <section className="hero-video-section" aria-label="CarbonX Chronotech Video Showcase">
       {/* Full-bleed video background */}
       <div className="hero-video-container">
         <video
@@ -1376,17 +1379,19 @@ function HeroVideoSection({ onDiscover }) {
         <div className="hero-video-overlay" aria-hidden="true" />
       </div>
 
-      {/* Centered Typography & CTA — Exact Match to Reference Photo */}
+      {/* Centered Typography & CTA — CarbonX Chronotech */}
       <div className="hero-photo-content">
-        <span className="hero-photo-eyebrow">LIMITED EDITION</span>
-        <h1 className="hero-photo-title">ASTONIA</h1>
-        <p className="hero-photo-subtitle">A Swiss chronograph, Built for momentum.</p>
+        <h1 className="hero-photo-title hero-photo-title--carbonx">
+          <span className="hero-title-brand">CARBONX</span>
+          <span className="hero-title-model">CHRONOTECH</span>
+        </h1>
+        <p className="hero-photo-subtitle">Powered by a Seiko automatic movement. Engineered with racing DNA.</p>
         <button
           type="button"
           className="hero-photo-cta"
           onClick={onDiscover}
         >
-          <span>Discover Astonia</span>
+          <span>DISCOVER CARBONX</span>
           <span className="hero-cta-arrow" aria-hidden="true">↗</span>
         </button>
       </div>
@@ -3306,27 +3311,6 @@ function Website({ onRestart }) {
             </div>
           </div>
 
-          {/* ── HANBORO Outline Watermark ── */}
-          <div className="footer__watermark" aria-hidden="true">
-            <svg className="footer__watermark-svg" viewBox="0 0 1000 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <text
-                x="50%"
-                y="78%"
-                textAnchor="middle"
-                dominantBaseline="auto"
-                fontFamily="'Playfair Display', 'Cinzel', serif"
-                fontSize="160"
-                fontWeight="800"
-                letterSpacing="0.04em"
-                fill="none"
-                stroke="#d91414"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-              >
-                HANBORO
-              </text>
-            </svg>
-          </div>
 
           <div className="footer__bottom is-always-visible">
             <div className="footer-bottom-brand-group">

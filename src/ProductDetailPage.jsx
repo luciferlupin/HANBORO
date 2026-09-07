@@ -539,7 +539,7 @@ export function ProductDetailPage({
             </div>
             <div className="pdp-spec-item-row">
               <span className="spec-item-k">Case Dimensions</span>
-              <span className="spec-item-v">{product.specs.caseDimensions} (Lug-to-Lug: {product.specs.lugToLug})</span>
+              <span className="spec-item-v">{product.specs.caseDimensions}</span>
             </div>
             <div className="pdp-spec-item-row">
               <span className="spec-item-k">Case Material & Finish</span>

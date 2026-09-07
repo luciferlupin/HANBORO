@@ -1129,15 +1129,6 @@ export function WatchEditorModal({
                     />
                   </div>
 
-                  <div className="editor-field-group">
-                    <label className="editor-label">Lug-to-Lug Distance</label>
-                    <input
-                      type="text"
-                      className="editor-input"
-                      value={form.specs.lugToLug}
-                      onChange={(e) => handleSpecChange("lugToLug", e.target.value)}
-                    />
-                  </div>
 
                   <div className="editor-field-group">
                     <label className="editor-label">Crystal Glass</label>
