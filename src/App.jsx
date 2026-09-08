@@ -1308,7 +1308,6 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
 // CINEMATIC VIDEO HERO SECTION (Exact Match to Photo Layout + Apple Controls)
 // ══════════════════════════════════════════════════════════════════════════════
 function HeroVideoSection({ onDiscover }) {
-  const { isMusicPlaying, setIsMusicPlaying, isMusicMuted, setIsMusicMuted, toggleMusic } = useStore();
   const videoRef = useRef(null);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
@@ -1329,62 +1328,24 @@ function HeroVideoSection({ onDiscover }) {
   const videoSrc = isMobile ? "/Hanboro-V1-mobile.mp4" : "/Hanboro-V1-720p.mp4";
   const posterSrc = isMobile ? "/hero-video-poster-mobile.jpg" : "/hero-video-poster.jpg";
 
-  // Synchronize audio track mute/unmute state with StoreContext
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = isMusicMuted;
-    if (!isMusicMuted) {
-      video.volume = 1;
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    }
-  }, [isMusicMuted]);
-
-  // Autoplay video with music UNMUTED by default ("always on the music")
+  // Video and soundtrack always playing and looping unmuted
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = isMusicMuted;
+    video.muted = false;
     video.volume = 1;
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsMusicPlaying(true);
-        })
-        .catch((err) => {
-          console.info("Autoplay with sound paused pending user gesture:", err);
-          // Fall back to muted playback so visual stream starts immediately
-          video.muted = true;
-          video.play().then(() => setIsMusicPlaying(true)).catch(() => {});
-        });
+      playPromise.catch((err) => {
+        console.info("Autoplay with sound paused pending user gesture:", err);
+        // Fall back to muted playback so visual stream starts immediately
+        video.muted = true;
+        video.play().catch(() => {});
+      });
     }
   }, []);
-
-  // Toggle video & music play / pause
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().then(() => setIsMusicPlaying(true)).catch(() => {});
-    } else {
-      video.pause();
-      setIsMusicPlaying(false);
-    }
-  };
-
-  // Toggle music soundtrack mute / unmute
-  const handleToggleSound = () => {
-    toggleMusic();
-    const video = videoRef.current;
-    if (video && video.paused && isMusicMuted) {
-      video.play().then(() => setIsMusicPlaying(true)).catch(() => {});
-    }
-  };
 
   return (
     <section className="hero-video-section" aria-label="CarbonX Chronotech Video Showcase">
@@ -1398,11 +1359,9 @@ function HeroVideoSection({ onDiscover }) {
           poster={posterSrc}
           autoPlay
           loop
-          muted={isMusicMuted}
+          muted={false}
           playsInline
           preload="auto"
-          onPlay={() => setIsMusicPlaying(true)}
-          onPause={() => setIsMusicPlaying(false)}
         />
         <div className="hero-video-overlay" aria-hidden="true" />
       </div>
@@ -1421,52 +1380,6 @@ function HeroVideoSection({ onDiscover }) {
         >
           <span>DISCOVER CARBONX</span>
           <span className="hero-cta-arrow" aria-hidden="true">↗</span>
-        </button>
-      </div>
-
-      {/* Apple-Style Glassmorphism Play / Pause & Sound Video Controls */}
-      <div className="apple-video-controls" role="toolbar" aria-label="Hero video controls">
-        <button
-          type="button"
-          className={`apple-ctrl-btn ${isMusicPlaying ? "is-playing" : "is-paused"}`}
-          onClick={togglePlay}
-          aria-label={isMusicPlaying ? "Pause video & music" : "Play video & music"}
-          title={isMusicPlaying ? "Pause Video & Soundtrack" : "Play Video & Soundtrack"}
-        >
-          {isMusicPlaying ? (
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <rect x="5" y="4" width="4.5" height="16" rx="1.5" />
-              <rect x="14.5" y="4" width="4.5" height="16" rx="1.5" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path d="M7 4.5v15c0 .85.92 1.38 1.66.95l12-7.5c.74-.46.74-1.44 0-1.9l-12-7.5C7.92 3.12 7 3.65 7 4.5z" />
-            </svg>
-          )}
-        </button>
-
-        <span className="apple-ctrl-divider" aria-hidden="true" />
-
-        <button
-          type="button"
-          className={`apple-ctrl-btn ${!isMusicMuted ? "is-active-sound" : ""}`}
-          onClick={handleToggleSound}
-          aria-label={!isMusicMuted ? "Pause music" : "Play music"}
-          title={!isMusicMuted ? "Sound: Playing" : "Sound: Muted"}
-        >
-          {isMusicMuted ? (
-            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-              <line x1="23" y1="9" x2="17" y2="15" />
-              <line x1="17" y1="9" x2="23" y2="15" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 5" fill="currentColor" />
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-            </svg>
-          )}
         </button>
       </div>
     </section>
@@ -2885,7 +2798,7 @@ function FloatingWhatsAppButton() {
 }
 
 function Website({ onRestart }) {
-  const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen, isMusicPlaying, isMusicMuted, toggleMusic } = useStore();
+  const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen } = useStore();
   const [visible, setVisible] = useState(true);
   const [view, setView] = useState(() => {
     const hash = window.location.hash.toLowerCase();
@@ -3041,32 +2954,8 @@ function Website({ onRestart }) {
             <HanboroLogo theme="light" size={24} />
           </button>
 
-          {/* Right: Minimal Icons (Music/Soundtrack Toggle, Stores, Account / Profile, Bag with badge) */}
+          {/* Right: Minimal Icons (Stores, Account / Profile, Bag with badge) */}
           <div className="luxury-header__actions">
-            {/* Ambient Music / Soundtrack Equalizer Toggle */}
-            <button
-              type="button"
-              className={`luxury-header__icon-btn luxury-sound-toggle ${!isMusicMuted ? "is-active-sound" : "is-muted"}`}
-              onClick={toggleMusic}
-              aria-label={!isMusicMuted ? "Pause soundtrack music" : "Play soundtrack music"}
-              title={!isMusicMuted ? "Soundtrack: Playing" : "Soundtrack: Muted"}
-            >
-              {!isMusicMuted ? (
-                <span className="sound-wave-bars" aria-hidden="true">
-                  <span className="sound-wave-bar bar-1" />
-                  <span className="sound-wave-bar bar-2" />
-                  <span className="sound-wave-bar bar-3" />
-                  <span className="sound-wave-bar bar-4" />
-                </span>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-                  <line x1="23" y1="9" x2="17" y2="15" />
-                  <line x1="17" y1="9" x2="23" y2="15" />
-                </svg>
-              )}
-            </button>
-
             <button
               type="button"
               className="luxury-header__icon-btn"

@@ -858,63 +858,7 @@ body.modal-open {
   }
 }
 
-/* ── APPLE-STYLE VIDEO CONTROLS (Play/Pause & Sound Pill) ── */
-.apple-video-controls {
-  position: absolute;
-  bottom: clamp(22px, 3.8vw, 36px);
-  right: clamp(20px, 3.8vw, 42px);
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 8px;
-  border-radius: 9999px;
-  background: rgba(16, 16, 20, 0.58);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.apple-video-controls:hover {
-  background: rgba(22, 22, 28, 0.72);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.65);
-}
-
-.apple-ctrl-btn {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.apple-ctrl-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
-  transform: scale(1.08);
-}
-
-.apple-ctrl-btn:active {
-  transform: scale(0.94);
-}
-
-.apple-ctrl-btn.is-active-sound {
-  color: #ff453a; /* Apple signal red for active sound */
-}
-
-.apple-ctrl-divider {
-  width: 1px;
-  height: 16px;
-  background: rgba(255, 255, 255, 0.24);
-  margin: 0 2px;
-}
 
 @media (max-width: 640px) {
   .hero-video-section {
@@ -938,10 +882,6 @@ body.modal-open {
   .hero-photo-subtitle {
     font-size: 13.5px;
     margin-bottom: 22px;
-  }
-  .apple-video-controls {
-    bottom: 20px;
-    right: 20px;
   }
 }
 
