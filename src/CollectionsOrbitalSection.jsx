@@ -37,35 +37,50 @@ const FEATURED_COLLECTIONS = [
 
 export function CollectionsOrbitalSection({ onSelectSku, onDiscover }) {
   const sectionRef = useRef(null);
+  const outerSvgRef = useRef(null);
+  const innerSvgRef = useRef(null);
   const [inView, setInView] = useState(false);
-  const [scrollRotation, setScrollRotation] = useState(0);
+  const inViewRef = useRef(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           setInView(true);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
 
+    let ticking = false;
     const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      if (rect.top < windowHeight && rect.bottom > 0) {
-        const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-        setScrollRotation(progress * 180);
-      }
+      if (!inViewRef.current || !sectionRef.current || ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (sectionRef.current) {
+          const rect = sectionRef.current.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          if (rect.top < windowHeight && rect.bottom > 0) {
+            const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+            const rot = progress * 180;
+            if (outerSvgRef.current) {
+              outerSvgRef.current.style.transform = `rotate(${rot * 0.8}deg)`;
+            }
+            if (innerSvgRef.current) {
+              innerSvgRef.current.style.transform = `rotate(${rot * -1.2}deg)`;
+            }
+          }
+        }
+        ticking = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
 
     return () => {
       observer.disconnect();
@@ -99,11 +114,9 @@ export function CollectionsOrbitalSection({ onSelectSku, onDiscover }) {
           <div className="orbital-dial-centerpiece" aria-hidden="true">
             {/* Outer Slow Ambient + Scroll Driven Rotation Ring */}
             <svg
+              ref={outerSvgRef}
               className="orbital-svg orbital-svg--outer"
               viewBox="0 0 600 600"
-              style={{
-                transform: `rotate(${scrollRotation * 0.8}deg)`
-              }}
             >
               {/* Outer Ticks Ring */}
               <circle
@@ -139,11 +152,9 @@ export function CollectionsOrbitalSection({ onSelectSku, onDiscover }) {
 
             {/* Inner Counter-Rotating Precision Ring */}
             <svg
+              ref={innerSvgRef}
               className="orbital-svg orbital-svg--inner"
               viewBox="0 0 600 600"
-              style={{
-                transform: `rotate(${scrollRotation * -1.2}deg)`
-              }}
             >
               <circle
                 cx="300"

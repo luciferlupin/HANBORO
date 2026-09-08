@@ -41,6 +41,10 @@ export function SubtleMasterySection({ onExploreCatalog }) {
   const currentProgressRef = useRef(0);
   const rafIdRef = useRef(null);
 
+  const inViewRef = useRef(false);
+  const activeStepRef = useRef(0);
+  const isLerpingRef = useRef(false);
+
   // Measure exact distance between the center of Node 01 and Node 04
   const updateSpineDimensions = () => {
     if (!containerRightRef.current || !itemRefs.current[0] || !itemRefs.current[3]) return;
@@ -67,11 +71,42 @@ export function SubtleMasterySection({ onExploreCatalog }) {
   }, []);
 
   useEffect(() => {
+    const startLerp = () => {
+      if (isLerpingRef.current) return;
+      isLerpingRef.current = true;
+      const step = () => {
+        if (!inViewRef.current) {
+          isLerpingRef.current = false;
+          return;
+        }
+        const diff = targetProgressRef.current - currentProgressRef.current;
+        if (Math.abs(diff) < 0.0008) {
+          currentProgressRef.current = targetProgressRef.current;
+          if (fillBarRef.current) {
+            const scale = Math.min(Math.max(currentProgressRef.current, 0), 1);
+            fillBarRef.current.style.transform = `scaleY(${scale})`;
+          }
+          isLerpingRef.current = false;
+          return;
+        }
+
+        currentProgressRef.current += diff * 0.12;
+        if (fillBarRef.current) {
+          const scale = Math.min(Math.max(currentProgressRef.current, 0), 1);
+          fillBarRef.current.style.transform = `scaleY(${scale})`;
+        }
+        rafIdRef.current = requestAnimationFrame(step);
+      };
+      rafIdRef.current = requestAnimationFrame(step);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           setInView(true);
           updateSpineDimensions();
+          startLerp();
         }
       },
       { threshold: 0.05 }
@@ -81,55 +116,50 @@ export function SubtleMasterySection({ onExploreCatalog }) {
       observer.observe(sectionRef.current);
     }
 
+    let ticking = false;
     const handleScroll = () => {
-      if (!itemRefs.current[0] || !itemRefs.current[3]) return;
-      const firstNode = itemRefs.current[0].querySelector(".vertical-step-node");
-      const lastNode = itemRefs.current[3].querySelector(".vertical-step-node");
-      if (!firstNode || !lastNode) return;
+      if (!inViewRef.current || !itemRefs.current[0] || !itemRefs.current[3] || ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const firstNode = itemRefs.current[0]?.querySelector(".vertical-step-node");
+        const lastNode = itemRefs.current[3]?.querySelector(".vertical-step-node");
+        if (firstNode && lastNode) {
+          const windowHeight = window.innerHeight;
+          const triggerY = windowHeight * 0.5;
 
-      const windowHeight = window.innerHeight;
-      const triggerY = windowHeight * 0.5;
+          const firstCenterY = firstNode.getBoundingClientRect().top + firstNode.getBoundingClientRect().height / 2;
+          const lastCenterY = lastNode.getBoundingClientRect().top + lastNode.getBoundingClientRect().height / 2;
+          const totalDistance = lastCenterY - firstCenterY;
 
-      const firstCenterY = firstNode.getBoundingClientRect().top + firstNode.getBoundingClientRect().height / 2;
-      const lastCenterY = lastNode.getBoundingClientRect().top + lastNode.getBoundingClientRect().height / 2;
-      const totalDistance = lastCenterY - firstCenterY;
+          if (totalDistance > 0) {
+            const rawProgress = (triggerY - firstCenterY) / totalDistance;
+            const clampedProgress = Math.min(Math.max(rawProgress, 0), 1);
+            targetProgressRef.current = clampedProgress;
 
-      if (totalDistance > 0) {
-        const rawProgress = (triggerY - firstCenterY) / totalDistance;
-        const clampedProgress = Math.min(Math.max(rawProgress, 0), 1);
-        targetProgressRef.current = clampedProgress;
+            let currentStep = 0;
+            if (clampedProgress >= 0.85) {
+              currentStep = 3;
+            } else if (clampedProgress >= 0.52) {
+              currentStep = 2;
+            } else if (clampedProgress >= 0.18) {
+              currentStep = 1;
+            } else {
+              currentStep = 0;
+            }
 
-        // Clean milestone activation: 01, 02, 03, 04
-        let currentStep = 0;
-        if (clampedProgress >= 0.85) {
-          currentStep = 3;
-        } else if (clampedProgress >= 0.52) {
-          currentStep = 2;
-        } else if (clampedProgress >= 0.18) {
-          currentStep = 1;
-        } else {
-          currentStep = 0;
+            if (activeStepRef.current !== currentStep) {
+              activeStepRef.current = currentStep;
+              setActiveStep(currentStep);
+            }
+
+            startLerp();
+          }
         }
-        setActiveStep(currentStep);
-      }
-    };
-
-    // Apple 60/120fps LERP smoothing loop
-    const lerpLoop = () => {
-      // Smooth lerp damping
-      currentProgressRef.current += (targetProgressRef.current - currentProgressRef.current) * 0.1;
-
-      if (fillBarRef.current) {
-        const scale = Math.min(Math.max(currentProgressRef.current, 0), 1);
-        fillBarRef.current.style.transform = `scaleY(${scale})`;
-      }
-
-      rafIdRef.current = requestAnimationFrame(lerpLoop);
+        ticking = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    rafIdRef.current = requestAnimationFrame(lerpLoop);
 
     return () => {
       observer.disconnect();
@@ -137,6 +167,7 @@ export function SubtleMasterySection({ onExploreCatalog }) {
       if (rafIdRef.current) {
         cancelAnimationFrame(rafIdRef.current);
       }
+      isLerpingRef.current = false;
     };
   }, []);
 

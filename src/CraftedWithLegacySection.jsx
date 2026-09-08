@@ -3,47 +3,25 @@ import React, { useEffect, useRef, useState } from "react";
 export function CraftedWithLegacySection({ onExploreCatalog }) {
   const sectionRef = useRef(null);
   const [inView, setInView] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-        } else if (entry.boundingClientRect.top > window.innerHeight) {
-          setInView(false);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.1, rootMargin: "60px 0px -40px 0px" }
     );
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
 
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      const totalDist = windowHeight + rect.height;
-      const currentDist = windowHeight - rect.top;
-      const progress = Math.min(Math.max(currentDist / totalDist, 0), 1);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // Graceful sine curve opacity with subtle slow parallax
-  const opacity = Math.min(1, Math.max(0, Math.sin(scrollProgress * Math.PI) * 1.35));
-  const parallaxOffset = (scrollProgress - 0.5) * 35;
 
   return (
     <section
@@ -53,23 +31,11 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
       aria-labelledby="philosophy-title"
       data-reveal
     >
-      <div
-        className="crafted-legacy__container"
-        style={{
-          opacity: inView ? opacity : 0,
-          transform: `translateY(${parallaxOffset * 0.3}px)`,
-          transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s ease-out"
-        }}
-      >
+      <div className="crafted-legacy__container">
         {/* Interleaved Typographic & Theme Pill Mosaic */}
         <div className="crafted-legacy__mosaic">
           {/* ROW 1: [Capsule Pill with Ruby Crown] + "CRAFTED WITH" */}
-          <div
-            className="mosaic-row mosaic-row--1"
-            style={{
-              transform: `translateY(${parallaxOffset * -0.25}px)`
-            }}
-          >
+          <div className="mosaic-row mosaic-row--1">
             <div className="mosaic-pill-track">
               <div className="mosaic-pill mosaic-pill--seal" data-pill="1">
                 <img
@@ -87,12 +53,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
           </div>
 
           {/* ROW 2: "LEGACY" + [Capsule Pill with Casino Roulette Tourbillon Calibre] + Philosophy Text */}
-          <div
-            className="mosaic-row mosaic-row--2"
-            style={{
-              transform: `translateY(${parallaxOffset * -0.08}px)`
-            }}
-          >
+          <div className="mosaic-row mosaic-row--2">
             <span className="mosaic-text mosaic-text--legacy">
               <span className="motion-text-reveal">LEGACY</span>
             </span>
@@ -116,12 +77,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
           </div>
 
           {/* ROW 3: [Elongated Pill with Hanboro Tonneau Wrist Shot] + "IN MIND" */}
-          <div
-            className="mosaic-row mosaic-row--3"
-            style={{
-              transform: `translateY(${parallaxOffset * 0.18}px)`
-            }}
-          >
+          <div className="mosaic-row mosaic-row--3">
             <div className="mosaic-pill-track">
               <div className="mosaic-pill mosaic-pill--wrist" data-pill="3">
                 <img

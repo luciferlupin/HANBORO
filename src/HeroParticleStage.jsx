@@ -17,6 +17,9 @@ const BG_PALETTES = [
 function AmbientDustCanvas() {
   const cvs = useRef(null);
   useEffect(() => {
+    // Avoid running canvas ambient dust on mobile screens to preserve battery & 120Hz compositor performance
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
+
     const canvas = cvs.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -27,16 +30,15 @@ function AmbientDustCanvas() {
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const N = isMobile ? 45 : 90;
+    const N = 50;
     const pts = Array.from({ length: N }, () => ({
       x: Math.random(), y: Math.random(),
-      vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.14,
-      r: Math.random() * 1.5 + 0.3,
-      op: Math.random() * 0.12 + 0.03,
-      freq: Math.random() * 0.016 + 0.005,
+      vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.12,
+      r: Math.random() * 1.4 + 0.3,
+      op: Math.random() * 0.11 + 0.03,
+      freq: Math.random() * 0.015 + 0.005,
       ph: Math.random() * Math.PI * 2,
-      amp: Math.random() * 0.4 + 0.1,
+      amp: Math.random() * 0.35 + 0.1,
     }));
     const draw = () => {
       if (!isVisible || document.hidden) return;
@@ -92,7 +94,7 @@ function runParticleTransition(canvas, toSrc, onDone) {
   if (!canvas) { onDone?.(); return; }
   const ctx = canvas.getContext("2d");
   const W = canvas.width, H = canvas.height;
-  const COUNT = W < 768 ? 580 : 1200;
+  const COUNT = W < 768 ? 340 : 900;
   const BURST_DUR = 600, SETTLE_DUR = 700;
   let raf;
 
@@ -193,6 +195,8 @@ export default function HeroParticleStage({ watches }) {
   const idxRef   = useRef(0); idxRef.current = idx;
   const phaseRef = useRef("idle"); phaseRef.current = phase;
   const particleRef = useRef(null);
+  const stageRef = useRef(null);
+  const isVisibleRef = useRef(true);
 
   const go = useCallback((toIdx) => {
     if (phaseRef.current !== "idle") return;
@@ -221,7 +225,24 @@ export default function HeroParticleStage({ watches }) {
   const goPrev = useCallback(() => go((idxRef.current - 1 + watches.length) % watches.length), [go, watches.length]);
 
   useEffect(() => {
-    const id = setInterval(() => { if (phaseRef.current === "idle") goNext(); }, 6000);
+    const el = stageRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (isVisibleRef.current && phaseRef.current === "idle" && !document.hidden) {
+        goNext();
+      }
+    }, 6000);
     return () => clearInterval(id);
   }, [goNext]);
 
@@ -244,7 +265,7 @@ export default function HeroParticleStage({ watches }) {
   const w = watches[idx];
 
   return (
-    <div className="hp-stage" aria-label="Watch showcase carousel">
+    <div ref={stageRef} className="hp-stage" aria-label="Watch showcase carousel">
       {/* TECHNIQUE 3: Diagonal background wipe */}
       <div className="hp-bg-base" style={{ background: BG_PALETTES[idx % BG_PALETTES.length] }} aria-hidden="true" />
       {wipeBg && (

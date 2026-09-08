@@ -84,7 +84,7 @@ const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
 const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
 const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
 
-/* ── scroll-reveal & dynamic text color motion hook ──────────────────────── */
+/* ── scroll-reveal & dynamic entrance motion hook ──────────────────────── */
 function useScrollReveal(enabled, view, selectedSkuId) {
   useEffect(() => {
     let io = null;
@@ -101,14 +101,14 @@ function useScrollReveal(enabled, view, selectedSkuId) {
       // Mark immediate in-viewport elements
       els.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.top < viewportHeight + 180 && rect.bottom > -120) {
+        if (rect.top < viewportHeight + 160 && rect.bottom > -80) {
           el.classList.add("is-visible");
         }
       });
 
       sections.forEach((sec) => {
         const rect = sec.getBoundingClientRect();
-        if (rect.top < viewportHeight + 100 && rect.bottom > -50) {
+        if (rect.top < viewportHeight + 80 && rect.bottom > -40) {
           sec.classList.add("section-in-view");
         }
       });
@@ -119,9 +119,10 @@ function useScrollReveal(enabled, view, selectedSkuId) {
           entries.forEach((e) => {
             if (e.isIntersecting) {
               e.target.classList.add("is-visible");
+              io.unobserve(e.target);
             }
           }),
-        { threshold: [0.02, 0.15, 0.4], rootMargin: "80px 0px -40px 0px" }
+        { threshold: [0.02, 0.15], rootMargin: "100px 0px -20px 0px" }
       );
 
       els.forEach((el) => io.observe(el));
@@ -134,63 +135,22 @@ function useScrollReveal(enabled, view, selectedSkuId) {
               e.target.classList.add("section-in-view");
             }
           }),
-        { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.04, rootMargin: "60px 0px -40px 0px" }
       );
 
       sections.forEach((sec) => sectionIo.observe(sec));
     };
 
-    // Real-time scroll listener for dynamic text color reveal on scroll
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const vh = window.innerHeight || 900;
-          const textElements = document.querySelectorAll(
-            ".statement__line, .stage-title, .work h2, .hero-photo-title, .hero-photo-subtitle, .carousel-title, .editorial-card__title, .project h3, .stage-subtitle, .roulette-col-heading"
-          );
-
-          textElements.forEach((el) => {
-            const rect = el.getBoundingClientRect();
-            // Compute percentage how far the element is into the viewport
-            const visibleRatio = Math.min(Math.max((vh - rect.top) / (vh * 0.7), 0), 1);
-            el.style.setProperty("--text-scroll-progress", visibleRatio.toFixed(3));
-            if (visibleRatio > 0.12) {
-              el.classList.add("text-color-active");
-            } else {
-              el.classList.remove("text-color-active");
-            }
-          });
-
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    // Scan on mount and delayed frames
+    // Scan on mount and layout stabilization frames
     scanAndObserve();
     const rId = requestAnimationFrame(scanAndObserve);
-    const t1 = setTimeout(scanAndObserve, 60);
-    const t2 = setTimeout(scanAndObserve, 280);
-    const t3 = setTimeout(scanAndObserve, 700);
-
-    const mo = new MutationObserver(() => {
-      scanAndObserve();
-      handleScroll();
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
+    const t1 = setTimeout(scanAndObserve, 120);
+    const t2 = setTimeout(scanAndObserve, 500);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(rId);
       clearTimeout(t1);
       clearTimeout(t2);
-      clearTimeout(t3);
-      mo.disconnect();
       if (io) io.disconnect();
       if (sectionIo) sectionIo.disconnect();
     };
@@ -204,6 +164,9 @@ function useSmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Detect touch-only mobile devices to let native OS compositor handle 120Hz/60Hz touch scroll
+    const isTouchOnly = "ontouchstart" in window && window.innerWidth < 1024;
+
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-grade exponential deceleration
@@ -211,8 +174,9 @@ function useSmoothScroll() {
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 0.92,
-      touchMultiplier: 1.15,
-      infinite: false,
+      touchMultiplier: 0,
+      syncTouch: false,
+      smoothTouch: false,
       prevent: (node) => {
         if (!node) return false;
         // Never scroll page when body is locked for modal/form/dialog
@@ -1314,6 +1278,24 @@ function HeroVideoSection({ onDiscover }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth <= 768;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Use ultralight 6.5MB stream on mobile (vs 68MB master), and optimized 720p on desktop
+  const videoSrc = isMobile ? "/Hanboro-V1-mobile.mp4" : "/Hanboro-V1-720p.mp4";
+  const posterSrc = isMobile ? "/hero-video-poster-mobile.jpg" : "/hero-video-poster.jpg";
 
   // Toggle video play / pause
   const togglePlay = () => {
@@ -1333,6 +1315,7 @@ function HeroVideoSection({ onDiscover }) {
     if (!video) return;
     const nextMuted = !video.muted;
     video.muted = nextMuted;
+    setIsMuted(nextMuted);
     if (video.paused) {
       video.play().then(() => setIsPlaying(true)).catch(() => {});
     }
@@ -1366,13 +1349,15 @@ function HeroVideoSection({ onDiscover }) {
       <div className="hero-video-container">
         <video
           ref={videoRef}
+          key={videoSrc}
           className="hero-video-media"
-          src="/Hanboro V1.mp4"
+          src={videoSrc}
+          poster={posterSrc}
           autoPlay
           loop
           muted={isMuted}
           playsInline
-          preload="metadata"
+          preload="auto"
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
         />
@@ -1818,7 +1803,7 @@ function InteractiveDottedGlobe() {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
 
     const globeRadius = 240;
@@ -2039,11 +2024,12 @@ function InteractiveDottedGlobe() {
       }
     };
 
-    let isGlobeVisible = true;
+    let isGlobeVisible = false;
     const globeObserver = new IntersectionObserver(
       ([entry]) => {
+        const wasVisible = isGlobeVisible;
         isGlobeVisible = entry.isIntersecting;
-        if (isGlobeVisible) {
+        if (isGlobeVisible && !wasVisible) {
           cancelAnimationFrame(animId);
           animId = requestAnimationFrame(animate);
         }
@@ -2051,8 +2037,6 @@ function InteractiveDottedGlobe() {
       { threshold: 0.05 }
     );
     globeObserver.observe(container);
-
-    animate();
 
     return () => {
       cancelAnimationFrame(animId);
@@ -2617,7 +2601,7 @@ function FooterLiveClock() {
 
   useEffect(() => {
     let animId;
-    let isClockVisible = true;
+    let isClockVisible = false;
     const updateTime = () => {
       if (!isClockVisible) return;
       const now = new Date();
@@ -2645,8 +2629,9 @@ function FooterLiveClock() {
 
     const clockObserver = new IntersectionObserver(
       ([entry]) => {
+        const wasVisible = isClockVisible;
         isClockVisible = entry.isIntersecting;
-        if (isClockVisible) {
+        if (isClockVisible && !wasVisible) {
           cancelAnimationFrame(animId);
           animId = requestAnimationFrame(updateTime);
         }
@@ -2658,7 +2643,6 @@ function FooterLiveClock() {
       clockObserver.observe(containerRef.current);
     }
 
-    animId = requestAnimationFrame(updateTime);
     return () => {
       cancelAnimationFrame(animId);
       clockObserver.disconnect();

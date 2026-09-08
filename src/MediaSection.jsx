@@ -15,7 +15,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:24",
     views: "342K views",
     audio: "Original Audio • Frictionless Spin",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-2",
@@ -31,7 +32,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:30",
     views: "286K views",
     audio: "Ambient Horizon • Aventurine Drift",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-3",
@@ -47,7 +49,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:26",
     views: "512K views",
     audio: "Twin-Turbo V8 • 8,200 RPM",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-4",
@@ -63,7 +66,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:22",
     views: "198K views",
     audio: "Tourbillon Escapement • 28,800 BPH",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-5",
@@ -79,7 +83,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:20",
     views: "415K views",
     audio: "Mechanical Heartbeat • Carbon Weave",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-6",
@@ -95,7 +100,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:19",
     views: "230K views",
     audio: "Supercar Idle • Chrono Clicks",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-7",
@@ -111,7 +117,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:28",
     views: "389K views",
     audio: "Ultraviolet Luminescence Shift",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-8",
@@ -127,7 +134,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:18",
     views: "620K views",
     audio: "Haute Horlogerie Atelier Sound",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-9",
@@ -143,7 +151,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:25",
     views: "475K views",
     audio: "Mask Shift Kinetic Click",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-10",
@@ -159,7 +168,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:21",
     views: "318K views",
     audio: "Pit Lane Exhaust & Chrono Beat",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-11",
@@ -175,7 +185,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:23",
     views: "164K views",
     audio: "120-Click Ceramic Bezel Audio",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   },
   {
     id: "media-12",
@@ -191,7 +202,8 @@ export const MEDIA_GALLERY_DATA = [
     duration: "0:22",
     views: "290K views",
     audio: "21,600 BPH Hacking Escapement",
-    videoSrc: "/Hanboro V1.mp4"
+    videoSrc: "/Hanboro-V1-720p.mp4",
+    videoMobileSrc: "/Hanboro-V1-mobile.mp4"
   }
 ];
 
@@ -433,11 +445,12 @@ export function MediaSection({ onInspectSku }) {
 
             <div className="our-media-modal-media-wrap">
               <video
-                src={selectedMedia.videoSrc}
+                src={typeof window !== "undefined" && window.innerWidth <= 768 ? (selectedMedia.videoMobileSrc || selectedMedia.videoSrc) : selectedMedia.videoSrc}
                 poster={selectedMedia.poster}
                 controls
                 autoPlay
                 playsInline
+                preload="auto"
                 className="our-media-modal-video"
               />
             </div>
