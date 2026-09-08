@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Lenis from "lenis";
 import * as THREE from "three";
 import { ProductsView } from "./ProductsView";
@@ -53,9 +53,30 @@ class ErrorBoundary extends React.Component {
           <h1 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "12px", color: "#fa2d1d" }}>
             HANBORO WATCHES
           </h1>
-          <p style={{ fontSize: "14px", color: "rgba(245,242,237,0.7)", maxWidth: "480px", marginBottom: "24px" }}>
+          <p style={{ fontSize: "14px", color: "rgba(245,242,237,0.7)", maxWidth: "600px", marginBottom: "16px" }}>
             An unexpected error occurred. Reloading the page will restore normal operation.
           </p>
+          {typeof process !== "undefined" && process.env?.NODE_ENV === "development" && this.state.error && (
+            <div style={{
+              background: "#18181b",
+              border: "1px solid #3f3f46",
+              borderRadius: "8px",
+              padding: "16px",
+              maxWidth: "800px",
+              width: "90%",
+              marginBottom: "20px",
+              textAlign: "left"
+            }}>
+              <div style={{ color: "#ef4444", fontWeight: 700, fontSize: "13px", marginBottom: "6px" }}>
+                Error: {this.state.error.message || String(this.state.error)}
+              </div>
+              {this.state.error.stack && (
+                <pre style={{ color: "#a1a1aa", fontSize: "11px", overflowX: "auto", whiteSpace: "pre-wrap", margin: 0, maxHeight: "200px" }}>
+                  {this.state.error.stack}
+                </pre>
+              )}
+            </div>
+          )}
           <button
             onClick={() => window.location.reload()}
             style={{
