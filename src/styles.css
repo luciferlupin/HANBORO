@@ -15948,351 +15948,182 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   PRIVATE ATELIER & CONCIERGE SECTION (High-Order Visual Hierarchy)
+   CONTACT / GET IN TOUCH SECTION (Clean, Minimal, Clutter-Free Luxury Hierarchy)
    ══════════════════════════════════════════════════════════════════════════════ */
-.concierge-section {
+.contact-section {
   position: relative;
-  background: radial-gradient(circle at 18% 30%, rgba(250, 45, 29, 0.04) 0%, transparent 45%),
-              radial-gradient(circle at 82% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
-              #08080a;
+  background: #08080a;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: clamp(64px, 8vw, 112px) clamp(24px, 5vw, 64px);
-  overflow: hidden;
+  padding: clamp(72px, 9vw, 120px) clamp(24px, 5vw, 64px);
 }
 
-.concierge-container {
-  max-width: 1320px;
+.contact-container {
+  max-width: 1140px;
   margin: 0 auto;
-  position: relative;
-  z-index: 2;
 }
 
-/* ── Top Meta Bar ── */
-.concierge-meta-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding-bottom: clamp(24px, 3.5vw, 36px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  margin-bottom: clamp(36px, 5vw, 60px);
-}
-
-.concierge-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  padding: 5px 14px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: rgba(245, 242, 237, 0.75);
-  text-transform: uppercase;
-}
-
-.status-live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 10px #10b981;
-  animation: pulseDot 2s infinite ease-in-out;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.85); }
-}
-
-/* ── 2-Column Split: Editorial & Channels Grid ── */
-.concierge-grid {
+.contact-inner {
   display: grid;
-  grid-template-columns: minmax(320px, 1.15fr) minmax(420px, 1.35fr);
-  gap: clamp(40px, 6vw, 84px);
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(48px, 8vw, 110px);
   align-items: start;
 }
 
-/* ── Left Editorial Column ── */
-.concierge-editorial {
+/* ── Left Column: Clean Editorial ── */
+.contact-left {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
-.concierge-eyebrow {
+.contact-eyebrow {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #fa2d1d;
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
+  display: inline-block;
 }
 
-.concierge-heading {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(32px, 4.2vw, 54px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+.contact-heading {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(38px, 4.8vw, 62px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   color: #f5f2ed;
-  margin: 0 0 24px 0;
-  text-transform: uppercase;
+  margin: 0 0 36px 0;
 }
 
-.concierge-heading em {
+.contact-heading em {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  text-transform: none;
-  letter-spacing: 0;
-  color: rgba(245, 242, 237, 0.72);
+  color: rgba(245, 242, 237, 0.62);
   display: block;
-  margin-top: 4px;
 }
 
-.concierge-description {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(14.5px, 1.1vw, 16px);
-  line-height: 1.65;
-  color: rgba(245, 242, 237, 0.68);
-  margin: 0 0 32px 0;
-  max-width: 520px;
-}
-
-.concierge-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.concierge-primary-btn {
+.contact-cta {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 28px;
-  background: #fa2d1d;
-  color: #ffffff;
-  border-radius: 8px;
+  gap: 8px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  box-shadow: 0 6px 20px rgba(250, 45, 29, 0.35);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.concierge-primary-btn:hover {
-  background: #ff453a;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(250, 45, 29, 0.48);
-  color: #ffffff;
-}
-
-.concierge-secondary-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #f5f2ed;
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f5f2ed;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.concierge-secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-.concierge-guarantee-note {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  color: rgba(245, 242, 237, 0.55);
-  letter-spacing: 0.02em;
-}
-
-/* ── Right 2x2 Channels Grid ── */
-.concierge-channels-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.concierge-card {
-  position: relative;
-  background: rgba(18, 18, 22, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: clamp(18px, 2.2vw, 24px);
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.concierge-card:hover {
-  background: rgba(26, 26, 32, 0.88);
-  border-color: rgba(250, 45, 29, 0.4);
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-}
-
-.concierge-card--highlight {
-  border-color: rgba(250, 45, 29, 0.25);
-  background: linear-gradient(145deg, rgba(250, 45, 29, 0.06) 0%, rgba(18, 18, 22, 0.75) 100%);
-}
-
-.concierge-card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.concierge-card-icon-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: grid;
-  place-items: center;
-  color: #fa2d1d;
+  border-bottom: 1px solid rgba(245, 242, 237, 0.35);
+  padding-bottom: 6px;
   transition: all 0.25s ease;
 }
 
-.concierge-card:hover .concierge-card-icon-wrap {
-  background: #fa2d1d;
-  color: #ffffff;
-  border-color: #fa2d1d;
-}
-
-.concierge-card-badge {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(245, 242, 237, 0.6);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 3px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.concierge-card--highlight .concierge-card-badge {
-  color: #fa2d1d;
-  background: rgba(250, 45, 29, 0.1);
-  border-color: rgba(250, 45, 29, 0.2);
-}
-
-.concierge-card-channel {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(245, 242, 237, 0.45);
-  margin-bottom: 6px;
-}
-
-.concierge-card-val {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(14px, 1.1vw, 16px);
-  font-weight: 700;
-  color: #f5f2ed;
-  margin-bottom: 6px;
-  word-break: break-word;
-  transition: color 0.2s ease;
-}
-
-.concierge-card:hover .concierge-card-val {
-  color: #ffffff;
-}
-
-.concierge-card-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  color: rgba(245, 242, 237, 0.55);
-  line-height: 1.45;
-  margin-bottom: 16px;
-}
-
-.concierge-card-action {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(245, 242, 237, 0.7);
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-
-.card-arrow {
+.contact-cta-arrow {
   transition: transform 0.2s ease;
 }
 
-.concierge-card:hover .concierge-card-action {
+.contact-cta:hover {
+  color: #fa2d1d;
+  border-color: #fa2d1d;
+}
+
+.contact-cta:hover .contact-cta-arrow {
+  transform: translate(2px, -2px);
+}
+
+/* ── Right Column: Clean Typographic Rows ── */
+.contact-right {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+}
+
+.contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.contact-row:first-child {
+  padding-top: 0;
+}
+
+.contact-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.contact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 242, 237, 0.38);
+}
+
+.contact-link,
+.contact-address {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(15.5px, 1.25vw, 18px);
+  font-weight: 400;
+  color: rgba(245, 242, 237, 0.9);
+  text-decoration: none;
+  line-height: 1.5;
+  font-style: normal;
+  transition: color 0.2s ease;
+}
+
+.contact-link:hover {
+  color: #ffffff;
+}
+
+.contact-link--wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-link--wa:hover {
   color: #fa2d1d;
 }
 
-.concierge-card:hover .card-arrow {
-  transform: translateX(4px);
+.contact-link-arrow {
+  font-size: 13px;
+  transition: transform 0.2s ease;
+  color: rgba(245, 242, 237, 0.45);
 }
 
-/* ── Responsive Rules ── */
-@media (max-width: 1024px) {
-  .concierge-grid {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-  .concierge-description {
-    max-width: 100%;
-  }
+.contact-link--wa:hover .contact-link-arrow {
+  color: #fa2d1d;
+  transform: translate(2px, -2px);
 }
 
-@media (max-width: 640px) {
-  .concierge-channels-grid {
+.contact-mono {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+
+.contact-address {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .contact-inner {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 40px;
   }
-  .concierge-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .concierge-primary-btn,
-  .concierge-secondary-btn {
-    justify-content: center;
-    width: 100%;
+  .contact-heading {
+    margin-bottom: 24px;
   }
 }
 
