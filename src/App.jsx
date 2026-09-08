@@ -1309,6 +1309,7 @@ function CasinoRouletteExperience({ onInspectSku, onShopAll }) {
 // ══════════════════════════════════════════════════════════════════════════════
 function HeroVideoSection({ onDiscover }) {
   const videoRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth <= 768;
@@ -1328,7 +1329,7 @@ function HeroVideoSection({ onDiscover }) {
   const videoSrc = isMobile ? "/Hanboro-V1-mobile.mp4" : "/Hanboro-V1-720p.mp4";
   const posterSrc = isMobile ? "/hero-video-poster-mobile.jpg" : "/hero-video-poster.jpg";
 
-  // Video and soundtrack always playing and looping unmuted
+  // Video and soundtrack always playing and looping unmuted by default
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -1338,14 +1339,32 @@ function HeroVideoSection({ onDiscover }) {
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
-      playPromise.catch((err) => {
-        console.info("Autoplay with sound paused pending user gesture:", err);
-        // Fall back to muted playback so visual stream starts immediately
-        video.muted = true;
-        video.play().catch(() => {});
-      });
+      playPromise
+        .then(() => {
+          setIsMuted(false);
+        })
+        .catch((err) => {
+          console.info("Autoplay with sound paused pending user gesture:", err);
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => {});
+        });
     }
   }, []);
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    const nextMuted = !video.muted;
+    video.muted = nextMuted;
+    if (!nextMuted) {
+      video.volume = 1;
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    }
+    setIsMuted(nextMuted);
+  };
 
   return (
     <section className="hero-video-section" aria-label="CarbonX Chronotech Video Showcase">
@@ -1382,6 +1401,29 @@ function HeroVideoSection({ onDiscover }) {
           <span className="hero-cta-arrow" aria-hidden="true">↗</span>
         </button>
       </div>
+
+      {/* Floating Glassmorphism Mute / Unmute Button */}
+      <button
+        type="button"
+        className={`hero-mute-btn ${isMuted ? "is-muted" : "is-active"}`}
+        onClick={toggleMute}
+        aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
+        title={isMuted ? "Unmute Sound" : "Mute Sound"}
+      >
+        {isMuted ? (
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+            <line x1="23" y1="9" x2="17" y2="15" />
+            <line x1="17" y1="9" x2="23" y2="15" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+          </svg>
+        )}
+      </button>
     </section>
   );
 }
