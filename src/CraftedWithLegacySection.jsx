@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export function CraftedWithLegacySection({ onExploreCatalog }) {
   const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(true);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -11,7 +11,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
           setInView(true);
         }
       },
-      { threshold: 0.1, rootMargin: "60px 0px -40px 0px" }
+      { threshold: 0.05, rootMargin: "100px 0px" }
     );
 
     if (sectionRef.current) {
@@ -29,7 +29,6 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
       className={`crafted-legacy-section ${inView ? "is-in-view" : ""}`}
       id="philosophy"
       aria-labelledby="philosophy-title"
-      data-reveal
     >
       <div className="crafted-legacy__container">
         {/* Interleaved Typographic & Theme Pill Mosaic */}
