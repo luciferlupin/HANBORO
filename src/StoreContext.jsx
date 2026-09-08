@@ -63,6 +63,14 @@ export function StoreProvider({ children }) {
     });
   }, []);
 
+  // ── BRAND SOUNDTRACK / MUSIC STATE (Always ON by default) ──
+  const [isMusicPlaying, setIsMusicPlaying] = useState(true);
+  const [isMusicMuted, setIsMusicMuted] = useState(false);
+
+  const toggleMusic = useCallback(() => {
+    setIsMusicMuted((prev) => !prev);
+  }, []);
+
   // ── TOAST NOTIFICATIONS ──
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -648,6 +656,13 @@ export function StoreProvider({ children }) {
 
         // Roulette & Privilege Services
         rouletteService,
+
+        // Brand Soundtrack Ambient Audio Controls (Always ON by default)
+        isMusicPlaying,
+        setIsMusicPlaying,
+        isMusicMuted,
+        setIsMusicMuted,
+        toggleMusic,
       }}
     >
       {children}
