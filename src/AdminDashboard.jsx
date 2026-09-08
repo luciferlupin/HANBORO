@@ -335,7 +335,8 @@ export function AdminDashboard({ onNavigateHome }) {
 
   // Theme Mode: "shopify-light" (Polaris clean light matching screenshots) vs "luxury-dark"
   const [adminTheme, setAdminTheme] = useState(() => {
-    return localStorage.getItem("hanboro_admin_theme") || "shopify-light";
+    const saved = localStorage.getItem("hanboro_admin_theme");
+    return saved === "luxury-dark" ? "luxury-dark" : "shopify-light";
   });
 
   const toggleTheme = () => {
