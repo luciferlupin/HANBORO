@@ -50,6 +50,7 @@ export function WatchEditorModal({
 
   // Form State
   const [form, setForm] = useState({
+    id: "",
     name: "",
     sku: "",
     subtitle: "",
@@ -100,6 +101,7 @@ export function WatchEditorModal({
     if (initialData) {
       const gUrls = initialData.altImages || (initialData.gallery || []).map((g) => (typeof g === "string" ? g : g.url));
       setForm({
+        id: initialData.id || "",
         name: initialData.name || "",
         sku: initialData.sku || "",
         subtitle: initialData.subtitle || "",
@@ -141,6 +143,7 @@ export function WatchEditorModal({
     } else {
       const randomSkuNum = Math.floor(1000 + Math.random() * 9000);
       setForm({
+        id: "",
         name: "",
         sku: `HBR-${randomSkuNum}-X`,
         subtitle: "Avant-Garde Skeleton Tourbillon • Haute Horlogerie 2026",
@@ -367,6 +370,7 @@ export function WatchEditorModal({
     const errs = {};
     if (!form.name.trim()) errs.name = "Model name is required";
     if (!form.sku.trim()) errs.sku = "SKU code is required";
+    if (form.id && !form.id.trim()) errs.id = "Listing ID cannot be empty";
     if (!form.price.trim()) errs.price = "Price is required";
     if (!form.image.trim()) errs.image = "Please upload a photo of the timepiece from your device";
     setErrors(errs);
@@ -377,7 +381,7 @@ export function WatchEditorModal({
     if (e) e.preventDefault();
     const errs = validateForm();
     if (Object.keys(errs).length > 0) {
-      if (errs.name || errs.sku) setActiveTab("identity");
+      if (errs.name || errs.sku || errs.id) setActiveTab("identity");
       else if (errs.price) setActiveTab("valuation");
       else if (errs.image) setActiveTab("media");
       return;
@@ -394,7 +398,9 @@ export function WatchEditorModal({
       caption: `Precision horological inspection of ${form.name}.`,
     }));
 
+    const rawId = (form.id || "").trim().toLowerCase().replace(/[^a-z0-9-_]/g, "");
     const safeId =
+      rawId ||
       initialData?.id ||
       form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") +
         `-${Date.now().toString().slice(-4)}`;
@@ -402,6 +408,7 @@ export function WatchEditorModal({
     const payload = {
       ...(initialData || {}),
       id: safeId,
+      previousId: initialData?.id || null,
       name: form.name.trim(),
       sku: form.sku.trim().toUpperCase(),
       subtitle: form.subtitle.trim() || `${form.collectionName} • Haute Horlogerie`,
@@ -532,6 +539,47 @@ export function WatchEditorModal({
                       }}
                     />
                     {errors.sku && <span className="editor-error-msg">{errors.sku}</span>}
+                  </div>
+
+                  <div className="editor-field-group">
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="editor-label" style={{ margin: 0 }}>
+                        Listing ID / Slug
+                      </label>
+                      <button
+                        type="button"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "var(--color-primary, #e23b3b)",
+                          fontSize: "11px",
+                          cursor: "pointer",
+                          fontWeight: 500,
+                          padding: 0,
+                        }}
+                        onClick={() => {
+                          if (form.name) {
+                            const generated = form.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+                            setForm((prev) => ({ ...prev, id: generated }));
+                          }
+                        }}
+                        title="Generate slug from model name"
+                      >
+                        Auto-generate
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      className={`editor-input editor-input--mono ${errors.id ? "is-invalid" : ""}`}
+                      placeholder="e.g. celestial-moon-tourbillon"
+                      value={form.id}
+                      onChange={(e) => {
+                        const clean = e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, "");
+                        setForm({ ...form, id: clean });
+                        if (errors.id) setErrors({ ...errors, id: null });
+                      }}
+                    />
+                    {errors.id && <span className="editor-error-msg">{errors.id}</span>}
                   </div>
 
                   <div className="editor-field-group">

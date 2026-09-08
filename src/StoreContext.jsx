@@ -263,7 +263,7 @@ export function StoreProvider({ children }) {
 
     const updatedCatalog = await productsService.saveProduct(formatted);
     setProducts(updatedCatalog);
-    inventoryService.updateStock(formatted.id, formatted.stock);
+    inventoryService.upsertInventoryItem(formatted);
     showToast(`Timepiece "${formatted.name}" added to catalog!`);
     return formatted;
   };
@@ -272,9 +272,13 @@ export function StoreProvider({ children }) {
     const existing = products.find((p) => p.id === productId || p.sku === productId);
     if (!existing) return null;
 
+    const previousId = existing.id;
+    const targetId = (updatedFields.id || "").trim() || previousId;
+
     const merged = {
       ...existing,
       ...updatedFields,
+      id: targetId,
       specs: {
         ...existing.specs,
         ...(updatedFields.specs || {}),
@@ -283,11 +287,21 @@ export function StoreProvider({ children }) {
       updatedAt: new Date().toISOString(),
     };
 
-    const updatedCatalog = await productsService.saveProduct(merged);
+    const updatedCatalog = await productsService.saveProduct(merged, previousId);
     setProducts(updatedCatalog);
-    if (typeof merged.stock === "number") {
-      inventoryService.updateStock(merged.id, merged.stock);
+    inventoryService.upsertInventoryItem(merged, previousId);
+
+    // If ID changed, update any active references in cart
+    if (previousId !== merged.id) {
+      setCart((prev) =>
+        prev.map((item) =>
+          item.product.id === previousId
+            ? { ...item, product: { ...item.product, id: merged.id } }
+            : item
+        )
+      );
     }
+
     showToast(`Updated "${merged.name}" (Ref: ${merged.sku})`);
     return merged;
   };
@@ -295,9 +309,11 @@ export function StoreProvider({ children }) {
   const deleteProduct = async (productId) => {
     const target = products.find((p) => p.id === productId || p.sku === productId);
     const name = target?.name || productId;
-    const updatedCatalog = await productsService.deleteProduct(productId);
+    const resolvedId = target?.id || productId;
+    const updatedCatalog = await productsService.deleteProduct(resolvedId);
     setProducts(updatedCatalog);
-    setCart((prev) => prev.filter((it) => it.product.id !== productId && it.product.sku !== productId));
+    inventoryService.deleteItem(resolvedId);
+    setCart((prev) => prev.filter((it) => it.product.id !== resolvedId && it.product.sku !== resolvedId));
     showToast(`Timepiece "${name}" removed from catalog`);
     return updatedCatalog;
   };
@@ -320,7 +336,7 @@ export function StoreProvider({ children }) {
 
     const updatedCatalog = await productsService.saveProduct(cloned);
     setProducts(updatedCatalog);
-    inventoryService.updateStock(cloned.id, cloned.stock);
+    inventoryService.upsertInventoryItem(cloned);
     showToast(`Cloned new variant: ${cloned.name}`);
     return cloned;
   };

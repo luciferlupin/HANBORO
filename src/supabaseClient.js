@@ -564,31 +564,97 @@ export const ordersService = {
 export const inventoryService = {
   // Get all inventory state
   getInventory() {
+    let list = [];
     try {
       const cached = localStorage.getItem(STORAGE_KEYS.INVENTORY);
-      if (cached) return JSON.parse(cached);
+      if (cached) list = JSON.parse(cached);
     } catch {
       // ignore
     }
 
-    // Default inventory based on PRODUCTS_DATA
-    const initial = PRODUCTS_DATA.map((p, idx) => ({
-      id: p.id,
-      sku: p.sku,
-      name: p.name,
-      collection: p.collectionName,
-      price: p.price,
-      priceUsd: p.priceUsd,
-      stock: 12 - (idx % 8),
-      isActive: true,
-      image: p.image,
-    }));
+    if (!Array.isArray(list) || list.length === 0) {
+      list = PRODUCTS_DATA.map((p, idx) => ({
+        id: p.id,
+        sku: p.sku,
+        name: p.name,
+        collection: p.collectionName,
+        price: p.price,
+        priceUsd: p.priceUsd,
+        stock: 12 - (idx % 8),
+        isActive: true,
+        image: p.image,
+      }));
+    }
+
+    // Sync any custom products saved locally that aren't yet in inventory
     try {
-      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(initial));
+      const customRaw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      if (customRaw) {
+        const customProducts = JSON.parse(customRaw);
+        if (Array.isArray(customProducts)) {
+          let hasNew = false;
+          customProducts.forEach((cp) => {
+            if (!list.some((it) => it.id === cp.id)) {
+              list.push({
+                id: cp.id,
+                sku: cp.sku,
+                name: cp.name,
+                collection: cp.collectionName || cp.collection,
+                price: cp.price,
+                priceUsd: cp.priceUsd,
+                stock: typeof cp.stock === "number" ? Math.max(0, cp.stock) : 10,
+                isActive: cp.isActive !== false,
+                image: cp.image,
+              });
+              hasNew = true;
+            }
+          });
+          if (hasNew) {
+            localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
+          }
+        }
+      }
     } catch {
       // ignore
     }
-    return initial;
+
+    return list;
+  },
+
+  // Upsert a product into inventory (handles creations, clones, and ID renames)
+  upsertInventoryItem(product, previousId = null) {
+    const list = this.getInventory();
+    const targetId = previousId || product.id;
+    const idx = list.findIndex(
+      (item) => item.id === targetId || (targetId && item.id === targetId)
+    );
+
+    const inventoryEntry = {
+      id: product.id,
+      sku: product.sku,
+      name: product.name,
+      collection: product.collectionName || product.collection,
+      price: product.price,
+      priceUsd: product.priceUsd,
+      stock: typeof product.stock === "number" ? Math.max(0, product.stock) : 10,
+      isActive: product.isActive !== false,
+      image: product.image,
+    };
+
+    let updated;
+    if (idx >= 0) {
+      updated = [...list];
+      updated[idx] = { ...updated[idx], ...inventoryEntry };
+    } else {
+      updated = [inventoryEntry, ...list];
+    }
+
+    try {
+      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
+    return updated;
   },
 
   // Update inventory stock count
@@ -611,6 +677,18 @@ export const inventoryService = {
     const updated = list.map((item) =>
       item.id === productId ? { ...item, isActive: !item.isActive } : item
     );
+    try {
+      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
+    return updated;
+  },
+
+  // Delete an item from inventory
+  deleteItem(productId) {
+    const list = this.getInventory();
+    const updated = list.filter((item) => item.id !== productId && item.sku !== productId);
     try {
       localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
     } catch {
@@ -960,16 +1038,36 @@ export const productsService = {
   },
 
   // Save (insert or update) a product
-  async saveProduct(product) {
+  async saveProduct(product, previousId = null) {
     const local = this.getLocalProducts();
-    const existingIndex = local.findIndex((p) => p.id === product.id || p.sku === product.sku);
+    const targetId = previousId || product.id;
+
+    // Find if the product already exists by ID
+    let existingIndex = local.findIndex((p) => p.id === targetId);
+
+    // If still not found and no previousId was specified, check by ID or exact SKU match
+    if (existingIndex < 0 && !previousId) {
+      existingIndex = local.findIndex((p) => p.id === product.id || (product.sku && p.sku === product.sku));
+    }
+
     let updated;
     if (existingIndex >= 0) {
       updated = [...local];
-      updated[existingIndex] = { ...updated[existingIndex], ...product, updatedAt: new Date().toISOString() };
+      updated[existingIndex] = {
+        ...updated[existingIndex],
+        ...product,
+        id: product.id,
+        updatedAt: new Date().toISOString(),
+      };
     } else {
       updated = [product, ...local];
     }
+
+    // If ID was changed (previousId provided and differs), remove any old duplicate entry
+    if (previousId && previousId !== product.id) {
+      updated = updated.filter((p, idx) => p.id !== previousId || idx === existingIndex);
+    }
+
     this.saveLocalProducts(updated);
 
     // Sync to Supabase
@@ -997,6 +1095,10 @@ export const productsService = {
         updated_at: new Date().toISOString(),
       };
       await supabase.from("products").upsert(dbPayload);
+
+      if (previousId && previousId !== product.id) {
+        await supabase.from("products").delete().eq("id", previousId);
+      }
     } catch (err) {
       console.warn("Supabase upsert product note:", err);
     }

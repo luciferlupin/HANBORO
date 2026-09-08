@@ -72,12 +72,17 @@ export function ProductDetailPage({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [lightboxIndex, allImages.length]);
 
-  const currentIndex = PRODUCTS_DATA.findIndex((p) => p.id === product.id);
-  const prevProduct = currentIndex > 0 ? PRODUCTS_DATA[currentIndex - 1] : PRODUCTS_DATA[PRODUCTS_DATA.length - 1];
-  const nextProduct = currentIndex < PRODUCTS_DATA.length - 1 ? PRODUCTS_DATA[currentIndex + 1] : PRODUCTS_DATA[0];
+  const catalog = products && products.length > 0 ? products : PRODUCTS_DATA;
+  const currentIndex = catalog.findIndex((p) => p.id === product.id || p.sku === product.sku);
+  const safeIdx = currentIndex >= 0 ? currentIndex : 0;
+  const prevProduct = safeIdx > 0 ? catalog[safeIdx - 1] : catalog[catalog.length - 1];
+  const nextProduct = safeIdx < catalog.length - 1 ? catalog[safeIdx + 1] : catalog[0];
 
   // Related products from same collection or adjacent
-  const relatedProducts = PRODUCTS_DATA.filter((p) => p.id !== product.id).slice(0, 3);
+  const collectionMatches = catalog
+    .filter((p) => p.id !== product.id && p.sku !== product.sku)
+    .filter((p) => !product.collection || p.collection === product.collection);
+  const relatedProducts = (collectionMatches.length > 0 ? collectionMatches : catalog.filter((p) => p.id !== product.id && p.sku !== product.sku)).slice(0, 3);
 
   const handleCopySku = () => {
     navigator.clipboard.writeText(product.sku);

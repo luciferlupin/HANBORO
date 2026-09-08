@@ -171,8 +171,9 @@ export function AdminDashboard({ onNavigateHome }) {
     setEditorModalOpen(true);
   };
 
-  const handleDuplicateWatch = (watch) => {
-    duplicateProduct(watch.id || watch.sku);
+  const handleDuplicateWatch = async (watch) => {
+    await duplicateProduct(watch.id || watch.sku);
+    setInventory(inventoryService.getInventory());
     showAdminToast(`Cloned variant created`);
   };
 
@@ -182,17 +183,20 @@ export function AdminDashboard({ onNavigateHome }) {
   };
 
   const handleSaveWatch = async (watchData) => {
-    if (editingWatch && (editingWatch.id || editingWatch.sku)) {
-      await updateProduct(editingWatch.id || editingWatch.sku, watchData);
+    const prevId = watchData.previousId || (editingWatch && (editingWatch.id || editingWatch.sku));
+    if (prevId) {
+      await updateProduct(prevId, watchData);
       showAdminToast(`Updated ${watchData.name}`);
     } else {
       await addProduct(watchData);
       showAdminToast(`Created ${watchData.name}`);
     }
+    setInventory(inventoryService.getInventory());
   };
 
   const handleConfirmDeleteWatch = async (watchId) => {
     await deleteProduct(watchId);
+    setInventory(inventoryService.getInventory());
     showAdminToast(`Timepiece removed from catalog`);
   };
 
