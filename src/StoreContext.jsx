@@ -175,7 +175,9 @@ export function StoreProvider({ children }) {
     user?.role === "admin" ||
     user?.email?.toLowerCase().includes("admin") ||
     user?.email === "admin@hanboro.com" ||
-    user?.email === "owner@hanborowatches.in"
+    user?.email === "owner@hanborowatches.in" ||
+    user?.email === "chaitanya@hanboro.com" ||
+    user?.email === "chaitanya@hanborowatches.in"
   );
 
   // ── DYNAMIC CATALOG CRUD ACTIONS ──

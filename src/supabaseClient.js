@@ -123,13 +123,13 @@ export const authService = {
     try {
       // Direct Owner PIN / Master Pass override for instant Admin access
       if (
-        (email === "admin@hanboro.com" || email === "owner@hanborowatches.in") &&
-        (password === "hanboro2026" || password === "admin123" || password === "hanboro")
+        (email === "admin@hanboro.com" || email === "owner@hanborowatches.in" || email === "chaitanya@hanboro.com" || email === "chaitanya@hanborowatches.in") &&
+        (password === "hanboro2026" || password === "admin123" || password === "hanboro" || password === "owner2026" || password === "chaitanya")
       ) {
         const ownerProfile = {
           id: "usr-owner-master",
-          email: "admin@hanboro.com",
-          fullName: "Hanboro Executive Owner",
+          email: email || "owner@hanborowatches.in",
+          fullName: "Chaitanya (Owner)",
           role: "admin",
           created_at: new Date().toISOString(),
         };

@@ -373,14 +373,26 @@ function Clock({ onComplete }) {
         done = true;
         setTimeout(() => {
           cbRef.current?.();
-        }, 220);
+        }, 180);
         return;
       }
       if (!done) id = requestAnimationFrame(tick);
     };
 
     id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
+
+    // Guaranteed fallback timer in case background tab freezes requestAnimationFrame
+    const fallbackTimer = setTimeout(() => {
+      if (!done) {
+        done = true;
+        cbRef.current?.();
+      }
+    }, REVOLUTION_MS + 250);
+
+    return () => {
+      cancelAnimationFrame(id);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
   return (
@@ -3446,7 +3458,7 @@ export function App() {
   const transitioned          = useRef(hasDirectRoute);
 
   const handleComplete = useCallback(() => {
-    if (transitioned.current && phase === "entered") return;
+    if (transitioned.current) return;
     transitioned.current = true;
 
     // 1. Start splash exit + iris expand simultaneously
@@ -3457,21 +3469,36 @@ export function App() {
     setTimeout(() => {
       setPhase("entered");
       setIris("retracting");
+      try {
+        sessionStorage.setItem("hanboro_intro_seen", "1");
+      } catch {}
     }, IRIS_EXPAND);
 
     // 3. Iris done → hide it
     setTimeout(() => {
       setIris("off");
     }, IRIS_EXPAND + IRIS_RETRACT);
-  }, [phase]);
+  }, []);
 
   // Failsafe auto-transition: guarantee the site opens even on slow devices or background tabs
   useEffect(() => {
     if (phase === "entered") return;
     const timer = setTimeout(() => {
       handleComplete();
-    }, 2200);
+    }, 2000);
     return () => clearTimeout(timer);
+  }, [phase, handleComplete]);
+
+  // Keyboard accessibility: press any key to enter immediately
+  useEffect(() => {
+    if (phase === "entered") return;
+    const onKey = (e) => {
+      if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
+        handleComplete();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [phase, handleComplete]);
 
   return (

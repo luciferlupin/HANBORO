@@ -855,8 +855,8 @@ export function AdminDashboard({ onNavigateHome }) {
 
           {/* User Account Capsule */}
           <div className="sp-user-capsule">
-            <div className="sp-avatar">HG</div>
-            <span className="sp-user-label">{user?.fullName || "Harshit (Owner)"}</span>
+            <div className="sp-avatar">{(user?.fullName || "Chaitanya").charAt(0).toUpperCase()}</div>
+            <span className="sp-user-label">{user?.fullName || "Chaitanya (Owner)"}</span>
             <button
               type="button"
               className="sp-logout-btn"
