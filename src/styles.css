@@ -180,7 +180,7 @@ body.modal-open {
     radial-gradient(circle at 50% 50%, rgba(250, 45, 29, 0.35) 0%, rgba(250, 45, 29, 0.06) 42%, transparent 70%),
     radial-gradient(ellipse at 15% 100%, #3d0808 0%, transparent 50%),
     linear-gradient(135deg, #fcf9f4 0%, #ece9e2 22%, #180a09 60%, #0d0404 100%);
-  z-index: 100;
+  z-index: 9990;
   will-change: opacity, transform;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;

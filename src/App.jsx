@@ -1334,6 +1334,12 @@ function HeroVideoSection({ onDiscover }) {
     const video = videoRef.current;
     if (!video) return;
     video.muted = isMusicMuted;
+    if (!isMusicMuted) {
+      video.volume = 1;
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    }
   }, [isMusicMuted]);
 
   // Autoplay video with music UNMUTED by default ("always on the music")
@@ -1341,7 +1347,7 @@ function HeroVideoSection({ onDiscover }) {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
+    video.muted = isMusicMuted;
     video.volume = 1;
     const playPromise = video.play();
 
@@ -1351,24 +1357,10 @@ function HeroVideoSection({ onDiscover }) {
           setIsMusicPlaying(true);
         })
         .catch((err) => {
-          // If browser strictly blocks unmuted autoplay without prior gesture:
           console.info("Autoplay with sound paused pending user gesture:", err);
+          // Fall back to muted playback so visual stream starts immediately
           video.muted = true;
-          video.play().catch(() => {});
-
-          // Auto-unmute on the very first gesture without changing isMusicMuted state!
-          const autoUnmuteOnGesture = () => {
-            if (videoRef.current) {
-              videoRef.current.muted = false;
-              videoRef.current.volume = 1;
-              videoRef.current.play().catch(() => {});
-            }
-            const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel", "mousemove"];
-            gestureEvents.forEach((ev) => window.removeEventListener(ev, autoUnmuteOnGesture));
-          };
-
-          const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel", "mousemove"];
-          gestureEvents.forEach((ev) => window.addEventListener(ev, autoUnmuteOnGesture, { once: true, passive: true }));
+          video.play().then(() => setIsMusicPlaying(true)).catch(() => {});
         });
     }
   }, []);
@@ -1457,12 +1449,12 @@ function HeroVideoSection({ onDiscover }) {
 
         <button
           type="button"
-          className={`apple-ctrl-btn ${!isMusicMuted && isMusicPlaying ? "is-active-sound" : ""}`}
+          className={`apple-ctrl-btn ${!isMusicMuted ? "is-active-sound" : ""}`}
           onClick={handleToggleSound}
-          aria-label={!isMusicMuted && isMusicPlaying ? "Pause music" : "Play music"}
-          title={!isMusicMuted && isMusicPlaying ? "Pause Music" : "Play Music"}
+          aria-label={!isMusicMuted ? "Pause music" : "Play music"}
+          title={!isMusicMuted ? "Sound: Playing" : "Sound: Muted"}
         >
-          {isMusicMuted || !isMusicPlaying ? (
+          {isMusicMuted ? (
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
               <line x1="23" y1="9" x2="17" y2="15" />
@@ -3054,12 +3046,12 @@ function Website({ onRestart }) {
             {/* Ambient Music / Soundtrack Equalizer Toggle */}
             <button
               type="button"
-              className={`luxury-header__icon-btn luxury-sound-toggle ${!isMusicMuted && isMusicPlaying ? "is-active-sound" : "is-muted"}`}
+              className={`luxury-header__icon-btn luxury-sound-toggle ${!isMusicMuted ? "is-active-sound" : "is-muted"}`}
               onClick={toggleMusic}
-              aria-label={!isMusicMuted && isMusicPlaying ? "Pause soundtrack music" : "Play soundtrack music"}
-              title={!isMusicMuted && isMusicPlaying ? "Pause Music" : "Play Music"}
+              aria-label={!isMusicMuted ? "Pause soundtrack music" : "Play soundtrack music"}
+              title={!isMusicMuted ? "Soundtrack: Playing" : "Soundtrack: Muted"}
             >
-              {!isMusicMuted && isMusicPlaying ? (
+              {!isMusicMuted ? (
                 <span className="sound-wave-bars" aria-hidden="true">
                   <span className="sound-wave-bar bar-1" />
                   <span className="sound-wave-bar bar-2" />
@@ -3536,6 +3528,8 @@ export function App() {
 
   // Global Media & Audio Engine Auto-Unlocker: Unlock AudioContext and Video Sound on Any Gesture
   useEffect(() => {
+    const gestureEvents = ["pointerdown", "touchstart", "click", "keydown"];
+
     const unlockMediaAudio = () => {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -3554,17 +3548,25 @@ export function App() {
       if (heroVideo) {
         heroVideo.muted = false;
         heroVideo.volume = 1;
-        if (heroVideo.paused) {
-          heroVideo.play().catch(() => {});
+        const p = heroVideo.play();
+        if (p !== undefined) {
+          p.then(() => {
+            gestureEvents.forEach((evt) =>
+              window.removeEventListener(evt, unlockMediaAudio, true)
+            );
+          }).catch(() => {});
         }
       }
     };
 
-    const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel"];
-    gestureEvents.forEach((evt) => window.addEventListener(evt, unlockMediaAudio, { passive: true }));
+    gestureEvents.forEach((evt) =>
+      window.addEventListener(evt, unlockMediaAudio, { capture: true, passive: true })
+    );
 
     return () => {
-      gestureEvents.forEach((evt) => window.removeEventListener(evt, unlockMediaAudio));
+      gestureEvents.forEach((evt) =>
+        window.removeEventListener(evt, unlockMediaAudio, true)
+      );
     };
   }, []);
 
@@ -3574,9 +3576,34 @@ export function App() {
   const [iris, setIris]       = useState("off");      // off / expanding / retracting
   const transitioned          = useRef(hasDirectRoute);
 
+  // Prevent background scrolling while splash screen is active
+  useEffect(() => {
+    if (phase !== "entered") {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [phase]);
+
   const handleComplete = useCallback(() => {
     if (transitioned.current) return;
     transitioned.current = true;
+
+    // Immediately trigger unmuted video audio playback synchronously
+    try {
+      const heroVideo = document.querySelector(".hero-video-media");
+      if (heroVideo) {
+        heroVideo.muted = false;
+        heroVideo.volume = 1;
+        const p = heroVideo.play();
+        if (p !== undefined) {
+          p.catch(() => {});
+        }
+      }
+    } catch {}
 
     // 1. Start splash exit + iris expand simultaneously
     setPhase("exiting");
@@ -3622,11 +3649,9 @@ export function App() {
     <ErrorBoundary>
       <StoreProvider>
         <div className="app-root">
+          <Website />
           {phase !== "entered" && (
             <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
-          )}
-          {phase === "entered" && (
-            <Website />
           )}
           {/* Iris transition overlay */}
           {iris !== "off" && (
