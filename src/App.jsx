@@ -1341,7 +1341,8 @@ function HeroVideoSection({ onDiscover }) {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = isMusicMuted;
+    video.muted = false;
+    video.volume = 1;
     const playPromise = video.play();
 
     if (playPromise !== undefined) {
@@ -1350,29 +1351,24 @@ function HeroVideoSection({ onDiscover }) {
           setIsMusicPlaying(true);
         })
         .catch((err) => {
-          // If browser policy prevents unmuted autoplay before user interaction:
+          // If browser strictly blocks unmuted autoplay without prior gesture:
           console.info("Autoplay with sound paused pending user gesture:", err);
           video.muted = true;
-          setIsMusicMuted(true);
           video.play().catch(() => {});
 
-          // Immediately unmute upon the first user interaction anywhere on the page
-          const enableSoundOnGesture = () => {
+          // Auto-unmute on the very first gesture without changing isMusicMuted state!
+          const autoUnmuteOnGesture = () => {
             if (videoRef.current) {
               videoRef.current.muted = false;
-              setIsMusicMuted(false);
+              videoRef.current.volume = 1;
               videoRef.current.play().catch(() => {});
             }
-            window.removeEventListener("pointerdown", enableSoundOnGesture);
-            window.removeEventListener("keydown", enableSoundOnGesture);
-            window.removeEventListener("touchstart", enableSoundOnGesture);
-            window.removeEventListener("scroll", enableSoundOnGesture);
+            const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel", "mousemove"];
+            gestureEvents.forEach((ev) => window.removeEventListener(ev, autoUnmuteOnGesture));
           };
 
-          window.addEventListener("pointerdown", enableSoundOnGesture, { once: true, passive: true });
-          window.addEventListener("keydown", enableSoundOnGesture, { once: true });
-          window.addEventListener("touchstart", enableSoundOnGesture, { once: true, passive: true });
-          window.addEventListener("scroll", enableSoundOnGesture, { once: true, passive: true });
+          const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel", "mousemove"];
+          gestureEvents.forEach((ev) => window.addEventListener(ev, autoUnmuteOnGesture, { once: true, passive: true }));
         });
     }
   }, []);
@@ -3629,6 +3625,40 @@ export function App() {
     preloadVideo.muted = true;
     preloadVideo.playsInline = true;
     preloadVideo.load();
+  }, []);
+
+  // Global Media & Audio Engine Auto-Unlocker: Unlock AudioContext and Video Sound on Any Gesture
+  useEffect(() => {
+    const unlockMediaAudio = () => {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          if (!window.__hanboro_actx) {
+            window.__hanboro_actx = new AudioCtx();
+          }
+          if (window.__hanboro_actx.state === "suspended") {
+            window.__hanboro_actx.resume();
+          }
+        }
+      } catch {}
+
+      // If video exists on page, unmute and ensure playing
+      const heroVideo = document.querySelector(".hero-video-media");
+      if (heroVideo) {
+        heroVideo.muted = false;
+        heroVideo.volume = 1;
+        if (heroVideo.paused) {
+          heroVideo.play().catch(() => {});
+        }
+      }
+    };
+
+    const gestureEvents = ["click", "pointerdown", "mousedown", "touchstart", "keydown", "wheel"];
+    gestureEvents.forEach((evt) => window.addEventListener(evt, unlockMediaAudio, { passive: true }));
+
+    return () => {
+      gestureEvents.forEach((evt) => window.removeEventListener(evt, unlockMediaAudio));
+    };
   }, []);
 
   const hash = typeof window !== "undefined" ? window.location.hash : "";

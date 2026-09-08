@@ -68,7 +68,22 @@ export function StoreProvider({ children }) {
   const [isMusicMuted, setIsMusicMuted] = useState(false);
 
   const toggleMusic = useCallback(() => {
-    setIsMusicMuted((prev) => !prev);
+    setIsMusicMuted((prev) => {
+      const next = !prev;
+      try {
+        const heroVideo = document.querySelector(".hero-video-media");
+        if (heroVideo) {
+          heroVideo.muted = next;
+          if (!next) {
+            heroVideo.volume = 1;
+            if (heroVideo.paused) {
+              heroVideo.play().catch(() => {});
+            }
+          }
+        }
+      } catch {}
+      return next;
+    });
   }, []);
 
   // ── TOAST NOTIFICATIONS ──
