@@ -13,6 +13,32 @@ import { PROMO_CODES, useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
 import { WatchEditorModal } from "./WatchEditorModal";
 import { DeleteWatchModal } from "./DeleteWatchModal";
+import {
+  IconHome,
+  IconOrders,
+  IconProducts,
+  IconCustomers,
+  IconGrowth,
+  IconDiscounts,
+  IconContent,
+  IconMarkets,
+  IconAnalytics,
+  IconStorefront,
+  IconAgentic,
+  IconSocial,
+  IconSmind,
+  IconWhatsApp,
+  IconSettings,
+  IconSearch,
+  IconSync,
+  IconFilter,
+  IconExport,
+  IconPlus,
+  IconExternalLink,
+  IconEye,
+  IconTrash,
+  IconMail,
+} from "./AdminIcons";
 
 // Initial realistic Abandoned Checkouts matching user's exact Shopify screenshot
 const SHOPIFY_ABANDONED_SEED = [
@@ -808,11 +834,11 @@ export function AdminDashboard({ onNavigateHome }) {
           </button>
 
           <div className="sp-search-bar-wrap">
-            <span className="sp-search-icon">🔍</span>
+            <span className="sp-search-icon"><IconSearch size={14} /></span>
             <input
               type="text"
               className="sp-search-input"
-              placeholder="Search orders, checkouts, timepieces, clients... (⌘K)"
+              placeholder="Search portal (orders, SKUs, patrons)..."
               value={orderSearch || abandonedSearch || productSearch}
               onChange={(e) => {
                 setOrderSearch(e.target.value);
@@ -820,6 +846,7 @@ export function AdminDashboard({ onNavigateHome }) {
                 setProductSearch(e.target.value);
               }}
             />
+            <span className="sp-search-kbd">⌘K</span>
           </div>
         </div>
 
@@ -831,7 +858,7 @@ export function AdminDashboard({ onNavigateHome }) {
             onClick={loadAllAdminData}
             title="Sync Live Telemetry"
           >
-            🔄
+            <IconSync size={14} />
           </button>
 
           {/* Theme Switcher: Shopify Polaris Light vs Luxury Dark */}
@@ -839,7 +866,7 @@ export function AdminDashboard({ onNavigateHome }) {
             type="button"
             className="sp-theme-toggle-btn"
             onClick={toggleTheme}
-            title={`Switch to ${adminTheme === "shopify-light" ? "Dark Mode" : "Shopify Light Mode"}`}
+            title={`Switch to ${adminTheme === "shopify-light" ? "Dark Mode" : "Polaris Light"}`}
           >
             {adminTheme === "shopify-light" ? "🌙 Dark View" : "☀️ Polaris Light"}
           </button>
@@ -850,7 +877,8 @@ export function AdminDashboard({ onNavigateHome }) {
             className="sp-storefront-link"
             onClick={onNavigateHome}
           >
-            Online Store ↗
+            <span>Online Store</span>
+            <IconExternalLink size={12} />
           </button>
 
           {/* User Account Capsule */}
@@ -887,7 +915,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "home" ? "is-active" : ""}`}
               onClick={() => setActiveTab("home")}
             >
-              <span className="sp-nav-icon">🏠</span>
+              <span className="sp-nav-icon"><IconHome size={16} /></span>
               <span className="sp-nav-text">Home</span>
             </button>
 
@@ -898,7 +926,7 @@ export function AdminDashboard({ onNavigateHome }) {
                 className={`sp-nav-link ${activeTab === "orders" || activeTab === "drafts" || activeTab === "abandoned" ? "is-active" : ""}`}
                 onClick={() => setActiveTab("orders")}
               >
-                <span className="sp-nav-icon">📦</span>
+                <span className="sp-nav-icon"><IconOrders size={16} /></span>
                 <span className="sp-nav-text">Orders</span>
                 <span className="sp-nav-badge">{orders.length}</span>
               </button>
@@ -928,7 +956,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "products" ? "is-active" : ""}`}
               onClick={() => setActiveTab("products")}
             >
-              <span className="sp-nav-icon">🏷️</span>
+              <span className="sp-nav-icon"><IconProducts size={16} /></span>
               <span className="sp-nav-text">Products</span>
               <span className="sp-nav-badge">{(products || PRODUCTS_DATA).length}</span>
             </button>
@@ -939,7 +967,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "customers" ? "is-active" : ""}`}
               onClick={() => setActiveTab("customers")}
             >
-              <span className="sp-nav-icon">👥</span>
+              <span className="sp-nav-icon"><IconCustomers size={16} /></span>
               <span className="sp-nav-text">Customers</span>
               <span className="sp-nav-badge">{customersList.length}</span>
             </button>
@@ -950,7 +978,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "growth" ? "is-active" : ""}`}
               onClick={() => setActiveTab("growth")}
             >
-              <span className="sp-nav-icon">🚀</span>
+              <span className="sp-nav-icon"><IconGrowth size={16} /></span>
               <span className="sp-nav-text">Growth</span>
             </button>
 
@@ -960,7 +988,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "discounts" ? "is-active" : ""}`}
               onClick={() => setActiveTab("discounts")}
             >
-              <span className="sp-nav-icon">🏷️</span>
+              <span className="sp-nav-icon"><IconDiscounts size={16} /></span>
               <span className="sp-nav-text">Discounts</span>
             </button>
 
@@ -970,7 +998,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "content" ? "is-active" : ""}`}
               onClick={() => setActiveTab("content")}
             >
-              <span className="sp-nav-icon">📄</span>
+              <span className="sp-nav-icon"><IconContent size={16} /></span>
               <span className="sp-nav-text">Content</span>
             </button>
 
@@ -980,7 +1008,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "markets" ? "is-active" : ""}`}
               onClick={() => setActiveTab("markets")}
             >
-              <span className="sp-nav-icon">🌐</span>
+              <span className="sp-nav-icon"><IconMarkets size={16} /></span>
               <span className="sp-nav-text">Markets</span>
             </button>
 
@@ -990,7 +1018,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "analytics" ? "is-active" : ""}`}
               onClick={() => setActiveTab("analytics")}
             >
-              <span className="sp-nav-icon">📊</span>
+              <span className="sp-nav-icon"><IconAnalytics size={16} /></span>
               <span className="sp-nav-text">Analytics</span>
             </button>
           </nav>
@@ -1004,24 +1032,24 @@ export function AdminDashboard({ onNavigateHome }) {
               className="sp-nav-link"
               onClick={onNavigateHome}
             >
-              <span className="sp-nav-icon">🌐</span>
+              <span className="sp-nav-icon"><IconStorefront size={16} /></span>
               <span className="sp-nav-text">Online Store</span>
-              <span className="sp-link-action">👁️</span>
+              <span className="sp-link-action"><IconExternalLink size={11} /></span>
             </button>
             <button
               type="button"
               className="sp-nav-link"
               onClick={() => showToast("Agentic AI Sales Assistant is active on storefront")}
             >
-              <span className="sp-nav-icon">🤖</span>
-              <span className="sp-nav-text">Agentic</span>
+              <span className="sp-nav-icon"><IconAgentic size={16} /></span>
+              <span className="sp-nav-text">Agentic AI</span>
             </button>
             <button
               type="button"
               className="sp-nav-link"
               onClick={() => window.open("https://instagram.com", "_blank")}
             >
-              <span className="sp-nav-icon">📱</span>
+              <span className="sp-nav-icon"><IconSocial size={16} /></span>
               <span className="sp-nav-text">Facebook & Instagram</span>
             </button>
           </nav>
@@ -1035,7 +1063,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className="sp-nav-link"
               onClick={() => showToast("Smind Custom Design Sections active")}
             >
-              <span className="sp-nav-icon">🧩</span>
+              <span className="sp-nav-icon"><IconSmind size={16} /></span>
               <span className="sp-nav-text">Smind Sections</span>
             </button>
             <button
@@ -1043,7 +1071,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "whatsapp" ? "is-active" : ""}`}
               onClick={() => setActiveTab("whatsapp")}
             >
-              <span className="sp-nav-icon" style={{ color: "#25d366" }}>💬</span>
+              <span className="sp-nav-icon" style={{ color: "#25d366" }}><IconWhatsApp size={16} /></span>
               <span className="sp-nav-text">WhatsApp</span>
               <span className="sp-nav-badge sp-nav-badge--green">Online</span>
             </button>
@@ -1058,9 +1086,9 @@ export function AdminDashboard({ onNavigateHome }) {
               className="sp-nav-link"
               onClick={() => setActiveTab("abandoned")}
             >
-              <span className="sp-nav-icon">💬</span>
+              <span className="sp-nav-icon"><IconWhatsApp size={15} /></span>
               <span className="sp-nav-text" style={{ fontSize: "12px", color: "var(--sp-text-subdued)" }}>
-                Recovering abandoned chec...
+                Recovering abandoned checkouts...
               </span>
             </button>
           </nav>
@@ -1072,7 +1100,7 @@ export function AdminDashboard({ onNavigateHome }) {
               className={`sp-nav-link ${activeTab === "settings" ? "is-active" : ""}`}
               onClick={() => setActiveTab("settings")}
             >
-              <span className="sp-nav-icon">⚙️</span>
+              <span className="sp-nav-icon"><IconSettings size={16} /></span>
               <span className="sp-nav-text">Settings</span>
             </button>
           </div>
@@ -1089,7 +1117,7 @@ export function AdminDashboard({ onNavigateHome }) {
               {/* Page Title & Actions */}
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">🛒</span>
+                  <span className="sp-title-icon"><IconOrders size={18} /></span>
                   <h1 className="sp-page-title">Abandoned checkouts</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -1098,7 +1126,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     className="sp-btn sp-btn--default"
                     onClick={() => handleExportCSV("abandoned")}
                   >
-                    Export
+                    <IconExport size={13} />
+                    <span>Export</span>
                   </button>
                 </div>
               </div>
@@ -1113,11 +1142,11 @@ export function AdminDashboard({ onNavigateHome }) {
 
                 <div className="sp-table-search-row">
                   <div className="sp-search-field">
-                    <span className="sp-field-icon">🔍</span>
+                    <span className="sp-field-icon"><IconSearch size={14} /></span>
                     <input
                       type="text"
                       className="sp-field-input"
-                      placeholder="Search and filter"
+                      placeholder="Search checkouts, clients, phones..."
                       value={abandonedSearch}
                       onChange={(e) => setAbandonedSearch(e.target.value)}
                     />
@@ -1138,7 +1167,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         }
                       }}
                     >
-                      🗑️
+                      <IconTrash size={14} />
                     </button>
                   </div>
                 </div>
@@ -1228,7 +1257,7 @@ export function AdminDashboard({ onNavigateHome }) {
                               onClick={() => triggerWhatsAppRecovery(item)}
                               title="Send 1-Click WhatsApp Cart Recovery Nudge (+91 88820 69334)"
                             >
-                              <span style={{ fontSize: "14px" }}>💬</span>
+                              <IconWhatsApp size={14} />
                               <span>WhatsApp Nudge</span>
                             </button>
                           </td>
@@ -1271,7 +1300,7 @@ export function AdminDashboard({ onNavigateHome }) {
               {/* Page Title & Actions */}
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">📦</span>
+                  <span className="sp-title-icon"><IconOrders size={18} /></span>
                   <h1 className="sp-page-title">Orders</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -1280,14 +1309,16 @@ export function AdminDashboard({ onNavigateHome }) {
                     className="sp-btn sp-btn--default"
                     onClick={() => handleExportCSV("orders")}
                   >
-                    Export
+                    <IconExport size={13} />
+                    <span>Export</span>
                   </button>
                   <button
                     type="button"
                     className="sp-btn sp-btn--primary"
                     onClick={() => setShowCreateDraftModal(true)}
                   >
-                    Create order
+                    <IconPlus size={13} />
+                    <span>Create order</span>
                   </button>
                 </div>
               </div>
@@ -1334,11 +1365,11 @@ export function AdminDashboard({ onNavigateHome }) {
 
                 <div className="sp-table-search-row">
                   <div className="sp-search-field">
-                    <span className="sp-field-icon">🔍</span>
+                    <span className="sp-field-icon"><IconSearch size={14} /></span>
                     <input
                       type="text"
                       className="sp-field-input"
-                      placeholder="Search across orders, customers, airway bills..."
+                      placeholder="Search orders, clients, airways..."
                       value={orderSearch}
                       onChange={(e) => setOrderSearch(e.target.value)}
                     />
@@ -1349,9 +1380,9 @@ export function AdminDashboard({ onNavigateHome }) {
                       type="button"
                       className="sp-icon-btn"
                       title="Filter list"
-                      onClick={() => showToast("Filters applied")}
+                      onClick={() => showToast("Quick filters active")}
                     >
-                      ⚙️
+                      <IconFilter size={14} />
                     </button>
                   </div>
                 </div>
@@ -1474,7 +1505,7 @@ export function AdminDashboard({ onNavigateHome }) {
                                 onClick={() => triggerWhatsAppOrderUpdate(o)}
                                 title="Send WhatsApp Update to client"
                               >
-                                💬
+                                <IconWhatsApp size={13} />
                               </button>
                             </div>
                           </td>
@@ -1516,7 +1547,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">📝</span>
+                  <span className="sp-title-icon"><IconContent size={18} /></span>
                   <h1 className="sp-page-title">Draft orders</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -1525,7 +1556,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     className="sp-btn sp-btn--primary"
                     onClick={() => setShowCreateDraftModal(true)}
                   >
-                    + Create draft order
+                    <IconPlus size={13} />
+                    <span>Create draft order</span>
                   </button>
                 </div>
               </div>
@@ -1601,7 +1633,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">⌚</span>
+                  <span className="sp-title-icon"><IconProducts size={18} /></span>
                   <h1 className="sp-page-title">Products & Inventory</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -1610,7 +1642,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     className="sp-btn sp-btn--default"
                     onClick={() => handleExportCSV("products")}
                   >
-                    Export
+                    <IconExport size={13} />
+                    <span>Export</span>
                   </button>
                   <button
                     type="button"
@@ -1620,7 +1653,8 @@ export function AdminDashboard({ onNavigateHome }) {
                       setEditorModalOpen(true);
                     }}
                   >
-                    + Add product
+                    <IconPlus size={13} />
+                    <span>Add product</span>
                   </button>
                 </div>
               </div>
@@ -1649,11 +1683,11 @@ export function AdminDashboard({ onNavigateHome }) {
 
                 <div className="sp-table-search-row">
                   <div className="sp-search-field">
-                    <span className="sp-field-icon">🔍</span>
+                    <span className="sp-field-icon"><IconSearch size={14} /></span>
                     <input
                       type="text"
                       className="sp-field-input"
-                      placeholder="Filter products by title, SKU, reference, movement..."
+                      placeholder="Filter by title, SKU, reference, movement..."
                       value={productSearch}
                       onChange={(e) => setProductSearch(e.target.value)}
                     />
@@ -1798,7 +1832,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">👥</span>
+                  <span className="sp-title-icon"><IconCustomers size={18} /></span>
                   <h1 className="sp-page-title">Customers</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -1807,7 +1841,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     className="sp-btn sp-btn--default"
                     onClick={() => handleExportCSV("customers")}
                   >
-                    Export
+                    <IconExport size={13} />
+                    <span>Export</span>
                   </button>
                 </div>
               </div>
@@ -1815,7 +1850,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-table-controls">
                 <div className="sp-table-search-row">
                   <div className="sp-search-field">
-                    <span className="sp-field-icon">🔍</span>
+                    <span className="sp-field-icon"><IconSearch size={14} /></span>
                     <input
                       type="text"
                       className="sp-field-input"
@@ -1869,7 +1904,8 @@ export function AdminDashboard({ onNavigateHome }) {
                                 window.open(`https://wa.me/${clean}?text=${text}`, "_blank");
                               }}
                             >
-                              <span>💬 Chat on WhatsApp</span>
+                              <IconWhatsApp size={14} />
+                              <span>Chat on WhatsApp</span>
                             </button>
                           </td>
                         </tr>
@@ -1888,7 +1924,7 @@ export function AdminDashboard({ onNavigateHome }) {
               {/* Top Banner Alert */}
               <div className="sp-banner-alert">
                 <div className="sp-banner-text">
-                  <strong>🚀 Shopify Command Active</strong> • Real-time synchronization active with storefront and Supabase Cloud.
+                  <span className="sp-live-pulse-dot" /> <strong>Shopify Command Active</strong> • Real-time telemetry synchronized with storefront and Supabase Cloud.
                 </div>
                 <div className="sp-banner-actions">
                   <button type="button" className="sp-btn sp-btn--sm" onClick={() => setActiveTab("abandoned")}>
@@ -1993,7 +2029,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">🏷️</span>
+                  <span className="sp-title-icon"><IconDiscounts size={18} /></span>
                   <h1 className="sp-page-title">Discounts</h1>
                 </div>
               </div>
@@ -2088,7 +2124,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon" style={{ color: "#25d366" }}>💬</span>
+                  <span className="sp-title-icon" style={{ color: "#25d366" }}><IconWhatsApp size={18} /></span>
                   <h1 className="sp-page-title">WhatsApp Concierge & VIP Recovery</h1>
                 </div>
                 <div className="sp-badge-pill sp-badge-pill--fulfilled">
@@ -2168,7 +2204,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon">⚙️</span>
+                  <span className="sp-title-icon"><IconSettings size={18} /></span>
                   <h1 className="sp-page-title">Store Settings</h1>
                 </div>
               </div>
@@ -2221,7 +2257,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-page-card">
                 <div className="sp-card-header">
                   <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon">🚀</span>
+                    <span className="sp-title-icon"><IconGrowth size={18} /></span>
                     <div>
                       <h1 className="sp-page-title">Growth & Marketing Operations</h1>
                       <div className="sp-page-sub">Acquisition channels, paid campaigns, conversion rate optimization, and VIP referrals.</div>
@@ -2233,7 +2269,8 @@ export function AdminDashboard({ onNavigateHome }) {
                       className="sp-btn sp-btn--default"
                       onClick={() => showToast("Meta Pixel & Google Analytics 4 telemetry re-synchronized")}
                     >
-                      Sync Telemetry
+                      <IconSync size={13} />
+                      <span>Sync Telemetry</span>
                     </button>
                     <button
                       type="button"
@@ -2381,7 +2418,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-page-card">
                 <div className="sp-card-header">
                   <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon">📄</span>
+                    <span className="sp-title-icon"><IconContent size={18} /></span>
                     <div>
                       <h1 className="sp-page-title">Content & Editorial Dossiers</h1>
                       <div className="sp-page-sub">Manage boutique storytelling, architectural exhibition sections, legal policies, and media assets.</div>
@@ -2393,14 +2430,16 @@ export function AdminDashboard({ onNavigateHome }) {
                       className="sp-btn sp-btn--default"
                       onClick={onNavigateHome}
                     >
-                      Boutique Preview ↗
+                      <span>Boutique Preview</span>
+                      <IconExternalLink size={12} />
                     </button>
                     <button
                       type="button"
                       className="sp-btn sp-btn--primary"
                       onClick={() => showToast("Editorial story editor opened")}
                     >
-                      + New Story
+                      <IconPlus size={13} />
+                      <span>New Story</span>
                     </button>
                   </div>
                 </div>
@@ -2504,7 +2543,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-page-card">
                 <div className="sp-card-header">
                   <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon">🌐</span>
+                    <span className="sp-title-icon"><IconMarkets size={18} /></span>
                     <div>
                       <h1 className="sp-page-title">Markets & International Allocations</h1>
                       <div className="sp-page-sub">Configure regional pricing, currencies, tax jurisdictions, and white-glove international dispatch.</div>
@@ -2516,14 +2555,16 @@ export function AdminDashboard({ onNavigateHome }) {
                       className="sp-btn sp-btn--default"
                       onClick={() => showToast("Live currency exchange rates refreshed from RBI & Global FX")}
                     >
-                      Sync FX Rates
+                      <IconSync size={13} />
+                      <span>Sync FX Rates</span>
                     </button>
                     <button
                       type="button"
                       className="sp-btn sp-btn--primary"
                       onClick={() => showToast("New international market creator opened")}
                     >
-                      + Add Market
+                      <IconPlus size={13} />
+                      <span>Add Market</span>
                     </button>
                   </div>
                 </div>
@@ -2655,7 +2696,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-page-card">
                 <div className="sp-card-header">
                   <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon">📊</span>
+                    <span className="sp-title-icon"><IconAnalytics size={18} /></span>
                     <div>
                       <h1 className="sp-page-title">Analytics & Horological Intelligence</h1>
                       <div className="sp-page-sub">Comprehensive financial telemetry, average order value, conversion trends, and top timepiece performances.</div>
@@ -2681,7 +2722,8 @@ export function AdminDashboard({ onNavigateHome }) {
                       className="sp-btn sp-btn--default"
                       onClick={() => handleExportCSV("orders")}
                     >
-                      Export Full Report (CSV)
+                      <IconExport size={13} />
+                      <span>Export Report</span>
                     </button>
                   </div>
                 </div>
