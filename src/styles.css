@@ -18978,58 +18978,62 @@ a.contact-value:hover {
 
 /* ==========================================================================
    SHOPIFY POLARIS ADMIN PORTAL STYLING
-   Authentic Shopify Admin Light Theme (White Controls, Polaris Canvas & Cards)
+   Authentic Shopify Admin Light Theme (Inter Font, High Contrast & Visibility)
    ========================================================================== */
 
 .shopify-admin-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv11' 1;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.01em;
   position: relative;
   z-index: 1000;
 }
 
-/* ── Light Theme (White Colour Scheme) ── */
+/* ── Light Theme (High-Contrast White Colour Scheme) ── */
 .shopify-admin-theme--shopify-light {
   --sp-bg: #f6f6f7;
   --sp-surface: #ffffff;
   --sp-surface-hover: #f9fafb;
   --sp-surface-selected: #edeeef;
-  --sp-border: #e1e3e5;
-  --sp-border-subtle: #ebeef0;
-  --sp-text: #202223;
-  --sp-text-subdued: #6d7175;
-  --sp-text-subtle: #8c9196;
+  --sp-border: #dcdfe3;
+  --sp-border-subtle: #e8ebed;
+  --sp-text: #1a1a1a;
+  --sp-text-subdued: #5c5f62;
+  --sp-text-subtle: #6d7175;
   --sp-topbar-bg: #ffffff;
-  --sp-topbar-border: #e1e3e5;
-  --sp-topbar-text: #202223;
+  --sp-topbar-border: #dcdfe3;
+  --sp-topbar-text: #1a1a1a;
   --sp-topbar-input-bg: #f1f2f4;
-  --sp-topbar-input-border: #d2d5d8;
-  --sp-topbar-input-text: #202223;
+  --sp-topbar-input-border: #c9cccf;
+  --sp-topbar-input-text: #1a1a1a;
   --sp-topbar-btn-bg: #f1f2f4;
-  --sp-topbar-btn-border: #d2d5d8;
+  --sp-topbar-btn-border: #c9cccf;
   --sp-sidebar-bg: #f7f7f8;
   --sp-sidebar-hover: #edeeef;
   --sp-sidebar-active: #ffffff;
-  --sp-sidebar-text: #303030;
-  --sp-primary: #303030;
-  --sp-primary-hover: #1a1a1a;
+  --sp-sidebar-text: #202223;
+  --sp-primary: #202223;
+  --sp-primary-hover: #000000;
   --sp-primary-text: #ffffff;
   --sp-tag-bg: #e4e5e7;
-  --sp-tag-text: #303030;
+  --sp-tag-text: #202223;
   --sp-badge-green-bg: #cbf4c9;
   --sp-badge-green-text: #0e623b;
   --sp-badge-green-dot: #108043;
   --sp-badge-amber-bg: #ffebb8;
-  --sp-badge-amber-text: #824f00;
+  --sp-badge-amber-text: #704400;
   --sp-badge-amber-dot: #b98900;
   --sp-badge-blue-bg: #c9e4ff;
-  --sp-badge-blue-text: #0050a0;
+  --sp-badge-blue-text: #004d99;
   --sp-badge-blue-dot: #0066cc;
   --sp-badge-gray-bg: #e4e5e7;
-  --sp-badge-gray-text: #505459;
+  --sp-badge-gray-text: #414549;
   --sp-badge-gray-dot: #6d7175;
   background-color: var(--sp-bg);
   color: var(--sp-text);
@@ -19624,19 +19628,23 @@ a.contact-value:hover {
 }
 
 .sp-table th {
-  background: var(--sp-surface);
-  color: var(--sp-text-subdued);
+  background: #f7f8f9;
+  color: #44474a;
   font-weight: 600;
   font-size: 12px;
-  padding: 10px 14px;
+  letter-spacing: 0.01em;
+  padding: 11px 14px;
   border-bottom: 1px solid var(--sp-border);
   white-space: nowrap;
 }
 
 .sp-table td {
-  padding: 12px 14px;
+  padding: 13px 14px;
   border-bottom: 1px solid var(--sp-border-subtle);
   color: var(--sp-text);
+  font-size: 13.5px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
   vertical-align: middle;
 }
 
