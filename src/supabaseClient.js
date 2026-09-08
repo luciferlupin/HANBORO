@@ -1040,15 +1040,15 @@ export const productsService = {
   // Save (insert or update) a product
   async saveProduct(product, previousId = null) {
     const local = this.getLocalProducts();
-    const targetId = previousId || product.id;
+    const targetId = previousId ? String(previousId).trim().toLowerCase() : String(product.id || "").trim().toLowerCase();
+    const targetSku = String(product.sku || "").trim().toLowerCase();
 
-    // Find if the product already exists by ID
-    let existingIndex = local.findIndex((p) => p.id === targetId);
-
-    // If still not found and no previousId was specified, check by ID or exact SKU match
-    if (existingIndex < 0 && !previousId) {
-      existingIndex = local.findIndex((p) => p.id === product.id || (product.sku && p.sku === product.sku));
-    }
+    // Find if the product already exists by ID or SKU
+    let existingIndex = local.findIndex((p) => 
+      (p.id && String(p.id).trim().toLowerCase() === targetId) ||
+      (previousId && p.id && String(p.id).trim().toLowerCase() === String(previousId).trim().toLowerCase()) ||
+      (targetSku && p.sku && String(p.sku).trim().toLowerCase() === targetSku)
+    );
 
     let updated;
     if (existingIndex >= 0) {
@@ -1063,9 +1063,10 @@ export const productsService = {
       updated = [product, ...local];
     }
 
-    // If ID was changed (previousId provided and differs), remove any old duplicate entry
-    if (previousId && previousId !== product.id) {
-      updated = updated.filter((p, idx) => p.id !== previousId || idx === existingIndex);
+    // If ID or SKU was changed, clean up any old reference
+    if (previousId && String(previousId).trim().toLowerCase() !== String(product.id).trim().toLowerCase()) {
+      const prevClean = String(previousId).trim().toLowerCase();
+      updated = updated.filter((p, idx) => idx === existingIndex || String(p.id).trim().toLowerCase() !== prevClean);
     }
 
     this.saveLocalProducts(updated);
@@ -1106,14 +1107,15 @@ export const productsService = {
     return updated;
   },
 
-  // Delete a product by id
+  // Delete a product by id or sku
   async deleteProduct(productId) {
     const local = this.getLocalProducts();
-    const updated = local.filter((p) => p.id !== productId && p.sku !== productId);
+    const clean = String(productId).trim().toLowerCase();
+    const updated = local.filter((p) => String(p.id).trim().toLowerCase() !== clean && String(p.sku).trim().toLowerCase() !== clean);
     this.saveLocalProducts(updated);
 
     try {
-      await supabase.from("products").delete().eq("id", productId);
+      await supabase.from("products").delete().or(`id.eq.${productId},sku.eq.${productId}`);
     } catch (err) {
       console.warn("Supabase delete product note:", err);
     }

@@ -182,18 +182,26 @@ export function StoreProvider({ children }) {
   const getProductByIdOrSku = useCallback((idOrSku) => {
     if (!idOrSku) return null;
     const clean = String(idOrSku).trim().toLowerCase();
-    return (
-      products.find(
+    
+    // 1. Search the active dynamic catalog first
+    if (Array.isArray(products) && products.length > 0) {
+      const match = products.find(
         (p) =>
-          p.id.toLowerCase() === clean ||
-          p.sku.toLowerCase() === clean
-      ) ||
+          String(p.id).trim().toLowerCase() === clean ||
+          String(p.sku).trim().toLowerCase() === clean
+      );
+      if (match) return match;
+      // If products catalog is loaded and item is not found, it has been deleted!
+      return null;
+    }
+
+    // 2. Initial fallback before products list initializes
+    return (
       PRODUCTS_DATA.find(
         (p) =>
-          p.id.toLowerCase() === clean ||
-          p.sku.toLowerCase() === clean
-      ) ||
-      null
+          String(p.id).trim().toLowerCase() === clean ||
+          String(p.sku).trim().toLowerCase() === clean
+      ) || null
     );
   }, [products]);
 
@@ -264,12 +272,14 @@ export function StoreProvider({ children }) {
     const updatedCatalog = await productsService.saveProduct(formatted);
     setProducts(updatedCatalog);
     inventoryService.upsertInventoryItem(formatted);
+    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
     showToast(`Timepiece "${formatted.name}" added to catalog!`);
     return formatted;
   };
 
   const updateProduct = async (productId, updatedFields) => {
-    const existing = products.find((p) => p.id === productId || p.sku === productId);
+    const clean = String(productId).trim().toLowerCase();
+    const existing = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     if (!existing) return null;
 
     const previousId = existing.id;
@@ -290,6 +300,7 @@ export function StoreProvider({ children }) {
     const updatedCatalog = await productsService.saveProduct(merged, previousId);
     setProducts(updatedCatalog);
     inventoryService.upsertInventoryItem(merged, previousId);
+    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
 
     // If ID changed, update any active references in cart
     if (previousId !== merged.id) {
@@ -307,19 +318,22 @@ export function StoreProvider({ children }) {
   };
 
   const deleteProduct = async (productId) => {
-    const target = products.find((p) => p.id === productId || p.sku === productId);
+    const clean = String(productId).trim().toLowerCase();
+    const target = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     const name = target?.name || productId;
     const resolvedId = target?.id || productId;
     const updatedCatalog = await productsService.deleteProduct(resolvedId);
     setProducts(updatedCatalog);
     inventoryService.deleteItem(resolvedId);
-    setCart((prev) => prev.filter((it) => it.product.id !== resolvedId && it.product.sku !== resolvedId));
+    setCart((prev) => prev.filter((it) => String(it.product.id).trim().toLowerCase() !== clean && String(it.product.sku).trim().toLowerCase() !== clean));
+    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
     showToast(`Timepiece "${name}" removed from catalog`);
     return updatedCatalog;
   };
 
   const duplicateProduct = async (productId) => {
-    const existing = products.find((p) => p.id === productId || p.sku === productId);
+    const clean = String(productId).trim().toLowerCase();
+    const existing = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     if (!existing) return null;
 
     const cloneId = `${existing.id}-clone-${Date.now().toString().slice(-4)}`;
@@ -337,6 +351,7 @@ export function StoreProvider({ children }) {
     const updatedCatalog = await productsService.saveProduct(cloned);
     setProducts(updatedCatalog);
     inventoryService.upsertInventoryItem(cloned);
+    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
     showToast(`Cloned new variant: ${cloned.name}`);
     return cloned;
   };
@@ -344,6 +359,7 @@ export function StoreProvider({ children }) {
   const resetProductsToDefault = async () => {
     const defaults = await productsService.resetToMaster();
     setProducts(defaults);
+    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: defaults }));
     showToast("Master catalog restored to factory references");
     return defaults;
   };

@@ -16,7 +16,7 @@ export function ProductDetailPage({
   } = useStore();
 
   const product = useMemo(() => {
-    return getProductByIdOrSku(skuId) || (products && products[0]) || PRODUCTS_DATA[0];
+    return getProductByIdOrSku(skuId) || (products && products.find((p) => p.id === skuId || p.sku === skuId)) || null;
   }, [skuId, getProductByIdOrSku, products]);
 
   const [buyQty, setBuyQty] = useState(1);
@@ -36,17 +36,20 @@ export function ProductDetailPage({
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   // All images available for this timepiece
-  const allImages = product.gallery && product.gallery.length > 0
-    ? product.gallery
-    : (product.altImages || [product.image]).map((img, i) => ({
-        url: img,
-        title: `${product.name} — View ${i + 1}`,
-        label: `View 0${i + 1}`,
-        caption: `Precision horological inspection of ${product.name}.`
-      }));
+  const allImages = product
+    ? (product.gallery && product.gallery.length > 0
+        ? product.gallery
+        : (product.altImages || [product.image]).map((img, i) => ({
+            url: img,
+            title: `${product.name} — View ${i + 1}`,
+            label: `View 0${i + 1}`,
+            caption: `Precision horological inspection of ${product.name}.`
+          })))
+    : [];
 
   // Scroll to top on product change
   useEffect(() => {
+    if (!product) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveImage(product.image);
     setIsNightMode(false);
@@ -58,7 +61,7 @@ export function ProductDetailPage({
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
-    if (lightboxIndex === null) return;
+    if (lightboxIndex === null || allImages.length === 0) return;
     const handleKeyDown = (e) => {
       if (e.key === "Escape") setLightboxIndex(null);
       if (e.key === "ArrowLeft") {
@@ -71,6 +74,26 @@ export function ProductDetailPage({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [lightboxIndex, allImages.length]);
+
+  if (!product) {
+    return (
+      <div className="pdp-not-found" style={{ minHeight: "80vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "60px 20px" }}>
+        <div style={{ fontSize: "48px", marginBottom: "16px" }}>⌛</div>
+        <h2 style={{ fontSize: "28px", fontWeight: 700, color: "#ffffff", marginBottom: "10px" }}>Timepiece Not Found / Archived</h2>
+        <p style={{ color: "rgba(255,255,255,0.6)", maxWidth: "440px", marginBottom: "24px", lineHeight: 1.5 }}>
+          The requested reference ({skuId}) is no longer in the active boutique catalog or has been archived.
+        </p>
+        <button
+          type="button"
+          className="pdp-action-btn pdp-action-btn--primary"
+          style={{ maxWidth: "260px", padding: "12px 24px", background: "#fa2d1d", color: "#ffffff", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: 600 }}
+          onClick={onNavigateBack}
+        >
+          Explore Active Collection ↗
+        </button>
+      </div>
+    );
+  }
 
   const catalog = products && products.length > 0 ? products : PRODUCTS_DATA;
   const currentIndex = catalog.findIndex((p) => p.id === product.id || p.sku === product.sku);

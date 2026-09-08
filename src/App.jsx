@@ -1568,6 +1568,20 @@ const WATCH_COLLECTION = [
 ];
 
 function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
+  const { products } = useStore();
+  const carouselItems = useMemo(() => {
+    if (Array.isArray(products) && products.length > 0) {
+      return products
+        .filter((p) => p.isActive !== false)
+        .map((p) => ({
+          id: p.id || p.sku,
+          name: p.name,
+          img: p.transparentImage || p.image || "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp",
+        }));
+    }
+    return WATCH_COLLECTION;
+  }, [products]);
+
   return (
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
       <div className="carousel-section-header" data-reveal>
@@ -1590,7 +1604,7 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
       <div className="carousel-track-wrapper" data-reveal data-reveal-delay="1">
         <div className="carousel-track">
           <div className="carousel-group">
-            {WATCH_COLLECTION.map((watch, index) => (
+            {carouselItems.map((watch, index) => (
               <div
                 className="watch-float-item"
                 key={`a-${watch.id}-${index}`}
@@ -1611,7 +1625,7 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
             ))}
           </div>
           <div className="carousel-group" aria-hidden="true">
-            {WATCH_COLLECTION.map((watch, index) => (
+            {carouselItems.map((watch, index) => (
               <div
                 className="watch-float-item"
                 key={`b-${watch.id}-${index}`}
