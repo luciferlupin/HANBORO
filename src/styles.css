@@ -16367,6 +16367,7 @@ a.contact-value:hover {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
