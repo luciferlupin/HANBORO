@@ -341,7 +341,8 @@ const NUMBERS_DATA = [
   };
 });
 
-function Clock({ onComplete }) {
+function Clock({ onComplete, audioUnlocked }) {
+  const [isReady, setIsReady] = useState(false);
   const handRef = useRef(null);
   const trailRef = useRef(null);
   const tickRefs = useRef([]);
@@ -392,9 +393,12 @@ function Clock({ onComplete }) {
 
       if (!done && deg >= 360) {
         done = true;
-        setTimeout(() => {
-          cbRef.current?.();
-        }, 180);
+        setIsReady(true);
+        if (audioUnlocked) {
+          setTimeout(() => {
+            cbRef.current?.();
+          }, 180);
+        }
         return;
       }
       if (!done) id = requestAnimationFrame(tick);
@@ -402,22 +406,27 @@ function Clock({ onComplete }) {
 
     id = requestAnimationFrame(tick);
 
-    // Guaranteed fallback timer in case background tab freezes requestAnimationFrame
-    const fallbackTimer = setTimeout(() => {
-      if (!done) {
-        done = true;
-        cbRef.current?.();
-      }
-    }, REVOLUTION_MS + 250);
-
     return () => {
       cancelAnimationFrame(id);
-      clearTimeout(fallbackTimer);
     };
-  }, []);
+  }, [audioUnlocked]);
 
   return (
     <div className="clock" aria-label="Analogue clock animation">
+      {isReady && !audioUnlocked && (
+        <button
+          type="button"
+          className="clock-enter-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onComplete();
+          }}
+          aria-label="Enter Hanboro with sound"
+        >
+          <span>ENTER WITH SOUND</span>
+          <span className="clock-enter-arrow" aria-hidden="true">↗</span>
+        </button>
+      )}
       <svg className="clock__svg" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
           <filter id="handGlow" x="-80%" y="-80%" width="260%" height="260%">
@@ -545,7 +554,7 @@ function Clock({ onComplete }) {
 /* ══════════════════════════════════════════════════════════════════════════════
    SPLASH
 ══════════════════════════════════════════════════════════════════════════════ */
-function Splash({ onEnter, exiting }) {
+function Splash({ onEnter, exiting, audioUnlocked }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
@@ -566,11 +575,13 @@ function Splash({ onEnter, exiting }) {
       </div>
       <div className="splash__content">
         <div className="s-clock">
-          <Clock onComplete={onEnter}/>
+          <Clock onComplete={onEnter} audioUnlocked={audioUnlocked} />
         </div>
       </div>
       <div className="splash__footer s-footer">
-        <button className="text-button" type="button" onClick={onEnter}>Skip intro</button>
+        <button className="text-button" type="button" onClick={onEnter}>
+          {audioUnlocked ? "Skip intro" : "Enter with sound ↗"}
+        </button>
       </div>
     </section>
   );
@@ -3513,14 +3524,35 @@ export function App() {
     }, IRIS_EXPAND + IRIS_RETRACT);
   }, []);
 
-  // Failsafe auto-transition: guarantee the site opens even on slow devices or background tabs
+  const [audioUnlocked, setAudioUnlocked] = useState(false);
+
+  // Probe unmuted playback capability on initial mount
   useEffect(() => {
-    if (phase === "entered") return;
+    const heroVideo = document.querySelector(".hero-video-media");
+    if (heroVideo) {
+      heroVideo.muted = false;
+      heroVideo.volume = 1;
+      const p = heroVideo.play();
+      if (p !== undefined) {
+        p.then(() => {
+          setAudioUnlocked(true);
+        }).catch(() => {
+          setAudioUnlocked(false);
+          heroVideo.muted = true;
+          heroVideo.play().catch(() => {});
+        });
+      }
+    }
+  }, []);
+
+  // Failsafe auto-transition: auto-advance only if audio is already unlocked and running
+  useEffect(() => {
+    if (phase === "entered" || !audioUnlocked) return;
     const timer = setTimeout(() => {
       handleComplete();
     }, 2000);
     return () => clearTimeout(timer);
-  }, [phase, handleComplete]);
+  }, [phase, audioUnlocked, handleComplete]);
 
   // Keyboard accessibility: press any key to enter immediately
   useEffect(() => {
@@ -3540,7 +3572,7 @@ export function App() {
         <div className="app-root">
           <Website />
           {phase !== "entered" && (
-            <Splash onEnter={handleComplete} exiting={phase === "exiting"}/>
+            <Splash onEnter={handleComplete} exiting={phase === "exiting"} audioUnlocked={audioUnlocked}/>
           )}
           {/* Iris transition overlay */}
           {iris !== "off" && (
