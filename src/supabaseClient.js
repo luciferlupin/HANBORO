@@ -17,6 +17,11 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   },
 });
 
+// Helper: check if a string is a valid standard UUID
+export function isUuid(str) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str || "").trim());
+}
+
 // Local cache keys for offline/fallback resilience
 const STORAGE_KEYS = {
   ORDERS: "hanboro_orders_cache",
@@ -392,7 +397,7 @@ export const ordersService = {
       `HNB-${Math.floor(10000 + Math.random() * 90000)}-IN`;
 
     const formattedOrder = {
-      id: orderPayload.id || `ord-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      id: isUuid(orderPayload.id) ? orderPayload.id : `ord-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       user_id: orderPayload.user_id || null,
       order_ref: orderRef,
       customer_name: orderPayload.customer_name || "Valued Client",
@@ -402,42 +407,59 @@ export const ordersService = {
       items: orderPayload.items || [],
       total_amount: Number(orderPayload.total_amount) || 0,
       currency: orderPayload.currency || "INR",
-      payment_method: orderPayload.payment_method || "Credit Card",
+      payment_method: orderPayload.payment_method || "Credit Card (Encrypted)",
       payment_status: orderPayload.payment_status || "Paid",
       order_status: orderPayload.order_status || "Processing",
+      fulfillment_status: orderPayload.fulfillment_status || "Unfulfilled",
+      delivery_status: orderPayload.delivery_status || "Processing",
+      delivery_method: orderPayload.delivery_method || "Standard (Prepaid)",
+      channel: orderPayload.channel || "Online Store",
       tracking_number: orderPayload.tracking_number || `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
-      created_at: new Date().toISOString(),
+      items_count: orderPayload.items_count || `${orderPayload.items?.length || 1} item`,
+      tags: orderPayload.tags || [],
+      discount_applied: orderPayload.discount_applied || null,
+      notes: orderPayload.notes || null,
+      created_at: orderPayload.created_at || new Date().toISOString(),
     };
 
     // 1. Optimistically save to local cache
     const currentOrders = getLocalOrders();
-    const updatedOrders = [formattedOrder, ...currentOrders];
+    const updatedOrders = [formattedOrder, ...currentOrders.filter((o) => o.order_ref !== orderRef)];
     saveLocalOrders(updatedOrders);
 
     // 2. Insert into Supabase `orders` table
     try {
-      const { data, error } = await supabase.from("orders").insert([
-        {
-          user_id: formattedOrder.user_id,
-          order_ref: formattedOrder.order_ref,
-          customer_name: formattedOrder.customer_name,
-          customer_email: formattedOrder.customer_email,
-          customer_phone: formattedOrder.customer_phone,
-          shipping_address: formattedOrder.shipping_address,
-          items: formattedOrder.items,
-          total_amount: formattedOrder.total_amount,
-          currency: formattedOrder.currency,
-          payment_method: formattedOrder.payment_method,
-          payment_status: formattedOrder.payment_status,
-          order_status: formattedOrder.order_status,
-          tracking_number: formattedOrder.tracking_number,
-        },
-      ]).select();
+      const dbInsertPayload = {
+        user_id: formattedOrder.user_id,
+        order_ref: formattedOrder.order_ref,
+        customer_name: formattedOrder.customer_name,
+        customer_email: formattedOrder.customer_email,
+        customer_phone: formattedOrder.customer_phone,
+        shipping_address: formattedOrder.shipping_address,
+        items: formattedOrder.items,
+        total_amount: formattedOrder.total_amount,
+        currency: formattedOrder.currency,
+        payment_method: formattedOrder.payment_method,
+        payment_status: formattedOrder.payment_status,
+        order_status: formattedOrder.order_status,
+        tracking_number: formattedOrder.tracking_number,
+      };
+
+      // Only pass id if it is a valid UUID, otherwise allow DB default gen_random_uuid()
+      if (isUuid(formattedOrder.id)) {
+        dbInsertPayload.id = formattedOrder.id;
+      }
+
+      const { data, error } = await supabase.from("orders").insert([dbInsertPayload]).select();
 
       if (error) {
         console.warn("Supabase orders table write note (saved locally):", error.message);
       } else if (data && data[0]) {
         formattedOrder.supabase_id = data[0].id;
+        formattedOrder.id = data[0].id;
+        // Update local cache with assigned UUID
+        const refreshed = getLocalOrders().map((o) => (o.order_ref === orderRef ? { ...o, id: data[0].id, supabase_id: data[0].id } : o));
+        saveLocalOrders(refreshed);
       }
     } catch (err) {
       console.warn("Supabase network note during order creation:", err);
@@ -503,23 +525,48 @@ export const ordersService = {
     return userLocal;
   },
 
-  // Update order status (e.g. Processing -> Dispatched -> Delivered)
-  async updateOrderStatus(orderRefOrId, newStatus) {
+  // Update order fields safely (by order_ref or UUID)
+  async updateOrder(orderRefOrId, updates = {}) {
+    const cleanTarget = String(orderRefOrId || "").trim();
     // 1. Update local cache
     const currentOrders = getLocalOrders();
     const updated = currentOrders.map((o) =>
-      o.order_ref === orderRefOrId || o.id === orderRefOrId
-        ? { ...o, order_status: newStatus, updated_at: new Date().toISOString() }
+      o.order_ref === cleanTarget || o.id === cleanTarget || (o.supabase_id && o.supabase_id === cleanTarget)
+        ? { ...o, ...updates, updated_at: new Date().toISOString() }
         : o
     );
     saveLocalOrders(updated);
 
-    // 2. Update in Supabase
+    // 2. Update in Supabase safely
     try {
-      await supabase
-        .from("orders")
-        .update({ order_status: newStatus, updated_at: new Date().toISOString() })
-        .or(`order_ref.eq.${orderRefOrId},id.eq.${orderRefOrId}`);
+      const payload = {
+        ...updates,
+        updated_at: new Date().toISOString(),
+      };
+
+      let query = supabase.from("orders").update(payload);
+      if (isUuid(cleanTarget)) {
+        query = query.or(`id.eq.${cleanTarget},order_ref.eq.${cleanTarget}`);
+      } else {
+        query = query.eq("order_ref", cleanTarget);
+      }
+      const { error } = await query;
+      if (error) {
+        // Fallback: try updating only core order_status if custom schema columns are not migrated yet
+        if (error.code === "PGRST204" && (updates.fulfillment_status || updates.order_status)) {
+          const corePayload = {
+            order_status: updates.order_status || updates.fulfillment_status,
+            updated_at: new Date().toISOString(),
+          };
+          if (isUuid(cleanTarget)) {
+            await supabase.from("orders").update(corePayload).or(`id.eq.${cleanTarget},order_ref.eq.${cleanTarget}`);
+          } else {
+            await supabase.from("orders").update(corePayload).eq("order_ref", cleanTarget);
+          }
+        } else {
+          console.warn("Supabase update order note:", error.message);
+        }
+      }
     } catch (err) {
       console.warn("Supabase update status note:", err);
     }
@@ -527,41 +574,55 @@ export const ordersService = {
     return updated;
   },
 
+  // Update order status (e.g. Processing -> Dispatched -> Delivered)
+  async updateOrderStatus(orderRefOrId, newStatus) {
+    if (typeof newStatus === "object" && newStatus !== null) {
+      return this.updateOrder(orderRefOrId, newStatus);
+    }
+    return this.updateOrder(orderRefOrId, { order_status: newStatus });
+  },
+
   // Cancel order by user or admin
   async cancelOrder(orderRefOrId, reason = "Requested by Client") {
-    const currentOrders = getLocalOrders();
-    const updated = currentOrders.map((o) =>
-      o.order_ref === orderRefOrId || o.id === orderRefOrId
-        ? {
-            ...o,
-            order_status: "Cancelled",
-            payment_status: "Refund Initiated",
-            cancellation_reason: reason,
-            updated_at: new Date().toISOString(),
-          }
-        : o
-    );
-    saveLocalOrders(updated);
-
-    try {
-      await supabase
-        .from("orders")
-        .update({
-          order_status: "Cancelled",
-          payment_status: "Refund Initiated",
-          updated_at: new Date().toISOString(),
-        })
-        .or(`order_ref.eq.${orderRefOrId},id.eq.${orderRefOrId}`);
-    } catch (err) {
-      console.warn("Supabase cancel order note:", err);
-    }
-
-    return updated;
+    return this.updateOrder(orderRefOrId, {
+      order_status: "Cancelled",
+      payment_status: "Refund Initiated",
+      cancellation_reason: reason,
+    });
   },
 };
 
 // ── INVENTORY SERVICE ────────────────────────────────────────────────────────
 export const inventoryService = {
+  // Asynchronously fetch inventory from Supabase and sync local
+  async fetchInventory() {
+    try {
+      const { data, error } = await supabase
+        .from("inventory")
+        .select("*")
+        .order("name", { ascending: true });
+
+      if (!error && data && data.length > 0) {
+        const mapped = data.map((row) => ({
+          id: row.id,
+          sku: row.sku,
+          name: row.name,
+          collection: row.collection || "Tourbillon & Complications",
+          price: row.price_inr ? `₹${Number(row.price_inr).toLocaleString("en-IN")}` : "₹45,000",
+          priceUsd: row.price_usd ? `$${Number(row.price_usd).toLocaleString()}` : "$550",
+          stock: typeof row.stock === "number" ? row.stock : 10,
+          isActive: row.is_active !== false,
+          image: row.image,
+        }));
+        localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(mapped));
+        return mapped;
+      }
+    } catch (err) {
+      console.warn("Supabase fetch inventory note:", err);
+    }
+    return this.getInventory();
+  },
+
   // Get all inventory state
   getInventory() {
     let list = [];
@@ -622,7 +683,7 @@ export const inventoryService = {
   },
 
   // Upsert a product into inventory (handles creations, clones, and ID renames)
-  upsertInventoryItem(product, previousId = null) {
+  async upsertInventoryItem(product, previousId = null) {
     const list = this.getInventory();
     const targetId = previousId || product.id;
     const idx = list.findIndex(
@@ -651,48 +712,91 @@ export const inventoryService = {
 
     try {
       localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-    } catch {
-      // ignore
+      const priceNum = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || null;
+      const priceUsdNum = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || null;
+      await supabase.from("inventory").upsert({
+        id: product.id,
+        sku: product.sku,
+        name: product.name,
+        collection: inventoryEntry.collection,
+        stock: inventoryEntry.stock,
+        price_inr: priceNum,
+        price_usd: priceUsdNum,
+        image: product.image,
+        is_active: inventoryEntry.isActive,
+        updated_at: new Date().toISOString(),
+      });
+      if (previousId && previousId !== product.id) {
+        await supabase.from("inventory").delete().eq("id", previousId);
+      }
+    } catch (err) {
+      console.warn("Supabase upsert inventory note:", err);
     }
     return updated;
   },
 
   // Update inventory stock count
-  updateStock(productId, newStock) {
+  async updateStock(productId, newStock) {
     const list = this.getInventory();
+    const cleanId = String(productId).trim();
+    const stockVal = Math.max(0, Number(newStock));
     const updated = list.map((item) =>
-      item.id === productId ? { ...item, stock: Math.max(0, Number(newStock)) } : item
+      item.id === cleanId || item.sku === cleanId ? { ...item, stock: stockVal } : item
     );
     try {
       localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-    } catch {
-      // ignore
+      await supabase
+        .from("inventory")
+        .update({ stock: stockVal, updated_at: new Date().toISOString() })
+        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+      await supabase
+        .from("products")
+        .update({ stock: stockVal, updated_at: new Date().toISOString() })
+        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+    } catch (err) {
+      console.warn("Supabase update inventory stock note:", err);
     }
     return updated;
   },
 
   // Toggle active status
-  toggleActive(productId) {
+  async toggleActive(productId) {
     const list = this.getInventory();
-    const updated = list.map((item) =>
-      item.id === productId ? { ...item, isActive: !item.isActive } : item
-    );
+    const cleanId = String(productId).trim();
+    let nextActive = true;
+    const updated = list.map((item) => {
+      if (item.id === cleanId || item.sku === cleanId) {
+        nextActive = !item.isActive;
+        return { ...item, isActive: nextActive };
+      }
+      return item;
+    });
     try {
       localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-    } catch {
-      // ignore
+      await supabase
+        .from("inventory")
+        .update({ is_active: nextActive, updated_at: new Date().toISOString() })
+        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+      await supabase
+        .from("products")
+        .update({ is_active: nextActive, updated_at: new Date().toISOString() })
+        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+    } catch (err) {
+      console.warn("Supabase toggle active inventory note:", err);
     }
     return updated;
   },
 
   // Delete an item from inventory
-  deleteItem(productId) {
+  async deleteItem(productId) {
     const list = this.getInventory();
-    const updated = list.filter((item) => item.id !== productId && item.sku !== productId);
+    const cleanId = String(productId).trim();
+    const updated = list.filter((item) => item.id !== cleanId && item.sku !== cleanId);
     try {
       localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-    } catch {
-      // ignore
+      await supabase.from("inventory").delete().or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+    } catch (err) {
+      console.warn("Supabase delete inventory item note:", err);
     }
     return updated;
   },
@@ -1029,12 +1133,47 @@ export const productsService = {
         }));
         this.saveLocalProducts(mapped);
         return mapped;
+      } else if (!error && (!data || data.length === 0)) {
+        // Table exists in Supabase but has 0 rows -> auto-seed from master catalog in background
+        this.seedSupabaseCatalog().catch(() => {});
       }
     } catch (err) {
       console.warn("Supabase fetch products note:", err);
     }
 
     return this.getLocalProducts();
+  },
+
+  // Auto-seed Supabase products table if empty
+  async seedSupabaseCatalog() {
+    try {
+      const master = PRODUCTS_DATA.map((p, idx) => ({
+        id: p.id,
+        sku: p.sku,
+        name: p.name,
+        subtitle: p.subtitle || "",
+        collection: p.collection || "TOURBILLON",
+        collection_name: p.collectionName || "Tourbillon & Complications",
+        tag: p.tag || "Haute Horlogerie",
+        price: p.price,
+        price_usd: p.priceUsd || "$1,200",
+        availability: p.availability || "In Stock",
+        year: p.year || "2026",
+        summary: p.summary || "",
+        image: p.image,
+        transparent_image: p.transparentImage || p.image,
+        alt_images: p.altImages || [p.image],
+        gallery: p.gallery || [],
+        specs: p.specs || {},
+        stock: Math.max(1, 12 - (idx % 8)),
+        is_active: true,
+        updated_at: new Date().toISOString(),
+      }));
+      await supabase.from("products").upsert(master);
+      console.log("Master watch catalog synced to Supabase");
+    } catch (e) {
+      console.warn("Supabase auto-seed note:", e);
+    }
   },
 
   // Save (insert or update) a product
@@ -1129,6 +1268,157 @@ export const productsService = {
     const defaults = [...PRODUCTS_DATA];
     this.saveLocalProducts(defaults);
     return defaults;
+  },
+};
+
+// ── DRAFT ORDERS SERVICE ─────────────────────────────────────────────────────
+export const draftOrdersService = {
+  getLocalDrafts() {
+    try {
+      const raw = localStorage.getItem("hanboro_draft_orders_cache");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  saveLocalDrafts(drafts) {
+    try {
+      localStorage.setItem("hanboro_draft_orders_cache", JSON.stringify(drafts));
+    } catch {}
+  },
+
+  async fetchDraftOrders(defaultSeed = []) {
+    const local = this.getLocalDrafts();
+    try {
+      const { data, error } = await supabase
+        .from("draft_orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        const mapped = data.map((d) => ({
+          id: d.id,
+          draftNumber: d.draft_number,
+          customerName: d.customer_name,
+          customerEmail: d.customer_email,
+          customerPhone: d.customer_phone,
+          total: Number(d.total) || 0,
+          status: d.status || "Open",
+          createdAt: d.created_at ? new Date(d.created_at).toLocaleDateString() : "Recently",
+          items: Array.isArray(d.items) ? d.items : [],
+          notes: d.notes,
+        }));
+        this.saveLocalDrafts(mapped);
+        return mapped;
+      }
+    } catch (err) {
+      console.warn("Supabase fetch draft orders note:", err);
+    }
+    return local || defaultSeed;
+  },
+
+  async saveDraftOrder(draft) {
+    const local = this.getLocalDrafts() || [];
+    const updated = [draft, ...local.filter((d) => d.id !== draft.id)];
+    this.saveLocalDrafts(updated);
+
+    try {
+      await supabase.from("draft_orders").upsert({
+        id: draft.id,
+        draft_number: draft.draftNumber,
+        customer_name: draft.customerName,
+        customer_email: draft.customerEmail,
+        customer_phone: draft.customerPhone,
+        total: draft.total,
+        status: draft.status || "Open",
+        items: draft.items || [],
+        notes: draft.notes,
+        updated_at: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.warn("Supabase upsert draft order note:", err);
+    }
+    return updated;
+  },
+
+  async deleteDraftOrder(draftId) {
+    const local = this.getLocalDrafts() || [];
+    const updated = local.filter((d) => d.id !== draftId);
+    this.saveLocalDrafts(updated);
+
+    try {
+      await supabase.from("draft_orders").delete().eq("id", draftId);
+    } catch (err) {
+      console.warn("Supabase delete draft order note:", err);
+    }
+    return updated;
+  },
+};
+
+// ── DISCOUNTS SERVICE ────────────────────────────────────────────────────────
+export const discountsService = {
+  getLocalDiscounts() {
+    try {
+      const raw = localStorage.getItem("hanboro_custom_promos");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  },
+
+  saveLocalDiscounts(discounts) {
+    try {
+      localStorage.setItem("hanboro_custom_promos", JSON.stringify(discounts));
+    } catch {}
+  },
+
+  async fetchDiscounts(defaultSeed = {}) {
+    const local = this.getLocalDiscounts();
+    try {
+      const { data, error } = await supabase
+        .from("discounts")
+        .select("*")
+        .eq("is_active", true);
+
+      if (!error && data && data.length > 0) {
+        const mapped = {};
+        data.forEach((d) => {
+          mapped[d.code] = {
+            id: d.id,
+            type: d.type,
+            value: Number(d.value) || 15,
+            label: d.label || `${d.code}: ${d.value}${d.type === "percent" ? "%" : " INR"} OFF`,
+          };
+        });
+        const combined = { ...defaultSeed, ...mapped, ...(local || {}) };
+        this.saveLocalDiscounts(combined);
+        return combined;
+      }
+    } catch (err) {
+      console.warn("Supabase fetch discounts note:", err);
+    }
+    return local || defaultSeed;
+  },
+
+  async saveDiscount(promoCode, config) {
+    const local = this.getLocalDiscounts() || {};
+    const updated = { ...local, [promoCode]: config };
+    this.saveLocalDiscounts(updated);
+
+    try {
+      await supabase.from("discounts").upsert({
+        id: config.id || `dsc-${promoCode.toLowerCase()}`,
+        code: promoCode,
+        type: config.type || "percent",
+        value: Number(config.value) || 15,
+        label: config.label || `${promoCode}: ${config.value} OFF`,
+        is_active: true,
+      });
+    } catch (err) {
+      console.warn("Supabase upsert discount note:", err);
+    }
+    return updated;
   },
 };
 

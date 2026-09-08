@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { ordersService, inventoryService, cartService, rouletteService, SUPABASE_URL } from "./supabaseClient";
+import {
+  ordersService,
+  inventoryService,
+  cartService,
+  rouletteService,
+  draftOrdersService,
+  discountsService,
+  SUPABASE_URL,
+} from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
@@ -457,9 +465,11 @@ export function AdminDashboard({ onNavigateHome }) {
     setIsSyncing(true);
     setOrdersLoading(true);
     try {
-      const [loadedOrders, loadedCarts] = await Promise.all([
+      const [loadedOrders, loadedCarts, loadedDrafts, loadedDiscounts] = await Promise.all([
         ordersService.fetchOrders().catch(() => []),
         cartService.fetchAllLiveCarts().catch(() => []),
+        draftOrdersService.fetchDraftOrders(SHOPIFY_DRAFT_ORDERS_SEED).catch(() => SHOPIFY_DRAFT_ORDERS_SEED),
+        discountsService.fetchDiscounts(PROMO_CODES).catch(() => PROMO_CODES),
       ]);
 
       if (loadedOrders && loadedOrders.length > 0) {
@@ -471,6 +481,14 @@ export function AdminDashboard({ onNavigateHome }) {
           }
         });
         setOrders(combined);
+      }
+
+      if (loadedDrafts && loadedDrafts.length > 0) {
+        setDraftOrders(loadedDrafts);
+      }
+
+      if (loadedDiscounts) {
+        setCustomPromos(loadedDiscounts);
       }
 
       if (loadedCarts && loadedCarts.length > 0) {
@@ -626,7 +644,7 @@ export function AdminDashboard({ onNavigateHome }) {
     if (inspectingOrder && (inspectingOrder.order_ref === orderRef || inspectingOrder.id === orderRef)) {
       setInspectingOrder((prev) => ({ ...prev, ...updates }));
     }
-    await ordersService.updateOrderStatus(orderRef, updates.order_status || updates.fulfillment_status).catch(() => {});
+    await ordersService.updateOrder(orderRef, updates).catch(() => {});
     showToast(`Order ${orderRef} updated successfully`);
   };
 
@@ -697,6 +715,7 @@ export function AdminDashboard({ onNavigateHome }) {
     };
 
     setDraftOrders([newDraft, ...draftOrders]);
+    draftOrdersService.saveDraftOrder(newDraft).catch(() => {});
     setShowCreateDraftModal(false);
     setDraftFormData({
       customerName: "",
@@ -723,9 +742,10 @@ export function AdminDashboard({ onNavigateHome }) {
       total_amount: draft.total,
       currency: "INR",
       payment_status: "Paid",
+      order_status: "Processing",
       fulfillment_status: "In progress",
       items_count: `${draft.items.length} item`,
-      delivery_status: "",
+      delivery_status: "Processing",
       delivery_method: "Standard (Prepaid)",
       tags: ["Draft Order", "VIP Direct"],
       created_at: new Date().toISOString(),
@@ -734,6 +754,8 @@ export function AdminDashboard({ onNavigateHome }) {
       shipping_address: { city: "India", state: "India", pin: "000000" },
     };
 
+    ordersService.createOrder(newOrder).catch(() => {});
+    draftOrdersService.deleteDraftOrder(draft.id).catch(() => {});
     setOrders([newOrder, ...orders]);
     setDraftOrders(draftOrders.filter((d) => d.id !== draft.id));
     showToast(`Draft ${draft.draftNumber} converted to Live Order ${newOrder.order_ref}`);
@@ -745,16 +767,17 @@ export function AdminDashboard({ onNavigateHome }) {
     e.preventDefault();
     if (!promoCodeInput.trim()) return;
     const clean = promoCodeInput.trim().toUpperCase();
+    const config = {
+      type: promoTypeInput,
+      value: Number(promoDiscountInput) || 15,
+      label: `${clean}: ${promoDiscountInput}${promoTypeInput === "percent" ? "%" : " INR"} OFF`,
+    };
     const updated = {
       ...customPromos,
-      [clean]: {
-        type: promoTypeInput,
-        value: Number(promoDiscountInput) || 15,
-        label: `${clean}: ${promoDiscountInput}${promoTypeInput === "percent" ? "%" : " INR"} OFF`,
-      },
+      [clean]: config,
     };
     setCustomPromos(updated);
-    localStorage.setItem("hanboro_custom_promos", JSON.stringify(updated));
+    discountsService.saveDiscount(clean, config).catch(() => {});
     setPromoCodeInput("");
     showToast(`Promo voucher ${clean} activated`);
   };
@@ -763,6 +786,7 @@ export function AdminDashboard({ onNavigateHome }) {
     const prod = (products || PRODUCTS_DATA).find((p) => p.id === productId || p.sku === productId);
     const nextStock = Math.max(0, (prod?.stock || 0) + delta);
     updateProduct(productId, { stock: nextStock });
+    inventoryService.updateStock(productId, nextStock);
     showToast(`Stock for ${prod?.name || productId} updated to ${nextStock}`);
   };
 
