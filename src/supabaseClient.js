@@ -717,8 +717,8 @@ export const inventoryService = {
       await supabase.from("inventory").upsert({
         id: product.id,
         sku: product.sku,
-        name: product.name,
-        collection: inventoryEntry.collection,
+        name: product.name || product.sku || "Untitled Timepiece",
+        collection: inventoryEntry.collection || "Tourbillon & Complications",
         stock: inventoryEntry.stock,
         price_inr: priceNum,
         price_usd: priceUsdNum,
@@ -1091,17 +1091,27 @@ export const productsService = {
     }));
   },
 
-  // Save full products list to local storage
+  // Save full products list to local storage with quota resilience
   saveLocalProducts(products) {
+    if (!Array.isArray(products)) return;
     try {
       localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
     } catch (e) {
-      console.warn("Could not save products locally:", e);
+      console.warn("Storage quota warning, pruning old caches:", e);
+      // Attempt quota recovery: prune old caches
+      try {
+        localStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
+        localStorage.removeItem("hanboro_orders_cache_backup");
+        localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+      } catch (err2) {
+        console.error("Critical storage quota failure:", err2);
+      }
     }
   },
 
-  // Fetch products from Supabase with fallback to local/master
+  // Fetch products from Supabase with intelligent merge against local additions
   async fetchProducts() {
+    const local = this.getLocalProducts();
     try {
       const { data, error } = await supabase
         .from("products")
@@ -1109,7 +1119,7 @@ export const productsService = {
         .order("created_at", { ascending: true });
 
       if (!error && data && data.length > 0) {
-        // Map database columns to application camelCase if needed
+        // Map database columns to application format
         const mapped = data.map((row) => ({
           id: row.id,
           sku: row.sku,
@@ -1130,9 +1140,32 @@ export const productsService = {
           specs: typeof row.specs === "object" && row.specs !== null ? row.specs : {},
           stock: typeof row.stock === "number" ? row.stock : 10,
           isActive: row.is_active !== false,
+          createdAt: row.created_at,
+          updatedAt: row.updated_at,
         }));
-        this.saveLocalProducts(mapped);
-        return mapped;
+
+        // INTELLIGENT MERGE: Do not let remote overwrite local products that were newly created or have newer timestamps
+        const remoteIds = new Set(mapped.map((p) => String(p.id).toLowerCase()));
+        const remoteSkus = new Set(mapped.map((p) => String(p.sku || "").toLowerCase()));
+
+        const localOnly = local.filter((lp) => {
+          const lId = String(lp.id).toLowerCase();
+          const lSku = String(lp.sku || "").toLowerCase();
+          return !remoteIds.has(lId) && (!lSku || !remoteSkus.has(lSku));
+        });
+
+        // Combined: local new additions first, followed by remote products
+        const merged = [...localOnly, ...mapped];
+        this.saveLocalProducts(merged);
+
+        // Auto-sync any local-only timepieces up to Supabase
+        if (localOnly.length > 0) {
+          localOnly.forEach((lp) => {
+            this.syncProductToSupabase(lp).catch(() => {});
+          });
+        }
+
+        return merged;
       } else if (!error && (!data || data.length === 0)) {
         // Table exists in Supabase but has 0 rows -> auto-seed from master catalog in background
         this.seedSupabaseCatalog().catch(() => {});
@@ -1141,7 +1174,55 @@ export const productsService = {
       console.warn("Supabase fetch products note:", err);
     }
 
-    return this.getLocalProducts();
+    return local;
+  },
+
+  // Helper: direct sync single product to Supabase
+  async syncProductToSupabase(product) {
+    try {
+      const priceInr = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || null;
+      const priceUsd = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || null;
+
+      const dbPayload = {
+        id: product.id,
+        sku: product.sku,
+        name: product.name || product.sku || "Untitled Timepiece",
+        subtitle: product.subtitle || "",
+        collection: product.collection || "TOURBILLON",
+        collection_name: product.collectionName || "Tourbillon & Complications",
+        tag: product.tag || "Haute Horlogerie",
+        price: product.price,
+        price_usd: product.priceUsd || "$1,200",
+        availability: product.availability || "In Stock",
+        year: product.year || "2026",
+        summary: product.summary || "",
+        image: product.image,
+        transparent_image: product.transparentImage || product.image,
+        alt_images: product.altImages || [product.image],
+        gallery: product.gallery || [],
+        specs: product.specs || {},
+        stock: typeof product.stock === "number" ? product.stock : 10,
+        is_active: product.isActive !== false,
+        updated_at: new Date().toISOString(),
+      };
+      await supabase.from("products").upsert(dbPayload);
+
+      // Also ensure inventory is synced
+      await supabase.from("inventory").upsert({
+        id: product.id,
+        sku: product.sku,
+        name: dbPayload.name,
+        collection: dbPayload.collection_name,
+        stock: dbPayload.stock,
+        price_inr: priceInr,
+        price_usd: priceUsd,
+        image: product.image,
+        is_active: dbPayload.is_active,
+        updated_at: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.warn("Supabase syncProduct note:", e);
+    }
   },
 
   // Auto-seed Supabase products table if empty
@@ -1212,32 +1293,11 @@ export const productsService = {
 
     // Sync to Supabase
     try {
-      const dbPayload = {
-        id: product.id,
-        sku: product.sku,
-        name: product.name,
-        subtitle: product.subtitle || "",
-        collection: product.collection || "TOURBILLON",
-        collection_name: product.collectionName || "Tourbillon & Complications",
-        tag: product.tag || "Haute Horlogerie",
-        price: product.price,
-        price_usd: product.priceUsd || "$1,200",
-        availability: product.availability || "In Stock",
-        year: product.year || "2026",
-        summary: product.summary || "",
-        image: product.image,
-        transparent_image: product.transparentImage || product.image,
-        alt_images: product.altImages || [product.image],
-        gallery: product.gallery || [],
-        specs: product.specs || {},
-        stock: typeof product.stock === "number" ? product.stock : 10,
-        is_active: product.isActive !== false,
-        updated_at: new Date().toISOString(),
-      };
-      await supabase.from("products").upsert(dbPayload);
+      await this.syncProductToSupabase(product);
 
       if (previousId && previousId !== product.id) {
         await supabase.from("products").delete().eq("id", previousId);
+        await supabase.from("inventory").delete().eq("id", previousId);
       }
     } catch (err) {
       console.warn("Supabase upsert product note:", err);
@@ -1254,7 +1314,12 @@ export const productsService = {
     this.saveLocalProducts(updated);
 
     try {
-      await supabase.from("products").delete().or(`id.eq.${productId},sku.eq.${productId}`);
+      if (productId) {
+        await supabase.from("products").delete().eq("id", productId);
+        await supabase.from("products").delete().eq("sku", productId);
+        await supabase.from("inventory").delete().eq("id", productId);
+        await supabase.from("inventory").delete().eq("sku", productId);
+      }
     } catch (err) {
       console.warn("Supabase delete product note:", err);
     }

@@ -32,6 +32,59 @@ const TABS = [
   { id: "preview", step: "5", title: "Live Preview", subtitle: "Verify & Publish", icon: "👁️" },
 ];
 
+/**
+ * Automatically compress and downscale high-resolution device photos (often 5MB - 12MB)
+ * to crisp Retina WebP / JPEG (~60KB - 120KB) using HTML5 Canvas.
+ * This prevents browser localStorage QuotaExceededError and Supabase HTTP payload limits.
+ */
+async function compressImageFile(file, maxDimension = 1200, quality = 0.82) {
+  if (!file || !file.type.startsWith("image/")) return null;
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const rawDataUrl = e.target?.result;
+      if (!rawDataUrl) return resolve(null);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return resolve(rawDataUrl);
+
+          // Render image onto canvas
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Try WebP first for optimal compression; fallback to JPEG
+          let compressed = canvas.toDataURL("image/webp", quality);
+          if (!compressed || !compressed.startsWith("data:image/webp")) {
+            compressed = canvas.toDataURL("image/jpeg", quality);
+          }
+          resolve(compressed || rawDataUrl);
+        } catch {
+          resolve(rawDataUrl);
+        }
+      };
+      img.onerror = () => resolve(rawDataUrl);
+      img.src = rawDataUrl;
+    };
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
+}
+
 export function WatchEditorModal({
   isOpen,
   onClose,
@@ -43,6 +96,7 @@ export function WatchEditorModal({
   const [activeTab, setActiveTab] = useState("identity");
   const [errors, setErrors] = useState({});
   const [showUrlInput, setShowUrlInput] = useState(false);
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
 
   const mainFileInputRef = useRef(null);
   const galleryFileInputRef = useRef(null);
@@ -223,41 +277,47 @@ export function WatchEditorModal({
     return () => window.removeEventListener("keydown", handleKey);
   }, [isOpen, onClose]);
 
-  // File Upload Handlers (Device Photos)
-  const handleMainImageFile = (e) => {
+  // File Upload Handlers (Device Photos with Canvas Auto-Compression)
+  const handleMainImageFile = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      setForm((prev) => ({
-        ...prev,
-        image: dataUrl,
-        transparentImage: dataUrl,
-      }));
-      if (errors.image) setErrors({ ...errors, image: null });
-    };
-    reader.readAsDataURL(file);
+    setIsProcessingImage(true);
+    try {
+      const dataUrl = await compressImageFile(file, 1200, 0.82);
+      if (dataUrl) {
+        setForm((prev) => ({
+          ...prev,
+          image: dataUrl,
+          transparentImage: dataUrl,
+        }));
+        if (errors.image) setErrors({ ...errors, image: null });
+      }
+    } finally {
+      setIsProcessingImage(false);
+    }
   };
 
-  const handleGalleryFiles = (e) => {
+  const handleGalleryFiles = async (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target.result;
+    setIsProcessingImage(true);
+    try {
+      const compressedUrls = await Promise.all(
+        files.map((file) => compressImageFile(file, 1200, 0.82))
+      );
+      const validUrls = compressedUrls.filter(Boolean);
+      if (validUrls.length > 0) {
         setForm((prev) => {
           const current = prev.galleryUrls ? prev.galleryUrls.split("\n").filter(Boolean) : [];
           return {
             ...prev,
-            galleryUrls: [...current, dataUrl].join("\n"),
+            galleryUrls: [...current, ...validUrls].join("\n"),
           };
         });
-      };
-      reader.readAsDataURL(file);
-    });
+      }
+    } finally {
+      setIsProcessingImage(false);
+    }
   };
 
   const handleRemoveGalleryItem = (index) => {
@@ -271,38 +331,44 @@ export function WatchEditorModal({
     });
   };
 
-  const handleNightImageFile = (e) => {
+  const handleNightImageFile = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      setForm((prev) => ({
-        ...prev,
-        nightImage: dataUrl,
-        hasNightMode: true,
-      }));
-    };
-    reader.readAsDataURL(file);
+    setIsProcessingImage(true);
+    try {
+      const dataUrl = await compressImageFile(file, 1200, 0.82);
+      if (dataUrl) {
+        setForm((prev) => ({
+          ...prev,
+          nightImage: dataUrl,
+          hasNightMode: true,
+        }));
+      }
+    } finally {
+      setIsProcessingImage(false);
+    }
   };
 
-  // Drag and drop for primary photo
-  const handleDropMain = (e) => {
+  // Drag and drop for primary photo with auto-compression
+  const handleDropMain = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     const file = e.dataTransfer.files?.[0];
     if (!file || !file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target.result;
-      setForm((prev) => ({
-        ...prev,
-        image: dataUrl,
-        transparentImage: dataUrl,
-      }));
-      if (errors.image) setErrors({ ...errors, image: null });
-    };
-    reader.readAsDataURL(file);
+    setIsProcessingImage(true);
+    try {
+      const dataUrl = await compressImageFile(file, 1200, 0.82);
+      if (dataUrl) {
+        setForm((prev) => ({
+          ...prev,
+          image: dataUrl,
+          transparentImage: dataUrl,
+        }));
+        if (errors.image) setErrors({ ...errors, image: null });
+      }
+    } finally {
+      setIsProcessingImage(false);
+    }
   };
 
   // Auto-calculate USD price when INR price changes
@@ -869,10 +935,16 @@ export function WatchEditorModal({
 
                       <div className="dropzone-text-group">
                         <span className="dropzone-title">
-                          {form.image ? "Click or Drop to Replace Photo" : "Choose Photo from Device"}
+                          {isProcessingImage
+                            ? "Optimizing & Compressing Photo..."
+                            : form.image
+                            ? "Click or Drop to Replace Photo"
+                            : "Choose Photo from Device"}
                         </span>
                         <span className="dropzone-subtitle">
-                          Supports PNG, WebP, JPG, or transparent cutouts
+                          {isProcessingImage
+                            ? "Rescaling to crisp 1200px Retina WebP for instant loading"
+                            : "Supports PNG, WebP, JPG, or transparent cutouts"}
                         </span>
                       </div>
 

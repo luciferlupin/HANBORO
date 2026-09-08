@@ -353,8 +353,8 @@ export function AdminDashboard({ onNavigateHome }) {
   } = useStore();
 
   // Active Tab navigation matching Shopify: 'home' | 'orders' | 'drafts' | 'abandoned' | 'products' | 'customers' | 'analytics' | 'discounts' | 'whatsapp' | 'settings'
-  const [activeTab, setActiveTab] = useState(() => {
-    const hash = window.location.hash || "";
+  const [activeTab, setActiveTabState] = useState(() => {
+    const hash = (typeof window !== "undefined" ? window.location.hash : "") || "";
     if (hash.includes("abandoned")) return "abandoned";
     if (hash.includes("drafts")) return "drafts";
     if (hash.includes("orders")) return "orders";
@@ -364,8 +364,22 @@ export function AdminDashboard({ onNavigateHome }) {
     if (hash.includes("discounts")) return "discounts";
     if (hash.includes("whatsapp")) return "whatsapp";
     if (hash.includes("settings")) return "settings";
-    return "orders"; // Default to Orders view as in active Shopify management
+    try {
+      const saved = localStorage.getItem("hanboro_admin_tab");
+      if (saved) return saved;
+    } catch {}
+    return "products"; // Default to Products view so SKU listings are immediate
   });
+
+  const setActiveTab = (tab) => {
+    setActiveTabState(tab);
+    try {
+      localStorage.setItem("hanboro_admin_tab", tab);
+    } catch {}
+    if (typeof window !== "undefined" && window.location.hash.startsWith("#admin")) {
+      window.history.replaceState(null, "", `#admin/${tab}`);
+    }
+  };
 
   // Theme Mode: "shopify-light" (Polaris clean light matching screenshots) vs "luxury-dark"
   const [adminTheme, setAdminTheme] = useState(() => {
@@ -851,6 +865,27 @@ export function AdminDashboard({ onNavigateHome }) {
         </div>
 
         <div className="sp-topbar__right">
+          {/* Cloud Sync Status Pill */}
+          <div
+            className="sp-sync-badge"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              fontSize: "11px",
+              padding: "4px 10px",
+              borderRadius: "100px",
+              background: isSyncing ? "rgba(234, 179, 8, 0.12)" : "rgba(34, 197, 94, 0.12)",
+              color: isSyncing ? "#ca8a04" : "#16a34a",
+              fontWeight: 600,
+              letterSpacing: "0.02em",
+              border: `1px solid ${isSyncing ? "rgba(234, 179, 8, 0.25)" : "rgba(34, 197, 94, 0.25)"}`
+            }}
+          >
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: isSyncing ? "#eab308" : "#22c55e" }} />
+            {isSyncing ? "Syncing..." : "Cloud Live"}
+          </div>
+
           {/* Refresh / Sync telemetry */}
           <button
             type="button"
@@ -3090,6 +3125,7 @@ export function AdminDashboard({ onNavigateHome }) {
             }
             setEditorModalOpen(false);
             setEditingWatch(null);
+            setActiveTab("products");
           }}
         />
       )}
