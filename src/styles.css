@@ -17,17 +17,28 @@ html {
   scroll-behavior: auto;
   font-family: var(--font-main);
   -webkit-overflow-scrolling: touch;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100vw;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
   background: var(--black);
   font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
   -webkit-overflow-scrolling: touch;
+}
+#root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 button, a, input, select, textarea { font-family: inherit; }
 a { color: inherit; text-decoration: none; }
@@ -102,8 +113,7 @@ body.modal-open {
   background: rgba(250, 45, 29, 0.8);
 }
 
-/* ── App root ─────────────────────────────────────────────────────────────── */
-.app-root { position: relative; width: 100%; min-height: 100dvh; overflow-x: clip; }
+.app-root { position: relative; width: 100%; max-width: 100vw; min-height: 100dvh; overflow-x: hidden; }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    IRIS TRANSITION
@@ -18983,6 +18993,10 @@ a.contact-value:hover {
 
 .shopify-admin-shell {
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -19086,6 +19100,10 @@ a.contact-value:hover {
 /* ── Topbar (Clean White Header) ── */
 .sp-topbar {
   height: 56px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
   background-color: var(--sp-topbar-bg);
   color: var(--sp-topbar-text);
   display: flex;
@@ -19103,6 +19121,8 @@ a.contact-value:hover {
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .sp-brand-badge {
@@ -19117,6 +19137,7 @@ a.contact-value:hover {
   color: var(--sp-text);
   font-family: inherit;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .sp-brand-badge:hover {
@@ -19129,6 +19150,7 @@ a.contact-value:hover {
   font-size: 13.5px;
   letter-spacing: -0.01em;
   color: var(--sp-text);
+  white-space: nowrap;
 }
 
 .sp-chevron {
@@ -19141,7 +19163,8 @@ a.contact-value:hover {
   position: relative;
   display: flex;
   align-items: center;
-  width: 380px;
+  width: 340px;
+  max-width: 36vw;
 }
 
 .sp-search-icon {
@@ -19322,13 +19345,20 @@ a.contact-value:hover {
 .sp-body-container {
   display: flex;
   flex: 1;
+  width: 100%;
+  max-width: 100vw;
+  min-width: 0;
   min-height: calc(100vh - 56px);
   background-color: var(--sp-bg);
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .sp-sidebar {
   width: 240px;
+  min-width: 240px;
   flex-shrink: 0;
+  box-sizing: border-box;
   background-color: var(--sp-sidebar-bg);
   border-right: 1px solid var(--sp-border);
   padding: 12px 8px;
@@ -19469,19 +19499,27 @@ a.contact-value:hover {
 
 /* ── Main Content Stage ── */
 .sp-content-stage {
-  flex: 1;
-  padding: 24px 32px;
+  flex: 1 1 0%;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 20px 24px;
   overflow-y: auto;
-  max-width: 1400px;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* ── Page White Cards ── */
 .sp-page-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   background: var(--sp-surface);
   border: 1px solid var(--sp-border);
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   overflow: hidden;
+  box-sizing: border-box;
   margin-bottom: 24px;
 }
 
@@ -19491,6 +19529,9 @@ a.contact-value:hover {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--sp-border-subtle);
+  flex-wrap: wrap;
+  gap: 10px;
+  box-sizing: border-box;
 }
 
 .sp-card-title-wrap {
@@ -19519,6 +19560,8 @@ a.contact-value:hover {
 
 /* ── Filter Tabs & Search Controls ── */
 .sp-table-controls {
+  width: 100%;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--sp-border-subtle);
 }
 
@@ -19529,6 +19572,7 @@ a.contact-value:hover {
   gap: 4px;
   overflow-x: auto;
   border-bottom: 1px solid var(--sp-border-subtle);
+  box-sizing: border-box;
 }
 
 .sp-tab-item {
@@ -19571,6 +19615,8 @@ a.contact-value:hover {
   padding: 10px 16px;
   gap: 12px;
   background: var(--sp-surface);
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .sp-search-field {
@@ -19617,7 +19663,25 @@ a.contact-value:hover {
 /* ── Polaris Data Tables ── */
 .sp-table-wrap {
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sp-border) transparent;
+}
+
+.sp-table-wrap::-webkit-scrollbar {
+  height: 5px;
+}
+
+.sp-table-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sp-table-wrap::-webkit-scrollbar-thumb {
+  background: var(--sp-border);
+  border-radius: 4px;
 }
 
 .sp-table {
@@ -19631,19 +19695,19 @@ a.contact-value:hover {
   background: #f7f8f9;
   color: #44474a;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11.5px;
   letter-spacing: 0.01em;
-  padding: 11px 14px;
+  padding: 10px 10px;
   border-bottom: 1px solid var(--sp-border);
   white-space: nowrap;
 }
 
 .sp-table td {
-  padding: 13px 14px;
+  padding: 11px 10px;
   border-bottom: 1px solid var(--sp-border-subtle);
   color: var(--sp-text);
-  font-size: 13.5px;
-  line-height: 1.45;
+  font-size: 13px;
+  line-height: 1.4;
   letter-spacing: -0.01em;
   vertical-align: middle;
 }
