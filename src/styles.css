@@ -17942,12 +17942,18 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   THE ART OF SUBTLE MASTERY (4 Pillars / Advantages Section - Behance Style)
+   THE ART OF SUBTLE MASTERY (4 Pillars / Advantages Section - Black Luxury Theme)
    ══════════════════════════════════════════════════════════════════════════════ */
 .subtle-mastery-section {
-  background: #f7f4ee;
-  color: #121214;
-  padding: clamp(80px, 9vw, 140px) 0;
+  background: #08080a;
+  color: #f5f2ed;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(80px, 10vh, 140px) clamp(24px, 5vw, 64px);
+  min-height: 98vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
   z-index: 10;
@@ -17959,38 +17965,6 @@ body.modal-open {
   padding: 0 clamp(20px, 4vw, 56px);
   position: relative;
   z-index: 2;
-}
-
-.subtle-mastery__eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #8c877e;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-
-.eyebrow-bracket {
-  color: #b5b0a6;
-}
-
-.eyebrow-text {
-  color: #55524c;
-}
-
-.subtle-mastery-section {
-  background: #f7f4ee;
-  padding: clamp(80px, 10vh, 140px) clamp(24px, 5vw, 64px);
-  min-height: 98vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 }
 
 .subtle-mastery__container--vertical {
@@ -18021,7 +17995,7 @@ body.modal-open {
   font-weight: 700;
   line-height: 1.06;
   letter-spacing: -0.02em;
-  color: #121214;
+  color: #f5f2ed;
   margin: 0;
   text-align: left;
 }
@@ -18029,6 +18003,7 @@ body.modal-open {
 .vertical-timeline__title span {
   font-style: italic;
   font-weight: 400;
+  color: rgba(245, 242, 237, 0.62);
 }
 
 .vertical-timeline__subtitle {
@@ -18036,7 +18011,7 @@ body.modal-open {
   font-size: clamp(14.5px, 1.28vw, 16.5px);
   font-weight: 400;
   line-height: 1.7;
-  color: #55524c;
+  color: rgba(245, 242, 237, 0.65);
   margin: 2px 0 6px 0;
   max-width: 460px;
   text-wrap: pretty;
@@ -18049,30 +18024,30 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   font-weight: 700;
-  color: #8c877e;
+  color: rgba(245, 242, 237, 0.55);
   margin-top: 8px;
   padding: 6px 16px;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 9999px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .counter-current {
-  color: #d91414;
+  color: #fa2d1d;
   font-size: 15.5px;
   font-weight: 800;
 }
 
 .counter-divider {
-  color: #b5b0a6;
+  color: rgba(255, 255, 255, 0.2);
 }
 
 .counter-tag {
   margin-left: 8px;
   font-size: 9.5px;
   letter-spacing: 0.14em;
-  background: rgba(217, 20, 20, 0.1);
-  color: #d91414;
+  background: rgba(250, 45, 29, 0.12);
+  color: #fa2d1d;
   padding: 3px 8px;
   border-radius: 9999px;
   font-weight: 700;
@@ -18098,7 +18073,7 @@ body.modal-open {
 .vertical-spine__bg {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
@@ -18108,12 +18083,12 @@ body.modal-open {
   top: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #d91414 0%, #fa2d1d 65%, #b89662 100%);
+  background: linear-gradient(180deg, #fa2d1d 0%, #ff453a 65%, #b89662 100%);
   border-radius: 9999px;
   transform-origin: top center;
   transform: scaleY(0.035);
   will-change: transform;
-  box-shadow: 0 0 18px rgba(217, 20, 20, 0.6);
+  box-shadow: 0 0 18px rgba(250, 45, 29, 0.6);
   position: relative;
 }
 
@@ -18151,7 +18126,7 @@ body.modal-open {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(217, 20, 20, 0.25);
+  background: rgba(250, 45, 29, 0.35);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -18176,26 +18151,26 @@ body.modal-open {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #8c877e;
+  background: #0d0d10;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 2;
 }
 
 .vertical-step-card.is-active .vertical-node-dot {
-  border-color: #d91414;
-  background: #d91414;
+  border-color: #fa2d1d;
+  background: #fa2d1d;
 }
 
 .vertical-step-card.is-current .vertical-node-dot {
-  border-color: #d91414;
-  background: #d91414;
-  box-shadow: 0 0 14px rgba(217, 20, 20, 0.65), 0 0 0 3.5px rgba(217, 20, 20, 0.16);
+  border-color: #fa2d1d;
+  background: #fa2d1d;
+  box-shadow: 0 0 16px rgba(250, 45, 29, 0.8), 0 0 0 4px rgba(250, 45, 29, 0.2);
 }
 
 .vertical-node-core {
@@ -18214,8 +18189,8 @@ body.modal-open {
 .vertical-step-content {
   display: flex;
   flex-direction: column;
-  opacity: 0.35;
-  filter: grayscale(0.6) blur(0.3px);
+  opacity: 0.25;
+  filter: grayscale(0.8) blur(0.3px);
   transform: translateX(6px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -18241,7 +18216,7 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12.5px;
   font-weight: 800;
-  color: #8c877e;
+  color: rgba(245, 242, 237, 0.45);
   transition: color 0.3s ease;
 }
 
@@ -18249,14 +18224,14 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 600;
-  color: #8c877e;
+  color: rgba(255, 255, 255, 0.25);
   opacity: 0.6;
   transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .vertical-step-card.is-active .vertical-step-num,
 .vertical-step-card.is-active .vertical-step-sep {
-  color: #d91414;
+  color: #fa2d1d;
   opacity: 1;
 }
 
@@ -18265,21 +18240,21 @@ body.modal-open {
   font-size: 9.5px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #8c877e;
+  color: rgba(245, 242, 237, 0.45);
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
 
 .vertical-step-card.is-active .vertical-step-badge,
 .vertical-step-card.is-current .vertical-step-badge {
-  color: #d91414;
+  color: #fa2d1d;
 }
 
 .vertical-step-title {
   font-family: 'Playfair Display', 'Cinzel', var(--font-main), serif;
   font-size: clamp(22px, 1.8vw, 27px);
   font-weight: 700;
-  color: #121214;
+  color: #f5f2ed;
   margin: 0 0 8px 0;
   line-height: 1.22;
 }
@@ -18289,7 +18264,7 @@ body.modal-open {
   font-size: clamp(14px, 1.2vw, 15.5px);
   font-weight: 400;
   line-height: 1.64;
-  color: #55524c;
+  color: rgba(245, 242, 237, 0.65);
   margin: 0;
   max-width: 500px;
   text-wrap: pretty;
