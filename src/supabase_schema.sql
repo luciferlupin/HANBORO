@@ -208,15 +208,21 @@ ALTER TABLE public.roulette_spins ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.draft_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.discounts ENABLE ROW LEVEL SECURITY;
 
--- Drop existing legacy policies to prevent conflicts
-DROP POLICY IF EXISTS "Anon public full access profiles" ON public.profiles;
-DROP POLICY IF EXISTS "Anon public full access cart_items" ON public.cart_items;
-DROP POLICY IF EXISTS "Anon public full access orders" ON public.orders;
-DROP POLICY IF EXISTS "Anon public full access products" ON public.products;
-DROP POLICY IF EXISTS "Anon public full access inventory" ON public.inventory;
-DROP POLICY IF EXISTS "Anon public full access roulette_spins" ON public.roulette_spins;
-DROP POLICY IF EXISTS "Anon public full access draft_orders" ON public.draft_orders;
-DROP POLICY IF EXISTS "Anon public full access discounts" ON public.discounts;
+-- Drop all existing legacy policies dynamically on all tables to prevent conflicts or "RLS Policy Always True" warnings
+DO $$
+DECLARE
+    pol RECORD;
+BEGIN
+    FOR pol IN 
+        SELECT schemaname, tablename, policyname 
+        FROM pg_policies 
+        WHERE schemaname = 'public' 
+          AND tablename IN ('profiles', 'cart_items', 'orders', 'products', 'inventory', 'roulette_spins', 'draft_orders', 'discounts')
+    LOOP
+        EXECUTE format('DROP POLICY IF EXISTS %I ON %I.%I;', pol.policyname, pol.schemaname, pol.tablename);
+    END LOOP;
+END $$;
+
 
 -- 1. Profiles policies
 DROP POLICY IF EXISTS "Profiles select policy" ON public.profiles;
