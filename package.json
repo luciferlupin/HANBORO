@@ -3,6 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "allowScripts": {
+    "esbuild": true,
+    "esbuild@0.25.12": true,
+    "fsevents": true,
+    "fsevents@2.3.3": true
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prepare-sites-build.mjs && node scripts/prepare-dist.mjs",
