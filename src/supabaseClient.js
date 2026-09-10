@@ -1,21 +1,61 @@
 import { createClient } from "@supabase/supabase-js";
 import { PRODUCTS_DATA } from "./productsData";
 
-export const SUPABASE_URL =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_URL) ||
-  "https://fhaurmmbgxfuumwegshy.supabase.co";
-export const SUPABASE_ANON_KEY =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_ANON_KEY) ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoYXVybW1iZ3hmdXVtd2Vnc2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzU3MzgsImV4cCI6MjEwMzE1MTczOH0.s8BkJPk-4BVZQWQ9L1cacgV3uJ6oiTm0MxRqpHWFUm0";
+function sanitizeSupabaseUrl(rawUrl) {
+  const fallback = "https://fhaurmmbgxfuumwegshy.supabase.co";
+  let url = String(rawUrl || "").trim().replace(/^["']+|["']+$/g, "").trim();
+  if (!url) return fallback;
+  if (/^[a-z0-9_-]{10,40}$/i.test(url) && !url.includes(".") && !url.includes("/")) {
+    return `https://${url}.supabase.co`;
+  }
+  if (!/^https?:\/\//i.test(url)) {
+    url = `https://${url}`;
+  }
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.origin;
+    }
+  } catch {}
+  return fallback;
+}
 
-// Initialize official Supabase JS client
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-  },
-});
+function sanitizeSupabaseKey(rawKey) {
+  const fallback =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoYXVybW1iZ3hmdXVtd2Vnc2h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1NzU3MzgsImV4cCI6MjEwMzE1MTczOH0.s8BkJPk-4BVZQWQ9L1cacgV3uJ6oiTm0MxRqpHWFUm0";
+  let key = String(rawKey || "").trim().replace(/^["']+|["']+$/g, "").trim();
+  return key.length > 20 ? key : fallback;
+}
+
+const rawEnvUrl = typeof import.meta !== "undefined" ? import.meta.env?.VITE_SUPABASE_URL : "";
+const rawEnvKey = typeof import.meta !== "undefined" ? import.meta.env?.VITE_SUPABASE_ANON_KEY : "";
+
+export const SUPABASE_URL = sanitizeSupabaseUrl(rawEnvUrl);
+export const SUPABASE_ANON_KEY = sanitizeSupabaseKey(rawEnvKey);
+
+// Initialize official Supabase JS client with resilient fallback
+function initSupabase() {
+  try {
+    return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+  } catch (err) {
+    console.warn("Could not create Supabase client with environment URL, falling back:", err);
+    return createClient("https://fhaurmmbgxfuumwegshy.supabase.co", sanitizeSupabaseKey(""), {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+  }
+}
+
+export const supabase = initSupabase();
 
 // Helper: check if a string is a valid standard UUID
 export function isUuid(str) {
