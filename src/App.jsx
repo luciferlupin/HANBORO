@@ -1813,10 +1813,16 @@ function InteractiveDottedGlobe() {
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 2000);
     camera.position.set(0, 20, 480);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    container.appendChild(renderer.domElement);
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      container.appendChild(renderer.domElement);
+    } catch (err) {
+      console.warn("WebGL is not supported or context creation failed:", err);
+      return;
+    }
 
     const globeRadius = 240;
     const globeGroup = new THREE.Group();
@@ -2057,10 +2063,12 @@ function InteractiveDottedGlobe() {
       dom.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
+      if (renderer) {
+        if (container.contains(renderer.domElement)) {
+          container.removeChild(renderer.domElement);
+        }
+        renderer.dispose();
       }
-      renderer.dispose();
     };
   }, []);
 
