@@ -18508,10 +18508,29 @@ body.modal-open {
   justify-content: center;
   gap: clamp(16px, 2.4vw, 32px);
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.is-in-view .mosaic-row--1 {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.08s;
+}
+
+.is-in-view .mosaic-row--2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.22s;
+}
+
+.is-in-view .mosaic-row--3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.36s;
 }
 
 .mosaic-text {
@@ -18532,17 +18551,46 @@ body.modal-open {
   text-shadow: 0 0 28px rgba(250, 45, 29, 0.35);
 }
 
-/* ── Motion Text Elements (Guaranteed Visible) ── */
+/* ── Motion Text Elements (Silky Scroll Reveal) ── */
 .motion-text-reveal {
   display: inline-block;
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(4px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-in-view .mosaic-row--1 .motion-text-reveal {
   opacity: 1;
   transform: translateY(0);
-  filter: none;
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: blur(0);
+  transition-delay: 0.12s;
+}
+
+.is-in-view .mosaic-row--2 .motion-text-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition-delay: 0.26s;
+}
+
+.is-in-view .mosaic-row--3 .motion-text-reveal {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition-delay: 0.4s;
 }
 
 .motion-text-fade {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+              transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+
+.is-in-view .motion-text-fade {
   opacity: 1;
   transform: translateY(0);
 }
@@ -18555,28 +18603,7 @@ body.modal-open {
   position: relative;
   pointer-events: none;
   user-select: none;
-}
-
-@keyframes pillSwipeLeftIn {
-  0% {
-    transform: translateX(-24px) scale(0.96);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes pillSwipeRightIn {
-  0% {
-    transform: translateX(24px) scale(0.96);
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
+  will-change: transform;
 }
 
 .mosaic-pill {
@@ -18589,23 +18616,36 @@ body.modal-open {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
   border: 2px solid rgba(255, 255, 255, 0.16);
   flex-shrink: 0;
-  opacity: 1;
+  opacity: 0;
+  transform: scale(0.92);
   pointer-events: none;
   user-select: none;
   cursor: default;
-  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+  will-change: transform, opacity;
 }
 
 .is-in-view .mosaic-pill--seal {
-  animation: pillSwipeLeftIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0.12s;
 }
 
 .is-in-view .mosaic-pill--dial {
-  animation: pillSwipeRightIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 1;
+  transform: scale(1);
+  border-color: rgba(250, 45, 29, 0.3);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(250, 45, 29, 0.15);
+  transition-delay: 0.28s;
 }
 
 .is-in-view .mosaic-pill--wrist {
-  animation: pillSwipeLeftIn 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 0.42s;
 }
 
 .mosaic-pill--seal {
@@ -18632,6 +18672,7 @@ body.modal-open {
   object-fit: cover;
   border-radius: 9999px;
   display: block;
+  will-change: transform;
 }
 
 .mosaic-pill-img--seal {
