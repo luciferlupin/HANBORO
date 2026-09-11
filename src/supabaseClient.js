@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { PRODUCTS_DATA } from "./productsData";
+import { PRODUCTS_DATA } from "./productsData.js";
 
 function sanitizeSupabaseUrl(rawUrl) {
   const fallback = "https://fhaurmmbgxfuumwegshy.supabase.co";
@@ -62,6 +62,32 @@ export function isUuid(str) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str || "").trim());
 }
 
+// Safe localStorage wrapper for SSR / worker safety
+export const safeStorage = {
+  getItem(k) {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        return window.localStorage.getItem(k);
+      }
+    } catch {}
+    return null;
+  },
+  setItem(k, v) {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.setItem(k, v);
+      }
+    } catch {}
+  },
+  removeItem(k) {
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        window.localStorage.removeItem(k);
+      }
+    } catch {}
+  },
+};
+
 // Local cache keys for offline/fallback resilience
 const STORAGE_KEYS = {
   ORDERS: "hanboro_orders_cache",
@@ -75,7 +101,7 @@ const STORAGE_KEYS = {
 // Helper: load local orders cache (pure live orders only)
 export function getLocalOrders() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.ORDERS);
+    const raw = safeStorage.getItem(STORAGE_KEYS.ORDERS);
     if (!raw) {
       return [];
     }
@@ -93,7 +119,7 @@ export function getLocalOrders() {
 // Helper: save local orders cache
 export function saveLocalOrders(orders) {
   try {
-    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+    safeStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
   } catch (err) {
     console.warn("Could not save orders locally", err);
   }
@@ -140,7 +166,7 @@ export const authService = {
         console.warn("Supabase profiles table insert skipped (will use auth metadata)", profileErr);
       }
 
-      localStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
+      safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
       return { user: data.user || profile, profile, error: null };
     } catch (err) {
       console.warn("Supabase signup warning, using fallback profile", err.message);
@@ -153,7 +179,7 @@ export const authService = {
         role: email.toLowerCase().includes("admin") ? "admin" : "customer",
         created_at: new Date().toISOString(),
       };
-      localStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(fallbackProfile));
+      safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(fallbackProfile));
       return { user: fallbackProfile, profile: fallbackProfile, error: null, fallback: true };
     }
   },
@@ -173,7 +199,7 @@ export const authService = {
           role: "admin",
           created_at: new Date().toISOString(),
         };
-        localStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(ownerProfile));
+        safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(ownerProfile));
         return { user: ownerProfile, profile: ownerProfile, error: null };
       }
 
@@ -195,11 +221,11 @@ export const authService = {
             : "customer",
       };
 
-      localStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
+      safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
       return { user: data.user, profile, error: null };
     } catch (err) {
       // If user signed up locally or test password match
-      const cached = localStorage.getItem(STORAGE_KEYS.SESSION_USER);
+      const cached = safeStorage.getItem(STORAGE_KEYS.SESSION_USER);
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
@@ -221,7 +247,7 @@ export const authService = {
     } catch {
       // ignore
     }
-    localStorage.removeItem(STORAGE_KEYS.SESSION_USER);
+    safeStorage.removeItem(STORAGE_KEYS.SESSION_USER);
     return { success: true };
   },
 
@@ -241,7 +267,7 @@ export const authService = {
               ? "admin"
               : "customer",
         };
-        localStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
+        safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
         return profile;
       }
     } catch {
@@ -249,7 +275,7 @@ export const authService = {
     }
 
     try {
-      const cached = localStorage.getItem(STORAGE_KEYS.SESSION_USER);
+      const cached = safeStorage.getItem(STORAGE_KEYS.SESSION_USER);
       if (cached) return JSON.parse(cached);
     } catch {
       // ignore
@@ -392,9 +418,9 @@ export const cartService = {
 
     // Fallback: check real local active cart in current visitor session
     try {
-      const rawUser = localStorage.getItem(STORAGE_KEYS.SESSION_USER);
+      const rawUser = safeStorage.getItem(STORAGE_KEYS.SESSION_USER);
       const sessionUser = rawUser ? JSON.parse(rawUser) : null;
-      const cachedCart = localStorage.getItem("hanboro_cart") || localStorage.getItem(STORAGE_KEYS.CART);
+      const cachedCart = safeStorage.getItem("hanboro_cart") || safeStorage.getItem(STORAGE_KEYS.CART);
       if (cachedCart) {
         const parsed = JSON.parse(cachedCart);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -654,7 +680,7 @@ export const inventoryService = {
           isActive: row.is_active !== false,
           image: row.image,
         }));
-        localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(mapped));
+        safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(mapped));
         return mapped;
       }
     } catch (err) {
@@ -667,7 +693,7 @@ export const inventoryService = {
   getInventory() {
     let list = [];
     try {
-      const cached = localStorage.getItem(STORAGE_KEYS.INVENTORY);
+      const cached = safeStorage.getItem(STORAGE_KEYS.INVENTORY);
       if (cached) list = JSON.parse(cached);
     } catch {
       // ignore
@@ -689,7 +715,7 @@ export const inventoryService = {
 
     // Sync any custom products saved locally that aren't yet in inventory
     try {
-      const customRaw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      const customRaw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (customRaw) {
         const customProducts = JSON.parse(customRaw);
         if (Array.isArray(customProducts)) {
@@ -711,7 +737,7 @@ export const inventoryService = {
             }
           });
           if (hasNew) {
-            localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
+            safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
           }
         }
       }
@@ -730,16 +756,21 @@ export const inventoryService = {
       (item) => item.id === targetId || (targetId && item.id === targetId)
     );
 
+    const safeStock = typeof product.stock === "number" && !isNaN(product.stock) ? Math.max(0, product.stock) : 10;
+    const safeSku = String(product.sku || "").trim().toUpperCase();
+    const safeName = String(product.name || product.sku || "Untitled Timepiece").trim();
+    const safeImage = product.image || "/watch-astroworld-moon-rosegold-front-transparent.webp";
+
     const inventoryEntry = {
       id: product.id,
-      sku: product.sku,
-      name: product.name,
-      collection: product.collectionName || product.collection,
-      price: product.price,
-      priceUsd: product.priceUsd,
-      stock: typeof product.stock === "number" ? Math.max(0, product.stock) : 10,
+      sku: safeSku,
+      name: safeName,
+      collection: product.collectionName || product.collection || "Tourbillon & Complications",
+      price: product.price || "₹45,000",
+      priceUsd: product.priceUsd || "$550",
+      stock: safeStock,
       isActive: product.isActive !== false,
-      image: product.image,
+      image: safeImage,
     };
 
     let updated;
@@ -751,24 +782,26 @@ export const inventoryService = {
     }
 
     try {
-      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-      const priceNum = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || null;
-      const priceUsdNum = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || null;
-      await supabase.from("inventory").upsert({
-        id: product.id,
-        sku: product.sku,
-        name: product.name || product.sku || "Untitled Timepiece",
-        collection: inventoryEntry.collection || "Tourbillon & Complications",
-        stock: inventoryEntry.stock,
-        price_inr: priceNum,
-        price_usd: priceUsdNum,
-        image: product.image,
-        is_active: inventoryEntry.isActive,
-        updated_at: new Date().toISOString(),
-      });
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+      const priceNum = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || 45000;
+      const priceUsdNum = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || Math.round(priceNum / 83);
+
       if (previousId && previousId !== product.id) {
         await supabase.from("inventory").delete().eq("id", previousId);
       }
+
+      await supabase.from("inventory").upsert({
+        id: product.id,
+        sku: safeSku,
+        name: safeName,
+        collection: inventoryEntry.collection,
+        stock: inventoryEntry.stock,
+        price_inr: priceNum,
+        price_usd: priceUsdNum,
+        image: safeImage,
+        is_active: inventoryEntry.isActive,
+        updated_at: new Date().toISOString(),
+      });
     } catch (err) {
       console.warn("Supabase upsert inventory note:", err);
     }
@@ -778,21 +811,29 @@ export const inventoryService = {
   // Update inventory stock count
   async updateStock(productId, newStock) {
     const list = this.getInventory();
-    const cleanId = String(productId).trim();
+    const cleanId = String(productId || "").trim();
+    const cleanLower = cleanId.toLowerCase();
     const stockVal = Math.max(0, Number(newStock));
+    const targetItem = list.find((item) => item.id?.toLowerCase() === cleanLower || item.sku?.toLowerCase() === cleanLower);
+    const targetId = targetItem?.id || cleanId;
+    const targetSku = targetItem?.sku || cleanId;
+
     const updated = list.map((item) =>
-      item.id === cleanId || item.sku === cleanId ? { ...item, stock: stockVal } : item
+      item.id?.toLowerCase() === cleanLower || item.sku?.toLowerCase() === cleanLower ? { ...item, stock: stockVal } : item
     );
+
     try {
-      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-      await supabase
-        .from("inventory")
-        .update({ stock: stockVal, updated_at: new Date().toISOString() })
-        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
-      await supabase
-        .from("products")
-        .update({ stock: stockVal, updated_at: new Date().toISOString() })
-        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+      await Promise.all([
+        supabase
+          .from("inventory")
+          .update({ stock: stockVal, updated_at: new Date().toISOString() })
+          .or(`id.eq.${targetId},sku.ilike.${targetSku}`),
+        supabase
+          .from("products")
+          .update({ stock: stockVal, updated_at: new Date().toISOString() })
+          .or(`id.eq.${targetId},sku.ilike.${targetSku}`)
+      ]);
     } catch (err) {
       console.warn("Supabase update inventory stock note:", err);
     }
@@ -802,25 +843,33 @@ export const inventoryService = {
   // Toggle active status
   async toggleActive(productId) {
     const list = this.getInventory();
-    const cleanId = String(productId).trim();
+    const cleanId = String(productId || "").trim();
+    const cleanLower = cleanId.toLowerCase();
+    const targetItem = list.find((item) => item.id?.toLowerCase() === cleanLower || item.sku?.toLowerCase() === cleanLower);
+    const targetId = targetItem?.id || cleanId;
+    const targetSku = targetItem?.sku || cleanId;
+
     let nextActive = true;
     const updated = list.map((item) => {
-      if (item.id === cleanId || item.sku === cleanId) {
+      if (item.id?.toLowerCase() === cleanLower || item.sku?.toLowerCase() === cleanLower) {
         nextActive = !item.isActive;
         return { ...item, isActive: nextActive };
       }
       return item;
     });
+
     try {
-      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-      await supabase
-        .from("inventory")
-        .update({ is_active: nextActive, updated_at: new Date().toISOString() })
-        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
-      await supabase
-        .from("products")
-        .update({ is_active: nextActive, updated_at: new Date().toISOString() })
-        .or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+      await Promise.all([
+        supabase
+          .from("inventory")
+          .update({ is_active: nextActive, updated_at: new Date().toISOString() })
+          .or(`id.eq.${targetId},sku.ilike.${targetSku}`),
+        supabase
+          .from("products")
+          .update({ is_active: nextActive, updated_at: new Date().toISOString() })
+          .or(`id.eq.${targetId},sku.ilike.${targetSku}`)
+      ]);
     } catch (err) {
       console.warn("Supabase toggle active inventory note:", err);
     }
@@ -830,11 +879,16 @@ export const inventoryService = {
   // Delete an item from inventory
   async deleteItem(productId) {
     const list = this.getInventory();
-    const cleanId = String(productId).trim();
-    const updated = list.filter((item) => item.id !== cleanId && item.sku !== cleanId);
+    const cleanId = String(productId || "").trim();
+    const cleanLower = cleanId.toLowerCase();
+    const targetItem = list.find((item) => item.id?.toLowerCase() === cleanLower || item.sku?.toLowerCase() === cleanLower);
+    const targetId = targetItem?.id || cleanId;
+    const targetSku = targetItem?.sku || cleanId;
+
+    const updated = list.filter((item) => item.id?.toLowerCase() !== cleanLower && item.sku?.toLowerCase() !== cleanLower);
     try {
-      localStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
-      await supabase.from("inventory").delete().or(`id.eq.${cleanId},sku.eq.${cleanId}`);
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+      await supabase.from("inventory").delete().or(`id.eq.${targetId},sku.ilike.${targetSku}`);
     } catch (err) {
       console.warn("Supabase delete inventory item note:", err);
     }
@@ -858,7 +912,7 @@ export const rouletteService = {
   // Helper: Load local cached spins
   getLocalSpins() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEYS.ROULETTE_SPINS);
+      const raw = safeStorage.getItem(STORAGE_KEYS.ROULETTE_SPINS);
       return raw ? JSON.parse(raw) : [];
     } catch {
       return [];
@@ -868,7 +922,7 @@ export const rouletteService = {
   // Helper: Save local cached spins
   saveLocalSpins(spins) {
     try {
-      localStorage.setItem(STORAGE_KEYS.ROULETTE_SPINS, JSON.stringify(spins));
+      safeStorage.setItem(STORAGE_KEYS.ROULETTE_SPINS, JSON.stringify(spins));
     } catch (err) {
       console.warn("Could not cache roulette spins", err);
     }
@@ -1112,7 +1166,7 @@ export const productsService = {
   // Get locally cached products or fallback to default PRODUCTS_DATA
   getLocalProducts() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -1135,14 +1189,14 @@ export const productsService = {
   saveLocalProducts(products) {
     if (!Array.isArray(products)) return;
     try {
-      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+      safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
     } catch (e) {
       console.warn("Storage quota warning, pruning old caches:", e);
       // Attempt quota recovery: prune old caches
       try {
-        localStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
-        localStorage.removeItem("hanboro_orders_cache_backup");
-        localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+        safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
+        safeStorage.removeItem("hanboro_orders_cache_backup");
+        safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
       } catch (err2) {
         console.error("Critical storage quota failure:", err2);
       }
@@ -1219,50 +1273,73 @@ export const productsService = {
 
   // Helper: direct sync single product to Supabase
   async syncProductToSupabase(product) {
-    try {
-      const priceInr = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || null;
-      const priceUsd = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || null;
+    const fallbackImage = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+    const safeImage = (product.image && typeof product.image === "string" && product.image.trim().length > 0)
+      ? product.image.trim()
+      : fallbackImage;
+    const safeTransparent = (product.transparentImage && typeof product.transparentImage === "string" && product.transparentImage.trim().length > 0)
+      ? product.transparentImage.trim()
+      : safeImage;
+    const safePrice = (product.price && String(product.price).trim().length > 0)
+      ? (String(product.price).trim().startsWith("₹") ? String(product.price).trim() : `₹${String(product.price).trim()}`)
+      : "₹45,000";
+    const safeName = (product.name && String(product.name).trim().length > 0)
+      ? String(product.name).trim()
+      : (product.sku || "Hanboro Timepiece");
+    const safeSku = String(product.sku || "").trim().toUpperCase() || `HBR-${Math.floor(1000 + Math.random() * 9000)}-X`;
+    const safeStock = Math.max(0, typeof product.stock === "number" && !isNaN(product.stock) ? product.stock : 10);
+    const priceInr = parseInt(safePrice.replace(/[^\d]/g, ""), 10) || 45000;
+    const priceUsd = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || Math.round(priceInr / 83);
 
-      const dbPayload = {
-        id: product.id,
-        sku: product.sku,
-        name: product.name || product.sku || "Untitled Timepiece",
-        subtitle: product.subtitle || "",
-        collection: product.collection || "TOURBILLON",
-        collection_name: product.collectionName || "Tourbillon & Complications",
-        tag: product.tag || "Haute Horlogerie",
-        price: product.price,
-        price_usd: product.priceUsd || "$1,200",
-        availability: product.availability || "In Stock",
-        year: product.year || "2026",
-        summary: product.summary || "",
-        image: product.image,
-        transparent_image: product.transparentImage || product.image,
-        alt_images: product.altImages || [product.image],
-        gallery: product.gallery || [],
-        specs: product.specs || {},
-        stock: typeof product.stock === "number" ? product.stock : 10,
-        is_active: product.isActive !== false,
-        updated_at: new Date().toISOString(),
-      };
-      await supabase.from("products").upsert(dbPayload);
+    const dbPayload = {
+      id: product.id,
+      sku: safeSku,
+      name: safeName,
+      subtitle: product.subtitle || "",
+      collection: product.collection || "TOURBILLON",
+      collection_name: product.collectionName || "Tourbillon & Complications",
+      tag: product.tag || "Haute Horlogerie",
+      price: safePrice,
+      price_usd: product.priceUsd || `$${priceUsd.toLocaleString()}`,
+      availability: product.availability || "In Stock",
+      year: product.year || "2026",
+      summary: product.summary || "",
+      image: safeImage,
+      transparent_image: safeTransparent,
+      alt_images: Array.isArray(product.altImages) && product.altImages.length > 0 ? product.altImages : [safeImage],
+      gallery: Array.isArray(product.gallery) && product.gallery.length > 0 ? product.gallery : [],
+      specs: typeof product.specs === "object" && product.specs !== null ? product.specs : {},
+      stock: safeStock,
+      is_active: product.isActive !== false,
+      updated_at: new Date().toISOString(),
+    };
 
-      // Also ensure inventory is synced
-      await supabase.from("inventory").upsert({
+    const [prodRes, invRes] = await Promise.all([
+      supabase.from("products").upsert(dbPayload).select("id, sku"),
+      supabase.from("inventory").upsert({
         id: product.id,
-        sku: product.sku,
+        sku: safeSku,
         name: dbPayload.name,
         collection: dbPayload.collection_name,
         stock: dbPayload.stock,
         price_inr: priceInr,
         price_usd: priceUsd,
-        image: product.image,
+        image: safeImage,
         is_active: dbPayload.is_active,
         updated_at: new Date().toISOString(),
-      });
-    } catch (e) {
-      console.warn("Supabase syncProduct note:", e);
+      }).select("id, sku"),
+    ]);
+
+    if (prodRes.error) {
+      console.error("Supabase products upsert error:", prodRes.error);
+      throw new Error(`Products table error: ${prodRes.error.message}`);
     }
+    if (invRes.error) {
+      console.error("Supabase inventory upsert error:", invRes.error);
+      throw new Error(`Inventory table error: ${invRes.error.message}`);
+    }
+
+    return { product: prodRes.data?.[0], inventory: invRes.data?.[0] };
   },
 
   // Auto-seed Supabase products table if empty
@@ -1303,6 +1380,14 @@ export const productsService = {
     const targetId = previousId ? String(previousId).trim().toLowerCase() : String(product.id || "").trim().toLowerCase();
     const targetSku = String(product.sku || "").trim().toLowerCase();
 
+    // Clean and validate product fields
+    const safeProduct = {
+      ...product,
+      sku: String(product.sku || "").trim().toUpperCase(),
+      name: String(product.name || "").trim(),
+      updatedAt: new Date().toISOString(),
+    };
+
     // Find if the product already exists by ID or SKU
     let existingIndex = local.findIndex((p) => 
       (p.id && String(p.id).trim().toLowerCase() === targetId) ||
@@ -1315,33 +1400,34 @@ export const productsService = {
       updated = [...local];
       updated[existingIndex] = {
         ...updated[existingIndex],
-        ...product,
-        id: product.id,
-        updatedAt: new Date().toISOString(),
+        ...safeProduct,
       };
     } else {
-      updated = [product, ...local];
+      updated = [safeProduct, ...local];
     }
 
-    // If ID or SKU was changed, clean up any old reference
-    if (previousId && String(previousId).trim().toLowerCase() !== String(product.id).trim().toLowerCase()) {
+    // If ID or SKU was changed, clean up any old reference locally
+    if (previousId && String(previousId).trim().toLowerCase() !== String(safeProduct.id).trim().toLowerCase()) {
       const prevClean = String(previousId).trim().toLowerCase();
       updated = updated.filter((p, idx) => idx === existingIndex || String(p.id).trim().toLowerCase() !== prevClean);
     }
 
     this.saveLocalProducts(updated);
 
-    // Sync to Supabase
-    try {
-      await this.syncProductToSupabase(product);
-
-      if (previousId && previousId !== product.id) {
-        await supabase.from("products").delete().eq("id", previousId);
-        await supabase.from("inventory").delete().eq("id", previousId);
+    // CRITICAL: If ID changed, delete previous record in Supabase FIRST to avoid unique constraint conflict on SKU
+    if (previousId && previousId !== safeProduct.id) {
+      try {
+        await Promise.all([
+          supabase.from("products").delete().eq("id", previousId),
+          supabase.from("inventory").delete().eq("id", previousId)
+        ]);
+      } catch (delErr) {
+        console.warn("Could not delete previous record before rename:", delErr);
       }
-    } catch (err) {
-      console.warn("Supabase upsert product note:", err);
     }
+
+    // Direct sync to Supabase (upsert into both products and inventory)
+    await this.syncProductToSupabase(safeProduct);
 
     return updated;
   },
@@ -1349,16 +1435,20 @@ export const productsService = {
   // Delete a product by id or sku
   async deleteProduct(productId) {
     const local = this.getLocalProducts();
-    const clean = String(productId).trim().toLowerCase();
+    const clean = String(productId || "").trim().toLowerCase();
+    const target = local.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     const updated = local.filter((p) => String(p.id).trim().toLowerCase() !== clean && String(p.sku).trim().toLowerCase() !== clean);
     this.saveLocalProducts(updated);
 
+    const targetId = target?.id || productId;
+    const targetSku = target?.sku || productId;
+
     try {
-      if (productId) {
-        await supabase.from("products").delete().eq("id", productId);
-        await supabase.from("products").delete().eq("sku", productId);
-        await supabase.from("inventory").delete().eq("id", productId);
-        await supabase.from("inventory").delete().eq("sku", productId);
+      if (targetId) {
+        await Promise.all([
+          supabase.from("products").delete().or(`id.eq.${targetId},sku.ilike.${targetSku}`),
+          supabase.from("inventory").delete().or(`id.eq.${targetId},sku.ilike.${targetSku}`)
+        ]);
       }
     } catch (err) {
       console.warn("Supabase delete product note:", err);
@@ -1369,7 +1459,7 @@ export const productsService = {
 
   // Factory reset to master factory catalog
   async resetToMaster() {
-    localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+    safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     const defaults = [...PRODUCTS_DATA];
     this.saveLocalProducts(defaults);
     return defaults;
@@ -1380,7 +1470,7 @@ export const productsService = {
 export const draftOrdersService = {
   getLocalDrafts() {
     try {
-      const raw = localStorage.getItem("hanboro_draft_orders_cache");
+      const raw = safeStorage.getItem("hanboro_draft_orders_cache");
       return raw ? JSON.parse(raw) : null;
     } catch {
       return null;
@@ -1389,7 +1479,7 @@ export const draftOrdersService = {
 
   saveLocalDrafts(drafts) {
     try {
-      localStorage.setItem("hanboro_draft_orders_cache", JSON.stringify(drafts));
+      safeStorage.setItem("hanboro_draft_orders_cache", JSON.stringify(drafts));
     } catch {}
   },
 
@@ -1465,7 +1555,7 @@ export const draftOrdersService = {
 export const discountsService = {
   getLocalDiscounts() {
     try {
-      const raw = localStorage.getItem("hanboro_custom_promos");
+      const raw = safeStorage.getItem("hanboro_custom_promos");
       return raw ? JSON.parse(raw) : null;
     } catch {
       return null;
@@ -1474,7 +1564,7 @@ export const discountsService = {
 
   saveLocalDiscounts(discounts) {
     try {
-      localStorage.setItem("hanboro_custom_promos", JSON.stringify(discounts));
+      safeStorage.setItem("hanboro_custom_promos", JSON.stringify(discounts));
     } catch {}
   },
 
@@ -1527,3 +1617,58 @@ export const discountsService = {
   },
 };
 
+// ── SUPABASE CLOUD DATABASE HEALTH SERVICE ───────────────────────────────────
+export const databaseHealthService = {
+  // Check connectivity, row counts, and status for all 8 active database tables
+  async checkAllTables() {
+    const tableNames = [
+      "products",
+      "inventory",
+      "orders",
+      "profiles",
+      "cart_items",
+      "roulette_spins",
+      "draft_orders",
+      "discounts"
+    ];
+    const results = {};
+    const startTime = performance.now();
+
+    await Promise.all(
+      tableNames.map(async (table) => {
+        const t0 = performance.now();
+        try {
+          const { count, error, status } = await supabase
+            .from(table)
+            .select("*", { count: "exact", head: true });
+          const latency = Math.round(performance.now() - t0);
+          results[table] = {
+            active: !error && (status === 200 || status === 206),
+            status: status || 200,
+            count: typeof count === "number" ? count : 0,
+            latency,
+            error: error ? error.message : null,
+          };
+        } catch (err) {
+          results[table] = {
+            active: false,
+            status: 500,
+            count: 0,
+            latency: Math.round(performance.now() - t0),
+            error: err.message,
+          };
+        }
+      })
+    );
+
+    const totalLatency = Math.round(performance.now() - startTime);
+    const allActive = Object.values(results).every((r) => r.active);
+
+    return {
+      success: allActive,
+      totalLatency,
+      tables: results,
+      checkedAt: new Date().toISOString(),
+    };
+  },
+};

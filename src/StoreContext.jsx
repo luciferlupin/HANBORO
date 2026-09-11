@@ -105,6 +105,7 @@ export function StoreProvider({ children }) {
         const [currentUser, remoteProducts] = await Promise.all([
           authService.getCurrentUser(),
           productsService.fetchProducts(),
+          inventoryService.fetchInventory().catch(() => []),
         ]);
         setUser(currentUser);
         if (remoteProducts && remoteProducts.length > 0) {
@@ -216,7 +217,18 @@ export function StoreProvider({ children }) {
           String(p.sku).trim().toLowerCase() === clean
       );
       if (match) return match;
-      // If products catalog is loaded and item is not found, it has been deleted!
+
+      // Check if this was a known master catalog reference whose SKU or ID was updated
+      const masterMatch = PRODUCTS_DATA.find(
+        (p) =>
+          String(p.id).trim().toLowerCase() === clean ||
+          String(p.sku).trim().toLowerCase() === clean
+      );
+      if (masterMatch) {
+        const liveMatch = products.find((p) => p.id === masterMatch.id);
+        if (liveMatch) return liveMatch;
+      }
+
       return null;
     }
 
@@ -294,12 +306,18 @@ export function StoreProvider({ children }) {
       createdAt: new Date().toISOString(),
     };
 
-    const updatedCatalog = await productsService.saveProduct(formatted);
-    setProducts(updatedCatalog);
-    inventoryService.upsertInventoryItem(formatted);
-    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
-    showToast(`Timepiece "${formatted.name}" added to catalog!`);
-    return formatted;
+    try {
+      const updatedCatalog = await productsService.saveProduct(formatted);
+      setProducts(updatedCatalog);
+      await inventoryService.upsertInventoryItem(formatted);
+      window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
+      showToast(`Timepiece "${formatted.name}" published & stored in Supabase!`);
+      return formatted;
+    } catch (err) {
+      console.error("Error creating product:", err);
+      showToast(`Failed to save timepiece: ${err.message}`, 4000);
+      throw err;
+    }
   };
 
   const updateProduct = async (productId, updatedFields) => {
@@ -322,24 +340,30 @@ export function StoreProvider({ children }) {
       updatedAt: new Date().toISOString(),
     };
 
-    const updatedCatalog = await productsService.saveProduct(merged, previousId);
-    setProducts(updatedCatalog);
-    inventoryService.upsertInventoryItem(merged, previousId);
-    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
+    try {
+      const updatedCatalog = await productsService.saveProduct(merged, previousId);
+      setProducts(updatedCatalog);
+      await inventoryService.upsertInventoryItem(merged, previousId);
+      window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
 
-    // If ID changed, update any active references in cart
-    if (previousId !== merged.id) {
-      setCart((prev) =>
-        prev.map((item) =>
-          item.product.id === previousId
-            ? { ...item, product: { ...item.product, id: merged.id } }
-            : item
-        )
-      );
+      // If ID changed, update any active references in cart
+      if (previousId !== merged.id) {
+        setCart((prev) =>
+          prev.map((item) =>
+            item.product.id === previousId
+              ? { ...item, product: { ...item.product, id: merged.id } }
+              : item
+          )
+        );
+      }
+
+      showToast(`Updated "${merged.name}" (SKU: ${merged.sku}) stored in Supabase!`);
+      return merged;
+    } catch (err) {
+      console.error("Error updating product:", err);
+      showToast(`Database error updating ${merged.sku}: ${err.message}`, 4000);
+      throw err;
     }
-
-    showToast(`Updated "${merged.name}" (Ref: ${merged.sku})`);
-    return merged;
   };
 
   const deleteProduct = async (productId) => {
@@ -347,13 +371,19 @@ export function StoreProvider({ children }) {
     const target = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     const name = target?.name || productId;
     const resolvedId = target?.id || productId;
-    const updatedCatalog = await productsService.deleteProduct(resolvedId);
-    setProducts(updatedCatalog);
-    inventoryService.deleteItem(resolvedId);
-    setCart((prev) => prev.filter((it) => String(it.product.id).trim().toLowerCase() !== clean && String(it.product.sku).trim().toLowerCase() !== clean));
-    window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
-    showToast(`Timepiece "${name}" removed from catalog`);
-    return updatedCatalog;
+    try {
+      const updatedCatalog = await productsService.deleteProduct(resolvedId);
+      setProducts(updatedCatalog);
+      await inventoryService.deleteItem(resolvedId);
+      setCart((prev) => prev.filter((it) => String(it.product.id).trim().toLowerCase() !== clean && String(it.product.sku).trim().toLowerCase() !== clean));
+      window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
+      showToast(`Timepiece "${name}" removed from catalog & Supabase`);
+      return updatedCatalog;
+    } catch (err) {
+      console.error("Error deleting product:", err);
+      showToast(`Error deleting timepiece: ${err.message}`, 4000);
+      throw err;
+    }
   };
 
   const duplicateProduct = async (productId) => {

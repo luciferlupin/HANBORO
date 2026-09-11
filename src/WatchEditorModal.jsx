@@ -97,6 +97,8 @@ export function WatchEditorModal({
   const [errors, setErrors] = useState({});
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   const mainFileInputRef = useRef(null);
   const galleryFileInputRef = useRef(null);
@@ -443,7 +445,7 @@ export function WatchEditorModal({
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     const errs = validateForm();
     if (Object.keys(errs).length > 0) {
@@ -453,9 +455,12 @@ export function WatchEditorModal({
       return;
     }
 
+    const fallbackImage = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+    const safeImage = form.image.trim() || fallbackImage;
+
     const rawGallery = form.galleryUrls
       ? form.galleryUrls.split("\n").map((u) => u.trim()).filter(Boolean)
-      : (form.image ? [form.image] : []);
+      : (safeImage ? [safeImage] : []);
 
     const formattedGallery = rawGallery.map((url, i) => ({
       url,
@@ -480,25 +485,36 @@ export function WatchEditorModal({
       subtitle: form.subtitle.trim() || `${form.collectionName} • Haute Horlogerie`,
       collection: form.collection,
       collectionName: form.collectionName,
-      tag: form.tag.trim(),
+      tag: form.tag.trim() || "Haute Horlogerie",
       price: form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`,
       priceUsd: form.priceUsd.trim().startsWith("$") ? form.priceUsd.trim() : `$${form.priceUsd.trim()}`,
       availability: form.availability,
       year: form.year.trim() || "2026",
       summary: form.summary.trim() || "Precision mechanical luxury timepiece engineered by Hanboro Watches.",
-      image: form.image.trim(),
-      transparentImage: form.transparentImage.trim() || form.image.trim(),
+      image: safeImage,
+      transparentImage: form.transparentImage.trim() || safeImage,
       nightImage: form.nightImage.trim() || null,
       hasNightMode: Boolean(form.nightImage.trim()),
       stock: Math.max(0, parseInt(form.stock, 10) || 0),
       isActive: form.isActive,
-      altImages: rawGallery,
+      altImages: rawGallery.length > 0 ? rawGallery : [safeImage],
       gallery: formattedGallery,
       specs: form.specs,
     };
 
-    onSave(payload);
-    onClose();
+    setIsSaving(true);
+    setSaveError(null);
+    try {
+      if (onSave) {
+        await onSave(payload);
+      }
+      onClose();
+    } catch (err) {
+      console.error("WatchEditorModal save error:", err);
+      setSaveError(err.message || "Failed to store timepiece in Supabase. Please retry.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -1484,11 +1500,18 @@ export function WatchEditorModal({
                 </div>
               </div>
 
+              {saveError && (
+                <div style={{ margin: "16px 0", padding: "10px 14px", background: "rgba(239, 68, 68, 0.12)", border: "1px solid #ef4444", borderRadius: "8px", color: "#ef4444", fontSize: "13px" }}>
+                  ⚠ {saveError}
+                </div>
+              )}
+
               <div className="editor-step-nav-bar">
                 <button
                   type="button"
                   className="editor-nav-btn editor-nav-btn--secondary"
                   onClick={() => setActiveTab("specs")}
+                  disabled={isSaving}
                 >
                   ← Back to Specs
                 </button>
@@ -1496,9 +1519,10 @@ export function WatchEditorModal({
                   type="button"
                   className="editor-save-btn"
                   onClick={handleSubmit}
-                  style={{ padding: "12px 28px", fontSize: "14px" }}
+                  disabled={isSaving}
+                  style={{ padding: "12px 28px", fontSize: "14px", opacity: isSaving ? 0.7 : 1, cursor: isSaving ? "wait" : "pointer" }}
                 >
-                  ✦ Save & Publish Reference
+                  {isSaving ? "✦ Storing in Supabase..." : "✦ Save & Publish Reference"}
                 </button>
               </div>
             </div>
@@ -1513,6 +1537,7 @@ export function WatchEditorModal({
               type="button"
               className="editor-delete-action-btn"
               onClick={() => onDeleteRequest(initialData)}
+              disabled={isSaving}
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="3 6 5 6 21 6" />
@@ -1525,16 +1550,22 @@ export function WatchEditorModal({
           )}
 
           <div className="footer-right">
-            <button type="button" className="editor-cancel-btn" onClick={onClose}>
+            <button type="button" className="editor-cancel-btn" onClick={onClose} disabled={isSaving}>
               Cancel
             </button>
-            <button type="button" className="editor-save-btn" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="editor-save-btn"
+              onClick={handleSubmit}
+              disabled={isSaving}
+              style={{ opacity: isSaving ? 0.7 : 1, cursor: isSaving ? "wait" : "pointer" }}
+            >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                 <polyline points="17 21 17 13 7 13 7 21" />
                 <polyline points="7 3 7 8 15 8" />
               </svg>
-              <span>{isEditMode ? "Save Changes" : "Create Timepiece"}</span>
+              <span>{isSaving ? "Storing in Cloud..." : isEditMode ? "Save Changes" : "Create Timepiece"}</span>
             </button>
           </div>
         </div>
