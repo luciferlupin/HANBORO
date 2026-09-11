@@ -16266,6 +16266,8 @@ body.modal-open {
   margin-bottom: clamp(24px, 3.5vh, 40px);
   overflow: hidden;
   border-radius: 22px;
+  contain: layout paint;
+  transform: translateZ(0);
 }
 
 .our-media-slat {
@@ -16275,33 +16277,36 @@ body.modal-open {
   cursor: pointer;
   background: #111115;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: flex 0.65s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, opacity 0.3s ease;
+  transition: flex 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.22s ease,
+              opacity 0.22s ease,
+              box-shadow 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
+  contain: paint;
+  will-change: flex;
+  transform: translateZ(0);
 }
 
 .our-media-slat.is-collapsed-slat {
-  flex: 0 0 clamp(30px, 3vw, 50px);
+  flex: 0 0 clamp(32px, 3.2vw, 48px);
   min-width: 28px;
-  opacity: 0.6;
-  filter: grayscale(0.4);
+  opacity: 0.65;
 }
 
 .our-media-slat.is-collapsed-slat:hover {
-  flex: 0 0 clamp(52px, 5vw, 76px);
-  opacity: 1;
-  filter: grayscale(0);
-  border-color: rgba(255, 255, 255, 0.3);
+  opacity: 0.94;
+  border-color: rgba(255, 255, 255, 0.32);
 }
 
 .our-media-slat.is-active-feature {
   flex: 1 1 540px;
+  min-width: 320px;
   opacity: 1;
-  filter: none;
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
   cursor: default;
 }
 
@@ -16309,17 +16314,19 @@ body.modal-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(1.01) translateZ(0);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 .our-media-slat:hover .our-media-slat-img {
-  transform: scale(1.03);
+  transform: scale(1.04) translateZ(0);
 }
 
 .our-media-slat-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.05) 35%, rgba(0, 0, 0, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.88) 100%);
   pointer-events: none;
 }
 
@@ -16332,11 +16339,19 @@ body.modal-open {
   color: rgba(255, 255, 255, 0.88);
   pointer-events: none;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.68);
   padding: 3px 6px;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.our-media-slat.is-active-feature .our-media-slat-num {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .our-media-feature-content {
@@ -16347,6 +16362,16 @@ body.modal-open {
   justify-content: space-between;
   padding: clamp(20px, 3vh, 32px);
   z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease 0.08s, visibility 0.3s ease 0.08s;
+}
+
+.our-media-slat.is-active-feature .our-media-feature-content {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Feature Topbar with Instagram Badges */
@@ -16362,9 +16387,10 @@ body.modal-open {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   padding: 5px 12px;
   border-radius: 9999px;
   font-family: 'JetBrains Mono', monospace;
@@ -16391,9 +16417,10 @@ body.modal-open {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   padding: 5px 12px;
   border-radius: 9999px;
   font-family: var(--font-main);
@@ -16548,8 +16575,8 @@ body.modal-open {
 }
 
 .our-media-arrow-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   color: #a39e94;
   cursor: pointer;
@@ -16558,15 +16585,19 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1), background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   padding: 0;
 }
 
 .our-media-arrow-btn:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.35);
   transform: scale(1.08);
+}
+
+.our-media-arrow-btn:active {
+  transform: scale(0.92);
 }
 
 .our-media-nav-chevron {

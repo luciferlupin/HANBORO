@@ -303,6 +303,12 @@ export function MediaSection({ onInspectSku }) {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setActiveIndex(idx);
+                  } else if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    handlePrev();
+                  } else if (e.key === "ArrowRight") {
+                    e.preventDefault();
+                    handleNext();
                   }
                 }}
                 aria-label={`${item.title} - Reel ${item.num} of ${MEDIA_GALLERY_DATA.length}`}
@@ -311,65 +317,64 @@ export function MediaSection({ onInspectSku }) {
                   src={item.poster}
                   alt={item.title}
                   className="our-media-slat-img"
-                  loading="lazy"
+                  loading={idx < 3 ? "eager" : "lazy"}
+                  decoding="async"
+                  {...(isActive ? { fetchPriority: "high" } : {})}
                 />
                 <div className="our-media-slat-overlay" />
 
-                {/* Active Feature Center Card Content */}
-                {isActive && (
-                  <div className="our-media-feature-content">
-                    {/* Top Social Reel Header Badges */}
-                    <div className="our-media-feature-topbar">
-                      <div className="our-media-reel-badge">
-                        <span className="reel-icon-glyph">▶</span>
-                        <span>REEL</span>
-                        <span className="reel-sep">•</span>
-                        <span className="reel-views-count">{item.views}</span>
-                      </div>
-                      {item.audio && (
-                        <div className="our-media-audio-badge" title={item.audio}>
-                          <span className="audio-music-icon">♫</span>
-                          <span className="audio-music-title">{item.audio}</span>
-                        </div>
-                      )}
+                {/* Active Feature Center Card Content (smoothly cross-fades via CSS) */}
+                <div className="our-media-feature-content" aria-hidden={!isActive}>
+                  {/* Top Social Reel Header Badges */}
+                  <div className="our-media-feature-topbar">
+                    <div className="our-media-reel-badge">
+                      <span className="reel-icon-glyph">▶</span>
+                      <span>REEL</span>
+                      <span className="reel-sep">•</span>
+                      <span className="reel-views-count">{item.views}</span>
                     </div>
-
-                    {/* Center Play Button */}
-                    <button
-                      type="button"
-                      className="our-media-play-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleOpenPlayer(item);
-                      }}
-                      aria-label={`Play reel video for ${item.title}`}
-                    >
-                      <div className="our-media-play-circle">
-                        <svg viewBox="0 0 24 24" className="our-media-play-icon" aria-hidden="true">
-                          <polygon points="8,5 20,12 8,19" fill="currentColor" />
-                        </svg>
+                    {item.audio && (
+                      <div className="our-media-audio-badge" title={item.audio}>
+                        <span className="audio-music-icon">♫</span>
+                        <span className="audio-music-title">{item.audio}</span>
                       </div>
-                      <span className="our-media-play-hint">WATCH REEL</span>
-                    </button>
-
-                    {/* Bottom Feature Caption */}
-                    <div className="our-media-feature-caption">
-                      <div className="our-media-caption-meta">
-                        <span className="our-media-tag-pill">{item.category}</span>
-                        <span className="our-media-time-pill">⏱ {item.duration}</span>
-                      </div>
-                      <h3 className="our-media-feature-title">{item.title}</h3>
-                      <p className="our-media-feature-desc">{item.caption}</p>
-                    </div>
+                    )}
                   </div>
-                )}
+
+                  {/* Center Play Button */}
+                  <button
+                    type="button"
+                    className="our-media-play-btn"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenPlayer(item);
+                    }}
+                    aria-label={`Play reel video for ${item.title}`}
+                  >
+                    <div className="our-media-play-circle">
+                      <svg viewBox="0 0 24 24" className="our-media-play-icon" aria-hidden="true">
+                        <polygon points="8,5 20,12 8,19" fill="currentColor" />
+                      </svg>
+                    </div>
+                    <span className="our-media-play-hint">WATCH REEL</span>
+                  </button>
+
+                  {/* Bottom Feature Caption */}
+                  <div className="our-media-feature-caption">
+                    <div className="our-media-caption-meta">
+                      <span className="our-media-tag-pill">{item.category}</span>
+                      <span className="our-media-time-pill">⏱ {item.duration}</span>
+                    </div>
+                    <h3 className="our-media-feature-title">{item.title}</h3>
+                    <p className="our-media-feature-desc">{item.caption}</p>
+                  </div>
+                </div>
 
                 {/* Slat Index label for collapsed slices */}
-                {!isActive && (
-                  <div className="our-media-slat-num" aria-hidden="true">
-                    <span>{item.num}</span>
-                  </div>
-                )}
+                <div className="our-media-slat-num" aria-hidden="true">
+                  <span>{item.num}</span>
+                </div>
               </div>
             );
           })}
