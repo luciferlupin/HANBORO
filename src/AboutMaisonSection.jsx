@@ -1,45 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 export function AboutMaisonSection() {
-  const sectionRef = useRef(null);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    // Check initial visibility on mount
-    if (sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        setInView(true);
-      }
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-        } else if (entry.boundingClientRect.top > window.innerHeight) {
-          setInView(false);
-        }
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className={`about-maison-section ${inView ? "is-in-view" : ""}`}
-      id="about-maison"
-      aria-labelledby="about-maison-title"
-    >
+    <section className="about-maison-section" id="about-maison" aria-labelledby="about-maison-title">
       {/* Hairline Architectural Perspective Rays in Signature Signal Red */}
       <div className="about-maison__geometry-bg" aria-hidden="true">
         <svg viewBox="0 0 1440 900" preserveAspectRatio="none" className="about-perspective-svg">
@@ -58,27 +21,27 @@ export function AboutMaisonSection() {
 
       <div className="about-maison__container">
         {/* Editorial Heading */}
-        <h2 id="about-maison-title" className="about-maison__title">
+        <h2 id="about-maison-title" className="about-maison__title" data-reveal>
           ABOUT
         </h2>
 
         {/* 3 Editorial Manifesto Paragraphs */}
-        <div className="about-maison__content">
-          <p className="about-maison__paragraph about-maison__paragraph--1">
+        <div className="about-maison__content" data-reveal data-reveal-delay="1">
+          <p className="about-maison__paragraph">
             The project represents an unconstrained vision for a modern horological house, shaped by centuries of high-frequency Swiss watchmaking heritage and micromechanical mastery.
           </p>
 
-          <p className="about-maison__paragraph about-maison__paragraph--2">
+          <p className="about-maison__paragraph">
             It tells the story of the HANBORO atelier through the lens of pure kinetic brilliance, where value is found in proportion, zero-wobble ceramic engineering, and time itself — rather than overt expression.
           </p>
 
-          <p className="about-maison__paragraph about-maison__paragraph--3">
+          <p className="about-maison__paragraph">
             HANBORO draws inspiration from celestial tourbillons, casino roulette complications, and open-worked skeleton calibres, reflecting an architectural approach to design, restrained elegance, and the ability to turn mechanical form into a lasting symbol.
           </p>
         </div>
 
         {/* Vertical Kicker */}
-        <div className="about-maison__crafted-by">
+        <div className="about-maison__crafted-by" data-reveal data-reveal-delay="2">
           <span>C</span>
           <span>R</span>
           <span>A</span>
@@ -92,12 +55,12 @@ export function AboutMaisonSection() {
         </div>
 
         {/* Master Horologer Cursive Signature */}
-        <div className="about-maison__signature-wrap">
+        <div className="about-maison__signature-wrap" data-reveal data-reveal-delay="3">
           <span className="about-maison__signature">Atelier Hanboro</span>
         </div>
 
-        {/* Center Complication Dial / Tourbillon Escapement */}
-        <div className="about-maison__complication" aria-hidden="true">
+        {/* Center Complication Dial / Tourbillon Escapement Vector Graphic in Signature Signal Red */}
+        <div className="about-maison__complication" data-reveal data-reveal-delay="4" aria-hidden="true">
           <svg viewBox="0 0 240 160" className="complication-dial-svg">
             {/* Upper radiating rays */}
             <line x1="120" y1="26" x2="120" y2="8" stroke="#d91414" strokeWidth="1" opacity="0.6" />
@@ -146,3 +109,4 @@ export function AboutMaisonSection() {
 }
 
 export default AboutMaisonSection;
+
