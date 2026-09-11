@@ -17988,13 +17988,13 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   THE ART OF SUBTLE MASTERY (4 Pillars / Advantages Section - Black Luxury Theme)
+   THE ART OF SUBTLE MASTERY (4 Pillars / Advantages Section - Warm Ivory Museum Theme)
    ══════════════════════════════════════════════════════════════════════════════ */
 .subtle-mastery-section {
-  background: #08080a;
-  color: #f5f2ed;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f7f4ee;
+  color: #121214;
+  border-top: 1px solid rgba(18, 18, 20, 0.08);
+  border-bottom: 1px solid rgba(18, 18, 20, 0.08);
   padding: clamp(80px, 10vh, 140px) clamp(24px, 5vw, 64px);
   min-height: 98vh;
   display: flex;
@@ -18041,7 +18041,7 @@ body.modal-open {
   font-weight: 700;
   line-height: 1.06;
   letter-spacing: -0.02em;
-  color: #f5f2ed;
+  color: #121214;
   margin: 0;
   text-align: left;
 }
@@ -18049,7 +18049,7 @@ body.modal-open {
 .vertical-timeline__title span {
   font-style: italic;
   font-weight: 400;
-  color: rgba(245, 242, 237, 0.62);
+  color: #55524c;
 }
 
 .vertical-timeline__subtitle {
@@ -18057,7 +18057,7 @@ body.modal-open {
   font-size: clamp(14.5px, 1.28vw, 16.5px);
   font-weight: 400;
   line-height: 1.7;
-  color: rgba(245, 242, 237, 0.65);
+  color: #55524c;
   margin: 2px 0 6px 0;
   max-width: 460px;
   text-wrap: pretty;
@@ -18070,12 +18070,12 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   font-weight: 700;
-  color: rgba(245, 242, 237, 0.55);
+  color: #8c877e;
   margin-top: 8px;
   padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(18, 18, 20, 0.04);
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(18, 18, 20, 0.08);
 }
 
 .counter-current {
@@ -18085,7 +18085,7 @@ body.modal-open {
 }
 
 .counter-divider {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(18, 18, 20, 0.25);
 }
 
 .counter-tag {
@@ -18119,7 +18119,7 @@ body.modal-open {
 .vertical-spine__bg {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(18, 18, 20, 0.12);
   border-radius: 9999px;
 }
 
@@ -18134,7 +18134,7 @@ body.modal-open {
   transform-origin: top center;
   transform: scaleY(0.035);
   will-change: transform;
-  box-shadow: 0 0 18px rgba(250, 45, 29, 0.6);
+  box-shadow: 0 0 14px rgba(250, 45, 29, 0.45);
   position: relative;
 }
 
@@ -18197,13 +18197,13 @@ body.modal-open {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #0d0d10;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: #f7f4ee;
+  border: 2px solid rgba(18, 18, 20, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 2;
 }
@@ -18216,7 +18216,7 @@ body.modal-open {
 .vertical-step-card.is-current .vertical-node-dot {
   border-color: #fa2d1d;
   background: #fa2d1d;
-  box-shadow: 0 0 16px rgba(250, 45, 29, 0.8), 0 0 0 4px rgba(250, 45, 29, 0.2);
+  box-shadow: 0 0 16px rgba(250, 45, 29, 0.6), 0 0 0 4px rgba(250, 45, 29, 0.18);
 }
 
 .vertical-node-core {
@@ -18235,8 +18235,8 @@ body.modal-open {
 .vertical-step-content {
   display: flex;
   flex-direction: column;
-  opacity: 0.25;
-  filter: grayscale(0.8) blur(0.3px);
+  opacity: 0.32;
+  filter: grayscale(0.8);
   transform: translateX(6px);
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -18246,7 +18246,7 @@ body.modal-open {
 .vertical-step-card.is-active .vertical-step-content,
 .vertical-step-card.is-current .vertical-step-content {
   opacity: 1;
-  filter: grayscale(0) blur(0);
+  filter: grayscale(0);
   transform: translateX(0);
 }
 
@@ -18262,7 +18262,7 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12.5px;
   font-weight: 800;
-  color: rgba(245, 242, 237, 0.45);
+  color: #8c877e;
   transition: color 0.3s ease;
 }
 
@@ -18270,7 +18270,7 @@ body.modal-open {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(18, 18, 20, 0.25);
   opacity: 0.6;
   transition: color 0.3s ease, opacity 0.3s ease;
 }
@@ -18286,7 +18286,7 @@ body.modal-open {
   font-size: 9.5px;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: rgba(245, 242, 237, 0.45);
+  color: #8c877e;
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
@@ -18300,7 +18300,7 @@ body.modal-open {
   font-family: 'Playfair Display', 'Cinzel', var(--font-main), serif;
   font-size: clamp(22px, 1.8vw, 27px);
   font-weight: 700;
-  color: #f5f2ed;
+  color: #121214;
   margin: 0 0 8px 0;
   line-height: 1.22;
 }
@@ -18310,7 +18310,7 @@ body.modal-open {
   font-size: clamp(14px, 1.2vw, 15.5px);
   font-weight: 400;
   line-height: 1.64;
-  color: rgba(245, 242, 237, 0.65);
+  color: #55524c;
   margin: 0;
   max-width: 500px;
   text-wrap: pretty;
@@ -18461,22 +18461,24 @@ body.modal-open {
    CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner - Behance Green Card)
    ══════════════════════════════════════════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════════════════════════════════
-   CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner - Deep Black Luxury Flow)
+   CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner - Warm Ivory Museum Theme)
    ══════════════════════════════════════════════════════════════════════════════ */
 .crafted-legacy-section {
-  background: #08080a;
-  color: #f5f2ed;
+  background: #f7f4ee;
+  color: #121214;
   padding: clamp(80px, 10vw, 140px) clamp(20px, 4vw, 56px);
   position: relative;
   overflow: hidden;
   z-index: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(18, 18, 20, 0.08);
+  border-bottom: 1px solid rgba(18, 18, 20, 0.08);
 }
 
 .crafted-legacy__container {
   max-width: 1440px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .crafted-legacy__eyebrow {
@@ -18488,7 +18490,7 @@ body.modal-open {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: rgba(245, 242, 237, 0.6);
+  color: #8c877e;
   text-transform: uppercase;
   margin-bottom: clamp(36px, 5vw, 64px);
   transition: transform 0.2s ease-out;
@@ -18539,7 +18541,7 @@ body.modal-open {
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.01em;
-  color: #f5f2ed;
+  color: #121214;
   text-transform: uppercase;
   margin: 0;
 }
@@ -18548,7 +18550,7 @@ body.modal-open {
   color: #fa2d1d;
   font-style: italic;
   font-weight: 400;
-  text-shadow: 0 0 28px rgba(250, 45, 29, 0.35);
+  text-shadow: 0 0 24px rgba(250, 45, 29, 0.2);
 }
 
 /* ── Motion Text Elements (Silky Scroll Reveal) ── */
@@ -18609,12 +18611,12 @@ body.modal-open {
 .mosaic-pill {
   border-radius: 9999px;
   overflow: hidden;
-  background: #141416;
+  background: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 2.5px solid #ffffff;
   flex-shrink: 0;
   opacity: 0;
   transform: scale(0.92);
@@ -18637,8 +18639,8 @@ body.modal-open {
 .is-in-view .mosaic-pill--dial {
   opacity: 1;
   transform: scale(1);
-  border-color: rgba(250, 45, 29, 0.3);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(250, 45, 29, 0.15);
+  border-color: rgba(250, 45, 29, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12), 0 0 24px rgba(250, 45, 29, 0.2);
   transition-delay: 0.28s;
 }
 
@@ -18651,19 +18653,19 @@ body.modal-open {
 .mosaic-pill--seal {
   width: clamp(78px, 9vw, 112px);
   height: clamp(44px, 5.2vw, 64px);
-  background: #18181b;
+  background: #fdfaf4;
 }
 
 .mosaic-pill--dial {
   width: clamp(140px, 16vw, 190px);
   height: clamp(44px, 5.2vw, 64px);
-  background: #18181b;
+  background: #ffffff;
 }
 
 .mosaic-pill--wrist {
   width: clamp(210px, 25vw, 320px);
   height: clamp(48px, 5.6vw, 68px);
-  background: #18181b;
+  background: #ffffff;
 }
 
 .mosaic-pill-img {
@@ -18691,7 +18693,7 @@ body.modal-open {
   font-family: var(--font-main);
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.65;
-  color: rgba(245, 242, 237, 0.72);
+  color: #55524c;
   max-width: 380px;
   margin: 0;
   text-wrap: pretty;

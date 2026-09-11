@@ -86,6 +86,17 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
       id="philosophy"
       aria-labelledby="philosophy-title"
     >
+      {/* Hairline Architectural Perspective Rays matching About Us Section */}
+      <div className="about-maison__geometry-bg" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" className="about-perspective-svg">
+          <line x1="160" y1="0" x2="720" y2="760" stroke="rgba(217, 20, 20, 0.22)" strokeWidth="1" />
+          <line x1="0" y1="50" x2="720" y2="760" stroke="rgba(217, 20, 20, 0.10)" strokeWidth="1" />
+          <line x1="1280" y1="0" x2="720" y2="760" stroke="rgba(217, 20, 20, 0.22)" strokeWidth="1" />
+          <line x1="1440" y1="50" x2="720" y2="760" stroke="rgba(217, 20, 20, 0.10)" strokeWidth="1" />
+          <line x1="260" y1="760" x2="1180" y2="760" stroke="rgba(217, 20, 20, 0.08)" strokeWidth="1" strokeDasharray="3 6" />
+        </svg>
+      </div>
+
       <div className="crafted-legacy__container">
         {/* Interleaved Typographic & Theme Pill Mosaic */}
         <div className="crafted-legacy__mosaic">

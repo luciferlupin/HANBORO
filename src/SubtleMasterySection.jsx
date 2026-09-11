@@ -178,6 +178,17 @@ export function SubtleMasterySection({ onExploreCatalog }) {
       id="subtle-mastery"
       aria-labelledby="subtle-mastery-title"
     >
+      {/* Hairline Architectural Perspective Rays matching About Us Section */}
+      <div className="about-maison__geometry-bg" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" className="about-perspective-svg">
+          <line x1="100" y1="0" x2="680" y2="850" stroke="rgba(217, 20, 20, 0.22)" strokeWidth="1" />
+          <line x1="0" y1="80" x2="680" y2="850" stroke="rgba(217, 20, 20, 0.10)" strokeWidth="1" />
+          <line x1="1340" y1="0" x2="680" y2="850" stroke="rgba(217, 20, 20, 0.22)" strokeWidth="1" />
+          <line x1="1440" y1="80" x2="680" y2="850" stroke="rgba(217, 20, 20, 0.10)" strokeWidth="1" />
+          <line x1="220" y1="850" x2="1220" y2="850" stroke="rgba(217, 20, 20, 0.08)" strokeWidth="1" strokeDasharray="3 6" />
+        </svg>
+      </div>
+
       <div className="subtle-mastery__container subtle-mastery__container--vertical">
         {/* Left Column: Sticky Centered Editorial Headline */}
         <div className="vertical-timeline__left" data-reveal>
