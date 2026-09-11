@@ -1,10 +1,99 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export function AboutMaisonSection() {
+  const sectionRef = useRef(null);
+  const [inView, setInView] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0.5);
+
+  useEffect(() => {
+    // Check initial visibility on mount
+    if (sectionRef.current) {
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setInView(true);
+      }
+    }
+
+    // IntersectionObserver for entrance reveal
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { threshold: 0.05, rootMargin: "60px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    // Scroll progress handler for interactive motion scroll parallax
+    let rafId = null;
+    const handleScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        if (sectionRef.current) {
+          const rect = sectionRef.current.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          const totalDist = windowHeight + rect.height;
+          const currentDist = windowHeight - rect.top;
+          const progress = Math.min(Math.max(currentDist / totalDist, 0), 1);
+          setScrollProgress(progress);
+
+          if (currentDist > 0 && currentDist < totalDist + 200) {
+            setInView(true);
+          }
+        }
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    // Fallback timer ensures elements are never stuck hidden
+    const fallbackTimer = setTimeout(() => {
+      setInView(true);
+    }, 700);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
+
+  // Centered scroll factor (-1 to +1, 0 when centered in screen)
+  const centered = (scrollProgress - 0.5) * 2;
+
+  // Kinetic scroll offsets for layered perspective
+  const raysOffset = centered * 36;
+  const titleOffset = centered * -24;
+  const p1Offset = centered * -14;
+  const p2Offset = centered * -4;
+  const p3Offset = centered * 8;
+  const signatureOffset = centered * 16;
+  const dialOffset = centered * 24;
+  const dialRotation = centered * 28;
+
   return (
-    <section className="about-maison-section" id="about-maison" aria-labelledby="about-maison-title">
-      {/* Hairline Architectural Perspective Rays in Signature Signal Red */}
-      <div className="about-maison__geometry-bg" aria-hidden="true">
+    <section
+      ref={sectionRef}
+      className={`about-maison-section ${inView ? "is-in-view" : ""}`}
+      id="about-maison"
+      aria-labelledby="about-maison-title"
+    >
+      {/* Hairline Architectural Perspective Rays in Signature Signal Red with Scroll Motion */}
+      <div
+        className="about-maison__geometry-bg"
+        aria-hidden="true"
+        style={{
+          transform: `translate3d(0, ${raysOffset}px, 0) scale(${1 + (1 - Math.abs(centered)) * 0.05})`,
+          transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+        }}
+      >
         <svg viewBox="0 0 1440 900" preserveAspectRatio="none" className="about-perspective-svg">
           {/* Perspective Ray from top-left */}
           <line x1="120" y1="0" x2="720" y2="780" stroke="rgba(217, 20, 20, 0.4)" strokeWidth="1" />
@@ -20,28 +109,53 @@ export function AboutMaisonSection() {
       </div>
 
       <div className="about-maison__container">
-        {/* Editorial Heading */}
-        <h2 id="about-maison-title" className="about-maison__title" data-reveal>
+        {/* Editorial Heading with Motion Scroll Float */}
+        <h2
+          id="about-maison-title"
+          className="about-maison__title"
+          style={{
+            transform: `translate3d(0, ${titleOffset}px, 0)`,
+            transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+          }}
+        >
           ABOUT
         </h2>
 
-        {/* 3 Editorial Manifesto Paragraphs */}
-        <div className="about-maison__content" data-reveal data-reveal-delay="1">
-          <p className="about-maison__paragraph">
+        {/* 3 Editorial Manifesto Paragraphs with Staggered Kinetic Motion */}
+        <div className="about-maison__content">
+          <p
+            className="about-maison__paragraph about-maison__paragraph--1"
+            style={{
+              transform: `translate3d(0, ${p1Offset}px, 0)`,
+              transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+            }}
+          >
             The project represents an unconstrained vision for a modern horological house, shaped by centuries of high-frequency Swiss watchmaking heritage and micromechanical mastery.
           </p>
 
-          <p className="about-maison__paragraph">
+          <p
+            className="about-maison__paragraph about-maison__paragraph--2"
+            style={{
+              transform: `translate3d(0, ${p2Offset}px, 0)`,
+              transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+            }}
+          >
             It tells the story of the HANBORO atelier through the lens of pure kinetic brilliance, where value is found in proportion, zero-wobble ceramic engineering, and time itself — rather than overt expression.
           </p>
 
-          <p className="about-maison__paragraph">
+          <p
+            className="about-maison__paragraph about-maison__paragraph--3"
+            style={{
+              transform: `translate3d(0, ${p3Offset}px, 0)`,
+              transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+            }}
+          >
             HANBORO draws inspiration from celestial tourbillons, casino roulette complications, and open-worked skeleton calibres, reflecting an architectural approach to design, restrained elegance, and the ability to turn mechanical form into a lasting symbol.
           </p>
         </div>
 
-        {/* Vertical Kicker */}
-        <div className="about-maison__crafted-by" data-reveal data-reveal-delay="2">
+        {/* Vertical Kicker with Kinetic Drift */}
+        <div className="about-maison__crafted-by">
           <span>C</span>
           <span>R</span>
           <span>A</span>
@@ -54,13 +168,26 @@ export function AboutMaisonSection() {
           <span>Y</span>
         </div>
 
-        {/* Master Horologer Cursive Signature */}
-        <div className="about-maison__signature-wrap" data-reveal data-reveal-delay="3">
+        {/* Master Horologer Cursive Signature with Dynamic Rotation */}
+        <div
+          className="about-maison__signature-wrap"
+          style={{
+            transform: `translate3d(0, ${signatureOffset}px, 0) rotate(${-3 + centered * 4}deg)`,
+            transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+          }}
+        >
           <span className="about-maison__signature">Atelier Hanboro</span>
         </div>
 
-        {/* Center Complication Dial / Tourbillon Escapement Vector Graphic in Signature Signal Red */}
-        <div className="about-maison__complication" data-reveal data-reveal-delay="4" aria-hidden="true">
+        {/* Center Complication Dial / Tourbillon Escapement with Dynamic Scroll Rotation */}
+        <div
+          className="about-maison__complication"
+          aria-hidden="true"
+          style={{
+            transform: `translate3d(0, ${dialOffset}px, 0) rotate(${dialRotation}deg)`,
+            transition: "transform 0.15s cubic-bezier(0.2, 0.8, 0.4, 1)"
+          }}
+        >
           <svg viewBox="0 0 240 160" className="complication-dial-svg">
             {/* Upper radiating rays */}
             <line x1="120" y1="26" x2="120" y2="8" stroke="#d91414" strokeWidth="1" opacity="0.6" />

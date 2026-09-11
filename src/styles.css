@@ -18328,16 +18328,20 @@ body.modal-open {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   ABOUT MAISON EDITORIAL SECTION (Behance Sacred Geometry Architecture)
+   ABOUT MAISON EDITORIAL SECTION (Behance Sacred Geometry Architecture & Overlapping Card)
    ══════════════════════════════════════════════════════════════════════════════ */
 .about-maison-section {
   position: relative;
   background: #f7f4ee;
   color: #121214;
-  min-height: 90vh;
-  padding: clamp(48px, 6vh, 80px) clamp(20px, 4vw, 48px);
+  min-height: 92vh;
+  margin-top: clamp(-54px, -7vw, -96px);
+  border-radius: clamp(36px, 5vw, 64px) clamp(36px, 5vw, 64px) 0 0;
+  box-shadow: 0 -30px 80px rgba(0, 0, 0, 0.48), 0 -10px 28px rgba(0, 0, 0, 0.25);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.85);
+  padding: clamp(70px, 9vh, 120px) clamp(20px, 4vw, 48px) clamp(60px, 8vh, 100px);
   overflow: hidden;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18351,6 +18355,7 @@ body.modal-open {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  will-change: transform;
 }
 
 .about-perspective-svg {
@@ -18379,6 +18384,16 @@ body.modal-open {
   color: #121214;
   margin: 0 0 clamp(16px, 2.4vh, 26px) 0;
   text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.08s,
+              transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.08s;
+  will-change: transform, opacity;
+}
+
+.is-in-view .about-maison__title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .about-maison__content {
@@ -18397,6 +18412,29 @@ body.modal-open {
   color: #55524c;
   margin: 0;
   text-wrap: pretty;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.is-in-view .about-maison__paragraph--1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.16s;
+}
+
+.is-in-view .about-maison__paragraph--2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.28s;
+}
+
+.is-in-view .about-maison__paragraph--3 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.40s;
 }
 
 .about-maison__crafted-by {
@@ -18409,10 +18447,19 @@ body.modal-open {
   font-weight: 700;
   letter-spacing: 0.25em;
   color: #d91414;
-  opacity: 0.85;
+  opacity: 0;
+  transform: translateY(16px);
   margin-top: clamp(18px, 2.8vh, 32px);
   margin-bottom: 8px;
   line-height: 1.1;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.46s,
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.46s;
+  will-change: transform, opacity;
+}
+
+.is-in-view .about-maison__crafted-by {
+  opacity: 0.85;
+  transform: translateY(0);
 }
 
 .about-maison__crafted-by .crafted-space {
@@ -18421,6 +18468,16 @@ body.modal-open {
 
 .about-maison__signature-wrap {
   margin-bottom: clamp(10px, 1.8vh, 18px);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.52s,
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.52s;
+  will-change: transform, opacity;
+}
+
+.is-in-view .about-maison__signature-wrap {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .about-maison__signature {
@@ -18438,6 +18495,16 @@ body.modal-open {
   width: 190px;
   height: 125px;
   margin-top: 0;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.58s,
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.58s;
+  will-change: transform, opacity;
+}
+
+.is-in-view .about-maison__complication {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .complication-dial-svg {
