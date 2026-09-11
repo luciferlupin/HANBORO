@@ -80,12 +80,48 @@ function StarRating({ count = 5 }) {
 }
 
 export function TestimonialsSection({ onInspectSku }) {
+  const [reviewsList, setReviewsList] = useState(() => {
+    try {
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("hanboro_collector_reviews");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return [...parsed, ...TESTIMONIALS_DATA];
+          }
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+    return TESTIMONIALS_DATA;
+  });
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef(null);
-  const total = TESTIMONIALS_DATA.length;
+  const total = reviewsList.length;
+
+  // Listen for newly submitted reviews from Contact & Review section
+  useEffect(() => {
+    const handleReviewAdded = () => {
+      try {
+        const saved = localStorage.getItem("hanboro_collector_reviews");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setReviewsList([...parsed, ...TESTIMONIALS_DATA]);
+            setActiveIndex(0); // Jump to new review immediately
+          }
+        }
+      } catch (e) {}
+    };
+
+    window.addEventListener("hanboro_review_added", handleReviewAdded);
+    return () => window.removeEventListener("hanboro_review_added", handleReviewAdded);
+  }, []);
 
   const goto = (idx, dir) => {
     if (isAnimating) return;
@@ -104,9 +140,9 @@ export function TestimonialsSection({ onInspectSku }) {
     if (isPaused) return;
     timerRef.current = setInterval(() => handleNext(), 7000);
     return () => clearInterval(timerRef.current);
-  }, [isPaused, activeIndex, isAnimating]);
+  }, [isPaused, activeIndex, isAnimating, total]);
 
-  const current = TESTIMONIALS_DATA[activeIndex];
+  const current = reviewsList[activeIndex] || reviewsList[0];
   const pad = (n) => String(n).padStart(2, "0");
 
   return (
@@ -121,6 +157,9 @@ export function TestimonialsSection({ onInspectSku }) {
       <div className="cr-heading">
         <span className="cr-dash" aria-hidden="true">—</span>
         <h2 className="cr-title" id="cr-title">Customer Reviews</h2>
+        {current?.isVerified && (
+          <span className="cr-verified-tag">✓ Verified Patron Provenance</span>
+        )}
       </div>
 
       {/* Main stage */}
@@ -141,8 +180,8 @@ export function TestimonialsSection({ onInspectSku }) {
           <div className="cr-photo-wrap">
             <img
               key={current.id}
-              src={current.photo}
-              alt={current.watchName}
+              src={current.photo || "/watch-architectural-skeleton-black-front-transparent.webp"}
+              alt={current.watchName || "Hanboro Watch"}
               className="cr-photo"
               loading="eager"
             />
@@ -150,11 +189,17 @@ export function TestimonialsSection({ onInspectSku }) {
 
           {/* Text */}
           <div className="cr-text-col">
-            <p className="cr-quote">{current.quote}</p>
+            {current.watchName && (
+              <span className="cr-watch-tag">{current.watchName}</span>
+            )}
+            <p className="cr-quote">"{current.quote}"</p>
 
             <div className="cr-meta">
               <div className="cr-meta-left">
-                <span className="cr-author">{current.author}</span>
+                <span className="cr-author">
+                  {current.author}
+                  {current.location ? ` • ${current.location}` : ""}
+                </span>
                 <StarRating count={current.rating} />
               </div>
               <span className="cr-counter" aria-live="polite">

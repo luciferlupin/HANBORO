@@ -22,6 +22,7 @@ import { SubtleMasterySection } from "./SubtleMasterySection";
 import { CraftedWithLegacySection } from "./CraftedWithLegacySection";
 import { CollectionsOrbitalSection } from "./CollectionsOrbitalSection";
 import { AboutMaisonSection } from "./AboutMaisonSection";
+import { ContactSection } from "./ContactSection";
 
 /* ── Error Boundary ────────────────────────────────────────────────────────── */
 class ErrorBoundary extends React.Component {
@@ -3258,66 +3259,8 @@ function Website({ onRestart }) {
 
           {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
           <TestimonialsSection onInspectSku={handleOpenSku} />
-          {/* ── ACT X: CONTACT US ── */}
-          <section className="contact-section" id="contact-section" aria-labelledby="contact-section-title">
-            <div className="contact-container">
-              <div className="contact-inner">
-                {/* Left: Clean Heading & Action */}
-                <div className="contact-left">
-                  <span className="contact-eyebrow">— Get in touch</span>
-                  <h2 className="contact-heading" id="contact-section-title">
-                    We’d love to<br />
-                    <em>hear from you.</em>
-                  </h2>
-                  <a
-                    href="mailto:connect@hanborowatches.in"
-                    className="contact-cta"
-                  >
-                    <span>Write to us</span>
-                    <span className="contact-cta-arrow" aria-hidden="true">↗</span>
-                  </a>
-                </div>
-
-                {/* Right: Clean, Minimal Contact Details */}
-                <div className="contact-right">
-                  <div className="contact-row">
-                    <span className="contact-label">Email</span>
-                    <a href="mailto:connect@hanborowatches.in" className="contact-link">
-                      connect@hanborowatches.in
-                    </a>
-                  </div>
-
-                  <div className="contact-row">
-                    <span className="contact-label">Phone</span>
-                    <a href="tel:+918882069334" className="contact-link contact-mono">
-                      +91 88820 69334
-                    </a>
-                  </div>
-
-                  <div className="contact-row">
-                    <span className="contact-label">WhatsApp</span>
-                    <a
-                      href="https://wa.me/918882069334?text=Hello%20HANBORO%20Concierge%2C%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20timepieces."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="contact-link contact-link--wa"
-                    >
-                      <span className="contact-mono">+91 88820 69334</span>
-                      <span className="contact-link-arrow" aria-hidden="true">↗</span>
-                    </a>
-                  </div>
-
-                  <div className="contact-row">
-                    <span className="contact-label">Studio</span>
-                    <address className="contact-address">
-                      <span>M5 M-Block, DLF Phase-2</span>
-                      <span>Gurgaon, Haryana 122002, India</span>
-                    </address>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
+          <ContactSection />
 
         </>
       )}
