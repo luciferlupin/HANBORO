@@ -6,7 +6,6 @@ import {
   rouletteService,
   draftOrdersService,
   discountsService,
-  databaseHealthService,
   SUPABASE_URL,
 } from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
@@ -475,33 +474,10 @@ export function AdminDashboard({ onNavigateHome }) {
   const [toastMessage, setToastMessage] = useState(null);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Supabase Cloud Tables Health State
-  const [dbHealth, setDbHealth] = useState(null);
-  const [isCheckingDb, setIsCheckingDb] = useState(false);
-
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
   };
-
-  const runDbHealthCheck = async () => {
-    setIsCheckingDb(true);
-    try {
-      const health = await databaseHealthService.checkAllTables();
-      setDbHealth(health);
-      if (health.success) {
-        showToast("All 8 Supabase tables verified active!");
-      }
-    } catch (err) {
-      console.warn("Health check error:", err);
-    } finally {
-      setIsCheckingDb(false);
-    }
-  };
-
-  useEffect(() => {
-    runDbHealthCheck();
-  }, []);
 
   // WhatsApp quick-recovery message generator
   const triggerWhatsAppRecovery = (checkout) => {
@@ -1726,77 +1702,6 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
               </div>
 
-              {/* ── SUPABASE CLOUD DATABASE TELEMETRY ── */}
-              <div className="sp-db-telemetry-card" style={{ margin: "16px 20px 20px 20px", padding: "16px 18px", background: "var(--sp-surface-subdued, #f8fafc)", border: "1px solid var(--sp-border, #e2e8f0)", borderRadius: "10px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "14px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 8px rgba(34, 197, 94, 0.6)" }} />
-                    <div>
-                      <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--sp-text, #0f172a)" }}>
-                        Supabase Production Database • Active Real-Time Storage
-                      </div>
-                      <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #64748b)" }}>
-                        Connected to <code style={{ fontFamily: "ui-monospace, monospace" }}>fhaurmmbgxfuumwegshy.supabase.co</code> • All SKU listings, stock mutations, and orders store directly in cloud tables
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="sp-btn sp-btn--sm"
-                    onClick={runDbHealthCheck}
-                    disabled={isCheckingDb}
-                    style={{ fontSize: "12px", padding: "6px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
-                  >
-                    <span>{isCheckingDb ? "⚡ Verifying..." : "⚡ Verify 8 Tables Live"}</span>
-                  </button>
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "8px" }}>
-                  {[
-                    { key: "products", name: "products", fallbackCount: (products || PRODUCTS_DATA).length },
-                    { key: "inventory", name: "inventory", fallbackCount: (products || PRODUCTS_DATA).length },
-                    { key: "orders", name: "orders", fallbackCount: orders.length },
-                    { key: "profiles", name: "profiles", fallbackCount: 2 },
-                    { key: "cart_items", name: "cart_items", fallbackCount: 1 },
-                    { key: "discounts", name: "discounts", fallbackCount: Object.keys(customPromos || {}).length || 4 },
-                    { key: "draft_orders", name: "draft_orders", fallbackCount: draftOrders.length },
-                    { key: "roulette_spins", name: "roulette_spins", fallbackCount: 0 },
-                  ].map((tbl) => {
-                    const info = dbHealth?.tables?.[tbl.key];
-                    const count = info?.count !== undefined ? info.count : tbl.fallbackCount;
-                    const isActive = info ? info.active : true;
-                    return (
-                      <div
-                        key={tbl.key}
-                        style={{
-                          background: "var(--sp-surface, #ffffff)",
-                          border: "1px solid var(--sp-border, #e2e8f0)",
-                          borderRadius: "6px",
-                          padding: "8px 10px",
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "3px",
-                        }}
-                      >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <span style={{ fontFamily: "ui-monospace, monospace", fontSize: "11px", fontWeight: 600, color: "var(--sp-text, #0f172a)" }}>
-                            {tbl.name}
-                          </span>
-                          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: isActive ? "#22c55e" : "#ef4444" }} />
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                          <span style={{ fontSize: "14px", fontWeight: 700, color: "#2563eb" }}>
-                            {count}
-                          </span>
-                          <span style={{ fontSize: "10px", color: "#16a34a", fontWeight: 600 }}>
-                            {info?.latency ? `${info.latency}ms` : "Active"}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
 
               {/* Category Filter bar */}
               <div className="sp-table-controls">
@@ -3231,7 +3136,6 @@ export function AdminDashboard({ onNavigateHome }) {
             setEditorModalOpen(false);
             setEditingWatch(null);
             setActiveTab("products");
-            runDbHealthCheck();
           }}
         />
       )}
