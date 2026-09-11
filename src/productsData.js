@@ -16,12 +16,12 @@ export const CATEGORIES = [
 export const PRODUCTS_DATA = [
   {
     id: "astroworld-celestial",
-    sku: "HBR-8801-TG",
-    name: "Astroworld Celestial Moon Tourbillon Rose Gold",
-    subtitle: "3D Spherical Orbiting Moon • 24H Rotating Earth Disk • Co-Axial Tourbillon • Aventurine Star Dial",
+    sku: "HBR-980-AUTO-ORBITA-G",
+    name: "Hanboro Orbita - Celestial Tourbillon Planetarium Rose Gold",
+    subtitle: "3D Spherical Rotating Earth Globe • Celestial Tourbillon Flywheel • Shanghai 2797B Automatic Complication • Rose Gold Crystal Chamber",
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
-    tag: "Flagship Grand Complication",
+    tag: "Flagship Planetarium Complication",
     image: "/watch-astroworld-moon-rosegold-front-transparent.webp",
     transparentImage: "/watch-astroworld-moon-rosegold-front-transparent.webp",
     altImages: [
@@ -63,8 +63,9 @@ export const PRODUCTS_DATA = [
         caption: "Macro on-wrist capture under neon illumination revealing the craters of the 3D moon sphere, the pulsing tourbillon cage, and the rotating Earth disk."
       }
     ],
-    price: "₹1,48,000",
-    priceUsd: "$1,780",
+    price: "₹44,999",
+    priceUsd: "$540",
+    stock: 12,
     availability: "Limited Allocation",
     year: "2026",
     summary: "The crown jewel of Hanboro's astronomical complications. Features a three-dimensional textured micro-sculpted Moon sphere orbiting inside an extended lower panoramic sapphire crystal chamber at 6 o'clock. A high-precision co-axial flying tourbillon pulses at the center axis, flanked by a revolving northern hemisphere Earth disk with a 24-hour GMT dual-time track at 9 o'clock, a deep-space starry aventurine sky with crescent moon at 3 o'clock, and an off-center primary time dial at 12 o'clock, encased in sculptured 18K rose gold.",
