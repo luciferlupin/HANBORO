@@ -508,7 +508,15 @@ export const ordersService = {
         payment_method: formattedOrder.payment_method,
         payment_status: formattedOrder.payment_status,
         order_status: formattedOrder.order_status,
+        fulfillment_status: formattedOrder.fulfillment_status,
+        delivery_status: formattedOrder.delivery_status,
+        delivery_method: formattedOrder.delivery_method,
+        channel: formattedOrder.channel,
         tracking_number: formattedOrder.tracking_number,
+        items_count: formattedOrder.items_count,
+        tags: formattedOrder.tags,
+        discount_applied: formattedOrder.discount_applied,
+        notes: formattedOrder.notes,
       };
 
       // Only pass id if it is a valid UUID, otherwise allow DB default gen_random_uuid()
@@ -748,16 +756,17 @@ export const inventoryService = {
     return list;
   },
 
-  // Upsert a product into inventory (handles creations, clones, and ID renames)
-  async upsertInventoryItem(product, previousId = null) {
+  // Upsert a product into inventory (handles creations, clones, SKU migrations, and ID renames)
+  async upsertInventoryItem(product, previousId = null, previousSku = null) {
     const list = this.getInventory();
     const targetId = previousId || product.id;
+    const oldSku = previousSku ? String(previousSku).trim().toUpperCase() : null;
+    const safeSku = String(product.sku || "").trim().toUpperCase();
     const idx = list.findIndex(
-      (item) => item.id === targetId || (targetId && item.id === targetId)
+      (item) => item.id === targetId || (oldSku && item.sku === oldSku) || item.sku === safeSku
     );
 
     const safeStock = typeof product.stock === "number" && !isNaN(product.stock) ? Math.max(0, product.stock) : 10;
-    const safeSku = String(product.sku || "").trim().toUpperCase();
     const safeName = String(product.name || product.sku || "Untitled Timepiece").trim();
     const safeImage = product.image || "/watch-astroworld-moon-rosegold-front-transparent.webp";
 
@@ -786,8 +795,18 @@ export const inventoryService = {
       const priceNum = parseInt(String(product.price || "0").replace(/[^\d]/g, ""), 10) || 45000;
       const priceUsdNum = parseInt(String(product.priceUsd || "0").replace(/[^\d]/g, ""), 10) || Math.round(priceNum / 83);
 
-      if (previousId && previousId !== product.id) {
-        await supabase.from("inventory").delete().eq("id", previousId);
+      const idChanged = previousId && String(previousId).trim().toLowerCase() !== String(product.id).trim().toLowerCase();
+      const skuChanged = oldSku && oldSku !== safeSku;
+
+      if (idChanged || skuChanged) {
+        const cleanOldId = previousId ? String(previousId).trim() : null;
+        if (cleanOldId && oldSku) {
+          await supabase.from("inventory").delete().or(`id.eq.${cleanOldId},sku.ilike.${oldSku}`);
+        } else if (cleanOldId) {
+          await supabase.from("inventory").delete().eq("id", cleanOldId);
+        } else if (oldSku) {
+          await supabase.from("inventory").delete().ilike("sku", oldSku);
+        }
       }
 
       await supabase.from("inventory").upsert({
@@ -1374,16 +1393,18 @@ export const productsService = {
     }
   },
 
-  // Save (insert or update) a product
-  async saveProduct(product, previousId = null) {
+  // Save (insert or update) a product with complete SKU & ID migration safety
+  async saveProduct(product, previousId = null, previousSku = null) {
     const local = this.getLocalProducts();
     const targetId = previousId ? String(previousId).trim().toLowerCase() : String(product.id || "").trim().toLowerCase();
-    const targetSku = String(product.sku || "").trim().toLowerCase();
+    const oldSku = previousSku ? String(previousSku).trim().toUpperCase() : null;
+    const newSku = String(product.sku || "").trim().toUpperCase();
 
     // Clean and validate product fields
     const safeProduct = {
       ...product,
-      sku: String(product.sku || "").trim().toUpperCase(),
+      id: String(product.id || targetId).trim().toLowerCase(),
+      sku: newSku,
       name: String(product.name || "").trim(),
       updatedAt: new Date().toISOString(),
     };
@@ -1392,7 +1413,8 @@ export const productsService = {
     let existingIndex = local.findIndex((p) => 
       (p.id && String(p.id).trim().toLowerCase() === targetId) ||
       (previousId && p.id && String(p.id).trim().toLowerCase() === String(previousId).trim().toLowerCase()) ||
-      (targetSku && p.sku && String(p.sku).trim().toLowerCase() === targetSku)
+      (oldSku && p.sku && String(p.sku).trim().toUpperCase() === oldSku) ||
+      (newSku && p.sku && String(p.sku).trim().toUpperCase() === newSku)
     );
 
     let updated;
@@ -1407,22 +1429,38 @@ export const productsService = {
     }
 
     // If ID or SKU was changed, clean up any old reference locally
-    if (previousId && String(previousId).trim().toLowerCase() !== String(safeProduct.id).trim().toLowerCase()) {
+    if (previousId && String(previousId).trim().toLowerCase() !== safeProduct.id) {
       const prevClean = String(previousId).trim().toLowerCase();
       updated = updated.filter((p, idx) => idx === existingIndex || String(p.id).trim().toLowerCase() !== prevClean);
     }
 
     this.saveLocalProducts(updated);
 
-    // CRITICAL: If ID changed, delete previous record in Supabase FIRST to avoid unique constraint conflict on SKU
-    if (previousId && previousId !== safeProduct.id) {
+    // CRITICAL: If ID or SKU changed, delete previous record in Supabase FIRST to avoid unique constraint conflict on SKU
+    const idChanged = previousId && String(previousId).trim().toLowerCase() !== safeProduct.id;
+    const skuChanged = oldSku && oldSku !== newSku;
+
+    if (idChanged || skuChanged) {
       try {
-        await Promise.all([
-          supabase.from("products").delete().eq("id", previousId),
-          supabase.from("inventory").delete().eq("id", previousId)
-        ]);
+        const cleanOldId = previousId ? String(previousId).trim() : null;
+        if (cleanOldId && oldSku) {
+          await Promise.all([
+            supabase.from("products").delete().or(`id.eq.${cleanOldId},sku.ilike.${oldSku}`),
+            supabase.from("inventory").delete().or(`id.eq.${cleanOldId},sku.ilike.${oldSku}`)
+          ]);
+        } else if (cleanOldId) {
+          await Promise.all([
+            supabase.from("products").delete().eq("id", cleanOldId),
+            supabase.from("inventory").delete().eq("id", cleanOldId)
+          ]);
+        } else if (oldSku) {
+          await Promise.all([
+            supabase.from("products").delete().ilike("sku", oldSku),
+            supabase.from("inventory").delete().ilike("sku", oldSku)
+          ]);
+        }
       } catch (delErr) {
-        console.warn("Could not delete previous record before rename:", delErr);
+        console.warn("Could not purge previous timepiece records before rename:", delErr);
       }
     }
 

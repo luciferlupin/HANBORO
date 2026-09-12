@@ -339,7 +339,7 @@ ON CONFLICT (sku) DO UPDATE SET price = EXCLUDED.price, stock = EXCLUDED.stock, 
 
 -- Corresponding Real-Time Inventory Allocations
 INSERT INTO public.inventory (id, sku, name, collection, stock, price_inr, price_usd, image, is_active) VALUES
-    ('inv_hbr_980', 'HBR-980-AUTO-ORBITA-G', 'Hanboro Orbita Gold Automatic', 'Tourbillon & Complications', 8, 99990, 1200, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop&q=80', true),
-    ('inv_hbr_702', 'HBR-702-TOURB-SKELETON', 'Hanboro Skeleton Complication', 'Skeleton & Openworked', 5, 124990, 1500, 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=1000&auto=format&fit=crop&q=80', true),
-    ('inv_hbr_901', 'HBR-901-ASTRONOMICAL', 'Hanboro Celestial Astronomical', 'Astronomical & Special Editions', 4, 149990, 1800, 'https://images.unsplash.com/photo-1547996160-71dfabbce5fa?w=1000&auto=format&fit=crop&q=80', true)
-ON CONFLICT (sku) DO UPDATE SET stock = EXCLUDED.stock, price_inr = EXCLUDED.price_inr, price_usd = EXCLUDED.price_usd;
+    ('hbr-980-auto-orbita-g', 'HBR-980-AUTO-ORBITA-G', 'Hanboro Orbita Gold Automatic', 'Tourbillon & Complications', 8, 99990, 1200, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop&q=80', true),
+    ('hbr-702-tourb-skeleton', 'HBR-702-TOURB-SKELETON', 'Hanboro Skeleton Complication', 'Skeleton & Openworked', 5, 124990, 1500, 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=1000&auto=format&fit=crop&q=80', true),
+    ('hbr-901-astronomical', 'HBR-901-ASTRONOMICAL', 'Hanboro Celestial Astronomical', 'Astronomical & Special Editions', 4, 149990, 1800, 'https://images.unsplash.com/photo-1547996160-71dfabbce5fa?w=1000&auto=format&fit=crop&q=80', true)
+ON CONFLICT (sku) DO UPDATE SET id = EXCLUDED.id, stock = EXCLUDED.stock, price_inr = EXCLUDED.price_inr, price_usd = EXCLUDED.price_usd;

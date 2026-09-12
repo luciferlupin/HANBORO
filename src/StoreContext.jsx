@@ -326,12 +326,15 @@ export function StoreProvider({ children }) {
     if (!existing) return null;
 
     const previousId = existing.id;
+    const previousSku = updatedFields.previousSku || existing.sku;
     const targetId = (updatedFields.id || "").trim() || previousId;
+    const targetSku = String(updatedFields.sku || existing.sku).trim().toUpperCase();
 
     const merged = {
       ...existing,
       ...updatedFields,
       id: targetId,
+      sku: targetSku,
       specs: {
         ...existing.specs,
         ...(updatedFields.specs || {}),
@@ -341,21 +344,21 @@ export function StoreProvider({ children }) {
     };
 
     try {
-      const updatedCatalog = await productsService.saveProduct(merged, previousId);
+      const updatedCatalog = await productsService.saveProduct(merged, previousId, previousSku);
       setProducts(updatedCatalog);
-      await inventoryService.upsertInventoryItem(merged, previousId);
+      await inventoryService.upsertInventoryItem(merged, previousId, previousSku);
       window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
 
-      // If ID changed, update any active references in cart
-      if (previousId !== merged.id) {
-        setCart((prev) =>
-          prev.map((item) =>
-            item.product.id === previousId
-              ? { ...item, product: { ...item.product, id: merged.id } }
-              : item
-          )
-        );
-      }
+      // Keep cart in sync with updated watch details (id, sku, price, name, image)
+      setCart((prev) =>
+        prev.map((item) =>
+          item.product.id === previousId ||
+          item.product.id === merged.id ||
+          String(item.product.sku).trim().toUpperCase() === String(previousSku).trim().toUpperCase()
+            ? { ...item, product: { ...item.product, ...merged } }
+            : item
+        )
+      );
 
       showToast(`Updated "${merged.name}" (SKU: ${merged.sku}) stored in Supabase!`);
       return merged;
@@ -371,11 +374,19 @@ export function StoreProvider({ children }) {
     const target = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
     const name = target?.name || productId;
     const resolvedId = target?.id || productId;
+    const resolvedSku = target?.sku || productId;
     try {
       const updatedCatalog = await productsService.deleteProduct(resolvedId);
       setProducts(updatedCatalog);
       await inventoryService.deleteItem(resolvedId);
-      setCart((prev) => prev.filter((it) => String(it.product.id).trim().toLowerCase() !== clean && String(it.product.sku).trim().toLowerCase() !== clean));
+      setCart((prev) =>
+        prev.filter((it) =>
+          String(it.product.id).trim().toLowerCase() !== clean &&
+          String(it.product.sku).trim().toLowerCase() !== clean &&
+          String(it.product.id).trim().toLowerCase() !== String(resolvedId).trim().toLowerCase() &&
+          String(it.product.sku).trim().toLowerCase() !== String(resolvedSku).trim().toLowerCase()
+        )
+      );
       window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
       showToast(`Timepiece "${name}" removed from catalog & Supabase`);
       return updatedCatalog;

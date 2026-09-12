@@ -3128,8 +3128,9 @@ export function AdminDashboard({ onNavigateHome }) {
           }}
           onSave={async (watchData) => {
             const prevId = watchData.previousId || (editingWatch && (editingWatch.id || editingWatch.sku));
+            const prevSku = watchData.previousSku || (editingWatch && editingWatch.sku);
             if (prevId) {
-              await updateProduct(prevId, watchData);
+              await updateProduct(prevId, { ...watchData, previousSku: prevSku });
             } else {
               await addProduct(watchData);
             }

@@ -480,6 +480,7 @@ export function WatchEditorModal({
       ...(initialData || {}),
       id: safeId,
       previousId: initialData?.id || null,
+      previousSku: initialData?.sku || null,
       name: form.name.trim(),
       sku: form.sku.trim().toUpperCase(),
       subtitle: form.subtitle.trim() || `${form.collectionName} • Haute Horlogerie`,
