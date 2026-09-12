@@ -6,6 +6,7 @@ import {
   rouletteService,
   draftOrdersService,
   discountsService,
+  sortCatalogStably,
   SUPABASE_URL,
 } from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
@@ -648,18 +649,20 @@ export function AdminDashboard({ onNavigateHome }) {
       list = list.filter((p) => p.collection === productCategoryFilter);
     }
     const q = productSearch.toLowerCase().trim();
-    if (!q) return list;
-    return list.filter(
-      (p) =>
-        p.name?.toLowerCase().includes(q) ||
-        p.sku?.toLowerCase().includes(q) ||
-        p.collection?.toLowerCase().includes(q) ||
-        p.collectionName?.toLowerCase().includes(q) ||
-        p.subtitle?.toLowerCase().includes(q) ||
-        p.id?.toLowerCase().includes(q) ||
-        p.tag?.toLowerCase().includes(q) ||
-        p.specs?.movement?.toLowerCase().includes(q)
-    );
+    if (q) {
+      list = list.filter(
+        (p) =>
+          p.name?.toLowerCase().includes(q) ||
+          p.sku?.toLowerCase().includes(q) ||
+          p.collection?.toLowerCase().includes(q) ||
+          p.collectionName?.toLowerCase().includes(q) ||
+          p.subtitle?.toLowerCase().includes(q) ||
+          p.id?.toLowerCase().includes(q) ||
+          p.tag?.toLowerCase().includes(q) ||
+          p.specs?.movement?.toLowerCase().includes(q)
+      );
+    }
+    return sortCatalogStably(list);
   }, [products, productCategoryFilter, productSearch]);
 
   // Calculations for Shopify Analytics KPIs

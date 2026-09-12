@@ -1180,35 +1180,78 @@ export const rouletteService = {
   },
 };
 
-// ── PRODUCTS SERVICE ─────────────────────────────────────────────────────────
+// ── PRODUCTS SERVICE & DETERMINISTIC RANKING ────────────────────────────────
+// Canonical rank index map to maintain stable editorial ordering across refreshes
+export const CANONICAL_PRODUCT_ORDER = new Map();
+PRODUCTS_DATA.forEach((p, idx) => {
+  if (p.id) CANONICAL_PRODUCT_ORDER.set(String(p.id).trim().toLowerCase(), idx);
+  if (p.sku) CANONICAL_PRODUCT_ORDER.set(String(p.sku).trim().toUpperCase(), idx);
+});
+
+// Deterministic stable sorting function for products catalog
+export function sortCatalogStably(items) {
+  if (!Array.isArray(items)) return [];
+  return [...items].sort((a, b) => {
+    const aId = String(a.id || "").trim().toLowerCase();
+    const aSku = String(a.sku || "").trim().toUpperCase();
+    const bId = String(b.id || "").trim().toLowerCase();
+    const bSku = String(b.sku || "").trim().toUpperCase();
+
+    const aRank = a.rank !== undefined && typeof a.rank === "number"
+      ? a.rank
+      : (CANONICAL_PRODUCT_ORDER.get(aId) ?? CANONICAL_PRODUCT_ORDER.get(aSku) ?? 9999);
+    const bRank = b.rank !== undefined && typeof b.rank === "number"
+      ? b.rank
+      : (CANONICAL_PRODUCT_ORDER.get(bId) ?? CANONICAL_PRODUCT_ORDER.get(bSku) ?? 9999);
+
+    if (aRank !== bRank) {
+      return aRank - bRank;
+    }
+
+    const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    if (aTime !== bTime) {
+      return aTime - bTime;
+    }
+    return aId.localeCompare(bId);
+  });
+}
+
 export const productsService = {
-  // Get locally cached products or fallback to default PRODUCTS_DATA
+  // Get locally cached products or fallback to default PRODUCTS_DATA with stable ordering
   getLocalProducts() {
     try {
       const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.map((p, idx) => ({
+          const mapped = parsed.map((p, idx) => ({
             ...p,
             stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+            rank: p.rank !== undefined && typeof p.rank === "number"
+              ? p.rank
+              : (CANONICAL_PRODUCT_ORDER.get(String(p.id || "").toLowerCase()) ?? CANONICAL_PRODUCT_ORDER.get(String(p.sku || "").toUpperCase()) ?? idx),
           }));
+          return sortCatalogStably(mapped);
         }
       }
     } catch (e) {
       console.warn("Could not parse cached products:", e);
     }
-    return PRODUCTS_DATA.map((p, idx) => ({
+    const base = PRODUCTS_DATA.map((p, idx) => ({
       ...p,
       stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+      rank: idx,
     }));
+    return sortCatalogStably(base);
   },
 
   // Save full products list to local storage with quota resilience
   saveLocalProducts(products) {
     if (!Array.isArray(products)) return;
     try {
-      safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+      const sorted = sortCatalogStably(products);
+      safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(sorted));
     } catch (e) {
       console.warn("Storage quota warning, pruning old caches:", e);
       // Attempt quota recovery: prune old caches
@@ -1222,7 +1265,7 @@ export const productsService = {
     }
   },
 
-  // Fetch products from Supabase with intelligent merge against local additions
+  // Fetch products from Supabase with stable in-place merge (never scrambles on refresh)
   async fetchProducts() {
     const local = this.getLocalProducts();
     try {
@@ -1257,26 +1300,56 @@ export const productsService = {
           updatedAt: row.updated_at,
         }));
 
-        // INTELLIGENT MERGE: Do not let remote overwrite local products that were newly created or have newer timestamps
-        const remoteIds = new Set(mapped.map((p) => String(p.id).toLowerCase()));
-        const remoteSkus = new Set(mapped.map((p) => String(p.sku || "").toLowerCase()));
-
-        const localOnly = local.filter((lp) => {
-          const lId = String(lp.id).toLowerCase();
-          const lSku = String(lp.sku || "").toLowerCase();
-          return !remoteIds.has(lId) && (!lSku || !remoteSkus.has(lSku));
+        // STABLE IN-PLACE MERGE: Update matching items at their exact canonical position
+        const remoteById = new Map();
+        const remoteBySku = new Map();
+        mapped.forEach((rp) => {
+          if (rp.id) remoteById.set(String(rp.id).toLowerCase(), rp);
+          if (rp.sku) remoteBySku.set(String(rp.sku).toUpperCase(), rp);
         });
 
-        // Combined: local new additions first, followed by remote products
-        const merged = [...localOnly, ...mapped];
-        this.saveLocalProducts(merged);
+        const consumedRemoteIds = new Set();
+        const consumedRemoteSkus = new Set();
 
-        // Auto-sync any local-only timepieces up to Supabase
-        if (localOnly.length > 0) {
-          localOnly.forEach((lp) => {
-            this.syncProductToSupabase(lp).catch(() => {});
-          });
-        }
+        const updatedExisting = local.map((lp, idx) => {
+          const lId = String(lp.id || "").toLowerCase();
+          const lSku = String(lp.sku || "").toUpperCase();
+          const remote = remoteById.get(lId) || remoteBySku.get(lSku);
+
+          if (remote) {
+            consumedRemoteIds.add(String(remote.id).toLowerCase());
+            if (remote.sku) consumedRemoteSkus.add(String(remote.sku).toUpperCase());
+            return {
+              ...lp,
+              ...remote,
+              id: lp.id,
+              rank: lp.rank !== undefined && typeof lp.rank === "number"
+                ? lp.rank
+                : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
+            };
+          }
+
+          return {
+            ...lp,
+            rank: lp.rank !== undefined && typeof lp.rank === "number"
+              ? lp.rank
+              : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
+          };
+        });
+
+        // Any brand new custom timepieces in Supabase not matching any local id OR sku
+        const brandNewRemote = mapped
+          .filter((rp) => 
+            !consumedRemoteIds.has(String(rp.id).toLowerCase()) &&
+            (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase()))
+          )
+          .map((rp, idx) => ({
+            ...rp,
+            rank: 10000 + idx,
+          }));
+
+        const merged = sortCatalogStably([...updatedExisting, ...brandNewRemote]);
+        this.saveLocalProducts(merged);
 
         return merged;
       } else if (!error && (!data || data.length === 0)) {

@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { CATEGORIES } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
+import { sortCatalogStably } from "./supabaseClient";
 
 /**
  * ProductsView (Maison Elegance Collection Page)
@@ -109,6 +110,8 @@ export function ProductsView({
       list.sort((a, b) => parseInt(String(b.price || "0").replace(/[^\d]/g, "")) - parseInt(String(a.price || "0").replace(/[^\d]/g, "")));
     } else if (sortOrder === "PRICE_ASC") {
       list.sort((a, b) => parseInt(String(a.price || "0").replace(/[^\d]/g, "")) - parseInt(String(a.price || "0").replace(/[^\d]/g, "")));
+    } else {
+      list = sortCatalogStably(list);
     }
 
     return list;
