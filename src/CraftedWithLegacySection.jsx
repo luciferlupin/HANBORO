@@ -36,7 +36,6 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
 
 
       <div className="crafted-legacy__container">
-        <span className="flow-chapter-label flow-chapter-label--center">CHAPTER 03 / 07 · PHILOSOPHY</span>
         {/* Interleaved Typographic & Theme Pill Mosaic */}
         <div className="crafted-legacy__mosaic">
           {/* ROW 1: [Capsule Pill with Ruby Crown] + "CRAFTED WITH" */}

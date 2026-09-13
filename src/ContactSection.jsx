@@ -107,7 +107,7 @@ export function ContactSection() {
         <div className="contact-inner">
           {/* Left Column: Clean Editorial & Direct Channels */}
           <div className="contact-left">
-            <span className="contact-eyebrow">CHAPTER 07 / 07 · GET IN TOUCH</span>
+            <span className="contact-eyebrow">— Get in touch</span>
             <h2 className="contact-heading" id="contact-section-title">
               We’d love to<br />
               <em>hear from you.</em>

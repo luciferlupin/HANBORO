@@ -183,7 +183,6 @@ export function SubtleMasterySection({ onExploreCatalog }) {
       <div className="subtle-mastery__container subtle-mastery__container--vertical">
         {/* Left Column: Sticky Centered Editorial Headline */}
         <div className="vertical-timeline__left" data-reveal>
-          <span className="flow-chapter-label">CHAPTER 02 / 07 · PRINCIPLES</span>
           <h2 id="subtle-mastery-title" className="vertical-timeline__title">
             The Art<br />
             <span>of Modern Horology</span>
