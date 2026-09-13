@@ -625,7 +625,7 @@ function CloverKingExperience({ onInspectSku }) {
       {/* Section Header */}
       <div className="stage-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-index">CHAPTER 03 / 07</span>
+          <span className="stage-index">CHAPTER 05 / 07</span>
           <span className="stage-tag">KINETIC METAMORPHOSIS</span>
         </div>
         <h2 id="clover-title" className="stage-title">
@@ -1585,7 +1585,7 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
       <div className="carousel-section-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-index">CHAPTER 01 / 07</span>
+          <span className="stage-index">CHAPTER 04 / 07</span>
           <span className="stage-tag">THE VAULT</span>
         </div>
         <h2 id="collection-title" className="carousel-heading">
@@ -3231,7 +3231,7 @@ function Website({ onRestart }) {
           onNavigateToStores={() => navigateTo("stores", "#stores")}
         />
       ) : (
-        <>
+        <div className="home-flow">
           {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
           <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
 
@@ -3262,7 +3262,7 @@ function Website({ onRestart }) {
           {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
           <ContactSection />
 
-        </>
+        </div>
       )}
 
 

@@ -44,8 +44,8 @@ const MAISON_CHAPTERS = [
     copy: "A contemporary house for collectors who choose character over consensus and make every second distinctly their own.",
     feature: "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.png",
     featureAlt: "Hanboro Celestial Dragon detail",
-    detail: "/hanboro-packaging-bag.jpg",
-    detailAlt: "Hanboro presentation packaging",
+    detail: "/store-signage.webp",
+    detailAlt: "Hanboro atelier signage",
     metric: "∞",
     metricLabel: "ORIGINAL BY DESIGN",
   },
@@ -115,7 +115,7 @@ export function AboutMaisonSection() {
     >
       <div className="maison-stage">
         <header className="maison-story-header">
-          <span>HANBORO / THE MAKING OF TIME</span>
+          <span>CHAPTER 01 / 07 · THE MAKING OF TIME</span>
           <h2 id="about-maison-title">Inside the <em>machine.</em></h2>
           <span>SCROLL TO EXPLORE</span>
         </header>
