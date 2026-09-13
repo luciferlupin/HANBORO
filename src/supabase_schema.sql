@@ -45,6 +45,8 @@ CREATE TABLE public.profiles (
     full_name TEXT,
     phone TEXT,
     role TEXT DEFAULT 'customer',
+    vip_tier TEXT DEFAULT 'VIP Patron',
+    notes TEXT,
     shipping_info JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
@@ -99,6 +101,7 @@ CREATE TABLE public.orders (
 CREATE TABLE public.products (
     id TEXT PRIMARY KEY,
     sku TEXT UNIQUE NOT NULL,
+    ean TEXT,
     name TEXT NOT NULL,
     subtitle TEXT,
     collection TEXT NOT NULL DEFAULT 'TOURBILLON',
@@ -124,6 +127,7 @@ CREATE TABLE public.products (
 CREATE TABLE public.inventory (
     id TEXT PRIMARY KEY,
     sku TEXT UNIQUE NOT NULL,
+    ean TEXT,
     name TEXT NOT NULL,
     collection TEXT DEFAULT 'Tourbillon & Complications',
     stock INTEGER DEFAULT 10,
@@ -191,6 +195,7 @@ CREATE INDEX idx_orders_ref ON public.orders(order_ref);
 CREATE INDEX idx_orders_user ON public.orders(user_id);
 CREATE INDEX idx_orders_email ON public.orders(customer_email);
 CREATE INDEX idx_products_sku ON public.products(sku);
+CREATE INDEX idx_products_ean ON public.products(ean);
 CREATE INDEX idx_products_collection ON public.products(collection);
 CREATE INDEX idx_inventory_sku ON public.inventory(sku);
 CREATE INDEX idx_roulette_code ON public.roulette_spins(voucher_code);
@@ -343,3 +348,13 @@ INSERT INTO public.inventory (id, sku, name, collection, stock, price_inr, price
     ('flying-skeleton', 'HBR-702-TOURB-SKELETON', 'Hanboro Skeleton Complication', 'Skeleton & Openworked', 5, 124990, 1500, 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=1000&auto=format&fit=crop&q=80', true),
     ('celestial-tourbillon', 'HBR-901-ASTRONOMICAL', 'Hanboro Celestial Astronomical', 'Astronomical & Special Editions', 4, 149990, 1800, 'https://images.unsplash.com/photo-1547996160-71dfabbce5fa?w=1000&auto=format&fit=crop&q=80', true)
 ON CONFLICT (sku) DO UPDATE SET id = EXCLUDED.id, stock = EXCLUDED.stock, price_inr = EXCLUDED.price_inr, price_usd = EXCLUDED.price_usd;
+
+-- Seed VIP Customer Profiles Dossier
+INSERT INTO public.profiles (email, full_name, phone, role, vip_tier, notes, shipping_info) VALUES
+('ankan.das@bengalhorology.in', 'Ankan Das', '+919830011223', 'customer', 'VIP Horology Patron', 'Astroworld Tourbillon collector. Prefers bespoke piano-lacquered vault box packaging.', '{"city": "Kolkata", "state": "West Bengal", "pin": "700019", "address": "Ballygunge Circular Road", "country": "India"}'::jsonb),
+('shiva.karnati@hyderabadtech.in', 'Shiva Karnati', '+919849012345', 'customer', 'Diamond Collector', 'Casino Roulette Complications connoisseur. Fastrr VIP 1-click verified.', '{"city": "Hyderabad", "state": "Telangana", "pin": "500081", "address": "Jubilee Hills Road No. 36", "country": "India"}'::jsonb),
+('deepak.agarwal@delhiwealth.com', 'Deepak Agarwal', '+919811122334', 'customer', 'Grand Complication Connoisseur', 'Prefers Tonneau and Skeleton collections. Insured white-glove delivery.', '{"city": "Gurgaon", "state": "Haryana", "pin": "122002", "address": "DLF Phase 5, Golf Course Road", "country": "India"}'::jsonb),
+('goutham.s@chennaiauto.com', 'Goutham singaravelu', '+919840012345', 'customer', 'Haute Horlogerie Patron', 'Celestial Dragon Tourbillon allocation holder. Pre-paid VIP client.', '{"city": "Chennai", "state": "Tamil Nadu", "pin": "600004", "address": "Boat Club Road", "country": "India"}'::jsonb),
+('nandan.shetty@bangalorecap.in', 'Nandan Shetty', '+919880023456', 'customer', 'VIP Horology Patron', 'Cyber Cogwheel Skeleton collector.', '{"city": "Bengaluru", "state": "Karnataka", "pin": "560001", "address": "Lavelle Road", "country": "India"}'::jsonb),
+('viren.mehta@mumbaitrading.com', 'VIREN-', '+919821098765', 'customer', 'Collector Tier', 'Flagship Tourbillon inquiries.', '{"city": "Mumbai", "state": "Maharashtra", "pin": "400050", "address": "Bandra West, Pali Hill", "country": "India"}'::jsonb)
+ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name, phone = EXCLUDED.phone, shipping_info = EXCLUDED.shipping_info;

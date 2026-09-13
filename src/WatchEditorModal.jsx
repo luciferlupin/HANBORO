@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CATEGORIES } from "./productsData";
+import { calculateEan13 } from "./supabaseClient";
 
 const TAG_PRESETS = [
   "Flagship Grand Complication",
@@ -109,6 +110,7 @@ export function WatchEditorModal({
     id: "",
     name: "",
     sku: "",
+    ean: "",
     subtitle: "",
     collection: "TOURBILLON",
     collectionName: "Tourbillon & Complications",
@@ -160,6 +162,7 @@ export function WatchEditorModal({
         id: initialData.id || "",
         name: initialData.name || "",
         sku: initialData.sku || "",
+        ean: initialData.ean || (initialData.sku ? calculateEan13(initialData.sku) : ""),
         subtitle: initialData.subtitle || "",
         collection: initialData.collection || "TOURBILLON",
         collectionName: initialData.collectionName || "Tourbillon & Complications",
@@ -202,6 +205,7 @@ export function WatchEditorModal({
         id: "",
         name: "",
         sku: `HBR-${randomSkuNum}-X`,
+        ean: calculateEan13(`HBR-${randomSkuNum}-X`),
         subtitle: "Avant-Garde Skeleton Tourbillon • Haute Horlogerie 2026",
         collection: "TOURBILLON",
         collectionName: "Tourbillon & Complications",
@@ -483,6 +487,7 @@ export function WatchEditorModal({
       previousSku: initialData?.sku || null,
       name: form.name.trim(),
       sku: form.sku.trim().toUpperCase(),
+      ean: (form.ean || "").trim() || calculateEan13(form.sku || form.id),
       subtitle: form.subtitle.trim() || `${form.collectionName} • Haute Horlogerie`,
       collection: form.collection,
       collectionName: form.collectionName,
@@ -617,11 +622,53 @@ export function WatchEditorModal({
                       placeholder="e.g. HBR-8801-TG"
                       value={form.sku}
                       onChange={(e) => {
-                        setForm({ ...form, sku: e.target.value.toUpperCase() });
+                        const val = e.target.value.toUpperCase();
+                        setForm({ ...form, sku: val, ean: form.ean || calculateEan13(val) });
                         if (errors.sku) setErrors({ ...errors, sku: null });
                       }}
                     />
                     {errors.sku && <span className="editor-error-msg">{errors.sku}</span>}
+                  </div>
+
+                  <div className="editor-field-group">
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <label className="editor-label" style={{ margin: 0 }}>
+                        EAN-13 Barcode <span style={{ fontSize: "11px", fontWeight: 400, color: "#64748b" }}>(13 Digits)</span>
+                      </label>
+                      <button
+                        type="button"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "#2563eb",
+                          fontSize: "11px",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          padding: "2px 6px",
+                          borderRadius: "4px",
+                        }}
+                        onClick={() => {
+                          const newEan = calculateEan13(form.sku || form.id || Date.now());
+                          setForm({ ...form, ean: newEan });
+                        }}
+                      >
+                        ⚡ Auto-Generate EAN-13
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      maxLength={13}
+                      className="editor-input editor-input--mono"
+                      placeholder="e.g. 8908012010014"
+                      value={form.ean}
+                      onChange={(e) => {
+                        const clean = e.target.value.replace(/[^\d]/g, "");
+                        setForm({ ...form, ean: clean });
+                      }}
+                    />
+                    <span className="editor-field-hint" style={{ fontSize: "11px", color: "#64748b", marginTop: "4px", display: "block" }}>
+                      Official International Article Number / Point-of-Sale Barcode
+                    </span>
                   </div>
 
                   <div className="editor-field-group">
@@ -1466,6 +1513,10 @@ export function WatchEditorModal({
                         <div className="dossier-summary-item">
                           <span>SKU Identifier</span>
                           <code className="dossier-code">{form.sku || "—"}</code>
+                        </div>
+                        <div className="dossier-summary-item">
+                          <span>EAN-13 Barcode</span>
+                          <code className="dossier-code" style={{ color: "#0284c7" }}>{form.ean || calculateEan13(form.sku || form.id)}</code>
                         </div>
                         <div className="dossier-summary-item">
                           <span>Collection Series</span>

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { authService, ordersService, inventoryService, cartService, rouletteService, productsService } from "./supabaseClient";
+import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, calculateEan13 } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);
@@ -602,15 +602,20 @@ export function StoreProvider({ children }) {
 
   // Place Order handler
   const placeOrder = async (orderCustomerData) => {
-    const formattedItems = activeCheckoutItems.map((item) => ({
-      id: item.product.id,
-      sku: item.product.sku,
-      name: item.product.name,
-      price: item.product.price,
-      priceUsd: item.product.priceUsd,
-      quantity: item.quantity,
-      image: item.product.image,
-    }));
+    const formattedItems = activeCheckoutItems.map((item) => {
+      const sku = item.product.sku || item.product.id || "HBR-REF";
+      const ean = item.product.ean || calculateEan13(sku || item.product.id);
+      return {
+        id: item.product.id,
+        sku: String(sku).toUpperCase(),
+        ean: String(ean),
+        name: item.product.name,
+        price: item.product.price,
+        priceUsd: item.product.priceUsd,
+        quantity: item.quantity,
+        image: item.product.image,
+      };
+    });
 
     const orderPayload = {
       user_id: user?.id || null,

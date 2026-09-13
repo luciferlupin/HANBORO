@@ -1,112 +1,170 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+
+const MAISON_CHAPTERS = [
+  {
+    number: "01",
+    eyebrow: "THE MAISON",
+    title: "Time, made visible.",
+    copy: "HANBORO turns mechanical precision into modern sculpture — expressive on the wrist, considered in every proportion.",
+    feature: "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.png",
+    featureAlt: "Hanboro roulette complication",
+    detail: "/pillar-03-signed-by-hand.jpg",
+    detailAlt: "Hanboro hand finishing detail",
+    metric: "360°",
+    metricLabel: "KINETIC EXPRESSION",
+  },
+  {
+    number: "02",
+    eyebrow: "ARCHITECTURAL FORM",
+    title: "Designed from the inside out.",
+    copy: "Open-worked calibres, tensioned bridges and unapologetic cases reveal the energy normally hidden beneath the dial.",
+    feature: "/watch-cyber-cogwheel-skeleton-rosegold-front.webp",
+    featureAlt: "Hanboro open-worked rose gold watch",
+    detail: "/watch-forged-carbon-ribbed-shield-supercar.jpg",
+    detailAlt: "Hanboro forged carbon watch with supercar",
+    metric: "01",
+    metricLabel: "BOLD DESIGN LANGUAGE",
+  },
+  {
+    number: "03",
+    eyebrow: "MATERIAL INTELLIGENCE",
+    title: "Engineered to be felt.",
+    copy: "Sapphire crystal, stainless steel and forged-carbon forms are balanced for presence without sacrificing everyday performance.",
+    feature: "/watch-powerreserve-opaline-profile-transparent.png",
+    featureAlt: "Hanboro Power Reserve profile",
+    detail: "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.jpg",
+    detailAlt: "Hanboro celestial watch worn on wrist",
+    metric: "42h",
+    metricLabel: "MECHANICAL RESERVE",
+  },
+  {
+    number: "04",
+    eyebrow: "A NEW GENERATION",
+    title: "Luxury without convention.",
+    copy: "A contemporary house for collectors who choose character over consensus and make every second distinctly their own.",
+    feature: "/watch-celestial-dragon-tourbillon-silver-isometric-detail-transparent.png",
+    featureAlt: "Hanboro Celestial Dragon detail",
+    detail: "/hanboro-packaging-bag.jpg",
+    detailAlt: "Hanboro presentation packaging",
+    metric: "∞",
+    metricLabel: "ORIGINAL BY DESIGN",
+  },
+];
 
 export function AboutMaisonSection() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return undefined;
+
+    const cards = [...section.querySelectorAll(".maison-chapter")];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 760px), (max-height: 720px)");
+    let frame = 0;
+    let current = 0;
+    let target = 0;
+
+    const render = () => {
+      current += (target - current) * 0.105;
+      if (Math.abs(current - target) < 0.0005) current = target;
+      section.style.setProperty("--maison-progress", current);
+
+      cards.forEach((card, index) => {
+        const distance = current * (cards.length - 1) - index;
+        card.style.setProperty("--chapter-distance", distance);
+        const active = Math.abs(distance) <= 0.5;
+        card.classList.toggle("is-active", active);
+        card.setAttribute(
+          "aria-hidden",
+          String(!compact.matches && !reducedMotion.matches && !active),
+        );
+      });
+
+      frame = current !== target ? requestAnimationFrame(render) : 0;
+    };
+
+    const update = () => {
+      const bounds = section.getBoundingClientRect();
+      target = Math.max(
+        0,
+        Math.min(1, -bounds.top / Math.max(1, bounds.height - window.innerHeight)),
+      );
+      if (!frame) frame = requestAnimationFrame(render);
+    };
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    reducedMotion.addEventListener("change", update);
+    update();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      reducedMotion.removeEventListener("change", update);
+    };
+  }, []);
+
   return (
-    <section className="about-maison-section" id="about-maison" aria-labelledby="about-maison-title">
-      {/* Hairline Architectural Perspective Rays in Signature Signal Red */}
-      <div className="about-maison__geometry-bg" aria-hidden="true">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" className="about-perspective-svg">
-          {/* Perspective Ray from top-left */}
-          <line x1="120" y1="0" x2="720" y2="780" stroke="rgba(217, 20, 20, 0.4)" strokeWidth="1" />
-          <line x1="0" y1="60" x2="720" y2="780" stroke="rgba(217, 20, 20, 0.16)" strokeWidth="1" />
-          
-          {/* Perspective Ray from top-right */}
-          <line x1="1320" y1="0" x2="720" y2="780" stroke="rgba(217, 20, 20, 0.4)" strokeWidth="1" />
-          <line x1="1440" y1="60" x2="720" y2="780" stroke="rgba(217, 20, 20, 0.16)" strokeWidth="1" />
-          
-          {/* Subtle horizontal baseline */}
-          <line x1="280" y1="780" x2="1160" y2="780" stroke="rgba(217, 20, 20, 0.14)" strokeWidth="1" strokeDasharray="3 6" />
-        </svg>
-      </div>
+    <section
+      ref={sectionRef}
+      className="about-maison-section maison-scroll-story"
+      id="about-maison"
+      aria-labelledby="about-maison-title"
+    >
+      <div className="maison-stage">
+        <header className="maison-story-header">
+          <span>HANBORO / THE MAKING OF TIME</span>
+          <h2 id="about-maison-title">Inside the <em>machine.</em></h2>
+          <span>SCROLL TO EXPLORE</span>
+        </header>
 
-      <div className="about-maison__container">
-        {/* Editorial Heading */}
-        <h2 id="about-maison-title" className="about-maison__title" data-reveal>
-          ABOUT
-        </h2>
+        <div className="maison-scenes">
+          {MAISON_CHAPTERS.map((chapter, index) => (
+            <article
+              className={`maison-chapter ${index === 0 ? "is-active" : ""}`}
+              key={chapter.eyebrow}
+            >
+              <div className="maison-bento">
+                <div className="maison-copy-card">
+                  <div className="maison-copy-meta">
+                    <span>{chapter.number}</span>
+                    <span>{chapter.eyebrow}</span>
+                  </div>
+                  <h3>{chapter.title}</h3>
+                  <p>{chapter.copy}</p>
+                  <div className="maison-copy-rule" aria-hidden="true" />
+                </div>
 
-        {/* 3 Editorial Manifesto Paragraphs */}
-        <div className="about-maison__content" data-reveal data-reveal-delay="1">
-          <p className="about-maison__paragraph">
-            The project represents an unconstrained vision for a modern horological house, shaped by centuries of high-frequency Swiss watchmaking heritage and micromechanical mastery.
-          </p>
+                <figure className="maison-feature-card">
+                  <span className="maison-corner-label">OBJECT / {chapter.number}</span>
+                  <img src={chapter.feature} alt={chapter.featureAlt} loading={index === 0 ? "eager" : "lazy"} />
+                  <figcaption>PRECISION IN MOTION</figcaption>
+                </figure>
 
-          <p className="about-maison__paragraph">
-            It tells the story of the HANBORO atelier through the lens of pure kinetic brilliance, where value is found in proportion, zero-wobble ceramic engineering, and time itself — rather than overt expression.
-          </p>
+                <figure className="maison-detail-card">
+                  <img src={chapter.detail} alt={chapter.detailAlt} loading="lazy" />
+                  <figcaption>DETAIL STUDY</figcaption>
+                </figure>
 
-          <p className="about-maison__paragraph">
-            HANBORO draws inspiration from celestial tourbillons, casino roulette complications, and open-worked skeleton calibres, reflecting an architectural approach to design, restrained elegance, and the ability to turn mechanical form into a lasting symbol.
-          </p>
+                <div className="maison-metric-card" aria-label={`${chapter.metric} ${chapter.metricLabel}`}>
+                  <strong>{chapter.metric}</strong>
+                  <span>{chapter.metricLabel}</span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
 
-        {/* Vertical Kicker */}
-        <div className="about-maison__crafted-by" data-reveal data-reveal-delay="2">
-          <span>C</span>
-          <span>R</span>
-          <span>A</span>
-          <span>F</span>
-          <span>T</span>
-          <span>E</span>
-          <span>D</span>
-          <span className="crafted-space" />
-          <span>B</span>
-          <span>Y</span>
-        </div>
-
-        {/* Master Horologer Cursive Signature */}
-        <div className="about-maison__signature-wrap" data-reveal data-reveal-delay="3">
-          <span className="about-maison__signature">Atelier Hanboro</span>
-        </div>
-
-        {/* Center Complication Dial / Tourbillon Escapement Vector Graphic in Signature Signal Red */}
-        <div className="about-maison__complication" data-reveal data-reveal-delay="4" aria-hidden="true">
-          <svg viewBox="0 0 240 160" className="complication-dial-svg">
-            {/* Upper radiating rays */}
-            <line x1="120" y1="26" x2="120" y2="8" stroke="#d91414" strokeWidth="1" opacity="0.6" />
-            <line x1="82" y1="36" x2="68" y2="22" stroke="#d91414" strokeWidth="1" opacity="0.6" />
-            <line x1="158" y1="36" x2="172" y2="22" stroke="#d91414" strokeWidth="1" opacity="0.6" />
-            <line x1="48" y1="70" x2="28" y2="65" stroke="#d91414" strokeWidth="1" opacity="0.6" />
-            <line x1="192" y1="70" x2="212" y2="65" stroke="#d91414" strokeWidth="1" opacity="0.6" />
-
-            {/* Outer Concentric Dials */}
-            <circle cx="120" cy="80" r="62" fill="none" stroke="#d91414" strokeWidth="1" opacity="0.32" />
-            <circle cx="120" cy="80" r="48" fill="none" stroke="#d91414" strokeWidth="1" strokeDasharray="2 4" opacity="0.45" />
-            <circle cx="120" cy="80" r="34" fill="none" stroke="#d91414" strokeWidth="1.2" opacity="0.75" />
-
-            {/* Lower Crescent Tourbillon Bridge */}
-            <path
-              d="M 66 80 A 54 54 0 0 0 174 80 L 160 80 A 40 40 0 0 1 80 80 Z"
-              fill="rgba(217, 20, 20, 0.08)"
-              stroke="#d91414"
-              strokeWidth="1.2"
-            />
-
-            {/* Sub-crescent inner arch */}
-            <path
-              d="M 88 80 A 32 32 0 0 0 152 80"
-              fill="none"
-              stroke="#d91414"
-              strokeWidth="1"
-              opacity="0.6"
-            />
-
-            {/* Center Pivot Ring & Solid Core */}
-            <circle cx="120" cy="80" r="13" fill="#f7f4ee" stroke="#d91414" strokeWidth="1.5" />
-            <circle cx="120" cy="80" r="7.5" fill="#121214" stroke="#d91414" strokeWidth="1" />
-            <circle cx="120" cy="80" r="3" fill="#d91414" />
-
-            {/* Subtle rotating kinetic balance indicator */}
-            <g className="complication-balance-wheel">
-              <line x1="120" y1="80" x2="120" y2="52" stroke="#d91414" strokeWidth="1.4" strokeLinecap="round" />
-              <line x1="120" y1="80" x2="145" y2="94" stroke="#121214" strokeWidth="1.2" strokeLinecap="round" />
-            </g>
-          </svg>
-        </div>
+        <footer className="maison-story-footer">
+          <span>FORM</span>
+          <div className="maison-progress-track"><i /></div>
+          <span>FUTURE</span>
+        </footer>
       </div>
     </section>
   );
 }
 
 export default AboutMaisonSection;
-

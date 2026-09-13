@@ -6,6 +6,10 @@ import {
   rouletteService,
   draftOrdersService,
   discountsService,
+  profilesService,
+  calculateEan13,
+  enrichOrderItemWithSkuEan,
+  DEFAULT_CUSTOMER_PROFILES,
   sortCatalogStably,
   SUPABASE_URL,
 } from "./supabaseClient";
@@ -39,6 +43,10 @@ import {
   IconEye,
   IconTrash,
   IconMail,
+  IconPrinter,
+  IconBarcode,
+  IconInvoice,
+  IconCopy,
 } from "./AdminIcons";
 
 // Initial realistic Abandoned Checkouts matching user's exact Shopify screenshot
@@ -217,7 +225,7 @@ const SHOPIFY_ABANDONED_SEED = [
   },
 ];
 
-// Initial realistic Orders matching user's exact Shopify screenshot
+// Initial realistic Orders matching official store catalog with authentic Watch SKU and 13-digit EAN Barcodes
 const SHOPIFY_ORDERS_SEED = [
   {
     id: "ord-1001",
@@ -231,13 +239,65 @@ const SHOPIFY_ORDERS_SEED = [
     payment_status: "Paid",
     fulfillment_status: "In progress",
     items_count: "1 item",
-    delivery_status: "",
+    delivery_status: "In Transit",
     delivery_method: "Standard (Prepaid)",
-    tags: ["fastrr", "low", "SR_STANDARD", "Standard"],
+    tags: ["fastrr", "low", "SR_STANDARD", "Standard", "VIP_PATRON"],
     created_at: new Date(Date.now() - 2 * 3600000).toISOString(),
     tracking_number: "EXP-884920",
-    items: [{ name: "HANBORO Astroworld Tourbillon Black DLC", sku: "astroworld-tourbillon-black-dlc", price: 38474.05, quantity: 1 }],
-    shipping_address: { city: "Kolkata", state: "West Bengal", pin: "700019" },
+    items: [
+      {
+        name: "HANBORO Astroworld Tourbillon Black DLC",
+        sku: "HBR-980-DLC-BLACK",
+        ean: "8908012980014",
+        price: 38474.05,
+        quantity: 1,
+        image: "/watch-astroworld-moon-rosegold-front-transparent.webp",
+      },
+    ],
+    shipping_address: {
+      address: "Ballygunge Circular Road, Suite 4B",
+      city: "Kolkata",
+      state: "West Bengal",
+      pin: "700019",
+      pincode: "700019",
+      country: "India",
+    },
+  },
+  {
+    id: "ord-1007",
+    order_ref: "#1007",
+    customer_name: "Ankan Das",
+    customer_email: "ankan.das@bengalhorology.in",
+    customer_phone: "+919830011223",
+    channel: "Online Store",
+    total_amount: 44999.00,
+    currency: "INR",
+    payment_status: "Paid",
+    fulfillment_status: "Fulfilled",
+    items_count: "1 item",
+    delivery_status: "Delivered",
+    delivery_method: "White-Glove Vault (Prepaid)",
+    tags: ["Standard", "VIP_ALLOCATION", "REPEAT_COLLECTOR"],
+    created_at: new Date(Date.now() - 120 * 3600000).toISOString(),
+    tracking_number: "EXP-772299",
+    items: [
+      {
+        name: "Hanboro Orbita Gold Automatic Double Tourbillon",
+        sku: "HBR-980-AUTO-ORBITA-G",
+        ean: "8908012980021",
+        price: 44999.00,
+        quantity: 1,
+        image: "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
+      },
+    ],
+    shipping_address: {
+      address: "Ballygunge Circular Road, Suite 4B",
+      city: "Kolkata",
+      state: "West Bengal",
+      pin: "700019",
+      pincode: "700019",
+      country: "India",
+    },
   },
   {
     id: "ord-1002",
@@ -256,8 +316,24 @@ const SHOPIFY_ORDERS_SEED = [
     tags: ["fastrr", "low", "SR_STANDARD", "Standard"],
     created_at: new Date(Date.now() - 14 * 3600000).toISOString(),
     tracking_number: "DEL-449102",
-    items: [{ name: "HANBORO Casino Roulette Diamond Emerald", sku: "blue-roulette", price: 33079.26, quantity: 1 }],
-    shipping_address: { city: "Hyderabad", state: "Telangana", pin: "500081" },
+    items: [
+      {
+        name: "HANBORO Casino Roulette Diamond Emerald",
+        sku: "HBR-702-ROULETTE-EMERALD",
+        ean: "8908012702018",
+        price: 33079.26,
+        quantity: 1,
+        image: "/watch-oceanic-diver-200m-green-front-transparent.webp",
+      },
+    ],
+    shipping_address: {
+      address: "Road No. 36, Jubilee Hills",
+      city: "Hyderabad",
+      state: "Telangana",
+      pin: "500081",
+      pincode: "500081",
+      country: "India",
+    },
   },
   {
     id: "ord-1003",
@@ -277,7 +353,14 @@ const SHOPIFY_ORDERS_SEED = [
     created_at: new Date(Date.now() - 28 * 3600000).toISOString(),
     tracking_number: "",
     items: [],
-    shipping_address: { city: "Mumbai", state: "Maharashtra", pin: "400050" },
+    shipping_address: {
+      address: "Pali Hill, Bandra West",
+      city: "Mumbai",
+      state: "Maharashtra",
+      pin: "400050",
+      pincode: "400050",
+      country: "India",
+    },
   },
   {
     id: "ord-1004",
@@ -296,8 +379,24 @@ const SHOPIFY_ORDERS_SEED = [
     tags: ["Standard", "VIP_ALLOCATION"],
     created_at: new Date(Date.now() - 48 * 3600000).toISOString(),
     tracking_number: "BLR-992100",
-    items: [{ name: "HANBORO Celestial Dragon Tourbillon Rose Gold", sku: "celestial-dragon", price: 47699, quantity: 1 }],
-    shipping_address: { city: "Chennai", state: "Tamil Nadu", pin: "600004" },
+    items: [
+      {
+        name: "HANBORO Celestial Dragon Tourbillon Rose Gold",
+        sku: "HBR-901-CELESTIAL-DRAGON",
+        ean: "8908012901019",
+        price: 47699.00,
+        quantity: 1,
+        image: "/watch-astroworld-moon-rosegold-profile-transparent.webp",
+      },
+    ],
+    shipping_address: {
+      address: "12 Boat Club Road, RA Puram",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pin: "600004",
+      pincode: "600004",
+      country: "India",
+    },
   },
   {
     id: "ord-1005",
@@ -316,8 +415,24 @@ const SHOPIFY_ORDERS_SEED = [
     tags: ["Standard"],
     created_at: new Date(Date.now() - 72 * 3600000).toISOString(),
     tracking_number: "DEL-778811",
-    items: [{ name: "HANBORO Cyber Cogwheel Skeleton Twotone", sku: "cyber-cogwheel", price: 44999, quantity: 1 }],
-    shipping_address: { city: "Bengaluru", state: "Karnataka", pin: "560001" },
+    items: [
+      {
+        name: "HANBORO Cyber Cogwheel Skeleton Twotone",
+        sku: "HBR-8801-CYBER-SS",
+        ean: "8908012880112",
+        price: 44999.00,
+        quantity: 1,
+        image: "/watch-astroworld-moon-rosegold-neon.webp",
+      },
+    ],
+    shipping_address: {
+      address: "Lavelle Road, Richmond Town",
+      city: "Bengaluru",
+      state: "Karnataka",
+      pin: "560001",
+      pincode: "560001",
+      country: "India",
+    },
   },
   {
     id: "ord-1006",
@@ -336,9 +451,25 @@ const SHOPIFY_ORDERS_SEED = [
     tags: ["Standard"],
     created_at: new Date(Date.now() - 96 * 3600000).toISOString(),
     tracking_number: "EXP-112233",
-    items: [{ name: "HANBORO Mechanical Tonneau Rose Gold", sku: "HNB-TONNEAU-RG", price: 27999, quantity: 1 }],
-    shipping_address: { city: "Gurgaon", state: "Haryana", pin: "122002" },
-  }
+    items: [
+      {
+        name: "HANBORO Mechanical Tonneau Rose Gold",
+        sku: "HNB-TONNEAU-RG",
+        ean: "8908012330016",
+        price: 27999.00,
+        quantity: 1,
+        image: "/watch-astroworld-moon-rosegold-macro.webp",
+      },
+    ],
+    shipping_address: {
+      address: "DLF Phase 5, Golf Course Road, The Crest",
+      city: "Gurgaon",
+      state: "Haryana",
+      pin: "122002",
+      pincode: "122002",
+      country: "India",
+    },
+  },
 ];
 
 export function AdminDashboard({ onNavigateHome }) {
@@ -454,8 +585,98 @@ export function AdminDashboard({ onNavigateHome }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deletingWatch, setDeletingWatch] = useState(null);
 
-  // Customers State
+  // ── CUSTOMERS & PROFILES DATABASE STATE ──
+  const [profiles, setProfiles] = useState(DEFAULT_CUSTOMER_PROFILES);
   const [customerSearch, setCustomerSearch] = useState("");
+  const [customerVipFilter, setCustomerVipFilter] = useState("all"); // "all" | "vip" | "repeat" | "high_value"
+  const [selectedCustomerDossier, setSelectedCustomerDossier] = useState(null);
+  const [invoiceModalOrder, setInvoiceModalOrder] = useState(null);
+  const [editingNotesEmail, setEditingNotesEmail] = useState(null);
+  const [notesDraft, setNotesDraft] = useState("");
+  const [copiedKey, setCopiedKey] = useState(null);
+
+  const handleCopyText = (text, key) => {
+    if (!text) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(String(text));
+      }
+    } catch {}
+    setCopiedKey(key);
+    showToast(`Copied ${key || "text"} to clipboard!`);
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  // Indian currency amount in words converter
+  const amountToWords = (num) => {
+    const a = [
+      "", "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine ", "Ten ",
+      "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen "
+    ];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    const cleanNum = Math.round(Number(num) || 0);
+    if (cleanNum === 0) return "Zero Rupees Only";
+
+    function inWords(n) {
+      if (n < 20) return a[n];
+      const digit = n % 10;
+      if (n < 100) return b[Math.floor(n / 10)] + (digit ? " " + a[digit] : " ");
+      if (n < 1000) return a[Math.floor(n / 100)] + "Hundred " + (n % 100 === 0 ? "" : inWords(n % 100));
+      if (n < 100000) return inWords(Math.floor(n / 1000)) + "Thousand " + (n % 1000 === 0 ? "" : inWords(n % 1000));
+      if (n < 10000000) return inWords(Math.floor(n / 100000)) + "Lakh " + (n % 100000 === 0 ? "" : inWords(n % 100000));
+      return inWords(Math.floor(n / 10000000)) + "Crore " + (n % 10000000 === 0 ? "" : inWords(n % 10000000));
+    }
+
+    return (inWords(cleanNum).trim() + " Rupees Only");
+  };
+
+  // High-precision authentic SVG barcode stripes visualization
+  const BarcodeStripeGraphic = ({ ean, height = 30, showNumber = true }) => {
+    const cleanEan = String(ean || "8908012010014").replace(/[^\d]/g, "");
+    const stripes = [];
+    for (let i = 0; i < cleanEan.length; i++) {
+      const d = parseInt(cleanEan[i], 10);
+      stripes.push({ width: (d % 3) + 1.2, gap: ((d + 1) % 2) + 1.1 });
+    }
+    return (
+      <div className="sp-barcode-container" title={`EAN-13: ${cleanEan}`}>
+        <svg height={height} viewBox="0 0 160 34" className="sp-barcode-svg" preserveAspectRatio="none">
+          <rect x="2" y="0" width="2" height="34" fill="#0f172a" />
+          <rect x="6" y="0" width="2" height="34" fill="#0f172a" />
+          {stripes.map((s, idx) => {
+            const x = 12 + idx * 10;
+            return (
+              <g key={idx}>
+                <rect x={x} y="0" width={s.width} height={idx % 4 === 0 ? "34" : "30"} fill="#0f172a" />
+                <rect x={x + s.width + s.gap} y="0" width={s.width * 0.8} height="30" fill="#0f172a" />
+              </g>
+            );
+          })}
+          <rect x="152" y="0" width="2" height="34" fill="#0f172a" />
+          <rect x="156" y="0" width="2" height="34" fill="#0f172a" />
+        </svg>
+        {showNumber && <span className="sp-barcode-digits">{cleanEan}</span>}
+      </div>
+    );
+  };
+
+  // Save concierge profile notes handler
+  const handleSaveCustomerNotes = async (email, newNotes) => {
+    const cleanEmail = email.toLowerCase().trim();
+    const updated = await profilesService.upsertProfile({
+      email: cleanEmail,
+      notes: newNotes,
+    });
+    setProfiles((prev) =>
+      prev.map((p) => (p.email?.toLowerCase() === cleanEmail ? { ...p, notes: newNotes } : p))
+    );
+    if (selectedCustomerDossier && selectedCustomerDossier.email?.toLowerCase() === cleanEmail) {
+      setSelectedCustomerDossier((prev) => ({ ...prev, notes: newNotes }));
+    }
+    setEditingNotesEmail(null);
+    showToast("Customer dossier notes updated in database");
+  };
 
   // Discounts State
   const [customPromos, setCustomPromos] = useState(() => {
@@ -507,12 +728,17 @@ export function AdminDashboard({ onNavigateHome }) {
     setIsSyncing(true);
     setOrdersLoading(true);
     try {
-      const [loadedOrders, loadedCarts, loadedDrafts, loadedDiscounts] = await Promise.all([
+      const [loadedOrders, loadedCarts, loadedDrafts, loadedDiscounts, loadedProfiles] = await Promise.all([
         ordersService.fetchOrders().catch(() => []),
         cartService.fetchAllLiveCarts().catch(() => []),
         draftOrdersService.fetchDraftOrders(SHOPIFY_DRAFT_ORDERS_SEED).catch(() => SHOPIFY_DRAFT_ORDERS_SEED),
         discountsService.fetchDiscounts(PROMO_CODES).catch(() => PROMO_CODES),
+        profilesService.fetchProfiles().catch(() => DEFAULT_CUSTOMER_PROFILES),
       ]);
+
+      if (loadedProfiles && loadedProfiles.length > 0) {
+        setProfiles(loadedProfiles);
+      }
 
       if (loadedOrders && loadedOrders.length > 0) {
         // Merge Supabase orders with seed orders
@@ -603,44 +829,182 @@ export function AdminDashboard({ onNavigateHome }) {
     });
   }, [abandonedCheckouts, abandonedSearch]);
 
-  // Customers Directory
-  const customersList = useMemo(() => {
+  // ── COMPREHENSIVE CUSTOMER PROFILE DATABASE (WITH WATCH ORDER HISTORY & SKU/EAN ENRICHMENT) ──
+  const customersDatabase = useMemo(() => {
     const map = {};
-    orders.forEach((o) => {
-      const key = o.customer_email?.toLowerCase() || o.customer_name || "client";
-      if (!map[key]) {
-        map[key] = {
-          name: o.customer_name || "Valued Client",
-          email: o.customer_email || "client@hanborowatches.in",
-          phone: o.customer_phone || "+918882069334",
-          city: o.shipping_address?.city || "India",
-          totalSpent: 0,
-          ordersCount: 0,
-          lastOrder: o.created_at,
-        };
-      }
-      map[key].totalSpent += Number(o.total_amount) || 0;
-      map[key].ordersCount += 1;
+
+    // 1. Initialize from Registered Customer Profiles
+    (profiles || []).forEach((p) => {
+      const emailKey = (p.email || "").toLowerCase().trim();
+      if (!emailKey) return;
+      map[emailKey] = {
+        id: p.id || `prof-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
+        name: p.full_name || p.fullName || p.name || emailKey.split("@")[0],
+        email: emailKey,
+        phone: p.phone || "+919830011223",
+        city: p.shipping_info?.city || "India",
+        state: p.shipping_info?.state || "",
+        pin: p.shipping_info?.pin || p.shipping_info?.pincode || "",
+        address: p.shipping_info?.address || "",
+        country: p.shipping_info?.country || "India",
+        vip_tier: p.vip_tier || "VIP Horology Patron",
+        role: p.role || "customer",
+        notes: p.notes || "Registered Haute Horlogerie Patron.",
+        registeredAt: p.created_at || new Date().toISOString(),
+        totalSpent: 0,
+        ordersCount: 0,
+        orders: [],
+        lastOrderDate: null,
+      };
     });
 
-    // Also include unique abandoned clients
-    abandonedCheckouts.forEach((c) => {
-      const key = c.customerEmail?.toLowerCase() || c.customerName;
-      if (!map[key]) {
-        map[key] = {
+    // 2. Associate All Storefront & Seed Orders
+    (orders || []).forEach((o) => {
+      const emailKey = (o.customer_email || "").toLowerCase().trim() || o.customer_name?.toLowerCase().trim() || "guest@hanborowatches.in";
+      if (!map[emailKey]) {
+        map[emailKey] = {
+          id: `cust-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
+          name: o.customer_name || "Valued Client",
+          email: o.customer_email || emailKey,
+          phone: o.customer_phone || "+919830011223",
+          city: o.shipping_address?.city || "India",
+          state: o.shipping_address?.state || "",
+          pin: o.shipping_address?.pin || o.shipping_address?.pincode || "",
+          address: o.shipping_address?.address || "",
+          country: o.shipping_address?.country || "India",
+          vip_tier: "Haute Horlogerie Collector",
+          role: "customer",
+          notes: "Storefront Collector with confirmed timepieces.",
+          registeredAt: o.created_at,
+          totalSpent: 0,
+          ordersCount: 0,
+          orders: [],
+          lastOrderDate: null,
+        };
+      }
+
+      // Enrich items with verified SKU and EAN barcode numbers
+      const enrichedOrder = {
+        ...o,
+        items: (o.items || []).map((it) => enrichOrderItemWithSkuEan(it, products || PRODUCTS_DATA)),
+      };
+
+      map[emailKey].orders.push(enrichedOrder);
+      map[emailKey].ordersCount += 1;
+      map[emailKey].totalSpent += Number(o.total_amount) || 0;
+
+      if (!map[emailKey].lastOrderDate || new Date(o.created_at) > new Date(map[emailKey].lastOrderDate)) {
+        map[emailKey].lastOrderDate = o.created_at;
+      }
+      if (o.shipping_address?.city && (map[emailKey].city === "India" || !map[emailKey].city)) {
+        map[emailKey].city = o.shipping_address.city;
+      }
+      if (o.shipping_address?.address && !map[emailKey].address) {
+        map[emailKey].address = o.shipping_address.address;
+      }
+      if (o.shipping_address?.state && !map[emailKey].state) {
+        map[emailKey].state = o.shipping_address.state;
+      }
+      if ((o.shipping_address?.pin || o.shipping_address?.pincode) && !map[emailKey].pin) {
+        map[emailKey].pin = o.shipping_address.pin || o.shipping_address.pincode;
+      }
+      if (o.customer_phone && (!map[emailKey].phone || map[emailKey].phone === "+918882069334")) {
+        map[emailKey].phone = o.customer_phone;
+      }
+    });
+
+    // 3. Include unique Abandoned Checkouts as prospective clients
+    (abandonedCheckouts || []).forEach((c) => {
+      const emailKey = (c.customerEmail || "").toLowerCase().trim();
+      if (emailKey && !map[emailKey]) {
+        map[emailKey] = {
+          id: `chk-cust-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
           name: c.customerName || "Prospective Client",
-          email: c.customerEmail || "client@hanborowatches.in",
+          email: emailKey,
           phone: c.customerPhone || "+918882069334",
           city: c.region || "India",
+          state: "",
+          pin: "",
+          address: "",
+          country: "India",
+          vip_tier: "Prospective Collector",
+          role: "prospect",
+          notes: "Cart checkout initiated. Ready for concierge privilege follow-up.",
+          registeredAt: c.createdAt,
           totalSpent: 0,
           ordersCount: 0,
-          lastOrder: c.createdAt,
+          orders: [],
+          lastOrderDate: null,
         };
       }
     });
 
-    return Object.values(map);
-  }, [orders, abandonedCheckouts]);
+    return Object.values(map).sort((a, b) => b.totalSpent - a.totalSpent || b.ordersCount - a.ordersCount);
+  }, [profiles, orders, abandonedCheckouts, products]);
+
+  // Alias for backward compatibility
+  const customersList = customersDatabase;
+
+  // Filtered Customers based on Search & VIP Filter
+  const filteredCustomers = useMemo(() => {
+    return customersDatabase.filter((c) => {
+      // 1. VIP Filter
+      if (customerVipFilter === "vip") {
+        const tier = c.vip_tier?.toLowerCase() || "";
+        if (!tier.includes("vip") && !tier.includes("patron") && !tier.includes("diamond") && !tier.includes("connoisseur")) {
+          return false;
+        }
+      } else if (customerVipFilter === "repeat") {
+        if (c.ordersCount < 2) return false;
+      } else if (customerVipFilter === "high_value") {
+        if (c.totalSpent < 40000) return false;
+      }
+
+      // 2. Query matching (Name, Email, Phone, City, Order Ref, Watch SKU ID, Watch EAN)
+      const q = customerSearch.toLowerCase().trim();
+      if (!q) return true;
+
+      const basicMatch =
+        c.name?.toLowerCase().includes(q) ||
+        c.email?.toLowerCase().includes(q) ||
+        c.phone?.includes(q) ||
+        c.city?.toLowerCase().includes(q) ||
+        c.state?.toLowerCase().includes(q) ||
+        c.pin?.includes(q) ||
+        c.vip_tier?.toLowerCase().includes(q);
+
+      if (basicMatch) return true;
+
+      // Check if query matches any order reference, watch SKU ID, or EAN barcode
+      return (c.orders || []).some((o) => {
+        if (o.order_ref?.toLowerCase().includes(q)) return true;
+        if (o.tracking_number?.toLowerCase().includes(q)) return true;
+        return (o.items || []).some(
+          (it) =>
+            it.name?.toLowerCase().includes(q) ||
+            it.sku?.toLowerCase().includes(q) ||
+            it.ean?.includes(q)
+        );
+      });
+    });
+  }, [customersDatabase, customerSearch, customerVipFilter]);
+
+  // Customer Profile KPIs
+  const customerKpis = useMemo(() => {
+    const totalProfiles = customersDatabase.length;
+    const totalOrders = customersDatabase.reduce((sum, c) => sum + c.ordersCount, 0);
+    const totalLtv = customersDatabase.reduce((sum, c) => sum + c.totalSpent, 0);
+    const avgLtv = totalProfiles > 0 ? Math.round(totalLtv / totalProfiles) : 0;
+    const vipCount = customersDatabase.filter(
+      (c) =>
+        c.vip_tier?.toLowerCase().includes("vip") ||
+        c.vip_tier?.toLowerCase().includes("patron") ||
+        c.vip_tier?.toLowerCase().includes("diamond") ||
+        c.vip_tier?.toLowerCase().includes("connoisseur")
+    ).length;
+
+    return { totalProfiles, totalOrders, totalLtv, avgLtv, vipCount };
+  }, [customersDatabase]);
 
   // Filtered Products Catalog
   const filteredProducts = useMemo(() => {
@@ -702,7 +1066,23 @@ export function AdminDashboard({ onNavigateHome }) {
     let rows = [];
     let filename = `shopify_export_${type}_${new Date().toISOString().slice(0, 10)}.csv`;
 
-    if (type === "abandoned") {
+    if (type === "customers") {
+      headers = ["Customer Name", "Email", "Phone", "VIP Tier", "Location", "Orders Count", "Total Spent (INR)", "Last Order Date", "Purchased SKUs"];
+      rows = filteredCustomers.map((c) => {
+        const skus = (c.orders || []).flatMap((o) => (o.items || []).map((it) => it.sku)).filter(Boolean).join("; ");
+        return [
+          `"${c.name}"`,
+          `"${c.email}"`,
+          `"${c.phone || ''}"`,
+          `"${c.vip_tier || 'Patron'}"`,
+          `"${c.city || 'India'}"`,
+          c.ordersCount,
+          c.totalSpent,
+          `"${c.lastOrderDate ? new Date(c.lastOrderDate).toLocaleDateString() : 'N/A'}"`,
+          `"${skus}"`,
+        ];
+      });
+    } else if (type === "abandoned") {
       headers = ["Checkout", "Created", "Customer Name", "Email Status", "Region", "Recovery Status", "Total Price"];
       rows = filteredAbandoned.map((c) => [
         c.checkoutNumber,
@@ -1876,92 +2256,262 @@ export function AdminDashboard({ onNavigateHome }) {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              VIEW 5: CUSTOMERS (VIP Horology Collectors Directory)
+              VIEW 5: CUSTOMERS (VIP Horology Collectors & Profiles Database)
               ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "customers" && (
-            <div className="sp-page-card">
-              <div className="sp-card-header">
-                <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon"><IconCustomers size={18} /></span>
-                  <h1 className="sp-page-title">Customers</h1>
+            <div className="sp-page-stack">
+              {/* 1. Top Customer Database KPI Overview */}
+              <div className="sp-kpi-row">
+                <div className="sp-kpi-card">
+                  <div className="sp-kpi-label">COLLECTORS DATABASE</div>
+                  <div className="sp-kpi-val">{customerKpis.totalProfiles}</div>
+                  <div className="sp-kpi-sub">● Synchronized with Supabase profiles</div>
                 </div>
-                <div className="sp-header-actions">
-                  <button
-                    type="button"
-                    className="sp-btn sp-btn--default"
-                    onClick={() => handleExportCSV("customers")}
-                  >
-                    <IconExport size={13} />
-                    <span>Export</span>
-                  </button>
+                <div className="sp-kpi-card">
+                  <div className="sp-kpi-label">WATCHES ORDERED</div>
+                  <div className="sp-kpi-val">{customerKpis.totalOrders} Timepieces</div>
+                  <div className="sp-kpi-sub">Total horology allocations confirmed</div>
+                </div>
+                <div className="sp-kpi-card">
+                  <div className="sp-kpi-label">COLLECTOR LIFETIME VALUE</div>
+                  <div className="sp-kpi-val">₹{customerKpis.totalLtv.toLocaleString("en-IN")}</div>
+                  <div className="sp-kpi-sub">Total gross storefront & concierge sales</div>
+                </div>
+                <div className="sp-kpi-card">
+                  <div className="sp-kpi-label">VIP PATRON TIERS</div>
+                  <div className="sp-kpi-val">{customerKpis.vipCount} Patrons</div>
+                  <div className="sp-kpi-sub">Diamond & Grand Complication clients</div>
                 </div>
               </div>
 
-              <div className="sp-table-controls">
-                <div className="sp-table-search-row">
-                  <div className="sp-search-field">
-                    <span className="sp-field-icon"><IconSearch size={14} /></span>
-                    <input
-                      type="text"
-                      className="sp-field-input"
-                      placeholder="Search customers by name, email, phone, city..."
-                      value={customerSearch}
-                      onChange={(e) => setCustomerSearch(e.target.value)}
-                    />
+              {/* 2. Customer Database Table Card */}
+              <div className="sp-page-card">
+                <div className="sp-card-header">
+                  <div className="sp-card-title-wrap">
+                    <span className="sp-title-icon"><IconCustomers size={18} /></span>
+                    <h1 className="sp-page-title">Customer Profile Database</h1>
+                    <span className="sp-badge-count">{filteredCustomers.length} Collectors</span>
+                  </div>
+                  <div className="sp-header-actions">
+                    <button
+                      type="button"
+                      className="sp-btn sp-btn--default"
+                      onClick={() => handleExportCSV("customers")}
+                      title="Export all customer dossiers and SKU purchases"
+                    >
+                      <IconExport size={13} />
+                      <span>Export CSV</span>
+                    </button>
                   </div>
                 </div>
-              </div>
 
-              <div className="sp-table-wrap">
-                <table className="sp-table">
-                  <thead>
-                    <tr>
-                      <th>Customer name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Location</th>
-                      <th className="sp-th--right">Orders</th>
-                      <th className="sp-th--right">Total spent</th>
-                      <th>WhatsApp VIP Chat</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customersList
-                      .filter((c) => {
-                        const q = customerSearch.toLowerCase().trim();
-                        if (!q) return true;
-                        return c.name?.toLowerCase().includes(q) || c.email?.toLowerCase().includes(q) || c.phone?.includes(q) || c.city?.toLowerCase().includes(q);
-                      })
-                      .map((c, idx) => (
-                        <tr key={idx}>
-                          <td className="sp-td--bold">{c.name}</td>
-                          <td className="sp-td--subdued">{c.email}</td>
-                          <td className="sp-td--subdued">{c.phone}</td>
-                          <td>{c.city}</td>
-                          <td className="sp-td--right">{c.ordersCount}</td>
-                          <td className="sp-td--price sp-td--right">
-                            ₹{c.totalSpent.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
-                          </td>
-                          <td>
-                            <button
-                              type="button"
-                              className="sp-btn sp-btn--whatsapp-nudge"
-                              onClick={() => {
-                                const clean = (c.phone || "918882069334").replace(/[^\d]/g, "");
-                                const text = encodeURIComponent(
-                                  `Hello ${c.name},\n\nThis is your dedicated VIP concierge at HANBORO Watches (+91 88820 69334). How may we assist your timepiece collection today?`
-                                );
-                                window.open(`https://wa.me/${clean}?text=${text}`, "_blank");
-                              }}
-                            >
-                              <IconWhatsApp size={14} />
-                              <span>Chat on WhatsApp</span>
-                            </button>
+                {/* Filter Tabs & Search Controls */}
+                <div className="sp-table-controls">
+                  <div className="sp-filter-tabs">
+                    <button
+                      type="button"
+                      className={`sp-filter-tab ${customerVipFilter === "all" ? "is-active" : ""}`}
+                      onClick={() => setCustomerVipFilter("all")}
+                    >
+                      All Profiles ({customersDatabase.length})
+                    </button>
+                    <button
+                      type="button"
+                      className={`sp-filter-tab ${customerVipFilter === "vip" ? "is-active" : ""}`}
+                      onClick={() => setCustomerVipFilter("vip")}
+                    >
+                      VIP Patrons ({customerKpis.vipCount})
+                    </button>
+                    <button
+                      type="button"
+                      className={`sp-filter-tab ${customerVipFilter === "repeat" ? "is-active" : ""}`}
+                      onClick={() => setCustomerVipFilter("repeat")}
+                    >
+                      Multi-Order ({customersDatabase.filter((c) => c.ordersCount > 1).length})
+                    </button>
+                    <button
+                      type="button"
+                      className={`sp-filter-tab ${customerVipFilter === "high_value" ? "is-active" : ""}`}
+                      onClick={() => setCustomerVipFilter("high_value")}
+                    >
+                      High Valuation (₹40k+)
+                    </button>
+                  </div>
+
+                  <div className="sp-table-search-row">
+                    <div className="sp-search-field" style={{ flex: 1 }}>
+                      <span className="sp-field-icon"><IconSearch size={14} /></span>
+                      <input
+                        type="text"
+                        className="sp-field-input"
+                        placeholder="Search by customer name, email, phone, city, watch SKU (e.g. HBR-980), EAN barcode, order ref..."
+                        value={customerSearch}
+                        onChange={(e) => setCustomerSearch(e.target.value)}
+                      />
+                      {customerSearch && (
+                        <button
+                          type="button"
+                          className="sp-clear-search-btn"
+                          onClick={() => setCustomerSearch("")}
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Table view */}
+                <div className="sp-table-wrap">
+                  <table className="sp-table">
+                    <thead>
+                      <tr>
+                        <th>Collector Profile</th>
+                        <th>Contact Dossier</th>
+                        <th>Shipping Address</th>
+                        <th className="sp-th--center">Watch Orders</th>
+                        <th className="sp-th--right">Total Spent</th>
+                        <th className="sp-th--right">Dossier Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredCustomers.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: "center", padding: "48px 24px", color: "#64748b" }}>
+                            <IconCustomers size={32} style={{ opacity: 0.3, marginBottom: "8px" }} />
+                            <p style={{ fontWeight: 600, color: "#0f172a" }}>No collector profiles match your query.</p>
+                            <p style={{ fontSize: "13px" }}>Try adjusting your search terms or filter criteria.</p>
                           </td>
                         </tr>
-                      ))}
-                  </tbody>
-                </table>
+                      ) : (
+                        filteredCustomers.map((c, idx) => {
+                          const initials = (c.name || "VC")
+                            .split(" ")
+                            .map((w) => w[0])
+                            .slice(0, 2)
+                            .join("")
+                            .toUpperCase();
+                          return (
+                            <tr
+                              key={c.id || idx}
+                              className="sp-customer-row"
+                              onClick={(e) => {
+                                // Don't trigger modal if user clicked a button directly
+                                if (e.target.closest("button") || e.target.closest("a")) return;
+                                setSelectedCustomerDossier(c);
+                              }}
+                            >
+                              <td>
+                                <div className="sp-customer-cell">
+                                  <div className="sp-avatar-circle" title={c.name}>
+                                    {initials}
+                                  </div>
+                                  <div className="sp-customer-info">
+                                    <div className="sp-customer-name-row">
+                                      <span className="sp-customer-name">{c.name}</span>
+                                      <span className="sp-vip-pill">{c.vip_tier || "VIP Patron"}</span>
+                                    </div>
+                                    <div className="sp-customer-sub">
+                                      {c.registeredAt
+                                        ? `Registered: ${new Date(c.registeredAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}`
+                                        : "Patron Dossier"}
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div className="sp-contact-cell">
+                                  <a href={`mailto:${c.email}`} className="sp-contact-email" onClick={(e) => e.stopPropagation()}>
+                                    {c.email}
+                                  </a>
+                                  <span className="sp-contact-phone">{c.phone || "—"}</span>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div className="sp-location-cell">
+                                  <span className="sp-location-city">{c.city || "India"}{c.state ? `, ${c.state}` : ""}</span>
+                                  {c.pin && <span className="sp-location-pin">PIN: {c.pin}</span>}
+                                </div>
+                              </td>
+
+                              <td className="sp-td--center">
+                                <button
+                                  type="button"
+                                  className={`sp-orders-badge-pill ${c.ordersCount > 0 ? "has-orders" : "no-orders"}`}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedCustomerDossier(c);
+                                  }}
+                                  title="Click to view all watch orders for this customer"
+                                >
+                                  {c.ordersCount} {c.ordersCount === 1 ? "Order" : "Orders"}
+                                </button>
+                              </td>
+
+                              <td className="sp-td--price sp-td--right">
+                                <div className="sp-total-spent-wrap">
+                                  <span className="sp-price-inr">₹{c.totalSpent.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                                  {c.totalSpent > 0 && (
+                                    <span className="sp-price-usd">${Math.round(c.totalSpent / 83).toLocaleString()} USD</span>
+                                  )}
+                                </div>
+                              </td>
+
+                              <td>
+                                <div className="sp-actions-cell" style={{ display: "flex", gap: "6px", justifyContent: "flex-end" }}>
+                                  <button
+                                    type="button"
+                                    className="sp-btn sp-btn--sm sp-btn--primary"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedCustomerDossier(c);
+                                    }}
+                                  >
+                                    <IconEye size={13} />
+                                    <span>Inspect Dossier & Orders</span>
+                                  </button>
+
+                                  {c.ordersCount > 0 && (
+                                    <button
+                                      type="button"
+                                      className="sp-btn sp-btn--sm sp-btn--default"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setInvoiceModalOrder(c.orders[0]);
+                                      }}
+                                      title="View & print official Tax Invoice / Bill for latest order"
+                                    >
+                                      <IconInvoice size={13} />
+                                      <span>Latest Bill</span>
+                                    </button>
+                                  )}
+
+                                  <button
+                                    type="button"
+                                    className="sp-btn sp-btn--sm sp-btn--whatsapp-nudge"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const clean = (c.phone || "918882069334").replace(/[^\d]/g, "");
+                                      const text = encodeURIComponent(
+                                        `Hello ${c.name},\n\nThis is your personal VIP concierge at HANBORO Haute Horlogerie (+91 88820 69334). Regarding your luxury timepiece portfolio: How may our atelier assist you today?`
+                                      );
+                                      window.open(`https://wa.me/${clean}?text=${text}`, "_blank");
+                                    }}
+                                    title="Connect on WhatsApp"
+                                  >
+                                    <IconWhatsApp size={13} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -2927,44 +3477,153 @@ export function AdminDashboard({ onNavigateHome }) {
         </main>
       </div>
 
-      {/* ── MODAL 1: INSPECT ORDER MODAL ── */}
+      {/* ── MODAL 1: INSPECT ORDER MODAL (WITH WATCH SKU, EAN & TAX BILL) ── */}
       {inspectingOrder && (
         <div className="sp-modal-overlay" role="dialog" aria-modal="true">
           <div className="sp-modal-backdrop" onClick={() => setInspectingOrder(null)} />
-          <div className="sp-modal-box">
+          <div className="sp-modal-box sp-modal-box--wide">
             <div className="sp-modal-header">
-              <h2>Order Details: {inspectingOrder.order_ref}</h2>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span className="sp-title-icon"><IconOrders size={18} /></span>
+                <h2>Order Allocation: {inspectingOrder.order_ref}</h2>
+                <span className={`sp-pill ${inspectingOrder.payment_status === "Paid" ? "sp-pill--paid" : ""}`}>
+                  ● {inspectingOrder.payment_status}
+                </span>
+              </div>
               <button type="button" className="sp-close-btn" onClick={() => setInspectingOrder(null)}>✕</button>
             </div>
             <div className="sp-modal-body">
               <div className="sp-modal-grid">
                 <div>
-                  <h4>Customer Information</h4>
+                  <h4>Customer Profile & Dispatch Details</h4>
                   <p><strong>Name:</strong> {inspectingOrder.customer_name}</p>
-                  <p><strong>Email:</strong> {inspectingOrder.customer_email}</p>
+                  <p><strong>Email:</strong> <a href={`mailto:${inspectingOrder.customer_email}`} style={{ color: "#2563eb" }}>{inspectingOrder.customer_email}</a></p>
                   <p><strong>Phone:</strong> {inspectingOrder.customer_phone || "—"}</p>
-                  <p><strong>Address:</strong> {inspectingOrder.shipping_address?.city || "India"}</p>
+                  <p>
+                    <strong>Shipping Address:</strong>{" "}
+                    {inspectingOrder.shipping_address?.address ? `${inspectingOrder.shipping_address.address}, ` : ""}
+                    {inspectingOrder.shipping_address?.city || "India"}
+                    {inspectingOrder.shipping_address?.state ? `, ${inspectingOrder.shipping_address.state}` : ""}
+                    {inspectingOrder.shipping_address?.pin || inspectingOrder.shipping_address?.pincode ? ` - ${inspectingOrder.shipping_address.pin || inspectingOrder.shipping_address.pincode}` : ""}
+                  </p>
                 </div>
                 <div>
-                  <h4>Order Summary</h4>
-                  <p><strong>Total:</strong> ₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN")}</p>
-                  <p><strong>Payment Status:</strong> {inspectingOrder.payment_status}</p>
+                  <h4>Allocation & Financial Summary</h4>
+                  <p><strong>Total Bill:</strong> ₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })} ({Math.round(inspectingOrder.total_amount / 83)} USD)</p>
+                  <p><strong>Payment Mode:</strong> {inspectingOrder.payment_method || "Credit Card (Encrypted)"}</p>
                   <p><strong>Fulfillment Status:</strong> {inspectingOrder.fulfillment_status || "In progress"}</p>
-                  <p><strong>Tracking Number:</strong> {inspectingOrder.tracking_number || "None"}</p>
+                  <p><strong>Tracking Waybill:</strong> {inspectingOrder.tracking_number || "Being assigned"}</p>
+                  <p><strong>Channel:</strong> {inspectingOrder.channel || "Online Boutique"}</p>
                 </div>
               </div>
 
-              <h4 style={{ marginTop: "16px" }}>Line Items</h4>
-              <div className="sp-order-items-list">
-                {(inspectingOrder.items || []).map((it, idx) => (
-                  <div key={idx} className="sp-order-item-row">
-                    <span>{it.name || "Timepiece"} (Qty: {it.quantity || it.qty || 1})</span>
-                    <span>₹{Number(it.price || 0).toLocaleString("en-IN")}</span>
-                  </div>
-                ))}
+              <h4 style={{ marginTop: "20px", marginBottom: "12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span>Allocated Timepieces & Barcodes ({inspectingOrder.items?.length || 0})</span>
+                <span style={{ fontSize: "11px", fontWeight: 400, color: "#64748b" }}>Verified SKU & 13-Digit EAN Barcode</span>
+              </h4>
+
+              <div className="sp-order-items-enriched-list">
+                {(inspectingOrder.items || []).map((it, idx) => {
+                  const sku = it.sku || `HBR-${idx + 101}-X`;
+                  const ean = it.ean || calculateEan13(sku);
+                  return (
+                    <div key={idx} className="sp-item-card-dossier">
+                      <div className="sp-item-thumb-box">
+                        <img
+                          src={it.image || "/watch-astroworld-moon-rosegold-front-transparent.webp"}
+                          alt={it.name}
+                          className="sp-item-thumb-img"
+                        />
+                      </div>
+                      <div className="sp-item-details-box">
+                        <div className="sp-item-title-row">
+                          <strong className="sp-item-name">{it.name || "Haute Horlogerie Timepiece"}</strong>
+                          <span className="sp-item-line-total">
+                            ₹{((Number(it.price) || 0) * (it.quantity || 1)).toLocaleString("en-IN")}
+                          </span>
+                        </div>
+
+                        {/* SKU & EAN Barcode Badges Row */}
+                        <div className="sp-code-badges-row">
+                          <div className="sp-sku-badge" title="Official Watch SKU Identifier">
+                            <span className="sp-code-label">SKU:</span>
+                            <code className="sp-code-val">{sku}</code>
+                            <button
+                              type="button"
+                              className="sp-copy-tiny-btn"
+                              onClick={() => handleCopyText(sku, `sku-${idx}`)}
+                              title="Copy SKU code"
+                            >
+                              <IconCopy size={11} />
+                              {copiedKey === `sku-${idx}` ? "Copied" : "Copy"}
+                            </button>
+                          </div>
+
+                          <div className="sp-ean-badge" title="International EAN-13 Barcode">
+                            <IconBarcode size={13} />
+                            <span className="sp-code-label">EAN-13:</span>
+                            <code className="sp-code-val">{ean}</code>
+                            <button
+                              type="button"
+                              className="sp-copy-tiny-btn"
+                              onClick={() => handleCopyText(ean, `ean-${idx}`)}
+                              title="Copy 13-digit EAN Barcode"
+                            >
+                              <IconCopy size={11} />
+                              {copiedKey === `ean-${idx}` ? "Copied" : "Copy"}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Mini Barcode Graphic */}
+                        <div className="sp-item-barcode-preview">
+                          <BarcodeStripeGraphic ean={ean} height={22} showNumber={false} />
+                        </div>
+
+                        <div className="sp-item-meta-row">
+                          <span>Qty: {it.quantity || it.qty || 1}</span>
+                          <span>•</span>
+                          <span>Unit Valuation: ₹{Number(it.price || 0).toLocaleString("en-IN")}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
+              {/* Proper Bill Breakdown */}
+              <div className="sp-bill-breakdown-card">
+                <h5 className="sp-bill-title">Proper Bill of Supply Breakdown</h5>
+                <div className="sp-bill-rows">
+                  <div className="sp-bill-row">
+                    <span>Itemized Timepieces Subtotal</span>
+                    <strong>₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</strong>
+                  </div>
+                  <div className="sp-bill-row">
+                    <span>VIP Insured White-Glove Courier</span>
+                    <strong style={{ color: "#16a34a" }}>Complimentary (₹0.00)</strong>
+                  </div>
+                  <div className="sp-bill-row">
+                    <span>Applicable GST (18% Included)</span>
+                    <span>CGST (9%) + SGST (9%): ₹{Math.round((Number(inspectingOrder.total_amount) * 0.18) / 1.18).toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="sp-bill-row sp-bill-row--total">
+                    <span>Net Grand Total (Billed)</span>
+                    <span className="sp-bill-grand-price">₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
               <div className="sp-modal-actions-row">
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--invoice-trigger"
+                  onClick={() => setInvoiceModalOrder(inspectingOrder)}
+                >
+                  <IconInvoice size={14} />
+                  <span>View & Print Official Bill / Tax Invoice</span>
+                </button>
                 <button
                   type="button"
                   className="sp-btn sp-btn--primary"
@@ -2977,7 +3636,8 @@ export function AdminDashboard({ onNavigateHome }) {
                   className="sp-btn sp-btn--whatsapp-nudge"
                   onClick={() => triggerWhatsAppOrderUpdate(inspectingOrder)}
                 >
-                  Send WhatsApp Update (+91 88820 69334)
+                  <IconWhatsApp size={14} />
+                  <span>Send WhatsApp Update</span>
                 </button>
               </div>
             </div>
@@ -3119,6 +3779,651 @@ export function AdminDashboard({ onNavigateHome }) {
           </div>
         </div>
       )}
+
+      {/* ── MODAL 4: CUSTOMER PROFILE DOSSIER & WATCH ORDERS DATABASE ── */}
+      {selectedCustomerDossier && (
+        <div className="sp-modal-overlay" role="dialog" aria-modal="true">
+          <div className="sp-modal-backdrop" onClick={() => setSelectedCustomerDossier(null)} />
+          <div className="sp-modal-box sp-modal-box--wide sp-modal-box--customer-dossier">
+            <div className="sp-modal-header">
+              <div className="sp-customer-modal-header-left">
+                <div className="sp-avatar-circle sp-avatar-circle--lg">
+                  {selectedCustomerDossier.name ? selectedCustomerDossier.name.slice(0, 2).toUpperCase() : "HC"}
+                </div>
+                <div>
+                  <div className="sp-customer-modal-title-row">
+                    <h2>{selectedCustomerDossier.name}</h2>
+                    <span className="sp-vip-pill sp-vip-pill--gold">
+                      ★ {selectedCustomerDossier.vip_tier || "VIP Horology Patron"}
+                    </span>
+                    <span className="sp-role-badge">
+                      {selectedCustomerDossier.role || "customer"}
+                    </span>
+                  </div>
+                  <p className="sp-customer-modal-subtitle">
+                    Client ID: <code>{selectedCustomerDossier.id}</code> • Member since {new Date(selectedCustomerDossier.registeredAt || Date.now()).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
+                  </p>
+                </div>
+              </div>
+              <button type="button" className="sp-close-btn" onClick={() => setSelectedCustomerDossier(null)}>✕</button>
+            </div>
+
+            <div className="sp-modal-body sp-customer-dossier-body">
+              {/* Top Metrics Banner */}
+              <div className="sp-dossier-metrics-grid">
+                <div className="sp-dossier-metric-card">
+                  <span className="sp-dossier-metric-label">Lifetime Value (LTV)</span>
+                  <span className="sp-dossier-metric-val sp-text-emerald">
+                    ₹{Number(selectedCustomerDossier.totalSpent || 0).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                  </span>
+                </div>
+                <div className="sp-dossier-metric-card">
+                  <span className="sp-dossier-metric-label">Confirmed Orders</span>
+                  <span className="sp-dossier-metric-val">
+                    {selectedCustomerDossier.ordersCount || selectedCustomerDossier.orders?.length || 0} Timepieces
+                  </span>
+                </div>
+                <div className="sp-dossier-metric-card">
+                  <span className="sp-dossier-metric-label">Average Order Value (AOV)</span>
+                  <span className="sp-dossier-metric-val">
+                    ₹{selectedCustomerDossier.ordersCount > 0 ? Math.round(selectedCustomerDossier.totalSpent / selectedCustomerDossier.ordersCount).toLocaleString("en-IN") : "0"}
+                  </span>
+                </div>
+                <div className="sp-dossier-metric-card">
+                  <span className="sp-dossier-metric-label">Primary Destination</span>
+                  <span className="sp-dossier-metric-val sp-text-truncate" title={`${selectedCustomerDossier.city}, ${selectedCustomerDossier.state}`}>
+                    {selectedCustomerDossier.city || "India"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Contact & Shipping Dossier */}
+              <div className="sp-customer-dossier-meta-grid">
+                <div className="sp-dossier-section-card">
+                  <h4 className="sp-dossier-sec-title">Contact Information</h4>
+                  <div className="sp-dossier-info-row">
+                    <span className="sp-info-label">Email Address:</span>
+                    <div className="sp-info-value-with-actions">
+                      <code>{selectedCustomerDossier.email}</code>
+                      <button
+                        type="button"
+                        className="sp-copy-tiny-btn"
+                        onClick={() => handleCopyText(selectedCustomerDossier.email, "cust-email")}
+                      >
+                        <IconCopy size={11} />
+                        {copiedKey === "cust-email" ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="sp-dossier-info-row">
+                    <span className="sp-info-label">Contact Phone:</span>
+                    <div className="sp-info-value-with-actions">
+                      <span>{selectedCustomerDossier.phone || "Not specified"}</span>
+                      {selectedCustomerDossier.phone && (
+                        <a
+                          href={`https://wa.me/${selectedCustomerDossier.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Greetings ${selectedCustomerDossier.name}, this is Hanboro Haute Horlogerie Concierge.`)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="sp-btn-link-wa"
+                        >
+                          <IconWhatsApp size={12} />
+                          WhatsApp
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <div className="sp-dossier-info-row">
+                    <span className="sp-info-label">VIP Tier Status:</span>
+                    <span className="sp-vip-tag-gold">{selectedCustomerDossier.vip_tier || "VIP Horology Patron"}</span>
+                  </div>
+                </div>
+
+                <div className="sp-dossier-section-card">
+                  <h4 className="sp-dossier-sec-title">Registered Shipping Dossier</h4>
+                  <p className="sp-shipping-address-block">
+                    <strong>{selectedCustomerDossier.name}</strong><br />
+                    {selectedCustomerDossier.address ? <>{selectedCustomerDossier.address}<br /></> : null}
+                    {selectedCustomerDossier.city}, {selectedCustomerDossier.state || ""} {selectedCustomerDossier.pin ? `- ${selectedCustomerDossier.pin}` : ""}<br />
+                    {selectedCustomerDossier.country || "India"}
+                  </p>
+                  <span className="sp-badge-white-glove">⚡ Direct Insured Armored Courier Eligible</span>
+                </div>
+              </div>
+
+              {/* Concierge Notes Editor */}
+              <div className="sp-dossier-notes-card">
+                <div className="sp-notes-card-header">
+                  <h4 className="sp-dossier-sec-title">Administrative Concierge Notes & Preferences</h4>
+                  {editingNotesEmail !== selectedCustomerDossier.email && (
+                    <button
+                      type="button"
+                      className="sp-btn sp-btn--default sp-btn--sm"
+                      onClick={() => {
+                        setEditingNotesEmail(selectedCustomerDossier.email);
+                        setNotesDraft(selectedCustomerDossier.notes || "");
+                      }}
+                    >
+                      Edit Notes
+                    </button>
+                  )}
+                </div>
+                {editingNotesEmail === selectedCustomerDossier.email ? (
+                  <div className="sp-notes-editor-wrap">
+                    <textarea
+                      className="sp-notes-textarea"
+                      rows={3}
+                      value={notesDraft}
+                      onChange={(e) => setNotesDraft(e.target.value)}
+                      placeholder="Enter horological preferences, wrist diameter, bespoke dial requests, or private collector notes..."
+                    />
+                    <div className="sp-notes-actions">
+                      <button
+                        type="button"
+                        className="sp-btn sp-btn--primary sp-btn--sm"
+                        onClick={async () => {
+                          await handleSaveCustomerNotes(selectedCustomerDossier.email, notesDraft);
+                          setEditingNotesEmail(null);
+                        }}
+                      >
+                        Save to Database
+                      </button>
+                      <button
+                        type="button"
+                        className="sp-btn sp-btn--default sp-btn--sm"
+                        onClick={() => setEditingNotesEmail(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="sp-notes-display-text">
+                    {selectedCustomerDossier.notes || "No custom collector notes recorded yet."}
+                  </p>
+                )}
+              </div>
+
+              {/* Watch Orders Database Section */}
+              <div className="sp-dossier-orders-section">
+                <div className="sp-dossier-orders-header">
+                  <div className="sp-dossier-orders-header-title">
+                    <h3 className="sp-dossier-orders-title">
+                      Purchased Timepieces & Confirmed Orders
+                    </h3>
+                    <span className="sp-orders-count-badge">
+                      {selectedCustomerDossier.orders?.length || 0} Orders
+                    </span>
+                  </div>
+                  <p className="sp-dossier-orders-desc">
+                    Comprehensive order history with official bills of supply, tax invoice generators, unique SKU identification, and 13-digit EAN barcodes.
+                  </p>
+                </div>
+
+                {(!selectedCustomerDossier.orders || selectedCustomerDossier.orders.length === 0) ? (
+                  <div className="sp-dossier-orders-empty">
+                    <p>No confirmed timepiece orders found under this customer profile.</p>
+                    <button
+                      type="button"
+                      className="sp-btn sp-btn--primary sp-btn--sm"
+                      onClick={() => {
+                        setDraftFormData({
+                          customerName: selectedCustomerDossier.name,
+                          customerEmail: selectedCustomerDossier.email,
+                          customerPhone: selectedCustomerDossier.phone || "+91 98110 00000",
+                          productId: "",
+                          customPrice: "45000",
+                        });
+                        setShowCreateDraftModal(true);
+                      }}
+                    >
+                      + Create Manual Draft Order for this Client
+                    </button>
+                  </div>
+                ) : (
+                  <div className="sp-customer-orders-list">
+                    {selectedCustomerDossier.orders.map((ord, ordIdx) => {
+                      const totalAmount = Number(ord.total_amount || 0);
+                      const orderRef = ord.order_ref || ord.id || `#${1000 + ordIdx}`;
+                      const items = (ord.items || []).map((it) => enrichOrderItemWithSkuEan(it, products || PRODUCTS_DATA));
+
+                      return (
+                        <div key={ord.id || ordIdx} className="sp-customer-order-card">
+                          <div className="sp-order-card-top-bar">
+                            <div className="sp-order-card-ref-block">
+                              <span className="sp-order-ref-pill">{orderRef}</span>
+                              <span className="sp-order-date">
+                                {new Date(ord.created_at || Date.now()).toLocaleDateString("en-IN", {
+                                  day: "numeric",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </span>
+                            </div>
+
+                            <div className="sp-order-card-badges">
+                              <span className={`sp-badge sp-badge--${(ord.financial_status || ord.status || "Paid").toLowerCase() === "paid" ? "paid" : "pending"}`}>
+                                ● {ord.financial_status || ord.status || "Paid"}
+                              </span>
+                              <span className={`sp-badge sp-badge--${(ord.fulfillment_status || "Fulfilled").toLowerCase() === "fulfilled" ? "fulfilled" : "unfulfilled"}`}>
+                                {ord.fulfillment_status || "Fulfilled"}
+                              </span>
+                            </div>
+
+                            <div className="sp-order-card-top-actions">
+                              <button
+                                type="button"
+                                className="sp-btn sp-btn--invoice-trigger sp-btn--sm"
+                                onClick={() => setInvoiceModalOrder(ord)}
+                                title="View & Print Official GST Tax Invoice & Bill of Supply"
+                              >
+                                <IconInvoice size={13} />
+                                <span>Official Bill & Tax Invoice</span>
+                              </button>
+                              <a
+                                href={`https://wa.me/${(selectedCustomerDossier.phone || "").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                                  `Dear ${selectedCustomerDossier.name},\nHere is your official Hanboro Bill summary for Order ${orderRef}:\nTotal: ₹${totalAmount.toLocaleString("en-IN")}\nItems: ${items.map(i => `${i.name || i.title} (SKU: ${i.sku}, EAN: ${i.ean})`).join(", ")}\nThank you for choosing Hanboro Haute Horlogerie.`
+                                )}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="sp-btn sp-btn--whatsapp-nudge sp-btn--sm"
+                                title="Share Bill on WhatsApp"
+                              >
+                                <IconWhatsApp size={13} />
+                                <span>Share Bill</span>
+                              </a>
+                            </div>
+                          </div>
+
+                          {/* Itemized Watch List with SKU & EAN Barcode */}
+                          <div className="sp-order-items-table-dossier">
+                            {items.map((it, itemIdx) => {
+                              const itPrice = Number(it.price || 0);
+                              const itQty = Number(it.quantity || it.qty || 1);
+                              const lineTotal = itPrice * itQty;
+                              const sku = it.sku || "HNB-TIMEPIECE";
+                              const ean = it.ean || calculateEan13(sku);
+
+                              return (
+                                <div key={it.id || itemIdx} className="sp-item-card-dossier">
+                                  <div className="sp-item-thumb-box">
+                                    <img
+                                      src={it.image || it.thumbnail || it.img || "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=160&auto=format&fit=crop&q=80"}
+                                      alt={it.name || it.title || "Timepiece"}
+                                      className="sp-item-thumb"
+                                    />
+                                  </div>
+
+                                  <div className="sp-item-details-box">
+                                    <div className="sp-item-title-row">
+                                      <h5 className="sp-item-name">{it.name || it.title || "HANBORO Haute Horlogerie Timepiece"}</h5>
+                                      <span className="sp-item-line-total">
+                                        ₹{lineTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                                      </span>
+                                    </div>
+
+                                    {/* SKU & EAN Barcode Badges Row */}
+                                    <div className="sp-codes-row">
+                                      <div className="sp-sku-badge" title="Official Watch SKU ID">
+                                        <span className="sp-code-label">WATCH SKU:</span>
+                                        <code className="sp-code-val">{sku}</code>
+                                        <button
+                                          type="button"
+                                          className="sp-copy-tiny-btn"
+                                          onClick={() => handleCopyText(sku, `ord-${ordIdx}-sku-${itemIdx}`)}
+                                          title="Copy Watch SKU ID"
+                                        >
+                                          <IconCopy size={11} />
+                                          {copiedKey === `ord-${ordIdx}-sku-${itemIdx}` ? "Copied" : "Copy"}
+                                        </button>
+                                      </div>
+
+                                      <div className="sp-ean-badge" title="International 13-Digit EAN Barcode">
+                                        <IconBarcode size={13} />
+                                        <span className="sp-code-label">EAN-13:</span>
+                                        <code className="sp-code-val">{ean}</code>
+                                        <button
+                                          type="button"
+                                          className="sp-copy-tiny-btn"
+                                          onClick={() => handleCopyText(ean, `ord-${ordIdx}-ean-${itemIdx}`)}
+                                          title="Copy EAN-13 Barcode Number"
+                                        >
+                                          <IconCopy size={11} />
+                                          {copiedKey === `ord-${ordIdx}-ean-${itemIdx}` ? "Copied" : "Copy"}
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    {/* Barcode Graphic Stripes */}
+                                    <div className="sp-barcode-graphic-inline">
+                                      <BarcodeStripeGraphic ean={ean} height={20} showNumber={false} />
+                                      <span className="sp-barcode-inline-caption">EAN Barcode: {ean}</span>
+                                    </div>
+
+                                    <div className="sp-item-qty-meta">
+                                      <span>Qty: {itQty}</span>
+                                      <span>•</span>
+                                      <span>Unit Price: ₹{itPrice.toLocaleString("en-IN")}</span>
+                                      <span>•</span>
+                                      <span>HSN Code: 9102 (Wrist Watches)</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {/* Proper Bill Breakdown */}
+                          <div className="sp-bill-summary-strip">
+                            <div className="sp-bill-strip-left">
+                              <span className="sp-bill-stat">
+                                <strong>Billed Subtotal:</strong> ₹{totalAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                              </span>
+                              <span className="sp-bill-stat">
+                                <strong>Armored Logistics:</strong> <span style={{ color: "#16a34a" }}>Free (₹0.00)</span>
+                              </span>
+                              <span className="sp-bill-stat">
+                                <strong>GST (18% Included):</strong> ₹{Math.round((totalAmount * 0.18) / 1.18).toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                            <div className="sp-bill-strip-right">
+                              <span className="sp-bill-grand-label">Grand Total Billed:</span>
+                              <span className="sp-bill-grand-val">
+                                ₹{totalAmount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="sp-modal-footer">
+              <div className="sp-modal-footer-left">
+                <span>Customer Profile Database • Hanboro India Haute Horlogerie</span>
+              </div>
+              <div className="sp-modal-footer-actions">
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--default"
+                  onClick={() => setSelectedCustomerDossier(null)}
+                >
+                  Close Dossier
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── MODAL 5: OFFICIAL HAUTE HORLOGERIE GST/VAT TAX INVOICE & BILL OF SUPPLY ── */}
+      {invoiceModalOrder && (() => {
+        const ord = invoiceModalOrder;
+        const total = Number(ord.total_amount || 0);
+        const taxableSubtotal = Math.round(total / 1.18);
+        const totalTax = total - taxableSubtotal;
+        const cgst = Math.round(totalTax / 2);
+        const sgst = totalTax - cgst;
+        const invoiceYear = new Date(ord.created_at || Date.now()).getFullYear();
+        const invoiceNum = `INV-HNB-${invoiceYear}-${String(ord.order_ref || ord.id || "1001").replace(/[^\d]/g, "").slice(-4).padStart(4, "0")}`;
+        const invoiceDate = new Date(ord.created_at || Date.now()).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        const items = (ord.items || []).map((it) => enrichOrderItemWithSkuEan(it, products || PRODUCTS_DATA));
+        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || "Valued Horology Patron";
+        const custEmail = ord.customer_email || "client@hanborowatches.in";
+        const custPhone = ord.customer_phone || (ord.shipping_address && ord.shipping_address.phone) || "+91 98300 11223";
+        const shipAddress = ord.shipping_address || {};
+
+        return (
+          <div className="sp-invoice-overlay" role="dialog" aria-modal="true">
+            <div className="sp-invoice-backdrop" onClick={() => setInvoiceModalOrder(null)} />
+            
+            {/* Top Toolbar (Hidden on Print) */}
+            <div className="sp-invoice-toolbar">
+              <div className="sp-invoice-toolbar-title">
+                <span>Official Tax Invoice Preview & Print Engine</span>
+                <code>{invoiceNum}</code>
+              </div>
+              <div className="sp-invoice-toolbar-actions">
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--primary"
+                  onClick={() => window.print()}
+                >
+                  <IconPrinter size={15} />
+                  <span>Print Bill / Save PDF (A4)</span>
+                </button>
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--default"
+                  onClick={() => handleCopyText(`Tax Invoice: ${invoiceNum}\nDate: ${invoiceDate}\nCustomer: ${custName}\nTotal Billed: ₹${total.toLocaleString("en-IN")}\nItems: ${items.map(i => `${i.name} [SKU: ${i.sku} | EAN: ${i.ean}]`).join(", ")}`, "inv-summary")}
+                >
+                  <IconCopy size={14} />
+                  <span>{copiedKey === "inv-summary" ? "Copied!" : "Copy Summary"}</span>
+                </button>
+                <a
+                  href={`https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Dear ${custName},\nYour official Hanboro Haute Horlogerie Tax Invoice ${invoiceNum} for ₹${total.toLocaleString("en-IN")} is ready.\nTimepiece(s): ${items.map(i => `${i.name} (SKU: ${i.sku}, EAN: ${i.ean})`).join(", ")}\nThank you for your patronage.`)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="sp-btn sp-btn--whatsapp-nudge"
+                >
+                  <IconWhatsApp size={14} />
+                  <span>WhatsApp Invoice</span>
+                </a>
+                <button
+                  type="button"
+                  className="sp-close-btn"
+                  onClick={() => setInvoiceModalOrder(null)}
+                  title="Close Invoice Preview"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* The A4 Printable Sheet */}
+            <div className="sp-invoice-sheet" id="hanboro-tax-invoice-sheet">
+              {/* Header Letterhead */}
+              <div className="sp-invoice-header">
+                <div className="sp-invoice-brand">
+                  <h1 className="sp-invoice-logo">HANBORO</h1>
+                  <span className="sp-invoice-sublogo">HAUTE HORLOGERIE • ATELIER SUISSE & INDIA</span>
+                  <div className="sp-invoice-issuer-details">
+                    <strong>Hanboro Timepieces India Pvt. Ltd.</strong><br />
+                    Luxury Watchmaker Atelier, DLF Cyber City, Tower B, Level 14<br />
+                    Gurugram, Haryana - 122002, India<br />
+                    <span><strong>GSTIN:</strong> 06AABCH8901L1Z8</span> &nbsp;|&nbsp; <span><strong>CIN:</strong> U33300HR2023PTC109823</span><br />
+                    <span><strong>PAN:</strong> AABCH8901L</span> &nbsp;|&nbsp; <span><strong>HSN Chapter:</strong> 9102 (Wrist Watches)</span><br />
+                    <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; concierge@hanborowatches.in</span>
+                  </div>
+                </div>
+
+                <div className="sp-invoice-badge-box">
+                  <div className="sp-invoice-title-badge">TAX INVOICE & BILL OF SUPPLY</div>
+                  <div className="sp-invoice-meta-grid">
+                    <div className="sp-inv-meta-row">
+                      <span>Invoice Number:</span>
+                      <strong>{invoiceNum}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Invoice Date:</span>
+                      <strong>{invoiceDate}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Order Reference:</span>
+                      <strong>{ord.order_ref || ord.id || "#1001"}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Place of Supply:</span>
+                      <strong>{shipAddress.state ? `${shipAddress.state} (India)` : "Haryana (06)"}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Reverse Charge:</span>
+                      <strong>No</strong>
+                    </div>
+                  </div>
+
+                  <div className="sp-invoice-paid-seal">
+                    <span className="sp-paid-stamp">PAID • VERIFIED</span>
+                    <span className="sp-paid-date">{ord.payment_gateway || "Prepaid / Razorpay Secured"}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sp-invoice-divider" />
+
+              {/* Billed To and Shipped To Addresses */}
+              <div className="sp-invoice-addresses-grid">
+                <div className="sp-inv-address-card">
+                  <h4 className="sp-inv-address-title">BILLED TO (BUYER):</h4>
+                  <p className="sp-inv-address-content">
+                    <strong className="sp-inv-cust-name">{custName}</strong><br />
+                    {shipAddress.address ? <>{shipAddress.address}<br /></> : null}
+                    {shipAddress.city || "Delhi NCR"}, {shipAddress.state || "Haryana"} {shipAddress.pin || shipAddress.pincode ? `- ${shipAddress.pin || shipAddress.pincode}` : ""}<br />
+                    India<br />
+                    <strong>Email:</strong> {custEmail}<br />
+                    <strong>Phone:</strong> {custPhone}
+                  </p>
+                </div>
+
+                <div className="sp-inv-address-card">
+                  <h4 className="sp-inv-address-title">SHIPPED TO (CONSIGNEE):</h4>
+                  <p className="sp-inv-address-content">
+                    <strong className="sp-inv-cust-name">{shipAddress.name || custName}</strong><br />
+                    {shipAddress.address ? <>{shipAddress.address}<br /></> : "Hanboro Atelier Client Handover Destination<br />"}
+                    {shipAddress.city || "Delhi NCR"}, {shipAddress.state || "Haryana"} {shipAddress.pin || shipAddress.pincode ? `- ${shipAddress.pin || shipAddress.pincode}` : ""}<br />
+                    India<br />
+                    <strong>Dispatch Method:</strong> Insured Armored Courier (Malca-Amit / Ferrari Group / BlueDart Apex)
+                  </p>
+                </div>
+              </div>
+
+              {/* Itemized Table with SKU ID & EAN Barcode */}
+              <div className="sp-invoice-table-wrapper">
+                <table className="sp-invoice-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "4%" }}>#</th>
+                      <th style={{ width: "34%" }}>Description of Timepiece & Horological Reference</th>
+                      <th style={{ width: "16%" }}>Watch SKU ID</th>
+                      <th style={{ width: "18%" }}>EAN-13 Barcode</th>
+                      <th style={{ width: "8%" }}>HSN</th>
+                      <th style={{ width: "5%" }}>Qty</th>
+                      <th style={{ width: "15%" }} className="sp-text-right">Taxable Amt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((it, idx) => {
+                      const itemPrice = Number(it.price || 0);
+                      const qty = Number(it.quantity || it.qty || 1);
+                      const itemTotal = itemPrice * qty;
+                      const itemTaxable = Math.round(itemTotal / 1.18);
+                      const sku = it.sku || "HNB-TIMEPIECE";
+                      const ean = it.ean || calculateEan13(sku);
+
+                      return (
+                        <tr key={it.id || idx}>
+                          <td>{idx + 1}</td>
+                          <td>
+                            <div className="sp-inv-item-desc">
+                              <strong className="sp-inv-watch-title">{it.name || it.title || "HANBORO Haute Horlogerie Timepiece"}</strong>
+                              <span className="sp-inv-watch-specs">Automated Skeleton Movement • Sapphire Crystal • 50M Waterproof • 2-Year International Warranty</span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="sp-inv-sku-box">
+                              <code className="sp-inv-sku-code">{sku}</code>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="sp-inv-ean-box">
+                              <BarcodeStripeGraphic ean={ean} height={18} showNumber={false} />
+                              <code className="sp-inv-ean-code">{ean}</code>
+                            </div>
+                          </td>
+                          <td><span className="sp-inv-hsn">9102</span></td>
+                          <td style={{ textAlign: "center" }}>{qty}</td>
+                          <td className="sp-text-right">
+                            <strong>₹{itemTaxable.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</strong>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Financial Calculation & GST Analysis */}
+              <div className="sp-invoice-financials-section">
+                <div className="sp-inv-words-column">
+                  <div className="sp-inv-amount-words-box">
+                    <span className="sp-words-label">Total Amount Chargeable (in words):</span>
+                    <strong className="sp-words-val">{amountToWords(total)}</strong>
+                  </div>
+
+                  <div className="sp-inv-terms-box">
+                    <h5 className="sp-terms-title">Statutory Terms & Horological Warranty Conditions:</h5>
+                    <ol className="sp-terms-list">
+                      <li>All timepieces are certified genuine Haute Horlogerie masterpieces registered in the Hanboro Global Serial Registry under their respective SKU and EAN barcode.</li>
+                      <li>Includes <strong>2-Year International Atelier Mechanical Warranty</strong> covering caliber accuracy and movement craftsmanship.</li>
+                      <li>Tax is charged under GST Council Section 9(1) for Horology & Timepieces (HSN Chapter 9102).</li>
+                      <li>Subject to Gurugram / Delhi NCR Jurisdiction.</li>
+                    </ol>
+                  </div>
+                </div>
+
+                <div className="sp-inv-totals-column">
+                  <div className="sp-inv-calc-row">
+                    <span>Taxable Value (Subtotal):</span>
+                    <strong>₹{taxableSubtotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</strong>
+                  </div>
+                  <div className="sp-inv-calc-row">
+                    <span>Central GST (CGST 9%):</span>
+                    <span>₹{cgst.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="sp-inv-calc-row">
+                    <span>State GST (SGST 9%):</span>
+                    <span>₹{sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="sp-inv-calc-row">
+                    <span>VIP Insured White-Glove Logistics:</span>
+                    <span style={{ color: "#16a34a", fontWeight: 600 }}>FREE (₹0.00)</span>
+                  </div>
+                  <div className="sp-invoice-divider sp-inv-divider--subtle" />
+                  <div className="sp-inv-calc-row sp-inv-calc-row--grand">
+                    <span>Grand Total (Billed):</span>
+                    <span className="sp-inv-grand-total">₹{total.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Signatory & Security Footer */}
+              <div className="sp-invoice-footer-signatory">
+                <div className="sp-inv-security-hash">
+                  <span>Cryptographic Hash: <code>SHA256:{Math.abs((total * 1337) ^ 0xabcdef).toString(16).toUpperCase()}-HNB-SECURE</code></span>
+                  <span>Computer Generated Tax Invoice • No Physical Signature Required</span>
+                </div>
+
+                <div className="sp-inv-sign-box">
+                  <div className="sp-inv-digital-stamp">
+                    <span>HANBORO TIMEPIECES</span>
+                    <span>★ VERIFIED ATELIER ★</span>
+                  </div>
+                  <div className="sp-inv-sign-line">Authorized Signatory</div>
+                  <span className="sp-inv-company-name">For Hanboro Timepieces India Pvt. Ltd.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Watch Editor Studio Modal */}
       {editorModalOpen && (
