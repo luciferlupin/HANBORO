@@ -34,13 +34,16 @@ test("Master catalogue contains all authenticated timepieces with model numbers 
   });
 });
 
+// Ensure tests do not pollute live Supabase
+productsService.syncProductToSupabase = async () => ({ product: null, inventory: null });
+
 test("Cloning a watch copies the exact same watch attributes (name, modelNumber, price, specs)", async () => {
   const initial = productsService.getLocalProducts();
   const sourceWatch = initial[0]; // First timepiece
 
   const baseSku = String(sourceWatch.sku || "HBR-TIMEPIECE").replace(/-CLONE-.*$/i, "").replace(/-V\d+$/i, "").trim().toUpperCase();
   const baseId = String(sourceWatch.id || "timepiece").replace(/-clone-.*$/i, "").trim().toLowerCase();
-  const uniqueSuffix = `test-${Date.now().toString().slice(-4)}`;
+  const uniqueSuffix = `variant-${Date.now().toString().slice(-4)}`;
   const cloneId = `${baseId}-clone-${uniqueSuffix}`;
   const cloneSku = `${baseSku}-CLONE-${uniqueSuffix}`;
 

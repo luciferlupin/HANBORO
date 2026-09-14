@@ -100,17 +100,19 @@ export function ProductDetailPage({
     );
   }
 
-  const catalog = products && products.length > 0 ? products : PRODUCTS_DATA;
-  const currentIndex = catalog.findIndex((p) => p.id === product.id || p.sku === product.sku);
+  // Only master (non-clone) watches participate in Prev/Next reference navigation
+  const masterCatalog = (products && products.length > 0 ? products : PRODUCTS_DATA)
+    .filter((p) => !/-clone-/i.test(String(p.id)) && !/-clone-/i.test(String(p.sku || "")));
+  const currentIndex = masterCatalog.findIndex((p) => p.id === product.id || p.sku === product.sku);
   const safeIdx = currentIndex >= 0 ? currentIndex : 0;
-  const prevProduct = safeIdx > 0 ? catalog[safeIdx - 1] : catalog[catalog.length - 1];
-  const nextProduct = safeIdx < catalog.length - 1 ? catalog[safeIdx + 1] : catalog[0];
+  const prevProduct = safeIdx > 0 ? masterCatalog[safeIdx - 1] : masterCatalog[masterCatalog.length - 1];
+  const nextProduct = safeIdx < masterCatalog.length - 1 ? masterCatalog[safeIdx + 1] : masterCatalog[0];
 
-  // Related products from same collection or adjacent
-  const collectionMatches = catalog
+  // Related products from same collection or adjacent (also no clones)
+  const collectionMatches = masterCatalog
     .filter((p) => p.id !== product.id && p.sku !== product.sku)
     .filter((p) => !product.collection || p.collection === product.collection);
-  const relatedProducts = (collectionMatches.length > 0 ? collectionMatches : catalog.filter((p) => p.id !== product.id && p.sku !== product.sku)).slice(0, 3);
+  const relatedProducts = (collectionMatches.length > 0 ? collectionMatches : masterCatalog.filter((p) => p.id !== product.id && p.sku !== product.sku)).slice(0, 3);
 
   const handleCopySku = () => {
     navigator.clipboard.writeText(product.sku);

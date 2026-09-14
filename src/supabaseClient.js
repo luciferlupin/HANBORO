@@ -1630,8 +1630,21 @@ export const productsService = {
     try {
       const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
-        const parsed = JSON.parse(raw);
+        let parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // ── Auto-purge stale test clones that should not be in prod ──
+          // Any entry with "-clone-test-" in the id or sku is a dev artifact
+          // that was accidentally persisted to localStorage or Supabase.
+          const hadStaleClones = parsed.some(
+            (p) => p && (/-clone-test-/i.test(String(p.id)) || /-clone-test-/i.test(String(p.sku || "")))
+          );
+          if (hadStaleClones) {
+            parsed = parsed.filter(
+              (p) => p && !/-clone-test-/i.test(String(p.id)) && !/-clone-test-/i.test(String(p.sku || ""))
+            );
+            safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(parsed));
+          }
+
           // Identify custom/cloned products (not in master PRODUCTS_DATA)
           const customClones = parsed
             .filter(

@@ -5736,18 +5736,19 @@ body.modal-open {
   background: #000000;
   color: var(--cream);
   padding-bottom: 120px;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* PDP Top Navigation & Breadcrumbs */
 .pdp-top-nav {
-  position: sticky;
-  top: 64px;
-  z-index: 40;
-  background: rgba(5, 5, 5, 0.95);
-  backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 10;
+  background: #050505;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 12px clamp(16px, 3.5vw, 48px);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
 }
 
 .pdp-nav-container {
@@ -5864,7 +5865,7 @@ body.modal-open {
   position: relative;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px clamp(16px, 3.5vw, 48px) 44px;
+  padding: 28px clamp(16px, 3.5vw, 48px) 60px;
 }
 
 .pdp-hero-container {
@@ -5877,7 +5878,8 @@ body.modal-open {
 /* Left Gallery Column */
 .pdp-gallery-column {
   position: sticky;
-  top: 124px;
+  /* Sticks cleanly under the main luxury header (64px + 20px breathing room) */
+  top: 84px;
   background: radial-gradient(circle at 50% 45%, #0d0808 0%, #080505 65%, #040404 100%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
@@ -7283,7 +7285,15 @@ body.modal-open {
   .pdp-nav-container {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
+  }
+
+  .pdp-page-root {
+    scroll-padding-top: 80px;
+  }
+
+  .pdp-hero-stage {
+    padding-top: 20px;
   }
 
   .pdp-nav-left {
@@ -7293,7 +7303,7 @@ body.modal-open {
 
   .pdp-sibling-nav {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 
   .pdp-commerce-cta-row {
