@@ -99,6 +99,16 @@ const STORAGE_KEYS = {
   PRODUCTS: "hanboro_custom_products",
 };
 
+// One-time production zero database cache reset (clears dev test orders/leads/profiles, preserves inventory and products)
+if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v1")) {
+  safeStorage.removeItem(STORAGE_KEYS.ORDERS);
+  safeStorage.removeItem(STORAGE_KEYS.CUSTOMERS);
+  safeStorage.removeItem(STORAGE_KEYS.PROFILES);
+  safeStorage.removeItem("hanboro_draft_orders_cache");
+  safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
+  safeStorage.setItem("hanboro_prod_zero_db_v1", "true");
+}
+
 /**
  * Calculates a valid 13-digit EAN-13 barcode with standard Modulo-10 check digit.
  * Luxury horology prefix: 8908012 (India / Hanboro Haute Horlogerie Ateliers)
@@ -293,25 +303,27 @@ export const DEFAULT_CUSTOMER_PROFILES = [
   },
 ];
 
-// Helper: load local customer profiles cache
+// Helper: load local customer profiles cache (pure live users only)
 export function getLocalProfiles() {
   try {
     const raw = safeStorage.getItem(STORAGE_KEYS.PROFILES);
-    if (!raw) return DEFAULT_CUSTOMER_PROFILES;
+    if (!raw) return [];
     const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      const existing = new Set(parsed.map((p) => p.email?.toLowerCase()));
-      const merged = [...parsed];
-      DEFAULT_CUSTOMER_PROFILES.forEach((d) => {
-        if (!existing.has(d.email?.toLowerCase())) {
-          merged.push(d);
-        }
-      });
-      return merged;
+    if (Array.isArray(parsed)) {
+      // Exclude any legacy mock patron seeds
+      return parsed.filter(
+        (p) =>
+          p.email !== "ankan.das@bengalhorology.in" &&
+          p.email !== "shiva.karnati@hyderabadtech.in" &&
+          p.email !== "deepak.agarwal@delhiwealth.com" &&
+          p.email !== "goutham.s@chennaiauto.com" &&
+          p.email !== "nandan.shetty@bangalorecap.in" &&
+          p.email !== "viren.mehta@mumbaitrading.com"
+      );
     }
-    return DEFAULT_CUSTOMER_PROFILES;
+    return [];
   } catch {
-    return DEFAULT_CUSTOMER_PROFILES;
+    return [];
   }
 }
 
@@ -334,7 +346,13 @@ export function getLocalOrders() {
     const parsed = JSON.parse(raw);
     // Filter out any legacy demo seed orders if present
     const cleanOrders = (Array.isArray(parsed) ? parsed : []).filter(
-      (o) => !o.id?.startsWith("ord-demo") && o.order_ref !== "HNB-78219-IN" && o.order_ref !== "HNB-64102-IN"
+      (o) =>
+        !o.id?.startsWith("ord-demo") &&
+        !o.id?.startsWith("ord-100") &&
+        o.order_ref !== "HNB-78219-IN" &&
+        o.order_ref !== "HNB-64102-IN" &&
+        o.customer_email !== "ankan.das@bengalhorology.in" &&
+        o.customer_email !== "shiva.karnati@hyderabadtech.in"
     );
     return cleanOrders;
   } catch {
@@ -963,9 +981,18 @@ export const profilesService = {
         .order("created_at", { ascending: false });
 
       if (!error && data && data.length > 0) {
-        const emailSet = new Set(data.map((p) => p.email?.toLowerCase()));
+        const liveOnly = data.filter(
+          (p) =>
+            p.email !== "ankan.das@bengalhorology.in" &&
+            p.email !== "shiva.karnati@hyderabadtech.in" &&
+            p.email !== "deepak.agarwal@delhiwealth.com" &&
+            p.email !== "goutham.s@chennaiauto.com" &&
+            p.email !== "nandan.shetty@bangalorecap.in" &&
+            p.email !== "viren.mehta@mumbaitrading.com"
+        );
+        const emailSet = new Set(liveOnly.map((p) => p.email?.toLowerCase()));
         const merged = [
-          ...data,
+          ...liveOnly,
           ...local.filter((p) => !emailSet.has(p.email?.toLowerCase())),
         ];
         saveLocalProfiles(merged);
@@ -1976,9 +2003,11 @@ export const draftOrdersService = {
   getLocalDrafts() {
     try {
       const raw = safeStorage.getItem("hanboro_draft_orders_cache");
-      return raw ? JSON.parse(raw) : null;
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.filter((d) => d.id !== "dft-101" && d.id !== "dft-102") : [];
     } catch {
-      return null;
+      return [];
     }
   },
 

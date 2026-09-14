@@ -349,14 +349,21 @@ INSERT INTO public.inventory (id, sku, name, collection, stock, price_inr, price
     ('celestial-tourbillon', 'HBR-901-ASTRONOMICAL', 'Hanboro Celestial Astronomical', 'Astronomical & Special Editions', 4, 149990, 1800, 'https://images.unsplash.com/photo-1547996160-71dfabbce5fa?w=1000&auto=format&fit=crop&q=80', true)
 ON CONFLICT (sku) DO UPDATE SET id = EXCLUDED.id, stock = EXCLUDED.stock, price_inr = EXCLUDED.price_inr, price_usd = EXCLUDED.price_usd;
 
--- Seed VIP Customer Profiles Dossier
+-- Seed Official Storefront Administrator Profile (All live customer leads, profiles, and orders start at 0)
 INSERT INTO public.profiles (email, full_name, phone, role, vip_tier, notes, shipping_info) VALUES
-('connect@hanborowatches.in', 'Hanboro Administrator', '+918882069334', 'admin', 'Executive Administrator', 'Official Hanboro Haute Horlogerie Storefront and Systems Administrator.', '{"city": "Gurugram", "state": "Haryana", "pin": "122008", "address": "Building No. 3, 4th Floor, Block M, DLF City Phase II, Road No. 5, Sector 25", "country": "India"}'::jsonb),
-('ankan.das@bengalhorology.in', 'Ankan Das', '+919830011223', 'customer', 'VIP Horology Patron', 'Astroworld Tourbillon collector. Prefers bespoke piano-lacquered vault box packaging.', '{"city": "Kolkata", "state": "West Bengal", "pin": "700019", "address": "Ballygunge Circular Road", "country": "India"}'::jsonb),
-('shiva.karnati@hyderabadtech.in', 'Shiva Karnati', '+919849012345', 'customer', 'Diamond Collector', 'Casino Roulette Complications connoisseur. Fastrr VIP 1-click verified.', '{"city": "Hyderabad", "state": "Telangana", "pin": "500081", "address": "Jubilee Hills Road No. 36", "country": "India"}'::jsonb),
-('deepak.agarwal@delhiwealth.com', 'Deepak Agarwal', '+919811122334', 'customer', 'Grand Complication Connoisseur', 'Prefers Tonneau and Skeleton collections. Insured white-glove delivery.', '{"city": "Gurgaon", "state": "Haryana", "pin": "122002", "address": "DLF Phase 5, Golf Course Road", "country": "India"}'::jsonb),
-('goutham.s@chennaiauto.com', 'Goutham singaravelu', '+919840012345', 'customer', 'Haute Horlogerie Patron', 'Celestial Dragon Tourbillon allocation holder. Pre-paid VIP client.', '{"city": "Chennai", "state": "Tamil Nadu", "pin": "600004", "address": "Boat Club Road", "country": "India"}'::jsonb),
-('nandan.shetty@bangalorecap.in', 'Nandan Shetty', '+919880023456', 'customer', 'VIP Horology Patron', 'Cyber Cogwheel Skeleton collector.', '{"city": "Bengaluru", "state": "Karnataka", "pin": "560001", "address": "Lavelle Road", "country": "India"}'::jsonb),
-('viren.mehta@mumbaitrading.com', 'VIREN-', '+919821098765', 'customer', 'Collector Tier', 'Flagship Tourbillon inquiries.', '{"city": "Mumbai", "state": "Maharashtra", "pin": "400050", "address": "Bandra West, Pali Hill", "country": "India"}'::jsonb)
+('connect@hanborowatches.in', 'Hanboro Administrator', '+918882069334', 'admin', 'Executive Administrator', 'Official Hanboro Haute Horlogerie Storefront and Systems Administrator.', '{"city": "Gurugram", "state": "Haryana", "pin": "122008", "address": "Building No. 3, 4th Floor, Block M, DLF City Phase II, Road No. 5, Sector 25", "country": "India"}'::jsonb)
 ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name, phone = EXCLUDED.phone, role = EXCLUDED.role, shipping_info = EXCLUDED.shipping_info;
+
+-- ==============================================================================
+-- PRODUCTION CLEAN-SLATE RESET SNIPPET (Optional for Fresh Client Deployment)
+-- To wipe test leads & orders from an existing database while keeping the Master
+-- Watch Catalogue and Inventory Allocations 100% active:
+--
+-- TRUNCATE TABLE public.orders CASCADE;
+-- TRUNCATE TABLE public.draft_orders CASCADE;
+-- TRUNCATE TABLE public.cart_items CASCADE;
+-- TRUNCATE TABLE public.roulette_spins CASCADE;
+-- DELETE FROM public.profiles WHERE email != 'connect@hanborowatches.in';
+-- ==============================================================================
+
 

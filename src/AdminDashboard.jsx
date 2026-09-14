@@ -8,7 +8,7 @@ import {
   profilesService,
   calculateEan13,
   enrichOrderItemWithSkuEan,
-  DEFAULT_CUSTOMER_PROFILES,
+  safeStorage,
   sortCatalogStably,
 } from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
@@ -46,428 +46,7 @@ import {
   IconCopy,
 } from "./AdminIcons";
 
-// Initial realistic Abandoned Checkouts matching user's exact Shopify screenshot
-const SHOPIFY_ABANDONED_SEED = [
-  {
-    id: "chk-44803879502008",
-    checkoutNumber: "#44803879502008",
-    createdAt: "Aug 27 at 3:12 pm",
-    customerName: "Arnold Rombach",
-    customerEmail: "arnold.rombach@vip-collector.com",
-    customerPhone: "+919811234567",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 40499.00,
-    items: [{ name: "HANBORO Astroworld Tourbillon", sku: "HNB-ASTRO-BLK", price: 40499, qty: 1 }],
-  },
-  {
-    id: "chk-44756740014264",
-    checkoutNumber: "#44756740014264",
-    createdAt: "Aug 20 at 10:44 pm",
-    customerName: "jacksonhase8@gmail.com",
-    customerEmail: "jacksonhase8@gmail.com",
-    customerPhone: "+919876543210",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 33299.00,
-    items: [{ name: "HANBORO Casino Roulette Diamond", sku: "HNB-ROULETTE-BLUE", price: 33299, qty: 1 }],
-  },
-  {
-    id: "chk-44745009706552",
-    checkoutNumber: "#44745009706552",
-    createdAt: "Aug 19 at 9:47 am",
-    customerName: "Neeraj Chawla",
-    customerEmail: "neeraj.chawla@delhihorology.in",
-    customerPhone: "+919810123987",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 257394.00,
-    items: [
-      { name: "HANBORO Celestial Dragon Tourbillon", sku: "HNB-DRAGON-RG", price: 185000, qty: 1 },
-      { name: "HANBORO Cyber Cogwheel Skeleton", sku: "HNB-CYBER-SKEL", price: 72394, qty: 1 }
-    ],
-  },
-  {
-    id: "chk-44738869305640",
-    checkoutNumber: "#44738869305640",
-    createdAt: "Aug 14 at 4:23 am",
-    customerName: "heliogjsksclcks.com",
-    customerEmail: "heliogjsksclcks@gmail.com",
-    customerPhone: "+919920334455",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 34199.00,
-    items: [{ name: "HANBORO World Globe Dual Time", sku: "HNB-GLOBE-SLV", price: 34199, qty: 1 }],
-  },
-  {
-    id: "chk-44712256372920",
-    checkoutNumber: "#44712256372920",
-    createdAt: "Aug 14 at 12:03 am",
-    customerName: "Uyfishui Hfishueu",
-    customerEmail: "uyfishui@yahoo.com",
-    customerPhone: "+918800554433",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 34199.00,
-    items: [{ name: "HANBORO Mechanical Tonneau Rose Gold", sku: "HNB-TONNEAU-RG", price: 34199, qty: 1 }],
-  },
-  {
-    id: "chk-44673887174840",
-    checkoutNumber: "#44673887174840",
-    createdAt: "Aug 8 at 4:10 am",
-    customerName: "mario.mittendrein@gmx.at",
-    customerEmail: "mario.mittendrein@gmx.at",
-    customerPhone: "+919711882233",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 42929.10,
-    items: [{ name: "HANBORO Kinetic Roulette Green Edition", sku: "HNB-ROULETTE-GRN", price: 42929.10, qty: 1 }],
-  },
-  {
-    id: "chk-44616854831288",
-    checkoutNumber: "#44616854831288",
-    createdAt: "Jul 28 at 1:18 pm",
-    customerName: "Anupam Gulati",
-    customerEmail: "anupam.gulati@mumbaicapital.com",
-    customerPhone: "+919820011223",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 36719.10,
-    items: [{ name: "HANBORO Skeleton Tourbillon DLC", sku: "HNB-SKEL-DLC", price: 36719.10, qty: 1 }],
-  },
-  {
-    id: "chk-44608399671480",
-    checkoutNumber: "#44608399671480",
-    createdAt: "Jul 26 at 10:51 pm",
-    customerName: "E401201@miamidade.gov",
-    customerEmail: "e401201@miamidade.gov",
-    customerPhone: "+919818833445",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 47699.00,
-    items: [{ name: "HANBORO Astroworld Celestial Blue", sku: "HNB-ASTRO-BLU", price: 47699, qty: 1 }],
-  },
-  {
-    id: "chk-44585485107384",
-    checkoutNumber: "#44585485107384",
-    createdAt: "Jul 23 at 3:41 am",
-    customerName: "Ifeoluwa T",
-    customerEmail: "ifeoluwa.t@collector.org",
-    customerPhone: "+919650022334",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 26399.00,
-    items: [{ name: "HANBORO Royal Tonneau Black Dial", sku: "HNB-TONNEAU-BLK", price: 26399, qty: 1 }],
-  },
-  {
-    id: "chk-44581409390776",
-    checkoutNumber: "#44581409390776",
-    createdAt: "Jul 22 at 9:08 am",
-    customerName: "Kristen Kotter",
-    customerEmail: "kristen.kotter@swisswatch.ch",
-    customerPhone: "+919810998877",
-    emailStatus: "Not sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 40799.00,
-    items: [{ name: "HANBORO Casino Roulette Silver Edition", sku: "HNB-ROULETTE-SLV", price: 40799, qty: 1 }],
-  },
-  {
-    id: "chk-44442504331448",
-    checkoutNumber: "#44442504331448",
-    createdAt: "Jul 2 at 12:06 am",
-    customerName: "Mohan Singh",
-    customerEmail: "mohan.singh@royalpunjab.in",
-    customerPhone: "+919871122334",
-    emailStatus: "Sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 42929.10,
-    items: [{ name: "HANBORO Celestial Dragon Automatic", sku: "HNB-DRAGON-AUTO", price: 42929.10, qty: 1 }],
-  },
-  {
-    id: "chk-44399314567352",
-    checkoutNumber: "#44399314567352",
-    createdAt: "Jun 25 at 4:09 pm",
-    customerName: "Noor Hafiz",
-    customerEmail: "noor.hafiz@gulfhorology.ae",
-    customerPhone: "+919910088776",
-    emailStatus: "Sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 29699.00,
-    items: [{ name: "HANBORO Cyber Cogwheel Titanium", sku: "HNB-CYBER-TI", price: 29699, qty: 1 }],
-  },
-  {
-    id: "chk-44397952663736",
-    checkoutNumber: "#44397952663736",
-    createdAt: "Jun 24 at 10:39 pm",
-    customerName: "dr.shubham patil",
-    customerEmail: "dr.shubham.patil@medcare.org",
-    customerPhone: "+919822334455",
-    emailStatus: "Sent",
-    region: "India",
-    recoveryStatus: "Not recovered",
-    totalPrice: 33299.00,
-    items: [{ name: "HANBORO Skeleton Tourbillon Rose Gold", sku: "HNB-SKEL-RG", price: 33299, qty: 1 }],
-  },
-];
-
-// Initial realistic Orders matching official store catalog with authentic Watch SKU and 13-digit EAN Barcodes
-const SHOPIFY_ORDERS_SEED = [
-  {
-    id: "ord-1001",
-    order_ref: "#1001",
-    customer_name: "Ankan Das",
-    customer_email: "ankan.das@bengalhorology.in",
-    customer_phone: "+919830011223",
-    channel: "fv3>>",
-    total_amount: 38474.05,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "In progress",
-    items_count: "1 item",
-    delivery_status: "In Transit",
-    delivery_method: "Standard (Prepaid)",
-    tags: ["fastrr", "low", "SR_STANDARD", "Standard", "VIP_PATRON"],
-    created_at: new Date(Date.now() - 2 * 3600000).toISOString(),
-    tracking_number: "EXP-884920",
-    items: [
-      {
-        name: "HANBORO Astroworld Tourbillon Black DLC",
-        sku: "HBR-980-DLC-BLACK",
-        ean: "8908012980014",
-        price: 38474.05,
-        quantity: 1,
-        image: "/watch-astroworld-moon-rosegold-front-transparent.webp",
-      },
-    ],
-    shipping_address: {
-      address: "Ballygunge Circular Road, Suite 4B",
-      city: "Kolkata",
-      state: "West Bengal",
-      pin: "700019",
-      pincode: "700019",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1007",
-    order_ref: "#1007",
-    customer_name: "Ankan Das",
-    customer_email: "ankan.das@bengalhorology.in",
-    customer_phone: "+919830011223",
-    channel: "Online Store",
-    total_amount: 44999.00,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "Fulfilled",
-    items_count: "1 item",
-    delivery_status: "Delivered",
-    delivery_method: "White-Glove Vault (Prepaid)",
-    tags: ["Standard", "VIP_ALLOCATION", "REPEAT_COLLECTOR"],
-    created_at: new Date(Date.now() - 120 * 3600000).toISOString(),
-    tracking_number: "EXP-772299",
-    items: [
-      {
-        name: "Hanboro Orbita Gold Automatic Double Tourbillon",
-        sku: "HBR-980-AUTO-ORBITA-G",
-        ean: "8908012980021",
-        price: 44999.00,
-        quantity: 1,
-        image: "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
-      },
-    ],
-    shipping_address: {
-      address: "Ballygunge Circular Road, Suite 4B",
-      city: "Kolkata",
-      state: "West Bengal",
-      pin: "700019",
-      pincode: "700019",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1002",
-    order_ref: "#1002",
-    customer_name: "Shiva Karnati",
-    customer_email: "shiva.karnati@hyderabadtech.in",
-    customer_phone: "+919849012345",
-    channel: "fv3>>",
-    total_amount: 33079.26,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "Fulfilled",
-    items_count: "1 item",
-    delivery_status: "Delivered",
-    delivery_method: "Standard (Prepaid)",
-    tags: ["fastrr", "low", "SR_STANDARD", "Standard"],
-    created_at: new Date(Date.now() - 14 * 3600000).toISOString(),
-    tracking_number: "DEL-449102",
-    items: [
-      {
-        name: "HANBORO Casino Roulette Diamond Emerald",
-        sku: "HBR-702-ROULETTE-EMERALD",
-        ean: "8908012702018",
-        price: 33079.26,
-        quantity: 1,
-        image: "/watch-oceanic-diver-200m-green-front-transparent.webp",
-      },
-    ],
-    shipping_address: {
-      address: "Road No. 36, Jubilee Hills",
-      city: "Hyderabad",
-      state: "Telangana",
-      pin: "500081",
-      pincode: "500081",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1003",
-    order_ref: "#1003",
-    customer_name: "VIREN-",
-    customer_email: "viren.mehta@mumbaitrading.com",
-    customer_phone: "+919821098765",
-    channel: "fv3>>",
-    total_amount: 0.00,
-    currency: "INR",
-    payment_status: "Voided",
-    fulfillment_status: "Not required",
-    items_count: "0 items",
-    delivery_status: "",
-    delivery_method: "Standard (COD)",
-    tags: ["fastrr", "high", "rto_prediction_high", "SR_STANDARD", "Standard"],
-    created_at: new Date(Date.now() - 28 * 3600000).toISOString(),
-    tracking_number: "",
-    items: [],
-    shipping_address: {
-      address: "Pali Hill, Bandra West",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pin: "400050",
-      pincode: "400050",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1004",
-    order_ref: "#1004",
-    customer_name: "Goutham singaravelu",
-    customer_email: "goutham.s@chennaiauto.com",
-    customer_phone: "+919840012345",
-    channel: "Online Store",
-    total_amount: 47699.00,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "Fulfilled",
-    items_count: "1 item",
-    delivery_status: "Delivered",
-    delivery_method: "Standard",
-    tags: ["Standard", "VIP_ALLOCATION"],
-    created_at: new Date(Date.now() - 48 * 3600000).toISOString(),
-    tracking_number: "BLR-992100",
-    items: [
-      {
-        name: "HANBORO Celestial Dragon Tourbillon Rose Gold",
-        sku: "HBR-901-CELESTIAL-DRAGON",
-        ean: "8908012901019",
-        price: 47699.00,
-        quantity: 1,
-        image: "/watch-astroworld-moon-rosegold-profile-transparent.webp",
-      },
-    ],
-    shipping_address: {
-      address: "12 Boat Club Road, RA Puram",
-      city: "Chennai",
-      state: "Tamil Nadu",
-      pin: "600004",
-      pincode: "600004",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1005",
-    order_ref: "#1005",
-    customer_name: "Nandan Shetty",
-    customer_email: "nandan.shetty@bangalorecap.in",
-    customer_phone: "+919880023456",
-    channel: "Online Store",
-    total_amount: 44999.00,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "Fulfilled",
-    items_count: "1 item",
-    delivery_status: "Delivered",
-    delivery_method: "Standard",
-    tags: ["Standard"],
-    created_at: new Date(Date.now() - 72 * 3600000).toISOString(),
-    tracking_number: "DEL-778811",
-    items: [
-      {
-        name: "HANBORO Cyber Cogwheel Skeleton Twotone",
-        sku: "HBR-8801-CYBER-SS",
-        ean: "8908012880112",
-        price: 44999.00,
-        quantity: 1,
-        image: "/watch-astroworld-moon-rosegold-neon.webp",
-      },
-    ],
-    shipping_address: {
-      address: "Lavelle Road, Richmond Town",
-      city: "Bengaluru",
-      state: "Karnataka",
-      pin: "560001",
-      pincode: "560001",
-      country: "India",
-    },
-  },
-  {
-    id: "ord-1006",
-    order_ref: "#1006",
-    customer_name: "Deepak Agarwal",
-    customer_email: "deepak.agarwal@delhiwealth.com",
-    customer_phone: "+919811122334",
-    channel: "Online Store",
-    total_amount: 27999.00,
-    currency: "INR",
-    payment_status: "Paid",
-    fulfillment_status: "Fulfilled",
-    items_count: "1 item",
-    delivery_status: "Delivered",
-    delivery_method: "Standard",
-    tags: ["Standard"],
-    created_at: new Date(Date.now() - 96 * 3600000).toISOString(),
-    tracking_number: "EXP-112233",
-    items: [
-      {
-        name: "HANBORO Mechanical Tonneau Rose Gold",
-        sku: "HNB-TONNEAU-RG",
-        ean: "8908012330016",
-        price: 27999.00,
-        quantity: 1,
-        image: "/watch-astroworld-moon-rosegold-macro.webp",
-      },
-    ],
-    shipping_address: {
-      address: "DLF Phase 5, Golf Course Road, The Crest",
-      city: "Gurgaon",
-      state: "Haryana",
-      pin: "122002",
-      pincode: "122002",
-      country: "India",
-    },
-  },
-];
+// Clean Production State: No mock seeds. All orders, abandoned leads, and customer profiles start at 0.
 
 function AdminLoginGate({ onNavigateHome, onLogin }) {
   const [email, setEmail] = useState("connect@hanborowatches.in");
@@ -641,45 +220,22 @@ export function AdminDashboard({ onNavigateHome }) {
     localStorage.setItem("hanboro_admin_theme", next);
   };
 
-  // Orders State (Merged Live + Seed)
-  const [orders, setOrders] = useState(SHOPIFY_ORDERS_SEED);
+  // Orders State (Pure Live Orders)
+  const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [orderSearch, setOrderSearch] = useState("");
   const [orderStatusTab, setOrderStatusTab] = useState("all"); // "all" | "unfulfilled" | "unpaid" | "open" | "closed"
   const [selectedOrders, setSelectedOrders] = useState(new Set());
   const [inspectingOrder, setInspectingOrder] = useState(null);
 
-  // Abandoned Checkouts State (Merged Live + Seed)
-  const [abandonedCheckouts, setAbandonedCheckouts] = useState(SHOPIFY_ABANDONED_SEED);
+  // Abandoned Checkouts State (Pure Live Leads)
+  const [abandonedCheckouts, setAbandonedCheckouts] = useState([]);
   const [abandonedSearch, setAbandonedSearch] = useState("");
   const [selectedCheckouts, setSelectedCheckouts] = useState(new Set());
   const [inspectingCheckout, setInspectingCheckout] = useState(null);
 
-  // Drafts State
-  const [draftOrders, setDraftOrders] = useState([
-    {
-      id: "dft-101",
-      draftNumber: "#D101",
-      customerName: "Rohan Malhotra",
-      customerEmail: "rohan.m@investor.in",
-      customerPhone: "+919811099887",
-      total: 36500,
-      status: "Open",
-      createdAt: "Yesterday at 6:40 pm",
-      items: [{ name: "HANBORO Astroworld Tourbillon Black DLC", sku: "astroworld-tourbillon-black-dlc", price: 36500, qty: 1 }],
-    },
-    {
-      id: "dft-102",
-      draftNumber: "#D102",
-      customerName: "Dr. Vikram Sethi",
-      customerEmail: "vikram.sethi@apollo.org",
-      customerPhone: "+919820011445",
-      total: 82000,
-      status: "Invoice Sent",
-      createdAt: "Sep 2 at 11:15 am",
-      items: [{ name: "HANBORO Celestial Dragon Tourbillon", sku: "celestial-dragon", price: 82000, qty: 1 }],
-    }
-  ]);
+  // Drafts State (Pure Live Drafts)
+  const [draftOrders, setDraftOrders] = useState([]);
   const [showCreateDraftModal, setShowCreateDraftModal] = useState(false);
   const [draftFormData, setDraftFormData] = useState({
     customerName: "",
@@ -701,8 +257,8 @@ export function AdminDashboard({ onNavigateHome }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deletingWatch, setDeletingWatch] = useState(null);
 
-  // ── CUSTOMERS & PROFILES DATABASE STATE ──
-  const [profiles, setProfiles] = useState(DEFAULT_CUSTOMER_PROFILES);
+  // ── CUSTOMERS & PROFILES DATABASE STATE (Pure Live Customer Profiles) ──
+  const [profiles, setProfiles] = useState([]);
   const [customerSearch, setCustomerSearch] = useState("");
   const [customerVipFilter, setCustomerVipFilter] = useState("all"); // "all" | "vip" | "repeat" | "high_value"
   const [selectedCustomerDossier, setSelectedCustomerDossier] = useState(null);
@@ -839,7 +395,7 @@ export function AdminDashboard({ onNavigateHome }) {
     window.open(`https://wa.me/${cleanPhone}?text=${text}`, "_blank");
   };
 
-  // Initial Data Sync from Supabase & Local DB
+  // Initial Data Sync from Supabase & Local DB (Pure Live Telemetry)
   const loadAllAdminData = async () => {
     setIsSyncing(true);
     setOrdersLoading(true);
@@ -847,29 +403,14 @@ export function AdminDashboard({ onNavigateHome }) {
       const [loadedOrders, loadedCarts, loadedDrafts, loadedDiscounts, loadedProfiles] = await Promise.all([
         ordersService.fetchOrders().catch(() => []),
         cartService.fetchAllLiveCarts().catch(() => []),
-        draftOrdersService.fetchDraftOrders(SHOPIFY_DRAFT_ORDERS_SEED).catch(() => SHOPIFY_DRAFT_ORDERS_SEED),
+        draftOrdersService.fetchDraftOrders([]).catch(() => []),
         discountsService.fetchDiscounts(PROMO_CODES).catch(() => PROMO_CODES),
-        profilesService.fetchProfiles().catch(() => DEFAULT_CUSTOMER_PROFILES),
+        profilesService.fetchProfiles().catch(() => []),
       ]);
 
-      if (loadedProfiles && loadedProfiles.length > 0) {
-        setProfiles(loadedProfiles);
-      }
-
-      if (loadedOrders && loadedOrders.length > 0) {
-        // Merge Supabase orders with seed orders
-        const combined = [...loadedOrders];
-        SHOPIFY_ORDERS_SEED.forEach((seed) => {
-          if (!combined.some((o) => o.order_ref === seed.order_ref || o.id === seed.id)) {
-            combined.push(seed);
-          }
-        });
-        setOrders(combined);
-      }
-
-      if (loadedDrafts && loadedDrafts.length > 0) {
-        setDraftOrders(loadedDrafts);
-      }
+      setProfiles(loadedProfiles || []);
+      setOrders(loadedOrders || []);
+      setDraftOrders(loadedDrafts || []);
 
       if (loadedDiscounts) {
         setCustomPromos(loadedDiscounts);
@@ -890,7 +431,9 @@ export function AdminDashboard({ onNavigateHome }) {
           totalPrice: cart.totalValue || 45000,
           items: cart.items || [],
         }));
-        setAbandonedCheckouts([...mappedLiveCheckouts, ...SHOPIFY_ABANDONED_SEED]);
+        setAbandonedCheckouts(mappedLiveCheckouts);
+      } else {
+        setAbandonedCheckouts([]);
       }
     } catch (err) {
       console.warn("Data sync fallback active:", err);
@@ -949,10 +492,10 @@ export function AdminDashboard({ onNavigateHome }) {
   const customersDatabase = useMemo(() => {
     const map = {};
 
-    // 1. Initialize from Registered Customer Profiles
+    // 1. Initialize from Registered Customer Profiles (excluding administrative accounts)
     (profiles || []).forEach((p) => {
       const emailKey = (p.email || "").toLowerCase().trim();
-      if (!emailKey) return;
+      if (!emailKey || p.role === "admin" || emailKey === "connect@hanborowatches.in") return;
       map[emailKey] = {
         id: p.id || `prof-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
         name: p.full_name || p.fullName || p.name || emailKey.split("@")[0],
@@ -1304,6 +847,30 @@ export function AdminDashboard({ onNavigateHome }) {
     setDraftOrders(draftOrders.filter((d) => d.id !== draft.id));
     showToast(`Draft ${draft.draftNumber} converted to Live Order ${newOrder.order_ref}`);
     setActiveTab("orders");
+  };
+
+  // Production Clean-Slate Reset: Purge test leads and orders to 0 while keeping 98 Watch Catalogue & Inventory intact
+  const handleProductionZeroReset = () => {
+    const confirmReset = window.confirm(
+      "PRODUCTION DATABASE RESET:\n\nAre you sure you want to clean-slate the admin database to 0?\n\n• Orders: Reset to 0\n• Abandoned Leads: Reset to 0\n• Draft Orders: Reset to 0\n• Customer Dossiers: Reset to 0\n\n✓ Master Watch Catalogue (98 Timepieces) and Inventory Allocations will remain 100% active and untouched."
+    );
+    if (!confirmReset) return;
+
+    setOrders([]);
+    setAbandonedCheckouts([]);
+    setDraftOrders([]);
+    setProfiles([]);
+
+    try {
+      safeStorage.removeItem("hanboro_orders_cache");
+      safeStorage.removeItem("hanboro_customers_cache");
+      safeStorage.removeItem("hanboro_profiles_cache");
+      safeStorage.removeItem("hanboro_draft_orders_cache");
+      safeStorage.removeItem("hanboro_roulette_spins_cache");
+      safeStorage.setItem("hanboro_prod_zero_db_v1", "true");
+    } catch {}
+
+    showToast("Production database cleaned to 0. Master Inventory intact!");
   };
 
   // Create Custom Promo
@@ -1810,7 +1377,10 @@ export function AdminDashboard({ onNavigateHome }) {
                     {filteredAbandoned.length === 0 && (
                       <tr>
                         <td colSpan="9" className="sp-empty-cell">
-                          No abandoned checkouts match your query.
+                          <div style={{ padding: "32px 16px", textAlign: "center" }}>
+                            <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No abandoned checkouts</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Prospective boutique leads and shopping cart drop-offs will appear here automatically for 1-click recovery.</p>
+                          </div>
                         </td>
                       </tr>
                     )}
@@ -2058,7 +1628,10 @@ export function AdminDashboard({ onNavigateHome }) {
                     {filteredOrders.length === 0 && (
                       <tr>
                         <td colSpan="12" className="sp-empty-cell">
-                          No orders found matching this filter.
+                          <div style={{ padding: "32px 16px", textAlign: "center" }}>
+                            <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No orders received yet</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Your boutique is live in production. Fresh incoming customer orders and concierge requests will appear here in real time.</p>
+                          </div>
                         </td>
                       </tr>
                     )}
@@ -2162,6 +1735,17 @@ export function AdminDashboard({ onNavigateHome }) {
                         </td>
                       </tr>
                     ))}
+
+                    {draftOrders.length === 0 && (
+                      <tr>
+                        <td colSpan="7" className="sp-empty-cell">
+                          <div style={{ padding: "32px 16px", textAlign: "center" }}>
+                            <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No draft orders created</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Click "Create draft order" above to generate a custom reservation or invoice for VIP patrons.</p>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -2688,24 +2272,30 @@ export function AdminDashboard({ onNavigateHome }) {
                     </button>
                   </div>
                   <div className="sp-quick-list">
-                    {abandonedCheckouts.slice(0, 5).map((item) => (
-                      <div key={item.id} className="sp-quick-row">
-                        <div>
-                          <div className="sp-quick-name">{item.customerName}</div>
-                          <div className="sp-quick-sub">{item.checkoutNumber} • {item.createdAt}</div>
-                        </div>
-                        <div style={{ textAlign: "right" }}>
-                          <div className="sp-quick-price">₹{Number(item.totalPrice).toLocaleString("en-IN")}</div>
-                          <button
-                            type="button"
-                            className="sp-btn sp-btn--xs sp-btn--whatsapp-nudge"
-                            onClick={() => triggerWhatsAppRecovery(item)}
-                          >
-                            WhatsApp Nudge
-                          </button>
-                        </div>
+                    {abandonedCheckouts.length === 0 ? (
+                      <div style={{ padding: "28px 16px", textAlign: "center", color: "#64748b", fontSize: "13px" }}>
+                        No abandoned checkouts. Leads will automatically appear here when shoppers start checkout.
                       </div>
-                    ))}
+                    ) : (
+                      abandonedCheckouts.slice(0, 5).map((item) => (
+                        <div key={item.id} className="sp-quick-row">
+                          <div>
+                            <div className="sp-quick-name">{item.customerName}</div>
+                            <div className="sp-quick-sub">{item.checkoutNumber} • {item.createdAt}</div>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <div className="sp-quick-price">₹{Number(item.totalPrice).toLocaleString("en-IN")}</div>
+                            <button
+                              type="button"
+                              className="sp-btn sp-btn--xs sp-btn--whatsapp-nudge"
+                              onClick={() => triggerWhatsAppRecovery(item)}
+                            >
+                              WhatsApp Nudge
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -2963,6 +2553,56 @@ export function AdminDashboard({ onNavigateHome }) {
                   <div className="sp-settings-field">
                     <label>Boutique Studio & Registered Location</label>
                     <textarea defaultValue="Fourth Floor, Building No. 3, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India" rows="3" disabled />
+                  </div>
+                </div>
+
+                <div className="sp-settings-card" style={{ gridColumn: "1 / -1" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px", marginBottom: "16px" }}>
+                    <div>
+                      <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "#10b981" }} />
+                        Production Database & Launch Status
+                      </h3>
+                      <p style={{ margin: "4px 0 0", fontSize: "13px", color: "#64748b" }}>
+                        Storefront is in live production mode with a clean-slate database ready for client deployment.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="sp-btn sp-btn--sm"
+                      style={{ background: "#fff", border: "1px solid #fee2e2", color: "#dc2626", fontWeight: 600, padding: "8px 14px" }}
+                      onClick={handleProductionZeroReset}
+                    >
+                      Purge Test Leads & Orders (Keep Master Inventory Safe)
+                    </button>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px", background: "#f8fafc", padding: "16px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                    <div>
+                      <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: 700, letterSpacing: "0.5px" }}>Live Orders</div>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>{orders.length}</div>
+                      <div style={{ fontSize: "12px", color: "#10b981" }}>● Clean Production State</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: 700, letterSpacing: "0.5px" }}>Abandoned Leads</div>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>{abandonedCheckouts.length}</div>
+                      <div style={{ fontSize: "12px", color: "#10b981" }}>● Real Shopper Telemetry</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: 700, letterSpacing: "0.5px" }}>Draft Orders</div>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>{draftOrders.length}</div>
+                      <div style={{ fontSize: "12px", color: "#10b981" }}>● Ready for VIP Reservations</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: 700, letterSpacing: "0.5px" }}>Customer Profiles</div>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>{filteredCustomers.length}</div>
+                      <div style={{ fontSize: "12px", color: "#10b981" }}>● Real User Sign-ups Only</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "11px", textTransform: "uppercase", color: "#64748b", fontWeight: 700, letterSpacing: "0.5px" }}>Master Inventory</div>
+                      <div style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>{(products || PRODUCTS_DATA).length} Timepieces</div>
+                      <div style={{ fontSize: "12px", color: "#0284c7" }}>● 100% Intact & Active</div>
+                    </div>
                   </div>
                 </div>
               </div>
