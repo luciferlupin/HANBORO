@@ -159,24 +159,28 @@ export function ProductDetailPage({
       {/* ── TOP NAV BAR & BREADCRUMB ── */}
       <nav className="pdp-top-nav" aria-label="Breadcrumb navigation">
         <div className="pdp-nav-container">
-          <button
-            type="button"
-            className="pdp-back-btn"
-            onClick={() => {
-              forceScrollToTop();
-              onNavigateBack();
-            }}
-          >
-            <span aria-hidden="true">←</span>
-            <span>All Timepieces</span>
-          </button>
+          <div className="pdp-nav-left">
+            <button
+              type="button"
+              className="pdp-back-btn"
+              onClick={() => {
+                forceScrollToTop();
+                onNavigateBack();
+              }}
+            >
+              <span aria-hidden="true">←</span>
+              <span>All Timepieces</span>
+            </button>
 
-          <div className="pdp-breadcrumbs">
-            <span className="crumb-dim">Collection</span>
-            <span className="crumb-sep">/</span>
-            <span className="crumb-dim">{product.collectionName || product.collection}</span>
-            <span className="crumb-sep">/</span>
-            <span className="crumb-active">{product.sku}</span>
+            <span className="pdp-nav-divider" aria-hidden="true" />
+
+            <div className="pdp-breadcrumbs">
+              <span className="crumb-dim">Collection</span>
+              <span className="crumb-sep">/</span>
+              <span className="crumb-dim">{product.collectionName || product.collection}</span>
+              <span className="crumb-sep">/</span>
+              <span className="crumb-active">{product.sku}</span>
+            </div>
           </div>
 
           <div className="pdp-sibling-nav">
@@ -382,14 +386,16 @@ export function ProductDetailPage({
               {/* Reference SKU & Model Badge */}
               <div className="pdp-sku-row">
                 <span className="sku-label">OFFICIAL MODEL & REF:</span>
-                <span className="pdp-model-badge">MODEL {product.modelNumber || product.specs?.modelNumber}</span>
+                {product.modelNumber && (
+                  <span className="pdp-model-badge">MODEL {product.modelNumber || product.specs?.modelNumber}</span>
+                )}
                 <button
                   type="button"
                   className="pdp-sku-badge-btn"
                   onClick={handleCopySku}
-                  title="Click to copy Reference SKU"
+                  aria-label="Copy reference SKU to clipboard"
                 >
-                  <span>{copiedSku ? "✓ COPIED" : `REF. ${product.sku}`}</span>
+                  <span>{copiedSku ? "✓ SKU COPIED" : `REF. ${product.sku}`}</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
@@ -413,35 +419,8 @@ export function ProductDetailPage({
                 </div>
               </div>
 
-              {/* Summary Description */}
-              {product.summary && <p className="pdp-summary-text">{product.summary}</p>}
-
-              {/* Key Bento Spec Tiles */}
-              <div className="pdp-bento-preview">
-                <div className="pdp-spec-card">
-                  <span className="spec-card-label">CALIBER</span>
-                  <span className="spec-card-val">
-                    {product.specs?.movement ? product.specs.movement.split(" ").slice(0, 2).join(" ") : "Automatic Calibre"}
-                  </span>
-                  <span className="spec-card-sub">{product.specs?.frequency || "28,800 BPH"}</span>
-                </div>
-                <div className="pdp-spec-card">
-                  <span className="spec-card-label">POWER RESERVE</span>
-                  <span className="spec-card-val">{product.specs?.powerReserve || "42 Hours"}</span>
-                  <span className="spec-card-sub">Twin-Barrel System</span>
-                </div>
-                <div className="pdp-spec-card">
-                  <span className="spec-card-label">CASE & GLASS</span>
-                  <span className="spec-card-val">
-                    {product.specs?.caseDimensions ? product.specs.caseDimensions.split(" ")[0] : "44mm"}
-                  </span>
-                  <span className="spec-card-sub">{product.specs?.glass ? product.specs.glass.split(" ")[0] : "Sapphire"} • {product.specs?.waterResistance || "50M"}</span>
-                </div>
-              </div>
-
-              {/* Action Buttons / Commerce & Concierge Inquire */}
+              {/* Action Buttons / Primary Commerce Row */}
               <div className="pdp-action-section">
-                {/* ── HIGH-CONVERSION COMMERCE ROW (ADD TO CART & BUY NOW) ── */}
                 <div className="pdp-commerce-cta-row">
                   <div className="pdp-qty-stepper">
                     <button
@@ -573,6 +552,32 @@ export function ProductDetailPage({
                   </form>
                 )}
               </div>
+
+              {/* Key Bento Spec Tiles */}
+              <div className="pdp-bento-preview">
+                <div className="pdp-spec-card">
+                  <span className="spec-card-label">CALIBER</span>
+                  <span className="spec-card-val">
+                    {product.specs?.movement ? product.specs.movement.split(" ").slice(0, 2).join(" ") : "Automatic Calibre"}
+                  </span>
+                  <span className="spec-card-sub">{product.specs?.frequency || "28,800 BPH"}</span>
+                </div>
+                <div className="pdp-spec-card">
+                  <span className="spec-card-label">POWER RESERVE</span>
+                  <span className="spec-card-val">{product.specs?.powerReserve || "42 Hours"}</span>
+                  <span className="spec-card-sub">Twin-Barrel System</span>
+                </div>
+                <div className="pdp-spec-card">
+                  <span className="spec-card-label">CASE & GLASS</span>
+                  <span className="spec-card-val">
+                    {product.specs?.caseDimensions ? product.specs.caseDimensions.split(" ")[0] : "44mm"}
+                  </span>
+                  <span className="spec-card-sub">{product.specs?.glass ? product.specs.glass.split(" ")[0] : "Sapphire"} • {product.specs?.waterResistance || "50M"}</span>
+                </div>
+              </div>
+
+              {/* Summary Description Narrative */}
+              {product.summary && <p className="pdp-summary-text">{product.summary}</p>}
             </div>
           </div>
         </div>
