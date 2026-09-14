@@ -4322,13 +4322,13 @@ export function AdminDashboard({ onNavigateHome }) {
                 <button
                   type="button"
                   className="sp-btn sp-btn--default"
-                  onClick={() => handleCopyText(`Tax Invoice: ${invoiceNum}\nDate: ${invoiceDate}\nCustomer: ${custName}\nTotal Billed: ₹${total.toLocaleString("en-IN")}\nItems: ${items.map(i => `${i.name} [SKU: ${i.sku} | EAN: ${i.ean}]`).join(", ")}`, "inv-summary")}
+                  onClick={() => handleCopyText(`Tax Invoice: ${invoiceNum}\nDate: ${invoiceDate}\nCustomer: ${custName}\nTotal Billed: ₹${total.toLocaleString("en-IN")}\nItems: ${items.map(i => `${i.name} [SKU: ${i.sku}]`).join(", ")}`, "inv-summary")}
                 >
                   <IconCopy size={14} />
                   <span>{copiedKey === "inv-summary" ? "Copied!" : "Copy Summary"}</span>
                 </button>
                 <a
-                  href={`https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Dear ${custName},\nYour official Hanboro Haute Horlogerie Tax Invoice ${invoiceNum} for ₹${total.toLocaleString("en-IN")} is ready.\nTimepiece(s): ${items.map(i => `${i.name} (SKU: ${i.sku}, EAN: ${i.ean})`).join(", ")}\nThank you for your patronage.`)}`}
+                  href={`https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Dear ${custName},\nYour official Hanboro Haute Horlogerie Tax Invoice ${invoiceNum} for ₹${total.toLocaleString("en-IN")} is ready.\nTimepiece(s): ${items.map(i => `${i.name} (SKU: ${i.sku})`).join(", ")}\nThank you for your patronage.`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="sp-btn sp-btn--whatsapp-nudge"
@@ -4359,7 +4359,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     Luxury Watchmaker Atelier, DLF Cyber City, Tower B, Level 14<br />
                     Gurugram, Haryana - 122002, India<br />
                     <span><strong>GSTIN:</strong> 06AABCH8901L1Z8</span> &nbsp;|&nbsp; <span><strong>CIN:</strong> U33300HR2023PTC109823</span><br />
-                    <span><strong>PAN:</strong> AABCH8901L</span> &nbsp;|&nbsp; <span><strong>HSN Chapter:</strong> 9102 (Wrist Watches)</span><br />
+                    <span><strong>HSN Chapter:</strong> 9102 (Wrist Watches)</span><br />
                     <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; concierge@hanborowatches.in</span>
                   </div>
                 </div>
@@ -4424,15 +4424,14 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
               </div>
 
-              {/* Itemized Table with SKU ID & EAN Barcode */}
+              {/* Itemized Table with SKU ID */}
               <div className="sp-invoice-table-wrapper">
                 <table className="sp-invoice-table">
                   <thead>
                     <tr>
                       <th style={{ width: "4%" }}>#</th>
-                      <th style={{ width: "34%" }}>Description of Timepiece & Horological Reference</th>
-                      <th style={{ width: "16%" }}>Watch SKU ID</th>
-                      <th style={{ width: "18%" }}>EAN-13 Barcode</th>
+                      <th style={{ width: "48%" }}>Description of Timepiece & Horological Reference</th>
+                      <th style={{ width: "20%" }}>Watch SKU ID</th>
                       <th style={{ width: "8%" }}>HSN</th>
                       <th style={{ width: "5%" }}>Qty</th>
                       <th style={{ width: "15%" }} className="sp-text-right">Taxable Amt</th>
@@ -4445,7 +4444,6 @@ export function AdminDashboard({ onNavigateHome }) {
                       const itemTotal = itemPrice * qty;
                       const itemTaxable = Math.round(itemTotal / 1.18);
                       const sku = it.sku || "HNB-TIMEPIECE";
-                      const ean = it.ean || calculateEan13(sku);
 
                       return (
                         <tr key={it.id || idx}>
@@ -4459,12 +4457,6 @@ export function AdminDashboard({ onNavigateHome }) {
                           <td>
                             <div className="sp-inv-sku-box">
                               <code className="sp-inv-sku-code">{sku}</code>
-                            </div>
-                          </td>
-                          <td>
-                            <div className="sp-inv-ean-box">
-                              <BarcodeStripeGraphic ean={ean} height={18} showNumber={false} />
-                              <code className="sp-inv-ean-code">{ean}</code>
                             </div>
                           </td>
                           <td><span className="sp-inv-hsn">9102</span></td>
@@ -4490,7 +4482,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   <div className="sp-inv-terms-box">
                     <h5 className="sp-terms-title">Statutory Terms & Horological Warranty Conditions:</h5>
                     <ol className="sp-terms-list">
-                      <li>All timepieces are certified genuine Haute Horlogerie masterpieces registered in the Hanboro Global Serial Registry under their respective SKU and EAN barcode.</li>
+                      <li>All timepieces are certified genuine Haute Horlogerie masterpieces registered in the Hanboro Global Serial Registry under their respective SKU reference.</li>
                       <li>Includes <strong>2-Year International Atelier Mechanical Warranty</strong> covering caliber accuracy and movement craftsmanship.</li>
                       <li>Tax is charged under GST Council Section 9(1) for Horology & Timepieces (HSN Chapter 9102).</li>
                       <li>Subject to Gurugram / Delhi NCR Jurisdiction.</li>
