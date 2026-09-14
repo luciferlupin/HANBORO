@@ -3,7 +3,6 @@ import {
   ordersService,
   inventoryService,
   cartService,
-  rouletteService,
   draftOrdersService,
   discountsService,
   profilesService,
@@ -11,7 +10,6 @@ import {
   enrichOrderItemWithSkuEan,
   DEFAULT_CUSTOMER_PROFILES,
   sortCatalogStably,
-  SUPABASE_URL,
 } from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
@@ -42,7 +40,6 @@ import {
   IconExternalLink,
   IconEye,
   IconTrash,
-  IconMail,
   IconPrinter,
   IconBarcode,
   IconInvoice,
