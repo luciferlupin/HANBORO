@@ -6566,7 +6566,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-aero-997-rg-blk",
     "sku": "HBR-AERO-997-RG-BLK",
-    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
+    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch (Rose Gold & Black Edition)",
     "subtitle": "Dual movement meets aviation-inspired design in the AeroTwin 997 Series—a bold skeleton watch crafted for precision and style.",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -6650,7 +6650,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-aero-997-blk",
     "sku": "HBR-AERO-997-BLK",
-    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
+    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch (Black Edition)",
     "subtitle": "Dual movement meets aviation-inspired design in the AeroTwin 997 Series—a bold skeleton watch crafted for precision and style.",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -6734,7 +6734,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-aero-997-silver",
     "sku": "HBR-AERO-997-SILVER",
-    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
+    "name": "AeroTwin 997 Series – Dual Movement Skeleton Watch (Silver Edition)",
     "subtitle": "Dual movement meets aviation-inspired design in the AeroTwin 997 Series—a bold skeleton watch crafted for precision and style.",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -6902,7 +6902,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-zodiac-1027-2-black",
     "sku": "HBR-ZODIAC-1027-2-BLACK",
-    "name": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial",
+    "name": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Black Dial",
     "subtitle": "Automatic zodiac timepiece with open-heart movement, celestial dial design, and premium rose gold case.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
@@ -6958,7 +6958,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-wc-1038-rg-blk",
     "sku": "HBR-WC-1038-RG-BLK",
-    "name": "Hanboro World Cup Edition",
+    "name": "Hanboro World Cup Edition (Rose Gold & Black)",
     "subtitle": "A limited-edition automatic timepiece inspired by the world's biggest football tournament, featuring a multi-nation dial, exhibition caseback, and a premium collector's box with football trophy display.",
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
@@ -7049,7 +7049,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-wc-1038-silver-blk",
     "sku": "HBR-WC-1038-SILVER-BLK",
-    "name": "Hanboro World Cup Edition",
+    "name": "Hanboro World Cup Edition (Silver & Black)",
     "subtitle": "A limited-edition automatic timepiece inspired by the world's biggest football tournament, featuring a multi-nation dial, exhibition caseback, and a premium collector's box with football trophy display.",
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
