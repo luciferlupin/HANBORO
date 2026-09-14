@@ -109,3 +109,20 @@ test("Simulating remote Supabase fetch keeps all catalogue watches and clones vi
     assert.ok(match.price, `Price for ${master.id} must be present`);
   });
 });
+
+test("All 104 timepieces have transparent primary photos without white background", () => {
+  PRODUCTS_DATA.forEach((watch) => {
+    assert.ok(watch.transparentImage, `Watch ${watch.id} must have a transparentImage`);
+    assert.ok(watch.image, `Watch ${watch.id} must have a primary image`);
+    assert.match(
+      watch.image,
+      /\.(webp|png)$/i,
+      `Primary image for ${watch.id} must be PNG or WebP with alpha channel, got: ${watch.image}`
+    );
+    assert.match(
+      watch.transparentImage,
+      /\.(webp|png)$/i,
+      `transparentImage for ${watch.id} must be PNG or WebP with alpha channel, got: ${watch.transparentImage}`
+    );
+  });
+});
