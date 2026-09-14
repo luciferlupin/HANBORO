@@ -11,5 +11,7 @@ When implementing from a selected generated mock, treat that image as the source
 - The entry experience uses a fast-moving analogue clock before revealing the main site.
 - Use a high-contrast black, warm-white, and signal-red palette with expressive gradients.
 - Admin Portal modals (Watch Editor Dossier, Delete Confirmation, Draft Orders, and Inspect Dialogues) and administrative cards use a clean, high-contrast Polaris/Apple-inspired light theme with 'Inter' and 'JetBrains Mono' typography, elevated card sections, crisp inputs, and intuitive action controls.
+- The homepage hierarchy should lead with desire, then product exploration, then proof: cinematic hero → signature interactive watch story → collection → craftsmanship and maison credibility.
+- Homepage motion should feel minimal and Apple-like: calm scroll reveals, crisp state transitions, restrained parallax/depth, and reduced-motion support. The day/night watch reveal is a hero interaction, not a dense specification sheet.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.

@@ -166,6 +166,24 @@ export function enrichOrderItemWithSkuEan(item, allProducts = []) {
 // Master VIP Customer Profiles Seed
 export const DEFAULT_CUSTOMER_PROFILES = [
   {
+    id: "prof-admin-connect",
+    email: "connect@hanborowatches.in",
+    full_name: "Hanboro Administrator",
+    phone: "+918882069334",
+    role: "admin",
+    vip_tier: "Executive Administrator",
+    notes: "Official Hanboro Haute Horlogerie Storefront and Systems Administrator.",
+    shipping_info: {
+      address: "M5 M-Block, DLF Phase-2, Sector 25",
+      city: "Gurgaon",
+      state: "Haryana",
+      pin: "122002",
+      pincode: "122002",
+      country: "India",
+    },
+    created_at: new Date().toISOString(),
+  },
+  {
     id: "prof-ankan-das",
     email: "ankan.das@bengalhorology.in",
     full_name: "Ankan Das",
@@ -338,14 +356,17 @@ export const authService = {
   // Sign Up with Email & Password
   async signUp({ email, password, fullName, phone }) {
     try {
+      const cleanEmail = (email || "").trim().toLowerCase();
+      const isAdminEmail = cleanEmail.includes("admin") || cleanEmail === "connect@hanborowatches.in";
+
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: cleanEmail,
         password,
         options: {
           data: {
             full_name: fullName,
             phone: phone || "",
-            role: email.toLowerCase().includes("admin") ? "admin" : "customer",
+            role: isAdminEmail ? "admin" : "customer",
           },
         },
       });
@@ -355,18 +376,18 @@ export const authService = {
       // Also persist to local profiles cache
       const profile = {
         id: data.user?.id || `usr-${Date.now()}`,
-        email: email,
-        fullName: fullName || email.split("@")[0],
+        email: cleanEmail,
+        fullName: fullName || (cleanEmail === "connect@hanborowatches.in" ? "Hanboro Administrator" : cleanEmail.split("@")[0]),
         phone: phone || "",
-        role: email.toLowerCase().includes("admin") ? "admin" : "customer",
+        role: isAdminEmail ? "admin" : "customer",
         created_at: new Date().toISOString(),
       };
 
       try {
         await supabase.from("profiles").upsert({
           user_id: data.user?.id,
-          email: email,
-          full_name: fullName,
+          email: cleanEmail,
+          full_name: profile.fullName,
           phone: phone,
           role: profile.role,
         });
@@ -378,13 +399,15 @@ export const authService = {
       return { user: data.user || profile, profile, error: null };
     } catch (err) {
       console.warn("Supabase signup warning, using fallback profile", err.message);
+      const cleanEmail = (email || "").trim().toLowerCase();
+      const isAdminEmail = cleanEmail.includes("admin") || cleanEmail === "connect@hanborowatches.in";
       // Fallback local registration if Supabase email confirmation is pending or offline
       const fallbackProfile = {
         id: `usr-${Date.now()}`,
-        email,
-        fullName: fullName || email.split("@")[0],
+        email: cleanEmail,
+        fullName: fullName || (cleanEmail === "connect@hanborowatches.in" ? "Hanboro Administrator" : cleanEmail.split("@")[0]),
         phone: phone || "",
-        role: email.toLowerCase().includes("admin") ? "admin" : "customer",
+        role: isAdminEmail ? "admin" : "customer",
         created_at: new Date().toISOString(),
       };
       safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(fallbackProfile));
@@ -395,38 +418,60 @@ export const authService = {
   // Sign In with Email & Password
   async signIn({ email, password }) {
     try {
-      // Direct Owner PIN / Master Pass override for instant Admin access
-      if (
-        (email === "admin@hanboro.com" || email === "owner@hanborowatches.in" || email === "chaitanya@hanboro.com" || email === "chaitanya@hanborowatches.in") &&
-        (password === "hanboro2026" || password === "admin123" || password === "hanboro" || password === "owner2026" || password === "chaitanya")
-      ) {
-        const ownerProfile = {
-          id: "usr-owner-master",
-          email: email || "owner@hanborowatches.in",
-          fullName: "Chaitanya (Owner)",
+      const cleanEmail = (email || "").trim().toLowerCase();
+      const cleanPassword = (password || "").trim();
+
+      // Direct Owner & Official Admin Master Pass override for instant Admin access
+      const isOfficialAdmin =
+        cleanEmail === "connect@hanborowatches.in" ||
+        cleanEmail === "admin@hanboro.com" ||
+        cleanEmail === "owner@hanborowatches.in" ||
+        cleanEmail === "chaitanya@hanboro.com" ||
+        cleanEmail === "chaitanya@hanborowatches.in";
+
+      const isValidAdminPass =
+        cleanPassword === "Jaiwebsite@2026" ||
+        cleanPassword === "hanboro2026" ||
+        cleanPassword === "admin123" ||
+        cleanPassword === "hanboro" ||
+        cleanPassword === "owner2026" ||
+        cleanPassword === "chaitanya";
+
+      if (isOfficialAdmin && isValidAdminPass) {
+        const isConnectAdmin = cleanEmail === "connect@hanborowatches.in";
+        const adminProfile = {
+          id: isConnectAdmin ? "usr-admin-connect" : "usr-owner-master",
+          email: cleanEmail,
+          fullName: isConnectAdmin ? "Hanboro Administrator" : "Chaitanya (Owner)",
           role: "admin",
           created_at: new Date().toISOString(),
         };
-        safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(ownerProfile));
-        return { user: ownerProfile, profile: ownerProfile, error: null };
+        safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(adminProfile));
+        return { user: adminProfile, profile: adminProfile, error: null };
       }
 
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: cleanEmail,
+        password: cleanPassword,
       });
 
       if (error) throw error;
 
+      const isUserAdmin =
+        data.user.email?.toLowerCase().includes("admin") ||
+        data.user.email?.toLowerCase() === "connect@hanborowatches.in" ||
+        data.user.email?.toLowerCase() === "owner@hanborowatches.in" ||
+        data.user.user_metadata?.role === "admin";
+
       const profile = {
         id: data.user.id,
         email: data.user.email,
-        fullName: data.user.user_metadata?.full_name || data.user.email?.split("@")[0],
-        role:
-          data.user.email?.toLowerCase().includes("admin") ||
-          data.user.user_metadata?.role === "admin"
-            ? "admin"
-            : "customer",
+        fullName:
+          data.user.user_metadata?.full_name ||
+          (data.user.email?.toLowerCase() === "connect@hanborowatches.in"
+            ? "Hanboro Administrator"
+            : data.user.email?.split("@")[0]),
+        role: isUserAdmin ? "admin" : "customer",
       };
 
       safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
@@ -437,7 +482,7 @@ export const authService = {
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
-          if (parsed.email.toLowerCase() === email.toLowerCase()) {
+          if (parsed.email && parsed.email.toLowerCase() === (email || "").trim().toLowerCase()) {
             return { user: parsed, profile: parsed, error: null };
           }
         } catch {
@@ -465,15 +510,21 @@ export const authService = {
       const { data } = await supabase.auth.getSession();
       if (data?.session?.user) {
         const user = data.session.user;
+        const isUserAdmin =
+          user.email?.toLowerCase().includes("admin") ||
+          user.email?.toLowerCase() === "connect@hanborowatches.in" ||
+          user.email?.toLowerCase() === "owner@hanborowatches.in" ||
+          user.user_metadata?.role === "admin";
+
         const profile = {
           id: user.id,
           email: user.email,
-          fullName: user.user_metadata?.full_name || user.email?.split("@")[0],
-          role:
-            user.email?.toLowerCase().includes("admin") ||
-            user.user_metadata?.role === "admin"
-              ? "admin"
-              : "customer",
+          fullName:
+            user.user_metadata?.full_name ||
+            (user.email?.toLowerCase() === "connect@hanborowatches.in"
+              ? "Hanboro Administrator"
+              : user.email?.split("@")[0]),
+          role: isUserAdmin ? "admin" : "customer",
         };
         safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
         return profile;

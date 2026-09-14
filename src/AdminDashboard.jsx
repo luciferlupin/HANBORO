@@ -472,9 +472,123 @@ const SHOPIFY_ORDERS_SEED = [
   },
 ];
 
+function AdminLoginGate({ onNavigateHome, onLogin }) {
+  const [email, setEmail] = useState("connect@hanborowatches.in");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    const cleanEmail = email.trim();
+    const cleanPass = password.trim();
+    if (!cleanEmail || !cleanPass) {
+      setError("Please provide both your administrator email and password.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await onLogin({ email: cleanEmail, password: cleanPass });
+      if (res?.error) {
+        setError(res.error || "Authentication failed. Please verify credentials.");
+      }
+    } catch (err) {
+      setError(err?.message || "Unexpected authentication error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="sp-login-gate" data-lenis-prevent="true">
+      <div className="sp-login-card">
+        <div className="sp-login-header">
+          <div className="sp-login-emblem">
+            <HanboroLogo size={36} theme="light" />
+            <span className="sp-login-tagline">Haute Horlogerie • Staff Portal</span>
+          </div>
+          <h1 className="sp-login-title">Executive Sign In</h1>
+          <p className="sp-login-subtitle">
+            Restricted administrative suite for authorized Hanboro horology directors and staff.
+          </p>
+        </div>
+
+        {error && (
+          <div className="sp-login-error" role="alert">
+            {error}
+          </div>
+        )}
+
+        <form className="sp-login-form" onSubmit={handleSubmit}>
+          <div className="sp-login-field">
+            <label htmlFor="sp-admin-email">Administrator Email</label>
+            <input
+              id="sp-admin-email"
+              type="email"
+              className="sp-login-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="connect@hanborowatches.in"
+              autoComplete="username"
+              required
+            />
+          </div>
+
+          <div className="sp-login-field">
+            <label htmlFor="sp-admin-password">Master Password</label>
+            <div className="sp-login-password-wrap">
+              <input
+                id="sp-admin-password"
+                type={showPassword ? "text" : "password"}
+                className="sp-login-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                autoComplete="current-password"
+                autoFocus
+                required
+              />
+              <button
+                type="button"
+                className="sp-login-pass-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex="-1"
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="sp-login-submit-btn"
+            disabled={loading}
+          >
+            {loading ? "Authenticating..." : "Access Executive Dashboard →"}
+          </button>
+        </form>
+
+        <div className="sp-login-footer">
+          <button
+            type="button"
+            className="sp-login-back-btn"
+            onClick={onNavigateHome}
+          >
+            ← Return to Online Storefront
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AdminDashboard({ onNavigateHome }) {
   const {
     user,
+    isAdmin,
+    login,
     logout,
     products,
     addProduct,
@@ -483,6 +597,11 @@ export function AdminDashboard({ onNavigateHome }) {
     duplicateProduct,
     resetProductsToDefault,
   } = useStore();
+
+  // If user is not authenticated as admin, show dedicated executive login gate
+  if (!isAdmin) {
+    return <AdminLoginGate onNavigateHome={onNavigateHome} onLogin={login} />;
+  }
 
   // Active Tab navigation matching Shopify: 'home' | 'orders' | 'drafts' | 'abandoned' | 'products' | 'customers' | 'analytics' | 'discounts' | 'whatsapp' | 'settings'
   const [activeTab, setActiveTabState] = useState(() => {
@@ -1309,8 +1428,8 @@ export function AdminDashboard({ onNavigateHome }) {
 
           {/* User Account Capsule */}
           <div className="sp-user-capsule">
-            <div className="sp-avatar">{(user?.fullName || "Chaitanya").charAt(0).toUpperCase()}</div>
-            <span className="sp-user-label">{user?.fullName || "Chaitanya (Owner)"}</span>
+            <div className="sp-avatar">{(user?.fullName || user?.email || "Admin").charAt(0).toUpperCase()}</div>
+            <span className="sp-user-label">{user?.fullName || "Hanboro Administrator"}</span>
             <button
               type="button"
               className="sp-logout-btn"

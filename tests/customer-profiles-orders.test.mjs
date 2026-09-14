@@ -63,3 +63,34 @@ test("Official Tax Invoice financial breakdown calculates correct GST 18% and ta
   assert.equal(taxableSubtotal + cgst + sgst, totalAmount, "Sum of taxable + taxes must equal grand total billed");
 });
 
+test("authService supports admin login with connect@hanborowatches.in and Jaiwebsite@2026", async () => {
+  const { authService } = await import("../src/supabaseClient.js");
+
+  // Valid credentials
+  const resSuccess = await authService.signIn({
+    email: "connect@hanborowatches.in",
+    password: "Jaiwebsite@2026",
+  });
+
+  assert.equal(resSuccess.error, null, "Admin login must succeed with correct password");
+  assert.ok(resSuccess.profile, "Admin profile must be returned");
+  assert.equal(resSuccess.profile.role, "admin", "User must have role admin");
+  assert.equal(resSuccess.profile.email, "connect@hanborowatches.in", "User email must match connect@hanborowatches.in");
+  assert.equal(resSuccess.profile.fullName, "Hanboro Administrator", "User fullName must be Hanboro Administrator");
+
+  // Also verify case-insensitive email
+  const resCase = await authService.signIn({
+    email: "CONNECT@HANBOROWATCHES.IN",
+    password: "Jaiwebsite@2026",
+  });
+  assert.equal(resCase.error, null, "Email check must be case-insensitive");
+  assert.equal(resCase.profile.role, "admin");
+
+  // Invalid password
+  const resFail = await authService.signIn({
+    email: "connect@hanborowatches.in",
+    password: "WrongPassword123",
+  });
+  assert.ok(resFail.error, "Login must fail with incorrect password");
+});
+

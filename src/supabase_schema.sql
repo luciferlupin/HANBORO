@@ -351,10 +351,12 @@ ON CONFLICT (sku) DO UPDATE SET id = EXCLUDED.id, stock = EXCLUDED.stock, price_
 
 -- Seed VIP Customer Profiles Dossier
 INSERT INTO public.profiles (email, full_name, phone, role, vip_tier, notes, shipping_info) VALUES
+('connect@hanborowatches.in', 'Hanboro Administrator', '+918882069334', 'admin', 'Executive Administrator', 'Official Hanboro Haute Horlogerie Storefront and Systems Administrator.', '{"city": "Gurgaon", "state": "Haryana", "pin": "122002", "address": "M5 M-Block, DLF Phase-2, Sector 25", "country": "India"}'::jsonb),
 ('ankan.das@bengalhorology.in', 'Ankan Das', '+919830011223', 'customer', 'VIP Horology Patron', 'Astroworld Tourbillon collector. Prefers bespoke piano-lacquered vault box packaging.', '{"city": "Kolkata", "state": "West Bengal", "pin": "700019", "address": "Ballygunge Circular Road", "country": "India"}'::jsonb),
 ('shiva.karnati@hyderabadtech.in', 'Shiva Karnati', '+919849012345', 'customer', 'Diamond Collector', 'Casino Roulette Complications connoisseur. Fastrr VIP 1-click verified.', '{"city": "Hyderabad", "state": "Telangana", "pin": "500081", "address": "Jubilee Hills Road No. 36", "country": "India"}'::jsonb),
 ('deepak.agarwal@delhiwealth.com', 'Deepak Agarwal', '+919811122334', 'customer', 'Grand Complication Connoisseur', 'Prefers Tonneau and Skeleton collections. Insured white-glove delivery.', '{"city": "Gurgaon", "state": "Haryana", "pin": "122002", "address": "DLF Phase 5, Golf Course Road", "country": "India"}'::jsonb),
 ('goutham.s@chennaiauto.com', 'Goutham singaravelu', '+919840012345', 'customer', 'Haute Horlogerie Patron', 'Celestial Dragon Tourbillon allocation holder. Pre-paid VIP client.', '{"city": "Chennai", "state": "Tamil Nadu", "pin": "600004", "address": "Boat Club Road", "country": "India"}'::jsonb),
 ('nandan.shetty@bangalorecap.in', 'Nandan Shetty', '+919880023456', 'customer', 'VIP Horology Patron', 'Cyber Cogwheel Skeleton collector.', '{"city": "Bengaluru", "state": "Karnataka", "pin": "560001", "address": "Lavelle Road", "country": "India"}'::jsonb),
 ('viren.mehta@mumbaitrading.com', 'VIREN-', '+919821098765', 'customer', 'Collector Tier', 'Flagship Tourbillon inquiries.', '{"city": "Mumbai", "state": "Maharashtra", "pin": "400050", "address": "Bandra West, Pali Hill", "country": "India"}'::jsonb)
-ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name, phone = EXCLUDED.phone, shipping_info = EXCLUDED.shipping_info;
+ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name, phone = EXCLUDED.phone, role = EXCLUDED.role, shipping_info = EXCLUDED.shipping_info;
+

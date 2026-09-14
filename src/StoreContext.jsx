@@ -159,7 +159,22 @@ export function StoreProvider({ children }) {
           setCart(userDbCart);
         }
       }
-      window.location.hash = "#profile";
+
+      const isUserAdmin = Boolean(
+        res.profile?.role === "admin" ||
+        res.profile?.email?.toLowerCase().includes("admin") ||
+        res.profile?.email?.toLowerCase() === "connect@hanborowatches.in" ||
+        res.profile?.email?.toLowerCase() === "admin@hanboro.com" ||
+        res.profile?.email?.toLowerCase() === "owner@hanborowatches.in" ||
+        res.profile?.email?.toLowerCase() === "chaitanya@hanboro.com" ||
+        res.profile?.email?.toLowerCase() === "chaitanya@hanborowatches.in"
+      );
+
+      if (isUserAdmin) {
+        window.location.hash = "#admin";
+      } else {
+        window.location.hash = "#profile";
+      }
     }
     return res;
   };
@@ -198,10 +213,11 @@ export function StoreProvider({ children }) {
   const isAdmin = Boolean(
     user?.role === "admin" ||
     user?.email?.toLowerCase().includes("admin") ||
-    user?.email === "admin@hanboro.com" ||
-    user?.email === "owner@hanborowatches.in" ||
-    user?.email === "chaitanya@hanboro.com" ||
-    user?.email === "chaitanya@hanborowatches.in"
+    user?.email?.toLowerCase() === "connect@hanborowatches.in" ||
+    user?.email?.toLowerCase() === "admin@hanboro.com" ||
+    user?.email?.toLowerCase() === "owner@hanborowatches.in" ||
+    user?.email?.toLowerCase() === "chaitanya@hanboro.com" ||
+    user?.email?.toLowerCase() === "chaitanya@hanborowatches.in"
   );
 
   // ── DYNAMIC CATALOG CRUD ACTIONS ──
