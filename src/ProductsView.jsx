@@ -257,6 +257,20 @@ export function ProductsView({
                         e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
                       }}
                     />
+                    {watch.videoUrl && (
+                      <span className="maison-stage-badge maison-stage-badge--reel" title="Mechanical Calibre Motion Reel Available">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+                          <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                        <span>Reel</span>
+                      </span>
+                    )}
+                    {watch.hasNightMode && !watch.videoUrl && (
+                      <span className="maison-stage-badge maison-stage-badge--lume" title="Super-LumiNova Night Illumination">
+                        <span className="lume-dot-mini" />
+                        <span>Lume</span>
+                      </span>
+                    )}
                   </div>
 
                   {/* Structured Middle Info: Ref/Movement Eyebrow + 2-Line Clamped Title + Specs */}

@@ -6031,6 +6031,151 @@ body.modal-open {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(250, 45, 29, 0.25);
 }
 
+/* PDP Media Actions & Video Reel Integration */
+.pdp-media-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 5;
+}
+
+.pdp-reel-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(250, 45, 29, 0.12);
+  border: 1px solid rgba(250, 45, 29, 0.35);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pdp-reel-trigger-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(250, 45, 29, 0.35);
+}
+
+.pdp-reel-trigger-btn.is-active {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 16px rgba(250, 45, 29, 0.5);
+}
+
+.pdp-main-image-box.is-video-viewport {
+  cursor: default;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.pdp-video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #09090b;
+}
+
+.pdp-main-video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+.pdp-video-badge-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(250, 45, 29, 0.4);
+  color: #f5f2ed;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.pdp-video-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fa2d1d;
+  box-shadow: 0 0 8px #fa2d1d;
+  animation: pdpDotPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pdpDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.pdp-thumb-card.pdp-thumb-video {
+  border-color: rgba(250, 45, 29, 0.4);
+  background: rgba(250, 45, 29, 0.08);
+}
+
+.pdp-thumb-card.pdp-thumb-video:hover,
+.pdp-thumb-card.pdp-thumb-video.is-selected {
+  border-color: var(--red);
+  background: rgba(250, 45, 29, 0.2);
+}
+
+.pdp-thumb-video-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.pdp-gallery-video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #09090b;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pdp-gallery-reel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.pdp-gallery-overlay-badge.video-badge {
+  background: rgba(9, 9, 11, 0.9);
+  border: 1px solid rgba(250, 45, 29, 0.5);
+  color: #ff5242;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* Right Details Column */
 .pdp-details-column {
   display: flex;
@@ -18188,6 +18333,44 @@ body.modal-open {
 
 .maison-watch-card:hover .maison-watch-img {
   transform: scale(1.06);
+}
+
+.maison-stage-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.maison-stage-badge--reel {
+  background: rgba(250, 45, 29, 0.2);
+  border: 1px solid rgba(250, 45, 29, 0.45);
+  color: #ff5242;
+}
+
+.maison-stage-badge--lume {
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  color: #4ade80;
+}
+
+.lume-dot-mini {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
 }
 
 .maison-card-body {

@@ -1605,13 +1605,27 @@ export const productsService = {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const mapped = parsed.map((p, idx) => ({
-            ...p,
-            stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
-            rank: p.rank !== undefined && typeof p.rank === "number"
-              ? p.rank
-              : (CANONICAL_PRODUCT_ORDER.get(String(p.id || "").toLowerCase()) ?? CANONICAL_PRODUCT_ORDER.get(String(p.sku || "").toUpperCase()) ?? idx),
-          }));
+          const mapped = parsed.map((p, idx) => {
+            const master = PRODUCTS_DATA.find(
+              (m) =>
+                (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
+                (m.sku && p.sku && String(m.sku).toLowerCase() === String(p.sku).toLowerCase())
+            );
+            return {
+              ...p,
+              image: master?.image || p.image,
+              transparentImage: master?.transparentImage || p.transparentImage,
+              altImages: master?.altImages || p.altImages,
+              gallery: master?.gallery || p.gallery,
+              nightImage: master?.nightImage || p.nightImage,
+              hasNightMode: master?.hasNightMode ?? p.hasNightMode,
+              videoUrl: master?.videoUrl || p.videoUrl,
+              stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+              rank: p.rank !== undefined && typeof p.rank === "number"
+                ? p.rank
+                : (CANONICAL_PRODUCT_ORDER.get(String(p.id || "").toLowerCase()) ?? CANONICAL_PRODUCT_ORDER.get(String(p.sku || "").toUpperCase()) ?? idx),
+            };
+          });
           return sortCatalogStably(mapped);
         }
       }

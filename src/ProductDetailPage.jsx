@@ -39,8 +39,8 @@ export function ProductDetailPage({
   // All images available for this timepiece
   const allImages = product
     ? (product.gallery && product.gallery.length > 0
-        ? product.gallery
-        : (product.altImages || [product.image]).map((img, i) => ({
+        ? product.gallery.filter((g) => !g.url?.endsWith(".mp4"))
+        : (product.altImages || [product.image]).filter((img) => !img?.endsWith(".mp4")).map((img, i) => ({
             url: img,
             title: `${product.name} — View ${i + 1}`,
             label: `View 0${i + 1}`,
@@ -213,88 +213,157 @@ export function ProductDetailPage({
           <div className="pdp-gallery-column">
             <div className="pdp-gallery-aura" />
 
-            {product.hasNightMode && (
-              <div className="pdp-lume-toggle-wrap">
+            <div className="pdp-media-actions-bar">
+              {product.hasNightMode && (
+                <div className="pdp-lume-toggle-wrap">
+                  <button
+                    type="button"
+                    className={`pdp-lume-btn ${isNightMode ? "is-glow" : ""}`}
+                    onClick={toggleNight}
+                    title="Toggle Super-LumiNova Night Illumination"
+                  >
+                    <span className="pdp-lume-dot" />
+                    <span>{isNightMode ? "Super-LumiNova Activated" : "Daylight Mode"}</span>
+                  </button>
+                </div>
+              )}
+
+              {product.videoUrl && (
                 <button
                   type="button"
-                  className={`pdp-lume-btn ${isNightMode ? "is-glow" : ""}`}
-                  onClick={toggleNight}
+                  className={`pdp-reel-trigger-btn ${activeImage === product.videoUrl ? "is-active" : ""}`}
+                  onClick={() => {
+                    if (activeImage === product.videoUrl) {
+                      setActiveImage(product.image);
+                    } else {
+                      setActiveImage(product.videoUrl);
+                      setIsNightMode(false);
+                    }
+                  }}
+                  title="Watch Official Calibre Mechanical Movement Reel"
                 >
-                  <span className="pdp-lume-dot" />
-                  <span>{isNightMode ? "Super-LumiNova Activated" : "Daylight Mode"}</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                  <span>{activeImage === product.videoUrl ? "Return to Photos" : "Calibre Motion Reel (HD)"}</span>
                 </button>
-              </div>
-            )}
-
-            <div
-              className={`pdp-main-image-box ${isZoomed ? "is-zoomed" : ""}`}
-              onMouseEnter={() => setIsZoomed(true)}
-              onMouseLeave={() => setIsZoomed(false)}
-              onMouseMove={handleMouseMove}
-              onClick={() => openLightboxForImage(activeImage)}
-              title="Click to view full-resolution lightbox gallery"
-            >
-              <img
-                src={activeImage}
-                alt={product.name}
-                className="pdp-main-img"
-                style={
-                  isZoomed
-                    ? {
-                        transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
-                        transform: "scale(2.2)"
-                      }
-                    : undefined
-                }
-              />
-              <div className="pdp-zoom-guide">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <span>Hover to zoom • Click for Fullscreen HD</span>
-              </div>
-
-              <button
-                type="button"
-                className="pdp-fullscreen-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openLightboxForImage(activeImage);
-                }}
-                aria-label="View fullscreen gallery"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="15 3 21 3 21 9" />
-                  <polyline points="9 21 3 21 3 15" />
-                  <line x1="21" y1="3" x2="14" y2="10" />
-                  <line x1="3" y1="21" x2="10" y2="14" />
-                </svg>
-              </button>
+              )}
             </div>
 
-            {/* Thumbnail selector with photo labels */}
-            {product.altImages && product.altImages.length > 1 && (
+            <div
+              className={`pdp-main-image-box ${isZoomed && !activeImage?.endsWith(".mp4") ? "is-zoomed" : ""} ${activeImage?.endsWith(".mp4") ? "is-video-viewport" : ""}`}
+              onMouseEnter={() => !activeImage?.endsWith(".mp4") && setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
+              onMouseMove={handleMouseMove}
+              onClick={() => !activeImage?.endsWith(".mp4") && openLightboxForImage(activeImage)}
+              title={activeImage?.endsWith(".mp4") ? "Calibre In Motion • Official Reel" : "Click to view full-resolution lightbox gallery"}
+            >
+              {activeImage?.endsWith(".mp4") ? (
+                <div className="pdp-video-container">
+                  <video
+                    src={activeImage}
+                    className="pdp-main-video"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                  />
+                  <div className="pdp-video-badge-tag">
+                    <span className="pdp-video-dot" />
+                    <span>CALIBRE IN MOTION • OFFICIAL REEL</span>
+                  </div>
+                </div>
+              ) : (
+                <img
+                  src={activeImage}
+                  alt={product.name}
+                  className="pdp-main-img"
+                  style={
+                    isZoomed
+                      ? {
+                          transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                          transform: "scale(2.2)"
+                        }
+                      : undefined
+                  }
+                />
+              )}
+
+              {!activeImage?.endsWith(".mp4") && (
+                <>
+                  <div className="pdp-zoom-guide">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <span>Hover to zoom • Click for Fullscreen HD</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="pdp-fullscreen-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openLightboxForImage(activeImage);
+                    }}
+                    aria-label="View fullscreen gallery"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="15 3 21 3 21 9" />
+                      <polyline points="9 21 3 21 3 15" />
+                      <line x1="21" y1="3" x2="14" y2="10" />
+                      <line x1="3" y1="21" x2="10" y2="14" />
+                    </svg>
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Thumbnail selector with photo labels and video reel */}
+            {((product.altImages && product.altImages.length > 1) || product.videoUrl) && (
               <div className="pdp-thumbnails-strip">
-                {product.altImages.map((img, i) => {
-                  const galleryItem = product.gallery && product.gallery[i];
-                  const label = galleryItem?.label || `View 0${i + 1}`;
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      className={`pdp-thumb-card ${activeImage === img ? "is-selected" : ""}`}
-                      onClick={() => {
-                        setActiveImage(img);
-                        setIsNightMode(img.includes("night"));
-                      }}
-                      title={galleryItem?.title || `${product.name} view ${i + 1}`}
-                    >
-                      <img src={img} alt={`${product.name} view ${i + 1}`} />
-                      <span className="pdp-thumb-badge">{label}</span>
-                    </button>
-                  );
-                })}
+                {product.altImages &&
+                  product.altImages
+                    .filter((img) => !img?.endsWith(".mp4"))
+                    .map((img, i) => {
+                      const galleryItem = product.gallery && product.gallery[i];
+                      const label = galleryItem?.label || `View 0${i + 1}`;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          className={`pdp-thumb-card ${activeImage === img ? "is-selected" : ""}`}
+                          onClick={() => {
+                            setActiveImage(img);
+                            setIsNightMode(img === product.nightImage || img.includes("night") || img.includes("lume"));
+                          }}
+                          title={galleryItem?.title || `${product.name} view ${i + 1}`}
+                        >
+                          <img src={img} alt={`${product.name} view ${i + 1}`} />
+                          <span className="pdp-thumb-badge">{label}</span>
+                        </button>
+                      );
+                    })}
+
+                {product.videoUrl && (
+                  <button
+                    type="button"
+                    className={`pdp-thumb-card pdp-thumb-video ${activeImage === product.videoUrl ? "is-selected" : ""}`}
+                    onClick={() => {
+                      setActiveImage(product.videoUrl);
+                      setIsNightMode(false);
+                    }}
+                    title="Watch Official Calibre Motion Reel"
+                  >
+                    <div className="pdp-thumb-video-icon">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="#fa2d1d">
+                        <polygon points="6 3 20 12 6 21 6 3" />
+                      </svg>
+                    </div>
+                    <span className="pdp-thumb-badge">Motion Reel</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -521,10 +590,38 @@ export function ProductDetailPage({
             </div>
 
             <div className="pdp-gallery-grid">
+              {product.videoUrl && (
+                <div className="pdp-gallery-item-card pdp-gallery-video-card is-featured">
+                  <div className="pdp-gallery-media-wrapper pdp-gallery-video-wrapper">
+                    <video
+                      src={product.videoUrl}
+                      controls
+                      playsInline
+                      muted
+                      autoPlay
+                      loop
+                      className="pdp-gallery-reel-video"
+                    />
+                    <div className="pdp-gallery-overlay-badge video-badge">
+                      <span className="pdp-video-dot" /> OFFICIAL MOTION REEL
+                    </div>
+                  </div>
+                  <div className="pdp-gallery-card-info">
+                    <div className="pdp-gallery-card-title-row">
+                      <span className="pdp-gallery-index">CALIBRE</span>
+                      <h4 className="pdp-gallery-item-title">{product.name} — Calibre In Motion</h4>
+                    </div>
+                    <p className="pdp-gallery-item-caption">
+                      Official motion video reel capturing the mechanical heartbeat, flywheel rotation, and precision hand-finishing of Reference {product.sku}.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {allImages.map((item, index) => (
                 <div
                   key={index}
-                  className={`pdp-gallery-item-card ${index === 0 ? "is-featured" : ""}`}
+                  className={`pdp-gallery-item-card ${index === 0 && !product.videoUrl ? "is-featured" : ""}`}
                   onClick={() => setLightboxIndex(index)}
                   tabIndex={0}
                   role="button"

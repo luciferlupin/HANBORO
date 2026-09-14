@@ -1,17 +1,38 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // HANBORO OFFICIAL MASTER PRODUCTS & SKU CATALOG
 // Synchronized from Official Listing Dossier (LISTING FILE AI1 .xlsx)
-// Retaining High-Resolution Site Photography per Design Directive
+// Incorporating Authentic High-Resolution Photography from Excel Assets
 // ══════════════════════════════════════════════════════════════════════════════
 
 export const CATEGORIES = [
-  { id: "ALL", label: "All Timepieces" },
-  { id: "TOURBILLON", label: "Tourbillon & Complications" },
-  { id: "TONNEAU", label: "Tonneau Skeleton" },
-  { id: "ROULETTE", label: "Casino & Roulette" },
-  { id: "OCTAGONAL", label: "Royal Octagonal" },
-  { id: "DIVER_SPORT", label: "Diver & Sport Chrono" },
-  { id: "CLASSIC", label: "Classic & Moonphase" }
+  {
+    "id": "ALL",
+    "label": "All Timepieces"
+  },
+  {
+    "id": "TOURBILLON",
+    "label": "Tourbillon & Complications"
+  },
+  {
+    "id": "TONNEAU",
+    "label": "Tonneau Skeleton"
+  },
+  {
+    "id": "ROULETTE",
+    "label": "Casino & Roulette"
+  },
+  {
+    "id": "OCTAGONAL",
+    "label": "Royal Octagonal"
+  },
+  {
+    "id": "DIVER_SPORT",
+    "label": "Diver & Sport Chrono"
+  },
+  {
+    "id": "CLASSIC",
+    "label": "Classic & Moonphase"
+  }
 ];
 
 export const PRODUCTS_DATA = [
@@ -23,45 +44,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Flagship Planetarium Complication",
-    "image": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-980-auto-orbita-gold-front.jpg",
+    "transparentImage": "/catalog/hbr-980-auto-orbita-gold-front.jpg",
     "altImages": [
-      "/watch-astroworld-moon-rosegold-front-transparent.webp",
-      "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
-      "/watch-astroworld-moon-rosegold-profile-transparent.webp",
-      "/watch-astroworld-moon-rosegold-neon.webp",
-      "/watch-astroworld-moon-rosegold-macro.webp"
+      "/catalog/hbr-980-auto-orbita-gold-front.jpg",
+      "/catalog/hbr-980-auto-orbita-gold-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold organic case showcasing the 3D micro-carved moon sphere in the lower sapphire chamber, central tourbillon, 24H earth disk, and aventurine dial."
+        "url": "/catalog/hbr-980-auto-orbita-gold-front.jpg",
+        "title": "Hanboro Orbita - Tourbillon Watch WITH Planetarium Design — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Orbita - Tourbillon Watch WITH Planetarium Design (Reference HBR-980-AUTO-ORBITA-GOLD)."
       },
       {
-        "url": "/watch-astroworld-moon-rosegold-isometric-transparent.webp",
-        "title": "Three-Quarter Moon Chamber Isometric",
-        "label": "02 3D Moon Chamber",
-        "caption": "Isometric studio perspective with a transparent view into the extended panoramic lower sapphire chamber housing the 3D textured moon sphere."
-      },
-      {
-        "url": "/watch-astroworld-moon-rosegold-profile-transparent.webp",
-        "title": "Rose Gold Sculptural Profile",
-        "label": "03 Sculptural Profile",
-        "caption": "Side profile angle highlighting the flowing ergonomic rose gold case flanks, titanium bezel screws, and knurled crown."
-      },
-      {
-        "url": "/watch-astroworld-moon-rosegold-neon.webp",
-        "title": "Sartorial Neon Festival Presence",
-        "label": "04 Neon Lifestyle",
-        "caption": "Dynamic on-wrist presence framed against vibrant Japanese neon street festival lights, capturing the celestial reflections."
-      },
-      {
-        "url": "/watch-astroworld-moon-rosegold-macro.webp",
-        "title": "Macro Celestial Micro-Horology",
-        "label": "05 Macro Horizon",
-        "caption": "Macro on-wrist capture under neon illumination revealing the craters of the 3D moon sphere, the pulsing tourbillon cage, and the rotating Earth disk."
+        "url": "/catalog/hbr-980-auto-orbita-gold-view-1.jpg",
+        "title": "Hanboro Orbita - Tourbillon Watch WITH Planetarium Design — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-980-AUTO-ORBITA-GOLD."
       }
     ],
     "price": "₹44,999",
@@ -105,7 +105,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-980-auto-orbita-gold-view-2.mp4"
   },
   {
     "id": "astroworld-celestial-silver",
@@ -189,7 +190,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-980-auto-orbita-s-front.mp4"
   },
   {
     "id": "astroworld-tourbillon-black-dlc",
@@ -199,38 +201,45 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Astronomical Tourbillon",
-    "image": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
+    "image": "/catalog/hbr-8022-1-auto-stellar-front.png",
+    "transparentImage": "/catalog/hbr-8022-1-auto-stellar-front.png",
     "altImages": [
-      "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-      "/watch-astroworld-tourbillon-dlc-landscape.webp",
-      "/watch-astroworld-tourbillon-dlc-pedestal.webp",
-      "/watch-astroworld-tourbillon-dlc-wrist.webp"
+      "/catalog/hbr-8022-1-auto-stellar-front.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-1.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-2.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-3.jpg",
+      "/catalog/hbr-8022-1-auto-stellar-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical midnight black DLC round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
+        "url": "/catalog/hbr-8022-1-auto-stellar-front.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro StellarComplication – Celestial Skeleton Automatic (Reference HBR-8022-1-AUTO-STELLAR)."
       },
       {
-        "url": "/watch-astroworld-tourbillon-dlc-landscape.webp",
-        "title": "Volcanic Horizon Astronomical Setting",
-        "label": "02 Volcanic Horizon",
-        "caption": "Editorial astronomical composition on dark volcanic sand landscape with horizon backdrop."
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-1.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
       },
       {
-        "url": "/watch-astroworld-tourbillon-dlc-pedestal.webp",
-        "title": "Volcanic Monolith Pedestal Perspective",
-        "label": "03 Volcanic Pedestal",
-        "caption": "Angled isometric studio perspective resting on rugged volcanic rock bedrock."
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-2.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
       },
       {
-        "url": "/watch-astroworld-tourbillon-dlc-wrist.webp",
-        "title": "Sartorial Formal On-Wrist Horizon",
-        "label": "04 Formal Wrist",
-        "caption": "On-wrist perspective in formal dark tailoring showcasing the stealth DLC profile and tourbillon presence."
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-3.jpg",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
+      },
+      {
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-4.jpg",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
       }
     ],
     "price": "₹52,999",
@@ -274,7 +283,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8022-1-auto-stellar-view-5.mp4"
   },
   {
     "id": "astroworld-tourbillon-fluted-rosegold",
@@ -284,31 +294,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Astronomical Tourbillon",
-    "image": "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-981-auto-rgold-front.png",
+    "transparentImage": "/catalog/hbr-981-auto-rgold-front.png",
     "altImages": [
-      "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
-      "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.webp",
-      "/watch-astroworld-tourbillon-fluted-rosegold-wrist.webp"
+      "/catalog/hbr-981-auto-rgold-front.png",
+      "/catalog/hbr-981-auto-rgold-view-1.png",
+      "/catalog/hbr-981-auto-rgold-view-2.png",
+      "/catalog/hbr-981-auto-rgold-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with off-center fluted dial, diamond-frosted rose gold ring, twin planetary gears, and flying tourbillon."
+        "url": "/catalog/hbr-981-auto-rgold-front.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Reference HBR-981-AUTO-RGOLD)."
       },
       {
-        "url": "/watch-astroworld-tourbillon-fluted-rosegold-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on white showcasing the curved bezel, domed sapphire crystal, and open 18K rose gold deployant clasp."
+        "url": "/catalog/hbr-981-auto-rgold-view-1.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-RGOLD."
       },
       {
-        "url": "/watch-astroworld-tourbillon-fluted-rosegold-wrist.webp",
-        "title": "Sartorial Formal On-Wrist Horizon",
-        "label": "03 Formal Wrist",
-        "caption": "On-wrist perspective in formal dark tailoring showcasing the warm rose gold facets and flying tourbillon presence."
+        "url": "/catalog/hbr-981-auto-rgold-view-2.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-RGOLD."
+      },
+      {
+        "url": "/catalog/hbr-981-auto-rgold-lume.jpg",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹44,999",
@@ -352,7 +369,10 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "hasNightMode": true,
+    "nightImage": "/catalog/hbr-981-auto-rgold-lume.jpg",
+    "videoUrl": "/catalog/hbr-981-auto-rgold-view-3.mp4"
   },
   {
     "id": "astroworld-tourbillon-fluted-silver",
@@ -362,45 +382,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Astronomical Tourbillon",
-    "image": "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
+    "image": "/catalog/hbr-981-auto-silver-front.png",
+    "transparentImage": "/catalog/hbr-981-auto-silver-front.png",
     "altImages": [
-      "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
-      "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.webp",
-      "/watch-astroworld-tourbillon-fluted-silver-caseback.webp",
-      "/watch-astroworld-tourbillon-fluted-silver-display.webp",
-      "/watch-astroworld-tourbillon-fluted-silver-wrist.webp"
+      "/catalog/hbr-981-auto-silver-front.png",
+      "/catalog/hbr-981-auto-silver-view-1.png",
+      "/catalog/hbr-981-auto-silver-view-2.png",
+      "/catalog/hbr-981-auto-silver-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel round case with off-center fluted dial, diamond-frosted ring, twin planetary gears, and flying tourbillon."
+        "url": "/catalog/hbr-981-auto-silver-front.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Reference HBR-981-AUTO-SILVER)."
       },
       {
-        "url": "/watch-astroworld-tourbillon-fluted-silver-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on white showcasing the mirror-polished steel bezel, domed sapphire crystal, and open deployant clasp."
+        "url": "/catalog/hbr-981-auto-silver-view-1.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-SILVER."
       },
       {
-        "url": "/watch-astroworld-tourbillon-fluted-silver-caseback.webp",
-        "title": "Exhibition Sapphire Movement Caseback",
-        "label": "03 Movement Caseback",
-        "caption": "High-definition caseback perspective revealing the 21-jewel automatic movement, radial sunburst golden rotor, and Côtes de Genève stripes."
+        "url": "/catalog/hbr-981-auto-silver-view-2.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-SILVER."
       },
       {
-        "url": "/watch-astroworld-tourbillon-fluted-silver-display.webp",
-        "title": "Studio Display Horizon",
-        "label": "04 Display Horizon",
-        "caption": "Three-quarter display perspective on midnight blue leather backdrop highlighting dial depth and planetary gears."
-      },
-      {
-        "url": "/watch-astroworld-tourbillon-fluted-silver-wrist.webp",
-        "title": "Sartorial On-Wrist Horizon",
-        "label": "05 Sartorial Wrist",
-        "caption": "On-wrist perspective in studio tailoring showcasing the natural steel reflections, fluted dial, and tourbillon presence."
+        "url": "/catalog/hbr-981-auto-silver-lume.jpg",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹44,999",
@@ -444,7 +457,10 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "hasNightMode": true,
+    "nightImage": "/catalog/hbr-981-auto-silver-lume.jpg",
+    "videoUrl": "/catalog/hbr-981-auto-silver-view-3.mp4"
   },
   {
     "id": "volcano-glacier-compass-gold",
@@ -454,40 +470,40 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Dual Elements & Compass",
-    "image": "/watch-volcano-glacier-compass-gold-front-transparent.webp",
-    "nightImage": "/watch-volcano-glacier-compass-gold-night-glow.webp",
+    "image": "/catalog/hbr-981-auto-gold-front.png",
+    "nightImage": "/catalog/hbr-981-auto-gold-lume.jpg",
     "hasNightMode": true,
-    "transparentImage": "/watch-volcano-glacier-compass-gold-front-transparent.webp",
+    "transparentImage": "/catalog/hbr-981-auto-gold-front.png",
     "altImages": [
-      "/watch-volcano-glacier-compass-gold-front-transparent.webp",
-      "/watch-volcano-glacier-compass-gold-night-glow.webp",
-      "/watch-volcano-glacier-compass-gold-isometric-transparent.webp",
-      "/watch-volcano-glacier-compass-gold-macro-transparent.webp"
+      "/catalog/hbr-981-auto-gold-front.png",
+      "/catalog/hbr-981-auto-gold-view-1.png",
+      "/catalog/hbr-981-auto-gold-view-2.png",
+      "/catalog/hbr-981-auto-gold-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-gold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
+        "url": "/catalog/hbr-981-auto-gold-front.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Reference HBR-981-AUTO-GOLD)."
       },
       {
-        "url": "/watch-volcano-glacier-compass-gold-night-glow.webp",
-        "title": "Bioluminescent Dial & Index Night Glow",
-        "label": "02 Night Glow",
-        "caption": "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
+        "url": "/catalog/hbr-981-auto-gold-view-1.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-GOLD."
       },
       {
-        "url": "/watch-volcano-glacier-compass-gold-isometric-transparent.webp",
-        "title": "Three-Quarter Compass Bubble Isometric",
-        "label": "03 3D Compass Bubble",
-        "caption": "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and gold butterfly deployant clasp."
+        "url": "/catalog/hbr-981-auto-gold-view-2.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-GOLD."
       },
       {
-        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-        "title": "Macro Texture & Dial Dichotomy",
-        "label": "04 Macro Dichotomy",
-        "caption": "High-contrast macro view of the textured volcanic rock fissures, frost crystals, and central tourbillon escapement."
+        "url": "/catalog/hbr-981-auto-gold-lume.jpg",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹36,999",
@@ -530,7 +546,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-981-auto-gold-view-3.mp4"
   },
   {
     "id": "volcano-glacier-compass-rosegold",
@@ -540,40 +557,40 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Dual Elements & Compass",
-    "image": "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
-    "nightImage": "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
+    "image": "/catalog/hbr-981-auto-rgold-front.png",
+    "nightImage": "/catalog/hbr-981-auto-rgold-lume.jpg",
     "hasNightMode": true,
-    "transparentImage": "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
+    "transparentImage": "/catalog/hbr-981-auto-rgold-front.png",
     "altImages": [
-      "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
-      "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
-      "/watch-volcano-glacier-compass-rosegold-isometric-transparent.webp",
-      "/watch-volcano-glacier-compass-rosegold-angle-transparent.webp"
+      "/catalog/hbr-981-auto-rgold-front.png",
+      "/catalog/hbr-981-auto-rgold-view-1.png",
+      "/catalog/hbr-981-auto-rgold-view-2.png",
+      "/catalog/hbr-981-auto-rgold-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
+        "url": "/catalog/hbr-981-auto-rgold-front.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Reference HBR-981-AUTO-RGOLD)."
       },
       {
-        "url": "/watch-volcano-glacier-compass-rosegold-night-glow.webp",
-        "title": "Bioluminescent Dial & Index Night Glow",
-        "label": "02 Night Glow",
-        "caption": "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
+        "url": "/catalog/hbr-981-auto-rgold-view-1.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-RGOLD."
       },
       {
-        "url": "/watch-volcano-glacier-compass-rosegold-isometric-transparent.webp",
-        "title": "Three-Quarter Compass Bubble Isometric",
-        "label": "03 3D Compass Bubble",
-        "caption": "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and rose gold butterfly deployant clasp."
+        "url": "/catalog/hbr-981-auto-rgold-view-2.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-RGOLD."
       },
       {
-        "url": "/watch-volcano-glacier-compass-rosegold-angle-transparent.webp",
-        "title": "Rose Gold Architectural Presence",
-        "label": "04 Rose Gold Angle",
-        "caption": "Frontal angled view highlighting the warm rose gold case curves, titanium screws, and exposed tourbillon cage."
+        "url": "/catalog/hbr-981-auto-rgold-lume.jpg",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹44,999",
@@ -616,7 +633,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-981-auto-rgold-view-3.mp4"
   },
   {
     "id": "volcano-glacier-compass-silver",
@@ -626,40 +644,40 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Dual Elements & Compass",
-    "image": "/watch-volcano-glacier-compass-silver-front-transparent.webp",
-    "nightImage": "/watch-volcano-glacier-compass-silver-night-glow.webp",
+    "image": "/catalog/hbr-981-auto-silver-front.png",
+    "nightImage": "/catalog/hbr-981-auto-silver-lume.jpg",
     "hasNightMode": true,
-    "transparentImage": "/watch-volcano-glacier-compass-silver-front-transparent.webp",
+    "transparentImage": "/catalog/hbr-981-auto-silver-front.png",
     "altImages": [
-      "/watch-volcano-glacier-compass-silver-front-transparent.webp",
-      "/watch-volcano-glacier-compass-silver-night-glow.webp",
-      "/watch-volcano-glacier-compass-silver-isometric-transparent.webp",
-      "/watch-volcano-glacier-compass-silver-macro-transparent.webp"
+      "/catalog/hbr-981-auto-silver-front.png",
+      "/catalog/hbr-981-auto-silver-view-1.png",
+      "/catalog/hbr-981-auto-silver-view-2.png",
+      "/catalog/hbr-981-auto-silver-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-silver-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical steel case showcasing the split molten magma & glacial frost dial, central tourbillon, and 3D spherical compass."
+        "url": "/catalog/hbr-981-auto-silver-front.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Reference HBR-981-AUTO-SILVER)."
       },
       {
-        "url": "/watch-volcano-glacier-compass-silver-night-glow.webp",
-        "title": "Bioluminescent Dial & Index Night Glow",
-        "label": "02 Night Glow",
-        "caption": "Phosphor-infused night illumination revealing glowing green magma fissures, glacial terrain, and Super-LumiNova markers."
+        "url": "/catalog/hbr-981-auto-silver-view-1.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-SILVER."
       },
       {
-        "url": "/watch-volcano-glacier-compass-silver-isometric-transparent.webp",
-        "title": "Three-Quarter Compass Bubble Isometric",
-        "label": "03 3D Compass Bubble",
-        "caption": "Angled perspective highlighting the panoramic lower sapphire bubble, navigational compass sphere, and steel butterfly deployant clasp."
+        "url": "/catalog/hbr-981-auto-silver-view-2.png",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-981-AUTO-SILVER."
       },
       {
-        "url": "/watch-volcano-glacier-compass-silver-macro-transparent.webp",
-        "title": "Macro Texture & Dial Dichotomy",
-        "label": "04 Macro Dichotomy",
-        "caption": "High-contrast macro view of the textured volcanic rock fissures, frost crystals, and central tourbillon escapement."
+        "url": "/catalog/hbr-981-auto-silver-lume.jpg",
+        "title": "Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹44,999",
@@ -702,7 +720,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-981-auto-silver-view-3.mp4"
   },
   {
     "id": "supercar-engine-block-rosegold",
@@ -793,7 +812,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-985-auto-apex-rg-blk-front.mp4"
   },
   {
     "id": "supercar-engine-block-silver",
@@ -803,45 +823,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "V12 Engine Block",
-    "image": "/watch-supercar-engine-block-silver-front-transparent.webp",
-    "transparentImage": "/watch-supercar-engine-block-silver-front-transparent.webp",
+    "image": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+    "transparentImage": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
     "altImages": [
-      "/watch-supercar-engine-block-silver-front-transparent.webp",
-      "/watch-supercar-engine-block-silver-isometric.webp",
-      "/watch-supercar-engine-block-silver-headlights.webp",
-      "/watch-supercar-engine-block-silver-denim.webp",
-      "/watch-supercar-engine-block-silver-driving.webp"
+      "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+      "/catalog/hbr-985-auto-apex-slvr-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-supercar-engine-block-silver-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical steel aerodynamic case with alloy wheel dial, central tourbillon, and operative 6 o'clock gear cylinder."
+        "url": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+        "title": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Reference HBR-985-AUTO-APEX-slvr)."
       },
       {
-        "url": "/watch-supercar-engine-block-silver-isometric.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled perspective highlighting the curved 3D sapphire window, radiator grille plaque, and exposed transmission train."
-      },
-      {
-        "url": "/watch-supercar-engine-block-silver-headlights.webp",
-        "title": "Supercar Headlights Horizon",
-        "label": "03 Supercar Horizon",
-        "caption": "Editorial studio composition framed against supercar headlights highlighting the sculpted stainless steel chassis."
-      },
-      {
-        "url": "/watch-supercar-engine-block-silver-denim.webp",
-        "title": "Sartorial Cockpit Denim Presence",
-        "label": "04 Cockpit Denim",
-        "caption": "On-wrist cockpit composition with denim jacket demonstrating daily ergonomics and high-contrast dial."
-      },
-      {
-        "url": "/watch-supercar-engine-block-silver-driving.webp",
-        "title": "High-Speed Ferrari Cockpit Driving",
-        "label": "05 Ferrari Cockpit",
-        "caption": "High-speed driving perspective behind Ferrari steering wheel showcasing the exposed engine block caliber in motion."
+        "url": "/catalog/hbr-985-auto-apex-slvr-view-1.jpg",
+        "title": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-985-AUTO-APEX-slvr."
       }
     ],
     "price": "₹59,999",
@@ -884,7 +883,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-985-auto-apex-slvr-view-2.mp4"
   },
   {
     "id": "casino-roulette-wheel-rosegold",
@@ -894,45 +894,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Casino Complication",
-    "image": "/watch-casino-roulette-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-gld-front.jpg",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-gld-front.jpg",
     "altImages": [
-      "/watch-casino-roulette-rosegold-front-transparent.webp",
-      "/watch-casino-roulette-rosegold-felt.webp",
-      "/watch-casino-roulette-rosegold-wheel.webp",
-      "/watch-casino-roulette-rosegold-wrist-angle.webp",
-      "/watch-casino-roulette-rosegold-wrist-closeup.webp"
+      "/catalog/hbr-1001-2-auto-roulette-gld-front.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-gld-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with dynamic 37-pocket roulette disk, onyx black dial, and alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-gld-front.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-GLD)."
       },
       {
-        "url": "/watch-casino-roulette-rosegold-felt.webp",
-        "title": "Monte Carlo Green Felt Casino Setting",
-        "label": "02 Casino Felt",
-        "caption": "Editorial casino composition on green felt table surrounded by gaming chips highlighting the high-stakes roulette complication."
-      },
-      {
-        "url": "/watch-casino-roulette-rosegold-wheel.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "03 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
-      },
-      {
-        "url": "/watch-casino-roulette-rosegold-wrist-angle.webp",
-        "title": "Sartorial Wrist Horizon Angle",
-        "label": "04 Wrist Angle",
-        "caption": "On-wrist high-angle perspective showcasing the depth of the 3D roulette flange and luminous rose gold hands."
-      },
-      {
-        "url": "/watch-casino-roulette-rosegold-wrist-closeup.webp",
-        "title": "Close-Up On-Wrist Dial Perspective",
-        "label": "05 Wrist Close-Up",
-        "caption": "Detailed macro wrist perspective demonstrating crisp pocket typography, white ball marker alignment, and supple alligator strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-gld-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-GLD."
       }
     ],
     "price": "₹52,999",
@@ -975,7 +954,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-1001-2-auto-roulette-gld-view-2.mp4"
   },
   {
     "id": "casino-roulette-wheel-silver",
@@ -1076,45 +1056,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
     "altImages": [
-      "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
-      "/watch-casino-roulette-diamond-emerald-felt.webp",
-      "/watch-casino-roulette-diamond-emerald-macro.webp",
-      "/watch-casino-roulette-diamond-emerald-wheel.webp",
-      "/watch-casino-roulette-diamond-emerald-isometric-transparent.webp"
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with concentric baguette diamond dial, emerald hour markers, and dynamic roulette ring."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN)."
       },
       {
-        "url": "/watch-casino-roulette-diamond-emerald-felt.webp",
-        "title": "Monte Carlo Green Felt Casino Setting",
-        "label": "02 Casino Felt",
-        "caption": "Editorial casino composition on green felt table surrounded by gaming chips highlighting the diamond and emerald paved dial."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
       },
       {
-        "url": "/watch-casino-roulette-diamond-emerald-macro.webp",
-        "title": "High Joaillerie Macro Perspective",
-        "label": "03 Macro Setting",
-        "caption": "Detailed macro perspective showcasing the precision concentric diamond pave and vibrant green baguette emeralds."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
       },
       {
-        "url": "/watch-casino-roulette-diamond-emerald-wheel.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "04 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
-      },
-      {
-        "url": "/watch-casino-roulette-diamond-emerald-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "05 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
       }
     ],
     "price": "₹52,999",
@@ -1167,38 +1140,45 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-rg-blue-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-rg-blue-front.png",
     "altImages": [
-      "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
-      "/watch-casino-roulette-sapphire-diamond-isometric-transparent.webp",
-      "/watch-casino-roulette-sapphire-diamond-wheel.webp",
-      "/watch-casino-roulette-sapphire-diamond-macro.webp"
+      "/catalog/hbr-1001-2-auto-roulette-rg-blue-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-3.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-sapphire-diamond-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with concentric baguette blue sapphire dial, white diamond hour markers, and dynamic roulette ring."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-blue-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-RG-BLUE)."
       },
       {
-        "url": "/watch-casino-roulette-sapphire-diamond-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and navy blue alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-BLUE."
       },
       {
-        "url": "/watch-casino-roulette-sapphire-diamond-wheel.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "03 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-BLUE."
       },
       {
-        "url": "/watch-casino-roulette-sapphire-diamond-macro.webp",
-        "title": "Casino Gaming Table Macro Perspective",
-        "label": "04 Casino Macro",
-        "caption": "Detailed macro perspective on casino roulette felt showcasing the brilliant blue sapphires and white diamond indices."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-blue-view-4.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-BLUE."
       }
     ],
     "price": "₹52,999",
@@ -1251,38 +1231,17 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
+    "image": "/catalog/hbr-1001-1-auto-roulette-gld-front.jpg",
+    "transparentImage": "/catalog/hbr-1001-1-auto-roulette-gld-front.jpg",
     "altImages": [
-      "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
-      "/watch-casino-roulette-emerald-alligator-isometric-transparent.webp",
-      "/watch-casino-roulette-emerald-alligator-macro.webp",
-      "/watch-casino-roulette-emerald-alligator-felt.webp"
+      "/catalog/hbr-1001-1-auto-roulette-gld-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-emerald-alligator-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with full concentric baguette emerald dial, diamond hour markers, and emerald alligator leather strap."
-      },
-      {
-        "url": "/watch-casino-roulette-emerald-alligator-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and emerald green alligator strap."
-      },
-      {
-        "url": "/watch-casino-roulette-emerald-alligator-macro.webp",
-        "title": "Casino Gaming Table Macro Perspective",
-        "label": "03 Casino Macro",
-        "caption": "Detailed macro perspective on green roulette table showcasing the brilliant green emeralds and white diamond indices."
-      },
-      {
-        "url": "/watch-casino-roulette-emerald-alligator-felt.webp",
-        "title": "Monte Carlo Green Felt Casino Setting",
-        "label": "04 Casino Felt",
-        "caption": "Editorial casino composition on green felt table surrounded by gaming chips highlighting the all-green gemstone luxury."
+        "url": "/catalog/hbr-1001-1-auto-roulette-gld-front.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-1-AUTO-ROULETTE-GLD)."
       }
     ],
     "price": "₹50,999",
@@ -1325,7 +1284,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-1001-1-auto-roulette-gld-view-1.mp4"
   },
   {
     "id": "casino-roulette-wheel-ruby-diamond",
@@ -1335,31 +1295,31 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-rg-red-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-rg-red-front.png",
     "altImages": [
-      "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
-      "/watch-casino-roulette-ruby-diamond-isometric-transparent.webp",
-      "/watch-casino-roulette-ruby-diamond-wheel.webp"
+      "/catalog/hbr-1001-2-auto-roulette-rg-red-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-rg-red-view-1.png",
+      "/catalog/hbr-1001-2-auto-roulette-rg-red-view-2.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-ruby-diamond-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with full concentric baguette ruby dial, diamond hour markers, and black alligator strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-red-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-RG-RED)."
       },
       {
-        "url": "/watch-casino-roulette-ruby-diamond-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-red-view-1.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-RED."
       },
       {
-        "url": "/watch-casino-roulette-ruby-diamond-wheel.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "03 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished rose gold bezel and 8 o'clock spinner pusher."
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-red-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-RED."
       }
     ],
     "price": "₹52,999",
@@ -1412,45 +1372,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-slv-green-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-slv-green-front.png",
     "altImages": [
-      "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
-      "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.webp",
-      "/watch-casino-roulette-silver-diamond-emerald-felt.webp",
-      "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.webp",
-      "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.webp"
+      "/catalog/hbr-1001-2-auto-roulette-slv-green-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-slv-green-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-green-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-green-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-silver-diamond-emerald-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with concentric baguette diamond dial, emerald hour markers, and black alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-green-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-SLV-GREEN)."
       },
       {
-        "url": "/watch-casino-roulette-silver-diamond-emerald-wheel-transparent.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "02 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel bokeh highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-green-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-GREEN."
       },
       {
-        "url": "/watch-casino-roulette-silver-diamond-emerald-felt.webp",
-        "title": "Monte Carlo Green Felt Casino Setting",
-        "label": "03 Casino Felt",
-        "caption": "Editorial casino composition on green felt table surrounded by gaming chips highlighting the diamond and emerald paved dial."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-green-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-GREEN."
       },
       {
-        "url": "/watch-casino-roulette-silver-diamond-emerald-wrist-angle.webp",
-        "title": "Sartorial Wrist Horizon Angle",
-        "label": "04 Wrist Angle",
-        "caption": "On-wrist high-angle perspective showcasing the depth of the 3D roulette flange and luminous steel hands."
-      },
-      {
-        "url": "/watch-casino-roulette-silver-diamond-emerald-wrist-closeup.webp",
-        "title": "Close-Up On-Wrist Dial Perspective",
-        "label": "05 Wrist Close-Up",
-        "caption": "Detailed macro wrist perspective demonstrating crisp pocket typography, white ball marker alignment, and crown profile."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-green-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-GREEN."
       }
     ],
     "price": "₹52,999",
@@ -1503,38 +1456,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
     "altImages": [
-      "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
-      "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.webp",
-      "/watch-casino-roulette-silver-sapphire-diamond-wheel.webp",
-      "/watch-casino-roulette-silver-sapphire-diamond-wrist.webp"
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-silver-sapphire-diamond-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with concentric baguette blue sapphire dial, white diamond hour markers, and navy alligator strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE)."
       },
       {
-        "url": "/watch-casino-roulette-silver-sapphire-diamond-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and navy blue alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
       },
       {
-        "url": "/watch-casino-roulette-silver-sapphire-diamond-wheel.webp",
-        "title": "Gaming Wheel Horizon",
-        "label": "03 Casino Horizon",
-        "caption": "Angled perspective framed against casino wheel and chips highlighting the mirror-polished steel bezel and 8 o'clock spinner pusher."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
       },
       {
-        "url": "/watch-casino-roulette-silver-sapphire-diamond-wrist.webp",
-        "title": "Sartorial Casino Wrist Perspective",
-        "label": "04 Wrist Perspective",
-        "caption": "On-wrist perspective at casino gaming table showcasing the radiant blue sapphire dial and polished stainless steel case."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
       }
     ],
     "price": "₹52,999",
@@ -1671,38 +1624,38 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "High Jewellery Roulette",
-    "image": "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
-    "transparentImage": "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-slv-red-front.png",
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-slv-red-front.png",
     "altImages": [
-      "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
-      "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.webp",
-      "/watch-casino-roulette-silver-ruby-diamond-felt.webp",
-      "/watch-casino-roulette-silver-ruby-diamond-wrist.webp"
+      "/catalog/hbr-1001-2-auto-roulette-slv-red-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-slv-red-view-1.png",
+      "/catalog/hbr-1001-2-auto-roulette-slv-red-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-red-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-casino-roulette-silver-ruby-diamond-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with concentric baguette ruby dial, white diamond hour markers, and black alligator strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-red-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-SLV-RED)."
       },
       {
-        "url": "/watch-casino-roulette-silver-ruby-diamond-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and midnight black alligator leather strap."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-red-view-1.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-RED."
       },
       {
-        "url": "/watch-casino-roulette-silver-ruby-diamond-felt.webp",
-        "title": "Monte Carlo Green Felt Casino Setting",
-        "label": "03 Casino Felt",
-        "caption": "Editorial casino composition on green felt table surrounded by gaming chips highlighting the vivid red pigeon blood ruby dial."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-red-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-RED."
       },
       {
-        "url": "/watch-casino-roulette-silver-ruby-diamond-wrist.webp",
-        "title": "Sartorial Casino Wrist Perspective",
-        "label": "04 Wrist Perspective",
-        "caption": "On-wrist perspective at casino gaming table showcasing the fiery ruby dial brilliance and polished steel case."
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-red-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-RED."
       }
     ],
     "price": "₹52,999",
@@ -1755,45 +1708,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Imperial Metiers d'Art",
-    "image": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+    "transparentImage": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
     "altImages": [
-      "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-      "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.webp",
-      "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
-      "/watch-celestial-dragon-tourbillon-rosegold-macro.webp",
-      "/watch-celestial-dragon-tourbillon-rosegold-wrist.webp"
+      "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+      "/catalog/hbr-1018-auto-zod-gld-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with sculpted 3D gold dragon, aventurine dial, flying tourbillon, and navy alligator strap."
+        "url": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+        "title": "Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition (Reference HBR-1018-AUTO-ZOD-GLD)."
       },
       {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective showcasing the high-relief dragon anatomy, blue fluted crown, and deployant clasp."
-      },
-      {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
-        "title": "Lantern Festival Dragon Horizon",
-        "label": "03 Lantern Setting",
-        "caption": "Editorial oriental composition framed against atmospheric glowing lanterns and dragon artwork."
-      },
-      {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-macro.webp",
-        "title": "Imperial Dragon High Art Setting",
-        "label": "04 Dragon Horizon",
-        "caption": "Macro perspective framed against golden dragon motif highlighting the aventurine dial stars and openwork tourbillon."
-      },
-      {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-wrist.webp",
-        "title": "Sartorial On-Wrist Perspective",
-        "label": "05 Wrist Perspective",
-        "caption": "Outdoor on-wrist perspective demonstrating the dramatic presence of the sculpted dragon, blued hands, and rose gold case."
+        "url": "/catalog/hbr-1018-auto-zod-gld-view-1.jpg",
+        "title": "Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1018-AUTO-ZOD-GLD."
       }
     ],
     "price": "₹50,999",
@@ -1836,7 +1768,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-1018-auto-zod-gld-view-2.mp4"
   },
   {
     "id": "celestial-dragon-tourbillon-silver",
@@ -1937,45 +1870,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Astronomical Complication",
-    "image": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-1020-auto-ast-gld-front.jpg",
+    "transparentImage": "/catalog/hbr-1020-auto-ast-gld-front.jpg",
     "altImages": [
-      "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
-      "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.webp",
-      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.webp",
-      "/watch-planetary-cosmos-tourbillon-rosegold-planets.webp",
-      "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.webp"
+      "/catalog/hbr-1020-auto-ast-gld-front.jpg",
+      "/catalog/hbr-1020-auto-ast-gld-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with 3D Earth sphere, aventurine planetary dial, flying tourbillon, and black alligator strap."
+        "url": "/catalog/hbr-1020-auto-ast-gld-front.jpg",
+        "title": "9INE Planet Series: Nebula Craft – Space Art Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of 9INE Planet Series: Nebula Craft – Space Art Timepiece (Reference HBR-1020-AUTO-AST-GLD)."
       },
       {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-galaxy.webp",
-        "title": "Deep Space Nebula Horizon",
-        "label": "02 Nebula Galaxy",
-        "caption": "Celestial editorial composition framed against deep cosmic nebula and orbiting planets highlighting the luminous earth sphere."
-      },
-      {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-wrist-sartorial.webp",
-        "title": "Sartorial Luxury Wrist Perspective",
-        "label": "03 Sartorial Wrist",
-        "caption": "On-wrist perspective in luxury setting showcasing the 18K rose gold case, blued hands, and planetary depth."
-      },
-      {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-planets.webp",
-        "title": "Solar System Orbiting Horizon",
-        "label": "04 Solar Horizon",
-        "caption": "Atmospheric astronomical setting with solar planets demonstrating the depth and micro-sculpted details."
-      },
-      {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-wrist-macro.webp",
-        "title": "Macro On-Wrist Celestial Detail",
-        "label": "05 Macro Wrist",
-        "caption": "Angled macro on-wrist perspective highlighting the 3D double-domed sapphire crystal, blue crown ring, and supple alligator leather."
+        "url": "/catalog/hbr-1020-auto-ast-gld-view-1.jpg",
+        "title": "9INE Planet Series: Nebula Craft – Space Art Timepiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1020-AUTO-AST-GLD."
       }
     ],
     "price": "₹50,999",
@@ -2018,7 +1930,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-1020-auto-ast-gld-view-2.mp4"
   },
   {
     "id": "planetary-cosmos-tourbillon-silver",
@@ -2119,45 +2032,45 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Professional Diver",
-    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "image": "/catalog/hbr-1307-auto-emerald-front.png",
+    "transparentImage": "/catalog/hbr-1307-auto-emerald-front.png",
     "altImages": [
-      "/watch-oceanic-diver-200m-green-front-transparent.webp",
-      "/watch-oceanic-diver-200m-green-underwater.webp",
-      "/watch-oceanic-diver-200m-green-splash.webp",
-      "/watch-oceanic-diver-200m-green-isometric-transparent.webp",
-      "/watch-oceanic-diver-200m-green-wrist-sartorial.webp"
+      "/catalog/hbr-1307-auto-emerald-front.png",
+      "/catalog/hbr-1307-auto-emerald-view-1.png",
+      "/catalog/hbr-1307-auto-emerald-view-2.jpg",
+      "/catalog/hbr-1307-auto-emerald-view-3.jpg",
+      "/catalog/hbr-1307-auto-emerald-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel diver case with emerald ceramic bezel, sunburst green dial, and Oyster bracelet."
+        "url": "/catalog/hbr-1307-auto-emerald-front.png",
+        "title": "Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch (Reference HBR-1307-AUTO-EMERALD)."
       },
       {
-        "url": "/watch-oceanic-diver-200m-green-underwater.webp",
-        "title": "200M Oceanic Hydro-Test Horizon",
-        "label": "02 Hydro Dive",
-        "caption": "On-wrist underwater perspective in dynamic water splash showcasing extreme waterproof integrity and emerald reflection."
+        "url": "/catalog/hbr-1307-auto-emerald-view-1.png",
+        "title": "Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1307-AUTO-EMERALD."
       },
       {
-        "url": "/watch-oceanic-diver-200m-green-splash.webp",
-        "title": "Marine Coastal Rock Horizon",
-        "label": "03 Marine Horizon",
-        "caption": "Marine perspective resting on sea rocks surrounded by ocean spray highlighting the ceramic bezel and brushed steel luster."
+        "url": "/catalog/hbr-1307-auto-emerald-view-2.jpg",
+        "title": "Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1307-AUTO-EMERALD."
       },
       {
-        "url": "/watch-oceanic-diver-200m-green-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "04 Isometric Profile",
-        "caption": "Angled studio perspective on acrylic display highlighting the 120-click ceramic bezel teeth, date window, and Oyster links."
+        "url": "/catalog/hbr-1307-auto-emerald-view-3.jpg",
+        "title": "Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1307-AUTO-EMERALD."
       },
       {
-        "url": "/watch-oceanic-diver-200m-green-wrist-sartorial.webp",
-        "title": "Tailored Sartorial Urban Horizon",
-        "label": "05 Sartorial Wrist",
-        "caption": "On-wrist perspective paired with tailored coat showcasing the versatility from ocean depths to boardroom refinement."
+        "url": "/catalog/hbr-1307-auto-emerald-view-4.jpg",
+        "title": "Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1307-AUTO-EMERALD."
       }
     ],
     "price": "₹52,999",
@@ -2196,7 +2109,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-1307-auto-emerald-view-5.mp4"
   },
   {
     "id": "seamaster-chronograph-diver-teal",
@@ -2206,38 +2120,38 @@ export const PRODUCTS_DATA = [
     "collection": "CHRONOGRAPH",
     "collectionName": "Chronograph & Sport",
     "tag": "Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
+    "image": "/catalog/hbr-1309-auto-blue-front.png",
+    "transparentImage": "/catalog/hbr-1309-auto-blue-front.png",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
-      "/watch-seamaster-chronograph-diver-teal-isometric-transparent.webp",
-      "/watch-seamaster-chronograph-diver-teal-horizon.webp",
-      "/watch-seamaster-chronograph-diver-teal-splash.webp"
+      "/catalog/hbr-1309-auto-blue-front.png",
+      "/catalog/hbr-1309-auto-blue-view-1.png",
+      "/catalog/hbr-1309-auto-blue-view-2.jpg",
+      "/catalog/hbr-1309-auto-blue-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-teal-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, teal sunburst dial, and Oyster bracelet."
+        "url": "/catalog/hbr-1309-auto-blue-front.png",
+        "title": "Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph (Reference HBR-1309-AUTO-BLUE)."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-teal-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
+        "url": "/catalog/hbr-1309-auto-blue-view-1.png",
+        "title": "Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-BLUE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-teal-horizon.webp",
-        "title": "Coastal Sea Foam Marine Horizon",
-        "label": "03 Coastal Horizon",
-        "caption": "Editorial maritime composition framed against ocean foam and sea ice highlighting the sunburst teal dial reflections."
+        "url": "/catalog/hbr-1309-auto-blue-view-2.jpg",
+        "title": "Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-BLUE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-teal-splash.webp",
-        "title": "Wet Rock Splash Hydro-Chronograph",
-        "label": "04 Splash Action",
-        "caption": "Marine dynamic splash perspective on coastal rocks highlighting the waterproof case construction and polished center links."
+        "url": "/catalog/hbr-1309-auto-blue-view-3.jpg",
+        "title": "Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-BLUE."
       }
     ],
     "price": "₹24,999",
@@ -2293,45 +2207,52 @@ export const PRODUCTS_DATA = [
     "collection": "CHRONOGRAPH",
     "collectionName": "Chronograph & Sport",
     "tag": "Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
+    "image": "/catalog/hbr-1309-auto-green-front.png",
+    "transparentImage": "/catalog/hbr-1309-auto-green-front.png",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
-      "/watch-seamaster-chronograph-diver-olive-underwater.webp",
-      "/watch-seamaster-chronograph-diver-olive-isometric-transparent.webp",
-      "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.webp",
-      "/watch-seamaster-chronograph-diver-olive-surf.webp"
+      "/catalog/hbr-1309-auto-green-front.png",
+      "/catalog/hbr-1309-auto-green-view-1.jpg",
+      "/catalog/hbr-1309-auto-green-view-2.jpg",
+      "/catalog/hbr-1309-auto-green-view-3.png",
+      "/catalog/hbr-1309-auto-green-view-4.png",
+      "/catalog/hbr-1309-auto-green-view-5.JPG"
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel chronograph case with olive ceramic bezel, olive sunburst dial, and Oyster bracelet."
+        "url": "/catalog/hbr-1309-auto-green-front.png",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch (Reference HBR-1309-AUTO-GREEN)."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-underwater.webp",
-        "title": "Underwater Dynamic Bubble Horizon",
-        "label": "02 Deep Bubble Plunge",
-        "caption": "Deep water plunge perspective surrounded by air bubbles showcasing the high-contrast green ceramic bezel and lume."
+        "url": "/catalog/hbr-1309-auto-green-view-1.jpg",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-GREEN."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "03 Isometric Profile",
-        "caption": "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
+        "url": "/catalog/hbr-1309-auto-green-view-2.jpg",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-GREEN."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-isometric-stand-transparent.webp",
-        "title": "Isometric Acrylic Display Setting",
-        "label": "04 Display Stand",
-        "caption": "Three-quarter perspective highlighting the embossed ceramic bezel teeth and polished center bracelet links."
+        "url": "/catalog/hbr-1309-auto-green-view-3.png",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-GREEN."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-surf.webp",
-        "title": "Oceanic Surf Wave Horizon",
-        "label": "05 Surf Horizon",
-        "caption": "Coastal surf perspective surrounded by ocean spray highlighting the radiant green dial and brushed steel casing."
+        "url": "/catalog/hbr-1309-auto-green-view-4.png",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-GREEN."
+      },
+      {
+        "url": "/catalog/hbr-1309-auto-green-view-5.JPG",
+        "title": "Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch — Perspective 06",
+        "label": "06 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-GREEN."
       }
     ],
     "price": "₹24,999",
@@ -2387,38 +2308,45 @@ export const PRODUCTS_DATA = [
     "collection": "CHRONOGRAPH",
     "collectionName": "Chronograph & Sport",
     "tag": "Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
+    "image": "/catalog/hbr-1309-auto-orange-front.png",
+    "transparentImage": "/catalog/hbr-1309-auto-orange-front.png",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
-      "/watch-seamaster-chronograph-diver-amber-isometric-transparent.webp",
-      "/watch-seamaster-chronograph-diver-amber-sunset.webp",
-      "/watch-seamaster-chronograph-diver-amber-wrist.webp"
+      "/catalog/hbr-1309-auto-orange-front.png",
+      "/catalog/hbr-1309-auto-orange-view-1.png",
+      "/catalog/hbr-1309-auto-orange-view-2.jpg",
+      "/catalog/hbr-1309-auto-orange-view-3.jpg",
+      "/catalog/hbr-1309-auto-orange-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-amber-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, sunset amber fumé dial, and Oyster bracelet."
+        "url": "/catalog/hbr-1309-auto-orange-front.png",
+        "title": "Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch (Reference HBR-1309-AUTO-ORANGE)."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-amber-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
+        "url": "/catalog/hbr-1309-auto-orange-view-1.png",
+        "title": "Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-ORANGE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-amber-sunset.webp",
-        "title": "Golden Hour Coastal Sunset Horizon",
-        "label": "03 Sunset Horizon",
-        "caption": "Editorial sunset maritime composition framed against ocean surf and golden twilight highlighting the fiery cognac dial."
+        "url": "/catalog/hbr-1309-auto-orange-view-2.jpg",
+        "title": "Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-ORANGE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-amber-wrist.webp",
-        "title": "Sartorial On-Wrist Horizon",
-        "label": "04 On-Wrist Horizon",
-        "caption": "On-wrist perspective against clear sky and coastal rocks highlighting the amber dial gradient and polished center links."
+        "url": "/catalog/hbr-1309-auto-orange-view-3.jpg",
+        "title": "Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-ORANGE."
+      },
+      {
+        "url": "/catalog/hbr-1309-auto-orange-view-4.jpg",
+        "title": "Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-ORANGE."
       }
     ],
     "price": "₹24,999",
@@ -2474,38 +2402,38 @@ export const PRODUCTS_DATA = [
     "collection": "CHRONOGRAPH",
     "collectionName": "Chronograph & Sport",
     "tag": "Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
+    "image": "/catalog/hbr-1309-auto-purple-front.png",
+    "transparentImage": "/catalog/hbr-1309-auto-purple-front.png",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
-      "/watch-seamaster-chronograph-diver-violet-supercar.webp",
-      "/watch-seamaster-chronograph-diver-violet-wrist.webp",
-      "/watch-seamaster-chronograph-diver-violet-isometric-transparent.webp"
+      "/catalog/hbr-1309-auto-purple-front.png",
+      "/catalog/hbr-1309-auto-purple-view-1.png",
+      "/catalog/hbr-1309-auto-purple-view-2.jpg",
+      "/catalog/hbr-1309-auto-purple-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-violet-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel chronograph case with embossed ceramic bezel, cyber ultraviolet fumé dial, and Oyster bracelet."
+        "url": "/catalog/hbr-1309-auto-purple-front.png",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph (Reference HBR-1309-AUTO-PURPLE)."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-violet-supercar.webp",
-        "title": "Cyber Supercar Neon Speed Horizon",
-        "label": "02 Neon Cyber Speed",
-        "caption": "Neon cyberpunk automotive setting with motion speed blur highlighting the electrifying ultraviolet dial radiance."
+        "url": "/catalog/hbr-1309-auto-purple-view-1.png",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-violet-wrist.webp",
-        "title": "Sartorial On-Wrist Horizon",
-        "label": "03 On-Wrist Horizon",
-        "caption": "On-wrist perspective against clear sky and coastal rocks showcasing the purple dial reflections and brushed steel links."
+        "url": "/catalog/hbr-1309-auto-purple-view-2.jpg",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
       },
       {
-        "url": "/watch-seamaster-chronograph-diver-violet-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "04 Isometric Profile",
-        "caption": "Angled studio perspective on acrylic display highlighting the dual chronograph pushers, crown guards, and tri-compax registers."
+        "url": "/catalog/hbr-1309-auto-purple-view-3.jpg",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
       }
     ],
     "price": "₹24,999",
@@ -2642,7 +2570,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-995-1-auto-s-front.mp4"
   },
   {
     "id": "world-map-tourbillon-rosegold",
@@ -2894,7 +2823,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-2712-auto-slv-tiranga-front.mp4"
   },
   {
     "id": "world-map-tourbillon-silver-dual",
@@ -2904,45 +2834,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Global Complication",
-    "image": "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
-    "transparentImage": "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
+    "image": "/catalog/hbr-2712-auto-rg-tiranga-front.png",
+    "transparentImage": "/catalog/hbr-2712-auto-rg-tiranga-front.png",
     "altImages": [
-      "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
-      "/watch-world-map-tourbillon-silver-dual-isometric-transparent.webp",
-      "/watch-world-map-tourbillon-silver-dual-space.webp",
-      "/watch-world-map-tourbillon-silver-dual-wrist-studio.webp",
-      "/watch-world-map-tourbillon-silver-dual-wrist-sky.webp"
+      "/catalog/hbr-2712-auto-rg-tiranga-front.png",
+      "/catalog/hbr-2712-auto-rg-tiranga-view-1.JPG"
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-silver-dual-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with 3D frosted rose gold continents, central tourbillon, and dual orange/green sub-dials."
+        "url": "/catalog/hbr-2712-auto-rg-tiranga-front.png",
+        "title": "Hanboro WorldMaster Tricolour – 3D Globe Open-Heart Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro WorldMaster Tricolour – 3D Globe Open-Heart Automatic Watch (Reference HBR-2712-AUTO-RG-TIRANGA)."
       },
       {
-        "url": "/watch-world-map-tourbillon-silver-dual-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on white showcasing the curved steel bezel, double-domed sapphire crystal, and deployant clasp."
-      },
-      {
-        "url": "/watch-world-map-tourbillon-silver-dual-space.webp",
-        "title": "Low Earth Orbit Space Horizon",
-        "label": "03 Space Orbit",
-        "caption": "Macro celestial perspective framed against planet Earth highlighting the frosted rose gold continent relief and tourbillon cage."
-      },
-      {
-        "url": "/watch-world-map-tourbillon-silver-dual-wrist-studio.webp",
-        "title": "Sartorial Studio Wrist Perspective",
-        "label": "04 Studio Wrist",
-        "caption": "On-wrist perspective paired with dark tailoring showcasing the contrast between the steel case, rose gold continents, and colorful registers."
-      },
-      {
-        "url": "/watch-world-map-tourbillon-silver-dual-wrist-sky.webp",
-        "title": "Skyline Coastal Wrist Horizon",
-        "label": "05 Sky Horizon",
-        "caption": "Outdoor on-wrist perspective under open skies demonstrating the depth of the 3D double-domed sapphire crystal."
+        "url": "/catalog/hbr-2712-auto-rg-tiranga-view-1.JPG",
+        "title": "Hanboro WorldMaster Tricolour – 3D Globe Open-Heart Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-2712-AUTO-RG-TIRANGA."
       }
     ],
     "price": "₹36,999",
@@ -2985,7 +2894,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-2712-auto-rg-tiranga-view-2.mp4"
   },
   {
     "id": "overseas-perpetual-skeleton-steel",
@@ -2995,24 +2905,45 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Grand Complication",
-    "image": "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
-    "transparentImage": "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
+    "image": "/catalog/hbr-8022-1-auto-stellar-front.png",
+    "transparentImage": "/catalog/hbr-8022-1-auto-stellar-front.png",
     "altImages": [
-      "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
-      "/watch-overseas-perpetual-skeleton-steel-wrist.webp"
+      "/catalog/hbr-8022-1-auto-stellar-front.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-1.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-2.png",
+      "/catalog/hbr-8022-1-auto-stellar-view-3.jpg",
+      "/catalog/hbr-8022-1-auto-stellar-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-overseas-perpetual-skeleton-steel-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel integrated case with openwork skeleton dial, quad calendar registers, and steel bracelet."
+        "url": "/catalog/hbr-8022-1-auto-stellar-front.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro StellarComplication – Celestial Skeleton Automatic (Reference HBR-8022-1-AUTO-STELLAR)."
       },
       {
-        "url": "/watch-overseas-perpetual-skeleton-steel-wrist.webp",
-        "title": "Supercar Cockpit On-Wrist Horizon",
-        "label": "02 Supercar Cockpit",
-        "caption": "On-wrist perspective in luxury sports supercar setting highlighting the integrated steel geometry and skeleton depth."
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-1.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
+      },
+      {
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-2.png",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
+      },
+      {
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-3.jpg",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
+      },
+      {
+        "url": "/catalog/hbr-8022-1-auto-stellar-view-4.jpg",
+        "title": "Hanboro StellarComplication – Celestial Skeleton Automatic — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
       }
     ],
     "price": "₹52,999",
@@ -3057,7 +2988,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8022-1-auto-stellar-view-5.mp4"
   },
   {
     "id": "celestial-pilot-moonphase-black",
@@ -3067,45 +2999,45 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Astronomical Complication",
-    "image": "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
-    "transparentImage": "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
+    "image": "/catalog/hbr-8824-auto-ns-black-front.png",
+    "transparentImage": "/catalog/hbr-8824-auto-ns-black-front.png",
     "altImages": [
-      "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
-      "/watch-celestial-pilot-moonphase-black-cosmic.webp",
-      "/watch-celestial-pilot-moonphase-black-moon.webp",
-      "/watch-celestial-pilot-moonphase-black-wrist-close.webp",
-      "/watch-celestial-pilot-moonphase-black-wrist-seated.webp"
+      "/catalog/hbr-8824-auto-ns-black-front.png",
+      "/catalog/hbr-8824-auto-ns-black-view-1.jpg",
+      "/catalog/hbr-8824-auto-ns-black-view-2.jpg",
+      "/catalog/hbr-8824-auto-ns-black-view-3.jpg",
+      "/catalog/hbr-8824-auto-ns-black-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-pilot-moonphase-black-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical steel round case with concentric grooved black dial, open-heart escapement, and celestial moonphase."
+        "url": "/catalog/hbr-8824-auto-ns-black-front.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Reference HBR-8824-AUTO-NS-BLACK)."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-black-cosmic.webp",
-        "title": "Bioluminescent Cosmic Horizon",
-        "label": "02 Cosmic Bedrock",
-        "caption": "Editorial dark aesthetic on luminescent blue crystalline bedrock showcasing the pilot geometry and dial complications."
+        "url": "/catalog/hbr-8824-auto-ns-black-view-1.jpg",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLACK."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-black-moon.webp",
-        "title": "Full Moon Celestial Horizon",
-        "label": "03 Lunar Horizon",
-        "caption": "Nocturnal alpine landscape composition framed against a massive lunar sphere highlighting the astronomical moonphase."
+        "url": "/catalog/hbr-8824-auto-ns-black-view-2.jpg",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLACK."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-black-wrist-close.webp",
-        "title": "Sartorial Denim On-Wrist Macro",
-        "label": "04 Wrist Macro",
-        "caption": "Macro on-wrist perspective paired with denim jacket highlighting the domed sapphire crystal and open-heart balance."
+        "url": "/catalog/hbr-8824-auto-ns-black-view-3.jpg",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLACK."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-black-wrist-seated.webp",
-        "title": "Lifestyle Horizon On-Wrist Perspective",
-        "label": "05 Seated Horizon",
-        "caption": "Relaxed seated on-wrist perspective showcasing the rugged pilot leather strap with contrast saddle stitching."
+        "url": "/catalog/hbr-8824-auto-ns-black-view-4.jpg",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLACK."
       }
     ],
     "price": "₹34,999",
@@ -3159,38 +3091,31 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Astronomical Complication",
-    "image": "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-8824-auto-ns-rg-brown-front.png",
+    "transparentImage": "/catalog/hbr-8824-auto-ns-rg-brown-front.png",
     "altImages": [
-      "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
-      "/watch-celestial-pilot-moonphase-rosegold-cosmic.webp",
-      "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.webp",
-      "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.webp"
+      "/catalog/hbr-8824-auto-ns-rg-brown-front.png",
+      "/catalog/hbr-8824-auto-ns-rg-brown-view-1.png",
+      "/catalog/hbr-8824-auto-ns-rg-brown-view-2.png"
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-pilot-moonphase-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold round case with concentric grooved opaline silver dial, open-heart balance, and celestial moonphase."
+        "url": "/catalog/hbr-8824-auto-ns-rg-brown-front.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Reference HBR-8824-AUTO-NS-RG-BROWN)."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-rosegold-cosmic.webp",
-        "title": "Bioluminescent Cosmic Horizon",
-        "label": "02 Cosmic Bedrock",
-        "caption": "Editorial dark aesthetic on luminescent blue crystalline bedrock showcasing the rose gold case and opaline dial."
+        "url": "/catalog/hbr-8824-auto-ns-rg-brown-view-1.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-RG-BROWN."
       },
       {
-        "url": "/watch-celestial-pilot-moonphase-rosegold-wrist-seated.webp",
-        "title": "Lifestyle Horizon On-Wrist Perspective",
-        "label": "03 Seated Horizon",
-        "caption": "Relaxed seated on-wrist perspective showcasing the warm rose gold case and saddle-stitched pilot strap."
-      },
-      {
-        "url": "/watch-celestial-pilot-moonphase-rosegold-wrist-macro.webp",
-        "title": "Sartorial Denim On-Wrist Macro",
-        "label": "04 Wrist Macro",
-        "caption": "Macro on-wrist perspective paired with denim jacket highlighting the domed sapphire crystal, date pointer, and moonphase disc."
+        "url": "/catalog/hbr-8824-auto-ns-rg-brown-view-2.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-RG-BROWN."
       }
     ],
     "price": "₹34,999",
@@ -3244,38 +3169,24 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Dual-Hemisphere Complication",
-    "image": "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
-    "transparentImage": "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
+    "image": "/catalog/hbr-8824-auto-navigator-blk-front.jpg",
+    "transparentImage": "/catalog/hbr-8824-auto-navigator-blk-front.jpg",
     "altImages": [
-      "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
-      "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.webp",
-      "/watch-dual-hemispheres-moonphase-steel-studio-blue.webp",
-      "/watch-dual-hemispheres-moonphase-steel-wrist.webp"
+      "/catalog/hbr-8824-auto-navigator-blk-front.jpg",
+      "/catalog/hbr-8824-auto-navigator-blk-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-dual-hemispheres-moonphase-steel-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with dual-hemisphere moonphase sub-dials and transverse open-heart bridge."
+        "url": "/catalog/hbr-8824-auto-navigator-blk-front.jpg",
+        "title": "Celestial Navigator –Voyage Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Celestial Navigator –Voyage Edition (Reference HBR-8824-AUTO-NAVIGATOR-BLK)."
       },
       {
-        "url": "/watch-dual-hemispheres-moonphase-steel-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 Isometric Profile",
-        "caption": "Angled studio perspective on white showcasing the curved bezel, sapphire crystal dome, and deployant clasp."
-      },
-      {
-        "url": "/watch-dual-hemispheres-moonphase-steel-studio-blue.webp",
-        "title": "Studio Macro Horizon",
-        "label": "03 Studio Macro",
-        "caption": "Macro three-quarter perspective on blue backdrop highlighting the sunburst dial, guilloché bridge, and blued screws."
-      },
-      {
-        "url": "/watch-dual-hemispheres-moonphase-steel-wrist.webp",
-        "title": "Sartorial Tailored On-Wrist Horizon",
-        "label": "04 Tailored Wrist",
-        "caption": "On-wrist perspective in business tailoring demonstrating the presence and balanced geometry of the dual-hemisphere complication."
+        "url": "/catalog/hbr-8824-auto-navigator-blk-view-1.jpg",
+        "title": "Celestial Navigator –Voyage Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NAVIGATOR-BLK."
       }
     ],
     "price": "₹31,999",
@@ -3319,7 +3230,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8824-auto-navigator-blk-view-2.mp4"
   },
   {
     "id": "dual-hemispheres-moonphase-blue",
@@ -3329,31 +3241,31 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Dual-Hemisphere Complication",
-    "image": "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
-    "transparentImage": "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
+    "image": "/catalog/hbr-8824-auto-ns-blue-front.png",
+    "transparentImage": "/catalog/hbr-8824-auto-ns-blue-front.png",
     "altImages": [
-      "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
-      "/watch-dual-hemispheres-moonphase-blue-side-transparent.webp",
-      "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.webp"
+      "/catalog/hbr-8824-auto-ns-blue-front.png",
+      "/catalog/hbr-8824-auto-ns-blue-view-1.png",
+      "/catalog/hbr-8824-auto-ns-blue-view-2.png"
     ],
     "gallery": [
       {
-        "url": "/watch-dual-hemispheres-moonphase-blue-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L surgical stainless steel round case with sunburst royal ocean blue dial, dual-hemisphere moonphase discs, and transverse open-heart bridge."
+        "url": "/catalog/hbr-8824-auto-ns-blue-front.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Reference HBR-8824-AUTO-NS-BLUE)."
       },
       {
-        "url": "/watch-dual-hemispheres-moonphase-blue-side-transparent.webp",
-        "title": "Sculptural Angled Profile",
-        "label": "02 Angled Profile",
-        "caption": "Angled perspective on white showcasing the curved lugs, deep blue alligator strap contour, and polished steel bezel."
+        "url": "/catalog/hbr-8824-auto-ns-blue-view-1.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLUE."
       },
       {
-        "url": "/watch-dual-hemispheres-moonphase-blue-isometric-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "03 Isometric Profile",
-        "caption": "Angled studio perspective on white showcasing the sapphire crystal dome, crown knurling, and open butterfly deployant clasp."
+        "url": "/catalog/hbr-8824-auto-ns-blue-view-2.png",
+        "title": "Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NS-BLUE."
       }
     ],
     "price": "₹34,999",
@@ -3485,45 +3397,24 @@ export const PRODUCTS_DATA = [
     "collection": "AUTOMATIC",
     "collectionName": "Automatic Masterpieces",
     "tag": "Acoustic Complication",
-    "image": "/watch-sonnerie-bell-iceblue-front-transparent.webp",
-    "transparentImage": "/watch-sonnerie-bell-iceblue-front-transparent.webp",
+    "image": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+    "transparentImage": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
     "altImages": [
-      "/watch-sonnerie-bell-iceblue-front-transparent.webp",
-      "/watch-sonnerie-bell-iceblue-forest.webp",
-      "/watch-sonnerie-bell-iceblue-vinyl.webp",
-      "/watch-sonnerie-bell-iceblue-wrist-tailored.webp",
-      "/watch-sonnerie-bell-iceblue-wrist-casual.webp"
+      "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+      "/catalog/hbr-ring-5378-2tiffany-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-sonnerie-bell-iceblue-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel round case with ice blue stippled dial, baguette diamond halo, and striking hammer aperture."
+        "url": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+        "title": "Hanboro Ring the Bell – The Celebration Timepiece   — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Ring the Bell – The Celebration Timepiece   (Reference HBR-RING-5378-2TIFFANY)."
       },
       {
-        "url": "/watch-sonnerie-bell-iceblue-forest.webp",
-        "title": "Acoustic Nature Harmony Horizon",
-        "label": "02 Nature Horizon",
-        "caption": "Editorial acoustic soundwave composition set against lush alpine forest canopy."
-      },
-      {
-        "url": "/watch-sonnerie-bell-iceblue-vinyl.webp",
-        "title": "Vintage Vinyl Acoustic Horizon",
-        "label": "03 Vinyl Acoustic",
-        "caption": "Macro musical composition resting on a vintage vinyl record player and golden tonearm."
-      },
-      {
-        "url": "/watch-sonnerie-bell-iceblue-wrist-tailored.webp",
-        "title": "Sartorial Tailored On-Wrist Horizon",
-        "label": "04 Tailored Wrist",
-        "caption": "On-wrist perspective in bespoke business tailoring highlighting the baguette diamonds and vibrant ice blue texture."
-      },
-      {
-        "url": "/watch-sonnerie-bell-iceblue-wrist-casual.webp",
-        "title": "Contemporary Urban On-Wrist Horizon",
-        "label": "05 Urban Wrist",
-        "caption": "Casual on-wrist perspective in black coat demonstrating wrist presence and integrated steel bracelet."
+        "url": "/catalog/hbr-ring-5378-2tiffany-view-1.jpg",
+        "title": "Hanboro Ring the Bell – The Celebration Timepiece   — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-RING-5378-2TIFFANY."
       }
     ],
     "price": "₹82,600",
@@ -3569,7 +3460,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-ring-5378-2tiffany-view-2.mp4"
   },
   {
     "id": "sonnerie-bell-blue",
@@ -3752,38 +3644,24 @@ export const PRODUCTS_DATA = [
     "collection": "SKELETON",
     "collectionName": "Skeleton & Openwork",
     "tag": "Mecha Architecture",
-    "image": "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
-    "transparentImage": "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
+    "image": "/catalog/hbr-30027-1-auto-gear-slv-blk-front.jpg",
+    "transparentImage": "/catalog/hbr-30027-1-auto-gear-slv-blk-front.jpg",
     "altImages": [
-      "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
-      "/watch-cyber-cogwheel-skeleton-twotone-tactical.webp",
-      "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.webp",
-      "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.webp"
+      "/catalog/hbr-30027-1-auto-gear-slv-blk-front.jpg",
+      "/catalog/hbr-30027-1-auto-gear-slv-blk-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical two-tone steel and rose gold round case with riveted gear-toothed bezel, openwork cogwheel skeleton, and black leather strap."
+        "url": "/catalog/hbr-30027-1-auto-gear-slv-blk-front.jpg",
+        "title": "Gear Rider – Skeleton Tourbillon Masterpiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Gear Rider – Skeleton Tourbillon Masterpiece (Reference HBR-30027-1-AUTO-GEAR-SLV-BLK)."
       },
       {
-        "url": "/watch-cyber-cogwheel-skeleton-twotone-tactical.webp",
-        "title": "Tactical Field Horizon",
-        "label": "02 Tactical Field",
-        "caption": "Editorial macro on nautical rope and military binoculars highlighting the rugged two-tone architecture and red crown ring."
-      },
-      {
-        "url": "/watch-cyber-cogwheel-skeleton-twotone-wrist-medium.webp",
-        "title": "Sartorial Denim On-Wrist Horizon",
-        "label": "03 Denim Horizon",
-        "caption": "Outdoor on-wrist perspective in denim jacket showcasing the high-contrast two-tone finish and luminous mint markers."
-      },
-      {
-        "url": "/watch-cyber-cogwheel-skeleton-twotone-wrist-close.webp",
-        "title": "Macro Perspective On-Wrist Detail",
-        "label": "04 Wrist Macro",
-        "caption": "Close-up on-wrist angle under daylight highlighting the domed sapphire crystal, gear train, and riveted bezel."
+        "url": "/catalog/hbr-30027-1-auto-gear-slv-blk-view-1.jpg",
+        "title": "Gear Rider – Skeleton Tourbillon Masterpiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-30027-1-AUTO-GEAR-SLV-BLK."
       }
     ],
     "price": "₹36,999",
@@ -3828,7 +3706,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-30027-1-auto-gear-slv-blk-view-2.mp4"
   },
   {
     "id": "cyber-cogwheel-skeleton-steel",
@@ -4069,45 +3948,17 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Two-Tone Rose Gold Openwork",
-    "image": "/watch-architectural-skeleton-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-architectural-skeleton-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-906-auto-rgsl-front.jpg",
+    "transparentImage": "/catalog/hbr-906-auto-rgsl-front.jpg",
     "altImages": [
-      "/watch-architectural-skeleton-rosegold-front-transparent.webp",
-      "/watch-architectural-skeleton-rosegold-dark.webp",
-      "/watch-architectural-skeleton-rosegold-splash.webp",
-      "/watch-architectural-skeleton-rosegold-leather.webp",
-      "/watch-architectural-skeleton-rosegold-wrist.webp"
+      "/catalog/hbr-906-auto-rgsl-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-architectural-skeleton-rosegold-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical two-tone 316L steel and rose gold case showcasing the openwork bridge architecture, 10 o'clock balance wheel, and signal red hands."
-      },
-      {
-        "url": "/watch-architectural-skeleton-rosegold-dark.webp",
-        "title": "Dark Mineral Studio Setting",
-        "label": "02 Dark Mineral",
-        "caption": "High-contrast macro perspective resting on dark mineral stone highlighting the warm glow of the faceted rose gold bezel."
-      },
-      {
-        "url": "/watch-architectural-skeleton-rosegold-splash.webp",
-        "title": "Hydrodynamic Splash & 50M Rating",
-        "label": "03 Water Splash",
-        "caption": "Dynamic high-speed liquid capture demonstrating 50-meter water resistance and hermetic seal."
-      },
-      {
-        "url": "/watch-architectural-skeleton-rosegold-leather.webp",
-        "title": "Full-Grain Leather Setting",
-        "label": "04 Leather Horizon",
-        "caption": "Curated artistic composition resting on textured black leather highlighting the heat-blued screws and rose gold crown."
-      },
-      {
-        "url": "/watch-architectural-skeleton-rosegold-wrist.webp",
-        "title": "Sartorial Biker Lifestyle Presence",
-        "label": "05 Sartorial Biker",
-        "caption": "Lifestyle on-wrist presence paired with black leather biker jacket, exhibiting the solid two-tone articulated bracelet."
+        "url": "/catalog/hbr-906-auto-rgsl-front.jpg",
+        "title": "Hanboro Transperence Excellence Automatic Skeleton Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Transperence Excellence Automatic Skeleton Watch (Reference HBR-906-AUTO-RGSL)."
       }
     ],
     "price": "₹36,999",
@@ -4149,7 +4000,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-906-auto-rgsl-view-1.mp4"
   },
   {
     "id": "arachnid-geometric-skeleton",
@@ -4159,38 +4011,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Haute Métiers d'Art",
-    "image": "/watch-arachnid-geometric-front-transparent.webp",
-    "transparentImage": "/watch-arachnid-geometric-front-transparent.webp",
+    "image": "/catalog/hbr-918-auto-torque-green-front.jpg",
+    "transparentImage": "/catalog/hbr-918-auto-torque-green-front.jpg",
     "altImages": [
-      "/watch-arachnid-geometric-front-transparent.webp",
-      "/watch-arachnid-geometric-dark.webp",
-      "/watch-arachnid-geometric-wrist-macro.webp",
-      "/watch-arachnid-geometric-wrist-audio.webp"
+      "/catalog/hbr-918-auto-torque-green-front.jpg",
+      "/catalog/hbr-918-auto-torque-green-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-arachnid-geometric-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical faceted polygon 316L case featuring the 3D micro-sculpted silver hero, spider-web bridges, 9 o'clock balance wheel, and electric blue hands."
+        "url": "/catalog/hbr-918-auto-torque-green-front.jpg",
+        "title": "Torque Edge – Futuristic Mechanical Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Torque Edge – Futuristic Mechanical Timepiece (Reference HBR-918-AUTO-TORQUE-GREEN)."
       },
       {
-        "url": "/watch-arachnid-geometric-dark.webp",
-        "title": "Dark Mineral Studio Perspective",
-        "label": "02 Dark Mineral",
-        "caption": "Three-quarter isometric profile on dark stone exhibiting the diamond-cut polygonal bezel facets and black DLC crown."
-      },
-      {
-        "url": "/watch-arachnid-geometric-wrist-macro.webp",
-        "title": "Haute Horlogerie Macro On-Wrist",
-        "label": "03 Macro On-Wrist",
-        "caption": "Close-up on-wrist capture revealing the microscopic muscle striations and web texture of the silver hero sculpture."
-      },
-      {
-        "url": "/watch-arachnid-geometric-wrist-audio.webp",
-        "title": "Contemporary Creative Lifestyle Presence",
-        "label": "04 Creative Lifestyle",
-        "caption": "Lifestyle wrist capture emphasizing the modern avant-garde presence and ergonomic fluororubber strap."
+        "url": "/catalog/hbr-918-auto-torque-green-view-1.jpg",
+        "title": "Torque Edge – Futuristic Mechanical Timepiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-918-AUTO-TORQUE-GREEN."
       }
     ],
     "price": "₹37,999",
@@ -4233,7 +4071,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-918-auto-torque-green-view-2.mp4"
   },
   {
     "id": "cyber-green-skeleton",
@@ -4243,45 +4082,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Cyberpunk Supercar Skeleton",
-    "image": "/watch-cyber-green-skeleton-front-transparent.webp",
-    "transparentImage": "/watch-cyber-green-skeleton-front-transparent.webp",
+    "image": "/catalog/hbr-917-auto-avenger-slv-front.jpg",
+    "transparentImage": "/catalog/hbr-917-auto-avenger-slv-front.jpg",
     "altImages": [
-      "/watch-cyber-green-skeleton-front-transparent.webp",
-      "/watch-cyber-green-skeleton-cockpit.webp",
-      "/watch-cyber-green-skeleton-wrist-car.webp",
-      "/watch-cyber-green-skeleton-beam.webp",
-      "/watch-cyber-green-skeleton-chrome-transparent.webp"
+      "/catalog/hbr-917-auto-avenger-slv-front.jpg",
+      "/catalog/hbr-917-auto-avenger-slv-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-cyber-green-skeleton-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical stealth black DLC case featuring the neon green engraved polygon bezel, 10 o'clock balance wheel, spoke bridges, and hybrid strap."
+        "url": "/catalog/hbr-917-auto-avenger-slv-front.jpg",
+        "title": "TimeAvenger – Bold Skeletonized Hero Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of TimeAvenger – Bold Skeletonized Hero Timepiece (Reference HBR-917-AUTO-AVENGER-SLV)."
       },
       {
-        "url": "/watch-cyber-green-skeleton-cockpit.webp",
-        "title": "Automotive Cockpit On-Wrist Presence",
-        "label": "02 Cockpit On-Wrist",
-        "caption": "On-wrist perspective in supercar cockpit showing the anti-reflective blue sapphire flare and neon green accents."
-      },
-      {
-        "url": "/watch-cyber-green-skeleton-wrist-car.webp",
-        "title": "Supercar Exterior Lifestyle Presence",
-        "label": "03 Supercar Lifestyle",
-        "caption": "Lifestyle wrist capture on supercar door frame exhibiting the ergonomic case contouring and neon stitching."
-      },
-      {
-        "url": "/watch-cyber-green-skeleton-beam.webp",
-        "title": "Copper & Industrial Beam Studio Macro",
-        "label": "04 Industrial Copper",
-        "caption": "Three-quarter perspective resting on architectural copper beams highlighting the satin bezel brushing and titanium screws."
-      },
-      {
-        "url": "/watch-cyber-green-skeleton-chrome-transparent.webp",
-        "title": "Polished Chrome Beam Perspective",
-        "label": "05 Chrome Structure",
-        "caption": "Isometric studio perspective on chrome beams displaying the openwork gear train depth and high-lume hour markers."
+        "url": "/catalog/hbr-917-auto-avenger-slv-view-1.jpg",
+        "title": "TimeAvenger – Bold Skeletonized Hero Timepiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-917-AUTO-AVENGER-SLV."
       }
     ],
     "price": "₹37,999",
@@ -4333,10 +4151,12 @@ export const PRODUCTS_DATA = [
     "collection": "ROULETTE",
     "collectionName": "Casino & Roulette",
     "tag": "Mechanical Casino Action",
-    "image": "/watch-emerald-roulette.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
     "altImages": [
-      "/watch-emerald-roulette.webp",
-      "/watch-carousel-roulette.webp"
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-rg-green-view-3.jpg"
     ],
     "price": "₹52,999",
     "priceUsd": "$639",
@@ -4376,7 +4196,34 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN)."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-rg-green-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-RG-GREEN."
+      }
+    ]
   },
   {
     "id": "blue-roulette",
@@ -4386,10 +4233,12 @@ export const PRODUCTS_DATA = [
     "collection": "ROULETTE",
     "collectionName": "Casino & Roulette",
     "tag": "Mechanical Casino Action",
-    "image": "/watch-blue-roulette.webp",
+    "image": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
     "altImages": [
-      "/watch-blue-roulette.webp",
-      "/watch-carousel-roulette.webp"
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-1.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-2.jpg",
+      "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-3.jpg"
     ],
     "price": "₹52,999",
     "priceUsd": "$639",
@@ -4429,7 +4278,34 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-front.png",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Casino Series: Roulette Royale Automatic Watch (Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE)."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-1.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-2.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-3.jpg",
+        "title": "Casino Series: Roulette Royale Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
+      }
+    ]
   },
   {
     "id": "arctic-tonneau",
@@ -4439,10 +4315,13 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Avant-Garde Ergonomics",
-    "image": "/watch-arctic-tonneau-white.webp",
+    "image": "/catalog/hbr-945-3-auto-white-front.png",
     "altImages": [
-      "/watch-arctic-tonneau-white.webp",
-      "/clover-king-day.png"
+      "/catalog/hbr-945-3-auto-white-front.png",
+      "/catalog/hbr-945-3-auto-white-view-1.png",
+      "/catalog/hbr-945-3-auto-white-view-2.jpg",
+      "/catalog/hbr-945-3-auto-white-view-3.jpg",
+      "/catalog/hbr-945-3-auto-white-lume.jpg"
     ],
     "price": "₹44,999",
     "priceUsd": "$542",
@@ -4482,7 +4361,43 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-945-3-auto-white-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-945-3-auto-white-front.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition (Reference HBR-945-3-AUTO-WHITE)."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-view-1.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-view-2.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-view-3.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-lume.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
+      }
+    ],
+    "hasNightMode": true,
+    "nightImage": "/catalog/hbr-945-3-auto-white-lume.jpg",
+    "videoUrl": "/catalog/hbr-945-3-auto-white-view-4.mp4"
   },
   {
     "id": "sichuan-opera-diamond-tonneau",
@@ -4492,31 +4407,24 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Haute Métiers d'Art",
-    "image": "/watch-sichuan-opera-diamond-front-transparent.webp",
-    "transparentImage": "/watch-sichuan-opera-diamond-front-transparent.webp",
+    "image": "/catalog/hbr-927-gold-blk-front.jpg",
+    "transparentImage": "/catalog/hbr-927-gold-blk-front.jpg",
     "altImages": [
-      "/watch-sichuan-opera-diamond-front-transparent.webp",
-      "/watch-sichuan-opera-diamond-wrist-fan.webp",
-      "/watch-sichuan-opera-diamond-wrist-angle.webp"
+      "/catalog/hbr-927-gold-blk-front.jpg",
+      "/catalog/hbr-927-gold-blk-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-sichuan-opera-diamond-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 18K rose gold tonneau case with full pavé diamond bezel, hand-enameled Sichuan Opera mask at 6H, and folding fan sector at 12H."
+        "url": "/catalog/hbr-927-gold-blk-front.jpg",
+        "title": "Hanboro Facebook Series – FaceShift Automatic SIX faces. One bold identity. — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Facebook Series – FaceShift Automatic SIX faces. One bold identity. (Reference HBR-927-GOLD-BLK)."
       },
       {
-        "url": "/watch-sichuan-opera-diamond-wrist-fan.webp",
-        "title": "Sartorial Chinese Folding Fan Composition",
-        "label": "02 Opera Fan Heritage",
-        "caption": "Dramatic on-wrist capture framed against traditional Sichuan Opera mask folding fan showcasing cultural heritage."
-      },
-      {
-        "url": "/watch-sichuan-opera-diamond-wrist-angle.webp",
-        "title": "Pavé Diamond Brilliance & Profile",
-        "label": "03 Diamond Fire Profile",
-        "caption": "Three-quarter on-wrist perspective highlighting the curved 3D sapphire crystal, diamond pave fire, and ergonomic rubber strap."
+        "url": "/catalog/hbr-927-gold-blk-view-1.jpg",
+        "title": "Hanboro Facebook Series – FaceShift Automatic SIX faces. One bold identity. — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-927-GOLD-BLK."
       }
     ],
     "price": "₹52,999",
@@ -4558,7 +4466,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-927-gold-blk-view-2.mp4"
   },
   {
     "id": "sichuan-opera-diamond-steel",
@@ -4726,7 +4635,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-9038-auto-blue-front.mp4"
   },
   {
     "id": "stealth-fighter-jet-tonneau",
@@ -4736,45 +4646,24 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Haute Aviation Complication",
-    "image": "/watch-stealth-fighter-jet-front-transparent.webp",
-    "transparentImage": "/watch-stealth-fighter-jet-front-transparent.webp",
+    "image": "/catalog/hbr-933-auto-falconx-blk-front.jpg",
+    "transparentImage": "/catalog/hbr-933-auto-falconx-blk-front.jpg",
     "altImages": [
-      "/watch-stealth-fighter-jet-front-transparent.webp",
-      "/watch-stealth-fighter-jet-wing.webp",
-      "/watch-stealth-fighter-jet-sky.webp",
-      "/watch-stealth-fighter-jet-steel.webp",
-      "/watch-stealth-fighter-jet-back.webp"
+      "/catalog/hbr-933-auto-falconx-blk-front.jpg",
+      "/catalog/hbr-933-auto-falconx-blk-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-stealth-fighter-jet-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L steel tonneau case with diamond-pavé side flanks, 3D sculpted supersonic fighter jet, rotating blue earth disk, and electric blue hands."
+        "url": "/catalog/hbr-933-auto-falconx-blk-front.jpg",
+        "title": "Falcon X Series: Aviation-Inspired Precision Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Falcon X Series: Aviation-Inspired Precision Watch (Reference HBR-933-AUTO-FALCONX-BLK)."
       },
       {
-        "url": "/watch-stealth-fighter-jet-wing.webp",
-        "title": "Aviation Fuselage Perspective",
-        "label": "02 Aircraft Wing",
-        "caption": "Dramatic composition resting on aircraft wing under open skies, highlighting the aviation DNA and turbine crown."
-      },
-      {
-        "url": "/watch-stealth-fighter-jet-sky.webp",
-        "title": "In-Flight Aerial Horizon",
-        "label": "03 Flight Horizon",
-        "caption": "Perspective framed against open skies with aircraft in flight demonstrating the high-contrast stencil numerals and curved sapphire."
-      },
-      {
-        "url": "/watch-stealth-fighter-jet-steel.webp",
-        "title": "Aircraft Carrier Steel Studio",
-        "label": "04 Steel Structure",
-        "caption": "Three-quarter isometric studio capture on aircraft-grade reflective steel plate exhibiting the diamond pave fire."
-      },
-      {
-        "url": "/watch-stealth-fighter-jet-back.webp",
-        "title": "Exhibition Caliber & Turbine Rotor",
-        "label": "05 Exhibition Rotor",
-        "caption": "Detailed caseback exhibition showing the high-beat automatic caliber, skeleton turbine rotor, and engraved Hanboro buckle."
+        "url": "/catalog/hbr-933-auto-falconx-blk-view-1.jpg",
+        "title": "Falcon X Series: Aviation-Inspired Precision Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-933-AUTO-FALCONX-BLK."
       }
     ],
     "price": "₹37,999",
@@ -4817,7 +4706,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-933-auto-falconx-blk-view-2.mp4"
   },
   {
     "id": "forged-carbon-tonneau-tourbillon",
@@ -4827,47 +4717,47 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Bioluminescent Carbon Lume",
-    "image": "/watch-forged-carbon-tonneau-front-transparent.webp",
+    "image": "/catalog/hbr-900-3-auto-black-front.jpg",
     "nightImage": "/watch-forged-carbon-tonneau-night-glow.webp",
     "hasNightMode": true,
-    "transparentImage": "/watch-forged-carbon-tonneau-front-transparent.webp",
+    "transparentImage": "/catalog/hbr-900-3-auto-black-front.jpg",
     "altImages": [
-      "/watch-forged-carbon-tonneau-front-transparent.webp",
-      "/watch-forged-carbon-tonneau-night-glow.webp",
-      "/watch-forged-carbon-tonneau-ferrari.webp",
-      "/watch-forged-carbon-tonneau-wrist-leather.webp",
-      "/watch-forged-carbon-tonneau-wrist-macro.webp"
+      "/catalog/hbr-900-3-auto-black-front.jpg",
+      "/catalog/hbr-900-3-auto-black-view-1.jpg",
+      "/catalog/hbr-900-3-auto-black-view-2.jpg",
+      "/catalog/hbr-900-3-auto-black-view-3.jpg",
+      "/catalog/hbr-900-3-auto-black-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-tonneau-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Forged Damascus carbon case architecture showcasing the multi-layer skeleton caliber, Big Date panorama at 12 o'clock, and exposed balance bridge."
+        "url": "/catalog/hbr-900-3-auto-black-front.jpg",
+        "title": "Hanboro CarbonForge — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro CarbonForge (Reference HBR-900-3-AUTO-BLACK)."
       },
       {
-        "url": "/watch-forged-carbon-tonneau-night-glow.webp",
-        "title": "Bioluminescent Damascus Night Glow",
-        "label": "02 Night Lume Metamorphosis",
-        "caption": "Darkness reveals glowing emerald green phosphor veins running throughout the Damascus carbon case paired with luminous cyan skeleton numerals."
+        "url": "/catalog/hbr-900-3-auto-black-view-1.jpg",
+        "title": "Hanboro CarbonForge — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-900-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-tonneau-ferrari.webp",
-        "title": "Motorsport DNA & Red Scuderia Profile",
-        "label": "03 Motorsport Scuderia",
-        "caption": "Isometric perspective against crimson supercar bodywork highlighting the titanium spline screws and anodized racing yellow crown."
+        "url": "/catalog/hbr-900-3-auto-black-view-2.jpg",
+        "title": "Hanboro CarbonForge — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-900-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-tonneau-wrist-leather.webp",
-        "title": "Sartorial Biker Leather Presence",
-        "label": "04 On-Wrist Biker Style",
-        "caption": "Bold high-performance wrist presence paired with perforated black leather tailoring."
+        "url": "/catalog/hbr-900-3-auto-black-view-3.jpg",
+        "title": "Hanboro CarbonForge — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-900-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-tonneau-wrist-macro.webp",
-        "title": "Precision Macro Horology View",
-        "label": "05 Macro Inspection",
-        "caption": "Close-up ergonomic inspection of the curved 3D sapphire crystal, openwork gear trains, and red flange tachymeter."
+        "url": "/catalog/hbr-900-3-auto-black-view-4.jpg",
+        "title": "Hanboro CarbonForge — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-900-3-AUTO-BLACK."
       }
     ],
     "price": "₹44,999",
@@ -4910,7 +4800,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-900-3-auto-black-view-5.mp4"
   },
   {
     "id": "forged-carbon-damascus-10atm",
@@ -4920,45 +4811,52 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Forged Damascus Carbon 100M",
-    "image": "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
-    "transparentImage": "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
+    "image": "/catalog/hbr-945-3-auto-black-front.png",
+    "transparentImage": "/catalog/hbr-945-3-auto-black-front.png",
     "altImages": [
-      "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
-      "/watch-forged-carbon-damascus-10atm-angle-transparent.webp",
-      "/watch-forged-carbon-damascus-10atm-exploded-transparent.webp",
-      "/watch-forged-carbon-damascus-10atm-supercar.webp",
-      "/watch-forged-carbon-damascus-10atm-lifestyle.webp"
+      "/catalog/hbr-945-3-auto-black-front.png",
+      "/catalog/hbr-945-3-auto-black-view-1.jpg",
+      "/catalog/hbr-945-3-auto-black-view-2.png",
+      "/catalog/hbr-945-3-auto-black-view-3.png",
+      "/catalog/hbr-945-3-auto-black-view-4.png",
+      "/catalog/hbr-945-3-auto-black-view-5.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-damascus-10atm-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical forged Damascus carbon tonneau case with multi-register skeleton caliber, red caliper hand, and crimson crown."
+        "url": "/catalog/hbr-945-3-auto-black-front.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition (Reference HBR-945-3-AUTO-BLACK)."
       },
       {
-        "url": "/watch-forged-carbon-damascus-10atm-angle-transparent.webp",
-        "title": "Three-Quarter Studio Architecture",
-        "label": "02 Damascus Waves",
-        "caption": "Angled perspective highlighting the organic carbon wave layers, titanium spline screws, and curved sapphire glass."
+        "url": "/catalog/hbr-945-3-auto-black-view-1.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-damascus-10atm-exploded-transparent.webp",
-        "title": "Quick-Release Modular Architecture",
-        "label": "03 Quick-Release Lugs",
-        "caption": "Exploded technical view exhibiting the patented steel quick-release strap inserts and black deployant buckle."
+        "url": "/catalog/hbr-945-3-auto-black-view-2.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-damascus-10atm-supercar.webp",
-        "title": "Supercar Combustion Dynamic Studio",
-        "label": "04 Supercar Flames",
-        "caption": "Dramatic studio setting against supercar flame aura showcasing the automotive carbon heritage."
+        "url": "/catalog/hbr-945-3-auto-black-view-3.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-BLACK."
       },
       {
-        "url": "/watch-forged-carbon-damascus-10atm-lifestyle.webp",
-        "title": "Cyber Ambient On-Wrist Lifestyle",
-        "label": "05 Cyber Lifestyle",
-        "caption": "On-wrist perspective under neon ambient lighting showcasing the lightweight presence and ergonomic drape."
+        "url": "/catalog/hbr-945-3-auto-black-view-4.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-BLACK."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-black-view-5.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 06",
+        "label": "06 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-BLACK."
       }
     ],
     "price": "₹44,999",
@@ -5012,31 +4910,45 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Arctic Ceramic 100M",
-    "image": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-    "transparentImage": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+    "image": "/catalog/hbr-945-3-auto-white-front.png",
+    "transparentImage": "/catalog/hbr-945-3-auto-white-front.png",
     "altImages": [
-      "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-      "/watch-arctic-tonneau-10atm-white-straps.webp",
-      "/watch-arctic-tonneau-10atm-white-back-transparent.webp"
+      "/catalog/hbr-945-3-auto-white-front.png",
+      "/catalog/hbr-945-3-auto-white-view-1.png",
+      "/catalog/hbr-945-3-auto-white-view-2.jpg",
+      "/catalog/hbr-945-3-auto-white-view-3.jpg",
+      "/catalog/hbr-945-3-auto-white-lume.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical Arctic White ceramic-composite tonneau case with multi-register skeleton caliber and signal red caliper hand."
+        "url": "/catalog/hbr-945-3-auto-white-front.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition (Reference HBR-945-3-AUTO-WHITE)."
       },
       {
-        "url": "/watch-arctic-tonneau-10atm-white-straps.webp",
-        "title": "Modular Quick-Release Strap Collection",
-        "label": "02 Strap Suite",
-        "caption": "Studio exhibition showing the Arctic White & Forged Carbon editions alongside the multi-colored interchangeable fluororubber strap suite."
+        "url": "/catalog/hbr-945-3-auto-white-view-1.png",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
       },
       {
-        "url": "/watch-arctic-tonneau-10atm-white-back-transparent.webp",
-        "title": "Limited Edition Exhibition Caseback",
-        "label": "03 Limited Caseback",
-        "caption": "Three-quarter exhibition caseback showing the limited edition 0478 serial engraving, skeleton rotor, and 10ATM rating."
+        "url": "/catalog/hbr-945-3-auto-white-view-2.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-view-3.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-945-3-AUTO-WHITE."
+      },
+      {
+        "url": "/catalog/hbr-945-3-auto-white-lume.jpg",
+        "title": "Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition — Super-LumiNova Night Glow",
+        "label": "Lume Mode",
+        "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
     "price": "₹44,999",
@@ -5080,7 +4992,10 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "hasNightMode": true,
+    "nightImage": "/catalog/hbr-945-3-auto-white-lume.jpg",
+    "videoUrl": "/catalog/hbr-945-3-auto-white-view-4.mp4"
   },
   {
     "id": "forged-carbon-ribbed-shield",
@@ -5090,45 +5005,24 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Ribbed Forged Carbon",
-    "image": "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
+    "image": "/catalog/hbr-989-3-black-auto-front.jpg",
+    "transparentImage": "/catalog/hbr-989-3-black-auto-front.jpg",
     "altImages": [
-      "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
-      "/watch-forged-carbon-ribbed-shield-ferrari.webp",
-      "/watch-forged-carbon-ribbed-shield-biker.webp",
-      "/watch-forged-carbon-ribbed-shield-supercar.webp",
-      "/watch-forged-carbon-ribbed-shield-wrist.webp"
+      "/catalog/hbr-989-3-black-auto-front.jpg",
+      "/catalog/hbr-989-3-black-auto-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical black forged carbon tonneau case with horizontal ribbed hoods, dual shield bridges, and 4-point arrow skeleton caliber."
+        "url": "/catalog/hbr-989-3-black-auto-front.jpg",
+        "title": "HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch for Men — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch for Men (Reference HBR-989-3-BLACK-AUTO)."
       },
       {
-        "url": "/watch-forged-carbon-ribbed-shield-ferrari.webp",
-        "title": "Ferrari Supercar Cockpit Setting",
-        "label": "02 Ferrari Console",
-        "caption": "Automotive composition on red Ferrari interior console highlighting the racing composite engineering."
-      },
-      {
-        "url": "/watch-forged-carbon-ribbed-shield-biker.webp",
-        "title": "Biker Leather Sartorial Presence",
-        "label": "03 Biker Leather",
-        "caption": "On-wrist perspective with black leather motorcycle jacket and yellow helmet demonstrating the aggressive wrist silhouette."
-      },
-      {
-        "url": "/watch-forged-carbon-ribbed-shield-supercar.webp",
-        "title": "Supercar Wheel Studio Perspective",
-        "label": "04 Supercar Studio",
-        "caption": "Moody dark studio capture against sports car wheel showcasing the ribbed carbon striations."
-      },
-      {
-        "url": "/watch-forged-carbon-ribbed-shield-wrist.webp",
-        "title": "Perforated Driving Leather Macro",
-        "label": "05 Driving Leather",
-        "caption": "Close-up on-wrist capture with perforated leather driving jacket revealing the dual shield bridges and exposed rubies."
+        "url": "/catalog/hbr-989-3-black-auto-view-1.jpg",
+        "title": "HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch for Men — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-989-3-BLACK-AUTO."
       }
     ],
     "price": "₹52,999",
@@ -5171,7 +5065,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-black-auto-view-2.mp4"
   },
   {
     "id": "forged-carbon-ribbed-shield-blue",
@@ -5262,7 +5157,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-blue-auto-front.mp4"
   },
   {
     "id": "forged-carbon-ribbed-shield-green",
@@ -5346,7 +5242,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-green-auto-front.mp4"
   },
   {
     "id": "forged-carbon-ribbed-shield-red",
@@ -5430,7 +5327,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-red-auto-front.mp4"
   },
   {
     "id": "forged-carbon-ribbed-shield-white",
@@ -5521,7 +5419,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-white-auto-front.mp4"
   },
   {
     "id": "double-balance-cantilever-rosegold",
@@ -5605,7 +5504,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-985-auto-apex-rg-blk-front.mp4"
   },
   {
     "id": "double-balance-cantilever-yellow",
@@ -5696,7 +5596,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-985-auto-apex-slv-ylw-front.mp4"
   },
   {
     "id": "double-balance-cantilever-red",
@@ -5706,31 +5607,24 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Dual Balance Complication",
-    "image": "/watch-double-balance-cantilever-red-front-transparent.webp",
-    "transparentImage": "/watch-double-balance-cantilever-red-front-transparent.webp",
+    "image": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+    "transparentImage": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
     "altImages": [
-      "/watch-double-balance-cantilever-red-front-transparent.webp",
-      "/watch-double-balance-cantilever-red-ferrari.webp",
-      "/watch-double-balance-cantilever-red-cockpit.webp"
+      "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+      "/catalog/hbr-985-auto-apex-slvr-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-double-balance-cantilever-red-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L steel tonneau case with dual balance wheels, crimson red racing flange, and cantilever crown lock."
+        "url": "/catalog/hbr-985-auto-apex-slvr-front.jpg",
+        "title": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Reference HBR-985-AUTO-APEX-slvr)."
       },
       {
-        "url": "/watch-double-balance-cantilever-red-ferrari.webp",
-        "title": "Ferrari Rosso Corsa Automotive Presence",
-        "label": "02 Ferrari Console",
-        "caption": "Automotive composition resting on red Ferrari interior console highlighting the racing spirit."
-      },
-      {
-        "url": "/watch-double-balance-cantilever-red-cockpit.webp",
-        "title": "Sports Cockpit Driver's Perspective",
-        "label": "03 Cockpit Perspective",
-        "caption": "Cockpit on-wrist perspective behind the steering wheel showcasing the exposed dual balance wheels and crimson accents."
+        "url": "/catalog/hbr-985-auto-apex-slvr-view-1.jpg",
+        "title": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-985-AUTO-APEX-slvr."
       }
     ],
     "price": "₹59,999",
@@ -5773,7 +5667,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-985-auto-apex-slvr-view-2.mp4"
   },
   {
     "id": "clover-king-crimson",
@@ -5831,7 +5726,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-989-3-red-auto-front.mp4"
   },
   {
     "id": "imperial-dragon",
@@ -5841,9 +5737,10 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Haute Métiers d'Art",
-    "image": "/watch-carousel-dragon.webp",
+    "image": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
     "altImages": [
-      "/watch-carousel-dragon.webp"
+      "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+      "/catalog/hbr-1018-auto-zod-gld-view-1.jpg"
     ],
     "price": "₹50,999",
     "priceUsd": "$614",
@@ -5883,7 +5780,23 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-1018-auto-zod-gld-front.jpg",
+        "title": "Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition (Reference HBR-1018-AUTO-ZOD-GLD)."
+      },
+      {
+        "url": "/catalog/hbr-1018-auto-zod-gld-view-1.jpg",
+        "title": "Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1018-AUTO-ZOD-GLD."
+      }
+    ],
+    "videoUrl": "/catalog/hbr-1018-auto-zod-gld-view-2.mp4"
   },
   {
     "id": "octagonal-diamond-celestial",
@@ -5893,45 +5806,45 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Haute Joaillerie & Grand Date",
-    "image": "/watch-diamond-octagonal-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-front-transparent.webp",
+    "image": "/catalog/hbr-824-2-auto-blue-rg-front.png",
+    "transparentImage": "/catalog/hbr-824-2-auto-blue-rg-front.png",
     "altImages": [
-      "/watch-diamond-octagonal-front-transparent.webp",
-      "/watch-diamond-octagonal-angle-transparent.webp",
-      "/watch-diamond-octagonal-wrist.webp",
-      "/watch-diamond-octagonal-lifestyle-dune.webp",
-      "/watch-diamond-octagonal-lifestyle-sunset.webp"
+      "/catalog/hbr-824-2-auto-blue-rg-front.png",
+      "/catalog/hbr-824-2-auto-blue-rg-view-1.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-2.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-3.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical horological architecture featuring the double-digit Big Date aperture at 12 o'clock and precision baguette-cut diamond bezel."
+        "url": "/catalog/hbr-824-2-auto-blue-rg-front.png",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Meridian – Octagonal Day-Date  Automatic Watch (Reference HBR-824-2-AUTO-BLUE-RG)."
       },
       {
-        "url": "/watch-diamond-octagonal-angle-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 3/4 Perspective",
-        "caption": "Multi-faceted octagonal casing, satin-brushed chamfers, and fluted crown bearing the engraved Hanboro emblem."
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-1.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
       },
       {
-        "url": "/watch-diamond-octagonal-wrist.webp",
-        "title": "On-Wrist Sartorial Presence",
-        "label": "03 On-Wrist Collection",
-        "caption": "Bespoke wrist presence paired with tailored sartorial suiting, demonstrating the ergonomic multi-link bracelet drape."
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-2.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
       },
       {
-        "url": "/watch-diamond-octagonal-lifestyle-dune.webp",
-        "title": "Dune Horizon & Obsidian Texture",
-        "label": "04 Dune Horizon",
-        "caption": "Dynamic warm ambient lighting catching the midnight cobalt blue fluted dial and diamond-set geometry."
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-3.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
       },
       {
-        "url": "/watch-diamond-octagonal-lifestyle-sunset.webp",
-        "title": "Sunset Amber Flare Showcase",
-        "label": "05 Sunset Flare",
-        "caption": "Front-facing dramatic composition illuminated by warm golden hour radiance."
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-4.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
       }
     ],
     "price": "₹32,999",
@@ -5984,38 +5897,45 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Haute Joaillerie & Grand Date",
-    "image": "/watch-diamond-octagonal-bronze-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-bronze-front-transparent.webp",
+    "image": "/catalog/hbr-824-2-auto-brown-rg-front.png",
+    "transparentImage": "/catalog/hbr-824-2-auto-brown-rg-front.png",
     "altImages": [
-      "/watch-diamond-octagonal-bronze-front-transparent.webp",
-      "/watch-diamond-octagonal-bronze-angle-transparent.webp",
-      "/watch-diamond-octagonal-bronze-wrist.webp",
-      "/watch-diamond-octagonal-bronze-sunset.webp"
+      "/catalog/hbr-824-2-auto-brown-rg-front.png",
+      "/catalog/hbr-824-2-auto-brown-rg-view-1.jpg",
+      "/catalog/hbr-824-2-auto-brown-rg-view-2.jpg",
+      "/catalog/hbr-824-2-auto-brown-rg-view-3.jpg",
+      "/catalog/hbr-824-2-auto-brown-rg-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-bronze-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical rose gold casing and baguette-cut bezel showcasing the rich tobacco bronze fluted dial and double-digit Big Date aperture."
+        "url": "/catalog/hbr-824-2-auto-brown-rg-front.png",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Meridian – Octagonal Day-Date  Automatic Watch (Reference HBR-824-2-AUTO-BROWN-RG)."
       },
       {
-        "url": "/watch-diamond-octagonal-bronze-angle-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 3/4 Perspective",
-        "caption": "Sculpted octagonal geometry with vertical satin brushing, diamond-set chamfers, and Hanboro insignia fluted crown."
+        "url": "/catalog/hbr-824-2-auto-brown-rg-view-1.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BROWN-RG."
       },
       {
-        "url": "/watch-diamond-octagonal-bronze-wrist.webp",
-        "title": "Sartorial On-Wrist Presence",
-        "label": "03 Sartorial On-Wrist",
-        "caption": "Striking wrist presence paired with dark sartorial styling, demonstrating the ergonomic rose gold bracelet contours."
+        "url": "/catalog/hbr-824-2-auto-brown-rg-view-2.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BROWN-RG."
       },
       {
-        "url": "/watch-diamond-octagonal-bronze-sunset.webp",
-        "title": "Sunset Amber Flare Showcase",
-        "label": "04 Sunset Amber",
-        "caption": "Dramatic composition bathed in golden amber sunset radiance highlighting the champagne bronze dial nuances."
+        "url": "/catalog/hbr-824-2-auto-brown-rg-view-3.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BROWN-RG."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-brown-rg-view-4.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BROWN-RG."
       }
     ],
     "price": "₹32,999",
@@ -6068,38 +5988,45 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Haute Joaillerie & Grand Date",
-    "image": "/watch-diamond-octagonal-green-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-green-front-transparent.webp",
+    "image": "/catalog/hbr-824-2-auto-green-silver-front.png",
+    "transparentImage": "/catalog/hbr-824-2-auto-green-silver-front.png",
     "altImages": [
-      "/watch-diamond-octagonal-green-front-transparent.webp",
-      "/watch-diamond-octagonal-green-angle-transparent.webp",
-      "/watch-diamond-octagonal-green-wrist.webp",
-      "/watch-diamond-octagonal-green-sunset.webp"
+      "/catalog/hbr-824-2-auto-green-silver-front.png",
+      "/catalog/hbr-824-2-auto-green-silver-view-1.jpg",
+      "/catalog/hbr-824-2-auto-green-silver-view-2.jpg",
+      "/catalog/hbr-824-2-auto-green-silver-view-3.jpg",
+      "/catalog/hbr-824-2-auto-green-silver-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-green-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L steel architecture highlighting the deep emerald olive fluted dial, Big Date aperture at 12 o'clock, and baguette diamond bezel."
+        "url": "/catalog/hbr-824-2-auto-green-silver-front.png",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Meridian – Octagonal Day-Date  Automatic Watch (Reference HBR-824-2-AUTO-GREEN-SILVER)."
       },
       {
-        "url": "/watch-diamond-octagonal-green-angle-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 3/4 Perspective",
-        "caption": "Precision-machined steel octagonal bevels, satin-brushed link articulation, and fluted winding crown."
+        "url": "/catalog/hbr-824-2-auto-green-silver-view-1.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-GREEN-SILVER."
       },
       {
-        "url": "/watch-diamond-octagonal-green-wrist.webp",
-        "title": "Sartorial On-Wrist Presence",
-        "label": "03 Sartorial On-Wrist",
-        "caption": "Ergonomic wrist drape and high-contrast diamond luminescence paired with clean dark sartorial attire."
+        "url": "/catalog/hbr-824-2-auto-green-silver-view-2.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-GREEN-SILVER."
       },
       {
-        "url": "/watch-diamond-octagonal-green-sunset.webp",
-        "title": "Sunset Amber Flare Showcase",
-        "label": "04 Sunset Amber",
-        "caption": "Dramatic front composition bathed in warm golden sunset light reflecting off the baguette diamonds and emerald green dial."
+        "url": "/catalog/hbr-824-2-auto-green-silver-view-3.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-GREEN-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-green-silver-view-4.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-GREEN-SILVER."
       }
     ],
     "price": "₹32,999",
@@ -6152,10 +6079,13 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Integrated Luxury Sport",
-    "image": "/watch-rosegold-octagonal-blue.webp",
+    "image": "/catalog/hbr-824-2-auto-blue-rg-front.png",
     "altImages": [
-      "/watch-rosegold-octagonal-blue.webp",
-      "/watch-carousel-octagonal.webp"
+      "/catalog/hbr-824-2-auto-blue-rg-front.png",
+      "/catalog/hbr-824-2-auto-blue-rg-view-1.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-2.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-3.jpg",
+      "/catalog/hbr-824-2-auto-blue-rg-view-4.jpg"
     ],
     "price": "₹32,999",
     "priceUsd": "$398",
@@ -6195,7 +6125,40 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-824-2-auto-blue-rg-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-824-2-auto-blue-rg-front.png",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Meridian – Octagonal Day-Date  Automatic Watch (Reference HBR-824-2-AUTO-BLUE-RG)."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-1.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-2.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-3.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
+      },
+      {
+        "url": "/catalog/hbr-824-2-auto-blue-rg-view-4.jpg",
+        "title": "Hanboro Meridian – Octagonal Day-Date  Automatic Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
+      }
+    ]
   },
   {
     "id": "octagonal-skeleton-steel",
@@ -6205,10 +6168,14 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Architectural Openwork",
-    "image": "/watch-carousel-octagonal.webp",
+    "image": "/catalog/hbr-972-auto-rgld-front.png",
     "altImages": [
-      "/watch-carousel-octagonal.webp",
-      "/watch-rosegold-octagonal-blue.webp"
+      "/catalog/hbr-972-auto-rgld-front.png",
+      "/catalog/hbr-972-auto-rgld-view-1.png",
+      "/catalog/hbr-972-auto-rgld-view-2.jpg",
+      "/catalog/hbr-972-auto-rgld-view-3.jpg",
+      "/catalog/hbr-972-auto-rgld-view-4.JPG",
+      "/catalog/hbr-972-auto-rgld-view-5.JPG"
     ],
     "price": "₹27,999",
     "priceUsd": "$337",
@@ -6248,7 +6215,46 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-972-auto-rgld-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-972-auto-rgld-front.png",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OctaFrame – Silver Open-Heart Automatic (Reference HBR-972-AUTO-RGLD)."
+      },
+      {
+        "url": "/catalog/hbr-972-auto-rgld-view-1.png",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-972-AUTO-RGLD."
+      },
+      {
+        "url": "/catalog/hbr-972-auto-rgld-view-2.jpg",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-972-AUTO-RGLD."
+      },
+      {
+        "url": "/catalog/hbr-972-auto-rgld-view-3.jpg",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-972-AUTO-RGLD."
+      },
+      {
+        "url": "/catalog/hbr-972-auto-rgld-view-4.JPG",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-972-AUTO-RGLD."
+      },
+      {
+        "url": "/catalog/hbr-972-auto-rgld-view-5.JPG",
+        "title": "Hanboro OctaFrame – Silver Open-Heart Automatic — Perspective 06",
+        "label": "06 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-972-AUTO-RGLD."
+      }
+    ]
   },
   {
     "id": "orbital-moonphase",
@@ -6310,45 +6316,24 @@ export const PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Orbital Aurora Complication",
-    "image": "/watch-aurora-celestial-frost-front-transparent.webp",
-    "transparentImage": "/watch-aurora-celestial-frost-front-transparent.webp",
+    "image": "/catalog/hbr-848-auto-nebula-blk-front.jpg",
+    "transparentImage": "/catalog/hbr-848-auto-nebula-blk-front.jpg",
     "altImages": [
-      "/watch-aurora-celestial-frost-front-transparent.webp",
-      "/watch-aurora-celestial-frost-space.webp",
-      "/watch-aurora-celestial-frost-aurora.webp",
-      "/watch-aurora-celestial-frost-wrist-macro.webp",
-      "/watch-aurora-celestial-frost-wrist-denim.webp"
+      "/catalog/hbr-848-auto-nebula-blk-front.jpg",
+      "/catalog/hbr-848-auto-nebula-blk-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-aurora-celestial-frost-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L stainless steel architecture featuring the 6-screw bezel, stardust silver frost dial, pave diamond halo, and 24H Aurora sphere."
+        "url": "/catalog/hbr-848-auto-nebula-blk-front.jpg",
+        "title": "Silver Nebula – Diamond Hour Markers & Meteoric Texture — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Silver Nebula – Diamond Hour Markers & Meteoric Texture (Reference HBR-848-AUTO-NEBULA-BLK)."
       },
       {
-        "url": "/watch-aurora-celestial-frost-space.webp",
-        "title": "Cosmic Aurora & Obsidian Terrain",
-        "label": "02 Cosmic Perspective",
-        "caption": "Three-quarter isometric composition framed against deep space starlight and cosmic aurora clouds."
-      },
-      {
-        "url": "/watch-aurora-celestial-frost-aurora.webp",
-        "title": "Northern Lights Horizon Glow",
-        "label": "03 Polar Aurora",
-        "caption": "Front-facing showcase illuminated by the vibrant emerald glow of polar aurora borealis."
-      },
-      {
-        "url": "/watch-aurora-celestial-frost-wrist-macro.webp",
-        "title": "Celestial Night Sky Macro Inspection",
-        "label": "04 Macro On-Wrist",
-        "caption": "Close-up on-wrist tactile handling capturing the crystalline dial texture and diamond halo luminescence."
-      },
-      {
-        "url": "/watch-aurora-celestial-frost-wrist-denim.webp",
-        "title": "Sartorial Denim Lifestyle Presence",
-        "label": "05 Sartorial Denim",
-        "caption": "Effortless luxury sport styling with tailored denim, highlighting ergonomic fluororubber strap drape."
+        "url": "/catalog/hbr-848-auto-nebula-blk-view-1.jpg",
+        "title": "Silver Nebula – Diamond Hour Markers & Meteoric Texture — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-848-AUTO-NEBULA-BLK."
       }
     ],
     "price": "₹39,999",
@@ -6391,7 +6376,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-848-auto-nebula-blk-view-2.mp4"
   },
   {
     "id": "purple-chrono",
@@ -6401,10 +6387,12 @@ export const PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Sport Chronograph",
-    "image": "/watch-purple-chronograph.webp",
+    "image": "/catalog/hbr-1309-auto-purple-front.png",
     "altImages": [
-      "/watch-purple-chronograph.webp",
-      "/watch-green-diver.webp"
+      "/catalog/hbr-1309-auto-purple-front.png",
+      "/catalog/hbr-1309-auto-purple-view-1.png",
+      "/catalog/hbr-1309-auto-purple-view-2.jpg",
+      "/catalog/hbr-1309-auto-purple-view-3.jpg"
     ],
     "price": "₹24,999",
     "priceUsd": "$301",
@@ -6445,7 +6433,34 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-1309-auto-purple-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-1309-auto-purple-front.png",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph (Reference HBR-1309-AUTO-PURPLE)."
+      },
+      {
+        "url": "/catalog/hbr-1309-auto-purple-view-1.png",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
+      },
+      {
+        "url": "/catalog/hbr-1309-auto-purple-view-2.jpg",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
+      },
+      {
+        "url": "/catalog/hbr-1309-auto-purple-view-3.jpg",
+        "title": "Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1309-AUTO-PURPLE."
+      }
+    ]
   },
   {
     "id": "green-diver",
@@ -6455,10 +6470,13 @@ export const PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "200M Professional Diver",
-    "image": "/watch-green-diver.webp",
+    "image": "/catalog/hbr-1308-auto-sapphire-front.png",
     "altImages": [
-      "/watch-green-diver.webp",
-      "/watch-purple-chronograph.webp"
+      "/catalog/hbr-1308-auto-sapphire-front.png",
+      "/catalog/hbr-1308-auto-sapphire-view-1.png",
+      "/catalog/hbr-1308-auto-sapphire-view-2.png",
+      "/catalog/hbr-1308-auto-sapphire-view-3.jpg",
+      "/catalog/hbr-1308-auto-sapphire-view-4.jpg"
     ],
     "price": "₹52,999",
     "priceUsd": "$639",
@@ -6499,7 +6517,40 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-1308-auto-sapphire-front.png",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-1308-auto-sapphire-front.png",
+        "title": "Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch (Reference HBR-1308-AUTO-SAPPHIRE)."
+      },
+      {
+        "url": "/catalog/hbr-1308-auto-sapphire-view-1.png",
+        "title": "Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1308-AUTO-SAPPHIRE."
+      },
+      {
+        "url": "/catalog/hbr-1308-auto-sapphire-view-2.png",
+        "title": "Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1308-AUTO-SAPPHIRE."
+      },
+      {
+        "url": "/catalog/hbr-1308-auto-sapphire-view-3.jpg",
+        "title": "Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1308-AUTO-SAPPHIRE."
+      },
+      {
+        "url": "/catalog/hbr-1308-auto-sapphire-view-4.jpg",
+        "title": "Hanboro SeaKing Sapphire – Automatic Multi-Function Diver Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-1308-AUTO-SAPPHIRE."
+      }
+    ]
   },
   {
     "id": "powerreserve-black",
@@ -6592,38 +6643,52 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Minimalist Mechanical Gauge",
-    "image": "/watch-powerreserve-silver-front-transparent.webp",
-    "transparentImage": "/watch-powerreserve-silver-front-transparent.webp",
+    "image": "/catalog/hbr-902-auto-a200-silver-front.png",
+    "transparentImage": "/catalog/hbr-902-auto-a200-silver-front.png",
     "altImages": [
-      "/watch-powerreserve-silver-front-transparent.webp",
-      "/watch-powerreserve-silver-angle-transparent.webp",
-      "/watch-powerreserve-silver-studio.webp",
-      "/watch-powerreserve-silver-wrist.webp"
+      "/catalog/hbr-902-auto-a200-silver-front.png",
+      "/catalog/hbr-902-auto-a200-silver-view-1.png",
+      "/catalog/hbr-902-auto-a200-silver-view-2.png",
+      "/catalog/hbr-902-auto-a200-silver-view-3.png",
+      "/catalog/hbr-902-auto-a200-silver-view-4.jpg",
+      "/catalog/hbr-902-auto-a200-silver-view-5.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-silver-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L steel case with sunburst charcoal dial, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
+        "url": "/catalog/hbr-902-auto-a200-silver-front.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Reference HBR-902-AUTO-A200-SILVER)."
       },
       {
-        "url": "/watch-powerreserve-silver-angle-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 3/4 Perspective",
-        "caption": "Macro perspective displaying the multi-row articulated link bracelet, mirror-polished bezel bevels, and offset crown guard."
+        "url": "/catalog/hbr-902-auto-a200-silver-view-1.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER."
       },
       {
-        "url": "/watch-powerreserve-silver-studio.webp",
-        "title": "Architectural Studio Reflection",
-        "label": "03 Studio Reflection",
-        "caption": "Curated artistic presentation highlighting the interplay of ambient light across the steel case and dial crystal."
+        "url": "/catalog/hbr-902-auto-a200-silver-view-2.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER."
       },
       {
-        "url": "/watch-powerreserve-silver-wrist.webp",
-        "title": "Sartorial Executive On-Wrist Presence",
-        "label": "04 Sartorial On-Wrist",
-        "caption": "Sophisticated executive wrist presence paired with tailored business suiting and crisp white dress shirt."
+        "url": "/catalog/hbr-902-auto-a200-silver-view-3.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-902-auto-a200-silver-view-4.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-902-auto-a200-silver-view-5.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 06",
+        "label": "06 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER."
       }
     ],
     "price": "₹22,999",
@@ -6675,45 +6740,38 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Blued Steel Minimalist Gauge",
-    "image": "/watch-powerreserve-opaline-front-transparent.webp",
-    "transparentImage": "/watch-powerreserve-opaline-front-transparent.webp",
+    "image": "/catalog/hbr-902-auto-a200-black-silver-front.png",
+    "transparentImage": "/catalog/hbr-902-auto-a200-black-silver-front.png",
     "altImages": [
-      "/watch-powerreserve-opaline-front-transparent.webp",
-      "/watch-powerreserve-opaline-angle-transparent.webp",
-      "/watch-powerreserve-opaline-bracelet-transparent.webp",
-      "/watch-powerreserve-opaline-profile-transparent.webp",
-      "/watch-powerreserve-opaline-studio.webp"
+      "/catalog/hbr-902-auto-a200-black-silver-front.png",
+      "/catalog/hbr-902-auto-a200-black-silver-view-1.jpg",
+      "/catalog/hbr-902-auto-a200-black-silver-view-2.jpg",
+      "/catalog/hbr-902-auto-a200-black-silver-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-opaline-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical 316L steel case with radiant opaline silver dial, blued steel hands, 35-hour energy arc gauge, and circular date aperture at 6 o'clock."
+        "url": "/catalog/hbr-902-auto-a200-black-silver-front.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Reference HBR-902-AUTO-A200-BLACK-SILVER)."
       },
       {
-        "url": "/watch-powerreserve-opaline-angle-transparent.webp",
-        "title": "Three-Quarter Isometric Profile",
-        "label": "02 3/4 Perspective",
-        "caption": "Macro perspective displaying the high-flex articulated link bracelet, mirror-polished bezel bevels, and offset crown guard."
+        "url": "/catalog/hbr-902-auto-a200-black-silver-view-1.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-BLACK-SILVER."
       },
       {
-        "url": "/watch-powerreserve-opaline-bracelet-transparent.webp",
-        "title": "Articulated Steel Link Integration",
-        "label": "03 Bracelet Detail",
-        "caption": "Bottom-up architectural capture exhibiting the multi-row link curvature, solid end-links, and seamless case integration."
+        "url": "/catalog/hbr-902-auto-a200-black-silver-view-2.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-BLACK-SILVER."
       },
       {
-        "url": "/watch-powerreserve-opaline-profile-transparent.webp",
-        "title": "Crown Guard & Curved Crystal Profile",
-        "label": "04 Profile Silhouette",
-        "caption": "Side silhouette highlighting the ultra-slim 11.8mm case depth, engraved 'H' crown, and domed anti-reflective sapphire crystal."
-      },
-      {
-        "url": "/watch-powerreserve-opaline-studio.webp",
-        "title": "Dark Studio Texture Macro",
-        "label": "05 Studio Plinth",
-        "caption": "High-contrast studio composition resting on textured stone, highlighting the vivid cobalt-blue reflections of the hands."
+        "url": "/catalog/hbr-902-auto-a200-black-silver-view-3.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-BLACK-SILVER."
       }
     ],
     "price": "₹22,999",
@@ -6766,38 +6824,38 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Two-Tone Rose Gold Bauhaus",
-    "image": "/watch-powerreserve-twotone-front-transparent.webp",
-    "transparentImage": "/watch-powerreserve-twotone-front-transparent.webp",
+    "image": "/catalog/hbr-902-auto-a200-silver-rg-front.png",
+    "transparentImage": "/catalog/hbr-902-auto-a200-silver-rg-front.png",
     "altImages": [
-      "/watch-powerreserve-twotone-front-transparent.webp",
-      "/watch-powerreserve-twotone-wrist.webp",
-      "/watch-powerreserve-twotone-dark.webp",
-      "/watch-powerreserve-twotone-bronze.webp"
+      "/catalog/hbr-902-auto-a200-silver-rg-front.png",
+      "/catalog/hbr-902-auto-a200-silver-rg-view-1.jpg",
+      "/catalog/hbr-902-auto-a200-silver-rg-view-2.jpg",
+      "/catalog/hbr-902-auto-a200-silver-rg-view-3.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-twotone-front-transparent.webp",
-        "title": "Studio Front Profile",
-        "label": "01 Studio Front",
-        "caption": "Symmetrical two-tone 316L steel and rose gold case with radiant opaline silver dial, blued steel hands, and 35-hour energy arc gauge."
+        "url": "/catalog/hbr-902-auto-a200-silver-rg-front.png",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Reference HBR-902-AUTO-A200-SILVER-RG)."
       },
       {
-        "url": "/watch-powerreserve-twotone-wrist.webp",
-        "title": "Sartorial Cashmere On-Wrist Presence",
-        "label": "02 Sartorial Cashmere",
-        "caption": "Lifestyle wrist capture paired with luxury cream cashmere knitwear highlighting the warmth of the rose gold bezel."
+        "url": "/catalog/hbr-902-auto-a200-silver-rg-view-1.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER-RG."
       },
       {
-        "url": "/watch-powerreserve-twotone-dark.webp",
-        "title": "Tactile Velvet Studio Macro",
-        "label": "03 Velvet Texture",
-        "caption": "High-contrast macro perspective capturing the polished rose gold bezel bevels and thermally blued steel hands."
+        "url": "/catalog/hbr-902-auto-a200-silver-rg-view-2.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER-RG."
       },
       {
-        "url": "/watch-powerreserve-twotone-bronze.webp",
-        "title": "Three-Quarter Bronze Horizon Profile",
-        "label": "04 Bronze Horizon",
-        "caption": "Curated artistic composition against warm golden bronze light showing the two-tone bracelet curvature and crown guard."
+        "url": "/catalog/hbr-902-auto-a200-silver-rg-view-3.jpg",
+        "title": "Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-902-AUTO-A200-SILVER-RG."
       }
     ],
     "price": "₹22,999",
@@ -6850,9 +6908,10 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Vibrant Open-Heart",
-    "image": "/watch-turquoise-ringbell.webp",
+    "image": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
     "altImages": [
-      "/watch-turquoise-ringbell.webp"
+      "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+      "/catalog/hbr-ring-5378-2tiffany-view-1.jpg"
     ],
     "price": "₹82,600",
     "priceUsd": "$995",
@@ -6892,7 +6951,23 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "transparentImage": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+    "gallery": [
+      {
+        "url": "/catalog/hbr-ring-5378-2tiffany-front.jpg",
+        "title": "Hanboro Ring the Bell – The Celebration Timepiece   — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Ring the Bell – The Celebration Timepiece   (Reference HBR-RING-5378-2TIFFANY)."
+      },
+      {
+        "url": "/catalog/hbr-ring-5378-2tiffany-view-1.jpg",
+        "title": "Hanboro Ring the Bell – The Celebration Timepiece   — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-RING-5378-2TIFFANY."
+      }
+    ],
+    "videoUrl": "/catalog/hbr-ring-5378-2tiffany-view-2.mp4"
   },
   {
     "id": "hbr-8851-1-r-gold-silver",
@@ -6945,7 +7020,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8851-1-r_gold-silver-front.mp4"
   },
   {
     "id": "hbr-8851-1-r-gold-brown",
@@ -6998,7 +7074,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8851-1-r_gold-brown-front.mp4"
   },
   {
     "id": "hbr-8851-1-silver",
@@ -7008,17 +7085,24 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Four Leaf Clover Series",
-    "image": "/watch-carousel-octagonal.webp",
-    "transparentImage": "/watch-carousel-octagonal.webp",
+    "image": "/catalog/hbr-8851-1-silver-front.jpg",
+    "transparentImage": "/catalog/hbr-8851-1-silver-front.jpg",
     "altImages": [
-      "/watch-carousel-octagonal.webp"
+      "/catalog/hbr-8851-1-silver-front.jpg",
+      "/catalog/hbr-8851-1-silver-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-carousel-octagonal.webp",
-        "title": "Hanboro Four Leaf Clover Series – Skeleton Automatic Watch for Men",
-        "label": "Front View",
-        "caption": "The Hanboro Four Leaf Clover is where bold geometry meets refined mechanics. Its twelve-sided diamond-cut stainless steel bezel frames a captivating skeleton dial in a four-leaf clover design, symboli"
+        "url": "/catalog/hbr-8851-1-silver-front.jpg",
+        "title": "Hanboro Four Leaf Clover Series – Skeleton Automatic Watch for Men — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Four Leaf Clover Series – Skeleton Automatic Watch for Men (Reference HBR-8851-1-SILVER)."
+      },
+      {
+        "url": "/catalog/hbr-8851-1-silver-view-1.jpg",
+        "title": "Hanboro Four Leaf Clover Series – Skeleton Automatic Watch for Men — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-8851-1-SILVER."
       }
     ],
     "price": "₹41,999",
@@ -7051,7 +7135,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8851-1-silver-view-2.mp4"
   },
   {
     "id": "hbr-995-1-auto-gold",
@@ -7061,17 +7146,24 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "REV-X Ignition Tourbillon",
-    "image": "/watch-supercar-engine-block-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-supercar-engine-block-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-995-1-auto-gold-front.jpg",
+    "transparentImage": "/catalog/hbr-995-1-auto-gold-front.jpg",
     "altImages": [
-      "/watch-supercar-engine-block-rosegold-front-transparent.webp"
+      "/catalog/hbr-995-1-auto-gold-front.jpg",
+      "/catalog/hbr-995-1-auto-gold-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-supercar-engine-block-rosegold-front-transparent.webp",
-        "title": "Hanboro REV-X Ignition – Motorsport Edition - TOURBILLION WATCH",
-        "label": "Front View",
-        "caption": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nThe Hanboro REV-X Ignition is where motorsport adrenaline meets haute horology. Forged in 304 stainless steel with diamond knife case de"
+        "url": "/catalog/hbr-995-1-auto-gold-front.jpg",
+        "title": "Hanboro REV-X Ignition – Motorsport Edition - TOURBILLION WATCH — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro REV-X Ignition – Motorsport Edition - TOURBILLION WATCH (Reference HBR-995-1-AUTO-GOLD)."
+      },
+      {
+        "url": "/catalog/hbr-995-1-auto-gold-view-1.jpg",
+        "title": "Hanboro REV-X Ignition – Motorsport Edition - TOURBILLION WATCH — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-995-1-AUTO-GOLD."
       }
     ],
     "price": "₹44,999",
@@ -7104,7 +7196,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-995-1-auto-gold-view-2.mp4"
   },
   {
     "id": "hbr-2003-auto-hive-aquablue",
@@ -7114,17 +7207,24 @@ export const PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Queen Bee Mechanica",
-    "image": "/watch-diamond-octagonal-green-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-green-front-transparent.webp",
+    "image": "/catalog/hbr-2003-auto-hive-aquablue-front.jpg",
+    "transparentImage": "/catalog/hbr-2003-auto-hive-aquablue-front.jpg",
     "altImages": [
-      "/watch-diamond-octagonal-green-front-transparent.webp"
+      "/catalog/hbr-2003-auto-hive-aquablue-front.jpg",
+      "/catalog/hbr-2003-auto-hive-aquablue-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-green-front-transparent.webp",
-        "title": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch",
-        "label": "Front View",
-        "caption": "The Hanboro Queen Bee Series: Hive Mechanica is a royal tribute to precision and spectacle. Encased in 304 fine steel with diamond-knife artistry, it reveals the original Shanghai 1911 movement with 2"
+        "url": "/catalog/hbr-2003-auto-hive-aquablue-front.jpg",
+        "title": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Queen Bee Series: The Hive Mechanica – Royal Precision Watch (Reference HBR-2003-AUTO-HIVE-aquablue)."
+      },
+      {
+        "url": "/catalog/hbr-2003-auto-hive-aquablue-view-1.jpg",
+        "title": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-2003-AUTO-HIVE-aquablue."
       }
     ],
     "price": "₹41,999",
@@ -7157,7 +7257,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-2003-auto-hive-aquablue-view-2.mp4"
   },
   {
     "id": "hbr-8821-auto-astro-black",
@@ -7167,17 +7268,17 @@ export const PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "AstroSphere DualCore",
-    "image": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
+    "image": "/catalog/hbr-8821-auto-astro-black-front.jpg",
+    "transparentImage": "/catalog/hbr-8821-auto-astro-black-front.jpg",
     "altImages": [
-      "/watch-astroworld-tourbillon-dlc-front-transparent.webp"
+      "/catalog/hbr-8821-auto-astro-black-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-        "title": "AstroSphere DualCore –  Twin Tourbillon Timepiece",
-        "label": "Front View",
-        "caption": "The Hanboro AstroSphere DualCore redefines celestial watchmaking with its twin exposed flywheels and globe calendar display. Housed in a diamond-cut stainless steel case with sapphire clarity, the ske"
+        "url": "/catalog/hbr-8821-auto-astro-black-front.jpg",
+        "title": "AstroSphere DualCore –  Twin Tourbillon Timepiece — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of AstroSphere DualCore –  Twin Tourbillon Timepiece (Reference HBR-8821-AUTO-ASTRO-BLACK)."
       }
     ],
     "price": "₹41,999",
@@ -7210,7 +7311,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-8821-auto-astro-black-view-1.mp4"
   },
   {
     "id": "hbr-9038-auto-black",
@@ -7220,17 +7322,24 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Nautilus Spirit Great Wave",
-    "image": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
-    "transparentImage": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+    "image": "/catalog/hbr-9038-auto-black-front.jpg",
+    "transparentImage": "/catalog/hbr-9038-auto-black-front.jpg",
     "altImages": [
-      "/watch-sapphire-kanagawa-wave-front-transparent.webp"
+      "/catalog/hbr-9038-auto-black-front.jpg",
+      "/catalog/hbr-9038-auto-black-view-1.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
-        "title": "Hanboro Nautilus Spirit – Great Wave Edition",
-        "label": "Front View",
-        "caption": "The Hanboro Nautilus Spirit is a bold reimagining of modern horology. Its square transparent case and crystal bezel reveal the artistry of the Hangzhou 7500 skeleton movement, beating at 28,800 vph wi"
+        "url": "/catalog/hbr-9038-auto-black-front.jpg",
+        "title": "Hanboro Nautilus Spirit – Great Wave Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Nautilus Spirit – Great Wave Edition (Reference HBR-9038-AUTO-BLACK)."
+      },
+      {
+        "url": "/catalog/hbr-9038-auto-black-view-1.jpg",
+        "title": "Hanboro Nautilus Spirit – Great Wave Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-9038-AUTO-BLACK."
       }
     ],
     "price": "₹52,999",
@@ -7263,7 +7372,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-9038-auto-black-view-2.mp4"
   },
   {
     "id": "hbr-aero-997-rg-blk",
@@ -7273,17 +7383,45 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "AeroTwin Dual Movement",
-    "image": "/watch-arctic-tonneau-white.webp",
-    "transparentImage": "/watch-arctic-tonneau-white.webp",
+    "image": "/catalog/hbr-aero-997-rg-blk-front.png",
+    "transparentImage": "/catalog/hbr-aero-997-rg-blk-front.png",
     "altImages": [
-      "/watch-arctic-tonneau-white.webp"
+      "/catalog/hbr-aero-997-rg-blk-front.png",
+      "/catalog/hbr-aero-997-rg-blk-view-1.png",
+      "/catalog/hbr-aero-997-rg-blk-view-2.png",
+      "/catalog/hbr-aero-997-rg-blk-view-3.jpg",
+      "/catalog/hbr-aero-997-rg-blk-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-arctic-tonneau-white.webp",
-        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
-        "label": "Front View",
-        "caption": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structur"
+        "url": "/catalog/hbr-aero-997-rg-blk-front.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of AeroTwin 997 Series – Dual Movement Skeleton Watch (Reference HBR-AERO-997-RG-BLK)."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-rg-blk-view-1.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-rg-blk-view-2.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-rg-blk-view-3.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-rg-blk-view-4.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-RG-BLK."
       }
     ],
     "price": "₹54,999",
@@ -7326,17 +7464,45 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "AeroTwin Dual Movement",
-    "image": "/watch-arctic-tonneau-white.webp",
-    "transparentImage": "/watch-arctic-tonneau-white.webp",
+    "image": "/catalog/hbr-aero-997-blk-front.png",
+    "transparentImage": "/catalog/hbr-aero-997-blk-front.png",
     "altImages": [
-      "/watch-arctic-tonneau-white.webp"
+      "/catalog/hbr-aero-997-blk-front.png",
+      "/catalog/hbr-aero-997-blk-view-1.png",
+      "/catalog/hbr-aero-997-blk-view-2.png",
+      "/catalog/hbr-aero-997-blk-view-3.jpg",
+      "/catalog/hbr-aero-997-blk-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-arctic-tonneau-white.webp",
-        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
-        "label": "Front View",
-        "caption": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structur"
+        "url": "/catalog/hbr-aero-997-blk-front.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of AeroTwin 997 Series – Dual Movement Skeleton Watch (Reference HBR-AERO-997-BLK)."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-blk-view-1.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-blk-view-2.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-blk-view-3.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-BLK."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-blk-view-4.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-BLK."
       }
     ],
     "price": "₹54,999",
@@ -7379,17 +7545,45 @@ export const PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "AeroTwin Dual Movement",
-    "image": "/watch-arctic-tonneau-white.webp",
-    "transparentImage": "/watch-arctic-tonneau-white.webp",
+    "image": "/catalog/hbr-aero-997-silver-front.png",
+    "transparentImage": "/catalog/hbr-aero-997-silver-front.png",
     "altImages": [
-      "/watch-arctic-tonneau-white.webp"
+      "/catalog/hbr-aero-997-silver-front.png",
+      "/catalog/hbr-aero-997-silver-view-1.png",
+      "/catalog/hbr-aero-997-silver-view-2.png",
+      "/catalog/hbr-aero-997-silver-view-3.jpg",
+      "/catalog/hbr-aero-997-silver-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-arctic-tonneau-white.webp",
-        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch",
-        "label": "Front View",
-        "caption": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structur"
+        "url": "/catalog/hbr-aero-997-silver-front.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of AeroTwin 997 Series – Dual Movement Skeleton Watch (Reference HBR-AERO-997-SILVER)."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-silver-view-1.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-silver-view-2.png",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-silver-view-3.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-SILVER."
+      },
+      {
+        "url": "/catalog/hbr-aero-997-silver-view-4.jpg",
+        "title": "AeroTwin 997 Series – Dual Movement Skeleton Watch — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-SILVER."
       }
     ],
     "price": "₹54,999",
@@ -7432,17 +7626,45 @@ export const PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestia Astryx Zodiac",
-    "image": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-zodiac-1027-2-blue-front.png",
+    "transparentImage": "/catalog/hbr-zodiac-1027-2-blue-front.png",
     "altImages": [
-      "/watch-astroworld-moon-rosegold-front-transparent.webp"
+      "/catalog/hbr-zodiac-1027-2-blue-front.png",
+      "/catalog/hbr-zodiac-1027-2-blue-view-1.png",
+      "/catalog/hbr-zodiac-1027-2-blue-view-2.png",
+      "/catalog/hbr-zodiac-1027-2-blue-view-3.png",
+      "/catalog/hbr-zodiac-1027-2-blue-view-4.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial",
-        "label": "Front View",
-        "caption": "The Hanboro Celestia Astryx is a statement of celestial precision and mechanical artistry. Inspired by the movement of the cosmos, this timepiece features an intricately crafted zodiac dial paired wit"
+        "url": "/catalog/hbr-zodiac-1027-2-blue-front.png",
+        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial (Reference HBR-ZODIAC-1027-2-BLUE)."
+      },
+      {
+        "url": "/catalog/hbr-zodiac-1027-2-blue-view-1.png",
+        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-ZODIAC-1027-2-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-zodiac-1027-2-blue-view-2.png",
+        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-ZODIAC-1027-2-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-zodiac-1027-2-blue-view-3.png",
+        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-ZODIAC-1027-2-BLUE."
+      },
+      {
+        "url": "/catalog/hbr-zodiac-1027-2-blue-view-4.jpg",
+        "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-ZODIAC-1027-2-BLUE."
       }
     ],
     "price": "₹50,999",
@@ -7538,17 +7760,52 @@ export const PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Nations Cup Limited Series",
-    "image": "/watch-diamond-octagonal-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-front-transparent.webp",
+    "image": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
+    "transparentImage": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
     "altImages": [
-      "/watch-diamond-octagonal-front-transparent.webp"
+      "/catalog/hbr-wc-1038-rg-blk-front.PNG",
+      "/catalog/hbr-wc-1038-rg-blk-view-1.JPG",
+      "/catalog/hbr-wc-1038-rg-blk-view-2.jpeg",
+      "/catalog/hbr-wc-1038-rg-blk-view-3.png",
+      "/catalog/hbr-wc-1038-rg-blk-view-4.jpeg",
+      "/catalog/hbr-wc-1038-rg-blk-view-5.jpeg"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-front-transparent.webp",
-        "title": "Hanboro Worl Cup Edition",
-        "label": "Front View",
-        "caption": "Celebrate the spirit of the world's biggest football tournament with the Hanboro Football Legends Edition. Designed for passionate football fans and watch collectors alike, this limited-series timepie"
+        "url": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
+        "title": "Hanboro Worl Cup Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-RG-BLK)."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-rg-blk-view-1.JPG",
+        "title": "Hanboro Worl Cup Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-rg-blk-view-2.jpeg",
+        "title": "Hanboro Worl Cup Edition — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-rg-blk-view-3.png",
+        "title": "Hanboro Worl Cup Edition — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-rg-blk-view-4.jpeg",
+        "title": "Hanboro Worl Cup Edition — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-RG-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-rg-blk-view-5.jpeg",
+        "title": "Hanboro Worl Cup Edition — Perspective 06",
+        "label": "06 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-RG-BLK."
       }
     ],
     "price": "₹52,999",
@@ -7591,17 +7848,45 @@ export const PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Nations Cup Limited Series",
-    "image": "/watch-diamond-octagonal-front-transparent.webp",
-    "transparentImage": "/watch-diamond-octagonal-front-transparent.webp",
+    "image": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
+    "transparentImage": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
     "altImages": [
-      "/watch-diamond-octagonal-front-transparent.webp"
+      "/catalog/hbr-wc-1038-silver-blk-front.PNG",
+      "/catalog/hbr-wc-1038-silver-blk-view-1.JPG",
+      "/catalog/hbr-wc-1038-silver-blk-view-2.JPG",
+      "/catalog/hbr-wc-1038-silver-blk-view-3.JPG",
+      "/catalog/hbr-wc-1038-silver-blk-view-4.JPG"
     ],
     "gallery": [
       {
-        "url": "/watch-diamond-octagonal-front-transparent.webp",
-        "title": "Hanboro Worl Cup Edition",
-        "label": "Front View",
-        "caption": "Celebrate the spirit of the world's biggest football tournament with the Hanboro Football Legends Edition. Designed for passionate football fans and watch collectors alike, this limited-series timepie"
+        "url": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
+        "title": "Hanboro Worl Cup Edition — Front Dial View",
+        "label": "01 Front View",
+        "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-SILVER-BLK)."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-silver-blk-view-1.JPG",
+        "title": "Hanboro Worl Cup Edition — Perspective 02",
+        "label": "02 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-SILVER-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-silver-blk-view-2.JPG",
+        "title": "Hanboro Worl Cup Edition — Perspective 03",
+        "label": "03 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-SILVER-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-silver-blk-view-3.JPG",
+        "title": "Hanboro Worl Cup Edition — Perspective 04",
+        "label": "04 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-SILVER-BLK."
+      },
+      {
+        "url": "/catalog/hbr-wc-1038-silver-blk-view-4.JPG",
+        "title": "Hanboro Worl Cup Edition — Perspective 05",
+        "label": "05 View Angle",
+        "caption": "Horological craftsmanship inspection of Reference HBR-WC-1038-SILVER-BLK."
       }
     ],
     "price": "₹52,999",
@@ -7634,7 +7919,8 @@ export const PRODUCTS_DATA = [
       "packer": "Rise N Be Original Lifestyle Pvt Ltd, Building No. 3, 4th Floor, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India",
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
-    }
+    },
+    "videoUrl": "/catalog/hbr-wc-1038-silver-blk-view-5.mp4"
   }
 ];
 
