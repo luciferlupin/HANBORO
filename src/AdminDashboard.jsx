@@ -2812,12 +2812,13 @@ export function AdminDashboard({ onNavigateHome }) {
                   </h3>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
                     {[
-                      { title: "Hero Cinematic Stage", desc: "Fast-moving analogue clock entry, 3D particles & video stage", status: "Published", file: "HeroParticleStage.jsx" },
-                      { title: "Architectural Exhibition", desc: "Sapphire panoramic vaults & multi-axis tourbillon showcase", status: "Published", file: "ArchitecturalExhibitionSection.jsx" },
+                      { title: "Hero Cinematic Stage", desc: "Fast-moving analogue clock entry & boutique video stage", status: "Published", file: "App.jsx (HeroVideoSection)" },
+                      { title: "About Maison", desc: "Heritage, manufacture atelier and high-horology philosophy", status: "Published", file: "AboutMaisonSection.jsx" },
                       { title: "Subtle Mastery & Legacy", desc: "In-house mechanical movement caliber engineering narrative", status: "Published", file: "SubtleMasterySection.jsx" },
-                      { title: "Orbital Collections Engine", desc: "4 Core collections: Tourbillon, Casino, Skeleton & Tonneau", status: "Published", file: "CollectionsOrbitalSection.jsx" },
+                      { title: "Crafted With Legacy", desc: "Materials, sapphire crystal & architectural casing", status: "Published", file: "CraftedWithLegacySection.jsx" },
                       { title: "Horological Media Vault", desc: "Cinematic film shorts, YouTube series & micro-reels showcase", status: "Published", file: "MediaSection.jsx" },
                       { title: "Collector Testimonials", desc: "Verified collector reviews and bespoke unboxing experiences", status: "Published", file: "TestimonialsSection.jsx" },
+                      { title: "Boutique Concierge & Contact", desc: "VIP inquiries, studio appointments and direct support", status: "Published", file: "ContactSection.jsx" },
                     ].map((sec, i) => (
                       <div key={i} className="sp-card" style={{ padding: "18px", display: "flex", flexDirection: "column", gap: "10px" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>

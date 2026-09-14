@@ -21,6 +21,7 @@ import { SubtleMasterySection } from "./SubtleMasterySection";
 import { CraftedWithLegacySection } from "./CraftedWithLegacySection";
 import { AboutMaisonSection } from "./AboutMaisonSection";
 import { ContactSection } from "./ContactSection";
+import { HanboroLogo } from "./HanboroLogo";
 
 /* ── Error Boundary ────────────────────────────────────────────────────────── */
 class ErrorBoundary extends React.Component {
@@ -273,22 +274,7 @@ function useSmoothScroll() {
   return lenisRef;
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   OFFICIAL HANBORO LOGO (Direct from source image - Dark version only)
-══════════════════════════════════════════════════════════════════════════════ */
-export function HanboroLogo({ size = 28, theme = "dark" }) {
-  const src = theme === "light" ? "/hanboro-horizontal-light.png" : "/hanboro-horizontal-dark.png";
-  return (
-    <div className="hanboro-logo" style={{ height: size }}>
-      <img
-        src={src}
-        alt="HANBORO"
-        className="hanboro-logo__img"
-        style={{ height: size, width: "auto", display: "block", objectFit: "contain" }}
-      />
-    </div>
-  );
-}
+export { HanboroLogo };
 
 /* ══════════════════════════════════════════════════════════════════════════════
    CLOCK — Exact match to the reference photo:
