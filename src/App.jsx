@@ -617,36 +617,44 @@ function CloverKingExperience({ onInspectSku }) {
     } catch {}
   };
 
-  const isNight = glowProgress >= 50;
+  const dayPct = 100 - glowProgress;
+  const nightPct = glowProgress;
 
   return (
-    <section
-      className={`stage-section stage-section--direct stage-section--interactive ${isNight ? "is-night" : "is-day"}`}
-      id="interactive"
-      aria-labelledby="clover-title"
-      style={{ "--clover-progress": `${glowProgress}%` }}
-    >
-      <div className="clover-atmosphere" aria-hidden="true" />
+    <section className="stage-section stage-section--direct stage-section--interactive" id="interactive" aria-labelledby="clover-title">
+      {/* Section Header */}
+      <div className="stage-header" data-reveal>
+        <div className="stage-meta">
+          <span className="stage-index">CHAPTER 03 / 07</span>
+          <span className="stage-tag">KINETIC METAMORPHOSIS</span>
+        </div>
+        <h2 id="clover-title" className="stage-title">
+          How rare does time <em>need to be?</em>
+        </h2>
+        <p className="stage-subtitle">
+          Drag the interactive divider to reveal the Clover King from its refined daytime mechanical presence to its electric green luminous night expression.
+        </p>
+      </div>
 
-      <div className="clover-experience-shell clover-experience-shell--minimal">
-        <header className="clover-editorial" data-reveal>
-          <span className="clover-minimal-meta">CLOVER KING / LIGHT STUDY</span>
-          <h2 id="clover-title" className="stage-title clover-editorial__title">
-            Made for light.<br /><em>Built for night.</em>
-          </h2>
-          <p className="stage-subtitle clover-editorial__intro">
-            Move the slider to reveal the Clover King after dark.
-          </p>
-          <button
-            type="button"
-            className="clover-minimal-cta"
-            onClick={() => onInspectSku && onInspectSku("clover-king-crimson")}
-          >
-            Discover Clover King <span aria-hidden="true">↗</span>
-          </button>
-        </header>
+      {/* Main Interactive Stage Display */}
+      <div className="clover-interactive-stage" data-reveal data-reveal-delay="1">
+        <div className="clover-showcase">
+          {/* Left Column: Day Specs (Clean Point-to-Point) */}
+          <div className="clover-expr-col clover-expr-col--day">
+            <span className="clover-expr-tag">DAYLIGHT EXPRESSION</span>
+            <h3 className="clover-expr-heading">
+              Defiant by <em>daylight.</em>
+            </h3>
 
-        <div className="clover-interactive-stage" data-reveal data-reveal-delay="1">
+            <ul className="clover-points">
+              <li><span className="clover-bullet" aria-hidden="true"></span> Sculpted Anodized Tonneau Case</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Double-Domed Sapphire Glass</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Skeletonized Automatic Movement</li>
+              <li><span className="clover-bullet" aria-hidden="true"></span> Ergonomic Fluororubber Strap</li>
+            </ul>
+          </div>
+
+          {/* Center Column: Interactive Watch & Slider Track */}
           <div className="clover-stage-main">
             <div
               className={`clover-center ${isDragging ? "is-dragging" : ""}`}
@@ -659,6 +667,7 @@ function CloverKingExperience({ onInspectSku }) {
               style={{ touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}
             >
               <div className="clover-watch-stage">
+                {/* Background Layer: Day Watch */}
                 <div className="watch-layer watch-layer--day">
                   <img
                     src="/clover-king-day.png"
@@ -669,6 +678,7 @@ function CloverKingExperience({ onInspectSku }) {
                   />
                 </div>
 
+                {/* Foreground Layer: Night Watch */}
                 <div
                   className="watch-layer watch-layer--night"
                   style={{ clipPath: `inset(0 ${100 - glowProgress}% 0 0)` }}
@@ -682,22 +692,24 @@ function CloverKingExperience({ onInspectSku }) {
                   />
                 </div>
 
+                {/* Vertical Drag Handle Line */}
                 <div
                   className={`clover-divider-line ${isDragging ? "is-active" : ""}`}
                   style={{ left: `${glowProgress}%` }}
                 >
                   <div className="clover-handle-thumb">
-                    <span aria-hidden="true">‹ ›</span>
+                    <span>&lt; | &gt;</span>
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* Interactive Drag Slider Track */}
             <div className="clover-slider-row">
               <div className="slider-labels-top">
-                <span className="slider-lbl">DAY</span>
-                <span className="slider-mid">DRAG</span>
-                <span className="slider-lbl slider-lbl--green">NIGHT</span>
+                <span className={`slider-lbl ${glowProgress < 50 ? "is-active-side" : ""}`}>DAY {dayPct}%</span>
+                <span className="slider-mid">DRAG TO REVEAL GLOW</span>
+                <span className={`slider-lbl slider-lbl--green ${glowProgress >= 50 ? "is-active-side" : ""}`}>NIGHT {nightPct}%</span>
               </div>
 
               <div className="slider-track-wrap">
@@ -708,12 +720,71 @@ function CloverKingExperience({ onInspectSku }) {
                   value={glowProgress}
                   onChange={(e) => setGlowProgress(Number(e.target.value))}
                   className="clover-range-input"
-                  aria-label="Reveal the Clover King from daylight to night glow"
+                  aria-label="Drag slider to reveal glow from left to right"
                 />
               </div>
-              <p className="clover-minimal-specs">Citizen 8N24 · 42-hour reserve · 50m water resistance</p>
             </div>
           </div>
+
+          {/* Right Column: Night Specs (Clean Point-to-Point) */}
+          <div className="clover-expr-col clover-expr-col--night">
+            <span className="clover-expr-tag clover-expr-tag--green">LUMINOUS NIGHT EXPRESSION</span>
+            <h3 className="clover-expr-heading clover-expr-heading--green">
+              Alive after <em>dark.</em>
+            </h3>
+
+            <ul className="clover-points clover-points--green">
+              <li><span className="clover-bullet green" aria-hidden="true"></span> Swiss Super-LumiNova Grade X1</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> Glowing Clover Bridges & Indices</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> High-Contrast Midnight Hands</li>
+              <li><span className="clover-bullet green" aria-hidden="true"></span> 50M Pressure Aquatic Seal</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Movement Information Strip */}
+        <div className="movement-strip" data-reveal data-reveal-delay="2">
+          <div className="movement-strip__label">MOVEMENT SPECIFICATIONS</div>
+          <div className="movement-strip__grid">
+            <div className="movement-spec">
+              <span className="movement-spec__value">Automatic</span>
+              <span className="movement-spec__key">Movement Type</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">Citizen 8N24</span>
+              <span className="movement-spec__key">Calibre</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">~42h</span>
+              <span className="movement-spec__key">Power Reserve</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">21,600 bph</span>
+              <span className="movement-spec__key">Frequency</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">21</span>
+              <span className="movement-spec__key">Jewels</span>
+            </div>
+            <div className="movement-spec">
+              <span className="movement-spec__value">Skeletonized</span>
+              <span className="movement-spec__key">Architecture</span>
+            </div>
+          </div>
+          <p className="movement-strip__desc">
+            The Japanese <strong>CITIZEN 8N24</strong> mechanical movement is a beautifully engineered, skeletonized automatic caliber with a slim 5.55mm profile, 21 jewels, and 21,600 vibrations per hour. Featuring automatic and manual winding with a stop-second (hacking) mechanism and ~42 hours of power reserve.
+          </p>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "28px" }} data-reveal data-reveal-delay="3">
+          <button
+            type="button"
+            className="view-all-skus-cta"
+            onClick={() => onInspectSku && onInspectSku("clover-king-crimson")}
+          >
+            <span>View Clover King Specs & Details (REF. HBR-7701-CK)</span>
+            <span aria-hidden="true">↗</span>
+          </button>
         </div>
       </div>
     </section>
@@ -1317,7 +1388,6 @@ function HeroVideoSection({ onDiscover }) {
 
       {/* Centered Typography & CTA — CarbonX Chronotech */}
       <div className="hero-photo-content">
-        <span className="hero-photo-eyebrow">HANBORO / PERFORMANCE SERIES</span>
         <h1 className="hero-photo-title hero-photo-title--carbonx">
           <span className="hero-title-brand">CARBONX</span>
           <span className="hero-title-model">CHRONOTECH</span>
@@ -1332,11 +1402,6 @@ function HeroVideoSection({ onDiscover }) {
           <span className="hero-cta-arrow" aria-hidden="true">↗</span>
         </button>
       </div>
-
-      <a className="hero-scroll-cue" href="#interactive" aria-label="Scroll to the day and night experience">
-        <span>01 / DISCOVER</span>
-        <i aria-hidden="true" />
-      </a>
 
       {/* Floating Glassmorphism Mute / Unmute Button */}
       <button
@@ -3167,36 +3232,38 @@ function Website({ onRestart }) {
           onNavigateToStores={() => navigateTo("stores", "#stores")}
         />
       ) : (
-        <main className="home-page-flow">
+        <>
           {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
           <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
 
-          {/* ── ACT II: SIGNATURE PRODUCT / DAY-NIGHT KINETIC REVEAL ── */}
-          <CloverKingExperience onInspectSku={handleOpenSku} />
+          {/* ── ACT I.5: ABOUT THE MAISON / ABOUT US (Sacred Geometry Architectural Editorial) ── */}
+          <AboutMaisonSection />
 
-          {/* ── ACT III: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
+          {/* ── ACT II: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
+          <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+          {/* ── ACT III: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
+          <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+          {/* ── ACT IV: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
           <WatchCarouselSection
             onSelectProduct={handleOpenSku}
             onViewAllProducts={() => navigateTo("products", "#products")}
           />
 
-          {/* ── ACT IV: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
-          <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
+          {/* ── ACT V: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
+          <CloverKingExperience onInspectSku={handleOpenSku} />
 
-          {/* ── ACT V: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
-          <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
 
-          {/* ── ACT VI: ABOUT THE MAISON ── */}
-          <AboutMaisonSection />
-
-          {/* ── ACT VII: OUR MEDIA ── */}
+          {/* ── ACT VIII: OUR MEDIA (Genesis of Time Accordion Slat Gallery) ── */}
           <MediaSection onInspectSku={handleOpenSku} />
 
-          {/* ── ACT VIII: PATRON ACCLAIM ── */}
+          {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
           <TestimonialsSection onInspectSku={handleOpenSku} />
-          {/* ── ACT IX: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
+          {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
           <ContactSection />
-        </main>
+
+        </>
       )}
 
 
