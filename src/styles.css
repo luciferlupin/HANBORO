@@ -15253,6 +15253,58 @@ body.modal-open {
   padding-bottom: 80px;
 }
 
+/* ── Neutral watch-image presentation ───────────────────────────────────────
+   Product photography stays on true black with no white wash or red aura. */
+.pdp-gallery-column,
+.pdp-gallery-showcase-section,
+.pdp-gallery-item-card,
+.pdp-gallery-media-wrapper,
+.pdp-main-image-box,
+.pdp-lightbox-viewport,
+.pdp-thumb-card,
+.related-media,
+.maison-watch-card,
+.maison-card-stage,
+.apple-watch-card,
+.card-media-stage,
+.spotlight-visual-side,
+.modal-darkroom-column,
+.product-table-thumb {
+  background: #000000 !important;
+  background-image: none !important;
+}
+
+.pdp-gallery-aura,
+.darkroom-aura,
+.card-aura-glow,
+.spotlight-stage__aura,
+.spotlight-watch-halo {
+  display: none !important;
+  background: none !important;
+}
+
+.pdp-gallery-column,
+.pdp-gallery-item-card:hover,
+.pdp-gallery-item-card:focus-visible,
+.maison-watch-card:hover,
+.apple-watch-card:hover {
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.78) !important;
+}
+
+.pdp-main-img,
+.pdp-thumb-card img,
+.pdp-gallery-media-wrapper img,
+.pdp-lightbox-img,
+.related-media img,
+.maison-watch-img,
+.card-watch-photo,
+.spotlight-watch-img,
+.watch-float-img,
+.product-table-thumb {
+  background: transparent !important;
+  mix-blend-mode: normal !important;
+}
+
 /* Apple Floating Frosted Navbar */
 .privacy-navbar {
   display: flex;

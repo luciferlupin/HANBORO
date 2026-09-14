@@ -164,7 +164,7 @@ export function CartDrawer() {
 
                       <div className="cart-item-pricing">
                         <span className="cart-item-price-main">{product.price}</span>
-                        <span className="cart-item-price-sub">({product.priceUsd})</span>
+                        {product.priceUsd ? <span className="cart-item-price-sub">({product.priceUsd})</span> : null}
                       </div>
                     </div>
                   </div>

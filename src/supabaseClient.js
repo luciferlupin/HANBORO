@@ -1639,6 +1639,7 @@ export const productsService = {
                 p &&
                 typeof p === "object" &&
                 p.id &&
+                (p.isCustom === true || /-clone-/i.test(String(p.id))) &&
                 !PRODUCTS_DATA.some((m) =>
                   (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
                   (m.sku && p.sku && String(m.sku).toLowerCase() === String(p.sku).toLowerCase())
@@ -1690,9 +1691,6 @@ export const productsService = {
               ...m,
               stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
               isActive: cachedMatch.isActive !== false,
-              price: cachedMatch.price || m.price,
-              priceNumeric: cachedMatch.priceNumeric || m.priceNumeric,
-              priceUsd: cachedMatch.priceUsd || m.priceUsd,
               rank: cachedMatch.rank !== undefined && typeof cachedMatch.rank === "number" ? cachedMatch.rank : idx,
             };
           });
@@ -1769,6 +1767,7 @@ export const productsService = {
             isActive: row.is_active !== false,
             createdAt: row.created_at,
             updatedAt: row.updated_at,
+            isCustom: row.is_custom === true || rowSpecs.isCustom === true,
           };
         });
 
@@ -1794,15 +1793,6 @@ export const productsService = {
               ...lp,
               stock: remote.stock ?? lp.stock,
               isActive: remote.isActive ?? lp.isActive,
-              price: remote.price || lp.price,
-              priceNumeric: remote.priceNumeric || lp.priceNumeric,
-              priceUsd: remote.priceUsd || lp.priceUsd,
-              modelNumber: lp.modelNumber || remote.modelNumber || lp.specs?.modelNumber || "",
-              specs: {
-                ...(lp.specs || {}),
-                ...(remote.specs || {}),
-                modelNumber: lp.modelNumber || remote.modelNumber || lp.specs?.modelNumber || "",
-              },
               rank: lp.rank !== undefined && typeof lp.rank === "number"
                 ? lp.rank
                 : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
@@ -1814,7 +1804,8 @@ export const productsService = {
 
         // Any custom / cloned timepieces in Supabase not matching local id or sku
         const brandNewRemote = mapped
-          .filter((rp) => 
+          .filter((rp) =>
+            (rp.isCustom === true || /-clone-/i.test(String(rp.id))) &&
             !consumedRemoteIds.has(String(rp.id).toLowerCase()) &&
             (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase())) &&
             !["flying-skeleton", "celestial-tourbillon"].includes(rp.id) &&

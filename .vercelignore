@@ -3,3 +3,8 @@ dist
 .git
 .DS_Store
 *.log
+.vercel
+.user_uploaded
+qa
+tests
+*.mjs.log

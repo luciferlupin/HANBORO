@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { cpSync, existsSync, readdirSync } from "node:fs";
+import { copyFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,11 +11,12 @@ if (!existsSync(client)) {
   throw new Error("Missing dist/client directory to mirror to root dist");
 }
 
-// Mirror all client bundle items directly into dist/ so that Vercel's default
-// "dist" outputDirectory setting resolves index.html and assets immediately,
-// while preserving dist/client intact for Sites packaging and tests.
-for (const item of readdirSync(client)) {
-  cpSync(path.join(client, item), path.join(dist, item), { recursive: true });
+// Mirror index.html directly into dist/ for backward compatibility with tools
+// expecting dist/index.html, without duplicating the heavy 1.5GB assets.
+const clientIndex = path.join(client, "index.html");
+const distIndex = path.join(dist, "index.html");
+if (existsSync(clientIndex)) {
+  copyFileSync(clientIndex, distIndex);
 }
 
-console.log("Prepared root dist: successfully mirrored client assets to dist/ for Vercel.");
+console.log("Prepared root dist: index.html mirrored without duplicating heavy assets.");

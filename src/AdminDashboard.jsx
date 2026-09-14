@@ -1912,7 +1912,7 @@ export function AdminDashboard({ onNavigateHome }) {
                           </td>
                           <td className="sp-td--subdued">{p.collectionName || p.collection}</td>
                           <td className="sp-td--price sp-td--right">{p.price}</td>
-                          <td className="sp-td--price sp-td--right sp-td--subdued">{p.priceUsd || "$465"}</td>
+                          <td className="sp-td--price sp-td--right sp-td--subdued">{p.priceUsd || "Not listed"}</td>
                           <td>
                             <div style={{ display: "flex", gap: "6px" }}>
                               <button

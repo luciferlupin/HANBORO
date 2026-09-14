@@ -10,7 +10,8 @@ When implementing from a selected generated mock, treat that image as the source
 
 - The entry experience uses a fast-moving analogue clock before revealing the main site.
 - Use a high-contrast black, warm-white, and signal-red palette with expressive gradients.
-- Product-listing spreadsheets and linked Google Drive assets are actively ingested to equip the master catalogue with authentic high-resolution studio photography, transparent front cutouts, multi-perspective inspection galleries, Super-LumiNova night captures, and mechanical caliber motion reels stored locally in `public/catalog/`. Existing watch imagery is preserved as fallbacks where no spreadsheet photography exists.
+- Product-listing spreadsheets are used to correct catalogue facts, but their linked photos and videos must not be imported or published. Keep the site's pre-existing watch imagery as the visual source.
+- Present watch photography only on transparent or solid-black stages; do not place white backgrounds, red gradients, red auras, or red glow effects behind product imagery.
 - Admin Portal modals (Watch Editor Dossier, Delete Confirmation, Draft Orders, and Inspect Dialogues) and administrative cards use a clean, high-contrast Polaris/Apple-inspired light theme with 'Inter' and 'JetBrains Mono' typography, elevated card sections, crisp inputs, and intuitive action controls.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
