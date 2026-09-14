@@ -6,55 +6,9 @@ import { sortCatalogStably } from "./supabaseClient";
 
 /**
  * ProductsView (Maison Elegance Collection Page)
- * Inspired by high-fashion Behance editorial watch catalogues.
- * Features giant "ELEGANCE" title, dual-column editorial intro,
- * refined minimalist filter/sort bar, luxury 3-column product pedestals,
- * interactive wishlist hearts, and interstitial editorial showcase banners.
+ * Refined luxury watch catalogue featuring minimalist filter/sort bar,
+ * uniform 3-column product pedestals, interactive wishlist hearts, and fast actions.
  */
-const INTERSTITIAL_SPOTLIGHTS = {
-  3: {
-    sku: "astroworld-tourbillon-fluted-silver",
-    bg: "/watch-astroworld-moon-silver-moon.webp",
-    tag: "CELESTIAL COMPLICATION",
-    title: "Astroworld Celestial Tourbillon",
-    desc: "Photorealistic 3D cratered Moonphase complication with unconstrained kinetic balance."
-  },
-  8: {
-    sku: "casino-roulette-wheel-diamond-emerald",
-    bg: "/watch-casino-roulette-diamond-emerald-felt.webp",
-    tag: "CASINO ROULETTE COLLECTION",
-    title: "Casino Roulette Automatic Watch",
-    desc: "Precision weighted rotor with ceramic bearings and authentic spinning roulette wheel."
-  },
-  15: {
-    sku: "arctic-tonneau-white-10atm",
-    bg: "/watch-arctic-tonneau-10atm-white-straps.webp",
-    tag: "FORGED CARBON COLLECTION",
-    title: "Damascus Carbon 10ATM Chronometer",
-    desc: "Ultralight forged carbon architecture with scratchproof sapphire crystal and 100M water resistance."
-  },
-  22: {
-    sku: "cyber-cogwheel-skeleton-steel",
-    bg: "/watch-cyber-cogwheel-skeleton-steel-tactical.webp",
-    tag: "SKELETON AUTOMATIC",
-    title: "Cyber Cogwheel Dual-Axis Skeleton",
-    desc: "Openworked kinetic dial with 28,800 BPH movement and exposed skeleton gear-trains."
-  },
-  29: {
-    sku: "celestial-dragon-tourbillon-rosegold",
-    bg: "/watch-celestial-dragon-tourbillon-rosegold-lantern.webp",
-    tag: "SPECIAL EDITION",
-    title: "Celestial Imperial Dragon Tourbillon",
-    desc: "Hand-crafted 3D rose-gold dragon coiling through the flying tourbillon cage."
-  },
-  38: {
-    sku: "aurora-celestial-frost",
-    bg: "/watch-aurora-celestial-frost-aurora.webp",
-    tag: "COSMIC LUMINESCENCE",
-    title: "Aurora Celestial Frost Edition",
-    desc: "Super-LumiNova BGW9 celestial map illuminated under anti-reflective sapphire crystal."
-  }
-};
 
 export function ProductsView({
   selectedSkuId,
@@ -256,108 +210,86 @@ export function ProductsView({
           </div>
         ) : (
           <div className="maison-gallery-grid">
-            {filteredProducts.map((watch, index) => {
+            {filteredProducts.map((watch) => {
               const isWishlisted = !!wishlist[watch.id];
 
-              // Render an interstitial 2-span editorial poster at key rhythmic intervals
-              const spotlight = INTERSTITIAL_SPOTLIGHTS[index];
-
               return (
-                <React.Fragment key={watch.id}>
-                  {spotlight && (
-                    <div
-                      className="maison-interstitial-card"
-                      onClick={() => onSelectSku && onSelectSku(spotlight.sku)}
-                    >
-                      <div
-                        className="interstitial-bg-img"
-                        style={{ backgroundImage: `url('${spotlight.bg}')` }}
-                      />
-                      <div className="interstitial-overlay">
-                        <span className="interstitial-tag">{spotlight.tag}</span>
-                        <h3 className="interstitial-title">{spotlight.title}</h3>
-                        <p className="interstitial-desc">{spotlight.desc}</p>
-                        <span className="interstitial-cta">Explore Watch Details →</span>
-                      </div>
-                    </div>
-                  )}
-
-                  <article
-                    className="maison-watch-card"
-                    onClick={() => handleProductClick(watch)}
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleProductClick(watch);
-                      }
-                    }}
+                <article
+                  key={watch.id}
+                  className="maison-watch-card"
+                  onClick={() => handleProductClick(watch)}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleProductClick(watch);
+                    }
+                  }}
+                >
+                  {/* Top Wishlist Heart Button */}
+                  <button
+                    type="button"
+                    className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
+                    onClick={(e) => handleToggleWishlist(watch.id, e)}
+                    aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
                   >
-                    {/* Top Wishlist Heart Button */}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                  </button>
+
+                  {/* Centered Large Watch Visual Stage */}
+                  <div className="maison-card-stage">
+                    <div className="maison-card-shadow" aria-hidden="true" />
+                    <img
+                      src={watch.image}
+                      alt={watch.name}
+                      className="maison-watch-img"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+                      }}
+                    />
+                  </div>
+
+                  {/* Clean Single-Line Bottom Info: Model Name (Left) + Price (Right) */}
+                  <div className="maison-card-footer">
+                    <div className="maison-card-title-wrap">
+                      <h3 className="maison-card-title">{watch.name}</h3>
+                      {watch.collectionName && (
+                        <span className="maison-card-collection">{watch.collectionName}</span>
+                      )}
+                    </div>
+
+                    <div className="maison-card-price-wrap">
+                      <span className="maison-price-val">{watch.price}</span>
+                    </div>
+                  </div>
+
+                  {/* Hover Quick Actions */}
+                  <div className="maison-card-hover-actions" onClick={(e) => e.stopPropagation()}>
                     <button
                       type="button"
-                      className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
-                      onClick={(e) => handleToggleWishlist(watch.id, e)}
-                      aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                      className="maison-quick-bag-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(watch, 1, true);
+                      }}
                     >
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
+                      <span>+ Add to Bag</span>
                     </button>
-
-                    {/* Centered Large Watch Visual Stage */}
-                    <div className="maison-card-stage">
-                      <div className="maison-card-shadow" aria-hidden="true" />
-                      <img
-                        src={watch.image}
-                        alt={watch.name}
-                        className="maison-watch-img"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
-                        }}
-                      />
-                    </div>
-
-                    {/* Clean Single-Line Bottom Info: Model Name (Left) + Price (Right) */}
-                    <div className="maison-card-footer">
-                      <div className="maison-card-title-wrap">
-                        <h3 className="maison-card-title">{watch.name}</h3>
-                        {watch.collectionName && (
-                          <span className="maison-card-collection">{watch.collectionName}</span>
-                        )}
-                      </div>
-
-                      <div className="maison-card-price-wrap">
-                        <span className="maison-price-val">{watch.price}</span>
-                      </div>
-                    </div>
-
-                    {/* Hover Quick Actions */}
-                    <div className="maison-card-hover-actions" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        className="maison-quick-bag-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart(watch, 1, true);
-                        }}
-                      >
-                        <span>+ Add to Bag</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="maison-quick-buy-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          buyNow(watch);
-                        }}
-                      >
-                        <span>Buy Now ↗</span>
-                      </button>
-                    </div>
-                  </article>
-                </React.Fragment>
+                    <button
+                      type="button"
+                      className="maison-quick-buy-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        buyNow(watch);
+                      }}
+                    >
+                      <span>Buy Now ↗</span>
+                    </button>
+                  </div>
+                </article>
               );
             })}
           </div>
