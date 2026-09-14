@@ -147,8 +147,8 @@ export function ContactSection() {
               <div className="contact-row">
                 <span className="contact-label">Atelier Studio</span>
                 <address className="contact-address">
-                  <span>M5 M-Block, DLF Phase-2</span>
-                  <span>Gurgaon, Haryana 122002, India</span>
+                  <span>Building No. 3, 4th Floor, Block M, DLF City Phase II</span>
+                  <span>Road No. 5, Sector 25, Gurugram, Haryana 122008, India</span>
                 </address>
               </div>
             </div>

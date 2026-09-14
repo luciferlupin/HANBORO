@@ -3213,8 +3213,8 @@ function Website({ onRestart }) {
               <div className="footer__address">
                 <p className="eyebrow">Studio Location</p>
                 <address className="footer__address-text">
-                  M5 M-Block, DLF Phase-2, Sector 25<br />
-                  Gurgaon, Haryana 122002, India
+                  Building No. 3, 4th Floor, Block M, DLF City Phase II<br />
+                  Road Number 5, Sector 25, Gurugram, Haryana 122008, India
                 </address>
               </div>
 
@@ -3246,7 +3246,7 @@ function Website({ onRestart }) {
           <div className="footer__bottom is-always-visible">
             <div className="footer-bottom-brand-group">
               <HanboroLogo size={20} theme="light" />
-              <span>© 2026 Rise and Be Original Private Limited • ALL RIGHTS RESERVED</span>
+              <span>© 2026 RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED • ALL RIGHTS RESERVED</span>
             </div>
 
             <div className="footer-policies-list">

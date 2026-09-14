@@ -106,7 +106,7 @@ export function TermsOfService({ onNavigateHome, onNavigatePolicy, onNavigateToP
         <span className="apple-legal-eyebrow">Legal Terms</span>
         <h1 className="privacy-hero__title">Terms of Service</h1>
         <p className="privacy-hero__sub">
-          Rise N Be Original Lifestyle Pvt. Ltd.
+          Rise N Be Original Lifestyle Private Limited
         </p>
         <p className="privacy-hero__desc">
           These Terms of Service describe your rights and responsibilities when using Hanboro Watches e-commerce store and services.
@@ -483,10 +483,10 @@ export function TermsOfService({ onNavigateHome, onNavigatePolicy, onNavigateToP
                   </div>
                   <h3>Registered Company</h3>
                   <p style={{ fontSize: "14px", fontWeight: 600, color: "#ffffff", margin: "0 0 4px" }}>
-                    Rise N Be Original Lifestyle Pvt. Ltd.
+                    Rise N Be Original Lifestyle Private Limited
                   </p>
                   <span style={{ fontSize: "12px", color: "#a1a1a6", fontFamily: "-apple-system, monospace" }}>
-                    GSTIN: 07AAMCR0380F1ZE
+                    GSTIN: 06AAMCR0380F1ZG
                   </span>
                 </div>
 
@@ -529,9 +529,9 @@ export function TermsOfService({ onNavigateHome, onNavigatePolicy, onNavigateToP
                       <circle cx="12" cy="10" r="3" />
                     </svg>
                   </div>
-                  <h3>Address</h3>
+                  <h3>Registered Address</h3>
                   <address className="privacy-address">
-                    N1/27, DLF Phase 2, Gurugram, Haryana – 122008
+                    Building No. 3, 4th Floor, Block M, DLF City Phase II, Road No. 5, Sector 25, Gurugram, Haryana – 122008
                   </address>
                 </div>
               </div>
@@ -544,7 +544,7 @@ export function TermsOfService({ onNavigateHome, onNavigatePolicy, onNavigateToP
       <footer className="privacy-footer">
         <div className="privacy-footer__inner">
           <HanboroLogo theme="light" size={18} />
-          <p>© 2026 HANBORO WATCHES • RISE N BE ORIGINAL LIFESTYLE PVT. LTD.</p>
+          <p>© 2026 HANBORO WATCHES • RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED</p>
           <div className="footer-policies-list">
             <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("privacy")}>Privacy Policy</button>
             <span className="footer-policy-dot">•</span>

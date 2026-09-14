@@ -517,8 +517,8 @@ export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPr
                     </svg>
                   </div>
                   <h3>Direct Privacy Email</h3>
-                  <a href="mailto:shaktikart@gmail.com" className="privacy-contact-link">
-                    shaktikart@gmail.com
+                  <a href="mailto:connect@hanborowatches.in" className="privacy-contact-link">
+                    connect@hanborowatches.in
                   </a>
                   <button
                     type="button"
@@ -538,8 +538,8 @@ export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPr
                   </div>
                   <h3>Registered Studio</h3>
                   <address className="privacy-address">
-                    opposite rapid metro pillar no. 86 N1/27 DLF PHASE 2 GURUGRAM HARYANA,<br />
-                    dlf phase 2, GURUGRAM, HR, 122008, INDIA
+                    Building No. 3, 4th Floor, Block M, DLF City Phase II,<br />
+                    Road Number 5, Sector 25, Gurugram, Haryana 122008, India
                   </address>
                 </div>
 
@@ -565,7 +565,7 @@ export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPr
       <footer className="privacy-footer">
         <div className="privacy-footer__inner">
           <HanboroLogo theme="light" size={18} />
-          <p>© 2026 HANBORO WATCHES • ALL RIGHTS RESERVED</p>
+          <p>© 2026 HANBORO WATCHES • RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED</p>
           <div className="footer-policies-list">
             <button type="button" className="footer-privacy-link" onClick={() => onNavigatePolicy && onNavigatePolicy("privacy")}>Privacy Policy</button>
             <span className="footer-policy-dot">•</span>

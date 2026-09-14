@@ -2944,8 +2944,12 @@ export function AdminDashboard({ onNavigateHome }) {
                     <input type="text" defaultValue="connect@hanborowatches.in" disabled />
                   </div>
                   <div className="sp-settings-field">
-                    <label>Corporate Entity</label>
-                    <input type="text" defaultValue="Rise and Be Original Private Limited" disabled />
+                    <label>Corporate Legal Entity</label>
+                    <input type="text" defaultValue="RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED" disabled />
+                  </div>
+                  <div className="sp-settings-field">
+                    <label>Official GSTIN</label>
+                    <input type="text" defaultValue="06AAMCR0380F1ZG" disabled />
                   </div>
                 </div>
 
@@ -2960,8 +2964,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     <input type="text" defaultValue="Prepaid UPI / Cards / Net Banking + Concierge COD" disabled />
                   </div>
                   <div className="sp-settings-field">
-                    <label>Boutique Studio Location</label>
-                    <textarea defaultValue="M5 M-Block, DLF Phase-2, Sector 25, Gurgaon, Haryana 122002, India" rows="2" disabled />
+                    <label>Boutique Studio & Registered Location</label>
+                    <textarea defaultValue="Fourth Floor, Building No. 3, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India" rows="3" disabled />
                   </div>
                 </div>
               </div>
@@ -4355,12 +4359,12 @@ export function AdminDashboard({ onNavigateHome }) {
                   <h1 className="sp-invoice-logo">HANBORO</h1>
                   <span className="sp-invoice-sublogo">HAUTE HORLOGERIE • ATELIER SUISSE & INDIA</span>
                   <div className="sp-invoice-issuer-details">
-                    <strong>Hanboro Timepieces India Pvt. Ltd.</strong><br />
-                    Luxury Watchmaker Atelier, DLF Cyber City, Tower B, Level 14<br />
-                    Gurugram, Haryana - 122002, India<br />
-                    <span><strong>GSTIN:</strong> 06AABCH8901L1Z8</span> &nbsp;|&nbsp; <span><strong>CIN:</strong> U33300HR2023PTC109823</span><br />
+                    <strong>RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED</strong><br />
+                    Fourth Floor, Building No. 3, Block M, DLF City Phase II, Road Number 5, Sector 25<br />
+                    Gurugram, Haryana - 122008, India<br />
+                    <span><strong>GSTIN:</strong> 06AAMCR0380F1ZG</span> &nbsp;|&nbsp; <span><strong>Constitution:</strong> Private Limited Company</span><br />
                     <span><strong>HSN Chapter:</strong> 9102 (Wrist Watches)</span><br />
-                    <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; concierge@hanborowatches.in</span>
+                    <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; connect@hanborowatches.in</span>
                   </div>
                 </div>
 
@@ -4528,7 +4532,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <span>★ VERIFIED ATELIER ★</span>
                   </div>
                   <div className="sp-inv-sign-line">Authorized Signatory</div>
-                  <span className="sp-inv-company-name">For Hanboro Timepieces India Pvt. Ltd.</span>
+                  <span className="sp-inv-company-name">For RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED</span>
                 </div>
               </div>
             </div>
