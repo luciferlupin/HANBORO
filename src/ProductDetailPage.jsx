@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { PRODUCTS_DATA } from "./productsData";
 import { useStore } from "./StoreContext";
+import { forceScrollToTop } from "./scrollUtils";
 
 export function ProductDetailPage({
   skuId,
@@ -29,8 +30,8 @@ export function ProductDetailPage({
   const [inquiryName, setInquiryName] = useState("");
   const [inquiryContact, setInquiryContact] = useState("");
   const [inquiryCity, setInquiryCity] = useState("");
-  const [inquirySent, setInquirySent] = useState(false);
   const [showInquiryForm, setShowInquiryForm] = useState(false);
+  const [inquirySent, setInquirySent] = useState(false);
 
   // Lightbox Modal state
   const [lightboxIndex, setLightboxIndex] = useState(null);
@@ -47,10 +48,14 @@ export function ProductDetailPage({
           })))
     : [];
 
-  // Scroll to top on product change
+  // Instant scroll to top on SKU change
+  useLayoutEffect(() => {
+    forceScrollToTop();
+  }, [skuId]);
+
   useEffect(() => {
     if (!product) return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    forceScrollToTop();
     setActiveImage(product.image);
     setIsNightMode(false);
     setIsZoomed(false);
@@ -157,7 +162,10 @@ export function ProductDetailPage({
           <button
             type="button"
             className="pdp-back-btn"
-            onClick={onNavigateBack}
+            onClick={() => {
+              forceScrollToTop();
+              onNavigateBack();
+            }}
           >
             <span aria-hidden="true">←</span>
             <span>All Timepieces</span>
@@ -166,7 +174,7 @@ export function ProductDetailPage({
           <div className="pdp-breadcrumbs">
             <span className="crumb-dim">Collection</span>
             <span className="crumb-sep">/</span>
-            <span className="crumb-dim">{product.collectionName}</span>
+            <span className="crumb-dim">{product.collectionName || product.collection}</span>
             <span className="crumb-sep">/</span>
             <span className="crumb-active">{product.sku}</span>
           </div>
@@ -175,7 +183,10 @@ export function ProductDetailPage({
             <button
               type="button"
               className="sibling-btn"
-              onClick={() => onSelectSku(prevProduct.id)}
+              onClick={() => {
+                forceScrollToTop();
+                onSelectSku(prevProduct.id);
+              }}
               title={`Previous: ${prevProduct.name}`}
             >
               <span>← Prev Reference</span>
@@ -183,7 +194,10 @@ export function ProductDetailPage({
             <button
               type="button"
               className="sibling-btn"
-              onClick={() => onSelectSku(nextProduct.id)}
+              onClick={() => {
+                forceScrollToTop();
+                onSelectSku(nextProduct.id);
+              }}
               title={`Next: ${nextProduct.name}`}
             >
               <span>Next Reference →</span>
@@ -289,12 +303,12 @@ export function ProductDetailPage({
           <div className="pdp-details-column">
             <div className="pdp-sticky-wrap">
               <div className="pdp-meta-tags">
-                <span className="pdp-category-pill">{product.collectionName}</span>
-                <span className="pdp-tag-pill">{product.tag}</span>
+                <span className="pdp-category-pill">{product.collectionName || product.collection || "AUTOMATIC"}</span>
+                <span className="pdp-tag-pill">{product.tag || "HAUTE HORLOGERIE"}</span>
               </div>
 
               <h1 className="pdp-title">{product.name}</h1>
-              <p className="pdp-subtitle">{product.subtitle}</p>
+              {product.subtitle && <p className="pdp-subtitle">{product.subtitle}</p>}
 
               {/* Reference SKU & Copy Badge */}
               <div className="pdp-sku-row">
@@ -311,39 +325,47 @@ export function ProductDetailPage({
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                   </svg>
                 </button>
+                <span className="pdp-verified-badge">● Official Direct Import</span>
               </div>
 
               {/* Pricing & Availability Ribbon */}
               <div className="pdp-price-ribbon">
                 <div className="pdp-price-box">
-                  <span className="pdp-price-val">{product.price}</span>
-                  <span className="pdp-price-usd">({product.priceUsd} USD)</span>
+                  <div className="pdp-price-digits-row">
+                    <span className="pdp-price-val">{product.price}</span>
+                    {product.priceUsd && <span className="pdp-price-usd">({product.priceUsd} USD)</span>}
+                  </div>
+                  <span className="pdp-price-subtext">Inclusive of all Taxes & Insured Express Air Courier</span>
                 </div>
                 <div className="pdp-avail-box">
-                  <span className="pdp-avail-indicator">● {product.availability}</span>
-                  <span className="pdp-avail-sub">Direct Allocation</span>
+                  <span className="pdp-avail-indicator">● {product.availability || "In Stock"}</span>
+                  <span className="pdp-avail-sub">Dispatched within 24 Hours</span>
                 </div>
               </div>
 
               {/* Summary Description */}
-              <p className="pdp-summary-text">{product.summary}</p>
+              {product.summary && <p className="pdp-summary-text">{product.summary}</p>}
 
               {/* Key Bento Spec Tiles */}
               <div className="pdp-bento-preview">
                 <div className="pdp-spec-card">
                   <span className="spec-card-label">CALIBER</span>
-                  <span className="spec-card-val">{product.specs.movement.split(" ")[0]} {product.specs.movement.split(" ")[1]}</span>
-                  <span className="spec-card-sub">{product.specs.frequency}</span>
+                  <span className="spec-card-val">
+                    {product.specs?.movement ? product.specs.movement.split(" ").slice(0, 2).join(" ") : "Automatic Calibre"}
+                  </span>
+                  <span className="spec-card-sub">{product.specs?.frequency || "28,800 BPH"}</span>
                 </div>
                 <div className="pdp-spec-card">
                   <span className="spec-card-label">POWER RESERVE</span>
-                  <span className="spec-card-val">{product.specs.powerReserve.split(" ")[0]} {product.specs.powerReserve.split(" ")[1]}</span>
-                  <span className="spec-card-sub">Twin-Barrel</span>
+                  <span className="spec-card-val">{product.specs?.powerReserve || "42 Hours"}</span>
+                  <span className="spec-card-sub">Twin-Barrel System</span>
                 </div>
                 <div className="pdp-spec-card">
-                  <span className="spec-card-label">CASE PROFILE</span>
-                  <span className="spec-card-val">{product.specs.caseDimensions.split(" ")[0]}</span>
-                  <span className="spec-card-sub">{product.specs.waterResistance}</span>
+                  <span className="spec-card-label">CASE & GLASS</span>
+                  <span className="spec-card-val">
+                    {product.specs?.caseDimensions ? product.specs.caseDimensions.split(" ")[0] : "44mm"}
+                  </span>
+                  <span className="spec-card-sub">{product.specs?.glass ? product.specs.glass.split(" ")[0] : "Sapphire"} • {product.specs?.waterResistance || "50M"}</span>
                 </div>
               </div>
 
@@ -638,7 +660,10 @@ export function ProductDetailPage({
               <article
                 key={rel.id}
                 className="pdp-related-card"
-                onClick={() => onSelectSku(rel.id)}
+                onClick={() => {
+                  forceScrollToTop();
+                  onSelectSku(rel.id);
+                }}
               >
                 <div className="related-media">
                   <img src={rel.image} alt={rel.name} />

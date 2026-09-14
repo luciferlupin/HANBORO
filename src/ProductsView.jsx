@@ -3,6 +3,7 @@ import { CATEGORIES } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
 import { sortCatalogStably } from "./supabaseClient";
+import { forceScrollToTop } from "./scrollUtils";
 
 /**
  * ProductsView (Maison Elegance Collection Page)
@@ -28,7 +29,7 @@ export function ProductsView({
 
   // Scroll to top immediately when entering catalog
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    forceScrollToTop();
   }, []);
 
   const catalogList = useMemo(() => {
@@ -77,6 +78,7 @@ export function ProductsView({
   };
 
   const handleProductClick = (product) => {
+    forceScrollToTop();
     if (onSelectSku) {
       onSelectSku(product.id);
     }
@@ -226,17 +228,22 @@ export function ProductsView({
                     }
                   }}
                 >
-                  {/* Top Wishlist Heart Button */}
-                  <button
-                    type="button"
-                    className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
-                    onClick={(e) => handleToggleWishlist(watch.id, e)}
-                    aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                  >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                    </svg>
-                  </button>
+                  {/* Top Header: Collection Label (Left) + Wishlist Heart (Right) */}
+                  <div className="maison-card-header">
+                    <span className="maison-card-badge">
+                      {watch.collectionName || (watch.collection && watch.collection.replace(/_/g, " ")) || "HAUTE HORLOGERIE"}
+                    </span>
+                    <button
+                      type="button"
+                      className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
+                      onClick={(e) => handleToggleWishlist(watch.id, e)}
+                      aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      </svg>
+                    </button>
+                  </div>
 
                   {/* Centered Large Watch Visual Stage */}
                   <div className="maison-card-stage">
@@ -252,42 +259,58 @@ export function ProductsView({
                     />
                   </div>
 
-                  {/* Clean Single-Line Bottom Info: Model Name (Left) + Price (Right) */}
-                  <div className="maison-card-footer">
-                    <div className="maison-card-title-wrap">
-                      <h3 className="maison-card-title">{watch.name}</h3>
-                      {watch.collectionName && (
-                        <span className="maison-card-collection">{watch.collectionName}</span>
-                      )}
+                  {/* Structured Middle Info: Ref/Movement Eyebrow + 2-Line Clamped Title + Specs */}
+                  <div className="maison-card-body">
+                    <div className="maison-card-eyebrow">
+                      <span className="card-sku-code">REF. {watch.sku}</span>
+                      <span className="card-dot">•</span>
+                      <span className="card-caliber">{watch.specs?.movement ? watch.specs.movement.split(" ")[0] : "AUTOMATIC"}</span>
                     </div>
 
-                    <div className="maison-card-price-wrap">
-                      <span className="maison-price-val">{watch.price}</span>
+                    <h3 className="maison-card-title" title={watch.name}>
+                      {watch.name}
+                    </h3>
+
+                    <div className="maison-card-specs-line">
+                      <span>{watch.specs?.caseDimensions ? watch.specs.caseDimensions.split(" ")[0] : "44mm"}</span>
+                      <span className="card-dot">•</span>
+                      <span>{watch.specs?.glass ? watch.specs.glass.split(" ")[0] : "Sapphire"}</span>
+                      <span className="card-dot">•</span>
+                      <span>{watch.specs?.waterResistance || "50M WR"}</span>
                     </div>
                   </div>
 
-                  {/* Hover Quick Actions */}
-                  <div className="maison-card-hover-actions" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      type="button"
-                      className="maison-quick-bag-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart(watch, 1, true);
-                      }}
-                    >
-                      <span>+ Add to Bag</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="maison-quick-buy-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        buyNow(watch);
-                      }}
-                    >
-                      <span>Buy Now ↗</span>
-                    </button>
+                  {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
+                  <div className="maison-card-footer">
+                    <div className="maison-card-price-wrap">
+                      <span className="maison-price-val">{watch.price}</span>
+                      <span className="maison-price-note">Tax Included</span>
+                    </div>
+
+                    <div className="maison-card-actions" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        className="maison-card-action-btn maison-card-action-btn--bag"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(watch, 1, true);
+                        }}
+                        title="Add to Bag"
+                      >
+                        <span>+ Bag</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="maison-card-action-btn maison-card-action-btn--buy"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          buyNow(watch);
+                        }}
+                        title="Instant Buy Now"
+                      >
+                        <span>Buy Now ↗</span>
+                      </button>
+                    </div>
                   </div>
                 </article>
               );

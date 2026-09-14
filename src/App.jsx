@@ -6,6 +6,7 @@ import { ProductDetailPage } from "./ProductDetailPage";
 import { PRODUCTS_DATA, getProductByIdOrSku } from "./productsData";
 import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
 import { StoreProvider, useStore } from "./StoreContext";
+import { forceScrollToTop } from "./scrollUtils";
 import { AuthModal } from "./AuthModal";
 import { CartDrawer } from "./CartDrawer";
 import { CheckoutModal } from "./CheckoutModal";
@@ -2905,12 +2906,15 @@ function Website({ onRestart }) {
       } else if (hash.startsWith("#sku/")) {
         setView("products");
         setSelectedSkuId(hash.replace("#sku/", "").trim());
+        forceScrollToTop();
       } else if (hash.startsWith("#product/")) {
         setView("products");
         setSelectedSkuId(hash.replace("#product/", "").trim());
+        forceScrollToTop();
       } else if (hash.startsWith("#products") || hash.startsWith("#archive") || hash.startsWith("#timepieces")) {
         setView("products");
         setSelectedSkuId(null);
+        forceScrollToTop();
       } else if (hash === "#home" || hash === "#top" || !hash || hash.startsWith("#collection") || hash.startsWith("#lookbook") || hash.startsWith("#packaging") || hash.startsWith("#contact")) {
         setView("home");
         setSelectedSkuId(null);
@@ -2949,20 +2953,25 @@ function Website({ onRestart }) {
     if (hashTarget) {
       window.location.hash = hashTarget;
       if (newView === "home") {
-        window.scrollTo({ top: 0, behavior: "instant" });
-        setTimeout(() => {
-          if (hashTarget !== "#top" && hashTarget !== "#home") {
+        if (hashTarget === "#top" || hashTarget === "#home") {
+          forceScrollToTop();
+        } else {
+          setTimeout(() => {
             const el = document.querySelector(hashTarget);
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }, 50);
+            if (el) {
+              if (window.__hanboro_lenis) {
+                window.__hanboro_lenis.scrollTo(el, { offset: -64, duration: 0.8 });
+              } else {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }, 60);
+        }
       } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        forceScrollToTop();
       }
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      forceScrollToTop();
     }
   };
 
@@ -2971,6 +2980,7 @@ function Website({ onRestart }) {
     setMenuOpen(false);
     setView("products");
     window.location.hash = `#sku/${skuOrId}`;
+    forceScrollToTop();
   };
 
   return (
@@ -3221,6 +3231,7 @@ function Website({ onRestart }) {
           onNavigateBack={() => {
             setSelectedSkuId(null);
             navigateTo("products", "#products");
+            forceScrollToTop();
           }}
           onSelectSku={(skuId) => handleOpenSku(skuId)}
           onNavigateToStores={() => navigateTo("stores", "#stores")}
