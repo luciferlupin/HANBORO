@@ -30,7 +30,7 @@ test("Production clean-slate: draftOrdersService.fetchDraftOrders returns 0 draf
 });
 
 test("Inventory Check: Master watch catalogue and inventory allocations are 100% intact", () => {
-  assert.equal(PRODUCTS_DATA.length, 98, "Master catalogue must contain all 98 timepieces");
+  assert.equal(PRODUCTS_DATA.length, 104, "Master catalogue must contain all 104 authenticated timepieces");
   PRODUCTS_DATA.forEach((p) => {
     assert.ok(p.id, "Every watch must have an ID");
     assert.ok(p.sku, "Every watch must have a valid SKU");
@@ -40,7 +40,7 @@ test("Inventory Check: Master watch catalogue and inventory allocations are 100%
 });
 
 test("Excel Data Integrity: Watch Model Number matches name and pricing across all timepieces", () => {
-  assert.equal(PRODUCTS_DATA.length, 98);
+  assert.equal(PRODUCTS_DATA.length, 104);
   const invalidInternalIds = new Set(["1270347", "2538803", "CERAMIC", "7200", "8022"]);
 
   PRODUCTS_DATA.forEach((p) => {

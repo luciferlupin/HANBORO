@@ -19,9 +19,9 @@ global.window = {
 import { PRODUCTS_DATA } from "../src/productsData.js";
 import { productsService, sortCatalogStably, CANONICAL_PRODUCT_ORDER } from "../src/supabaseClient.js";
 
-test("Master catalogue contains all 98 authenticated timepieces with model numbers and pricing", () => {
+test("Master catalogue contains all authenticated timepieces with model numbers and pricing", () => {
   const localProducts = productsService.getLocalProducts();
-  assert.equal(localProducts.length, 98);
+  assert.equal(localProducts.length, PRODUCTS_DATA.length);
 
   localProducts.forEach((watch) => {
     assert.ok(watch.id, "Watch must have an ID");
@@ -77,15 +77,15 @@ test("Cloning a watch copies the exact same watch attributes (name, modelNumber,
 
   // 2. Save product and verify stable ordering
   const updatedCatalog = await productsService.saveProduct(cloned);
-  assert.equal(updatedCatalog.length, 99);
+  assert.equal(updatedCatalog.length, PRODUCTS_DATA.length + 1);
 
   const targetIdx = updatedCatalog.findIndex((p) => p.id === sourceWatch.id);
   const cloneIdx = updatedCatalog.findIndex((p) => p.id === cloneId);
   assert.equal(cloneIdx, targetIdx + 1, "Cloned watch must be positioned immediately adjacent to original watch");
 
-  // 3. Refresh simulation (getLocalProducts): all 98 master watches + clone must show
+  // 3. Refresh simulation (getLocalProducts): all master watches + clone must show
   const refreshed = productsService.getLocalProducts();
-  assert.equal(refreshed.length, 99, "Catalog must not drop watches on refresh");
+  assert.equal(refreshed.length, PRODUCTS_DATA.length + 1, "Catalog must not drop watches on refresh");
 
   const rTargetIdx = refreshed.findIndex((p) => p.id === sourceWatch.id);
   const rCloneIdx = refreshed.findIndex((p) => p.id === cloneId);
