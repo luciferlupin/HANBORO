@@ -4802,12 +4802,14 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
 }
 
 .card-watch-photo {
   max-width: 86%;
   max-height: 100%;
   object-fit: contain;
+  mix-blend-mode: screen;
   filter: drop-shadow(0 20px 26px rgba(0, 0, 0, 0.8));
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -5754,15 +5756,18 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .pdp-nav-left {
   display: flex;
   align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
+  gap: 10px;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .pdp-nav-divider {
@@ -5770,6 +5775,7 @@ body.modal-open {
   height: 16px;
   background: rgba(255, 255, 255, 0.15);
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .pdp-back-btn {
@@ -5798,23 +5804,34 @@ body.modal-open {
 .pdp-breadcrumbs {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 11.5px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .crumb-dim {
   color: rgba(245, 242, 237, 0.45);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .crumb-sep {
   color: rgba(245, 242, 237, 0.2);
+  flex-shrink: 0;
 }
 
 .crumb-active {
   color: var(--red);
   font-family: var(--font-main);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 10.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  max-width: 240px;
 }
 
 .pdp-sibling-nav {
@@ -5861,7 +5878,7 @@ body.modal-open {
 .pdp-gallery-column {
   position: sticky;
   top: 124px;
-  background: radial-gradient(circle at 50% 45%, #180d0d 0%, #0c0808 65%, #060606 100%);
+  background: radial-gradient(circle at 50% 45%, #0d0808 0%, #080505 65%, #040404 100%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   padding: 20px 22px 22px;
@@ -5928,13 +5945,15 @@ body.modal-open {
   justify-content: center;
   overflow: hidden;
   cursor: crosshair;
+  background: transparent;
 }
 
 .pdp-main-img {
   max-width: 90%;
   max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.95));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.85));
   transition: transform 0.1s ease-out;
   pointer-events: none;
 }
@@ -5995,7 +6014,7 @@ body.modal-open {
   position: relative;
   width: 68px;
   height: 68px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(8, 5, 5, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 3px;
@@ -6005,6 +6024,7 @@ body.modal-open {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .pdp-thumb-card img {
@@ -6012,6 +6032,7 @@ body.modal-open {
   height: 100%;
   object-fit: contain;
   padding: 2px;
+  mix-blend-mode: screen;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.7));
   border-radius: 8px;
 }
@@ -12184,18 +12205,20 @@ body.modal-open {
 .apple-cart-card-img-wrap {
   width: 54px;
   height: 54px;
-  background: #0b0b0e;
+  background: #060406;
   border-radius: 10px;
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 .apple-cart-card-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  mix-blend-mode: screen;
 }
 .apple-cart-card-info {
   flex: 1;

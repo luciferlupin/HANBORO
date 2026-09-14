@@ -1,7 +1,7 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // HANBORO OFFICIAL MASTER PRODUCTS & SKU CATALOG
-// Synchronized from Official Listing Dossier (Hanboro - Listing File w F.IMG (2).xlsx)
-// Incorporating Authentic High-Resolution Photography from Excel Assets
+// Synchronized from Official Listing Dossier & Tata CLiQ Luxury Verified Pricing
+// Incorporating Authentic High-Resolution Photography
 // Every timepiece equipped with Canonical Model Number, Name & Verified Pricing
 // ══════════════════════════════════════════════════════════════════════════════
 
@@ -72,7 +72,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "24 Synthetic Rubies & Heat-Treated Screws",
@@ -94,7 +94,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Carbon Composite Presentation Case & NFC Warranty Passport",
       "modelNumber": "989-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -108,7 +109,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-989-3-black-auto-view-2.mp4",
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "clover-king-crimson",
@@ -138,7 +140,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "21,600 VPH (3.0 Hz)",
       "powerReserve": "Approx. 42 Hours",
       "jewels": "21 Jewels",
@@ -159,7 +161,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Collector's Vault Presentation Box with UV Lume Torch",
       "modelNumber": "989-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -173,7 +176,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-989-3-red-auto-front.mp4",
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "forged-carbon-ribbed-shield-green",
@@ -203,7 +207,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "24 Synthetic Rubies & Heat-Treated Screws",
@@ -225,7 +229,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Carbon Composite Presentation Case & NFC Warranty Passport",
       "modelNumber": "989-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -239,7 +244,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-989-3-green-auto-front.mp4",
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-989-3-orange-auto",
@@ -270,7 +276,8 @@ export const PRODUCTS_DATA = [
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
       "modelNumber": "989-3",
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\""
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -283,7 +290,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "forged-carbon-ribbed-shield-white",
@@ -313,7 +321,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "24 Synthetic Rubies & Heat-Treated Screws",
@@ -335,7 +343,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte White Presentation Case & NFC Warranty Passport",
       "modelNumber": "989-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -349,7 +358,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-989-3-white-auto-front.mp4",
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "forged-carbon-ribbed-shield-blue",
@@ -379,7 +389,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "specs": {
-      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 8N24 mechanical movement\n\"Thickness: 5.55mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "24 Synthetic Rubies & Heat-Treated Screws",
@@ -401,7 +411,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Carbon Composite Presentation Case & NFC Warranty Passport",
       "modelNumber": "989-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -415,7 +426,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-989-3-blue-auto-front.mp4",
-    "modelNumber": "989-3"
+    "modelNumber": "989-3",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-8851-1-silver",
@@ -453,7 +465,7 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "specs": {
       "modelNumber": "8851-1",
-      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n",
+      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -463,7 +475,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "7/50M",
       "strap": "LEATHER ()",
       "clasp": "Push Button Hidden Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -477,7 +490,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8851-1-silver-view-2.mp4",
-    "modelNumber": "8851-1"
+    "modelNumber": "8851-1",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-8851-1-r-gold-silver",
@@ -508,7 +522,7 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "specs": {
       "modelNumber": "8851-1",
-      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n",
+      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -518,7 +532,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER ()",
       "clasp": "Push Button Hidden Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -532,7 +547,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8851-1-r_gold-silver-front.mp4",
-    "modelNumber": "8851-1"
+    "modelNumber": "8851-1",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-8851-1-r-gold-brown",
@@ -563,7 +579,7 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "specs": {
       "modelNumber": "8851-1",
-      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n",
+      "movement": "Japanese Seiko NH38 mechanical movement\"Thickness: 5.32mm\n24 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -573,7 +589,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER ()",
       "clasp": "Push Button Hidden Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -587,7 +604,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8851-1-r_gold-brown-front.mp4",
-    "modelNumber": "8851-1"
+    "modelNumber": "8851-1",
+    "mrpNumeric": 41999
   },
   {
     "id": "double-balance-cantilever-rosegold",
@@ -617,7 +635,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\"",
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
       "frequency": "Dual 28,800 VPH (4.0 Hz × 2) Harmonic Resonance",
       "powerReserve": "50 Hours",
       "jewels": "35 Synthetic Rubies & Heat-Blued Screws",
@@ -639,7 +657,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Automotive Vault Case with Laser-Cut Steel Insignia & NFC Passport",
       "modelNumber": "985",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -653,7 +672,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-985-auto-apex-rg-blk-front.mp4",
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "hbr-985-auto-apex-rg-red",
@@ -684,7 +704,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
       "modelNumber": "985",
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\""
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -697,7 +718,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "hbr-985-auto-apex-slv-red",
@@ -728,7 +750,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
       "modelNumber": "985",
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\""
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -741,7 +764,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "double-balance-cantilever-yellow",
@@ -771,7 +795,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\"",
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
       "frequency": "Dual 28,800 VPH (4.0 Hz × 2) Harmonic Resonance",
       "powerReserve": "50 Hours",
       "jewels": "35 Synthetic Rubies & Heat-Blued Screws",
@@ -793,7 +817,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Automotive Vault Case with Laser-Cut Steel Insignia & NFC Passport",
       "modelNumber": "985",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -807,7 +832,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-985-auto-apex-slv-ylw-front.mp4",
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "hbr-985-auto-apex-rg-fblk",
@@ -838,7 +864,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
       "modelNumber": "985",
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\""
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -851,7 +878,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "double-balance-cantilever-red",
@@ -888,7 +916,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "specs": {
-      "movement": " Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel\n\"",
+      "movement": "Shanghai JHLS33-1 mechanical movement \"Thickness: 7.0mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nDouble Flying Wheel",
       "frequency": "Dual 28,800 VPH (4.0 Hz × 2) Harmonic Resonance",
       "powerReserve": "50 Hours",
       "jewels": "35 Synthetic Rubies & Heat-Blued Screws",
@@ -910,7 +938,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Automotive Vault Case with Laser-Cut Steel Insignia & NFC Passport",
       "modelNumber": "985",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
     "priceNumeric": 59999,
@@ -924,7 +953,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-985-auto-apex-slvr-view-2.mp4",
-    "modelNumber": "985"
+    "modelNumber": "985",
+    "mrpNumeric": 59999
   },
   {
     "id": "hbr-980-auto-orbita-g",
@@ -955,7 +985,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Orbita – Tourbillon Watch with Planetarium Design\nA cosmic fusion of mechanics and design.\n\nFeaturing a 24-hour rotating globe, luminous starfield, and engraved flywheel, the Hanboro Orbita captures the beauty of the universe in motion. Powered by the Shanghai 2797B mechanical movement with a 42-hour reserve, it showcases a visible tourbillon through a skeleton dial and exhibition caseback.\n\nHoused in rose gold 304 stainless steel with a 3D sapphire crystal mirror and paired with a soft silicone strap, it’s bold, brilliant, and built for visionaries",
     "specs": {
       "modelNumber": "980-1",
-      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -969,7 +1000,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
     "videoUrl": "/catalog/hbr-980-auto-orbita-gold-view-2.mp4",
-    "modelNumber": "980-1"
+    "modelNumber": "980-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "astroworld-celestial-silver",
@@ -999,7 +1031,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Orbita – Tourbillon Watch with Planetarium Design\nA cosmic fusion of mechanics and design.\n\nFeaturing a 24-hour rotating globe, luminous starfield, and engraved flywheel, the Hanboro Orbita captures the beauty of the universe in motion. Powered by the Shanghai 2797B mechanical movement with a 42-hour reserve, it showcases a visible tourbillon through a skeleton dial and exhibition caseback.\n\nHoused in rose gold 304 stainless steel with a 3D sapphire crystal mirror and paired with a soft silicone strap, it’s bold, brilliant, and built for visionaries",
     "specs": {
-      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "72 Hours (Twin-Barrel High-Torque System)",
       "jewels": "33 Synthetic Rubies",
@@ -1021,7 +1053,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Wooden Vault with Domed Viewing Port & Collector Passport",
       "modelNumber": "980-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -1035,7 +1068,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-980-auto-orbita-s-front.mp4",
-    "modelNumber": "980-1"
+    "modelNumber": "980-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "hbr-995-1-auto-g",
@@ -1066,7 +1100,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "specs": {
       "modelNumber": "995-1",
-      "movement": "Case Material: 304 stainless steel with diamond knife-shaped case designCrystal: Irregular-shaped glass mirror with diamond knife craftsmanship – bright, transparent, and water-repellentMovement: Shanghai 2797B hollow mechanical movementFrequency: 21,600 vibrations/hourPower Reserve: 42 hoursDial: Convex skeleton dial with carved Earth-shaped flywheel and luminous detailingCaseback: Hollow automatic tourbillon with transparent back designStrap: Soft silicone strapClasp: Double-press safety buckleWater Resistance: 50 meters – suitable for handwashing, rain, and daily wearCase Diameter: 44mmCase Thickness: 13.5mmStrap Width: 28mm (tapering to 22mm)Strap Length: 18cmFrequency: 21,600 vibrations/hour"
+      "movement": "Shanghai 2797B hollow mechanical movement\nFrequency: 21,600 vibrations/hour\nPower Reserve: 42 hours\nAutomatic/manual winding",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -1080,7 +1115,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
     "videoUrl": "/catalog/hbr-995-1-auto-gold-view-2.mp4",
-    "modelNumber": "995-1"
+    "modelNumber": "995-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "mecha-cantilever-tourbillon-iceblue",
@@ -1110,7 +1146,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "specs": {
-      "movement": "Case Material: 304 stainless steel with diamond knife-shaped case designCrystal: Irregular-shaped glass mirror with diamond knife craftsmanship – bright, transparent, and water-repellentMovement: Shanghai 2797B hollow mechanical movementFrequency: 21,600 vibrations/hourPower Reserve: 42 hoursDial: Convex skeleton dial with carved Earth-shaped flywheel and luminous detailingCaseback: Hollow automatic tourbillon with transparent back designStrap: Soft silicone strapClasp: Double-press safety buckleWater Resistance: 50 meters – suitable for handwashing, rain, and daily wearCase Diameter: 44mmCase Thickness: 13.5mmStrap Width: 28mm (tapering to 22mm)Strap Length: 18cmFrequency: 21,600 vibrations/hour",
+      "movement": "Shanghai 2797B hollow mechanical movement\nFrequency: 21,600 vibrations/hour\nPower Reserve: 42 hours\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "31 Synthetic Rubies",
@@ -1132,7 +1168,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Mecha Armor Presentation Display Chest with NFC Certificate of Authenticity",
       "modelNumber": "995-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -1146,7 +1183,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-995-1-auto-s-front.mp4",
-    "modelNumber": "995-1"
+    "modelNumber": "995-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "hbr-995-1-auto-red",
@@ -1177,7 +1215,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "specs": {
       "modelNumber": "995-1",
-      "movement": "Case Material: 304 stainless steel with diamond knife-shaped case designCrystal: Irregular-shaped glass mirror with diamond knife craftsmanship – bright, transparent, and water-repellentMovement: Shanghai 2797B hollow mechanical movementFrequency: 21,600 vibrations/hourPower Reserve: 42 hoursDial: Convex skeleton dial with carved Earth-shaped flywheel and luminous detailingCaseback: Hollow automatic tourbillon with transparent back designStrap: Soft silicone strapClasp: Double-press safety buckleWater Resistance: 50 meters – suitable for handwashing, rain, and daily wearCase Diameter: 44mmCase Thickness: 13.5mmStrap Width: 28mm (tapering to 22mm)Strap Length: 18cmFrequency: 21,600 vibrations/hour"
+      "movement": "Shanghai 2797B hollow mechanical movement\nFrequency: 21,600 vibrations/hour\nPower Reserve: 42 hours\nAutomatic/manual winding",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -1190,7 +1229,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "995-1"
+    "modelNumber": "995-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "sichuan-opera-diamond-steel",
@@ -1220,7 +1260,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Facebook Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "28 Synthetic Rubies & Micro-Gems",
@@ -1241,7 +1281,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Imperial Red Lacquered Heritage Gift Box with Traditional Mask Folding Fan & NFC Passport",
       "modelNumber": "927-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -1254,7 +1295,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "927-2"
+    "modelNumber": "927-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-927-rg-blk",
@@ -1285,7 +1327,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Facebook Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
       "modelNumber": "927-2",
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\""
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -1298,7 +1341,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "927-2"
+    "modelNumber": "927-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-927-rg-red",
@@ -1329,7 +1373,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Facebook Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
       "modelNumber": "927-2",
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\""
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -1342,7 +1387,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "927-2"
+    "modelNumber": "927-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "cyber-cogwheel-skeleton-twotone",
@@ -1379,7 +1425,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "specs": {
-      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "28 Synthetic Rubies",
@@ -1403,7 +1449,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Cyberpunk Industrial Metal Presentation Display Chest with NFC Certificate of Authenticity",
       "modelNumber": "30027-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -1417,7 +1464,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-30027-1-auto-gear-slv-blk-view-2.mp4",
-    "modelNumber": "30027-1"
+    "modelNumber": "30027-1",
+    "mrpNumeric": 36999
   },
   {
     "id": "cyber-cogwheel-skeleton-rosegold",
@@ -1447,7 +1495,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "specs": {
-      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "28 Synthetic Rubies",
@@ -1471,7 +1519,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Cyberpunk Industrial Metal Presentation Display Chest with NFC Certificate of Authenticity",
       "modelNumber": "30027-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -1484,7 +1533,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "30027-1"
+    "modelNumber": "30027-1",
+    "mrpNumeric": 36999
   },
   {
     "id": "cyber-cogwheel-skeleton-steel",
@@ -1514,7 +1564,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "specs": {
-      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Liaocheng 2797B Mechanical Movement \"Thickness: 6.8mm\n22 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "28 Synthetic Rubies",
@@ -1540,7 +1590,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Cyberpunk Industrial Metal Presentation Display Chest with NFC Certificate of Authenticity",
       "modelNumber": "30027-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -1553,7 +1604,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "30027-1"
+    "modelNumber": "30027-1",
+    "mrpNumeric": 36999
   },
   {
     "id": "dual-hemispheres-moonphase-steel",
@@ -1590,7 +1642,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Celestial Navigator – Voyage Edition\nA cosmic balance of elegance and engineering.\n\nThis timepiece draws inspiration from the celestial rhythm of the universe. Its layered black dial features a star map moonphase, a rotating flywheel at 9 o'clock, and a date subdial that mirrors the precision of planetary orbits. Every element is crafted to remind the wearer of their journey through time and space.\n\nWith radiant markers, celestial details, and a hand-finished leather strap, the Celestial Navigator doesn't just tell time—it reflects your sense of wonder, adventure, and distinction. It's a watch for those who dare to dream and dress accordingly.",
     "specs": {
-      "movement": "Chinese Shanghai LR0851 mechanical movement \"Thickness: 6.85mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Shanghai LR0851 mechanical movement \"Thickness: 6.85mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "26 Synthetic Rubies",
@@ -1613,7 +1665,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Grand Celestial Presentation Display Box with NFC Certificate of Authenticity",
       "modelNumber": "8824",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹31,999",
     "priceNumeric": 31999,
@@ -1627,7 +1680,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8824-auto-navigator-blk-view-2.mp4",
-    "modelNumber": "8824"
+    "modelNumber": "8824",
+    "mrpNumeric": 31999
   },
   {
     "id": "orbital-moonphase",
@@ -1657,7 +1711,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Celestial Navigator – Voyage Edition\nA cosmic balance of elegance and engineering.\n\nThis timepiece draws inspiration from the celestial rhythm of the universe. Its layered black dial features a star map moonphase, a rotating flywheel at 9 o'clock, and a date subdial that mirrors the precision of planetary orbits. Every element is crafted to remind the wearer of their journey through time and space.\n\nWith radiant markers, celestial details, and a hand-finished leather strap, the Celestial Navigator doesn't just tell time—it reflects your sense of wonder, adventure, and distinction. It's a watch for those who dare to dream and dress accordingly.",
     "specs": {
-      "movement": "Chinese Shanghai LR0851 mechanical movement \"Thickness: 6.85mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Shanghai LR0851 mechanical movement \"Thickness: 6.85mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "42 Hours",
       "jewels": "25 Jewels",
@@ -1677,7 +1731,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Heritage Leather Watch Box",
       "modelNumber": "8824",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹31,999",
     "priceNumeric": 31999,
@@ -1690,7 +1745,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "8824"
+    "modelNumber": "8824",
+    "mrpNumeric": 31999
   },
   {
     "id": "imperial-dragon",
@@ -1727,7 +1783,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Dragon’s Legacy – Zodiac Series\nA mythical fusion of craftsmanship and celestial energy.\n\nThe Hanboro Dragon’s Legacy captures the spirit of the ancient East with a 5D hand-carved golden dragon coiled across a skeletonized dial. Set against a starry sky chassis with luminous detailing, this timepiece is a bold tribute to heritage and horology.\n\nAt its core beats the high-frequency 6T15 automatic mechanical movement, delivering a 42-hour power reserve and exceptional precision. The double-bridge sapphire-grade crystal, hollowed gear flywheel, and transparent caseback reveal the mechanical artistry within.\n\nPaired with a genuine leather strap and secured by a dual butterfly clasp, this 45.5mm timepiece offers enduring comfort and unmistakable presence—crafted for those who command attention.",
     "specs": {
-      "movement": "Japanese CITIZEN 6T15 mechanical movement \"Thickness: 5.98mm\n21 gems\nFrequency 28800 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 6T15 mechanical movement \"Thickness: 5.98mm\n21 gems\nFrequency 28800 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "28 Jewels with Synthetic Ruby Dragon Eyes",
@@ -1747,7 +1803,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Custom Handcrafted Wood Presentation Shrine",
       "modelNumber": "1018",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -1761,7 +1818,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-1018-auto-zod-gld-view-2.mp4",
-    "modelNumber": "1018"
+    "modelNumber": "1018",
+    "mrpNumeric": 50999
   },
   {
     "id": "celestial-dragon-tourbillon-silver",
@@ -1791,7 +1849,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Dragon’s Legacy – Zodiac Series\nA mythical fusion of craftsmanship and celestial energy.\n\nThe Hanboro Dragon’s Legacy captures the spirit of the ancient East with a 5D hand-carved golden dragon coiled across a skeletonized dial. Set against a starry sky chassis with luminous detailing, this timepiece is a bold tribute to heritage and horology.\n\nAt its core beats the high-frequency 6T15 automatic mechanical movement, delivering a 42-hour power reserve and exceptional precision. The double-bridge sapphire-grade crystal, hollowed gear flywheel, and transparent caseback reveal the mechanical artistry within.\n\nPaired with a genuine leather strap and secured by a dual butterfly clasp, this 45.5mm timepiece offers enduring comfort and unmistakable presence—crafted for those who command attention.",
     "specs": {
-      "movement": "Japanese CITIZEN 6T15 mechanical movement \"Thickness: 5.98mm\n21 gems\nFrequency 28800 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Japanese CITIZEN 6T15 mechanical movement \"Thickness: 5.98mm\n21 gems\nFrequency 28800 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -1813,7 +1871,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Imperial Lacquered Silver & Blue Dragon Presentation Chest with NFC Certificate of Authenticity",
       "modelNumber": "1018",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -1826,7 +1885,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1018"
+    "modelNumber": "1018",
+    "mrpNumeric": 50999
   },
   {
     "id": "casino-roulette-wheel-emerald-alligator",
@@ -1878,7 +1938,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Imperial Emerald Green Leather Presentation Vault with Metallic Chips & NFC High Joaillerie Passport",
       "modelNumber": "1001-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -1892,7 +1953,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-1001-1-auto-roulette-gld-view-1.mp4",
-    "modelNumber": "1001-1"
+    "modelNumber": "1001-1",
+    "mrpNumeric": 50999
   },
   {
     "id": "casino-roulette-wheel-silver-emerald-alligator",
@@ -1944,7 +2006,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Silver Steel Emerald Presentation Vault with Custom Metallic Chips & NFC High Joaillerie Passport",
       "modelNumber": "1001-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -1957,7 +2020,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-1"
+    "modelNumber": "1001-1",
+    "mrpNumeric": 50999
   },
   {
     "id": "casino-roulette-wheel-rosegold",
@@ -2016,7 +2080,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Green Casino Felt Collector Presentation Case with Custom Metallic Chips & NFC Warranty Card",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -2030,7 +2095,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-1001-2-auto-roulette-gld-view-2.mp4",
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "casino-roulette-wheel-silver",
@@ -2082,7 +2148,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Green Casino Felt Collector Presentation Case with Custom Metallic Chips & NFC Warranty Card",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -2095,7 +2162,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "planetary-cosmos-tourbillon-rosegold",
@@ -2132,7 +2200,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro 9ine Planet Tourbillon – Astroworld Collection\nA celestial masterpiece of modern horology.\n\nInspired by the cosmos, the Hanboro 9ine Planet Tourbillon features a skeletonized dial with a rotating globe, luminous planetary markers, and a manually carved flywheel. Powered by the reliable Japanese CITIZEN 8215 automatic movement, it offers a 42-hour power reserve and precision performance.\n\nCrafted with a domed sapphire-grade crystal and a transparent caseback &nbsp;this watch reveals the beauty of its mechanical core. Finished with a genuine leather strap and dual butterfly clasp, it’s designed for comfort, style, and timeless sophistication.",
     "specs": {
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -2154,7 +2222,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Celestial Solar System Lacquered Presentation Chest with NFC Certificate of Authenticity",
       "modelNumber": "1020",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -2168,7 +2237,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-1020-auto-ast-gld-view-2.mp4",
-    "modelNumber": "1020"
+    "modelNumber": "1020",
+    "mrpNumeric": 50999
   },
   {
     "id": "planetary-cosmos-tourbillon-silver",
@@ -2198,7 +2268,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro 9ine Planet Tourbillon – Astroworld Collection\nA celestial masterpiece of modern horology.\n\nInspired by the cosmos, the Hanboro 9ine Planet Tourbillon features a skeletonized dial with a rotating globe, luminous planetary markers, and a manually carved flywheel. Powered by the reliable Japanese CITIZEN 8215 automatic movement, it offers a 42-hour power reserve and precision performance.\n\nCrafted with a domed sapphire-grade crystal and a transparent caseback &nbsp;this watch reveals the beauty of its mechanical core. Finished with a genuine leather strap and dual butterfly clasp, it’s designed for comfort, style, and timeless sophistication.",
     "specs": {
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -2220,7 +2290,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Celestial Solar System Lacquered Presentation Chest with NFC Certificate of Authenticity",
       "modelNumber": "1020",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
     "priceNumeric": 50999,
@@ -2233,7 +2304,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1020"
+    "modelNumber": "1020",
+    "mrpNumeric": 50999
   },
   {
     "id": "hbr-2003-auto-hive-aquablue",
@@ -2271,7 +2343,7 @@ export const PRODUCTS_DATA = [
     "summary": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "specs": {
       "modelNumber": "2003",
-      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -2281,7 +2353,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER ()",
       "clasp": "Butterfly Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2295,7 +2368,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-2003-auto-hive-aquablue-view-2.mp4",
-    "modelNumber": "2003"
+    "modelNumber": "2003",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-2003-auto-hive-blk",
@@ -2326,7 +2400,8 @@ export const PRODUCTS_DATA = [
     "summary": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "specs": {
       "modelNumber": "2003",
-      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2339,7 +2414,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "2003"
+    "modelNumber": "2003",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-2003-auto-hive-deepseablue",
@@ -2370,7 +2446,8 @@ export const PRODUCTS_DATA = [
     "summary": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "specs": {
       "modelNumber": "2003",
-      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Liaocheng C9011 mechanical movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2383,7 +2460,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "2003"
+    "modelNumber": "2003",
+    "mrpNumeric": 41999
   },
   {
     "id": "stealth-fighter-jet-tonneau",
@@ -2413,14 +2491,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-933-AUTO-FALCONX-BLK."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹41,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "specs": {
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "26 Synthetic Rubies & Heat-Blued Screws",
@@ -2442,10 +2520,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Aero-Grade Matte Black Flight Presentation Vault with Pilot Mission Card & NFC Warranty Passport",
       "modelNumber": "933",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹41,999",
+    "priceNumeric": 41999,
     "description": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2456,7 +2535,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-933-auto-falconx-blk-view-2.mp4",
-    "modelNumber": "933"
+    "modelNumber": "933",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-933-auto-falconx-blue",
@@ -2479,7 +2559,7 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-933-AUTO-FALCONX-BLUE."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹41,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
@@ -2487,10 +2567,11 @@ export const PRODUCTS_DATA = [
     "summary": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "specs": {
       "modelNumber": "933",
-      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\""
+      "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "42mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹41,999",
+    "priceNumeric": 41999,
     "description": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2500,7 +2581,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "933"
+    "modelNumber": "933",
+    "mrpNumeric": 41999
   },
   {
     "id": "aurora-celestial-frost",
@@ -2537,7 +2619,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Silver Nebula – Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display—bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "specs": {
-      "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings\"",
+      "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "25 Synthetic Rubies",
@@ -2559,7 +2641,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Vault Presentation Box with NFC Warranty Certificate & Traveler Pouch",
       "modelNumber": "848",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹39,999",
     "priceNumeric": 39999,
@@ -2573,7 +2656,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-848-auto-nebula-blk-view-2.mp4",
-    "modelNumber": "848"
+    "modelNumber": "848",
+    "mrpNumeric": 39999
   },
   {
     "id": "vhbr-848-auto-nebula-blue",
@@ -2604,7 +2688,8 @@ export const PRODUCTS_DATA = [
     "summary": "Silver Nebula – Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display—bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "specs": {
       "modelNumber": "848",
-      "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings\""
+      "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹39,999",
     "priceNumeric": 39999,
@@ -2617,7 +2702,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "848"
+    "modelNumber": "848",
+    "mrpNumeric": 39999
   },
   {
     "id": "hbr-8821-auto-astro-blue",
@@ -2648,7 +2734,8 @@ export const PRODUCTS_DATA = [
     "summary": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "specs": {
       "modelNumber": "8821",
-      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2661,7 +2748,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "8821"
+    "modelNumber": "8821",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-8821-auto-astro-rg-wyt",
@@ -2692,7 +2780,8 @@ export const PRODUCTS_DATA = [
     "summary": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "specs": {
       "modelNumber": "8821",
-      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2705,7 +2794,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "8821"
+    "modelNumber": "8821",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-8821-auto-astro-black",
@@ -2736,7 +2826,7 @@ export const PRODUCTS_DATA = [
     "summary": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "specs": {
       "modelNumber": "8821",
-      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Shanghai JHS15 mechanical movement \"Thickness: 7.1mm\n45 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -2746,7 +2836,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER ()",
       "clasp": "Butterfly Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -2760,7 +2851,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8821-auto-astro-black-view-1.mp4",
-    "modelNumber": "8821"
+    "modelNumber": "8821",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-918-auto-torque-slv",
@@ -2783,7 +2875,7 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-918-AUTO-TORQUE-SLV."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹36,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
@@ -2791,10 +2883,11 @@ export const PRODUCTS_DATA = [
     "summary": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "specs": {
       "modelNumber": "918",
-      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2804,7 +2897,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "918"
+    "modelNumber": "918",
+    "mrpNumeric": 36999
   },
   {
     "id": "arachnid-geometric-skeleton",
@@ -2834,14 +2928,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-918-AUTO-TORQUE-GREEN."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹36,999",
     "priceUsd": "$458",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "specs": {
-      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\"",
+      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "26 Synthetic Rubies & Heat-Blued Screws",
@@ -2863,10 +2957,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Velvet Presentation Shrine with Collector Commemorative Medal & NFC Guarantee Passport",
       "modelNumber": "918",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2877,7 +2972,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-918-auto-torque-green-view-2.mp4",
-    "modelNumber": "918"
+    "modelNumber": "918",
+    "mrpNumeric": 36999
   },
   {
     "id": "hbr-918-auto-torque-gld",
@@ -2900,7 +2996,7 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-918-AUTO-TORQUE-GLD."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹36,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
@@ -2908,10 +3004,11 @@ export const PRODUCTS_DATA = [
     "summary": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "specs": {
       "modelNumber": "918",
-      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\n\""
+      "movement": "Chinese Shanghai LG0801 mechanical movement \"Thickness: 6.0mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2921,7 +3018,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "918"
+    "modelNumber": "918",
+    "mrpNumeric": 36999
   },
   {
     "id": "hbr-703-2-auto-prism",
@@ -2952,7 +3050,8 @@ export const PRODUCTS_DATA = [
     "summary": "Prism Royale – Skeleton Diamond Watch\nStand out without saying a word.\n\nThe Prism Royale is designed for those who appreciate style with a statement. With a bezel set with 54 shimmering crystals and a bold skeleton dial, this watch catches the eye without trying too hard. It’s the kind of piece people notice—and remember.\n\nInside, a reliable mechanical movement keeps you running on time, while the luminous dial ensures visibility day or night. The soft silicone strap feels just right on the wrist, making it perfect for everyday wear with a luxury edge.\n\nWhether you're dressing for the moment or making one, this is the watch that brings it all together. Own your style. Wear something unforgettable",
     "specs": {
       "modelNumber": "703-2",
-      "movement": " Seagull 2813 Mechanical Movement"
+      "movement": "Seagull 2813 Mechanical Movement",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
     "priceNumeric": 37999,
@@ -2965,7 +3064,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "703-2"
+    "modelNumber": "703-2",
+    "mrpNumeric": 37999
   },
   {
     "id": "cyber-green-skeleton",
@@ -2995,14 +3095,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-917-AUTO-AVENGER-SLV."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹36,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "specs": {
-      "movement": "Chinese Liaocheng C9011 Mechanical Movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\"",
+      "movement": "Chinese Liaocheng C9011 Mechanical Movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "46 Hours",
       "jewels": "24 Synthetic Rubies & Heat-Blued Screws",
@@ -3023,10 +3123,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Cyber Vault Presentation Box with Neon Green Accents & NFC Warranty Card",
       "modelNumber": "917",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3036,7 +3137,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "917"
+    "modelNumber": "917",
+    "mrpNumeric": 36999
   },
   {
     "id": "hbr-917-auto-avenger-gold",
@@ -3059,7 +3161,7 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-917-AUTO-AVENGER-GOLD."
       }
     ],
-    "price": "₹37,999",
+    "price": "₹36,999",
     "priceUsd": "$458",
     "stock": 8,
     "availability": "Limited Allocation",
@@ -3067,10 +3169,11 @@ export const PRODUCTS_DATA = [
     "summary": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "specs": {
       "modelNumber": "917",
-      "movement": "Chinese Liaocheng C9011 Mechanical Movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\n\""
+      "movement": "Chinese Liaocheng C9011 Mechanical Movement \"Thickness: 6.55mm\n26 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3080,7 +3183,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "917"
+    "modelNumber": "917",
+    "mrpNumeric": 36999
   },
   {
     "id": "turquoise-ringbell",
@@ -3137,7 +3241,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Tiffany Turquoise Gift Presentation Box",
       "modelNumber": "5378-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
     "priceNumeric": 37999,
@@ -3151,7 +3256,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-ring-5378-2tiffany-view-2.mp4",
-    "modelNumber": "5378-2"
+    "modelNumber": "5378-2",
+    "mrpNumeric": 37999
   },
   {
     "id": "sonnerie-bell-blue",
@@ -3206,7 +3312,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Acoustic Musical Collector Display Chest with NFC Certificate of Authenticity",
       "modelNumber": "5378",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
     "priceNumeric": 37999,
@@ -3219,7 +3326,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "5378"
+    "modelNumber": "5378",
+    "mrpNumeric": 37999
   },
   {
     "id": "architectural-skeleton-rosegold",
@@ -3270,7 +3378,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Vault Presentation Case with Rose-Gold Trim & NFC Warranty Passport",
       "modelNumber": "906",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -3284,7 +3393,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-906-auto-rgsl-view-1.mp4",
-    "modelNumber": "906"
+    "modelNumber": "906",
+    "mrpNumeric": 36999
   },
   {
     "id": "hbr-906-auto-silver",
@@ -3315,7 +3425,8 @@ export const PRODUCTS_DATA = [
     "summary": "Experience timeless craftsmanship with the Hanboro Transparence Excellence Automatic Watch – a luxury men’s timepiece designed for those who value precision and style. Crafted with a diamond-cut stainless steel case and a scratch-resistant sapphire crystal, this watch showcases durability with a premium finish.\n\nThe double-sided skeleton flywheel dial reveals the beauty of the mechanical movement, while luminous markers ensure perfect readability day or night. Powered by an automatic movement with a 40-hour power reserve, it blends performance with sophistication.\n\nChoose between a stainless steel bracelet or genuine leather strap, secured with a double-press butterfly clasp for all-day comfort. With 50M water resistance, the Transparence Excellence is built for both everyday wear and refined occasions.\n\nWhether you’re building your collection or searching for a statement accessory, this automatic skeleton watch is designed to turn heads and elevate your style.",
     "specs": {
       "modelNumber": "906",
-      "movement": "Japan CITIZEN 9015 mechanical movement:\nThickness: 3.9mm\nDiamond count; 24 pieces\nFrequency 28800 times/hour\nAutomatic/manual winding"
+      "movement": "Japan CITIZEN 9015 mechanical movement:\nThickness: 3.9mm\nDiamond count; 24 pieces\nFrequency 28800 times/hour\nAutomatic/manual winding",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -3328,7 +3439,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "906"
+    "modelNumber": "906",
+    "mrpNumeric": 36999
   },
   {
     "id": "architectural-skeleton-black",
@@ -3379,7 +3491,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Presentation Vault with NFC Warranty Card & Microfiber Cloth",
       "modelNumber": "906",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -3392,7 +3505,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "906"
+    "modelNumber": "906",
+    "mrpNumeric": 36999
   },
   {
     "id": "hbr-9038-auto-black",
@@ -3440,7 +3554,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "100M",
       "strap": "SILICONE ()",
       "clasp": "Butterfly Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "52mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -3454,7 +3569,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-9038-auto-black-view-2.mp4",
-    "modelNumber": "9038"
+    "modelNumber": "9038",
+    "mrpNumeric": 52999
   },
   {
     "id": "sapphire-kanagawa-wave",
@@ -3507,7 +3623,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Custom Japanese Art Vault Wooden Presentation Chest with NFC Certificate of Authenticity",
       "modelNumber": "9038",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "52mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -3521,7 +3638,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-9038-auto-blue-front.mp4",
-    "modelNumber": "9038"
+    "modelNumber": "9038",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-8821-2-auto-astro-rslvr",
@@ -3544,18 +3662,19 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-8821-2-AUTO-ASTRO-rslvr."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹41,999",
+    "priceUsd": "$506",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "Hanboro Nautilus Spirit – Ocean Wave Edition\nA fusion of transparency, mechanics, and artistry.\n\nThe Hanboro Nautilus Spirit is designed for those who appreciate both innovation and style. Featuring a square transparent case with crystal glass bezel, it offers a bold and futuristic presence on the wrist. The hollow wave-pattern dial, enhanced with luminous detailing, creates a striking visual inspired by the power of the ocean.\n\nAt its heart, the original Hangzhou 7500 hollow mechanical movement beats with precision – delivering a swing frequency of 28,800 vibrations/hour, a 40-hour power reserve, and accuracy within ±3 seconds/day. The exhibition back reveals the intricate mechanics in motion, thanks to a diamond-knife crafted crystal mirror for ultimate clarity.\n\nFinished with a soft silicone strap for comfort and durability, and equipped with a secure butterfly spring clasp, this timepiece is made for daily wear. With deep waterproofing, it stands resilient through handwashing, rain, and swimming – without compromising its elegance.",
     "specs": {
       "modelNumber": "8821-2",
-      "movement": "Japan CITIZEN 9015 mechanical movement:\nThickness: 3.9mm\nDiamond count; 24 pieces\nFrequency 28800 times/hour\nAutomatic/manual winding"
+      "movement": "Japan CITIZEN 9015 mechanical movement:\nThickness: 3.9mm\nDiamond count; 24 pieces\nFrequency 28800 times/hour\nAutomatic/manual winding",
+      "caseDiameter": "42mm"
     },
-    "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "mrp": "₹41,999",
+    "priceNumeric": 41999,
     "description": "Hanboro Nautilus Spirit – Ocean Wave Edition\nA fusion of transparency, mechanics, and artistry.\n\nThe Hanboro Nautilus Spirit is designed for those who appreciate both innovation and style. Featuring a square transparent case with crystal glass bezel, it offers a bold and futuristic presence on the wrist. The hollow wave-pattern dial, enhanced with luminous detailing, creates a striking visual inspired by the power of the ocean.\n\nAt its heart, the original Hangzhou 7500 hollow mechanical movement beats with precision – delivering a swing frequency of 28,800 vibrations/hour, a 40-hour power reserve, and accuracy within ±3 seconds/day. The exhibition back reveals the intricate mechanics in motion, thanks to a diamond-knife crafted crystal mirror for ultimate clarity.\n\nFinished with a soft silicone strap for comfort and durability, and equipped with a secure butterfly spring clasp, this timepiece is made for daily wear. With deep waterproofing, it stands resilient through handwashing, rain, and swimming – without compromising its elegance.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3565,7 +3684,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "8821-2"
+    "modelNumber": "8821-2",
+    "mrpNumeric": 41999
   },
   {
     "id": "hbr-8821-2-auto-astro-slvr",
@@ -3596,7 +3716,8 @@ export const PRODUCTS_DATA = [
     "summary": "AstroSphere DualCore – Twin Tourbillon Timepiece (Steel Bracelet Pure Silver)",
     "specs": {
       "modelNumber": "8821-2",
-      "movement": "Authentic Hanboro Automatic Mechanical Movement"
+      "movement": "Authentic Hanboro Automatic Mechanical Movement",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
     "priceNumeric": 41999,
@@ -3609,7 +3730,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "8821-2"
+    "modelNumber": "8821-2",
+    "mrpNumeric": 41999
   },
   {
     "id": "casino-roulette-wheel-silver-ruby-diamond",
@@ -3660,7 +3782,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Roulette Royale – Red Gem Silver Edition is an exercise in controlled intensity. Inspired by the precision geometry of a classic roulette wheel, its dial is meticulously structured with concentric detailing and deep red crystal accents that create depth, balance, and visual rhythm.\n\nThe polished silver-toned case enhances the architectural clarity of the design, offering a sharper, more contemporary presence on the wrist. Beneath the sculpted dial, the automatic mechanical movement operates with quiet authority — a reminder that true luxury is engineered, not exaggerated.\n\nFinished with a refined leather strap and balanced proportions, this timepiece is crafted for collectors who appreciate mechanical artistry with confidence.\n\nDistinct. Composed. Intentional.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "31 Synthetic Rubies & Micro Ceramic Ball Bearings",
@@ -3682,7 +3804,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Silver Steel Ruby Presentation Vault with Custom Metallic Chips & NFC High Joaillerie Passport",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -3695,7 +3818,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "blue-roulette",
@@ -3746,7 +3870,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Roulette Royale – Blue Sapphire Silver Edition is a study in precision and architectural balance. Inspired by the geometry of a roulette wheel, the dial is meticulously structured with layered blue crystal elements that create depth, rhythm, and refined symmetry.\n\nThe polished silver-toned case sharpens the contrast, delivering a clean and contemporary presence on the wrist. Beneath the sculpted dial, the automatic mechanical movement operates with measured authority — visible, deliberate, and engineered for longevity.\n\nPaired with a classic leather strap, this timepiece speaks to collectors who prefer composure over spectacle and design rooted in structure.\n\nCalculated. Refined. Intentional.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "25 Jewels",
@@ -3766,7 +3890,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Luxury Vault Presentation Case",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -3779,7 +3904,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "casino-roulette-wheel-silver-diamond-emerald",
@@ -3830,7 +3956,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Roulette Royale – Emerald Reserve Edition captures the sophistication of high-stakes precision. Inspired by the architectural geometry of a roulette wheel, its dial is layered with emerald-toned crystal detailing, creating remarkable depth and symmetry across every rotation.\n\nEncased in polished silver-toned steel, the watch presents a sharp and commanding presence. The rich green dial paired with a matching leather strap evokes understated power — bold without excess.\n\nDriven by an automatic mechanical movement, the piece reflects discipline beneath its dramatic exterior. Designed for collectors who understand that true luxury is measured in detail, balance, and control.\n\nNot luck.\nStrategy.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "31 Synthetic Rubies & Micro Ceramic Ball Bearings",
@@ -3852,7 +3978,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Silver Steel Collector Presentation Vault with Custom Metallic Chips & NFC High Joaillerie Passport",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -3865,7 +3992,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "powerreserve-opaline",
@@ -3916,7 +4044,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro A200 Reserve is a study in restrained power and modern mechanical precision. Designed for those who understand true horology, its deep black sunray dial creates a dramatic contrast against the polished stainless steel case and bracelet.\n\nPowered by the original Hangzhou A200 automatic movement, it delivers reliable performance with a refined energy reserve display and small seconds complication — a quiet nod to traditional watchmaking mastery.\n\nThe sapphire crystal enhances clarity while protecting the minimalist dial architecture. With its balanced proportions and clean aesthetic, the A200 Reserve is a statement of sophistication — engineered for collectors who value precision, purity, and presence.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Hangzhou A200 automatic mechanical movement\nThickness: approx 5mm\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "21,600 VPH (3.0 Hz)",
       "powerReserve": "35 Hours (Top-Mounted Gauge)",
       "jewels": "22 Synthetic Rubies",
@@ -3938,7 +4066,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Modern Minimalist Silver-Trim Presentation Box with NFC Authenticity Card",
       "modelNumber": "902",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
     "priceNumeric": 22999,
@@ -3951,7 +4080,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "902"
+    "modelNumber": "902",
+    "mrpNumeric": 22999
   },
   {
     "id": "powerreserve-twotone",
@@ -4002,7 +4132,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro A200 Reserve Two-Tone Edition blends contemporary minimalism with timeless elegance. Framed in a refined rose gold bezel and paired with a polished stainless steel bracelet, this timepiece speaks to those who appreciate subtle luxury.\n\nIts silver sunray dial reflects light with quiet brilliance, complemented by striking blue hands and a refined power reserve display. Powered by the original Hangzhou A200 automatic movement, it offers mechanical precision with a smooth 40-hour reserve.\n\nProtected by sapphire crystal and finished with a transparent caseback, the A200 Reserve is a statement of confidence — designed for professionals who value craftsmanship over noise and precision over excess.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Hangzhou A200 automatic mechanical movement\nThickness: approx 5mm\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "21,600 VPH (3.0 Hz)",
       "powerReserve": "35 Hours (Top-Mounted Gauge)",
       "jewels": "22 Synthetic Rubies",
@@ -4024,7 +4154,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Modern Minimalist Rose-Gold Trim Presentation Box with NFC Authenticity Card",
       "modelNumber": "902",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
     "priceNumeric": 22999,
@@ -4037,7 +4168,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "902"
+    "modelNumber": "902",
+    "mrpNumeric": 22999
   },
   {
     "id": "powerreserve-black",
@@ -4067,7 +4199,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro A200 Reserve Black Edition is engineered for those who command presence without saying a word. Encased in deep black stainless steel with a matching bracelet, this timepiece embodies modern stealth luxury.\n\nThe monochrome sunray dial enhances the bold aesthetic, while the refined power reserve display and small seconds complication reflect true mechanical craftsmanship. Powered by the Hangzhou A200 automatic movement, it delivers precision with a 40-hour reserve.\n\nProtected by sapphire crystal and finished with a transparent caseback, the A200 Black Edition is not just a watch — it is authority on the wrist. Designed for leaders who prefer confidence over flash.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Hangzhou A200 automatic mechanical movement\nThickness: approx 5mm\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "21,600 VPH (3.0 Hz)",
       "powerReserve": "35 Hours (Top-Mounted Gauge)",
       "jewels": "22 Synthetic Rubies",
@@ -4088,7 +4220,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Modern Minimalist Matte Black Presentation Box with NFC Authenticity Card",
       "modelNumber": "902",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
     "priceNumeric": 22999,
@@ -4101,7 +4234,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "902"
+    "modelNumber": "902",
+    "mrpNumeric": 22999
   },
   {
     "id": "octagonal-blue",
@@ -4152,14 +4286,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BLUE-RG."
       }
     ],
-    "price": "₹32,999",
-    "priceUsd": "$398",
+    "price": "₹34,999",
+    "priceUsd": "$422",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.\n\nAt its heart beats the original Shanghai JHS17 multifunction automatic movement, offering 40 hours of power reserve and refined timekeeping precision. The dial showcases a complete complication layout — date, day, small seconds, and celestial sun-moon display — all enhanced with luminous markers for powerful night visibility.\n\nProtected by sapphire crystal and water resistant up to 100 meters, the Meridian is built for those who demand elegance with endurance.\n\nA timepiece of structure. Brilliance. Authority.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Shanghai JHS17 multifunction automatic movement\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "44 Hours",
       "jewels": "24 Jewels",
@@ -4179,10 +4313,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Handcrafted Suede Watch Roll & Presentation Box",
       "modelNumber": "824-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "38mm"
     },
-    "mrp": "₹32,999",
-    "priceNumeric": 32999,
+    "mrp": "₹34,999",
+    "priceNumeric": 34999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.\n\nAt its heart beats the original Shanghai JHS17 multifunction automatic movement, offering 40 hours of power reserve and refined timekeeping precision. The dial showcases a complete complication layout — date, day, small seconds, and celestial sun-moon display — all enhanced with luminous markers for powerful night visibility.\n\nProtected by sapphire crystal and water resistant up to 100 meters, the Meridian is built for those who demand elegance with endurance.\n\nA timepiece of structure. Brilliance. Authority.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4192,7 +4327,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "824-2"
+    "modelNumber": "824-2",
+    "mrpNumeric": 34999
   },
   {
     "id": "octagonal-diamond-bronze",
@@ -4243,14 +4379,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-BROWN-RG."
       }
     ],
-    "price": "₹32,999",
-    "priceUsd": "$398",
+    "price": "₹34,999",
+    "priceUsd": "$422",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Shanghai JHS17 multifunction automatic movement\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "28 Synthetic Rubies & Precision Ball Bearings",
@@ -4272,10 +4408,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Wooden Presentation Vault with NFC Guarantee Card & Microfiber Cloth",
       "modelNumber": "824-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "38mm"
     },
-    "mrp": "₹32,999",
-    "priceNumeric": 32999,
+    "mrp": "₹34,999",
+    "priceNumeric": 34999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4285,7 +4422,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "824-2"
+    "modelNumber": "824-2",
+    "mrpNumeric": 34999
   },
   {
     "id": "octagonal-diamond-emerald",
@@ -4336,14 +4474,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-824-2-AUTO-GREEN-SILVER."
       }
     ],
-    "price": "₹32,999",
-    "priceUsd": "$398",
+    "price": "₹34,999",
+    "priceUsd": "$422",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Shanghai JHS17 multifunction automatic movement\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "28 Synthetic Rubies & Precision Ball Bearings",
@@ -4365,10 +4503,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Wooden Presentation Vault with NFC Guarantee Card & Microfiber Cloth",
       "modelNumber": "824-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "38mm"
     },
-    "mrp": "₹32,999",
-    "priceNumeric": 32999,
+    "mrp": "₹34,999",
+    "priceNumeric": 34999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4378,7 +4517,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "824-2"
+    "modelNumber": "824-2",
+    "mrpNumeric": 34999
   },
   {
     "id": "purple-chrono",
@@ -4429,7 +4569,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The OceanStrike “Purple Abyss” is designed for those who move differently. Its deep violet gradient dial shifts from shadow to brilliance under light, creating a rare and commanding presence.\n\nInside, the Shanghai JHS08 automatic movement delivers precision with a 40-hour reserve and full calendar functionality. The skeletonized tourbillon window exposes the mechanical core, enhanced by luminous markers for bold night visibility.\n\nWith 100M water resistance and a ceramic rotating bezel, Purple Abyss merges technical diving capability with avant-garde luxury.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Quartz multifunction chronograph movement\n100M water resistance\nStainless steel case",
       "frequency": "High-Beat Smooth Sweep (32,768 Hz / Precision Column-Wheel Action)",
       "powerReserve": "Long-life Energy Cell (3-Year Continuous Sweep)",
       "jewels": "Multi-Jeweled Precision Chrono Module",
@@ -4450,7 +4590,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Waterproof Pelican-Style Dive Box",
       "modelNumber": "1309",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
     "priceNumeric": 24999,
@@ -4463,7 +4604,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1309"
+    "modelNumber": "1309",
+    "mrpNumeric": 24999
   },
   {
     "id": "seamaster-chronograph-diver-teal",
@@ -4514,7 +4656,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The OceanStrike “Lagoon Surge” channels coastal sophistication with its cool teal gradient dial. Elegant yet powerful, the dial houses a complete multifunction complication layout with luminous clarity for day or night readability.\n\nDriven by the Shanghai JHS08 automatic movement, it offers a 40-hour power reserve and visible tourbillon architecture beneath sapphire crystal. The unidirectional ceramic bezel reinforces its diver heritage.\n\nBalanced, refined, and engineered for performance, Lagoon Surge is luxury engineered for motion.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Quartz multifunction chronograph movement\n100M water resistance\nStainless steel case",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "27 Synthetic Rubies",
@@ -4539,7 +4681,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "High-Impact Waterproof Diver's Pelicase with Spring Bar Tool & International Warranty Card",
       "modelNumber": "1309",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
     "priceNumeric": 24999,
@@ -4552,7 +4695,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1309"
+    "modelNumber": "1309",
+    "mrpNumeric": 24999
   },
   {
     "id": "seamaster-chronograph-diver-amber",
@@ -4610,7 +4754,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The OceanStrike “Volcanic Reef” is raw energy contained in steel. Its fiery sunburst orange dial radiates intensity, contrasted by a precision ceramic bezel and polished 304 steel case.\n\nEquipped with a six-hand multifunction layout, including 24-hour, day, month, and calendar displays, it is powered by the robust Shanghai JHS08 mechanical movement. The visible Geneva-pattern tourbillon mechanism delivers horological theatre at every glance.\n\nWater-resistant to 100 meters and secured with a solid steel bracelet, Volcanic Reef is built for those who prefer bold dominance over subtlety.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Quartz multifunction chronograph movement\n100M water resistance\nStainless steel case",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "27 Synthetic Rubies",
@@ -4635,7 +4779,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "High-Impact Waterproof Diver's Pelicase with Spring Bar Tool & International Warranty Card",
       "modelNumber": "1309",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
     "priceNumeric": 24999,
@@ -4648,7 +4793,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1309"
+    "modelNumber": "1309",
+    "mrpNumeric": 24999
   },
   {
     "id": "celestial-pilot-moonphase-black",
@@ -4706,7 +4852,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -4729,7 +4875,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Aviation Pilot Collectors Display Box with NFC Certificate of Authenticity",
       "modelNumber": "8824",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
     "priceNumeric": 34999,
@@ -4742,7 +4889,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "8824"
+    "modelNumber": "8824",
+    "mrpNumeric": 34999
   },
   {
     "id": "casino-roulette-wheel-ruby-diamond",
@@ -4786,7 +4934,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Roulette Royale – Red Gem Edition is a statement in mechanical theatre. Inspired by the geometry and rhythm of a classic roulette wheel, its dial is meticulously structured with concentric detailing and deep red crystal accents that create remarkable depth and symmetry.\n\nEncased in rose gold-toned steel, the watch carries a commanding presence while maintaining refined elegance. The automatic movement beats beneath the surface, visible through its open architecture — a reminder that true luxury lies in mechanical precision, not decoration.\n\nBalanced by a supple leather strap and timeless proportions, this timepiece is crafted for collectors who appreciate design with intent.\n\nNot made for everyone.\nMade for those who understand presence.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "31 Synthetic Rubies & Micro Ceramic Ball Bearings",
@@ -4808,7 +4956,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Pigeon Blood Crimson Leather Presentation Vault with Metallic Chips & NFC High Joaillerie Passport",
       "modelNumber": "1001-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -4821,7 +4970,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1001-2"
+    "modelNumber": "1001-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "seamaster-chronograph-diver-olive",
@@ -4886,7 +5036,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro OceanStrike “Emerald Tide” captures the depth of the ocean in motion. Its gradient green dial reflects shifting light like deep water under pressure, framed by a unidirectional ceramic bezel engineered for precision.\n\nPowered by the Shanghai JHS08 multifunction mechanical movement, it features a six-hand layout with 24-hour display, day, month, and calendar complications. The open Geneva-pattern tourbillon architecture reveals the heartbeat beneath, while sapphire crystal and 100M water resistance ensure durability beyond elegance.\n\nBuilt in 304 steel with a solid bracelet and double safety clasp, Emerald Tide is not just a diver — it is controlled power on the wrist.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Quartz multifunction chronograph movement\n100M water resistance\nStainless steel case",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "27 Synthetic Rubies",
@@ -4911,7 +5061,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "High-Impact Waterproof Diver's Pelicase with Spring Bar Tool & International Warranty Card",
       "modelNumber": "1309",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
     "priceNumeric": 24999,
@@ -4924,7 +5075,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1309"
+    "modelNumber": "1309",
+    "mrpNumeric": 24999
   },
   {
     "id": "dual-hemispheres-moonphase-blue",
@@ -4968,7 +5120,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "26 Synthetic Rubies",
@@ -4991,7 +5143,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Grand Celestial Presentation Display Box with NFC Certificate of Authenticity",
       "modelNumber": "8824",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
     "priceNumeric": 34999,
@@ -5004,7 +5157,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "8824"
+    "modelNumber": "8824",
+    "mrpNumeric": 34999
   },
   {
     "id": "celestial-pilot-moonphase-rosegold",
@@ -5048,7 +5202,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
-      "movement": "46056.0",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "45 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -5071,7 +5225,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Aviation Pilot Collectors Display Box with NFC Certificate of Authenticity",
       "modelNumber": "8824",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
     "priceNumeric": 34999,
@@ -5084,7 +5239,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "8824"
+    "modelNumber": "8824",
+    "mrpNumeric": 34999
   },
   {
     "id": "volcano-glacier-compass-rosegold",
@@ -5135,7 +5291,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Automatic mechanical movement\n44mm case, 304 stainless steel\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "72 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5157,7 +5313,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Explorer Presentation Vault with UV Glow Torch & NFC Authenticity Passport",
       "modelNumber": "981",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -5173,7 +5330,8 @@ export const PRODUCTS_DATA = [
     "videoUrl": "/catalog/hbr-981-auto-rgold-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-rgold-lume.jpg",
-    "modelNumber": "981"
+    "modelNumber": "981",
+    "mrpNumeric": 44999
   },
   {
     "id": "volcano-glacier-compass-silver",
@@ -5224,7 +5382,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Automatic mechanical movement\n44mm case, 304 stainless steel\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "72 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5246,7 +5404,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Explorer Presentation Vault with UV Glow Torch & NFC Authenticity Passport",
       "modelNumber": "981",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -5262,7 +5421,8 @@ export const PRODUCTS_DATA = [
     "videoUrl": "/catalog/hbr-981-auto-silver-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-silver-lume.jpg",
-    "modelNumber": "981"
+    "modelNumber": "981",
+    "mrpNumeric": 44999
   },
   {
     "id": "world-globe",
@@ -5292,7 +5452,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro WorldMaster – Globe Carve Edition celebrates the art of world-class horology. Its striking dial features 3D hand-carved continents floating over a deep royal blue base, centered around a mesmerizing open flywheel. A curved crystal dome amplifies the depth of the sculpture, while the leather strap and butterfly clasp complete the elegance. A statement timepiece for collectors who appreciate global artistry and mechanical mastery.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "60 Hours",
       "jewels": "29 Synthetic Rubies",
@@ -5312,7 +5472,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Collector's Lacquer Vault with NFC Authenticity Card",
       "modelNumber": "2712",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -5325,7 +5486,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "2712"
+    "modelNumber": "2712",
+    "mrpNumeric": 36999
   },
   {
     "id": "world-map-tourbillon-silver-dual",
@@ -5362,7 +5524,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro WorldMaster Tricolour Edition is a bold expression of identity and global vision. Its extraordinary dial showcases 3D hand-carved continents rising from a deep royal blue base At the heart, an open flywheel reveals the living mechanics beneath — a reminder that time moves with purpose. The dial’s saffron, white, and green accents create a striking tri-tone composition, symbolising strength, balance, and ambition.\n\nThe sculpted world map appears almost suspended beneath the curved crystal, delivering remarkable depth and dimension. Paired with a premium leather strap and butterfly clasp, this timepiece blends cultural character with mechanical artistry.\n\nCrafted for leaders, collectors, and visionaries — the WorldMaster Tricolour is not just worn. It is represented.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5384,7 +5546,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Celestial World Map Lacquered Wooden Chest with NFC Certificate of Authenticity",
       "modelNumber": "2712",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -5398,7 +5561,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-2712-auto-rg-tiranga-view-2.mp4",
-    "modelNumber": "2712"
+    "modelNumber": "2712",
+    "mrpNumeric": 36999
   },
   {
     "id": "world-map-tourbillon-silver",
@@ -5428,7 +5592,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro WorldMaster Tricolour Edition is a bold expression of identity and global vision. Its extraordinary dial showcases 3D hand-carved continents rising from a deep royal blue base At the heart, an open flywheel reveals the living mechanics beneath — a reminder that time moves with purpose. The dial’s saffron, white, and green accents create a striking tri-tone composition, symbolising strength, balance, and ambition.\n\nThe sculpted world map appears almost suspended beneath the curved crystal, delivering remarkable depth and dimension. Paired with a premium leather strap and butterfly clasp, this timepiece blends cultural character with mechanical artistry.\n\nCrafted for leaders, collectors, and visionaries — the WorldMaster Tricolour is not just worn. It is represented.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5450,7 +5614,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Celestial World Map Lacquered Wooden Chest with NFC Certificate of Authenticity",
       "modelNumber": "2712",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
     "priceNumeric": 36999,
@@ -5464,7 +5629,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-2712-auto-slv-tiranga-front.mp4",
-    "modelNumber": "2712"
+    "modelNumber": "2712",
+    "mrpNumeric": 36999
   },
   {
     "id": "octagonal-skeleton-steel",
@@ -5529,7 +5695,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro OctaFrame – Silver Open-Heart Automatic embodies the art of mechanical beauty and modern sophistication. Its bold octagonal design and open-heart dial reveal the mesmerizing rhythm of time, capturing both strength and grace. A fusion of luxury and innovation, the OctaFrame stands as a statement piece for those who appreciate fine craftsmanship and timeless allure.",
     "specs": {
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\nOctagonal open-heart skeleton\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "26 Jewels",
@@ -5549,7 +5715,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Steel Presentation Case with Strap-Changing Tool",
       "modelNumber": "972",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹27,999",
     "priceNumeric": 27999,
@@ -5562,7 +5729,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "972"
+    "modelNumber": "972",
+    "mrpNumeric": 27999
   },
   {
     "id": "volcano-glacier-compass-gold",
@@ -5606,14 +5774,14 @@ export const PRODUCTS_DATA = [
         "caption": "Super-LumiNova dial and hand illumination under low-light conditions."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹44,999",
+    "priceUsd": "$542",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "specs": {
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "72 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5635,10 +5803,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Explorer Presentation Vault with UV Glow Torch & NFC Authenticity Passport",
       "modelNumber": "981",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "mrp": "₹44,999",
+    "priceNumeric": 44999,
     "description": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5651,7 +5820,8 @@ export const PRODUCTS_DATA = [
     "videoUrl": "/catalog/hbr-981-auto-gold-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-gold-lume.jpg",
-    "modelNumber": "981"
+    "modelNumber": "981",
+    "mrpNumeric": 44999
   },
   {
     "id": "world-map-tourbillon-rosegold",
@@ -5674,14 +5844,14 @@ export const PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-RGOLD."
       }
     ],
-    "price": "₹27,999",
-    "priceUsd": "$337",
+    "price": "₹36,999",
+    "priceUsd": "$446",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro WorldMaster – Globe Carve Edition celebrates the art of world-class horology. Its striking dial features 3D hand-carved continents floating over a deep royal blue base, centered around a mesmerizing open flywheel. A curved crystal dome amplifies the depth of the sculpture, while the leather strap and butterfly clasp complete the elegance. A statement timepiece for collectors who appreciate global artistry and mechanical mastery.",
     "specs": {
-      "movement": "JAPAN AUTOMATIC",
+      "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "52 Hours",
       "jewels": "33 Synthetic Rubies",
@@ -5703,10 +5873,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Celestial World Map Lacquered Wooden Chest with NFC Certificate of Authenticity",
       "modelNumber": "2712",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44mm"
     },
-    "mrp": "₹27,999",
-    "priceNumeric": 27999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "The Hanboro WorldMaster – Globe Carve Edition celebrates the art of world-class horology. Its striking dial features 3D hand-carved continents floating over a deep royal blue base, centered around a mesmerizing open flywheel. A curved crystal dome amplifies the depth of the sculpture, while the leather strap and butterfly clasp complete the elegance. A statement timepiece for collectors who appreciate global artistry and mechanical mastery.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5716,7 +5887,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "2712"
+    "modelNumber": "2712",
+    "mrpNumeric": 36999
   },
   {
     "id": "forged-carbon-damascus-10atm",
@@ -5781,7 +5953,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro CarbonX ChronoTech brings racing DNA to the wrist with its bold tonneau-shaped carbon fiber case and multi-layer skeleton mechanics. Powered by a Japanese multifunction automatic movement, it features luminous detailing, 24-hour display, and a precision small-seconds dial. A sapphire crystal and quick-release silicone strap complete this high-performance luxury machine — crafted for those who live fast and think bold.",
     "specs": {
-      "movement": "JAPAN AUTOMATIC",
+      "movement": "Japanese Multifunction Automatic movement\nCarbon fiber case construction\nPower Reserve: 42 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "21 Synthetic Rubies & Heat-Blued Screws",
@@ -5804,7 +5976,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Black Carbon Composite Flight Presentation Case & NFC Warranty Passport",
       "modelNumber": "945-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -5817,7 +5990,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "945-3"
+    "modelNumber": "945-3",
+    "mrpNumeric": 44999
   },
   {
     "id": "arctic-tonneau-10atm-white",
@@ -5875,7 +6049,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "The Hanboro CarbonX ChronoTech brings racing DNA to the wrist with its bold tonneau-shaped carbon fiber case and multi-layer skeleton mechanics. Powered by a Japanese multifunction automatic movement, it features luminous detailing, 24-hour display, and a precision small-seconds dial. A sapphire crystal and quick-release silicone strap complete this high-performance luxury machine — crafted for those who live fast and think bold.",
     "specs": {
-      "movement": "JAPAN AUTOMATIC",
+      "movement": "Japanese Multifunction Automatic movement\nCarbon fiber case construction\nPower Reserve: 42 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "21 Synthetic Rubies & Heat-Blued Screws",
@@ -5898,7 +6072,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Minimalist Hard-Shell Travel Vault with Interchangeable Quick-Release Straps & NFC Passport",
       "modelNumber": "945-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -5914,7 +6089,8 @@ export const PRODUCTS_DATA = [
     "videoUrl": "/catalog/hbr-945-3-auto-white-view-4.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-945-3-auto-white-lume.jpg",
-    "modelNumber": "945-3"
+    "modelNumber": "945-3",
+    "mrpNumeric": 44999
   },
   {
     "id": "oceanic-diver-200m-green",
@@ -5965,14 +6141,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-1307-AUTO-EMERALD."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹28,999",
+    "priceUsd": "$349",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro SeaKing Emerald blends classic dive-watch heritage with modern luxury. Its emerald sunburst dial, ceramic bezel, and diamond-cut steel case create a bold, refined presence. Powered by an automatic movement with 48-hour reserve, it delivers reliable precision. Luminous markers, sapphire-grade crystal, and a secure steel bracelet make it perfect for everyday wear. Stylish, durable, and built for depth.",
     "specs": {
-      "movement": "JAPAN AUTOMATIC",
+      "movement": "Japanese Automatic movement\n100M water resistance\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -5990,10 +6166,11 @@ export const PRODUCTS_DATA = [
       "clasp": "double push safety clasp",
       "packaging": "Waterproof High-Impact Diver's Pelicase with Spring Bar Tool & International Warranty Card",
       "modelNumber": "1307",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
-    "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "mrp": "₹28,999",
+    "priceNumeric": 28999,
     "description": "The Hanboro SeaKing Emerald blends classic dive-watch heritage with modern luxury. Its emerald sunburst dial, ceramic bezel, and diamond-cut steel case create a bold, refined presence. Powered by an automatic movement with 48-hour reserve, it delivers reliable precision. Luminous markers, sapphire-grade crystal, and a secure steel bracelet make it perfect for everyday wear. Stylish, durable, and built for depth.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6004,7 +6181,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-1307-auto-emerald-view-5.mp4",
-    "modelNumber": "1307"
+    "modelNumber": "1307",
+    "mrpNumeric": 28999
   },
   {
     "id": "overseas-perpetual-skeleton-steel",
@@ -6055,14 +6233,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-8022-1-AUTO-STELLAR."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹41,999",
+    "priceUsd": "$506",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "A masterpiece of mechanical artistry, the Hanboro StellarComplication blends a full-skeleton dial with day, date, month, and moon-phase displays—crafted for true collectors. The diamond-cut steel case, sapphire-bright crystal, and luminous detailing give it a commanding presence from day to night. Paired with a solid steel bracelet, it’s a premium complication watch built for those who appreciate depth, detail, and distinction.",
     "specs": {
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\nSkeleton open-heart design\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "48 Hours",
       "jewels": "29 Synthetic Rubies",
@@ -6086,10 +6264,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Luxury Piano Lacquer Presentation Chest with Calendar Adjustment Stylus",
       "modelNumber": "8022-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
-    "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "mrp": "₹41,999",
+    "priceNumeric": 41999,
     "description": "A masterpiece of mechanical artistry, the Hanboro StellarComplication blends a full-skeleton dial with day, date, month, and moon-phase displays—crafted for true collectors. The diamond-cut steel case, sapphire-bright crystal, and luminous detailing give it a commanding presence from day to night. Paired with a solid steel bracelet, it’s a premium complication watch built for those who appreciate depth, detail, and distinction.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6100,7 +6279,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-8022-1-auto-stellar-view-5.mp4",
-    "modelNumber": "8022-1"
+    "modelNumber": "8022-1",
+    "mrpNumeric": 41999
   },
   {
     "id": "forged-carbon-tonneau-tourbillon",
@@ -6151,14 +6331,14 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-900-3-AUTO-BLACK."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹36,999",
+    "priceUsd": "$446",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
     "summary": "The Hanboro CarbonForge is built for collectors who crave bold engineering. Its carbon-fiber steel case frames a fully openworked dial with week, month, and date displays, powered by the JHS19 automatic movement. Luminous accents ignite the skeleton bridges at night, while a sapphire-grade crystal and transparent caseback reveal every mechanical detail. Finished with a premium silicone strap, this 44.5mm timepiece is crafted for those who live fast and lead with style.",
     "specs": {
-      "movement": "AUTOMATIC",
+      "movement": "JHS19 automatic mechanical movement\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "29 Synthetic Rubies & Titanium Screws",
@@ -6180,10 +6360,11 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Matte Carbon Presentation Shrine with UV Luminescence Torch & NFC Authenticity Passport",
       "modelNumber": "900-3",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "44.5mm"
     },
-    "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "mrp": "₹36,999",
+    "priceNumeric": 36999,
     "description": "The Hanboro CarbonForge is built for collectors who crave bold engineering. Its carbon-fiber steel case frames a fully openworked dial with week, month, and date displays, powered by the JHS19 automatic movement. Luminous accents ignite the skeleton bridges at night, while a sapphire-grade crystal and transparent caseback reveal every mechanical detail. Finished with a premium silicone strap, this 44.5mm timepiece is crafted for those who live fast and lead with style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6194,7 +6375,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-900-3-auto-black-view-5.mp4",
-    "modelNumber": "900-3"
+    "modelNumber": "900-3",
+    "mrpNumeric": 36999
   },
   {
     "id": "astroworld-celestial",
@@ -6231,7 +6413,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Orbita – Cosmic Tourbillon with Planetarium Dial\nThe Hanboro Orbita is more than a timepiece—it’s a celestial experience on the wrist. Designed with an irregular diamond-cut stainless steel case, it houses the Shanghai 2797B mechanical movement with 22 jewels, offering a 42-hour power reserve and stop-second precision.\n\nIts skeleton dial features a 24-hour rotating globe, luminous starfield, and engraved flywheel tourbillon, creating the illusion of a living universe in motion. The 3D diamond-knife carved glass ensures clarity, while the exhibition caseback reveals the intricate mechanics beneath.\n\nPaired with a breathable silicone strap and double-press safety clasp, the Orbita balances cosmic artistry with everyday wearability. Waterproof up to 50m, this timepiece embodies luxury, precision, and imagination—crafted for visionaries who carry the universe with them.",
     "specs": {
-      "movement": "30-9-2025",
+      "movement": "Shanghai 2797B Automatic Mechanical Movement (22 Jewels)",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "72 Hours (Twin-Barrel High-Torque System)",
       "jewels": "33 Synthetic Rubies",
@@ -6253,7 +6435,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Piano-Black Lacquered Wooden Vault with Domed Viewing Port & Collector Passport",
       "modelNumber": "980-1",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -6267,7 +6450,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-980-auto-orbita-gold-view-2.mp4",
-    "modelNumber": "980-1"
+    "modelNumber": "980-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "hbr-995-1-auto-gold",
@@ -6305,7 +6489,7 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nThe Hanboro REV-X Ignition is where motorsport adrenaline meets haute horology. Forged in 304 stainless steel with diamond knife case design and an irregular-cut crystal, it reflects boldness in every angle.\n\nPowered by the original Shanghai 2797B skeleton mechanical movement with 22 jewels, it delivers 21,600 vibrations/hour and a 42-hour reserve—a true engine of precision. The convex skeleton dial showcases a luminous Earth-shaped flywheel that rotates like gears in motion, glowing brilliantly in the dark.\n\nA transparent caseback reveals the tourbillon in action, while the soft silicone strap with double-press clasp ensures comfort and control. With 50m water resistance, REV-X Ignition is as resilient as it is revolutionary.\n\nA statement for visionaries who live fast, think sharp, and demand a timepiece as fearless as their drive.",
     "specs": {
       "modelNumber": "995-1",
-      "movement": "30-9-2025",
+      "movement": "Shanghai 2797B hollow mechanical movement\nFrequency: 21,600 vibrations/hour\nPower Reserve: 42 hours\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6315,7 +6499,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "7/50M",
       "strap": "Silicone ()",
       "clasp": "Push Button Hidden Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
     "priceNumeric": 44999,
@@ -6329,7 +6514,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-995-1-auto-gold-view-2.mp4",
-    "modelNumber": "995-1"
+    "modelNumber": "995-1",
+    "mrpNumeric": 44999
   },
   {
     "id": "hbr-927-rgold-blk",
@@ -6360,7 +6546,8 @@ export const PRODUCTS_DATA = [
     "summary": "Hanboro Facebook Series – FaceShift Automatic (Rose Gold & Onyx Black Edition)",
     "specs": {
       "modelNumber": "927-2",
-      "movement": "Authentic Hanboro Automatic Mechanical Movement"
+      "movement": "Authentic Hanboro Automatic Mechanical Movement",
+      "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -6373,7 +6560,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "modelNumber": "927-2"
+    "modelNumber": "927-2",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-aero-997-rg-blk",
@@ -6435,7 +6623,7 @@ export const PRODUCTS_DATA = [
     "description": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structure. A partially open-worked design exposes the rhythm of the mechanism, while maintaining a sense of balance and restraint.\n\nCrafted in 304 stainless steel with a rose gold finish, the case reflects strength with refinement. The black strap anchors the composition, offering contrast and continuity.\n\nEvery detail serves a purpose. Nothing is excess.\n\nThe AeroTwin 997 Series is not simply worn. It is experienced.",
     "specs": {
       "modelNumber": "997",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic Multifunction movement\n304 Stainless Steel case\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6445,7 +6633,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "DOUBLE PRESS BUTTERFLY CLASP",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6455,7 +6644,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "997"
+    "modelNumber": "997",
+    "mrpNumeric": 54999
   },
   {
     "id": "hbr-aero-997-blk",
@@ -6517,7 +6707,7 @@ export const PRODUCTS_DATA = [
     "description": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structure. A partially open-worked design exposes the rhythm of the mechanism, while maintaining a sense of balance and restraint.\n\nCrafted in 304 stainless steel with a rose gold finish, the case reflects strength with refinement. The black strap anchors the composition, offering contrast and continuity.\n\nEvery detail serves a purpose. Nothing is excess.\n\nThe AeroTwin 997 Series is not simply worn. It is experienced.",
     "specs": {
       "modelNumber": "997",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic Multifunction movement\n304 Stainless Steel case\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6527,7 +6717,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "DOUBLE PRESS BUTTERFLY CLASP",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6537,7 +6728,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "997"
+    "modelNumber": "997",
+    "mrpNumeric": 54999
   },
   {
     "id": "hbr-aero-997-silver",
@@ -6599,7 +6791,7 @@ export const PRODUCTS_DATA = [
     "description": "The AeroTwin 997 Series is an exploration of precision, form, and mechanical expression.\n\nDefined by its dual-engine architecture, the dial reveals a controlled interplay between movement and structure. A partially open-worked design exposes the rhythm of the mechanism, while maintaining a sense of balance and restraint.\n\nCrafted in 304 stainless steel with a rose gold finish, the case reflects strength with refinement. The black strap anchors the composition, offering contrast and continuity.\n\nEvery detail serves a purpose. Nothing is excess.\n\nThe AeroTwin 997 Series is not simply worn. It is experienced.",
     "specs": {
       "modelNumber": "997",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic Multifunction movement\n304 Stainless Steel case\nPower Reserve: 40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6609,7 +6801,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "DOUBLE PRESS BUTTERFLY CLASP",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6619,7 +6812,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "997"
+    "modelNumber": "997",
+    "mrpNumeric": 54999
   },
   {
     "id": "hbr-zodiac-1027-2-blue",
@@ -6681,7 +6875,7 @@ export const PRODUCTS_DATA = [
     "description": "The Hanboro Celestia Astryx is a statement of celestial precision and mechanical artistry. Inspired by the movement of the cosmos, this timepiece features an intricately crafted zodiac dial paired with a visible open-heart mechanical system, offering a glimpse into the complexity of its automatic movement.\n\nEncased in a refined rose gold finish and complemented by a deep blue leather strap, the watch embodies both elegance and innovation. The multi-dimensional dial, enhanced with planetary-inspired elements, creates a distinctive visual experience that sets it apart from conventional timepieces.\n\nEngineered with precision and designed for those who appreciate individuality, the Celestia Astryx is not just a watch — it is a reflection of time, space, and craftsmanship.",
     "specs": {
       "modelNumber": "1027-2",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\n304 Stainless Steel case, 45.5mm\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6691,7 +6885,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (blue)",
       "clasp": "DOUBLE PRESS BUTTERFLY CLASP",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6701,7 +6896,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1027-2"
+    "modelNumber": "1027-2",
+    "mrpNumeric": 50999
   },
   {
     "id": "hbr-zodiac-1027-2-black",
@@ -6735,7 +6931,7 @@ export const PRODUCTS_DATA = [
     "description": "The Hanboro Celestia Astryx is a statement of celestial precision and mechanical artistry. Inspired by the movement of the cosmos, this timepiece features an intricately crafted zodiac dial paired with a visible open-heart mechanical system, offering a glimpse into the complexity of its automatic movement.\n\nEncased in a refined rose gold finish and complemented by a black leather strap, the watch embodies both elegance and innovation. The multi-dimensional dial, enhanced with planetary-inspired elements, creates a distinctive visual experience that sets it apart from conventional timepieces.\n\nEngineered with precision and designed for those who appreciate individuality, the Celestia Astryx is not just a watch — it is a reflection of time, space, and craftsmanship.",
     "specs": {
       "modelNumber": "1027-2",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\n304 Stainless Steel case, 45.5mm\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6745,7 +6941,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "DOUBLE PRESS BUTTERFLY CLASP",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "45.5mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6755,7 +6952,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1027-2"
+    "modelNumber": "1027-2",
+    "mrpNumeric": 50999
   },
   {
     "id": "hbr-wc-1038-rg-blk",
@@ -6824,7 +7022,7 @@ export const PRODUCTS_DATA = [
     "description": "Celebrate the spirit of the world's biggest football tournament with the Hanboro Football Legends Edition. Designed for passionate football fans and watch collectors alike, this limited-series timepiece features a unique multi-nation dial inspired by the global game, complete with a rotating championship display and luminous detailing.\n\nPowered by a reliable automatic mechanical movement, the watch combines precision engineering with bold design. The hollow enamel-crafted dial showcases international flags, while the exhibition caseback reveals the intricate mechanics within. Paired with a genuine leather strap and premium butterfly clasp, it delivers comfort and sophistication for everyday wear.\n\nPresented in a specially designed collector's box featuring a football championship trophy, this timepiece is more than a watch—it's a tribute to football's greatest stage.",
     "specs": {
       "modelNumber": "1038",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\nSpecial edition case\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6834,7 +7032,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "Double-Push Butterfly Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6844,7 +7043,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "1038"
+    "modelNumber": "1038",
+    "mrpNumeric": 52999
   },
   {
     "id": "hbr-wc-1038-silver-blk",
@@ -6906,7 +7106,7 @@ export const PRODUCTS_DATA = [
     "description": "Celebrate the spirit of the world's biggest football tournament with the Hanboro Football Legends Edition. Designed for passionate football fans and watch collectors alike, this limited-series timepiece features a unique multi-nation dial inspired by the global game, complete with a rotating championship display and luminous detailing.\n\nPowered by a reliable automatic mechanical movement, the watch combines precision engineering with bold design. The hollow enamel-crafted dial showcases international flags, while the exhibition caseback reveals the intricate mechanics within. Paired with a genuine leather strap and premium butterfly clasp, it delivers comfort and sophistication for everyday wear.\n\nPresented in a specially designed collector's box featuring a football championship trophy, this timepiece is more than a watch—it's a tribute to football's greatest stage.",
     "specs": {
       "modelNumber": "1038",
-      "movement": "AUTOMATIC",
+      "movement": "Automatic mechanical movement\nSpecial edition case\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nAutomatic/manual winding",
       "frequency": "28,800 BPH (4 Hz)",
       "powerReserve": "~42 Hours",
       "jewels": "24 Synthetic Rubies",
@@ -6916,7 +7116,8 @@ export const PRODUCTS_DATA = [
       "waterResistance": "50M",
       "strap": "LEATHER (BLACK)",
       "clasp": "Double-Push Butterfly Clasp",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6927,7 +7128,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-wc-1038-silver-blk-view-5.mp4",
-    "modelNumber": "1038"
+    "modelNumber": "1038",
+    "mrpNumeric": 52999
   },
   {
     "id": "green-diver",
@@ -6951,7 +7153,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Bold, refined, and built for the deep — the Hanboro SeaKing Sapphire blends a ceramic bezel with a wave-pattern skeleton dial for a truly premium look. Powered by a reliable 82S7 automatic movement, it features a 24-hour subdial, open-heart flywheel, and luminous markers for perfect visibility. Finished with a stainless-steel bracelet and 50M water resistance, it’s a standout choice for collectors who want style, engineering, and everyday durability.",
     "specs": {
-      "movement": "JAPAN AUTOMATIC",
+      "movement": "Japanese Automatic movement\nMulti-Function diver\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "42 Hours",
       "jewels": "24 Jewels",
@@ -6972,7 +7174,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Airtight Waterproof Dive Vault with Extra Green Rubber Strap",
       "modelNumber": "1308",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -7018,7 +7221,8 @@ export const PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-1308-AUTO-SAPPHIRE."
       }
     ],
-    "modelNumber": "1308"
+    "modelNumber": "1308",
+    "mrpNumeric": 52999
   },
   {
     "id": "powerreserve-silver",
@@ -7103,7 +7307,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Modern Minimalist Silver-Trim Presentation Box with NFC Authenticity Card",
       "modelNumber": "902",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
     "priceNumeric": 22999,
@@ -7116,7 +7321,8 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "modelNumber": "902"
+    "modelNumber": "902",
+    "mrpNumeric": 22999
   },
   {
     "id": "sichuan-opera-diamond-tonneau",
@@ -7152,7 +7358,7 @@ export const PRODUCTS_DATA = [
     "year": "2026",
     "summary": "Hanboro Facebook Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nThe Hanboro FaceShift is more than a timepiece—it’s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry—crafted for those who embrace every side of their identity.",
     "specs": {
-      "movement": "\"Japanese 8215 mechanical movement \"\"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"\"\"",
+      "movement": "Japanese 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
       "frequency": "28,800 VPH (4.0 Hz)",
       "powerReserve": "50 Hours",
       "jewels": "28 Synthetic Rubies & Micro-Gems",
@@ -7173,7 +7379,8 @@ export const PRODUCTS_DATA = [
       ],
       "packaging": "Imperial Red Lacquered Heritage Presentation Shrine with Silk Lining & NFC Guarantee Passport",
       "modelNumber": "927-2",
-      "warranty": "24.0 Months Official Manufacturer Warranty"
+      "warranty": "24.0 Months Official Manufacturer Warranty",
+      "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
     "priceNumeric": 52999,
@@ -7187,7 +7394,8 @@ export const PRODUCTS_DATA = [
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
     "videoUrl": "/catalog/hbr-927-gold-blk-view-2.mp4",
-    "modelNumber": "927-2"
+    "modelNumber": "927-2",
+    "mrpNumeric": 52999
   }
 ];
 
