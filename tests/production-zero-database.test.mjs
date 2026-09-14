@@ -38,3 +38,40 @@ test("Inventory Check: Master watch catalogue and inventory allocations are 100%
     assert.ok(p.image, "Every watch must have an authentic image");
   });
 });
+
+test("Excel Data Integrity: Watch Model Number matches name and pricing across all timepieces", () => {
+  assert.equal(PRODUCTS_DATA.length, 98);
+  const invalidInternalIds = new Set(["1270347", "2538803", "CERAMIC", "7200", "8022"]);
+
+  PRODUCTS_DATA.forEach((p) => {
+    // Model Number verification
+    assert.ok(p.modelNumber, `Watch ${p.sku} must have a top-level modelNumber`);
+    assert.ok(p.specs?.modelNumber, `Watch ${p.sku} must have specs.modelNumber`);
+    assert.equal(
+      p.modelNumber,
+      p.specs.modelNumber,
+      `Top-level modelNumber must match specs.modelNumber for ${p.sku}`
+    );
+    assert.equal(
+      invalidInternalIds.has(p.modelNumber),
+      false,
+      `Watch ${p.sku} must not have raw ID or placeholder '${p.modelNumber}'`
+    );
+
+    // Pricing verification
+    assert.ok(p.priceNumeric > 0, `Watch ${p.sku} must have valid positive numeric price`);
+    assert.equal(
+      p.price,
+      `₹${p.priceNumeric.toLocaleString("en-IN")}`,
+      `Price string formatting must match numeric price for ${p.sku}`
+    );
+    assert.ok(p.priceUsd?.startsWith("$"), `Price USD must be formatted with $ for ${p.sku}`);
+
+    // Name sanitization verification
+    assert.ok(p.name && p.name.trim().length > 0, `Watch ${p.sku} must have a non-empty name`);
+    assert.equal(p.name.includes('"'), false, `Watch ${p.sku} name must not contain stray quotes: '${p.name}'`);
+    assert.equal(p.name.includes("\n"), false, `Watch ${p.sku} name must not contain newlines`);
+    assert.equal(p.name.includes("Worl Cup"), false, `Watch ${p.sku} name must not have typo 'Worl Cup'`);
+  });
+});
+

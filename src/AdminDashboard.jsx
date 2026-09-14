@@ -677,6 +677,8 @@ export function AdminDashboard({ onNavigateHome }) {
         (p) =>
           p.name?.toLowerCase().includes(q) ||
           p.sku?.toLowerCase().includes(q) ||
+          p.modelNumber?.toLowerCase().includes(q) ||
+          p.specs?.modelNumber?.toLowerCase().includes(q) ||
           p.collection?.toLowerCase().includes(q) ||
           p.collectionName?.toLowerCase().includes(q) ||
           p.subtitle?.toLowerCase().includes(q) ||
@@ -1880,7 +1882,7 @@ export function AdminDashboard({ onNavigateHome }) {
                               />
                               <div>
                                 <div className="sp-product-title">{p.name}</div>
-                                <div className="sp-product-sku">SKU: {p.sku}</div>
+                                <div className="sp-product-sku">Model: {p.modelNumber || p.specs?.modelNumber || "—"} • SKU: {p.sku}</div>
                               </div>
                             </div>
                           </td>
@@ -2313,7 +2315,7 @@ export function AdminDashboard({ onNavigateHome }) {
                           <img src={p.image} alt={p.name} className="sp-product-thumb--sm" />
                           <div>
                             <div className="sp-quick-name">{p.name}</div>
-                            <div className="sp-quick-sub">SKU: {p.sku}</div>
+                            <div className="sp-quick-sub">Model: {p.modelNumber || p.specs?.modelNumber || "—"} • SKU: {p.sku}</div>
                           </div>
                         </div>
                         <div style={{ textAlign: "right" }}>
@@ -3514,7 +3516,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   >
                     <option value="">-- Choose Watch --</option>
                     {(products || PRODUCTS_DATA).map((p) => (
-                      <option key={p.id} value={p.id}>{p.name} ({p.price})</option>
+                      <option key={p.id} value={p.id}>MODEL {p.modelNumber || p.specs?.modelNumber || "—"} — {p.name} ({p.sku}) - {p.price}</option>
                     ))}
                   </select>
                 </div>

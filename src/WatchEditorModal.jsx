@@ -110,6 +110,7 @@ export function WatchEditorModal({
     id: "",
     name: "",
     sku: "",
+    modelNumber: "",
     ean: "",
     subtitle: "",
     collection: "TOURBILLON",
@@ -162,6 +163,7 @@ export function WatchEditorModal({
         id: initialData.id || "",
         name: initialData.name || "",
         sku: initialData.sku || "",
+        modelNumber: initialData.modelNumber || initialData.specs?.modelNumber || "",
         ean: initialData.ean || (initialData.sku ? calculateEan13(initialData.sku) : ""),
         subtitle: initialData.subtitle || "",
         collection: initialData.collection || "TOURBILLON",
@@ -205,6 +207,7 @@ export function WatchEditorModal({
         id: "",
         name: "",
         sku: `HBR-${randomSkuNum}-X`,
+        modelNumber: "",
         ean: calculateEan13(`HBR-${randomSkuNum}-X`),
         subtitle: "Avant-Garde Skeleton Tourbillon • Haute Horlogerie 2026",
         collection: "TOURBILLON",
@@ -487,6 +490,7 @@ export function WatchEditorModal({
       previousSku: initialData?.sku || null,
       name: form.name.trim(),
       sku: form.sku.trim().toUpperCase(),
+      modelNumber: (form.modelNumber || form.specs?.modelNumber || "").trim(),
       ean: (form.ean || "").trim() || calculateEan13(form.sku || form.id),
       subtitle: form.subtitle.trim() || `${form.collectionName} • Haute Horlogerie`,
       collection: form.collection,
@@ -505,7 +509,10 @@ export function WatchEditorModal({
       isActive: form.isActive,
       altImages: rawGallery.length > 0 ? rawGallery : [safeImage],
       gallery: formattedGallery,
-      specs: form.specs,
+      specs: {
+        ...(form.specs || {}),
+        modelNumber: (form.modelNumber || form.specs?.modelNumber || "").trim(),
+      },
     };
 
     setIsSaving(true);
@@ -610,6 +617,29 @@ export function WatchEditorModal({
                       }}
                     />
                     {errors.name && <span className="editor-error-msg">{errors.name}</span>}
+                  </div>
+
+                  <div className="editor-field-group">
+                    <label className="editor-label">
+                      Watch Model Number <span style={{ fontSize: "11px", fontWeight: 400, color: "#64748b" }}>(e.g. 980, 1001-2, 8851-1)</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="editor-input editor-input--mono"
+                      placeholder="e.g. 980, 1001-2, 989-3, 8851-1"
+                      value={form.modelNumber || ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setForm({
+                          ...form,
+                          modelNumber: val,
+                          specs: { ...(form.specs || {}), modelNumber: val }
+                        });
+                      }}
+                    />
+                    <span className="editor-field-hint" style={{ fontSize: "11px", color: "#64748b", marginTop: "4px", display: "block" }}>
+                      Canonical Hanboro factory model code from spreadsheet
+                    </span>
                   </div>
 
                   <div className="editor-field-group">

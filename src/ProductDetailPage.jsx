@@ -379,16 +379,17 @@ export function ProductDetailPage({
               <h1 className="pdp-title">{product.name}</h1>
               {product.subtitle && <p className="pdp-subtitle">{product.subtitle}</p>}
 
-              {/* Reference SKU & Copy Badge */}
+              {/* Reference SKU & Model Badge */}
               <div className="pdp-sku-row">
-                <span className="sku-label">OFFICIAL REFERENCE:</span>
+                <span className="sku-label">OFFICIAL MODEL & REF:</span>
+                <span className="pdp-model-badge">MODEL {product.modelNumber || product.specs?.modelNumber}</span>
                 <button
                   type="button"
                   className="pdp-sku-badge-btn"
                   onClick={handleCopySku}
                   title="Click to copy Reference SKU"
                 >
-                  <span>{copiedSku ? "✓ COPIED TO CLIPBOARD" : product.sku}</span>
+                  <span>{copiedSku ? "✓ COPIED" : `REF. ${product.sku}`}</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
@@ -668,6 +669,18 @@ export function ProductDetailPage({
           </div>
 
           <div className="pdp-specs-table-box">
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Model Number</span>
+              <span className="spec-item-v highlight-bold">{product.modelNumber || product.specs?.modelNumber}</span>
+            </div>
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Official Reference SKU</span>
+              <span className="spec-item-v">{product.sku}</span>
+            </div>
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Official Retail Price (MRP)</span>
+              <span className="spec-item-v highlight-red">{product.price} (Inclusive of Taxes)</span>
+            </div>
             <div className="pdp-spec-item-row">
               <span className="spec-item-k">Caliber / Movement</span>
               <span className="spec-item-v highlight-red">{product.specs.movement}</span>

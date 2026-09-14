@@ -52,6 +52,8 @@ export function ProductsView({
         (p) =>
           p.name?.toLowerCase().includes(q) ||
           p.sku?.toLowerCase().includes(q) ||
+          p.modelNumber?.toLowerCase().includes(q) ||
+          p.specs?.modelNumber?.toLowerCase().includes(q) ||
           p.subtitle?.toLowerCase().includes(q) ||
           p.collectionName?.toLowerCase().includes(q) ||
           p.specs?.movement?.toLowerCase().includes(q) ||
@@ -276,7 +278,7 @@ export function ProductsView({
                   {/* Structured Middle Info: Ref/Movement Eyebrow + 2-Line Clamped Title + Specs */}
                   <div className="maison-card-body">
                     <div className="maison-card-eyebrow">
-                      <span className="card-sku-code">REF. {watch.sku}</span>
+                      <span className="card-sku-code">MODEL {watch.modelNumber || watch.specs?.modelNumber || watch.sku.split("-")[1]} • REF. {watch.sku}</span>
                       <span className="card-dot">•</span>
                       <span className="card-caliber">{watch.specs?.movement ? watch.specs.movement.split(" ")[0] : "AUTOMATIC"}</span>
                     </div>

@@ -137,7 +137,9 @@ export function CartDrawer() {
                     </div>
 
                     <h4 className="cart-item-name">{product.name}</h4>
-                    <p className="cart-item-collection">{product.collectionName}</p>
+                    <p className="cart-item-collection">
+                      MODEL {product.modelNumber || product.specs?.modelNumber || "—"} • REF. {product.sku}
+                    </p>
 
                     <div className="cart-item-bottom">
                       <div className="cart-item-qty-controls">

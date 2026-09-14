@@ -649,7 +649,7 @@ export function CheckoutPage({ onNavigate }) {
                           <span className="summary-qty-badge">{item.quantity}</span>
                         </div>
                         <div className="summary-item-meta">
-                          <span className="summary-item-sku">{item.product.sku}</span>
+                          <span className="summary-item-sku">MODEL {item.product.modelNumber || item.product.specs?.modelNumber || "—"} • REF. {item.product.sku}</span>
                           <span className="summary-item-name">{item.product.name}</span>
                           <span className="summary-item-unit-price">{item.product.price}</span>
                         </div>
