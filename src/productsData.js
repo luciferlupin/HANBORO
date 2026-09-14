@@ -1235,7 +1235,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "sichuan-opera-diamond-steel",
     "sku": "HBR-927-SLV-BLK",
-    "name": "Hanboro Facebook Series \u2013 FaceShift Automatic (Silver & Black)",
+    "name": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Silver & Black)",
     "subtitle": "Hanboro FaceShift Automatic\u2014six faces shifting every 4 hrs, 174 diamonds, Japanese movement. A bold legacy of luxury.",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -1258,7 +1258,7 @@ export const PRODUCTS_DATA = [
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "summary": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
       "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -1286,7 +1286,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b952,999",
     "priceNumeric": 52999,
-    "description": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "description": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -1301,7 +1301,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-927-rg-blk",
     "sku": "HBR-927-RG-BLK",
-    "name": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Black)",
+    "name": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Black)",
     "subtitle": "Product selling points:",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -1324,7 +1324,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "summary": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
       "modelNumber": "927-2",
       "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
@@ -1332,7 +1332,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b952,999",
     "priceNumeric": 52999,
-    "description": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "description": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -1347,7 +1347,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-927-rg-red",
     "sku": "HBR-927-RG-RED",
-    "name": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Crimson Red)",
+    "name": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Crimson Red)",
     "subtitle": "Product selling points:",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
@@ -1370,7 +1370,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "summary": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "specs": {
       "modelNumber": "927-2",
       "movement": "Japanese CITIZEN 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading",
@@ -1378,7 +1378,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b952,999",
     "priceNumeric": 52999,
-    "description": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
+    "description": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story\u2014power, wisdom, rebellion, honor, fearlessness, and clarity\u2014capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you\u2019ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -1611,7 +1611,7 @@ export const PRODUCTS_DATA = [
     "id": "dual-hemispheres-moonphase-steel",
     "sku": "HBR-8824-AUTO-NAVIGATOR-BLK",
     "name": "Celestial Navigator \u2013 Voyage Edition (Onyx Black Dial)",
-    "subtitle": "Celestial Navigator Voyage Edition \u2013 Moonphase, 21-jewel automatic movement &amp; cosmic design in brushed steel elegance",
+    "subtitle": "Celestial Navigator Voyage Edition \u2013 Moonphase, 21-jewel automatic movement & cosmic design in brushed steel elegance",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
@@ -1687,7 +1687,7 @@ export const PRODUCTS_DATA = [
     "id": "orbital-moonphase",
     "sku": "HBR-8824-AUTO-NAVIGATOR-RG-WYT",
     "name": "Celestial Navigator \u2013 Voyage Edition (Rose Gold & Pure White Dial)",
-    "subtitle": "Celestial Navigator Voyage Edition \u2013 Moonphase, 21-jewel automatic movement &amp; cosmic design in brushed steel elegance",
+    "subtitle": "Celestial Navigator Voyage Edition \u2013 Moonphase, 21-jewel automatic movement & cosmic design in brushed steel elegance",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
@@ -2311,7 +2311,7 @@ export const PRODUCTS_DATA = [
     "id": "hbr-2003-auto-hive-aquablue",
     "sku": "HBR-2003-AUTO-HIVE-aquablue",
     "name": "Queen Bee Series: The Hive Mechanica \u2013 Royal Precision Watch (Aqua Blue)",
-    "subtitle": "Hanboro Queen Bee Hive Mechanica \u2013 luxury 26-jewel automatic with sapphire glass, skeleton flywheel &amp; royal design.",
+    "subtitle": "Hanboro Queen Bee Hive Mechanica \u2013 luxury 26-jewel automatic with sapphire glass, skeleton flywheel & royal design.",
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Hive Mechanica Triple Complication",
@@ -2617,7 +2617,7 @@ export const PRODUCTS_DATA = [
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Silver Nebula \u2013 Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
+    "summary": "Silver Nebula \u2013 Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "specs": {
       "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -2646,7 +2646,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b939,999",
     "priceNumeric": 39999,
-    "description": "Silver Nebula \u2013 Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
+    "description": "Silver Nebula \u2013 Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -2685,7 +2685,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Silver Nebula \u2013 Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
+    "summary": "Silver Nebula \u2013 Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "specs": {
       "modelNumber": "848",
       "movement": "Japanese 8217 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\nQuick Calendar Settings",
@@ -2693,7 +2693,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b939,999",
     "priceNumeric": 39999,
-    "description": "Silver Nebula \u2013 Diamond Hour Markers &amp; Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
+    "description": "Silver Nebula \u2013 Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display\u2014bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -3332,7 +3332,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "architectural-skeleton-rosegold",
     "sku": "HBR-906-AUTO-RGSL",
-    "name": "Hanboro Transperence Excellence Automatic Skeleton Watch (Rose Gold & Silver)",
+    "name": "Hanboro Transparence Excellence Automatic Skeleton Watch (Rose Gold & Silver)",
     "subtitle": "Hanboro Transparence Excellence \u2013 skeleton automatic watch with sapphire crystal, luminous dial, 40h reserve, and 50M water resistance.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
@@ -3399,7 +3399,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-906-auto-silver",
     "sku": "HBR-906-AUTO-SILVER",
-    "name": "Hanboro Transperence Excellence Automatic Skeleton Watch (Stainless Steel)",
+    "name": "Hanboro Transparence Excellence Automatic Skeleton Watch (Stainless Steel)",
     "subtitle": "\"Product selling points:",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
@@ -3445,7 +3445,7 @@ export const PRODUCTS_DATA = [
   {
     "id": "architectural-skeleton-black",
     "sku": "HBR-906-AUTO-BLACK",
-    "name": "Hanboro Transperence Excellence Automatic Skeleton Watch (Stealth Black)",
+    "name": "Hanboro Transparence Excellence Automatic Skeleton Watch (Stealth Black)",
     "subtitle": "Hanboro Transparence Excellence \u2013 skeleton automatic watch with sapphire crystal, luminous dial, 40h reserve, and 50M water resistance.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
@@ -4800,7 +4800,7 @@ export const PRODUCTS_DATA = [
     "id": "celestial-pilot-moonphase-black",
     "sku": "HBR-8824-AUTO-NS-BLACK",
     "name": "Hanboro Hemisphera \u2013 Dual Hemisphere Automatic Moonphase Watch (Nocturne Black)",
-    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun &amp; moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
+    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun & moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
@@ -4850,7 +4850,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
       "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -4880,7 +4880,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b934,999",
     "priceNumeric": 34999,
-    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -5082,7 +5082,7 @@ export const PRODUCTS_DATA = [
     "id": "dual-hemispheres-moonphase-blue",
     "sku": "HBR-8824-AUTO-NS-BLUE",
     "name": "Hanboro Hemisphera \u2013 Dual Hemisphere Automatic Moonphase Watch (Deep Sky Blue)",
-    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun &amp; moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
+    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun & moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
@@ -5118,7 +5118,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
       "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -5148,7 +5148,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b934,999",
     "priceNumeric": 34999,
-    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -5164,7 +5164,7 @@ export const PRODUCTS_DATA = [
     "id": "celestial-pilot-moonphase-rosegold",
     "sku": "HBR-8824-AUTO-NS-RG-BROWN",
     "name": "Hanboro Hemisphera \u2013 Dual Hemisphere Automatic Moonphase Watch (Rose Gold & Saddle Brown)",
-    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun &amp; moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
+    "subtitle": "Dual hemisphere automatic watch featuring 24-hour sun & moon displays, open flywheel, sapphire crystal, and 100M water resistance.",
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
@@ -5200,7 +5200,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "summary": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "specs": {
       "movement": "Automatic mechanical movement\nPower Reserve: ~40 hours\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual winding",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -5230,7 +5230,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b934,999",
     "priceNumeric": 34999,
-    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun &amp; moon display\n\nSouthern Hemisphere 24-hour sun &amp; moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
+    "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres \u2014 a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o\u2019clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -6520,8 +6520,8 @@ export const PRODUCTS_DATA = [
   {
     "id": "hbr-927-rgold-blk",
     "sku": "HBR-927-RGOLD-BLK",
-    "name": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
-    "subtitle": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
+    "name": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
+    "subtitle": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "FaceShift Six Masks Complication",
@@ -6543,7 +6543,7 @@ export const PRODUCTS_DATA = [
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
-    "summary": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
+    "summary": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
     "specs": {
       "modelNumber": "927-2",
       "movement": "Authentic Hanboro Automatic Mechanical Movement",
@@ -6551,7 +6551,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b952,999",
     "priceNumeric": 52999,
-    "description": "Hanboro Facebook Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
+    "description": "Hanboro FaceShift Series \u2013 FaceShift Automatic (Rose Gold & Onyx Black Edition)",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",
@@ -7149,6 +7149,7 @@ export const PRODUCTS_DATA = [
     ],
     "price": "\u20b952,999",
     "priceUsd": "$639",
+    "stock": 8,
     "availability": "In Stock",
     "year": "2026",
     "summary": "Bold, refined, and built for the deep \u2014 the Hanboro SeaKing Sapphire blends a ceramic bezel with a wave-pattern skeleton dial for a truly premium look. Powered by a reliable 82S7 automatic movement, it features a 24-hour subdial, open-heart flywheel, and luminous markers for perfect visibility. Finished with a stainless-steel bracelet and 50M water resistance, it\u2019s a standout choice for collectors who want style, engineering, and everyday durability.",
@@ -7282,6 +7283,7 @@ export const PRODUCTS_DATA = [
     ],
     "price": "\u20b922,999",
     "priceUsd": "$277",
+    "stock": 8,
     "availability": "In Stock",
     "year": "2026",
     "summary": "The Hanboro A200 Reserve is a study in precision and restraint. Designed with a clean sunburst silver dial and sharp blue hands, it reflects the philosophy that true luxury lies in clarity and engineering.\n\nPowered by the A200 automatic mechanical movement, the watch features a dedicated power reserve indicator and small seconds display \u2014 subtle complications that reveal its technical depth without disturbing its minimalist balance.\n\nEncased in finely polished stainless steel and protected by sapphire crystal, the A200 Reserve delivers durability with refined presence. The exhibition caseback allows a glimpse into its mechanical heartbeat, reinforcing the craftsmanship within.\n\nPaired with a sculpted steel bracelet and butterfly clasp, this timepiece is built for modern professionals who value precision over excess and structure over noise.\n\nUnderstated. Engineered. Timeless.",
@@ -7327,11 +7329,11 @@ export const PRODUCTS_DATA = [
   {
     "id": "sichuan-opera-diamond-tonneau",
     "sku": "HBR-927-GOLD-BLK",
-    "name": "Hanboro Facebook Series \u2013 FaceShift Automatic SIX faces. One bold identity.",
-    "subtitle": "Hanboro FaceShift Automatic\u2014six faces shifting every 4 hrs, 174 diamonds, Japanese movement. A bold legacy of luxury.",
+    "name": "Hanboro FaceShift Automatic (Royal Gold & Onyx Black Edition)",
+    "subtitle": "Hanboro FaceShift Automatic — six rotating masks shifting every 4 hrs, 174 diamonds, Japanese movement. A bold legacy of luxury.",
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
-    "tag": "Haute M\u00e9tiers d'Art",
+    "tag": "Haute Métiers d'Art",
     "image": "/transparent/sichuan-opera-diamond-tonneau.webp",
     "transparentImage": "/transparent/sichuan-opera-diamond-tonneau.webp",
     "altImages": [
@@ -7341,22 +7343,23 @@ export const PRODUCTS_DATA = [
     "gallery": [
       {
         "url": "/transparent/sichuan-opera-diamond-tonneau.webp",
-        "title": "Hanboro Facebook Series \u2013 FaceShift Automatic SIX faces. One bold identity. \u2014 Front Dial View",
+        "title": "Hanboro FaceShift Automatic (Royal Gold & Onyx Black Edition) — Front Dial View",
         "label": "01 Front View",
-        "caption": "Official boutique presentation of Hanboro Facebook Series \u2013 FaceShift Automatic SIX faces. One bold identity. (Reference HBR-927-GOLD-BLK)."
+        "caption": "Official boutique presentation of Hanboro FaceShift Automatic (Reference HBR-927-GOLD-BLK)."
       },
       {
         "url": "/catalog/hbr-927-gold-blk-view-1.jpg",
-        "title": "Hanboro Facebook Series \u2013 FaceShift Automatic SIX faces. One bold identity. \u2014 Perspective 02",
+        "title": "Hanboro FaceShift Automatic (Royal Gold & Onyx Black Edition) — Perspective 02",
         "label": "02 View Angle",
         "caption": "Horological craftsmanship inspection of Reference HBR-927-GOLD-BLK."
       }
     ],
-    "price": "\u20b952,999",
+    "price": "₹52,999",
     "priceUsd": "$639",
+    "stock": 10,
     "availability": "In Stock",
     "year": "2026",
-    "summary": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nThe Hanboro FaceShift is more than a timepiece\u2014it\u2019s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry\u2014crafted for those who embrace every side of their identity.",
+    "summary": "Hanboro FaceShift Automatic\n“Six faces. One bold identity.”\n\nThe Hanboro FaceShift is more than a timepiece—it’s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry—crafted for those who embrace every side of their identity.",
     "specs": {
       "movement": "Japanese 8215 mechanical movement \"Thickness: 5.67mm\n21 gems\nFrequency 21600 times/hour\nStop second function\nAutomatic/manual loading\"",
       "frequency": "28,800 VPH (4.0 Hz)",
@@ -7384,7 +7387,7 @@ export const PRODUCTS_DATA = [
     },
     "mrp": "\u20b952,999",
     "priceNumeric": 52999,
-    "description": "Hanboro Facebook Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nThe Hanboro FaceShift is more than a timepiece\u2014it\u2019s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry\u2014crafted for those who embrace every side of their identity.",
+    "description": "Hanboro FaceShift Series \u2013 FaceShift Automatic\n\u201cSix faces. One bold identity.\u201d\n\nThe Hanboro FaceShift is more than a timepiece\u2014it\u2019s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry\u2014crafted for those who embrace every side of their identity.",
     "compliance": {
       "countryOfOrigin": "People\u2019s Republic of China",
       "manufacturer": "Guangzhou Hengbaoluo Technology Co., Ltd.",

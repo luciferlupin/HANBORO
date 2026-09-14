@@ -99,14 +99,32 @@ const STORAGE_KEYS = {
   PRODUCTS: "hanboro_custom_products",
 };
 
-// One-time production zero database cache reset (clears dev test orders/leads/profiles, preserves inventory and products)
-if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v1")) {
+// One-time production zero database cache reset & purge of stale clones / dev artifacts
+if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v2")) {
   safeStorage.removeItem(STORAGE_KEYS.ORDERS);
   safeStorage.removeItem(STORAGE_KEYS.CUSTOMERS);
   safeStorage.removeItem(STORAGE_KEYS.PROFILES);
   safeStorage.removeItem("hanboro_draft_orders_cache");
   safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
-  safeStorage.setItem("hanboro_prod_zero_db_v1", "true");
+  safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
+  try {
+    const rawProd = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
+    if (rawProd) {
+      const parsed = JSON.parse(rawProd);
+      if (Array.isArray(parsed)) {
+        const cleaned = parsed.filter(
+          (p) =>
+            p &&
+            !/-clone-/i.test(String(p.id || "")) &&
+            !/-clone-/i.test(String(p.sku || "")) &&
+            !/\(Variant\)/i.test(String(p.name || "")) &&
+            !String(p.name || "").includes("WITH Planetarium Design")
+        );
+        safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(cleaned));
+      }
+    }
+  } catch {}
+  safeStorage.setItem("hanboro_prod_zero_db_v2", "true");
 }
 
 /**
@@ -1083,21 +1101,43 @@ export const inventoryService = {
         .select("*")
         .order("name", { ascending: true });
 
-      if (!error && data && data.length > 0) {
-        const mapped = data.map((row) => ({
-          id: row.id,
-          sku: row.sku,
-          name: row.name,
-          collection: row.collection || "Tourbillon & Complications",
-          price: row.price_inr ? `₹${Number(row.price_inr).toLocaleString("en-IN")}` : "₹45,000",
-          priceUsd: row.price_usd ? `$${Number(row.price_usd).toLocaleString()}` : "$550",
-          stock: typeof row.stock === "number" ? row.stock : 10,
-          isActive: row.is_active !== false,
-          image: row.image,
-        }));
-        safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(mapped));
-        return mapped;
+      const remoteMap = new Map();
+      if (!error && Array.isArray(data)) {
+        data
+          .filter(
+            (row) =>
+              row &&
+              !/-clone-/i.test(String(row.id || "")) &&
+              !/-clone-/i.test(String(row.sku || "")) &&
+              !/\(Variant\)/i.test(String(row.name || "")) &&
+              !String(row.name || "").includes("WITH Planetarium Design")
+          )
+          .forEach((row) => {
+            if (row.id) remoteMap.set(String(row.id).toLowerCase(), row);
+            if (row.sku) remoteMap.set(String(row.sku).toUpperCase(), row);
+          });
       }
+
+      // Merge remote stock/pricing updates onto canonical 104 PRODUCTS_DATA
+      const mergedInventory = PRODUCTS_DATA.map((p, idx) => {
+        const pId = String(p.id).toLowerCase();
+        const pSku = String(p.sku).toUpperCase();
+        const remote = remoteMap.get(pId) || remoteMap.get(pSku);
+        return {
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          collection: p.collectionName || p.collection || "Tourbillon & Complications",
+          price: p.price,
+          priceUsd: p.priceUsd,
+          stock: typeof remote?.stock === "number" ? remote.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8))),
+          isActive: remote ? remote.is_active !== false : (p.isActive !== false),
+          image: p.image,
+        };
+      });
+
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(mergedInventory));
+      return mergedInventory;
     } catch (err) {
       console.warn("Supabase fetch inventory note:", err);
     }
@@ -1109,55 +1149,46 @@ export const inventoryService = {
     let list = [];
     try {
       const cached = safeStorage.getItem(STORAGE_KEYS.INVENTORY);
-      if (cached) list = JSON.parse(cached);
-    } catch {
-      // ignore
-    }
-
-    if (!Array.isArray(list) || list.length === 0) {
-      list = PRODUCTS_DATA.map((p, idx) => ({
-        id: p.id,
-        sku: p.sku,
-        name: p.name,
-        collection: p.collectionName,
-        price: p.price,
-        priceUsd: p.priceUsd,
-        stock: 12 - (idx % 8),
-        isActive: true,
-        image: p.image,
-      }));
-    }
-
-    // Sync any custom products saved locally that aren't yet in inventory
-    try {
-      const customRaw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
-      if (customRaw) {
-        const customProducts = JSON.parse(customRaw);
-        if (Array.isArray(customProducts)) {
-          let hasNew = false;
-          customProducts.forEach((cp) => {
-            if (!list.some((it) => it.id === cp.id)) {
-              list.push({
-                id: cp.id,
-                sku: cp.sku,
-                name: cp.name,
-                collection: cp.collectionName || cp.collection,
-                price: cp.price,
-                priceUsd: cp.priceUsd,
-                stock: typeof cp.stock === "number" ? Math.max(0, cp.stock) : 10,
-                isActive: cp.isActive !== false,
-                image: cp.image,
-              });
-              hasNew = true;
-            }
-          });
-          if (hasNew) {
-            safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
-          }
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed)) {
+          list = parsed.filter(
+            (it) =>
+              it &&
+              !/-clone-/i.test(String(it.id || "")) &&
+              !/-clone-/i.test(String(it.sku || "")) &&
+              !/\(Variant\)/i.test(String(it.name || "")) &&
+              !String(it.name || "").includes("WITH Planetarium Design")
+          );
         }
       }
     } catch {
       // ignore
+    }
+
+    if (!Array.isArray(list) || list.length < PRODUCTS_DATA.length) {
+      const existingMap = new Map();
+      if (Array.isArray(list)) {
+        list.forEach((it) => {
+          if (it.id) existingMap.set(String(it.id).toLowerCase(), it);
+          if (it.sku) existingMap.set(String(it.sku).toUpperCase(), it);
+        });
+      }
+      list = PRODUCTS_DATA.map((p, idx) => {
+        const existing = existingMap.get(String(p.id).toLowerCase()) || existingMap.get(String(p.sku).toUpperCase());
+        return {
+          id: p.id,
+          sku: p.sku,
+          name: p.name,
+          collection: p.collectionName || p.collection,
+          price: p.price,
+          priceUsd: p.priceUsd,
+          stock: typeof existing?.stock === "number" ? existing.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8))),
+          isActive: existing ? existing.isActive !== false : (p.isActive !== false),
+          image: p.image,
+        };
+      });
+      safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
     }
 
     return list;
@@ -1624,6 +1655,30 @@ export function sortCatalogStably(items) {
   });
 }
 
+// Helper: identify stale test clones or polluted Orbita variant clones that should be purged
+export function isStaleClone(p) {
+  if (!p) return false;
+  const id = String(p.id || "").toLowerCase();
+  const sku = String(p.sku || "").toUpperCase();
+  const name = String(p.name || "");
+
+  // Never flag canonical master watches
+  const isCanonicalMaster = PRODUCTS_DATA.some(
+    (m) => String(m.id).toLowerCase() === id || String(m.sku).toUpperCase() === sku
+  );
+  if (isCanonicalMaster) return false;
+
+  return (
+    /-clone-test-/i.test(id) ||
+    /-clone-test-/i.test(sku) ||
+    id.startsWith("astroworld-celestial-clone-") ||
+    id.startsWith("astroworld-tourbillon-fluted-rosegold-clone-") ||
+    (sku.includes("ORBITA") && sku.includes("CLONE")) ||
+    name.includes("WITH Planetarium Design") ||
+    /\(Variant\)/i.test(name)
+  );
+}
+
 export const productsService = {
   // Get locally cached products or fallback to default PRODUCTS_DATA with stable ordering
   getLocalProducts() {
@@ -1632,16 +1687,10 @@ export const productsService = {
       if (raw) {
         let parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // ── Auto-purge stale test clones that should not be in prod ──
-          // Any entry with "-clone-test-" in the id or sku is a dev artifact
-          // that was accidentally persisted to localStorage or Supabase.
-          const hadStaleClones = parsed.some(
-            (p) => p && (/-clone-test-/i.test(String(p.id)) || /-clone-test-/i.test(String(p.sku || "")))
-          );
+          // ── Auto-purge stale test clones and legacy Orbita variant clones ──
+          const hadStaleClones = parsed.some(isStaleClone);
           if (hadStaleClones) {
-            parsed = parsed.filter(
-              (p) => p && !/-clone-test-/i.test(String(p.id)) && !/-clone-test-/i.test(String(p.sku || ""))
-            );
+            parsed = parsed.filter((p) => !isStaleClone(p));
             safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(parsed));
           }
 
@@ -1652,6 +1701,7 @@ export const productsService = {
                 p &&
                 typeof p === "object" &&
                 p.id &&
+                !isStaleClone(p) &&
                 (p.isCustom === true || /-clone-/i.test(String(p.id))) &&
                 !PRODUCTS_DATA.some((m) =>
                   (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
@@ -1822,7 +1872,8 @@ export const productsService = {
             !consumedRemoteIds.has(String(rp.id).toLowerCase()) &&
             (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase())) &&
             !["flying-skeleton", "celestial-tourbillon"].includes(rp.id) &&
-            !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(rp.sku)
+            !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(rp.sku) &&
+            !isStaleClone(rp)
           )
           .map((rp, idx) => {
             const baseId = String(rp.id).replace(/-clone-.*$/i, "").trim().toLowerCase();
@@ -2078,6 +2129,7 @@ export const productsService = {
   // Factory reset to master factory catalog
   async resetToMaster() {
     safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+    safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
     const defaults = [...PRODUCTS_DATA];
     this.saveLocalProducts(defaults);
     return defaults;
