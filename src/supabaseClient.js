@@ -1632,28 +1632,74 @@ export const productsService = {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const mapped = parsed.map((p, idx) => {
-            const master = PRODUCTS_DATA.find(
-              (m) =>
-                (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
-                (m.sku && p.sku && String(m.sku).toLowerCase() === String(p.sku).toLowerCase())
+          // Identify custom/cloned products (not in master PRODUCTS_DATA)
+          const customClones = parsed
+            .filter(
+              (p) =>
+                p &&
+                typeof p === "object" &&
+                p.id &&
+                !PRODUCTS_DATA.some((m) =>
+                  (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
+                  (m.sku && p.sku && String(m.sku).toLowerCase() === String(p.sku).toLowerCase())
+                ) &&
+                !["flying-skeleton", "celestial-tourbillon"].includes(String(p.id).toLowerCase()) &&
+                !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(String(p.sku || "").toUpperCase())
+            )
+            .map((p) => {
+              const baseId = String(p.id).replace(/-clone-.*$/i, "").trim().toLowerCase();
+              const parent = PRODUCTS_DATA.find((m) => String(m.id).toLowerCase() === baseId);
+              const safeImage = p.image || parent?.image || "/watch-astroworld-moon-rosegold-front-transparent.webp";
+              const parentRank = parent ? (CANONICAL_PRODUCT_ORDER.get(String(parent.id).toLowerCase()) ?? 0) : 9999;
+              const safeRank = typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001).toFixed(4));
+              const cleanName = String(p.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
+
+              return {
+                ...(parent || {}),
+                ...p,
+                name: cleanName,
+                image: safeImage,
+                transparentImage: p.transparentImage || safeImage,
+                altImages: Array.isArray(p.altImages) && p.altImages.length > 0 ? p.altImages : (parent?.altImages || [safeImage]),
+                gallery: Array.isArray(p.gallery) ? p.gallery : (parent?.gallery || []),
+                modelNumber: p.modelNumber || p.specs?.modelNumber || parent?.modelNumber || "",
+                specs: {
+                  ...(parent?.specs || {}),
+                  ...(p.specs || {}),
+                  modelNumber: p.modelNumber || p.specs?.modelNumber || parent?.modelNumber || "",
+                },
+                rank: safeRank,
+              };
+            });
+
+          // Build master catalogue starting from canonical PRODUCTS_DATA with cached overrides
+          const baseMaster = PRODUCTS_DATA.map((m, idx) => {
+            const cachedMatch = parsed.find(
+              (p) =>
+                (p.id && m.id && String(p.id).toLowerCase() === String(m.id).toLowerCase()) ||
+                (p.sku && m.sku && String(p.sku).toLowerCase() === String(m.sku).toLowerCase())
             );
+            if (!cachedMatch) {
+              return {
+                ...m,
+                stock: typeof m.stock === "number" && !isNaN(m.stock) ? m.stock : Math.max(1, 12 - (idx % 8)),
+                rank: idx,
+              };
+            }
             return {
-              ...p,
-              image: master?.image || p.image,
-              transparentImage: master?.transparentImage || p.transparentImage,
-              altImages: master?.altImages || p.altImages,
-              gallery: master?.gallery || p.gallery,
-              nightImage: master?.nightImage || p.nightImage,
-              hasNightMode: master?.hasNightMode ?? p.hasNightMode,
-              videoUrl: master?.videoUrl || p.videoUrl,
-              stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
-              rank: p.rank !== undefined && typeof p.rank === "number"
-                ? p.rank
-                : (CANONICAL_PRODUCT_ORDER.get(String(p.id || "").toLowerCase()) ?? CANONICAL_PRODUCT_ORDER.get(String(p.sku || "").toUpperCase()) ?? idx),
+              ...m,
+              stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
+              isActive: cachedMatch.isActive !== false,
+              price: cachedMatch.price || m.price,
+              priceNumeric: cachedMatch.priceNumeric || m.priceNumeric,
+              priceUsd: cachedMatch.priceUsd || m.priceUsd,
+              rank: cachedMatch.rank !== undefined && typeof cachedMatch.rank === "number" ? cachedMatch.rank : idx,
             };
           });
-          return sortCatalogStably(mapped);
+
+          // Append any custom/cloned watches
+          const combined = [...baseMaster, ...customClones];
+          return sortCatalogStably(combined);
         }
       }
     } catch (e) {
@@ -1675,7 +1721,6 @@ export const productsService = {
       safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(sorted));
     } catch (e) {
       console.warn("Storage quota warning, pruning old caches:", e);
-      // Attempt quota recovery: prune old caches
       try {
         safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
         safeStorage.removeItem("hanboro_orders_cache_backup");
@@ -1686,7 +1731,7 @@ export const productsService = {
     }
   },
 
-  // Fetch products from Supabase with stable in-place merge (never scrambles on refresh)
+  // Fetch products from Supabase with stable in-place merge (never scrambles or wipes watches on refresh)
   async fetchProducts() {
     const local = this.getLocalProducts();
     try {
@@ -1697,31 +1742,36 @@ export const productsService = {
 
       if (!error && data && data.length > 0) {
         // Map database columns to application format
-        const mapped = data.map((row) => ({
-          id: row.id,
-          sku: row.sku,
-          name: row.name,
-          subtitle: row.subtitle || "",
-          collection: row.collection || "TOURBILLON",
-          collectionName: row.collection_name || "Tourbillon & Complications",
-          tag: row.tag || "Haute Horlogerie",
-          price: row.price,
-          priceUsd: row.price_usd || "$1,200",
-          availability: row.availability || "In Stock",
-          year: row.year || "2026",
-          summary: row.summary || "",
-          image: row.image,
-          transparentImage: row.transparent_image || row.image,
-          altImages: Array.isArray(row.alt_images) ? row.alt_images : [row.image],
-          gallery: Array.isArray(row.gallery) ? row.gallery : [],
-          specs: typeof row.specs === "object" && row.specs !== null ? row.specs : {},
-          stock: typeof row.stock === "number" ? row.stock : 10,
-          isActive: row.is_active !== false,
-          createdAt: row.created_at,
-          updatedAt: row.updated_at,
-        }));
+        const mapped = data.map((row) => {
+          const rowSpecs = typeof row.specs === "object" && row.specs !== null ? row.specs : {};
+          const rowModel = rowSpecs.modelNumber || (row.sku ? row.sku.split("-")[1] : "") || "";
+          return {
+            id: row.id,
+            sku: row.sku,
+            name: String(row.name || "").replace(/\s*\(Variant\)$/i, "").trim(),
+            subtitle: row.subtitle || "",
+            collection: row.collection || "TOURBILLON",
+            collectionName: row.collection_name || "Tourbillon & Complications",
+            tag: row.tag || "Haute Horlogerie",
+            price: row.price,
+            priceNumeric: parseInt(String(row.price || "0").replace(/[^\d]/g, ""), 10) || 45000,
+            priceUsd: row.price_usd || "$1,200",
+            availability: row.availability || "In Stock",
+            year: row.year || "2026",
+            summary: row.summary || "",
+            image: row.image,
+            transparentImage: row.transparent_image || row.image,
+            altImages: Array.isArray(row.alt_images) ? row.alt_images : [row.image],
+            gallery: Array.isArray(row.gallery) ? row.gallery : [],
+            specs: rowSpecs,
+            modelNumber: rowModel,
+            stock: typeof row.stock === "number" ? row.stock : 10,
+            isActive: row.is_active !== false,
+            createdAt: row.created_at,
+            updatedAt: row.updated_at,
+          };
+        });
 
-        // STABLE IN-PLACE MERGE: Update matching items at their exact canonical position
         const remoteById = new Map();
         const remoteBySku = new Map();
         mapped.forEach((rp) => {
@@ -1742,45 +1792,62 @@ export const productsService = {
             if (remote.sku) consumedRemoteSkus.add(String(remote.sku).toUpperCase());
             return {
               ...lp,
-              ...remote,
-              id: lp.id,
+              stock: remote.stock ?? lp.stock,
+              isActive: remote.isActive ?? lp.isActive,
+              price: remote.price || lp.price,
+              priceNumeric: remote.priceNumeric || lp.priceNumeric,
+              priceUsd: remote.priceUsd || lp.priceUsd,
+              modelNumber: lp.modelNumber || remote.modelNumber || lp.specs?.modelNumber || "",
+              specs: {
+                ...(lp.specs || {}),
+                ...(remote.specs || {}),
+                modelNumber: lp.modelNumber || remote.modelNumber || lp.specs?.modelNumber || "",
+              },
               rank: lp.rank !== undefined && typeof lp.rank === "number"
                 ? lp.rank
                 : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
             };
           }
 
-          return {
-            ...lp,
-            rank: lp.rank !== undefined && typeof lp.rank === "number"
-              ? lp.rank
-              : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
-          };
+          return lp;
         });
 
-        // Any brand new custom timepieces in Supabase not matching any local id OR sku
+        // Any custom / cloned timepieces in Supabase not matching local id or sku
         const brandNewRemote = mapped
           .filter((rp) => 
             !consumedRemoteIds.has(String(rp.id).toLowerCase()) &&
-            (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase()))
+            (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase())) &&
+            !["flying-skeleton", "celestial-tourbillon"].includes(rp.id) &&
+            !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(rp.sku)
           )
-          .map((rp, idx) => ({
-            ...rp,
-            rank: 10000 + idx,
-          }));
+          .map((rp, idx) => {
+            const baseId = String(rp.id).replace(/-clone-.*$/i, "").trim().toLowerCase();
+            const parent = PRODUCTS_DATA.find((m) => String(m.id).toLowerCase() === baseId);
+            const parentRank = parent ? (CANONICAL_PRODUCT_ORDER.get(String(parent.id).toLowerCase()) ?? 0) : 10000;
+            const safeRank = Number((parentRank + 0.001 + (idx * 0.0001)).toFixed(5));
+            const cleanName = String(rp.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
+
+            return {
+              ...(parent || {}),
+              ...rp,
+              name: cleanName,
+              modelNumber: rp.modelNumber || rp.specs?.modelNumber || parent?.modelNumber || rp.sku?.split("-")[1] || "980",
+              specs: {
+                ...(parent?.specs || {}),
+                ...(rp.specs || {}),
+                modelNumber: rp.modelNumber || rp.specs?.modelNumber || parent?.modelNumber || rp.sku?.split("-")[1] || "980",
+              },
+              rank: safeRank,
+            };
+          });
 
         const merged = sortCatalogStably([...updatedExisting, ...brandNewRemote]);
         this.saveLocalProducts(merged);
-
         return merged;
-      } else if (!error && (!data || data.length === 0)) {
-        // Table exists in Supabase but has 0 rows -> auto-seed from master catalog in background
-        this.seedSupabaseCatalog().catch(() => {});
       }
     } catch (err) {
       console.warn("Supabase fetch products note:", err);
     }
-
     return local;
   },
 
@@ -1797,7 +1864,7 @@ export const productsService = {
       ? (String(product.price).trim().startsWith("₹") ? String(product.price).trim() : `₹${String(product.price).trim()}`)
       : "₹45,000";
     const safeName = (product.name && String(product.name).trim().length > 0)
-      ? String(product.name).trim()
+      ? String(product.name).replace(/\s*\(Variant\)$/i, "").trim()
       : (product.sku || "Hanboro Timepiece");
     const safeSku = String(product.sku || "").trim().toUpperCase() || `HBR-${Math.floor(1000 + Math.random() * 9000)}-X`;
     const safeStock = Math.max(0, typeof product.stock === "number" && !isNaN(product.stock) ? product.stock : 10);
@@ -1827,32 +1894,35 @@ export const productsService = {
       updated_at: new Date().toISOString(),
     };
 
-    const [prodRes, invRes] = await Promise.all([
-      supabase.from("products").upsert(dbPayload).select("id, sku"),
-      supabase.from("inventory").upsert({
-        id: product.id,
-        sku: safeSku,
-        name: dbPayload.name,
-        collection: dbPayload.collection_name,
-        stock: dbPayload.stock,
-        price_inr: priceInr,
-        price_usd: priceUsd,
-        image: safeImage,
-        is_active: dbPayload.is_active,
-        updated_at: new Date().toISOString(),
-      }).select("id, sku"),
-    ]);
+    try {
+      const [prodRes, invRes] = await Promise.all([
+        supabase.from("products").upsert(dbPayload, { onConflict: "id" }).select("id, sku"),
+        supabase.from("inventory").upsert({
+          id: product.id,
+          sku: safeSku,
+          name: dbPayload.name,
+          collection: dbPayload.collection_name,
+          stock: dbPayload.stock,
+          price_inr: priceInr,
+          price_usd: priceUsd,
+          image: safeImage,
+          is_active: dbPayload.is_active,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "id" }).select("id, sku"),
+      ]);
 
-    if (prodRes.error) {
-      console.error("Supabase products upsert error:", prodRes.error);
-      throw new Error(`Products table error: ${prodRes.error.message}`);
-    }
-    if (invRes.error) {
-      console.error("Supabase inventory upsert error:", invRes.error);
-      throw new Error(`Inventory table error: ${invRes.error.message}`);
-    }
+      if (prodRes?.error) {
+        console.warn("Supabase products upsert note:", prodRes.error.message);
+      }
+      if (invRes?.error) {
+        console.warn("Supabase inventory upsert note:", invRes.error.message);
+      }
 
-    return { product: prodRes.data?.[0], inventory: invRes.data?.[0] };
+      return { product: prodRes?.data?.[0], inventory: invRes?.data?.[0] };
+    } catch (err) {
+      console.warn("Supabase syncProduct note:", err);
+      return null;
+    }
   },
 
   // Auto-seed Supabase products table if empty
@@ -1876,12 +1946,19 @@ export const productsService = {
         alt_images: p.altImages || [p.image],
         gallery: p.gallery || [],
         specs: p.specs || {},
-        stock: Math.max(1, 12 - (idx % 8)),
-        is_active: true,
+        stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+        is_active: p.isActive !== false,
+        created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }));
-      await supabase.from("products").upsert(master);
-      console.log("Master watch catalog synced to Supabase");
+
+      const { error } = await supabase
+        .from("products")
+        .upsert(master, { onConflict: "id", ignoreDuplicates: false });
+
+      if (error) {
+        console.warn("Supabase auto-seed products warning:", error.message);
+      }
     } catch (e) {
       console.warn("Supabase auto-seed note:", e);
     }
@@ -1899,7 +1976,7 @@ export const productsService = {
       ...product,
       id: String(product.id || targetId).trim().toLowerCase(),
       sku: newSku,
-      name: String(product.name || "").trim(),
+      name: String(product.name || "").replace(/\s*\(Variant\)$/i, "").trim(),
       updatedAt: new Date().toISOString(),
     };
 
@@ -1928,7 +2005,8 @@ export const productsService = {
       updated = updated.filter((p, idx) => idx === existingIndex || String(p.id).trim().toLowerCase() !== prevClean);
     }
 
-    this.saveLocalProducts(updated);
+    const sortedUpdated = sortCatalogStably(updated);
+    this.saveLocalProducts(sortedUpdated);
 
     // CRITICAL: If ID or SKU changed, delete previous record in Supabase FIRST to avoid unique constraint conflict on SKU
     const idChanged = previousId && String(previousId).trim().toLowerCase() !== safeProduct.id;
@@ -1959,9 +2037,13 @@ export const productsService = {
     }
 
     // Direct sync to Supabase (upsert into both products and inventory)
-    await this.syncProductToSupabase(safeProduct);
+    try {
+      await this.syncProductToSupabase(safeProduct);
+    } catch (syncErr) {
+      console.warn("Supabase syncProduct warning (local persistence succeeded):", syncErr);
+    }
 
-    return updated;
+    return sortedUpdated;
   },
 
   // Delete a product by id or sku

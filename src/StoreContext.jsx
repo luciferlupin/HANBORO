@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, calculateEan13 } from "./supabaseClient";
+import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);
@@ -413,28 +413,67 @@ export function StoreProvider({ children }) {
     }
   };
 
-  const duplicateProduct = async (productId) => {
-    const clean = String(productId).trim().toLowerCase();
-    const existing = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
+  const duplicateProduct = async (productOrId) => {
+    let existing = null;
+    if (typeof productOrId === "object" && productOrId !== null) {
+      existing = productOrId;
+    } else {
+      const clean = String(productOrId || "").trim().toLowerCase();
+      existing = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean)
+        || PRODUCTS_DATA.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
+    }
     if (!existing) return null;
 
-    const cloneId = `${existing.id}-clone-${Date.now().toString().slice(-4)}`;
-    const cloneSku = `${existing.sku}-V${Math.floor(10 + Math.random() * 90)}`;
+    const baseSku = String(existing.sku || "HBR-TIMEPIECE").replace(/-CLONE-.*$/i, "").replace(/-V\d+$/i, "").trim().toUpperCase();
+    const baseId = String(existing.id || "timepiece").replace(/-clone-.*$/i, "").trim().toLowerCase();
+    const uniqueSuffix = `${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+    const cloneId = `${baseId}-clone-${uniqueSuffix}`;
+    const cloneSku = `${baseSku}-CLONE-${uniqueSuffix}`;
+
+    let parentRank = 0;
+    if (typeof existing.rank === "number" && !isNaN(existing.rank)) {
+      parentRank = existing.rank;
+    } else {
+      const cleanId = String(existing.id || "").trim().toLowerCase();
+      const cleanSku = String(existing.sku || "").trim().toUpperCase();
+      parentRank = CANONICAL_PRODUCT_ORDER.get(cleanId) ?? CANONICAL_PRODUCT_ORDER.get(cleanSku) ?? 0;
+    }
+
+    const cleanName = String(existing.name || "").replace(/\s*\(Variant\)$/i, "").trim();
+    const cleanModel = existing.modelNumber || existing.specs?.modelNumber || "";
+
     const cloned = {
       ...existing,
       id: cloneId,
       sku: cloneSku,
-      name: `${existing.name} (Variant)`,
-      tag: "New Edition",
-      stock: 8,
+      name: cleanName,
+      modelNumber: cleanModel,
+      specs: {
+        ...(existing.specs || {}),
+        modelNumber: cleanModel,
+      },
+      stock: typeof existing.stock === "number" && !isNaN(existing.stock) ? existing.stock : 10,
+      rank: Number((parentRank + 0.001).toFixed(4)),
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
-    const updatedCatalog = await productsService.saveProduct(cloned);
+    let updatedCatalog;
+    try {
+      updatedCatalog = await productsService.saveProduct(cloned);
+    } catch (saveErr) {
+      console.warn("productsService.saveProduct note:", saveErr);
+      const local = productsService.getLocalProducts();
+      updatedCatalog = sortCatalogStably([cloned, ...local]);
+      productsService.saveLocalProducts(updatedCatalog);
+    }
+
     setProducts(updatedCatalog);
-    inventoryService.upsertInventoryItem(cloned);
+    try {
+      inventoryService.upsertInventoryItem(cloned);
+    } catch {}
     window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: updatedCatalog }));
-    showToast(`Cloned new variant: ${cloned.name}`);
+    showToast(`Cloned timepiece: ${cloned.name}`);
     return cloned;
   };
 

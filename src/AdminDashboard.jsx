@@ -1929,8 +1929,7 @@ export function AdminDashboard({ onNavigateHome }) {
                                 type="button"
                                 className="sp-btn sp-btn--sm"
                                 onClick={async () => {
-                                  await duplicateProduct(id);
-                                  showToast(`Cloned ${p.name}`);
+                                  await duplicateProduct(p);
                                 }}
                                 title="Duplicate variant"
                               >
