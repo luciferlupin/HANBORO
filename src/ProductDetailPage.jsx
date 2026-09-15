@@ -919,6 +919,32 @@ export function ProductDetailPage({
           </div>
         </div>
       )}
+
+      {/* ── MOBILE STICKY FLOATING BUY / CART BAR ── */}
+      <div className="pdp-mobile-sticky-bar" aria-label="Quick Action Bar">
+        <div className="pdp-mobile-sticky-info">
+          <span className="pdp-mobile-sticky-sku">{product.sku}</span>
+          <span className="pdp-mobile-sticky-price">{product.price}</span>
+        </div>
+        <div className="pdp-mobile-sticky-actions">
+          <button
+            type="button"
+            className="pdp-mobile-sticky-bag-btn"
+            onClick={() => addToCart(product, buyQty, true)}
+            aria-label="Add to shopping bag"
+          >
+            Add to Bag
+          </button>
+          <button
+            type="button"
+            className="pdp-mobile-sticky-buy-btn"
+            onClick={() => buyNow(product)}
+            aria-label="Buy timepiece now"
+          >
+            Buy Now
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

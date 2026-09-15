@@ -1,20 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, lazy, Suspense } from "react";
 import Lenis from "lenis";
-import * as THREE from "three";
-import { ProductsView } from "./ProductsView";
-import { ProductDetailPage } from "./ProductDetailPage";
 import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
 import { StoreProvider, useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { AuthModal } from "./AuthModal";
 import { CartDrawer } from "./CartDrawer";
-import { CheckoutPage } from "./CheckoutPage";
-import { AdminDashboard } from "./AdminDashboard";
-import { ProfilePage } from "./ProfilePage";
-import { PrivacyPolicy } from "./PrivacyPolicy";
-import { ShippingPolicy } from "./ShippingPolicy";
-import { RefundPolicy } from "./RefundPolicy";
-import { TermsOfService } from "./TermsOfService";
+import { getHighResWatchImage } from "./productsData";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { MediaSection } from "./MediaSection";
 import { SubtleMasterySection } from "./SubtleMasterySection";
@@ -22,6 +13,50 @@ import { CraftedWithLegacySection } from "./CraftedWithLegacySection";
 import { AboutMaisonSection } from "./AboutMaisonSection";
 import { ContactSection } from "./ContactSection";
 import { HanboroLogo } from "./HanboroLogo";
+
+// Dynamic Code-Splitting for heavy, non-initial views
+const ProductsView = lazy(() => import("./ProductsView").then((m) => ({ default: m.ProductsView })));
+const ProductDetailPage = lazy(() => import("./ProductDetailPage").then((m) => ({ default: m.ProductDetailPage })));
+const AdminDashboard = lazy(() => import("./AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
+const CheckoutPage = lazy(() => import("./CheckoutPage").then((m) => ({ default: m.CheckoutPage })));
+const ProfilePage = lazy(() => import("./ProfilePage").then((m) => ({ default: m.ProfilePage })));
+const PrivacyPolicy = lazy(() => import("./PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
+const ShippingPolicy = lazy(() => import("./ShippingPolicy").then((m) => ({ default: m.ShippingPolicy })));
+const RefundPolicy = lazy(() => import("./RefundPolicy").then((m) => ({ default: m.RefundPolicy })));
+const TermsOfService = lazy(() => import("./TermsOfService").then((m) => ({ default: m.TermsOfService })));
+
+function LuxuryViewLoader() {
+  return (
+    <div style={{
+      minHeight: "75vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "18px",
+      color: "#f5f2ed",
+      padding: "48px 24px"
+    }}>
+      <div style={{
+        width: "32px",
+        height: "32px",
+        border: "2px solid rgba(250, 45, 29, 0.2)",
+        borderTopColor: "#fa2d1d",
+        borderRadius: "50%",
+        animation: "spin 0.75s linear infinite"
+      }} />
+      <span style={{
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: "11px",
+        letterSpacing: "0.22em",
+        textTransform: "uppercase",
+        color: "rgba(245, 242, 237, 0.65)"
+      }}>
+        CALIBRATING ATELIER DOSSIER…
+      </span>
+    </div>
+  );
+}
 
 /* ── Error Boundary ────────────────────────────────────────────────────────── */
 class ErrorBoundary extends React.Component {
@@ -1365,7 +1400,7 @@ function HeroVideoSection({ onDiscover }) {
           loop
           muted={false}
           playsInline
-          preload="auto"
+          preload="metadata"
         />
         <div className="hero-video-overlay" aria-hidden="true" />
       </div>
@@ -1468,86 +1503,22 @@ function BrandManifestoSection({ onExplore }) {
 // WATCH COLLECTION CAROUSEL LOOP (Directly after Hero Section)
 // ══════════════════════════════════════════════════════════════════════════════
 const WATCH_COLLECTION = [
-  { id: "astroworld-celestial", name: "Astroworld Celestial Moon Rose Gold", img: "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp" },
-  { id: "astroworld-celestial-silver", name: "Astroworld Celestial Moon Silver", img: "/watch-astroworld-moon-silver-front-transparent-thumb.webp" },
-  { id: "astroworld-tourbillon-black-dlc", name: "Astroworld Celestial Tourbillon Black DLC", img: "/watch-astroworld-tourbillon-dlc-front-transparent-thumb.webp" },
-  { id: "astroworld-tourbillon-fluted-rosegold", name: "Astroworld Celestial Tourbillon Rose Gold", img: "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent-thumb.webp" },
-  { id: "astroworld-tourbillon-fluted-silver", name: "Astroworld Celestial Tourbillon Classic Silver", img: "/watch-astroworld-tourbillon-fluted-silver-front-transparent-thumb.webp" },
-  { id: "volcano-glacier-compass-gold", name: "Volcano Glacier Compass Gold", img: "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp" },
-  { id: "volcano-glacier-compass-rosegold", name: "Volcano Glacier Compass Rose Gold", img: "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp" },
-  { id: "volcano-glacier-compass-silver", name: "Volcano Glacier Compass Silver", img: "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp" },
-  { id: "supercar-engine-block-rosegold", name: "V12 Engine Supercar Rose Gold", img: "/watch-supercar-engine-block-rosegold-front-transparent-thumb.webp" },
-  { id: "supercar-engine-block-silver", name: "V12 Engine Supercar Silver", img: "/watch-supercar-engine-block-silver-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-rosegold", name: "Casino Roulette Rose Gold", img: "/watch-casino-roulette-rosegold-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-silver", name: "Casino Roulette Classic Silver", img: "/watch-casino-roulette-silver-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-diamond-emerald", name: "Casino Roulette Baguette Diamond", img: "/watch-casino-roulette-diamond-emerald-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-sapphire-diamond", name: "Casino Roulette Blue Sapphire", img: "/watch-casino-roulette-sapphire-diamond-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-emerald-alligator", name: "Casino Roulette Imperial Emerald", img: "/watch-casino-roulette-emerald-alligator-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-ruby-diamond", name: "Casino Roulette Pigeon Blood Ruby", img: "/watch-casino-roulette-ruby-diamond-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-silver-diamond-emerald", name: "Casino Roulette Silver Diamond", img: "/watch-casino-roulette-silver-diamond-emerald-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-silver-sapphire-diamond", name: "Casino Roulette Silver Sapphire", img: "/watch-casino-roulette-silver-sapphire-diamond-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-silver-emerald-alligator", name: "Casino Roulette Silver Emerald", img: "/watch-casino-roulette-silver-emerald-alligator-front-transparent-thumb.webp" },
-  { id: "casino-roulette-wheel-silver-ruby-diamond", name: "Casino Roulette Silver Ruby", img: "/watch-casino-roulette-silver-ruby-diamond-front-transparent-thumb.webp" },
-  { id: "celestial-dragon-tourbillon-rosegold", name: "Celestial Dragon Tourbillon Rose Gold", img: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent-thumb.webp" },
-  { id: "celestial-dragon-tourbillon-silver", name: "Celestial Dragon Tourbillon Silver", img: "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp" },
-  { id: "planetary-cosmos-tourbillon-rosegold", name: "Planetary Cosmos Tourbillon Rose Gold", img: "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp" },
-  { id: "planetary-cosmos-tourbillon-silver", name: "Planetary Cosmos Tourbillon Silver", img: "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp" },
-  { id: "oceanic-diver-200m-green", name: "Oceanic Pro Diver 200M Emerald", img: "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp" },
-  { id: "seamaster-chronograph-diver-teal", name: "Seamaster Chronograph Diver Teal", img: "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp" },
-  { id: "seamaster-chronograph-diver-olive", name: "Seamaster Chronograph Diver Olive", img: "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp" },
-  { id: "seamaster-chronograph-diver-amber", name: "Seamaster Chronograph Diver Amber", img: "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp" },
-  { id: "seamaster-chronograph-diver-violet", name: "Seamaster Chronograph Diver Violet", img: "/watch-seamaster-chronograph-diver-violet-front-transparent-thumb.webp" },
-  { id: "mecha-cantilever-tourbillon-iceblue", name: "Mecha Cantilever Tourbillon Ice Blue", img: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent-thumb.webp" },
-  { id: "world-map-tourbillon-rosegold", name: "World Map Tourbillon Rose Gold", img: "/watch-world-map-tourbillon-rosegold-front-transparent-thumb.webp" },
-  { id: "world-map-tourbillon-blue", name: "World Map Tourbillon Royal Blue", img: "/watch-world-map-tourbillon-blue-front-transparent-thumb.webp" },
-  { id: "world-map-tourbillon-silver", name: "World Map Tourbillon Silver", img: "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp" },
-  { id: "world-map-tourbillon-silver-dual", name: "World Map Tourbillon Silver Dual", img: "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp" },
-  { id: "overseas-perpetual-skeleton-steel", name: "Overseas Perpetual Skeleton Steel", img: "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp" },
-  { id: "celestial-pilot-moonphase-black", name: "Celestial Pilot Moonphase Black", img: "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp" },
-  { id: "celestial-pilot-moonphase-rosegold", name: "Celestial Pilot Moonphase Rose Gold", img: "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp" },
-  { id: "dual-hemispheres-moonphase-steel", name: "Dual Hemispheres Moonphase Steel", img: "/watch-dual-hemispheres-moonphase-steel-front-transparent-thumb.webp" },
-  { id: "dual-hemispheres-moonphase-blue", name: "Dual Hemispheres Moonphase Blue", img: "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp" },
-  { id: "dual-hemispheres-moonphase-rosegold", name: "Dual Hemispheres Moonphase Rose Gold", img: "/watch-dual-hemispheres-moonphase-rosegold-front-transparent-thumb.webp" },
-  { id: "sonnerie-bell-iceblue", name: "Mechanical Sonnerie Bell Ice Blue", img: "/watch-sonnerie-bell-iceblue-front-transparent-thumb.webp" },
-  { id: "sonnerie-bell-blue", name: "Mechanical Sonnerie Bell Royal Blue", img: "/watch-sonnerie-bell-blue-front-transparent-thumb.webp" },
-  { id: "cyber-cogwheel-skeleton-rosegold", name: "Cyber Cogwheel Skeleton Rose Gold", img: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent-thumb.webp" },
-  { id: "cyber-cogwheel-skeleton-twotone", name: "Cyber Cogwheel Skeleton Two-Tone", img: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent-thumb.webp" },
-  { id: "cyber-cogwheel-skeleton-steel", name: "Cyber Cogwheel Skeleton Classic Steel", img: "/watch-cyber-cogwheel-skeleton-steel-front-transparent-thumb.webp" },
-  { id: "sapphire-kanagawa-wave", name: "Great Wave Ocean Sapphire Tonneau", img: "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp" },
-  { id: "stealth-fighter-jet-tonneau", name: "Stealth Fighter Jet Earth Diamond", img: "/watch-stealth-fighter-jet-front-transparent-thumb.webp" },
-  { id: "sichuan-opera-diamond-tonneau", name: "Sichuan Opera Diamond Rose Gold", img: "/watch-sichuan-opera-diamond-front-transparent-thumb.webp" },
-  { id: "sichuan-opera-diamond-steel", name: "Sichuan Opera Diamond Silver Steel", img: "/watch-sichuan-opera-steel-front-transparent-thumb.webp" },
-  { id: "forged-carbon-tonneau-tourbillon", name: "Forged Carbon Damascus Lume", img: "/watch-forged-carbon-tonneau-front-transparent-thumb.webp" },
-  { id: "forged-carbon-damascus-10atm", name: "Forged Carbon Damascus 100M", img: "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp" },
-  { id: "arctic-tonneau-10atm-white", name: "Arctic White Ceramic 100M", img: "/watch-arctic-tonneau-10atm-white-front-transparent-thumb.webp" },
-  { id: "forged-carbon-ribbed-shield", name: "Forged Carbon Ribbed Shield", img: "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp" },
-  { id: "forged-carbon-ribbed-shield-blue", name: "Forged Carbon Ribbed Blue", img: "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp" },
-  { id: "forged-carbon-ribbed-shield-green", name: "Forged Carbon Ribbed Green", img: "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp" },
-  { id: "forged-carbon-ribbed-shield-red", name: "Forged Carbon Ribbed Rosso Corsa", img: "/watch-forged-carbon-ribbed-shield-red-front-transparent-thumb.webp" },
-  { id: "forged-carbon-ribbed-shield-white", name: "Forged Carbon Ribbed Arctic White", img: "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp" },
-  { id: "double-balance-cantilever-rosegold", name: "Twin-Turbine Double Balance Rose Gold", img: "/watch-double-balance-cantilever-rosegold-front-transparent-thumb.webp" },
-  { id: "double-balance-cantilever-yellow", name: "Twin-Turbine Double Balance Yellow", img: "/watch-double-balance-cantilever-yellow-front-transparent-thumb.webp" },
-  { id: "double-balance-cantilever-red", name: "Twin-Turbine Double Balance Red", img: "/watch-double-balance-cantilever-red-front-transparent-thumb.webp" },
-  { id: "aurora-celestial-frost", name: "Aurora Celestial Frost Automatic", img: "/watch-aurora-celestial-frost-front-transparent-thumb.webp" },
-  { id: "octagonal-diamond-celestial", name: "Royal Octagonal Diamond Celestial", img: "/watch-diamond-octagonal-front-transparent-thumb.webp" },
-  { id: "octagonal-diamond-bronze", name: "Royal Octagonal Diamond Tobacco Bronze", img: "/watch-diamond-octagonal-bronze-front-transparent-thumb.webp" },
-  { id: "octagonal-diamond-emerald", name: "Royal Octagonal Diamond Emerald Forest", img: "/watch-diamond-octagonal-green-front-transparent-thumb.webp" },
-  { id: "arachnid-geometric-skeleton", name: "Arachnid Geometric Skeleton", img: "/watch-arachnid-geometric-front-transparent-thumb.webp" },
-  { id: "cyber-green-skeleton", name: "Cyber Octagonal Neon Green", img: "/watch-cyber-green-skeleton-front-transparent-thumb.webp" },
-  { id: "world-globe", name: "World Globe Tourbillon", img: "/watch-world-globe-thumb.webp" },
-  { id: "architectural-skeleton-black", name: "Architectural Skeleton DLC", img: "/watch-architectural-skeleton-black-front-transparent-thumb.webp" },
-  { id: "architectural-skeleton-rosegold", name: "Architectural Skeleton Two-Tone", img: "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp" },
-  { id: "emerald", name: "Emerald Roulette Rose Gold", img: "/watch-emerald-roulette-thumb.webp" },
-  { id: "arctic-tonneau", name: "Arctic Tonneau Skeleton", img: "/watch-arctic-tonneau-white-thumb.webp" },
-  { id: "blue-roulette", name: "Sapphire Blue Roulette Automatic", img: "/watch-blue-roulette-thumb.webp" },
-  { id: "orbital-moonphase", name: "Silver Moonphase Orbital", img: "/watch-orbital-moonphase-thumb.webp" },
-  { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/watch-rosegold-octagonal-blue-thumb.webp" },
-  { id: "powerreserve-black", name: "Power Reserve 35h Midnight", img: "/watch-powerreserve-midnight-front-transparent-thumb.webp" },
-  { id: "powerreserve-silver", name: "Power Reserve 35h Classic Silver", img: "/watch-powerreserve-silver-front-transparent-thumb.webp" },
-  { id: "powerreserve-opaline", name: "Power Reserve 35h Opaline Silver", img: "/watch-powerreserve-opaline-front-transparent-thumb.webp" },
-  { id: "powerreserve-twotone", name: "Power Reserve 35h Two-Tone", img: "/watch-powerreserve-twotone-front-transparent-thumb.webp" },
-  { id: "green-diver", name: "Green Emerald Diver Submariner", img: "/watch-green-diver-thumb.webp" },
-  { id: "turquoise", name: "Turquoise Open-Heart Ring The Bell", img: "/watch-turquoise-ringbell-thumb.webp" }
+  { id: "astroworld-celestial", name: "Astroworld Celestial Moon Rose Gold", img: "/watch-astroworld-moon-rosegold-front-transparent.webp" },
+  { id: "astroworld-celestial-silver", name: "Astroworld Celestial Moon Silver", img: "/watch-astroworld-moon-silver-front-transparent.webp" },
+  { id: "astroworld-tourbillon-black-dlc", name: "Astroworld Celestial Tourbillon Black DLC", img: "/watch-astroworld-tourbillon-dlc-front-transparent.webp" },
+  { id: "astroworld-tourbillon-fluted-silver", name: "Astroworld Celestial Tourbillon Classic Silver", img: "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp" },
+  { id: "volcano-glacier-compass-gold", name: "Volcano Glacier Compass Gold", img: "/watch-volcano-glacier-compass-gold-macro-transparent.webp" },
+  { id: "supercar-engine-block-rosegold", name: "V12 Engine Supercar Rose Gold", img: "/watch-supercar-engine-block-rosegold-front-transparent.webp" },
+  { id: "casino-roulette-wheel-silver", name: "Casino Roulette Classic Silver", img: "/watch-casino-roulette-silver-front-transparent.webp" },
+  { id: "casino-roulette-wheel-diamond-emerald", name: "Casino Roulette Baguette Diamond", img: "/watch-casino-roulette-diamond-emerald-front-transparent.webp" },
+  { id: "celestial-dragon-tourbillon-rosegold", name: "Celestial Dragon Tourbillon Rose Gold", img: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp" },
+  { id: "oceanic-diver-200m-green", name: "Oceanic Pro Diver 200M Emerald", img: "/watch-oceanic-diver-200m-green-front-transparent.webp" },
+  { id: "mecha-cantilever-tourbillon-iceblue", name: "Mecha Cantilever Tourbillon Ice Blue", img: "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp" },
+  { id: "world-map-tourbillon-rosegold", name: "World Map Tourbillon Rose Gold", img: "/watch-world-map-tourbillon-rosegold-front-transparent.webp" },
+  { id: "cyber-cogwheel-skeleton-rosegold", name: "Cyber Cogwheel Skeleton Rose Gold", img: "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp" },
+  { id: "sapphire-kanagawa-wave", name: "Great Wave Ocean Sapphire Tonneau", img: "/watch-sapphire-kanagawa-wave-front-transparent.webp" },
+  { id: "octagonal-blue", name: "Rose Gold Octagonal Blue Guilloché", img: "/transparent/octagonal-blue.webp" },
+  { id: "forged-carbon-ribbed-shield", name: "Forged Carbon Ribbed Shield", img: "/transparent/forged-carbon-tonneau-tourbillon.webp" }
 ];
 
 function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
@@ -1556,10 +1527,11 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
     if (Array.isArray(products) && products.length > 0) {
       return products
         .filter((p) => p.isActive !== false)
+        .slice(0, 16)
         .map((p) => ({
           id: p.id || p.sku,
           name: p.name,
-          img: p.transparentImage || p.image || "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp",
+          img: getHighResWatchImage(p.transparentImage || p.image),
         }));
     }
     return WATCH_COLLECTION;
@@ -1778,303 +1750,7 @@ const STORES_DATA = [
   }
 ];
 
-// ══════════════════════════════════════════════════════════════════════════════
-// THREE.JS 3D INTERACTIVE DOTTED MATRIX GLOBE COMPONENT
-// ══════════════════════════════════════════════════════════════════════════════
-function InteractiveDottedGlobe() {
-  const mountRef = useRef(null);
-  const isDraggingRef = useRef(false);
-  const prevPointerRef = useRef({ x: 0, y: 0 });
-  const rotRef = useRef({ x: 0.22, y: -1.35, vx: 0, vy: 0.0016 });
 
-  useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
-
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 2000);
-    camera.position.set(0, 20, 480);
-
-    let renderer;
-    try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-      container.appendChild(renderer.domElement);
-    } catch (err) {
-      console.warn("WebGL is not supported or context creation failed:", err);
-      return;
-    }
-
-    const globeRadius = 240;
-    const globeGroup = new THREE.Group();
-    globeGroup.position.set(0, -60, 0);
-    globeGroup.rotation.x = rotRef.current.x;
-    globeGroup.rotation.y = rotRef.current.y;
-    scene.add(globeGroup);
-
-    // 1. Deep black core sphere
-    const coreGeo = new THREE.SphereGeometry(globeRadius * 0.988, 64, 64);
-    const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x050810,
-      transparent: true,
-      opacity: 0.96,
-    });
-    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    globeGroup.add(coreMesh);
-
-    // Helper: Circle glow dot texture
-    const createDotTexture = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 64;
-      canvas.height = 64;
-      const ctx = canvas.getContext("2d");
-      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      grad.addColorStop(0, "rgba(255, 255, 255, 1)");
-      grad.addColorStop(0.35, "rgba(240, 245, 255, 0.96)");
-      grad.addColorStop(0.7, "rgba(200, 225, 255, 0.25)");
-      grad.addColorStop(1, "rgba(200, 225, 255, 0)");
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 64, 64);
-      return new THREE.CanvasTexture(canvas);
-    };
-
-    // Helper: lat/lon to vector3
-    const latLonToVec3 = (lat, lon, r) => {
-      const phi = (90 - lat) * (Math.PI / 180);
-      const theta = (lon + 180) * (Math.PI / 180);
-      return new THREE.Vector3(
-        -(r * Math.sin(phi) * Math.cos(theta)),
-        r * Math.cos(phi),
-        r * Math.sin(phi) * Math.sin(theta)
-      );
-    };
-
-    // 2. Load continent land mask and generate exact dot matrix
-    const mapImg = new Image();
-    mapImg.crossOrigin = "anonymous";
-    mapImg.src = "/world-map-mask.png";
-    mapImg.onload = () => {
-      const offCanvas = document.createElement("canvas");
-      offCanvas.width = mapImg.width;
-      offCanvas.height = mapImg.height;
-      const offCtx = offCanvas.getContext("2d");
-      offCtx.drawImage(mapImg, 0, 0);
-      const imgData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
-
-      const dotPositions = [];
-      const dotColors = [];
-
-      const rows = 160;
-      for (let latIdx = 0; latIdx <= rows; latIdx++) {
-        const lat = 90 - (latIdx / rows) * 180;
-        const circumference = Math.cos((lat * Math.PI) / 180);
-        const cols = Math.max(8, Math.floor(320 * circumference));
-
-        for (let lonIdx = 0; lonIdx < cols; lonIdx++) {
-          const lon = -180 + (lonIdx / cols) * 360;
-
-          const px = Math.floor(((lon + 180) / 360) * offCanvas.width);
-          const py = Math.floor(((90 - lat) / 180) * offCanvas.height);
-          const idx = (py * offCanvas.width + px) * 4;
-
-          if (imgData[idx] > 120) {
-            const v = latLonToVec3(lat, lon, globeRadius + 0.6);
-            dotPositions.push(v.x, v.y, v.z);
-
-            // Radiant white for India, warm platinum for other continents
-            if (lat > 7 && lat < 37 && lon > 67 && lon < 98) {
-              dotColors.push(1.0, 1.0, 1.0);
-            } else {
-              dotColors.push(0.88, 0.90, 0.94);
-            }
-          }
-        }
-      }
-
-      const dotsGeo = new THREE.BufferGeometry();
-      dotsGeo.setAttribute("position", new THREE.Float32BufferAttribute(dotPositions, 3));
-      dotsGeo.setAttribute("color", new THREE.Float32BufferAttribute(dotColors, 3));
-
-      const dotsMat = new THREE.PointsMaterial({
-        size: 3.6,
-        vertexColors: true,
-        map: createDotTexture(),
-        transparent: true,
-        opacity: 0.98,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-
-      const dotsMesh = new THREE.Points(dotsGeo, dotsMat);
-      globeGroup.add(dotsMesh);
-    };
-
-    // 3. Interactive 3D Store Pins on Globe
-    const pinGroup = new THREE.Group();
-    globeGroup.add(pinGroup);
-
-    const storePins = [
-      { id: "haryana", name: "Haryana (Bahadurgarh & Karnal)", lat: 28.69, lon: 76.93 },
-      { id: "mumbai", name: "Mumbai & Thane / Virar", lat: 19.07, lon: 72.87 },
-      { id: "up", name: "Ghaziabad & Mathura, UP", lat: 28.64, lon: 77.37 },
-      { id: "andhra", name: "Visakhapatnam, Tirupati, Nellore", lat: 14.44, lon: 79.97 },
-      { id: "rajasthan", name: "Bhiwadi, Rajasthan", lat: 28.21, lon: 76.86 }
-    ];
-
-    const pinMeshes = [];
-    storePins.forEach((pin) => {
-      const pGroup = new THREE.Group();
-      const pos = latLonToVec3(pin.lat, pin.lon, globeRadius + 1.4);
-      pGroup.position.copy(pos);
-
-      // Core red marker dot
-      const dotGeo = new THREE.SphereGeometry(3.0, 16, 16);
-      const dotMat = new THREE.MeshBasicMaterial({ color: 0xff2d1d });
-      const dot = new THREE.Mesh(dotGeo, dotMat);
-      pGroup.add(dot);
-
-      // Outer radar pulse ring
-      const ringGeo = new THREE.RingGeometry(3.4, 6.8, 24);
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: 0xff2d1d,
-        transparent: true,
-        opacity: 0.85,
-        side: THREE.DoubleSide
-      });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.lookAt(pos.clone().multiplyScalar(2));
-      pGroup.add(ring);
-
-      pinGroup.add(pGroup);
-      pinMeshes.push({ group: pGroup, ring, ringMat, pin });
-    });
-
-    // 4. Drag & Swipe Interaction (Full Unrestricted 360° Rotation)
-    const onPointerDown = (e) => {
-      isDraggingRef.current = true;
-      prevPointerRef.current = { x: e.clientX, y: e.clientY };
-      rotRef.current.vx = 0;
-      rotRef.current.vy = 0;
-      if (container) container.style.cursor = "grabbing";
-    };
-
-    const onPointerMove = (e) => {
-      if (!isDraggingRef.current) return;
-      const dx = e.clientX - prevPointerRef.current.x;
-      const dy = e.clientY - prevPointerRef.current.y;
-      prevPointerRef.current = { x: e.clientX, y: e.clientY };
-
-      rotRef.current.y += dx * 0.0055;
-      rotRef.current.x += dy * 0.0055;
-
-      rotRef.current.vx = dy * 0.0055;
-      rotRef.current.vy = dx * 0.0055;
-    };
-
-    const onPointerUp = () => {
-      isDraggingRef.current = false;
-      if (container) container.style.cursor = "grab";
-    };
-
-    const dom = renderer.domElement;
-    dom.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
-
-    const onResize = () => {
-      if (!container) return;
-      const nw = container.clientWidth;
-      const nh = container.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
-    };
-    window.addEventListener("resize", onResize);
-
-    // 5. Animation loop (Smooth continuous auto-spin with physics damping)
-    let animId;
-    let clock = 0;
-    const animate = () => {
-      clock += 0.035;
-
-      if (!isDraggingRef.current) {
-        rotRef.current.vy = rotRef.current.vy * 0.95 + 0.0016 * 0.05;
-        rotRef.current.vx = rotRef.current.vx * 0.95;
-        rotRef.current.y += rotRef.current.vy;
-        rotRef.current.x += rotRef.current.vx;
-      }
-
-      rotRef.current.x = Math.max(-0.7, Math.min(0.7, rotRef.current.x));
-
-      globeGroup.rotation.x = rotRef.current.x;
-      globeGroup.rotation.y = rotRef.current.y;
-
-      // Animate pin rings
-      pinMeshes.forEach((item, idx) => {
-        const pulse = (Math.sin(clock * 2.2 + idx * 1.2) + 1) / 2;
-        const scale = 1 + pulse * 1.8;
-        item.ring.scale.set(scale, scale, scale);
-        item.ringMat.opacity = Math.max(0, 0.85 - pulse * 0.8);
-      });
-
-      renderer.render(scene, camera);
-      if (isGlobeVisible) {
-        animId = requestAnimationFrame(animate);
-      }
-    };
-
-    let isGlobeVisible = false;
-    const globeObserver = new IntersectionObserver(
-      ([entry]) => {
-        const wasVisible = isGlobeVisible;
-        isGlobeVisible = entry.isIntersecting;
-        if (isGlobeVisible && !wasVisible) {
-          cancelAnimationFrame(animId);
-          animId = requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.05 }
-    );
-    globeObserver.observe(container);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      globeObserver.disconnect();
-      window.removeEventListener("resize", onResize);
-      dom.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      if (renderer) {
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement);
-        }
-        renderer.dispose();
-      }
-    };
-  }, []);
-
-  return (
-    <div className="interactive-globe-wrapper" ref={mountRef}>
-      <div className="globe-stores-pill">
-        <span className="globe-stores-dot" />
-        <span>Stores across India</span>
-      </div>
-      <div className="globe-drag-indicator">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-        <span>Drag to rotate globe</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </div>
-    </div>
-  );
-}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // DEDICATED STORE LOCATOR PAGE COMPONENT (Exact Match to Design Reference)
@@ -3165,100 +2841,102 @@ function Website({ onRestart }) {
         </div>
       </aside>
 
-      {view === "admin" ? (
-        <AdminDashboard onNavigateHome={() => navigateTo("home", "#top")} />
-      ) : view === "checkout" ? (
-        <CheckoutPage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
-      ) : view === "profile" ? (
-        <ProfilePage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
-      ) : view === "privacy" ? (
-        <PrivacyPolicy
-          onNavigateHome={() => navigateTo("home", "#top")}
-          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
-          onNavigateToProducts={() => navigateTo("products", "#products")}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-          onOpenConcierge={() => navigateTo("home", "#contact")}
-        />
-      ) : view === "shipping" ? (
-        <ShippingPolicy
-          onNavigateHome={() => navigateTo("home", "#top")}
-          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
-          onNavigateToProducts={() => navigateTo("products", "#products")}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-          onOpenConcierge={() => navigateTo("home", "#contact")}
-        />
-      ) : view === "refund" ? (
-        <RefundPolicy
-          onNavigateHome={() => navigateTo("home", "#top")}
-          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
-          onNavigateToProducts={() => navigateTo("products", "#products")}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-          onOpenConcierge={() => navigateTo("home", "#contact")}
-        />
-      ) : view === "terms" ? (
-        <TermsOfService
-          onNavigateHome={() => navigateTo("home", "#top")}
-          onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
-          onNavigateToProducts={() => navigateTo("products", "#products")}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-          onOpenConcierge={() => navigateTo("home", "#contact")}
-        />
-      ) : view === "stores" ? (
-        <StoreLocatorView
-          onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
-          onOpenConcierge={() => navigateTo("home", "#contact")}
-        />
-      ) : selectedSkuId ? (
-        <ProductDetailPage
-          skuId={selectedSkuId}
-          onNavigateBack={() => {
-            setSelectedSkuId(null);
-            navigateTo("products", "#products");
-            forceScrollToTop();
-          }}
-          onSelectSku={(skuId) => handleOpenSku(skuId)}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-        />
-      ) : view === "products" ? (
-        <ProductsView
-          onSelectSku={(skuId) => handleOpenSku(skuId)}
-          onNavigateHome={() => navigateTo("home", "#top")}
-          onNavigateToStores={() => navigateTo("stores", "#stores")}
-        />
-      ) : (
-        <>
-          {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
-          <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
-
-          {/* ── ACT I.5: ABOUT THE MAISON / ABOUT US (Sacred Geometry Architectural Editorial) ── */}
-          <AboutMaisonSection />
-
-          {/* ── ACT II: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
-          <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
-
-          {/* ── ACT III: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
-          <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
-
-          {/* ── ACT IV: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
-          <WatchCarouselSection
-            onSelectProduct={handleOpenSku}
-            onViewAllProducts={() => navigateTo("products", "#products")}
+      <Suspense fallback={<LuxuryViewLoader />}>
+        {view === "admin" ? (
+          <AdminDashboard onNavigateHome={() => navigateTo("home", "#top")} />
+        ) : view === "checkout" ? (
+          <CheckoutPage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
+        ) : view === "profile" ? (
+          <ProfilePage onNavigate={(targetView, hash) => navigateTo(targetView, hash)} />
+        ) : view === "privacy" ? (
+          <PrivacyPolicy
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
+            onNavigateToProducts={() => navigateTo("products", "#products")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+            onOpenConcierge={() => navigateTo("home", "#contact")}
           />
+        ) : view === "shipping" ? (
+          <ShippingPolicy
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
+            onNavigateToProducts={() => navigateTo("products", "#products")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+            onOpenConcierge={() => navigateTo("home", "#contact")}
+          />
+        ) : view === "refund" ? (
+          <RefundPolicy
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
+            onNavigateToProducts={() => navigateTo("products", "#products")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+            onOpenConcierge={() => navigateTo("home", "#contact")}
+          />
+        ) : view === "terms" ? (
+          <TermsOfService
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
+            onNavigateToProducts={() => navigateTo("products", "#products")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+            onOpenConcierge={() => navigateTo("home", "#contact")}
+          />
+        ) : view === "stores" ? (
+          <StoreLocatorView
+            onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
+            onOpenConcierge={() => navigateTo("home", "#contact")}
+          />
+        ) : selectedSkuId ? (
+          <ProductDetailPage
+            skuId={selectedSkuId}
+            onNavigateBack={() => {
+              setSelectedSkuId(null);
+              navigateTo("products", "#products");
+              forceScrollToTop();
+            }}
+            onSelectSku={(skuId) => handleOpenSku(skuId)}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+          />
+        ) : view === "products" ? (
+          <ProductsView
+            onSelectSku={(skuId) => handleOpenSku(skuId)}
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+          />
+        ) : (
+          <>
+            {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
+            <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
 
-          {/* ── ACT V: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
-          <CloverKingExperience onInspectSku={handleOpenSku} />
+            {/* ── ACT I.5: ABOUT THE MAISON / ABOUT US (Sacred Geometry Architectural Editorial) ── */}
+            <AboutMaisonSection />
+
+            {/* ── ACT II: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
+            <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+            {/* ── ACT III: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
+            <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
+
+            {/* ── ACT IV: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
+            <WatchCarouselSection
+              onSelectProduct={handleOpenSku}
+              onViewAllProducts={() => navigateTo("products", "#products")}
+            />
+
+            {/* ── ACT V: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
+            <CloverKingExperience onInspectSku={handleOpenSku} />
 
 
-          {/* ── ACT VIII: OUR MEDIA (Genesis of Time Accordion Slat Gallery) ── */}
-          <MediaSection onInspectSku={handleOpenSku} />
+            {/* ── ACT VIII: OUR MEDIA (Genesis of Time Accordion Slat Gallery) ── */}
+            <MediaSection onInspectSku={handleOpenSku} />
 
-          {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
-          <TestimonialsSection onInspectSku={handleOpenSku} />
-          {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
-          <ContactSection />
+            {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
+            <TestimonialsSection onInspectSku={handleOpenSku} />
+            {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
+            <ContactSection />
 
-        </>
-      )}
+          </>
+        )}
+      </Suspense>
 
 
 
@@ -3388,18 +3066,7 @@ function Website({ onRestart }) {
 export function App() {
   useSmoothScroll();
 
-  // Preload hero video immediately when splash screen mounts for instant reveal
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const isMobile = window.innerWidth <= 768;
-    const videoSrc = isMobile ? "/Hanboro-V1-mobile.mp4" : "/Hanboro-V1-720p.mp4";
-    const preloadVideo = document.createElement("video");
-    preloadVideo.src = videoSrc;
-    preloadVideo.preload = "auto";
-    preloadVideo.muted = true;
-    preloadVideo.playsInline = true;
-    preloadVideo.load();
-  }, []);
+
 
   // Global Media & Audio Engine Auto-Unlocker: Unlock AudioContext and Video Sound on Any Gesture
   useEffect(() => {

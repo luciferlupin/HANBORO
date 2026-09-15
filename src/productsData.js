@@ -36,7 +36,101 @@ export const CATEGORIES = [
   }
 ];
 
-export const PRODUCTS_DATA = [
+export const HIGH_RES_IMAGE_MAP = {
+  "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+  "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+  "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+  "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+  "/watch-double-balance-cantilever-red-front-transparent-thumb.webp": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+  "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+  "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+  "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+  "/watch-aurora-celestial-frost-front-transparent-thumb.webp": "/transparent/astroworld-celestial.webp",
+  "/watch-cyber-green-skeleton-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+  "/watch-sonnerie-bell-blue-front-transparent-thumb.webp": "/watch-sonnerie-bell-blue-front-transparent.webp",
+  "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp": "/watch-architectural-skeleton-black-front-transparent.webp",
+  "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+  "/watch-powerreserve-opaline-front-transparent-thumb.webp": "/transparent/powerreserve-black.webp",
+  "/watch-powerreserve-twotone-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
+  "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp": "/transparent/purple-chrono.webp",
+  "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+  "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp": "/watch-astroworld-moon-silver-front-transparent.webp",
+  "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+  "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+  "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+  "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+  "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+  "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+  "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+  "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+  "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+  "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+  "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp": "/transparent/octagonal-skeleton-steel.webp",
+  "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+  "/watch-astroworld-moon-silver-front-transparent-thumb.webp": "/watch-astroworld-moon-silver-front-transparent.webp",
+  "/watch-astroworld-tourbillon-dlc-front-transparent-thumb.webp": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
+  "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+  "/watch-astroworld-tourbillon-fluted-silver-front-transparent-thumb.webp": "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
+  "/watch-supercar-engine-block-rosegold-front-transparent-thumb.webp": "/watch-supercar-engine-block-rosegold-front-transparent.webp",
+  "/watch-supercar-engine-block-silver-front-transparent-thumb.webp": "/watch-supercar-engine-block-silver-driving.webp",
+  "/watch-casino-roulette-rosegold-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-ruby-diamond.webp",
+  "/watch-casino-roulette-silver-front-transparent-thumb.webp": "/watch-casino-roulette-silver-front-transparent.webp",
+  "/watch-casino-roulette-diamond-emerald-front-transparent-thumb.webp": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+  "/watch-casino-roulette-sapphire-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
+  "/watch-casino-roulette-emerald-alligator-front-transparent-thumb.webp": "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+  "/watch-casino-roulette-ruby-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-ruby-diamond.webp",
+  "/watch-casino-roulette-silver-diamond-emerald-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
+  "/watch-casino-roulette-silver-sapphire-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
+  "/watch-casino-roulette-silver-emerald-alligator-front-transparent-thumb.webp": "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+  "/watch-casino-roulette-silver-ruby-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-ruby-diamond.webp",
+  "/watch-celestial-dragon-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+  "/watch-seamaster-chronograph-diver-violet-front-transparent-thumb.webp": "/transparent/purple-chrono.webp",
+  "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent-thumb.webp": "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
+  "/watch-world-map-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
+  "/watch-world-map-tourbillon-blue-front-transparent-thumb.webp": "/watch-world-map-tourbillon-blue-front-transparent.webp",
+  "/watch-dual-hemispheres-moonphase-steel-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+  "/watch-dual-hemispheres-moonphase-rosegold-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+  "/watch-sonnerie-bell-iceblue-front-transparent-thumb.webp": "/watch-sonnerie-bell-blue-front-transparent.webp",
+  "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
+  "/watch-cyber-cogwheel-skeleton-twotone-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
+  "/watch-cyber-cogwheel-skeleton-steel-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+  "/watch-stealth-fighter-jet-front-transparent-thumb.webp": "/transparent/stealth-fighter-jet-tonneau.webp",
+  "/watch-sichuan-opera-diamond-front-transparent-thumb.webp": "/transparent/sichuan-opera-diamond-tonneau.webp",
+  "/watch-sichuan-opera-steel-front-transparent-thumb.webp": "/watch-sichuan-opera-steel-front-transparent.webp",
+  "/watch-forged-carbon-tonneau-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+  "/watch-arctic-tonneau-10atm-white-front-transparent-thumb.webp": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+  "/watch-forged-carbon-ribbed-shield-red-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
+  "/watch-double-balance-cantilever-rosegold-front-transparent-thumb.webp": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+  "/watch-double-balance-cantilever-yellow-front-transparent-thumb.webp": "/watch-double-balance-cantilever-yellow-front-transparent.webp",
+  "/watch-diamond-octagonal-front-transparent-thumb.webp": "/watch-diamond-octagonal-front-transparent.webp",
+  "/watch-diamond-octagonal-bronze-front-transparent-thumb.webp": "/transparent/octagonal-diamond-bronze.webp",
+  "/watch-diamond-octagonal-green-front-transparent-thumb.webp": "/watch-diamond-octagonal-green-front-transparent.webp",
+  "/watch-arachnid-geometric-front-transparent-thumb.webp": "/transparent/arachnid-geometric-skeleton.webp",
+  "/watch-world-globe-thumb.webp": "/transparent/world-globe.webp",
+  "/watch-architectural-skeleton-black-front-transparent-thumb.webp": "/watch-architectural-skeleton-black-front-transparent.webp",
+  "/watch-emerald-roulette-thumb.webp": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+  "/watch-arctic-tonneau-white-thumb.webp": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+  "/watch-blue-roulette-thumb.webp": "/watch-blue-roulette.webp",
+  "/watch-orbital-moonphase-thumb.webp": "/watch-orbital-moonphase.webp",
+  "/watch-rosegold-octagonal-blue-thumb.webp": "/transparent/octagonal-blue.webp",
+  "/watch-powerreserve-midnight-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
+  "/watch-powerreserve-silver-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
+  "/watch-green-diver-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+  "/watch-turquoise-ringbell-thumb.webp": "/transparent/turquoise-ringbell.webp"
+};
+
+export function getHighResWatchImage(src) {
+  if (!src || typeof src !== "string") return "/watch-astroworld-moon-rosegold-front-transparent.webp";
+  if (HIGH_RES_IMAGE_MAP[src]) return HIGH_RES_IMAGE_MAP[src];
+  if (src.includes("-thumb.webp")) {
+    const direct = src.replace("-thumb.webp", ".webp");
+    if (HIGH_RES_IMAGE_MAP[direct]) return HIGH_RES_IMAGE_MAP[direct];
+    return direct;
+  }
+  return src;
+}
+
+const RAW_PRODUCTS_DATA = [
   {
     "id": "forged-carbon-ribbed-shield",
     "sku": "HBR-989-3-BLACK-AUTO",
@@ -115,7 +209,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-989-3-black-auto-view-2.mp4",
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -204,7 +297,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-989-3-red-auto-front.mp4",
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -308,7 +400,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-989-3-green-auto-front.mp4",
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -473,7 +564,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-989-3-white-auto-front.mp4",
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -584,7 +674,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-989-3-blue-auto-front.mp4",
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -649,7 +738,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8851-1-silver-view-2.mp4",
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -714,7 +802,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8851-1-r_gold-silver-front.mp4",
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -779,7 +866,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8851-1-r_gold-brown-front.mp4",
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -876,7 +962,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-985-auto-apex-rg-blk-front.mp4",
     "modelNumber": "985",
     "mrpNumeric": 59999,
     "hasNightMode": false
@@ -1186,7 +1271,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-985-auto-apex-slv-ylw-front.mp4",
     "modelNumber": "985",
     "mrpNumeric": 59999,
     "hasNightMode": false
@@ -1372,7 +1456,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-985-auto-apex-slvr-view-2.mp4",
     "modelNumber": "985",
     "mrpNumeric": 59999,
     "hasNightMode": false
@@ -1434,7 +1517,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "videoUrl": "/catalog/hbr-980-auto-orbita-gold-view-2.mp4",
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -1531,7 +1613,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-980-auto-orbita-s-front.mp4",
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -1593,7 +1674,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use. Clean with a soft cloth."
     },
-    "videoUrl": "/catalog/hbr-995-1-auto-gold-view-2.mp4",
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -1697,7 +1777,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-995-1-auto-s-front.mp4",
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -2137,7 +2216,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-30027-1-auto-gear-slv-blk-view-2.mp4",
     "modelNumber": "30027-1",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -2412,7 +2490,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8824-auto-navigator-blk-view-2.mp4",
     "modelNumber": "8824",
     "mrpNumeric": 31999,
     "hasNightMode": false
@@ -2566,7 +2643,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-1018-auto-zod-gld-view-2.mp4",
     "modelNumber": "1018",
     "mrpNumeric": 50999,
     "hasNightMode": false
@@ -2766,7 +2842,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-1001-1-auto-roulette-gld-view-1.mp4",
     "modelNumber": "1001-1",
     "mrpNumeric": 50999,
     "hasNightMode": false
@@ -2938,7 +3013,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-1001-2-auto-roulette-gld-view-2.mp4",
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -3208,7 +3282,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-1020-auto-ast-gld-view-2.mp4",
     "modelNumber": "1020",
     "mrpNumeric": 50999,
     "hasNightMode": false
@@ -3390,7 +3463,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-2003-auto-hive-aquablue-view-2.mp4",
     "modelNumber": "2003",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -3581,7 +3653,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-933-auto-falconx-blk-view-2.mp4",
     "modelNumber": "933",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -3725,7 +3796,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-848-auto-nebula-blk-view-2.mp4",
     "modelNumber": "848",
     "mrpNumeric": 39999,
     "hasNightMode": false
@@ -3952,7 +4022,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8821-auto-astro-black-view-1.mp4",
     "modelNumber": "8821",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -4089,7 +4158,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-918-auto-torque-green-view-2.mp4",
     "modelNumber": "918",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -4413,7 +4481,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-ring-5378-2tiffany-view-2.mp4",
     "modelNumber": "5378-2",
     "mrpNumeric": 37999,
     "hasNightMode": false
@@ -4601,7 +4668,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-906-auto-rgsl-view-1.mp4",
     "modelNumber": "906",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -4822,7 +4888,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-9038-auto-black-view-2.mp4",
     "modelNumber": "9038",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -4927,7 +4992,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-9038-auto-blue-front.mp4",
     "modelNumber": "9038",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -6833,7 +6897,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-981-auto-rgold-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-rgold-lume.jpg",
     "modelNumber": "981",
@@ -6931,7 +6994,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-981-auto-silver-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-silver-lume.jpg",
     "modelNumber": "981",
@@ -7095,7 +7157,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-2712-auto-rg-tiranga-view-2.mp4",
     "modelNumber": "2712",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -7206,7 +7267,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-2712-auto-slv-tiranga-front.mp4",
     "modelNumber": "2712",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -7411,7 +7471,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-981-auto-gold-view-3.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-gold-lume.jpg",
     "modelNumber": "981",
@@ -7731,7 +7790,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-945-3-auto-white-view-4.mp4",
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-945-3-auto-white-lume.jpg",
     "modelNumber": "945-3",
@@ -7832,7 +7890,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-1307-auto-emerald-view-5.mp4",
     "modelNumber": "1307",
     "mrpNumeric": 28999,
     "hasNightMode": false
@@ -7938,7 +7995,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-8022-1-auto-stellar-view-5.mp4",
     "modelNumber": "8022-1",
     "mrpNumeric": 41999,
     "hasNightMode": false
@@ -8042,7 +8098,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-900-3-auto-black-view-5.mp4",
     "modelNumber": "900-3",
     "mrpNumeric": 36999,
     "hasNightMode": false
@@ -8125,7 +8180,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "\"Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.\"",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-980-auto-orbita-gold-view-2.mp4",
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -8197,7 +8251,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-995-1-auto-gold-view-2.mp4",
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
     "hasNightMode": false
@@ -8868,7 +8921,6 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-wc-1038-silver-blk-view-5.mp4",
     "modelNumber": "1038",
     "mrpNumeric": 52999,
     "hasNightMode": false
@@ -9175,12 +9227,30 @@ export const PRODUCTS_DATA = [
       "warrantyDetails": "Products are eligible for return within 7 days if unused, in original condition and packaging.\n\nOrders may be cancelled only before processing begins. Once processed, cancellation is not possible.\n\nReturns must include all items (gift items, warranty card, manual, product tags, box, packaging, and accessories). Products should be intact, unused, and free of damage.\n\nRefunds are initiated only after the returned product passes Quality Control (QC) at the service centre or by the seller.\n\nIf QC is not cleared, the return will be rejected and the product will be sent back to you.\n\nBefore accepting delivery, please check that the packaging is not damaged or tampered. If it is, kindly refuse delivery.",
       "careInstructions": "Handle with care: avoid extreme heat, shocks, and strong magnets. Water-resistant for daily use, not for swimming. Clean with a soft cloth. Wind regularly or wear often to keep movement precise. Store in its Hanboro case when not in use."
     },
-    "videoUrl": "/catalog/hbr-927-gold-blk-view-2.mp4",
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
     "hasNightMode": false
   }
 ];
+
+export const PRODUCTS_DATA = RAW_PRODUCTS_DATA.map((p) => {
+  const highResImage = getHighResWatchImage(p.image);
+  const highResTransparent = getHighResWatchImage(p.transparentImage || p.image);
+  const updatedAltImages = Array.isArray(p.altImages)
+    ? p.altImages.map((img) => (typeof img === "string" ? getHighResWatchImage(img) : { ...img, url: getHighResWatchImage(img.url) }))
+    : p.altImages;
+  const updatedGallery = Array.isArray(p.gallery)
+    ? p.gallery.map((g) => (typeof g === "string" ? getHighResWatchImage(g) : { ...g, url: getHighResWatchImage(g?.url) }))
+    : p.gallery;
+
+  return {
+    ...p,
+    image: highResImage,
+    transparentImage: highResTransparent,
+    altImages: updatedAltImages,
+    gallery: updatedGallery
+  };
+});
 
 // Quick Helper: Find Product by ID or SKU
 export function getProductByIdOrSku(identifier) {

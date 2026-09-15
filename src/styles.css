@@ -23116,3 +23116,862 @@ tr.is-selected-row td {
   color: #ffffff;
   text-decoration: underline;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PREMIER LUXURY MOBILE DESIGN SYSTEM (Rolex / Audemars Piguet / Apple Grade)
+   Flawless Alignment, Fluid Gutters, Safe-Area Geometry & Optical Hierarchy
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Desktop hide for mobile sticky bar */
+.pdp-mobile-sticky-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* 1. Viewport & Universal Fluid Grid */
+  :root {
+    --mobile-gutter: clamp(16px, 4.5vw, 24px);
+    --mobile-header-height: 58px;
+    --touch-min: 44px;
+  }
+
+  html, body, #root, .site, main {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Prevent automatic iOS font-size zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Universal section mobile vertical rhythm and side gutters */
+  .hero-video-section,
+  .about-maison-section,
+  .subtle-mastery-section,
+  .crafted-legacy-section,
+  .watch-carousel-section,
+  .clover-experience,
+  .our-media-section,
+  .collector-provenance-section,
+  .contact-reviews-section,
+  .footer {
+    padding-left: max(var(--mobile-gutter), env(safe-area-inset-left)) !important;
+    padding-right: max(var(--mobile-gutter), env(safe-area-inset-right)) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. Luxury Header & Navigation */
+  .luxury-header {
+    height: var(--mobile-header-height) !important;
+    padding: 0 var(--mobile-gutter) !important;
+    background: rgba(0, 0, 0, 0.94) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .luxury-header__brand-btn {
+    padding: 6px 8px !important;
+    min-height: var(--touch-min) !important;
+    min-width: var(--touch-min) !important;
+  }
+
+  .luxury-header__icon-btn {
+    width: var(--touch-min) !important;
+    height: var(--touch-min) !important;
+    min-width: var(--touch-min) !important;
+    min-height: var(--touch-min) !important;
+  }
+
+  .luxury-header__actions {
+    gap: 4px !important;
+  }
+
+  .header-cart-badge {
+    min-width: 18px !important;
+    height: 18px !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    background: var(--red) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    top: 2px !important;
+    right: 2px !important;
+  }
+
+  /* Full-bleed Luxury Mobile Navigation Drawer */
+  .luxury-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    background: #08080a !important;
+    padding: max(20px, env(safe-area-inset-top)) var(--mobile-gutter) max(28px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .luxury-drawer__links {
+    gap: 6px !important;
+    margin-top: 20px !important;
+  }
+
+  .luxury-drawer__link {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    padding: 14px 16px !important;
+    border-radius: 8px !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .luxury-drawer__link.is-active {
+    background: rgba(250, 45, 29, 0.12) !important;
+    color: #ffffff !important;
+    border-left: 3px solid var(--red) !important;
+  }
+
+  /* 3. Hero Video Section */
+  .hero-video-section {
+    min-height: calc(100svh - var(--mobile-header-height)) !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: clamp(60px, 12vh, 90px) !important;
+    padding-bottom: clamp(50px, 10vh, 80px) !important;
+    position: relative !important;
+  }
+
+  .hero-photo-content {
+    width: 100% !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .hero-photo-title--carbonx {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .hero-photo-title--carbonx .hero-title-brand {
+    font-size: clamp(32px, 9.5vw, 44px) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.16em !important;
+    color: #ffffff !important;
+    text-indent: 0.16em !important;
+    line-height: 1.06 !important;
+  }
+
+  .hero-photo-title--carbonx .hero-title-model {
+    font-size: clamp(26px, 7.8vw, 36px) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.18em !important;
+    color: var(--red) !important;
+    text-indent: 0.18em !important;
+    line-height: 1.1 !important;
+  }
+
+  .hero-photo-subtitle {
+    font-size: clamp(13px, 3.4vw, 14.5px) !important;
+    line-height: 1.62 !important;
+    color: rgba(245, 242, 237, 0.8) !important;
+    max-width: 330px !important;
+    margin: 0 auto 24px !important;
+    text-wrap: pretty !important;
+  }
+
+  .hero-photo-cta {
+    width: 100% !important;
+    max-width: 290px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.18em !important;
+    border-radius: 9999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: var(--red) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 24px rgba(250, 45, 29, 0.45) !important;
+  }
+
+  .hero-mute-btn {
+    bottom: max(16px, env(safe-area-inset-bottom) + 8px) !important;
+    right: var(--mobile-gutter) !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(18, 18, 20, 0.75) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    z-index: 10 !important;
+  }
+
+  /* 4. Live Ticker Marquee */
+  .hero-brand-ticker {
+    padding: 12px 0 !important;
+  }
+
+  .ticker-item {
+    font-size: 10px !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  /* 5. About Maison Architectural Editorial */
+  .about-maison-section {
+    padding-top: clamp(56px, 8vh, 72px) !important;
+    padding-bottom: clamp(48px, 6vh, 64px) !important;
+    min-height: auto !important;
+  }
+
+  .about-maison__title {
+    font-size: clamp(28px, 7vw, 36px) !important;
+    letter-spacing: 0.18em !important;
+    margin-bottom: 18px !important;
+  }
+
+  .about-maison__paragraph {
+    font-size: 14px !important;
+    line-height: 1.68 !important;
+    color: #4a4742 !important;
+  }
+
+  .about-maison__signature {
+    font-size: 32px !important;
+  }
+
+  .about-maison__complication {
+    width: 160px !important;
+    height: 105px !important;
+  }
+
+  /* 6. Subtle Mastery Section */
+  .subtle-mastery-section {
+    padding-top: clamp(56px, 8vh, 72px) !important;
+    padding-bottom: clamp(56px, 8vh, 72px) !important;
+  }
+
+  .subtle-mastery__container--vertical {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+
+  .vertical-timeline__title {
+    font-size: clamp(26px, 7vw, 34px) !important;
+    line-height: 1.15 !important;
+    text-align: left !important;
+  }
+
+  .vertical-timeline__right {
+    padding-left: 40px !important;
+  }
+
+  .vertical-spine {
+    left: 12px !important;
+    width: 2.5px !important;
+  }
+
+  .vertical-step-node {
+    left: -28px !important;
+    width: 24px !important;
+    height: 24px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .vertical-node-dot {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .vertical-step-card {
+    padding: 8px 4px 14px !important;
+  }
+
+  .vertical-step-title {
+    font-size: clamp(18px, 4.8vw, 22px) !important;
+    margin-bottom: 6px !important;
+    line-height: 1.25 !important;
+  }
+
+  .vertical-step-desc {
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    color: #55524c !important;
+  }
+
+  /* 7. Crafted With Legacy Mosaic */
+  .crafted-legacy-section {
+    padding-top: clamp(56px, 8vh, 72px) !important;
+    padding-bottom: clamp(56px, 8vh, 72px) !important;
+  }
+
+  .crafted-legacy__mosaic {
+    gap: 18px !important;
+  }
+
+  .mosaic-row {
+    gap: 10px !important;
+  }
+
+  .mosaic-text {
+    font-size: clamp(24px, 6.8vw, 36px) !important;
+    line-height: 1.05 !important;
+  }
+
+  .mosaic-pill--seal {
+    width: 64px !important;
+    height: 38px !important;
+  }
+
+  .mosaic-pill--dial {
+    width: 104px !important;
+    height: 38px !important;
+  }
+
+  .mosaic-pill--wrist {
+    width: 148px !important;
+    height: 42px !important;
+  }
+
+  .mosaic-desc-block p {
+    font-size: 13.5px !important;
+    line-height: 1.62 !important;
+  }
+
+  /* 8. The Vault Watch Carousel Marquee */
+  .watch-carousel-section {
+    padding-top: clamp(48px, 6vh, 64px) !important;
+    padding-bottom: clamp(48px, 6vh, 64px) !important;
+  }
+
+  .carousel-heading-logo {
+    height: 24px !important;
+  }
+
+  .carousel-track-wrapper {
+    height: 240px !important;
+  }
+
+  .watch-float-item {
+    width: 160px !important;
+    height: 210px !important;
+    padding: 14px !important;
+  }
+
+  .watch-float-img {
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.9)) !important;
+  }
+
+  /* 9. Media Section */
+  .our-media-section {
+    padding-top: clamp(56px, 8vh, 72px) !important;
+    padding-bottom: clamp(56px, 8vh, 72px) !important;
+  }
+
+  .our-media-title {
+    font-size: clamp(24px, 6.5vw, 34px) !important;
+    line-height: 1.15 !important;
+  }
+
+  .our-media-subtitle-editorial {
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+  }
+
+  .our-media-gallery-strip {
+    height: 350px !important;
+    gap: 12px !important;
+  }
+
+  .our-media-slat.is-active-feature {
+    min-width: calc(100vw - 2 * var(--mobile-gutter)) !important;
+    flex: 0 0 calc(100vw - 2 * var(--mobile-gutter)) !important;
+    border-radius: 12px !important;
+  }
+
+  .our-media-slat.is-collapsed-slat {
+    flex: 0 0 38px !important;
+    min-width: 38px !important;
+    border-radius: 8px !important;
+  }
+
+  /* 10. Testimonials / Patron Acclaim */
+  .collector-provenance-section {
+    padding-top: clamp(56px, 8vh, 72px) !important;
+    padding-bottom: clamp(56px, 8vh, 72px) !important;
+  }
+
+  .cr-card {
+    padding: 24px 18px !important;
+    border-radius: 12px !important;
+  }
+
+  .cr-quote {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .cr-author {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  /* 11. Maison Catalog View (ProductsView.jsx) */
+  .maison-catalog-view {
+    padding: 16px var(--mobile-gutter) 64px !important;
+  }
+
+  .maison-top-bar {
+    margin-bottom: 20px !important;
+  }
+
+  .maison-filter-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .maison-search-wrap {
+    width: 100% !important;
+  }
+
+  .maison-search-input {
+    width: 100% !important;
+    height: 44px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+  }
+
+  .maison-cat-pills-wrap {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding-bottom: 4px !important;
+  }
+
+  .maison-cat-pills-wrap::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .maison-cat-pill {
+    padding: 8px 16px !important;
+    font-size: 11px !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+    min-height: 36px !important;
+  }
+
+  .maison-sort-dropdown-wrap {
+    width: 100% !important;
+  }
+
+  .maison-sort-dropdown {
+    width: 100% !important;
+    height: 44px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+  }
+
+  .maison-gallery-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+
+  .maison-watch-card {
+    padding: 18px !important;
+    border-radius: 12px !important;
+  }
+
+  .maison-card-stage {
+    aspect-ratio: 1 / 1.05 !important;
+    margin-bottom: 14px !important;
+    border-radius: 8px !important;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.035) 0%, transparent 68%) !important;
+  }
+
+  .maison-watch-img {
+    max-width: 88% !important;
+    max-height: 88% !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.95)) !important;
+  }
+
+  .maison-card-title {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    min-height: 38px !important;
+    color: #ffffff !important;
+  }
+
+  .maison-card-price-val {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+  }
+
+  /* 12. Product Detail Page (PDP) Mobile Refinements */
+  .pdp-page-root {
+    padding: 12px var(--mobile-gutter) 96px !important;
+  }
+
+  .pdp-hero-container {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .pdp-main-image-box {
+    aspect-ratio: 1 / 1 !important;
+    max-width: 360px !important;
+    margin: 0 auto 16px !important;
+    border-radius: 12px !important;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.035) 0%, transparent 70%) !important;
+  }
+
+  .pdp-main-img {
+    max-width: 88% !important;
+    max-height: 88% !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95)) !important;
+  }
+
+  .pdp-thumbnails-row {
+    display: flex !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 4px 2px 14px !important;
+    justify-content: flex-start !important;
+  }
+
+  .pdp-thumbnails-row::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .pdp-thumb-btn {
+    flex: 0 0 62px !important;
+    width: 62px !important;
+    height: 62px !important;
+    border-radius: 8px !important;
+  }
+
+  .pdp-title {
+    font-size: clamp(22px, 6.5vw, 30px) !important;
+    line-height: 1.16 !important;
+    font-weight: 800 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .pdp-subtitle {
+    font-size: 13.5px !important;
+    line-height: 1.58 !important;
+    color: rgba(245, 242, 237, 0.72) !important;
+    margin-bottom: 16px !important;
+  }
+
+  .pdp-price-ribbon {
+    padding: 14px 16px !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .pdp-price-val {
+    font-size: clamp(24px, 6.5vw, 30px) !important;
+  }
+
+  .spotlight-bento-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .spotlight-bento-card {
+    padding: 10px 8px !important;
+    border-radius: 10px !important;
+  }
+
+  .bento-val {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+  }
+
+  .bento-lbl {
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .pdp-add-cart-btn,
+  .pdp-buy-now-btn {
+    height: 48px !important;
+    min-height: 48px !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    border-radius: 8px !important;
+  }
+
+  .pdp-inquire-btn,
+  .pdp-whatsapp-btn,
+  .pdp-boutique-btn {
+    min-height: 46px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+  }
+
+  /* 13. Mobile Floating Sticky Purchase Bar */
+  .pdp-mobile-sticky-bar {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: rgba(8, 8, 10, 0.96) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    padding: 12px var(--mobile-gutter) max(14px, env(safe-area-inset-bottom)) !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    z-index: 850 !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.9) !important;
+  }
+
+  .pdp-mobile-sticky-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+  }
+
+  .pdp-mobile-sticky-sku {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.1em !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .pdp-mobile-sticky-price {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.01em !important;
+    white-space: nowrap !important;
+  }
+
+  .pdp-mobile-sticky-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .pdp-mobile-sticky-bag-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    padding: 10px 14px !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.04em !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    min-height: 42px !important;
+  }
+
+  .pdp-mobile-sticky-buy-btn {
+    background: var(--red) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 18px !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    min-height: 42px !important;
+    box-shadow: 0 4px 14px rgba(250, 45, 29, 0.45) !important;
+  }
+
+  /* 14. Cart Drawer Mobile Fit */
+  .luxury-cart-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+
+  .cart-drawer-head {
+    height: 56px !important;
+    padding: 0 var(--mobile-gutter) !important;
+  }
+
+  .cart-close-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .cart-item-row {
+    padding: 14px var(--mobile-gutter) !important;
+  }
+
+  .cart-drawer-foot,
+  .cart-drawer-footer {
+    padding: 16px var(--mobile-gutter) max(20px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .cart-checkout-btn {
+    height: 50px !important;
+    min-height: 50px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    border-radius: 8px !important;
+  }
+
+  .cart-whatsapp-order-btn {
+    min-height: 46px !important;
+    padding: 12px 16px !important;
+    font-size: 12px !important;
+  }
+
+  /* 15. Checkout Mobile Flow */
+  .apple-checkout-topbar-inner {
+    padding: 0 var(--mobile-gutter) !important;
+  }
+
+  .apple-checkout-brand-sub {
+    display: none !important;
+  }
+
+  .apple-secure-badge {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .apple-checkout-container {
+    padding: 20px var(--mobile-gutter) max(60px, env(safe-area-inset-bottom)) var(--mobile-gutter) !important;
+  }
+
+  .apple-checkout-stepper {
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .stepper-text {
+    font-size: 11px !important;
+  }
+
+  .stepper-line {
+    width: 28px !important;
+  }
+
+  .apple-form-card {
+    padding: 20px 16px !important;
+    border-radius: 14px !important;
+  }
+
+  /* 16. Contact & Editorial Mobile Flow */
+  .contact-section {
+    padding: clamp(48px, 8vw, 72px) var(--mobile-gutter) !important;
+  }
+
+  .contact-inner {
+    gap: 36px !important;
+  }
+
+  .contact-card {
+    padding: 24px 18px !important;
+    border-radius: 14px !important;
+  }
+
+  /* 17. Footer */
+  .footer {
+    padding-top: 56px !important;
+    padding-bottom: max(32px, env(safe-area-inset-bottom)) !important;
+  }
+
+  .footer__email {
+    font-size: clamp(17px, 5vw, 22px) !important;
+    line-height: 1.3 !important;
+    word-break: break-all !important;
+  }
+
+  .footer__phone {
+    font-size: 16px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  .footer__bottom {
+    flex-direction: column !important;
+    gap: 16px !important;
+    text-align: center !important;
+    padding-top: 24px !important;
+  }
+
+  .footer-bottom-brand-group {
+    flex-direction: column !important;
+    gap: 10px !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
+
+  .footer-policies-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .footer-privacy-link {
+    font-size: 12px !important;
+    min-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .maison-gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 100% !important;
+    gap: 16px !important;
+  }
+}
