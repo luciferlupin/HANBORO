@@ -36,17 +36,43 @@ export function ProductDetailPage({
   // Lightbox Modal state
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  // All images available for this timepiece
-  const allImages = product
-    ? (product.gallery && product.gallery.length > 0
-        ? product.gallery.filter((g) => !g.url?.endsWith(".mp4"))
-        : (product.altImages || [product.image]).filter((img) => !img?.endsWith(".mp4")).map((img, i) => ({
-            url: img,
-            title: `${product.name} — View ${i + 1}`,
-            label: `View 0${i + 1}`,
-            caption: `Precision horological inspection of ${product.name}.`
-          })))
-    : [];
+  // All images available for this timepiece with robust deduplication and metadata
+  const allImages = useMemo(() => {
+    if (!product) return [];
+    const list = [];
+    const seen = new Set();
+
+    const pushImg = (url, title, label, caption) => {
+      if (!url || typeof url !== "string" || url.endsWith(".mp4") || seen.has(url)) return;
+      seen.add(url);
+      list.push({
+        url,
+        title: title || `${product.name} — Perspective 0${list.length + 1}`,
+        label: label || `0${list.length + 1} View`,
+        caption: caption || `Precision horological inspection of ${product.name}.`
+      });
+    };
+
+    if (Array.isArray(product.gallery) && product.gallery.length > 0) {
+      product.gallery.forEach((g, idx) => {
+        const u = typeof g === "string" ? g : g?.url;
+        pushImg(u, g?.title, g?.label || `0${idx + 1} View`, g?.caption);
+      });
+    }
+
+    if (Array.isArray(product.altImages)) {
+      product.altImages.forEach((img, idx) => {
+        const u = typeof img === "string" ? img : img?.url;
+        pushImg(u, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Horological craftsmanship inspection of Reference ${product.sku}.`);
+      });
+    }
+
+    if (list.length === 0 && product.image && !product.image.endsWith(".mp4")) {
+      pushImg(product.image, `${product.name} — Front Dial View`, "01 Front View", `Official boutique presentation of ${product.name}.`);
+    }
+
+    return list;
+  }, [product]);
 
   // Instant scroll to top on SKU change
   useLayoutEffect(() => {
@@ -217,8 +243,6 @@ export function ProductDetailPage({
         <div className="pdp-hero-container">
           {/* Left Column: Interactive Watch Gallery & Lens */}
           <div className="pdp-gallery-column">
-            <div className="pdp-gallery-aura" />
-
             <div className="pdp-media-actions-bar">
               {product.hasNightMode && (
                 <div className="pdp-lume-toggle-wrap">
@@ -327,30 +351,32 @@ export function ProductDetailPage({
             </div>
 
             {/* Thumbnail selector with photo labels and video reel */}
-            {((product.altImages && product.altImages.length > 1) || product.videoUrl) && (
-              <div className="pdp-thumbnails-strip">
-                {product.altImages &&
-                  product.altImages
-                    .filter((img) => !img?.endsWith(".mp4"))
-                    .map((img, i) => {
-                      const galleryItem = product.gallery && product.gallery[i];
-                      const label = galleryItem?.label || `View 0${i + 1}`;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          className={`pdp-thumb-card ${activeImage === img ? "is-selected" : ""}`}
-                          onClick={() => {
-                            setActiveImage(img);
-                            setIsNightMode(img === product.nightImage || img.includes("night") || img.includes("lume"));
-                          }}
-                          title={galleryItem?.title || `${product.name} view ${i + 1}`}
-                        >
-                          <img src={img} alt={`${product.name} view ${i + 1}`} />
-                          <span className="pdp-thumb-badge">{label}</span>
-                        </button>
-                      );
-                    })}
+            {(allImages.length > 1 || product.videoUrl) && (
+              <div className="pdp-thumbnails-strip" role="tablist" aria-label="Perspective thumbnails">
+                {allImages.map((item, i) => {
+                  const isSelected = activeImage === item.url;
+                  return (
+                    <button
+                      key={item.url || i}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      className={`pdp-thumb-card ${isSelected ? "is-selected" : ""}`}
+                      onClick={() => {
+                        setActiveImage(item.url);
+                        setIsNightMode(
+                          item.url === product.nightImage ||
+                          item.url.includes("night") ||
+                          item.url.includes("lume")
+                        );
+                      }}
+                      title={item.title || `${product.name} view ${i + 1}`}
+                    >
+                      <img src={item.url} alt={item.title || `${product.name} view ${i + 1}`} loading="lazy" />
+                      <span className="pdp-thumb-badge">{item.label || `0${i + 1}`}</span>
+                    </button>
+                  );
+                })}
 
                 {product.videoUrl && (
                   <button
