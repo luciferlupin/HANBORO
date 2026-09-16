@@ -252,6 +252,7 @@ export function AdminDashboard({ onNavigateHome }) {
     customerPhone: "",
     productId: "",
     customPrice: "",
+    discountRate: "",
     deliveryMethod: "Standard (Prepaid)",
     paymentMethod: "Prepaid UPI / Card",
     notes: ""
@@ -883,6 +884,11 @@ export function AdminDashboard({ onNavigateHome }) {
 
     const prod = (products || PRODUCTS_DATA).find((p) => p.id === draftFormData.productId || p.sku === draftFormData.productId);
     const price = Number(draftFormData.customPrice) || parseInt(String(prod?.price || "45000").replace(/[^\d]/g, ""), 10) || 45000;
+    const discountRateNum = parseFloat(draftFormData.discountRate) || 0;
+    const notesWithDiscount = draftFormData.discountRate
+      ? `${draftFormData.notes ? draftFormData.notes + " • " : ""}VIP Privilege Discount Rate: ${draftFormData.discountRate}% OFF applied`
+      : draftFormData.notes;
+
     const newDraft = {
       id: `dft-${Date.now()}`,
       draftNumber: `#D${100 + draftOrders.length + 1}`,
@@ -890,10 +896,11 @@ export function AdminDashboard({ onNavigateHome }) {
       customerEmail: draftFormData.customerEmail || "client@hanborowatches.in",
       customerPhone: draftFormData.customerPhone || "+918882069334",
       total: price,
+      discountRate: discountRateNum,
       status: "Open",
       createdAt: "Just now",
       items: [{ name: prod?.name || "HANBORO Timepiece", sku: prod?.sku || "HNB-CUSTOM", price, qty: 1 }],
-      notes: draftFormData.notes,
+      notes: notesWithDiscount,
     };
 
     setDraftOrders([newDraft, ...draftOrders]);
@@ -905,6 +912,7 @@ export function AdminDashboard({ onNavigateHome }) {
       customerPhone: "",
       productId: "",
       customPrice: "",
+      discountRate: "",
       deliveryMethod: "Standard (Prepaid)",
       paymentMethod: "Prepaid UPI / Card",
       notes: ""
@@ -968,24 +976,62 @@ export function AdminDashboard({ onNavigateHome }) {
     showToast("Production database cleaned to 0. Master Inventory intact!");
   };
 
-  // Create Custom Promo
-  const handleCreatePromo = (e) => {
+  // Create Custom Promo with full discount rate support (percentage, fixed amount, decimals)
+  const handleCreatePromo = async (e) => {
     e.preventDefault();
     if (!promoCodeInput.trim()) return;
     const clean = promoCodeInput.trim().toUpperCase();
+    const val = parseFloat(promoDiscountInput);
+    if (isNaN(val) || val <= 0) {
+      showToast("Please enter a valid positive discount rate.");
+      return;
+    }
+    if (promoTypeInput === "percent" && val > 100) {
+      showToast("Percentage discount cannot exceed 100%.");
+      return;
+    }
+
     const config = {
+      id: `dsc-${clean.toLowerCase()}`,
+      code: clean,
       type: promoTypeInput,
-      value: Number(promoDiscountInput) || 15,
-      label: `${clean}: ${promoDiscountInput}${promoTypeInput === "percent" ? "%" : " INR"} OFF`,
+      value: val,
+      label: `${clean}: ${val}${promoTypeInput === "percent" ? "%" : " INR"} OFF`,
+      is_active: true,
     };
+
     const updated = {
       ...customPromos,
       [clean]: config,
     };
     setCustomPromos(updated);
-    discountsService.saveDiscount(clean, config).catch(() => {});
-    setPromoCodeInput("");
-    showToast(`Promo voucher ${clean} activated`);
+
+    try {
+      await discountsService.saveDiscount(clean, config);
+      showToast(`Discount rate code ${clean} (${val}${promoTypeInput === "percent" ? "%" : " INR"} OFF) activated!`);
+      setPromoCodeInput("");
+      setPromoDiscountInput("15");
+    } catch (err) {
+      showToast(`Saved locally. (${err.message || "Synced"})`);
+    }
+  };
+
+  // Delete / Remove discount promo code
+  const handleDeletePromo = async (code) => {
+    if (PROMO_CODES[code]) {
+      showToast(`${code} is a protected core boutique privilege voucher.`);
+      return;
+    }
+    const updated = { ...customPromos };
+    delete updated[code];
+    setCustomPromos(updated);
+
+    try {
+      await discountsService.deleteDiscount(code);
+      showToast(`Discount code ${code} removed.`);
+    } catch (err) {
+      showToast(`Removed locally.`);
+    }
   };
 
   const handleStockDelta = async (productId, delta) => {
@@ -2672,7 +2718,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <label>Discount Code Name</label>
                     <input
                       type="text"
-                      placeholder="e.g. VIP2026, SUMMER15"
+                      placeholder="e.g. VIP2026, SUMMER20, PRIVILEGE25"
                       value={promoCodeInput}
                       onChange={(e) => setPromoCodeInput(e.target.value)}
                       required
@@ -2691,9 +2737,13 @@ export function AdminDashboard({ onNavigateHome }) {
                   </div>
 
                   <div className="sp-form-group">
-                    <label>Discount Value</label>
+                    <label>Discount Value / Rate ({promoTypeInput === "percent" ? "%" : "₹"})</label>
                     <input
                       type="number"
+                      min="0.1"
+                      max={promoTypeInput === "percent" ? "100" : undefined}
+                      step="any"
+                      placeholder={promoTypeInput === "percent" ? "e.g. 15 or 25" : "e.g. 1000"}
                       value={promoDiscountInput}
                       onChange={(e) => setPromoDiscountInput(e.target.value)}
                       required
@@ -2702,7 +2752,7 @@ export function AdminDashboard({ onNavigateHome }) {
 
                   <div className="sp-form-group sp-form-group--btn">
                     <button type="submit" className="sp-btn sp-btn--primary">
-                      Activate Code
+                      Activate Discount Rate
                     </button>
                   </div>
                 </div>
@@ -2714,33 +2764,55 @@ export function AdminDashboard({ onNavigateHome }) {
                   <thead>
                     <tr>
                       <th>Discount Code</th>
-                      <th>Type & Benefit</th>
+                      <th>Type</th>
+                      <th>Benefit & Rate</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.entries({ ...PROMO_CODES, ...customPromos }).map(([code, def]) => (
-                      <tr key={code}>
-                        <td className="sp-td--bold">{code}</td>
-                        <td>{def.label || `${def.value}${def.type === "percent" ? "%" : " INR"} Discount`}</td>
-                        <td>
-                          <span className="sp-status-badge sp-status--green">Active</span>
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="sp-btn sp-btn--sm"
-                            onClick={() => {
-                              navigator.clipboard.writeText(code);
-                              showToast(`Copied ${code} to clipboard`);
-                            }}
-                          >
-                            Copy Link
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {Object.entries({ ...PROMO_CODES, ...customPromos }).map(([code, def]) => {
+                      const isBuiltin = Boolean(PROMO_CODES[code]);
+                      return (
+                        <tr key={code}>
+                          <td className="sp-td--bold">{code}</td>
+                          <td>
+                            <span className={`sp-badge-pill ${def.type === "percent" ? "sp-badge-pill--fulfilled" : "sp-badge-pill--unfulfilled"}`}>
+                              {def.type === "percent" ? "Percentage Rate" : "Fixed Amount"}
+                            </span>
+                          </td>
+                          <td>{def.label || `${def.value}${def.type === "percent" ? "%" : " INR"} Discount`}</td>
+                          <td>
+                            <span className="sp-status-badge sp-status--green">Active</span>
+                          </td>
+                          <td>
+                            <div style={{ display: "flex", gap: "6px" }}>
+                              <button
+                                type="button"
+                                className="sp-btn sp-btn--sm"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(code);
+                                  showToast(`Copied ${code} to clipboard`);
+                                }}
+                              >
+                                Copy Code
+                              </button>
+                              {!isBuiltin && (
+                                <button
+                                  type="button"
+                                  className="sp-btn sp-btn--sm sp-btn--danger"
+                                  onClick={() => handleDeletePromo(code)}
+                                  title="Delete discount code"
+                                  style={{ color: "#ef4444", borderColor: "#fecaca" }}
+                                >
+                                  Delete
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -3845,12 +3917,38 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
 
                 <div className="sp-form-group">
-                  <label>Price / Allocation Amount (INR)</label>
+                  <label>Retail Valuation (INR)</label>
                   <input
                     type="number"
                     value={draftFormData.customPrice}
                     onChange={(e) => setDraftFormData({ ...draftFormData, customPrice: e.target.value })}
                     required
+                  />
+                </div>
+
+                <div className="sp-form-group">
+                  <label>VIP Concession / Discount Rate (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="any"
+                    placeholder="e.g. 15 for 15% OFF"
+                    value={draftFormData.discountRate || ""}
+                    onChange={(e) => {
+                      const disc = e.target.value;
+                      const sel = (products || PRODUCTS_DATA).find((p) => p.id === draftFormData.productId || p.sku === draftFormData.productId);
+                      const basePrice = parseInt(String(sel?.price || "45000").replace(/[^\d]/g, ""), 10) || 45000;
+                      const numDisc = parseFloat(disc);
+                      const finalPrice = !isNaN(numDisc) && numDisc > 0
+                        ? Math.round(basePrice * (1 - Math.min(100, numDisc) / 100))
+                        : basePrice;
+                      setDraftFormData({
+                        ...draftFormData,
+                        discountRate: disc,
+                        customPrice: String(finalPrice),
+                      });
+                    }}
                   />
                 </div>
               </div>

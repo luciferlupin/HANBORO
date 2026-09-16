@@ -41,10 +41,10 @@ export function CartDrawer() {
 
   if (!isCartOpen) return null;
 
-  const handleApplyPromo = (e) => {
+  const handleApplyPromo = async (e) => {
     e.preventDefault();
     if (!promoInput.trim()) return;
-    const res = applyPromoCode(promoInput);
+    const res = await applyPromoCode(promoInput);
     if (!res.success) {
       setPromoError(res.message);
     } else {

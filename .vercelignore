@@ -8,3 +8,7 @@ dist
 qa
 tests
 *.mjs.log
+.gemini
+.agents
+*.test.mjs
+scripts/prune-vercel-deployments.mjs

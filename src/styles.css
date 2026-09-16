@@ -18564,11 +18564,12 @@ body.modal-open {
     gap: 16px;
   }
   .maison-gallery-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
   .maison-interstitial-card {
-    grid-column: span 1;
-    min-height: 320px;
+    grid-column: span 2;
+    min-height: 240px;
   }
 }
 
@@ -23537,104 +23538,311 @@ tr.is-selected-row td {
     font-weight: 700 !important;
   }
 
-  /* 11. Maison Catalog View (ProductsView.jsx) */
+  /* 11. Maison Catalog View (ProductsView.jsx) - Synchronized Mobile Listing */
   .maison-catalog-view {
-    padding: 16px var(--mobile-gutter) 64px !important;
+    padding: 12px var(--mobile-gutter) 64px !important;
   }
 
   .maison-top-bar {
-    margin-bottom: 20px !important;
+    margin-bottom: 16px !important;
   }
 
   .maison-filter-bar {
+    padding: 12px 0 !important;
+    margin-bottom: 20px !important;
+  }
+
+  .maison-filter-inner {
+    display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 12px !important;
-    margin-bottom: 24px !important;
-  }
-
-  .maison-search-wrap {
+    padding: 0 !important;
     width: 100% !important;
   }
 
-  .maison-search-input {
-    width: 100% !important;
-    height: 44px !important;
-    font-size: 16px !important;
-    border-radius: 8px !important;
-  }
-
-  .maison-cat-pills-wrap {
-    width: 100% !important;
+  /* Smooth Horizontal Scrollable Series Nav matching Desktop */
+  .maison-series-nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
     padding-bottom: 4px !important;
+    margin: 0 !important;
   }
 
-  .maison-cat-pills-wrap::-webkit-scrollbar {
+  .maison-series-nav::-webkit-scrollbar {
     display: none !important;
   }
 
-  .maison-cat-pill {
-    padding: 8px 16px !important;
-    font-size: 11px !important;
-    border-radius: 9999px !important;
+  .maison-nav-tab {
+    flex-shrink: 0 !important;
     white-space: nowrap !important;
-    min-height: 36px !important;
+    font-size: 11px !important;
+    padding: 6px 12px !important;
+    border-radius: 9999px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+    text-transform: uppercase !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    transition: all 0.2s ease !important;
   }
 
-  .maison-sort-dropdown-wrap {
+  .maison-nav-tab.is-active {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+  }
+
+  .maison-nav-tab.is-active::after {
+    display: none !important;
+  }
+
+  .maison-nav-tab .tab-num {
+    font-size: 9.5px !important;
+    opacity: 0.65 !important;
+  }
+
+  /* Search and Sort Row */
+  .maison-controls-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
     width: 100% !important;
   }
 
-  .maison-sort-dropdown {
-    width: 100% !important;
-    height: 44px !important;
-    font-size: 16px !important;
-    border-radius: 8px !important;
+  .maison-search-input-wrap {
+    flex: 1 !important;
+    min-width: 0 !important;
+    height: 38px !important;
+    padding: 0 12px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 9999px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
+  .maison-search-field {
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 13px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    outline: none !important;
+  }
+
+  .maison-sort-dropdown-wrap,
+  .maison-sort-wrap {
+    flex-shrink: 0 !important;
+  }
+
+  .maison-sort-dropdown,
+  .maison-sort-select {
+    height: 38px !important;
+    padding: 0 12px !important;
+    font-size: 11.5px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 9999px !important;
+    color: #ffffff !important;
+    outline: none !important;
+  }
+
+
+  /* 2-Column Gallery Grid on Mobile matching Desktop Proportion */
   .maison-gallery-grid {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-    max-width: 440px !important;
-    margin: 0 auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Individual Watch Card on Phone matching Desktop Anatomy */
+  .maison-watch-card {
+    padding: 12px !important;
+    border-radius: 8px !important;
+    background: #08080a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .maison-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 8px !important;
     width: 100% !important;
   }
 
-  .maison-watch-card {
-    padding: 18px !important;
-    border-radius: 12px !important;
+  .maison-card-badge {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 7.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    padding: 2px 5px !important;
+    border-radius: 3px !important;
+    max-width: 75% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+
+  .maison-wishlist-btn {
+    padding: 2px !important;
+  }
+
+  .maison-wishlist-btn svg {
+    width: 13px !important;
+    height: 13px !important;
   }
 
   .maison-card-stage {
+    width: 100% !important;
     aspect-ratio: 1 / 1.05 !important;
-    margin-bottom: 14px !important;
-    border-radius: 8px !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
     background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.035) 0%, transparent 68%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
   }
 
   .maison-watch-img {
-    max-width: 88% !important;
-    max-height: 88% !important;
+    max-width: 90% !important;
+    max-height: 90% !important;
     object-fit: contain !important;
-    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.95)) !important;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.95)) !important;
+  }
+
+  .maison-card-eyebrow {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 8px !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .maison-card-eyebrow .card-caliber {
+    display: none !important;
+  }
+
+  .maison-card-eyebrow .card-dot {
+    display: none !important;
   }
 
   .maison-card-title {
-    font-size: 14.5px !important;
+    font-size: 11.5px !important;
     font-weight: 700 !important;
-    line-height: 1.35 !important;
-    min-height: 38px !important;
+    line-height: 1.3 !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    margin: 0 0 6px 0 !important;
+    color: #ffffff !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .maison-card-specs-line {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 8px !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    margin-bottom: 8px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .maison-card-footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    margin-top: auto !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding-top: 8px !important;
+    width: 100% !important;
+  }
+
+  .maison-card-price-wrap {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  .maison-price-val {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
     color: #ffffff !important;
   }
 
-  .maison-card-price-val {
+  .maison-price-note {
     font-family: 'JetBrains Mono', monospace !important;
-    font-size: 19px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
+    font-size: 7.5px !important;
+    color: rgba(255, 255, 255, 0.35) !important;
+    text-transform: uppercase !important;
+  }
+
+  .maison-card-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important;
+    width: 100% !important;
+  }
+
+  .maison-card-action-btn {
+    padding: 5px 2px !important;
+    font-size: 8.5px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+  }
+
+  .maison-interstitial-card {
+    grid-column: span 2 !important;
+    min-height: 240px !important;
+    padding: 20px !important;
   }
 
   /* 12. Product Detail Page (PDP) Mobile Refinements */
@@ -23965,14 +24173,6 @@ tr.is-selected-row td {
     min-height: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
-  }
-}
-
-@media (min-width: 480px) and (max-width: 768px) {
-  .maison-gallery-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    max-width: 100% !important;
-    gap: 16px !important;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER } from "./supabaseClient";
+import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, discountsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER, supabase, STORAGE_KEYS } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);
@@ -132,6 +132,67 @@ export function StoreProvider({ children }) {
     loadInitialData();
   }, []);
 
+  // Multi-tab and Realtime cross-device synchronization for catalog updates
+  useEffect(() => {
+    // 1. Same-window custom event handler
+    const handleProductsUpdated = (event) => {
+      if (event.detail && Array.isArray(event.detail) && event.detail.length > 0) {
+        setProducts(event.detail);
+      } else {
+        const local = productsService.getLocalProducts();
+        if (local && local.length > 0) setProducts(local);
+      }
+    };
+
+    // 2. Cross-tab storage event handler (syncs when admin saves in another tab)
+    const handleStorageChange = (event) => {
+      if (
+        event.key === STORAGE_KEYS?.PRODUCTS ||
+        event.key === STORAGE_KEYS?.WATCH_ORDER ||
+        event.key === "hanboro_custom_products" ||
+        event.key === "hanboro_custom_watch_order"
+      ) {
+        const local = productsService.getLocalProducts();
+        if (local && local.length > 0) {
+          setProducts(local);
+        }
+      }
+    };
+
+    window.addEventListener("hanboro_products_updated", handleProductsUpdated);
+    window.addEventListener("storage", handleStorageChange);
+
+    // 3. Supabase Realtime channel for cross-device updates (phone <-> desktop)
+    let channel = null;
+    try {
+      if (supabase && typeof supabase.channel === "function") {
+        channel = supabase
+          .channel("store_products_realtime")
+          .on("postgres_changes", { event: "*", schema: "public", table: "products" }, async () => {
+            try {
+              const remote = await productsService.fetchProducts();
+              if (Array.isArray(remote) && remote.length > 0) {
+                setProducts(remote);
+              }
+            } catch (err) {
+              console.warn("Realtime catalog update error:", err);
+            }
+          })
+          .subscribe();
+      }
+    } catch (err) {
+      console.warn("Failed to subscribe to product realtime channel:", err);
+    }
+
+    return () => {
+      window.removeEventListener("hanboro_products_updated", handleProductsUpdated);
+      window.removeEventListener("storage", handleStorageChange);
+      if (channel && supabase?.removeChannel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, []);
+
   // Save cart to local storage whenever it changes
   useEffect(() => {
     try {
@@ -230,7 +291,9 @@ export function StoreProvider({ children }) {
       const match = products.find(
         (p) =>
           String(p.id).trim().toLowerCase() === clean ||
-          String(p.sku).trim().toLowerCase() === clean
+          String(p.sku).trim().toLowerCase() === clean ||
+          (p.previousSku && String(p.previousSku).trim().toLowerCase() === clean) ||
+          (p.previousId && String(p.previousId).trim().toLowerCase() === clean)
       );
       if (match) return match;
 
@@ -241,7 +304,13 @@ export function StoreProvider({ children }) {
           String(p.sku).trim().toLowerCase() === clean
       );
       if (masterMatch) {
-        const liveMatch = products.find((p) => p.id === masterMatch.id);
+        const liveMatch = products.find(
+          (p) =>
+            p.id === masterMatch.id ||
+            p.sku === masterMatch.sku ||
+            (p.previousId && String(p.previousId).trim().toLowerCase() === String(masterMatch.id).trim().toLowerCase()) ||
+            (p.previousSku && String(p.previousSku).trim().toLowerCase() === String(masterMatch.sku).trim().toLowerCase())
+        );
         if (liveMatch) return liveMatch;
       }
 
@@ -338,7 +407,15 @@ export function StoreProvider({ children }) {
 
   const updateProduct = async (productId, updatedFields) => {
     const clean = String(productId).trim().toLowerCase();
-    const existing = products.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
+    const existing = (Array.isArray(products) && products.find((p) =>
+      String(p.id).trim().toLowerCase() === clean ||
+      String(p.sku).trim().toLowerCase() === clean ||
+      (p.previousSku && String(p.previousSku).trim().toLowerCase() === clean) ||
+      (p.previousId && String(p.previousId).trim().toLowerCase() === clean)
+    )) || PRODUCTS_DATA.find((p) =>
+      String(p.id).trim().toLowerCase() === clean ||
+      String(p.sku).trim().toLowerCase() === clean
+    );
     if (!existing) return null;
 
     const previousId = existing.id;
@@ -346,14 +423,25 @@ export function StoreProvider({ children }) {
     const targetId = (updatedFields.id || "").trim() || previousId;
     const targetSku = String(updatedFields.sku || existing.sku).trim().toUpperCase();
 
+    const priceNumeric = typeof updatedFields.priceNumeric === "number"
+      ? updatedFields.priceNumeric
+      : parseInt(String(updatedFields.price || existing.price || "0").replace(/[^0-9]/g, ""), 10) || 0;
+
+    const modelNumber = updatedFields.modelNumber || updatedFields.specs?.modelNumber || existing.modelNumber || existing.specs?.modelNumber || "";
+
     const merged = {
       ...existing,
       ...updatedFields,
       id: targetId,
       sku: targetSku,
+      previousId,
+      previousSku,
+      priceNumeric,
+      modelNumber,
       specs: {
         ...existing.specs,
         ...(updatedFields.specs || {}),
+        modelNumber: modelNumber || existing.specs?.modelNumber || "",
       },
       stock: typeof updatedFields.stock === "number" ? updatedFields.stock : existing.stock,
       updatedAt: new Date().toISOString(),
@@ -370,7 +458,8 @@ export function StoreProvider({ children }) {
         prev.map((item) =>
           item.product.id === previousId ||
           item.product.id === merged.id ||
-          String(item.product.sku).trim().toUpperCase() === String(previousSku).trim().toUpperCase()
+          String(item.product.sku).trim().toUpperCase() === String(previousSku).trim().toUpperCase() ||
+          String(item.product.sku).trim().toUpperCase() === String(targetSku).trim().toUpperCase()
             ? { ...item, product: { ...item.product, ...merged } }
             : item
         )
@@ -613,14 +702,32 @@ export function StoreProvider({ children }) {
       return { success: true, message: PROMO_CODES[clean].label };
     }
 
-    // 2. Check dynamic single-use 7-day Roulette Privilege vouchers
+    // 2. Check dynamic custom discount rates created in Admin Dashboard or Supabase
+    try {
+      const customDiscount = await discountsService.getDiscount(clean);
+      if (customDiscount) {
+        setAppliedPromo({
+          code: clean,
+          isRouletteVoucher: false,
+          type: customDiscount.type || "percent",
+          value: Number(customDiscount.value),
+          label: customDiscount.label || `${clean}: ${customDiscount.value}${customDiscount.type === "percent" ? "%" : " INR"} OFF`,
+        });
+        showToast(`Privilege code ${clean} applied!`);
+        return { success: true, message: customDiscount.label || `${clean} applied` };
+      }
+    } catch (err) {
+      console.warn("DiscountsService getDiscount error:", err);
+    }
+
+    // 3. Check dynamic single-use 7-day Roulette Privilege vouchers
     try {
       const emailToCheck = customerEmail || user?.email || "";
       const phoneToCheck = customerPhone || user?.phone || "";
       const valRes = await rouletteService.validateVoucher(clean, emailToCheck, phoneToCheck);
 
       if (valRes.valid && valRes.promo) {
-        // Enforce maximum 15% discount ceiling
+        // Enforce maximum 15% discount ceiling for roulette vouchers
         let discountValue = valRes.promo.value;
         if (valRes.promo.type === "percent" && discountValue > 15) {
           discountValue = 15;
@@ -674,10 +781,13 @@ export function StoreProvider({ children }) {
   const discountAmount = useMemo(() => {
     if (!appliedPromo) return 0;
     if (appliedPromo.type === "percent") {
-      // Hard cap at max 15% discount
-      const cappedPercent = Math.min(15, appliedPromo.value);
-      return Math.round((subtotalInr * cappedPercent) / 100);
+      // Roulette vouchers are capped at max 15%; custom promo codes / store discounts use their full configured rate (up to 100%)
+      const rate = appliedPromo.isRouletteVoucher
+        ? Math.min(15, Math.max(0, appliedPromo.value))
+        : Math.min(100, Math.max(0, appliedPromo.value));
+      return Math.round((subtotalInr * rate) / 100);
     }
+    // Flat / Fixed amount discount
     return Math.min(appliedPromo.value, subtotalInr);
   }, [appliedPromo, subtotalInr]);
 

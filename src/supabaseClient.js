@@ -89,7 +89,7 @@ export const safeStorage = {
 };
 
 // Local cache keys for offline/fallback resilience
-const STORAGE_KEYS = {
+export const STORAGE_KEYS = {
   ORDERS: "hanboro_orders_cache",
   CUSTOMERS: "hanboro_customers_cache",
   PROFILES: "hanboro_profiles_cache",
@@ -1158,15 +1158,15 @@ export const inventoryService = {
         const pSku = String(p.sku).toUpperCase();
         const remote = remoteMap.get(pId) || remoteMap.get(pSku);
         return {
-          id: p.id,
-          sku: p.sku,
-          name: p.name,
-          collection: p.collectionName || p.collection || "Tourbillon & Complications",
-          price: p.price,
-          priceUsd: p.priceUsd,
+          id: remote?.id || p.id,
+          sku: remote?.sku || p.sku,
+          name: remote?.name || p.name,
+          collection: remote?.collection || p.collectionName || p.collection || "Tourbillon & Complications",
+          price: remote?.price || (remote?.price_inr ? `₹${Number(remote.price_inr).toLocaleString("en-IN")}` : p.price),
+          priceUsd: remote?.price_usd || p.priceUsd,
           stock: typeof remote?.stock === "number" ? remote.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8))),
           isActive: remote ? remote.is_active !== false : (p.isActive !== false),
-          image: p.image,
+          image: remote?.image || p.image,
         };
       });
 
@@ -1201,6 +1201,23 @@ export const inventoryService = {
     }
 
     if (!Array.isArray(list) || list.length < PRODUCTS_DATA.length) {
+      let customCatalog = [];
+      try {
+        const rawCustom = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
+        if (rawCustom) {
+          const parsedCustom = JSON.parse(rawCustom);
+          if (Array.isArray(parsedCustom)) customCatalog = parsedCustom;
+        }
+      } catch {}
+
+      const customMap = new Map();
+      customCatalog.forEach((cp) => {
+        if (cp.id) customMap.set(String(cp.id).toLowerCase(), cp);
+        if (cp.sku) customMap.set(String(cp.sku).toUpperCase(), cp);
+        if (cp.previousId) customMap.set(String(cp.previousId).toLowerCase(), cp);
+        if (cp.previousSku) customMap.set(String(cp.previousSku).toUpperCase(), cp);
+      });
+
       const existingMap = new Map();
       if (Array.isArray(list)) {
         list.forEach((it) => {
@@ -1209,17 +1226,18 @@ export const inventoryService = {
         });
       }
       list = PRODUCTS_DATA.map((p, idx) => {
+        const cp = customMap.get(String(p.id).toLowerCase()) || customMap.get(String(p.sku).toUpperCase());
         const existing = existingMap.get(String(p.id).toLowerCase()) || existingMap.get(String(p.sku).toUpperCase());
         return {
-          id: p.id,
-          sku: p.sku,
-          name: p.name,
-          collection: p.collectionName || p.collection,
-          price: p.price,
-          priceUsd: p.priceUsd,
-          stock: typeof existing?.stock === "number" ? existing.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8))),
-          isActive: existing ? existing.isActive !== false : (p.isActive !== false),
-          image: p.image,
+          id: cp?.id || existing?.id || p.id,
+          sku: cp?.sku || existing?.sku || p.sku,
+          name: cp?.name || existing?.name || p.name,
+          collection: cp?.collectionName || cp?.collection || existing?.collection || p.collectionName || p.collection,
+          price: cp?.price || existing?.price || p.price,
+          priceUsd: cp?.priceUsd || existing?.priceUsd || p.priceUsd,
+          stock: typeof cp?.stock === "number" ? cp.stock : (typeof existing?.stock === "number" ? existing.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8)))),
+          isActive: cp ? cp.isActive !== false : (existing ? existing.isActive !== false : (p.isActive !== false)),
+          image: cp?.image || existing?.image || p.image,
         };
       });
       safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(list));
@@ -1707,10 +1725,9 @@ export function isStaleClone(p) {
   if (isCanonicalMaster) return false;
 
   return (
-    /-clone-test-/i.test(id) ||
-    /-clone-test-/i.test(sku) ||
     id.startsWith("astroworld-celestial-clone-") ||
     id.startsWith("astroworld-tourbillon-fluted-rosegold-clone-") ||
+    id.startsWith("volcano-glacier-compass-gold-clone-") ||
     (sku.includes("ORBITA") && sku.includes("CLONE")) ||
     name.includes("WITH Planetarium Design") ||
     /\(Variant\)/i.test(name)
@@ -1769,6 +1786,7 @@ export const productsService = {
             const cachedMatch = parsed.find(
               (p) =>
                 (p.id && String(p.id).toLowerCase().trim() === mId) ||
+                (p.previousId && String(p.previousId).toLowerCase().trim() === mId) ||
                 (p.previousSku && String(p.previousSku).toLowerCase().trim() === mSku) ||
                 (p.sku && String(p.sku).toLowerCase().trim() === mSku)
             );
@@ -1789,16 +1807,28 @@ export const productsService = {
               });
             } else {
               consumedCachedIds.add(String(cachedMatch.id || mId).toLowerCase().trim());
+              if (cachedMatch.previousId) consumedCachedIds.add(String(cachedMatch.previousId).toLowerCase().trim());
+              consumedCachedIds.add(mId);
               if (cachedMatch.sku) consumedCachedSkus.add(String(cachedMatch.sku).toLowerCase().trim());
+              if (cachedMatch.previousSku) consumedCachedSkus.add(String(cachedMatch.previousSku).toLowerCase().trim());
+              consumedCachedSkus.add(mSku);
 
               baseMaster.push({
                 ...m,
                 ...cachedMatch,
+                id: String(cachedMatch.id || mId).trim().toLowerCase(),
                 sku: String(cachedMatch.sku || m.sku || "").trim().toUpperCase(),
                 name: String(cachedMatch.name || m.name || "").trim(),
                 price: cachedMatch.price || m.price,
                 priceNumeric: parseInt(String(cachedMatch.price || m.price || "0").replace(/[^\d]/g, ""), 10) || m.priceNumeric || 45000,
                 modelNumber: cachedMatch.modelNumber || cachedMatch.specs?.modelNumber || m.modelNumber || "",
+                collection: cachedMatch.collection || m.collection,
+                collectionName: cachedMatch.collectionName || m.collectionName,
+                tag: cachedMatch.tag || m.tag,
+                image: cachedMatch.image || m.image,
+                transparentImage: cachedMatch.transparentImage || cachedMatch.image || m.transparentImage || m.image,
+                altImages: Array.isArray(cachedMatch.altImages) && cachedMatch.altImages.length > 0 ? cachedMatch.altImages : m.altImages,
+                gallery: Array.isArray(cachedMatch.gallery) && cachedMatch.gallery.length > 0 ? cachedMatch.gallery : m.gallery,
                 specs: {
                   ...(m.specs || {}),
                   ...(cachedMatch.specs || {}),
@@ -1966,37 +1996,68 @@ export const productsService = {
           .map((lp, idx) => {
             const lId = String(lp.id || "").toLowerCase().trim();
             const lSku = String(lp.sku || "").toUpperCase().trim();
-            const remote = remoteById.get(lId) || remoteBySku.get(lSku);
+            const prevId = lp.previousId ? String(lp.previousId).toLowerCase().trim() : null;
+            const prevSku = lp.previousSku ? String(lp.previousSku).toUpperCase().trim() : null;
+
+            const remote = remoteById.get(lId) ||
+              (prevId && remoteById.get(prevId)) ||
+              remoteBySku.get(lSku) ||
+              (prevSku && remoteBySku.get(prevSku));
 
             if (remote) {
               consumedRemoteIds.add(String(remote.id).toLowerCase().trim());
               if (remote.sku) consumedRemoteSkus.add(String(remote.sku).toUpperCase().trim());
+              consumedRemoteIds.add(lId);
+              consumedRemoteSkus.add(lSku);
+              if (prevId) consumedRemoteIds.add(prevId);
+              if (prevSku) consumedRemoteSkus.add(prevSku);
 
+              const remoteRank = typeof remote.specs?.rank === "number" && !isNaN(remote.specs.rank) ? remote.specs.rank : undefined;
               const resolvedRank =
                 lp.rank !== undefined && typeof lp.rank === "number"
                   ? lp.rank
-                  : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx);
+                  : (remoteRank ?? CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx);
+
+              // If local copy was updated more recently than remote, preserve local edits
+              const lpTime = lp.updatedAt ? new Date(lp.updatedAt).getTime() : 0;
+              const remoteTime = remote.updatedAt ? new Date(remote.updatedAt).getTime() : 0;
+              const preferLocal = lpTime > remoteTime + 1000;
+
+              const baseObj = preferLocal ? { ...remote, ...lp } : { ...lp, ...remote };
 
               return {
-                ...lp,
-                ...remote,
-                sku: remote.sku || lp.sku,
-                name: remote.name || lp.name,
-                price: remote.price || lp.price,
-                modelNumber: remote.modelNumber || lp.modelNumber,
+                ...baseObj,
+                id: preferLocal ? (lp.id || remote.id) : (remote.id || lp.id),
+                sku: preferLocal ? (lp.sku || remote.sku) : (remote.sku || lp.sku),
+                name: preferLocal ? (lp.name || remote.name) : (remote.name || lp.name),
+                price: preferLocal ? (lp.price || remote.price) : (remote.price || lp.price),
+                priceNumeric: parseInt(String(preferLocal ? (lp.price || remote.price || "0") : (remote.price || lp.price || "0")).replace(/[^\d]/g, ""), 10) || 45000,
+                modelNumber: preferLocal
+                  ? (lp.modelNumber || lp.specs?.modelNumber || remote.modelNumber || remote.specs?.modelNumber || "")
+                  : (remote.modelNumber || remote.specs?.modelNumber || lp.modelNumber || lp.specs?.modelNumber || ""),
+                collection: preferLocal ? (lp.collection || remote.collection) : (remote.collection || lp.collection),
+                collectionName: preferLocal ? (lp.collectionName || remote.collectionName) : (remote.collectionName || lp.collectionName),
+                tag: preferLocal ? (lp.tag || remote.tag) : (remote.tag || lp.tag),
+                image: preferLocal ? (lp.image || remote.image) : (remote.image || lp.image),
+                transparentImage: preferLocal ? (lp.transparentImage || remote.transparentImage) : (remote.transparentImage || lp.transparentImage),
                 specs: {
-                  ...(lp.specs || {}),
-                  ...(remote.specs || {}),
+                  ...(preferLocal ? (remote.specs || {}) : (lp.specs || {})),
+                  ...(preferLocal ? (lp.specs || {}) : (remote.specs || {})),
+                  modelNumber: preferLocal
+                    ? (lp.modelNumber || lp.specs?.modelNumber || remote.modelNumber || remote.specs?.modelNumber || "")
+                    : (remote.modelNumber || remote.specs?.modelNumber || lp.modelNumber || lp.specs?.modelNumber || ""),
                 },
                 stock: typeof remote.stock === "number" ? remote.stock : lp.stock,
                 isActive: remote.isActive !== false,
                 rank: resolvedRank,
-                altImages: (Array.isArray(remote.altImages) && remote.altImages.length > 0)
-                  ? remote.altImages
-                  : (Array.isArray(lp.altImages) && lp.altImages.length > 0 ? lp.altImages : [remote.image || lp.image]),
-                gallery: (Array.isArray(remote.gallery) && remote.gallery.length > 0)
-                  ? remote.gallery
-                  : (Array.isArray(lp.gallery) ? lp.gallery : []),
+                altImages: (Array.isArray(preferLocal ? lp.altImages : remote.altImages) && (preferLocal ? lp.altImages : remote.altImages).length > 0)
+                  ? (preferLocal ? lp.altImages : remote.altImages)
+                  : (Array.isArray(preferLocal ? remote.altImages : lp.altImages) && (preferLocal ? remote.altImages : lp.altImages).length > 0
+                    ? (preferLocal ? remote.altImages : lp.altImages)
+                    : [preferLocal ? lp.image : remote.image]),
+                gallery: (Array.isArray(preferLocal ? lp.gallery : remote.gallery) && (preferLocal ? lp.gallery : remote.gallery).length > 0)
+                  ? (preferLocal ? lp.gallery : remote.gallery)
+                  : (Array.isArray(preferLocal ? remote.gallery : lp.gallery) ? (preferLocal ? remote.gallery : lp.gallery) : []),
               };
             }
 
@@ -2085,8 +2146,12 @@ export const productsService = {
       image: safeImage,
       transparent_image: safeTransparent,
       alt_images: Array.isArray(product.altImages) && product.altImages.length > 0 ? product.altImages : [safeImage],
-      gallery: Array.isArray(product.gallery) && product.gallery.length > 0 ? product.gallery : [],
-      specs: typeof product.specs === "object" && product.specs !== null ? product.specs : {},
+      ean: product.ean || calculateEan13(safeSku || product.id),
+      specs: {
+        ...(typeof product.specs === "object" && product.specs !== null ? product.specs : {}),
+        modelNumber: product.modelNumber || product.specs?.modelNumber || "",
+        rank: typeof product.rank === "number" ? product.rank : (product.specs?.rank ?? undefined),
+      },
       stock: safeStock,
       is_active: product.isActive !== false,
       updated_at: new Date().toISOString(),
@@ -2126,7 +2191,8 @@ export const productsService = {
   // Auto-seed Supabase products table if empty
   async seedSupabaseCatalog() {
     try {
-      const master = PRODUCTS_DATA.map((p, idx) => ({
+      const sorted = sortCatalogStably(PRODUCTS_DATA);
+      const master = sorted.map((p, idx) => ({
         id: p.id,
         sku: p.sku,
         name: p.name,
@@ -2143,19 +2209,24 @@ export const productsService = {
         transparent_image: p.transparentImage || p.image,
         alt_images: p.altImages || [p.image],
         gallery: p.gallery || [],
-        specs: p.specs || {},
+        specs: {
+          ...(p.specs || {}),
+          rank: idx,
+        },
         stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
         is_active: p.isActive !== false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }));
 
-      const { error } = await supabase
-        .from("products")
-        .upsert(master, { onConflict: "id", ignoreDuplicates: false });
-
-      if (error) {
-        console.warn("Supabase auto-seed products warning:", error.message);
+      for (let i = 0; i < master.length; i += 20) {
+        const chunk = master.slice(i, i + 20);
+        const { error } = await supabase
+          .from("products")
+          .upsert(chunk, { onConflict: "id", ignoreDuplicates: false });
+        if (error) {
+          console.warn("Supabase auto-seed products warning:", error.message);
+        }
       }
     } catch (e) {
       console.warn("Supabase auto-seed note:", e);
@@ -2172,6 +2243,8 @@ export const productsService = {
     // Clean and validate product fields
     const safeProduct = {
       ...product,
+      previousId: previousId ? String(previousId).trim().toLowerCase() : (product.previousId || null),
+      previousSku: oldSku || product.previousSku || null,
       id: String(product.id || targetId).trim().toLowerCase(),
       sku: newSku,
       name: String(product.name || "").replace(/\s*\(Variant\)$/i, "").trim(),
@@ -2218,22 +2291,17 @@ export const productsService = {
 
     if (idChanged || skuChanged) {
       try {
-        const cleanOldId = previousId ? String(previousId).trim() : null;
-        if (cleanOldId && oldSku) {
-          await Promise.all([
-            supabase.from("products").delete().or(`id.eq.${cleanOldId},sku.ilike.${oldSku}`),
-            supabase.from("inventory").delete().or(`id.eq.${cleanOldId},sku.ilike.${oldSku}`)
-          ]);
-        } else if (cleanOldId) {
-          await Promise.all([
-            supabase.from("products").delete().eq("id", cleanOldId),
-            supabase.from("inventory").delete().eq("id", cleanOldId)
-          ]);
-        } else if (oldSku) {
-          await Promise.all([
-            supabase.from("products").delete().ilike("sku", oldSku),
-            supabase.from("inventory").delete().ilike("sku", oldSku)
-          ]);
+        const delOps = [];
+        if (idChanged && previousId) {
+          delOps.push(supabase.from("products").delete().eq("id", String(previousId).trim()));
+          delOps.push(supabase.from("inventory").delete().eq("id", String(previousId).trim()));
+        }
+        if (skuChanged && oldSku) {
+          delOps.push(supabase.from("products").delete().ilike("sku", oldSku));
+          delOps.push(supabase.from("inventory").delete().ilike("sku", oldSku));
+        }
+        if (delOps.length > 0) {
+          await Promise.all(delOps);
         }
       } catch (delErr) {
         console.warn("Could not purge previous timepiece records before rename:", delErr);
@@ -2245,6 +2313,13 @@ export const productsService = {
       await this.syncProductToSupabase(safeProduct);
     } catch (syncErr) {
       console.warn("Supabase syncProduct warning (local persistence succeeded):", syncErr);
+    }
+
+    // Keep local inventory cache in lockstep
+    try {
+      await inventoryService.upsertInventoryItem(safeProduct, previousId, previousSku);
+    } catch (invErr) {
+      console.warn("Local inventory cache sync warning:", invErr);
     }
 
     return sortedUpdated;
@@ -2323,6 +2398,12 @@ export const productsService = {
     try {
       const updates = orderedProducts.map((p) => ({
         id: p.id,
+        sku: p.sku || "HBR-REF",
+        name: p.name || "HANBORO Watch",
+        price: p.price || "₹45,000",
+        image: p.image || "/transparent/forged-carbon-tonneau-tourbillon.webp",
+        collection: p.collection || "TOURBILLON",
+        collection_name: p.collectionName || "Tourbillon & Complications",
         specs: {
           ...(typeof p.specs === "object" && p.specs !== null ? p.specs : {}),
           rank: p.rank,
@@ -2492,7 +2573,8 @@ export const discountsService = {
         data.forEach((d) => {
           mapped[d.code] = {
             id: d.id,
-            type: d.type,
+            code: d.code,
+            type: d.type || "percent",
             value: Number(d.value) || 15,
             label: d.label || `${d.code}: ${d.value}${d.type === "percent" ? "%" : " INR"} OFF`,
           };
@@ -2507,24 +2589,100 @@ export const discountsService = {
     return local || defaultSeed;
   },
 
+  async getDiscount(code) {
+    if (!code) return null;
+    const clean = code.toUpperCase().trim();
+
+    // 1. Check local cache
+    const local = this.getLocalDiscounts();
+    if (local && local[clean]) {
+      return local[clean];
+    }
+
+    // 2. Query remote Supabase database
+    try {
+      const { data, error } = await supabase
+        .from("discounts")
+        .select("*")
+        .ilike("code", clean)
+        .eq("is_active", true)
+        .maybeSingle();
+
+      if (!error && data) {
+        const disc = {
+          id: data.id,
+          code: data.code,
+          type: data.type || "percent",
+          value: Number(data.value),
+          label: data.label || `${data.code}: ${data.value}${data.type === "percent" ? "%" : " INR"} OFF`,
+        };
+        // Cache locally for fast subsequent lookups
+        const updated = { ...(local || {}), [clean]: disc };
+        this.saveLocalDiscounts(updated);
+        return disc;
+      }
+    } catch (err) {
+      console.warn("Supabase getDiscount note:", err);
+    }
+    return null;
+  },
+
   async saveDiscount(promoCode, config) {
+    const cleanCode = promoCode.toUpperCase().trim();
     const local = this.getLocalDiscounts() || {};
-    const updated = { ...local, [promoCode]: config };
+    const formattedConfig = {
+      id: config.id || `dsc-${cleanCode.toLowerCase()}`,
+      code: cleanCode,
+      type: config.type || "percent",
+      value: Number(config.value) || 15,
+      label: config.label || `${cleanCode}: ${config.value}${config.type === "percent" ? "%" : " INR"} OFF`,
+      is_active: config.is_active !== undefined ? config.is_active : true,
+    };
+
+    const updated = { ...local, [cleanCode]: formattedConfig };
     this.saveLocalDiscounts(updated);
 
     try {
-      await supabase.from("discounts").upsert({
-        id: config.id || `dsc-${promoCode.toLowerCase()}`,
-        code: promoCode,
-        type: config.type || "percent",
-        value: Number(config.value) || 15,
-        label: config.label || `${promoCode}: ${config.value} OFF`,
-        is_active: true,
-      });
+      const { data, error } = await supabase.from("discounts").upsert(
+        {
+          id: formattedConfig.id,
+          code: cleanCode,
+          type: formattedConfig.type,
+          value: formattedConfig.value,
+          label: formattedConfig.label,
+          is_active: formattedConfig.is_active,
+        },
+        { onConflict: "code" }
+      );
+
+      if (error) {
+        console.warn("Supabase upsert discount warning:", error);
+      }
     } catch (err) {
-      console.warn("Supabase upsert discount note:", err);
+      console.warn("Supabase upsert discount exception:", err);
     }
     return updated;
+  },
+
+  async deleteDiscount(promoCode) {
+    const cleanCode = promoCode.toUpperCase().trim();
+    const local = this.getLocalDiscounts() || {};
+    delete local[cleanCode];
+    this.saveLocalDiscounts(local);
+
+    try {
+      const { error } = await supabase
+        .from("discounts")
+        .delete()
+        .eq("code", cleanCode);
+
+      if (error) {
+        console.warn("Supabase delete discount warning:", error);
+      }
+    } catch (err) {
+      console.warn("Supabase delete discount exception:", err);
+    }
+    return local;
   },
 };
 

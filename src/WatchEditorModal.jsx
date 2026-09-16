@@ -118,6 +118,7 @@ export function WatchEditorModal({
     tag: "Haute Horlogerie",
     price: "₹1,25,000",
     priceUsd: "$1,500",
+    mrp: "₹1,25,000",
     availability: "In Stock",
     year: "2026",
     summary: "",
@@ -171,6 +172,7 @@ export function WatchEditorModal({
         tag: initialData.tag || "Haute Horlogerie",
         price: initialData.price || "₹1,25,000",
         priceUsd: initialData.priceUsd || "$1,500",
+        mrp: initialData.mrp || initialData.price || "₹1,25,000",
         availability: initialData.availability || "In Stock",
         year: initialData.year || "2026",
         summary: initialData.summary || "",
@@ -498,6 +500,7 @@ export function WatchEditorModal({
       tag: form.tag.trim() || "Haute Horlogerie",
       price: form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`,
       priceUsd: form.priceUsd.trim().startsWith("$") ? form.priceUsd.trim() : `$${form.priceUsd.trim()}`,
+      mrp: form.mrp && form.mrp.trim() ? (form.mrp.trim().startsWith("₹") ? form.mrp.trim() : `₹${form.mrp.trim()}`) : (form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`),
       availability: form.availability,
       year: form.year.trim() || "2026",
       summary: form.summary.trim() || "Precision mechanical luxury timepiece engineered by Hanboro Watches.",
@@ -885,6 +888,37 @@ export function WatchEditorModal({
                       />
                     </div>
                     <span className="field-subnote">Auto-synced with ₹ valuation</span>
+                  </div>
+
+                  <div className="editor-field-group">
+                    <label className="editor-label">Compare-at Price / MRP (INR ₹)</label>
+                    <div className="input-with-currency-prefix">
+                      <span className="currency-symbol">₹</span>
+                      <input
+                        type="text"
+                        className="editor-input"
+                        placeholder="e.g. 1,45,000"
+                        value={form.mrp ? form.mrp.replace("₹", "") : ""}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/[^\d]/g, "");
+                          const formatted = val ? `₹${Number(val).toLocaleString("en-IN")}` : "";
+                          setForm((prev) => ({ ...prev, mrp: formatted }));
+                        }}
+                      />
+                    </div>
+                    {(() => {
+                      const priceNum = parseInt(String(form.price || "0").replace(/[^\d]/g, ""), 10);
+                      const mrpNum = parseInt(String(form.mrp || "0").replace(/[^\d]/g, ""), 10);
+                      if (mrpNum > priceNum && priceNum > 0) {
+                        const discPercent = Math.round(((mrpNum - priceNum) / mrpNum) * 100);
+                        return (
+                          <span className="field-subnote" style={{ color: "#16a34a", fontWeight: 600 }}>
+                            🏷️ Computed Discount Rate: {discPercent}% OFF (Client saves ₹{(mrpNum - priceNum).toLocaleString("en-IN")})
+                          </span>
+                        );
+                      }
+                      return <span className="field-subnote">Optional original price to display strikethrough & discount rate</span>;
+                    })()}
                   </div>
                 </div>
               </div>

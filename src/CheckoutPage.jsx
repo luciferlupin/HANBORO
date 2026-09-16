@@ -64,6 +64,10 @@ export function CheckoutPage({ onNavigate }) {
     activeCheckoutItems,
     subtotalInr,
     finalTotalInr,
+    appliedPromo,
+    discountAmount,
+    applyPromoCode,
+    removePromoCode,
     user,
     isAdmin,
     placeOrder,
@@ -81,6 +85,26 @@ export function CheckoutPage({ onNavigate }) {
   const [city, setCity] = useState("");
   const [stateName, setStateName] = useState("Delhi NCR");
   const [pincode, setPincode] = useState("");
+
+  // Promo Code State
+  const [promoCodeInput, setPromoCodeInput] = useState("");
+  const [promoMsg, setPromoMsg] = useState({ text: "", isError: false });
+  const [isApplyingPromo, setIsApplyingPromo] = useState(false);
+
+  const handleApplyPromoCode = async (e) => {
+    e.preventDefault();
+    if (!promoCodeInput.trim()) return;
+    setIsApplyingPromo(true);
+    setPromoMsg({ text: "", isError: false });
+    const res = await applyPromoCode(promoCodeInput, email, phone);
+    setIsApplyingPromo(false);
+    if (res.success) {
+      setPromoMsg({ text: `✓ ${res.message || "Privilege discount applied!"}`, isError: false });
+      setPromoCodeInput("");
+    } else {
+      setPromoMsg({ text: res.message || "Invalid or expired voucher", isError: true });
+    }
+  };
 
   // Payment method: "card" | "upi" | "cod"
   const [paymentMethod, setPaymentMethod] = useState("card");
@@ -661,11 +685,83 @@ export function CheckoutPage({ onNavigate }) {
                   })}
                 </div>
 
+                {/* Privilege / Storefront Discount Code Box */}
+                <div className="apple-checkout-promo-box" style={{ padding: "14px 0", borderTop: "1px solid #f1f5f9", borderBottom: "1px solid #f1f5f9", margin: "14px 0" }}>
+                  {appliedPromo ? (
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+                      <div>
+                        <div style={{ fontSize: "12px", fontWeight: 700, color: "#0f172a", letterSpacing: "0.5px" }}>
+                          🏷️ {appliedPromo.code}
+                        </div>
+                        <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                          {appliedPromo.label}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={removePromoCode}
+                        style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", fontSize: "12px", fontWeight: 600 }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleApplyPromoCode} style={{ display: "flex", gap: "8px" }}>
+                      <input
+                        type="text"
+                        placeholder="Discount code (e.g. VIP20)"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput(e.target.value)}
+                        style={{
+                          flex: 1,
+                          padding: "9px 12px",
+                          fontSize: "13px",
+                          borderRadius: "8px",
+                          border: "1px solid #cbd5e1",
+                          textTransform: "uppercase",
+                          outline: "none"
+                        }}
+                      />
+                      <button
+                        type="submit"
+                        disabled={isApplyingPromo || !promoCodeInput.trim()}
+                        style={{
+                          padding: "9px 16px",
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          background: "#0f172a",
+                          color: "#ffffff",
+                          border: "none",
+                          cursor: "pointer"
+                        }}
+                      >
+                        {isApplyingPromo ? "Applying..." : "Apply"}
+                      </button>
+                    </form>
+                  )}
+                  {promoMsg.text && (
+                    <div style={{ fontSize: "11px", marginTop: "6px", color: promoMsg.isError ? "#ef4444" : "#16a34a" }}>
+                      {promoMsg.text}
+                    </div>
+                  )}
+                </div>
+
                 <div className="apple-summary-totals">
                   <div className="totals-row">
                     <span className="totals-label">Subtotal</span>
                     <span className="totals-val">₹{subtotalInr.toLocaleString("en-IN")}</span>
                   </div>
+
+                  {appliedPromo && discountAmount > 0 && (
+                    <div className="totals-row totals-row--discount" style={{ color: "#ef4444" }}>
+                      <span className="totals-label">Privilege Discount ({appliedPromo.code})</span>
+                      <span className="totals-val" style={{ color: "#ef4444", fontWeight: 600 }}>
+                        −₹{discountAmount.toLocaleString("en-IN")}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="totals-row">
                     <span className="totals-label">Insured White-Glove Courier</span>
                     <span className="totals-val text-green">FREE</span>
