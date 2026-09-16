@@ -97,6 +97,7 @@ const STORAGE_KEYS = {
   SESSION_USER: "hanboro_auth_user",
   ROULETTE_SPINS: "hanboro_roulette_spins_cache",
   PRODUCTS: "hanboro_custom_products",
+  WATCH_ORDER: "hanboro_custom_watch_order",
 };
 
 // One-time production zero database cache reset & purge of stale clones / dev artifacts
@@ -1635,12 +1636,16 @@ export function sortCatalogStably(items) {
     const bId = String(b.id || "").trim().toLowerCase();
     const bSku = String(b.sku || "").trim().toUpperCase();
 
-    const aRank = a.rank !== undefined && typeof a.rank === "number"
+    const aRank = a.rank !== undefined && typeof a.rank === "number" && !isNaN(a.rank)
       ? a.rank
-      : (CANONICAL_PRODUCT_ORDER.get(aId) ?? CANONICAL_PRODUCT_ORDER.get(aSku) ?? 9999);
-    const bRank = b.rank !== undefined && typeof b.rank === "number"
+      : (a.specs && typeof a.specs.rank === "number" && !isNaN(a.specs.rank)
+        ? a.specs.rank
+        : (CANONICAL_PRODUCT_ORDER.get(aId) ?? CANONICAL_PRODUCT_ORDER.get(aSku) ?? 9999));
+    const bRank = b.rank !== undefined && typeof b.rank === "number" && !isNaN(b.rank)
       ? b.rank
-      : (CANONICAL_PRODUCT_ORDER.get(bId) ?? CANONICAL_PRODUCT_ORDER.get(bSku) ?? 9999);
+      : (b.specs && typeof b.specs.rank === "number" && !isNaN(b.specs.rank)
+        ? b.specs.rank
+        : (CANONICAL_PRODUCT_ORDER.get(bId) ?? CANONICAL_PRODUCT_ORDER.get(bSku) ?? 9999));
 
     if (aRank !== bRank) {
       return aRank - bRank;
@@ -1682,6 +1687,23 @@ export function isStaleClone(p) {
 export const productsService = {
   // Get locally cached products or fallback to default PRODUCTS_DATA with stable ordering
   getLocalProducts() {
+    let customOrderMap = null;
+    try {
+      const rawOrder = safeStorage.getItem(STORAGE_KEYS.WATCH_ORDER);
+      if (rawOrder) {
+        const parsedOrder = JSON.parse(rawOrder);
+        if (Array.isArray(parsedOrder)) {
+          customOrderMap = new Map();
+          parsedOrder.forEach((key, idx) => {
+            if (key) {
+              const strKey = String(key).trim().toLowerCase();
+              customOrderMap.set(strKey, idx);
+            }
+          });
+        }
+      }
+    } catch {}
+
     try {
       const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
@@ -1715,7 +1737,12 @@ export const productsService = {
               const parent = PRODUCTS_DATA.find((m) => String(m.id).toLowerCase() === baseId);
               const safeImage = p.image || parent?.image || "/watch-astroworld-moon-rosegold-front-transparent.webp";
               const parentRank = parent ? (CANONICAL_PRODUCT_ORDER.get(String(parent.id).toLowerCase()) ?? 0) : 9999;
-              const safeRank = typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001).toFixed(4));
+              const pId = String(p.id || "").toLowerCase();
+              const pSku = String(p.sku || "").toLowerCase();
+              const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
+              const safeRank = typeof customRank === "number"
+                ? customRank
+                : (typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001).toFixed(4)));
               const cleanName = String(p.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
 
               return {
@@ -1738,23 +1765,34 @@ export const productsService = {
 
           // Build master catalogue starting from canonical PRODUCTS_DATA with cached overrides
           const baseMaster = PRODUCTS_DATA.map((m, idx) => {
+            const mId = String(m.id || "").toLowerCase();
+            const mSku = String(m.sku || "").toLowerCase();
             const cachedMatch = parsed.find(
               (p) =>
-                (p.id && m.id && String(p.id).toLowerCase() === String(m.id).toLowerCase()) ||
-                (p.sku && m.sku && String(p.sku).toLowerCase() === String(m.sku).toLowerCase())
+                (p.id && m.id && String(p.id).toLowerCase() === mId) ||
+                (p.sku && m.sku && String(p.sku).toLowerCase() === mSku)
             );
+            const customRank = customOrderMap ? (customOrderMap.get(mId) ?? customOrderMap.get(mSku)) : undefined;
+
+            let rankVal = idx;
+            if (typeof customRank === "number") {
+              rankVal = customRank;
+            } else if (cachedMatch && typeof cachedMatch.rank === "number" && !isNaN(cachedMatch.rank)) {
+              rankVal = cachedMatch.rank;
+            }
+
             if (!cachedMatch) {
               return {
                 ...m,
                 stock: typeof m.stock === "number" && !isNaN(m.stock) ? m.stock : Math.max(1, 12 - (idx % 8)),
-                rank: idx,
+                rank: rankVal,
               };
             }
             return {
               ...m,
               stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
               isActive: cachedMatch.isActive !== false,
-              rank: cachedMatch.rank !== undefined && typeof cachedMatch.rank === "number" ? cachedMatch.rank : idx,
+              rank: rankVal,
             };
           });
 
@@ -1766,11 +1804,17 @@ export const productsService = {
     } catch (e) {
       console.warn("Could not parse cached products:", e);
     }
-    const base = PRODUCTS_DATA.map((p, idx) => ({
-      ...p,
-      stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
-      rank: idx,
-    }));
+    const base = PRODUCTS_DATA.map((p, idx) => {
+      const pId = String(p.id || "").toLowerCase();
+      const pSku = String(p.sku || "").toLowerCase();
+      const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
+      const rankVal = typeof customRank === "number" ? customRank : idx;
+      return {
+        ...p,
+        stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+        rank: rankVal,
+      };
+    });
     return sortCatalogStably(base);
   },
 
@@ -2126,11 +2170,89 @@ export const productsService = {
     return updated;
   },
 
+  // Save rearranged watch order across local storage and remote Supabase
+  async saveProductOrder(orderedProducts) {
+    if (!Array.isArray(orderedProducts)) return [];
+    const withRanks = orderedProducts.map((p, idx) => ({
+      ...p,
+      rank: idx,
+      specs: {
+        ...(typeof p.specs === "object" && p.specs !== null ? p.specs : {}),
+        rank: idx,
+      },
+    }));
+
+    // Persist ordered list of IDs / SKUs in dedicated custom watch order key
+    const orderList = withRanks.map((p) => String(p.id || p.sku || "").trim().toLowerCase()).filter(Boolean);
+    try {
+      safeStorage.setItem(STORAGE_KEYS.WATCH_ORDER, JSON.stringify(orderList));
+    } catch (e) {
+      console.warn("Could not save watch order mapping:", e);
+    }
+
+    this.saveLocalProducts(withRanks);
+
+    // Sync in background to Supabase
+    this.syncProductsOrderToSupabase(withRanks).catch((err) => {
+      console.warn("Background watch order Supabase sync note:", err);
+    });
+
+    return withRanks;
+  },
+
+  // Asynchronously sync new watch order to Supabase
+  async syncProductsOrderToSupabase(orderedProducts) {
+    if (!Array.isArray(orderedProducts) || orderedProducts.length === 0) return;
+    try {
+      const updates = orderedProducts.map((p) => ({
+        id: p.id,
+        specs: {
+          ...(typeof p.specs === "object" && p.specs !== null ? p.specs : {}),
+          rank: p.rank,
+        },
+        updated_at: new Date().toISOString(),
+      }));
+
+      for (let i = 0; i < updates.length; i += 25) {
+        const chunk = updates.slice(i, i + 25);
+        await supabase.from("products").upsert(chunk, { onConflict: "id", ignoreDuplicates: false });
+      }
+    } catch (e) {
+      console.warn("Supabase watch order sync exception:", e);
+    }
+  },
+
+  // Reset only the order back to canonical factory reference sequence without wiping inventory or clones
+  async resetProductOrder() {
+    try {
+      safeStorage.removeItem(STORAGE_KEYS.WATCH_ORDER);
+    } catch {}
+    const local = this.getLocalProducts();
+    const reordered = [...local].map((p) => {
+      const pId = String(p.id || "").trim().toLowerCase();
+      const pSku = String(p.sku || "").trim().toUpperCase();
+      const canonRank = CANONICAL_PRODUCT_ORDER.get(pId) ?? CANONICAL_PRODUCT_ORDER.get(pSku) ?? 9999;
+      return {
+        ...p,
+        rank: canonRank,
+        specs: {
+          ...(typeof p.specs === "object" && p.specs !== null ? p.specs : {}),
+          rank: canonRank,
+        },
+      };
+    });
+    const sorted = sortCatalogStably(reordered);
+    this.saveLocalProducts(sorted);
+    this.syncProductsOrderToSupabase(sorted).catch(() => {});
+    return sorted;
+  },
+
   // Factory reset to master factory catalog
   async resetToMaster() {
     safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
-    const defaults = [...PRODUCTS_DATA];
+    safeStorage.removeItem(STORAGE_KEYS.WATCH_ORDER);
+    const defaults = PRODUCTS_DATA.map((p, idx) => ({ ...p, rank: idx }));
     this.saveLocalProducts(defaults);
     return defaults;
   },

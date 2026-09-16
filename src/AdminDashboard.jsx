@@ -44,6 +44,13 @@ import {
   IconBarcode,
   IconInvoice,
   IconCopy,
+  IconGripVertical,
+  IconGrid,
+  IconList,
+  IconArrowUp,
+  IconArrowDown,
+  IconArrowTop,
+  IconArrowBottom,
 } from "./AdminIcons";
 
 // Clean Production State: No mock seeds. All orders, abandoned leads, and customer profiles start at 0.
@@ -171,6 +178,8 @@ export function AdminDashboard({ onNavigateHome }) {
     updateProduct,
     deleteProduct,
     duplicateProduct,
+    reorderProducts,
+    resetProductOrder,
     resetProductsToDefault,
   } = useStore();
 
@@ -256,6 +265,90 @@ export function AdminDashboard({ onNavigateHome }) {
   const [editingWatch, setEditingWatch] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deletingWatch, setDeletingWatch] = useState(null);
+
+  // ── WATCH MODEL DRAG & DROP REORDERING STATE ──
+  const [productViewMode, setProductViewMode] = useState("table"); // "table" | "arrange"
+  const [draggedWatchIndex, setDraggedWatchIndex] = useState(null);
+  const [dragOverWatchIndex, setDragOverWatchIndex] = useState(null);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+  const [orderSaveSuccess, setOrderSaveSuccess] = useState(false);
+
+  const handleReorderWatch = async (fromIdx, toIdx) => {
+    if (fromIdx === toIdx || fromIdx === null || toIdx === null) return;
+    const currentList = [...filteredProducts];
+    if (fromIdx < 0 || fromIdx >= currentList.length || toIdx < 0 || toIdx >= currentList.length) return;
+
+    const allMaster = Array.isArray(products) && products.length > 0 ? [...products] : [...PRODUCTS_DATA];
+    let nextFullList;
+
+    if (productCategoryFilter === "ALL" && !productSearch.trim()) {
+      const [movedItem] = currentList.splice(fromIdx, 1);
+      currentList.splice(toIdx, 0, movedItem);
+      nextFullList = currentList;
+    } else {
+      // Relative movement within full master catalog when filtered
+      const moved = currentList[fromIdx];
+      const target = currentList[toIdx];
+      const movedId = String(moved.id || moved.sku).toLowerCase();
+      const targetId = String(target.id || target.sku).toLowerCase();
+
+      const masterCopy = [...allMaster];
+      const masterFromIdx = masterCopy.findIndex((p) => String(p.id || p.sku).toLowerCase() === movedId);
+      if (masterFromIdx >= 0) {
+        const [extracted] = masterCopy.splice(masterFromIdx, 1);
+        const masterToIdx = masterCopy.findIndex((p) => String(p.id || p.sku).toLowerCase() === targetId);
+        if (masterToIdx >= 0) {
+          const insertIdx = fromIdx < toIdx ? masterToIdx + 1 : masterToIdx;
+          masterCopy.splice(insertIdx, 0, extracted);
+        } else {
+          masterCopy.splice(toIdx, 0, extracted);
+        }
+      }
+      nextFullList = masterCopy;
+    }
+
+    setIsSavingOrder(true);
+    try {
+      if (reorderProducts) {
+        await reorderProducts(nextFullList);
+      }
+      setOrderSaveSuccess(true);
+      setTimeout(() => setOrderSaveSuccess(false), 2600);
+    } catch (e) {
+      console.error("Failed to persist watch order:", e);
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
+
+  const handleWatchDragStart = (e, index) => {
+    setDraggedWatchIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(index));
+  };
+
+  const handleWatchDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverWatchIndex !== index) {
+      setDragOverWatchIndex(index);
+    }
+  };
+
+  const handleWatchDrop = (e, dropIndex) => {
+    e.preventDefault();
+    const fromIdx = draggedWatchIndex !== null ? draggedWatchIndex : parseInt(e.dataTransfer.getData("text/plain"), 10);
+    setDraggedWatchIndex(null);
+    setDragOverWatchIndex(null);
+    if (!isNaN(fromIdx) && fromIdx !== dropIndex) {
+      handleReorderWatch(fromIdx, dropIndex);
+    }
+  };
+
+  const handleWatchDragEnd = () => {
+    setDraggedWatchIndex(null);
+    setDragOverWatchIndex(null);
+  };
 
   // ── CUSTOMERS & PROFILES DATABASE STATE (Pure Live Customer Profiles) ──
   const [profiles, setProfiles] = useState([]);
@@ -1763,8 +1856,60 @@ export function AdminDashboard({ onNavigateHome }) {
                 <div className="sp-card-title-wrap">
                   <span className="sp-title-icon"><IconProducts size={18} /></span>
                   <h1 className="sp-page-title">Products & Inventory</h1>
+                  {orderSaveSuccess && (
+                    <span className="sp-order-saved-pill" title="Order synced and persisted">
+                      ✓ Watch Order Saved
+                    </span>
+                  )}
+                  {isSavingOrder && (
+                    <span className="sp-order-saving-pill">
+                      Saving order...
+                    </span>
+                  )}
                 </div>
                 <div className="sp-header-actions">
+                  {/* View Mode Switcher: Table vs Visual Arrange Grid */}
+                  <div className="sp-view-toggle-group" role="group" aria-label="Products display format">
+                    <button
+                      type="button"
+                      className={`sp-view-toggle-btn ${productViewMode === "table" ? "is-active" : ""}`}
+                      onClick={() => setProductViewMode("table")}
+                      title="Table List View"
+                    >
+                      <IconList size={13} />
+                      <span>Table</span>
+                    </button>
+                    <button
+                      type="button"
+                      className={`sp-view-toggle-btn ${productViewMode === "arrange" ? "is-active" : ""}`}
+                      onClick={() => setProductViewMode("arrange")}
+                      title="Drag & Drop Watch Models Reorder Grid"
+                    >
+                      <IconGrid size={13} />
+                      <span>Arrange Models</span>
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--default"
+                    onClick={async () => {
+                      if (window.confirm("Reset all timepiece ordering back to the factory reference sequence?")) {
+                        setIsSavingOrder(true);
+                        try {
+                          await resetProductOrder();
+                          setOrderSaveSuccess(true);
+                          setTimeout(() => setOrderSaveSuccess(false), 2400);
+                        } finally {
+                          setIsSavingOrder(false);
+                        }
+                      }
+                    }}
+                    title="Reset watch sequence back to factory canonical order"
+                  >
+                    <IconSync size={13} />
+                    <span>Reset Order</span>
+                  </button>
                   <button
                     type="button"
                     className="sp-btn sp-btn--default"
@@ -1786,7 +1931,6 @@ export function AdminDashboard({ onNavigateHome }) {
                   </button>
                 </div>
               </div>
-
 
               {/* Category Filter bar */}
               <div className="sp-table-controls">
@@ -1827,132 +1971,311 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
               </div>
 
-              {/* Products Table */}
-              <div className="sp-table-wrap">
-                <table className="sp-table">
-                  <thead>
-                    <tr>
-                      <th className="sp-th--checkbox">
-                        <input
-                          type="checkbox"
-                          checked={selectedProducts.size === filteredProducts.length && filteredProducts.length > 0}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedProducts(new Set(filteredProducts.map((p) => p.id || p.sku)));
-                            } else {
-                              setSelectedProducts(new Set());
-                            }
-                          }}
-                        />
-                      </th>
-                      <th>Product</th>
-                      <th>Status</th>
-                      <th>Inventory</th>
-                      <th>Collection</th>
-                      <th className="sp-th--right">Price (INR)</th>
-                      <th className="sp-th--right">Price (USD)</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredProducts.map((p) => {
+              {/* ── ARRANGE MODELS MODE (Visual Drag & Drop Pedestal Cards) ── */}
+              {productViewMode === "arrange" ? (
+                <div className="sp-arrange-container">
+                  <div className="sp-arrange-banner">
+                    <div className="sp-arrange-banner__info">
+                      <strong>Drag & Drop Watch Models to Rearrange</strong>
+                      <span>
+                        Drag cards to reorder. The sequence configured here sets the default storefront showcase order, carousel presentation, and master catalog sequence.
+                      </span>
+                    </div>
+                    <div className="sp-arrange-banner__badge">
+                      <span>{filteredProducts.length} Timepieces Shown</span>
+                    </div>
+                  </div>
+
+                  <div className="sp-reorder-grid">
+                    {filteredProducts.map((p, index) => {
                       const id = p.id || p.sku;
-                      const isSelected = selectedProducts.has(id);
+                      const isDragging = draggedWatchIndex === index;
+                      const isDropTarget = dragOverWatchIndex === index;
+                      const modelNum = p.modelNumber || p.specs?.modelNumber || (p.sku ? p.sku.split("-")[1] : "—");
+
                       return (
-                        <tr key={id} className={isSelected ? "is-selected-row" : ""}>
-                          <td className="sp-td--checkbox">
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={() => {
-                                const next = new Set(selectedProducts);
-                                if (next.has(id)) next.delete(id);
-                                else next.add(id);
-                                setSelectedProducts(next);
-                              }}
-                            />
-                          </td>
-                          <td className="sp-td--product-info">
-                            <div className="sp-product-cell">
-                              <img
-                                src={p.image}
-                                alt={p.name}
-                                className="sp-product-thumb"
-                                onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }}
-                              />
-                              <div>
-                                <div className="sp-product-title">{p.name}</div>
-                                <div className="sp-product-sku">Model: {p.modelNumber || p.specs?.modelNumber || "—"} • SKU: {p.sku}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <span className={`sp-status-badge ${p.isActive !== false ? "sp-status--green" : "sp-status--amber"}`}>
-                              {p.isActive !== false ? "Active" : "Draft"}
+                        <div
+                          key={id}
+                          draggable
+                          onDragStart={(e) => handleWatchDragStart(e, index)}
+                          onDragOver={(e) => handleWatchDragOver(e, index)}
+                          onDrop={(e) => handleWatchDrop(e, index)}
+                          onDragEnd={handleWatchDragEnd}
+                          className={`sp-reorder-card ${isDragging ? "is-dragging" : ""} ${isDropTarget ? "is-drop-target" : ""}`}
+                        >
+                          <div className="sp-reorder-card__header">
+                            <span className="sp-reorder-rank-badge">#{index + 1}</span>
+                            <span className="sp-reorder-model-pill">Model: {modelNum}</span>
+                            <span className="sp-reorder-drag-grip" title="Click and drag to rearrange watch">
+                              <IconGripVertical size={16} />
                             </span>
-                          </td>
-                          <td>
-                            <div className="sp-stock-control">
+                          </div>
+
+                          <div className="sp-reorder-stage">
+                            <img
+                              src={p.transparentImage || p.image}
+                              alt={p.name}
+                              className="sp-reorder-stage__img"
+                              onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }}
+                            />
+                          </div>
+
+                          <div className="sp-reorder-info">
+                            <div className="sp-reorder-title" title={p.name}>{p.name}</div>
+                            <div className="sp-reorder-meta-line">
+                              <span className="sp-reorder-collection-tag">{p.collectionName || p.collection}</span>
+                              <span className="sp-reorder-price-tag">{p.price}</span>
+                            </div>
+                            <div className="sp-reorder-sku-line">SKU: {p.sku}</div>
+                          </div>
+
+                          <div className="sp-reorder-actions" onMouseDown={(e) => e.stopPropagation()}>
+                            <div className="sp-reorder-nav-group" title="Quick reorder positions">
                               <button
                                 type="button"
-                                className="sp-stock-btn"
-                                onClick={() => handleStockDelta(id, -1)}
+                                className="sp-reorder-nav-btn"
+                                disabled={index === 0}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, 0); }}
+                                title="Move to Top (#1)"
                               >
-                                −
+                                <IconArrowTop size={12} />
                               </button>
-                              <span className="sp-stock-value">{p.stock || 12} in stock</span>
                               <button
                                 type="button"
-                                className="sp-stock-btn"
-                                onClick={() => handleStockDelta(id, 1)}
+                                className="sp-reorder-nav-btn"
+                                disabled={index === 0}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, index - 1); }}
+                                title="Move Up 1 Position"
                               >
-                                +
+                                <IconArrowUp size={12} />
+                              </button>
+                              <button
+                                type="button"
+                                className="sp-reorder-nav-btn"
+                                disabled={index === filteredProducts.length - 1}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, index + 1); }}
+                                title="Move Down 1 Position"
+                              >
+                                <IconArrowDown size={12} />
+                              </button>
+                              <button
+                                type="button"
+                                className="sp-reorder-nav-btn"
+                                disabled={index === filteredProducts.length - 1}
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, filteredProducts.length - 1); }}
+                                title="Move to Bottom"
+                              >
+                                <IconArrowBottom size={12} />
                               </button>
                             </div>
-                          </td>
-                          <td className="sp-td--subdued">{p.collectionName || p.collection}</td>
-                          <td className="sp-td--price sp-td--right">{p.price}</td>
-                          <td className="sp-td--price sp-td--right sp-td--subdued">{p.priceUsd || "Not listed"}</td>
-                          <td>
-                            <div style={{ display: "flex", gap: "6px" }}>
+                            <div className="sp-reorder-edit-btns">
                               <button
                                 type="button"
                                 className="sp-btn sp-btn--sm"
-                                onClick={() => {
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setEditingWatch(p);
                                   setEditorModalOpen(true);
                                 }}
                               >
                                 Edit
                               </button>
-                              <button
-                                type="button"
-                                className="sp-btn sp-btn--sm"
-                                onClick={async () => {
-                                  await duplicateProduct(p);
-                                }}
-                                title="Duplicate variant"
-                              >
-                                Clone
-                              </button>
-                              <button
-                                type="button"
-                                className="sp-btn sp-btn--sm sp-btn--danger"
-                                onClick={() => {
-                                  setDeletingWatch(p);
-                                  setDeleteModalOpen(true);
-                                }}
-                              >
-                                Delete
-                              </button>
                             </div>
-                          </td>
-                        </tr>
+                          </div>
+                        </div>
                       );
                     })}
-                  </tbody>
-                </table>
-              </div>
+                  </div>
+                </div>
+              ) : (
+                /* ── TABLE VIEW WITH DRAG & DROP ROWS ── */
+                <div className="sp-table-wrap">
+                  <table className="sp-table">
+                    <thead>
+                      <tr>
+                        <th className="sp-th--drag" style={{ width: "36px", textAlign: "center" }} title="Drag handle"></th>
+                        <th style={{ width: "48px" }}>#</th>
+                        <th className="sp-th--checkbox">
+                          <input
+                            type="checkbox"
+                            checked={selectedProducts.size === filteredProducts.length && filteredProducts.length > 0}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedProducts(new Set(filteredProducts.map((p) => p.id || p.sku)));
+                              } else {
+                                setSelectedProducts(new Set());
+                              }
+                            }}
+                          />
+                        </th>
+                        <th>Product & Model</th>
+                        <th>Status</th>
+                        <th>Inventory</th>
+                        <th>Collection</th>
+                        <th className="sp-th--right">Price (INR)</th>
+                        <th className="sp-th--right">Price (USD)</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredProducts.map((p, index) => {
+                        const id = p.id || p.sku;
+                        const isSelected = selectedProducts.has(id);
+                        const isDragging = draggedWatchIndex === index;
+                        const isDropTarget = dragOverWatchIndex === index;
+                        const modelNum = p.modelNumber || p.specs?.modelNumber || (p.sku ? p.sku.split("-")[1] : "—");
+
+                        return (
+                          <tr
+                            key={id}
+                            draggable
+                            onDragStart={(e) => handleWatchDragStart(e, index)}
+                            onDragOver={(e) => handleWatchDragOver(e, index)}
+                            onDrop={(e) => handleWatchDrop(e, index)}
+                            onDragEnd={handleWatchDragEnd}
+                            className={`${isSelected ? "is-selected-row" : ""} ${isDragging ? "sp-row--dragging" : ""} ${isDropTarget ? "sp-row--drop-target" : ""}`}
+                          >
+                            <td className="sp-td--drag" style={{ textAlign: "center", cursor: "grab" }} title="Drag to reorder row">
+                              <span className="sp-drag-handle">
+                                <IconGripVertical size={16} />
+                              </span>
+                            </td>
+                            <td className="sp-td--rank" style={{ color: "var(--sp-text-subdued)", fontFamily: "monospace", fontSize: "12px", fontWeight: "600" }}>
+                              #{index + 1}
+                            </td>
+                            <td className="sp-td--checkbox">
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => {
+                                  const next = new Set(selectedProducts);
+                                  if (next.has(id)) next.delete(id);
+                                  else next.add(id);
+                                  setSelectedProducts(next);
+                                }}
+                              />
+                            </td>
+                            <td className="sp-td--product-info">
+                              <div className="sp-product-cell">
+                                <img
+                                  src={p.transparentImage || p.image}
+                                  alt={p.name}
+                                  className="sp-product-thumb"
+                                  onError={(e) => { e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp"; }}
+                                />
+                                <div>
+                                  <div className="sp-product-title">{p.name}</div>
+                                  <div className="sp-product-sku">
+                                    <strong style={{ color: "#b91c1c", marginRight: "4px" }}>Model: {modelNum}</strong> • SKU: {p.sku}
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <span className={`sp-status-badge ${p.isActive !== false ? "sp-status--green" : "sp-status--amber"}`}>
+                                {p.isActive !== false ? "Active" : "Draft"}
+                              </span>
+                            </td>
+                            <td>
+                              <div className="sp-stock-control" onMouseDown={(e) => e.stopPropagation()}>
+                                <button
+                                  type="button"
+                                  className="sp-stock-btn"
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  onClick={(e) => { e.stopPropagation(); handleStockDelta(id, -1); }}
+                                >
+                                  −
+                                </button>
+                                <span className="sp-stock-value">{p.stock || 12} in stock</span>
+                                <button
+                                  type="button"
+                                  className="sp-stock-btn"
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  onClick={(e) => { e.stopPropagation(); handleStockDelta(id, 1); }}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </td>
+                            <td className="sp-td--subdued">{p.collectionName || p.collection}</td>
+                            <td className="sp-td--price sp-td--right">{p.price}</td>
+                            <td className="sp-td--price sp-td--right sp-td--subdued">{p.priceUsd || "Not listed"}</td>
+                            <td>
+                              <div style={{ display: "flex", gap: "6px", alignItems: "center" }} onMouseDown={(e) => e.stopPropagation()}>
+                                <div className="sp-table-quick-nav" style={{ display: "inline-flex", gap: "2px" }}>
+                                  <button
+                                    type="button"
+                                    className="sp-stock-btn"
+                                    disabled={index === 0}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, index - 1); }}
+                                    title="Move up"
+                                    style={{ width: "22px", height: "22px" }}
+                                  >
+                                    <IconArrowUp size={11} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="sp-stock-btn"
+                                    disabled={index === filteredProducts.length - 1}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={(e) => { e.stopPropagation(); handleReorderWatch(index, index + 1); }}
+                                    title="Move down"
+                                    style={{ width: "22px", height: "22px" }}
+                                  >
+                                    <IconArrowDown size={11} />
+                                  </button>
+                                </div>
+                                <button
+                                  type="button"
+                                  className="sp-btn sp-btn--sm"
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditingWatch(p);
+                                    setEditorModalOpen(true);
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  type="button"
+                                  className="sp-btn sp-btn--sm"
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    await duplicateProduct(p);
+                                  }}
+                                  title="Duplicate variant"
+                                >
+                                  Clone
+                                </button>
+                                <button
+                                  type="button"
+                                  className="sp-btn sp-btn--sm sp-btn--danger"
+                                  onMouseDown={(e) => e.stopPropagation()}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setDeletingWatch(p);
+                                    setDeleteModalOpen(true);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 

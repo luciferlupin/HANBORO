@@ -477,6 +477,35 @@ export function StoreProvider({ children }) {
     return cloned;
   };
 
+  const reorderProducts = async (orderedList) => {
+    if (!Array.isArray(orderedList)) return products;
+    try {
+      const withRanks = await productsService.saveProductOrder(orderedList);
+      setProducts(withRanks);
+      window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: withRanks }));
+      showToast("Timepiece order updated and saved");
+      return withRanks;
+    } catch (err) {
+      console.error("Error saving product order:", err);
+      showToast("Error saving watch order", 3500);
+      throw err;
+    }
+  };
+
+  const resetProductOrder = async () => {
+    try {
+      const reordered = await productsService.resetProductOrder();
+      setProducts(reordered);
+      window.dispatchEvent(new CustomEvent("hanboro_products_updated", { detail: reordered }));
+      showToast("Timepiece order reset to factory reference");
+      return reordered;
+    } catch (err) {
+      console.error("Error resetting product order:", err);
+      showToast("Error resetting watch order", 3500);
+      throw err;
+    }
+  };
+
   const resetProductsToDefault = async () => {
     const defaults = await productsService.resetToMaster();
     setProducts(defaults);
@@ -768,6 +797,8 @@ export function StoreProvider({ children }) {
         updateProduct,
         deleteProduct,
         duplicateProduct,
+        reorderProducts,
+        resetProductOrder,
         resetProductsToDefault,
 
         // Roulette & Privilege Services
