@@ -98,7 +98,40 @@ const STORAGE_KEYS = {
   ROULETTE_SPINS: "hanboro_roulette_spins_cache",
   PRODUCTS: "hanboro_custom_products",
   WATCH_ORDER: "hanboro_custom_watch_order",
+  DELETED_IDS: "hanboro_deleted_product_ids",
 };
+
+export function getDeletedProductIds() {
+  try {
+    const raw = safeStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+    if (!raw) return new Set();
+    const arr = JSON.parse(raw);
+    return new Set(Array.isArray(arr) ? arr.map((x) => String(x).toLowerCase().trim()) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+export function recordDeletedProductId(idOrSku) {
+  if (!idOrSku) return;
+  try {
+    const set = getDeletedProductIds();
+    set.add(String(idOrSku).toLowerCase().trim());
+    safeStorage.setItem(STORAGE_KEYS.DELETED_IDS, JSON.stringify(Array.from(set)));
+  } catch {}
+}
+
+export function removeDeletedProductId(idOrSku) {
+  if (!idOrSku) return;
+  try {
+    const set = getDeletedProductIds();
+    const clean = String(idOrSku).toLowerCase().trim();
+    if (set.has(clean)) {
+      set.delete(clean);
+      safeStorage.setItem(STORAGE_KEYS.DELETED_IDS, JSON.stringify(Array.from(set)));
+    }
+  } catch {}
+}
 
 // One-time production zero database cache reset & purge of stale clones / dev artifacts
 if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v2")) {
@@ -1687,6 +1720,7 @@ export function isStaleClone(p) {
 export const productsService = {
   // Get locally cached products or fallback to default PRODUCTS_DATA with stable ordering
   getLocalProducts() {
+    const deletedIds = getDeletedProductIds();
     let customOrderMap = null;
     try {
       const rawOrder = safeStorage.getItem(STORAGE_KEYS.WATCH_ORDER);
@@ -1716,33 +1750,89 @@ export const productsService = {
             safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(parsed));
           }
 
-          // Identify custom/cloned products (not in master PRODUCTS_DATA)
-          const customClones = parsed
-            .filter(
+          const consumedCachedIds = new Set();
+          const consumedCachedSkus = new Set();
+
+          // Build master catalogue starting from canonical PRODUCTS_DATA with cached overrides
+          const baseMaster = [];
+          for (let idx = 0; idx < PRODUCTS_DATA.length; idx++) {
+            const m = PRODUCTS_DATA[idx];
+            const mId = String(m.id || "").toLowerCase().trim();
+            const mSku = String(m.sku || "").toLowerCase().trim();
+
+            // If product was explicitly deleted, do NOT resurrect it!
+            if (deletedIds.has(mId) || deletedIds.has(mSku)) {
+              continue;
+            }
+
+            // Find cached version
+            const cachedMatch = parsed.find(
               (p) =>
-                p &&
-                typeof p === "object" &&
-                p.id &&
-                !isStaleClone(p) &&
-                (p.isCustom === true || /-clone-/i.test(String(p.id))) &&
-                !PRODUCTS_DATA.some((m) =>
-                  (m.id && p.id && String(m.id).toLowerCase() === String(p.id).toLowerCase()) ||
-                  (m.sku && p.sku && String(m.sku).toLowerCase() === String(p.sku).toLowerCase())
-                ) &&
-                !["flying-skeleton", "celestial-tourbillon"].includes(String(p.id).toLowerCase()) &&
-                !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(String(p.sku || "").toUpperCase())
-            )
-            .map((p) => {
+                (p.id && String(p.id).toLowerCase().trim() === mId) ||
+                (p.previousSku && String(p.previousSku).toLowerCase().trim() === mSku) ||
+                (p.sku && String(p.sku).toLowerCase().trim() === mSku)
+            );
+
+            const customRank = customOrderMap ? (customOrderMap.get(mId) ?? customOrderMap.get(mSku)) : undefined;
+            let rankVal = idx;
+            if (typeof customRank === "number") {
+              rankVal = customRank;
+            } else if (cachedMatch && typeof cachedMatch.rank === "number" && !isNaN(cachedMatch.rank)) {
+              rankVal = cachedMatch.rank;
+            }
+
+            if (!cachedMatch) {
+              baseMaster.push({
+                ...m,
+                stock: typeof m.stock === "number" && !isNaN(m.stock) ? m.stock : Math.max(1, 12 - (idx % 8)),
+                rank: rankVal,
+              });
+            } else {
+              consumedCachedIds.add(String(cachedMatch.id || mId).toLowerCase().trim());
+              if (cachedMatch.sku) consumedCachedSkus.add(String(cachedMatch.sku).toLowerCase().trim());
+
+              baseMaster.push({
+                ...m,
+                ...cachedMatch,
+                sku: String(cachedMatch.sku || m.sku || "").trim().toUpperCase(),
+                name: String(cachedMatch.name || m.name || "").trim(),
+                price: cachedMatch.price || m.price,
+                priceNumeric: parseInt(String(cachedMatch.price || m.price || "0").replace(/[^\d]/g, ""), 10) || m.priceNumeric || 45000,
+                modelNumber: cachedMatch.modelNumber || cachedMatch.specs?.modelNumber || m.modelNumber || "",
+                specs: {
+                  ...(m.specs || {}),
+                  ...(cachedMatch.specs || {}),
+                  modelNumber: cachedMatch.modelNumber || cachedMatch.specs?.modelNumber || m.modelNumber || "",
+                },
+                stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
+                isActive: cachedMatch.isActive !== false,
+                rank: rankVal,
+              });
+            }
+          }
+
+          // Unconsumed custom/cloned/added products in parsed
+          const customClones = parsed
+            .filter((p) => {
+              if (!p || typeof p !== "object" || !p.id) return false;
+              const pId = String(p.id).toLowerCase().trim();
+              const pSku = String(p.sku || "").toLowerCase().trim();
+              if (deletedIds.has(pId) || (pSku && deletedIds.has(pSku))) return false;
+              if (isStaleClone(p)) return false;
+              if (consumedCachedIds.has(pId) || (pSku && consumedCachedSkus.has(pSku))) return false;
+              return true;
+            })
+            .map((p, idx) => {
               const baseId = String(p.id).replace(/-clone-.*$/i, "").trim().toLowerCase();
               const parent = PRODUCTS_DATA.find((m) => String(m.id).toLowerCase() === baseId);
               const safeImage = p.image || parent?.image || "/watch-astroworld-moon-rosegold-front-transparent.webp";
               const parentRank = parent ? (CANONICAL_PRODUCT_ORDER.get(String(parent.id).toLowerCase()) ?? 0) : 9999;
-              const pId = String(p.id || "").toLowerCase();
-              const pSku = String(p.sku || "").toLowerCase();
+              const pId = String(p.id || "").toLowerCase().trim();
+              const pSku = String(p.sku || "").toLowerCase().trim();
               const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
               const safeRank = typeof customRank === "number"
                 ? customRank
-                : (typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001).toFixed(4)));
+                : (typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001 + (idx * 0.0001)).toFixed(5)));
               const cleanName = String(p.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
 
               return {
@@ -1763,40 +1853,6 @@ export const productsService = {
               };
             });
 
-          // Build master catalogue starting from canonical PRODUCTS_DATA with cached overrides
-          const baseMaster = PRODUCTS_DATA.map((m, idx) => {
-            const mId = String(m.id || "").toLowerCase();
-            const mSku = String(m.sku || "").toLowerCase();
-            const cachedMatch = parsed.find(
-              (p) =>
-                (p.id && m.id && String(p.id).toLowerCase() === mId) ||
-                (p.sku && m.sku && String(p.sku).toLowerCase() === mSku)
-            );
-            const customRank = customOrderMap ? (customOrderMap.get(mId) ?? customOrderMap.get(mSku)) : undefined;
-
-            let rankVal = idx;
-            if (typeof customRank === "number") {
-              rankVal = customRank;
-            } else if (cachedMatch && typeof cachedMatch.rank === "number" && !isNaN(cachedMatch.rank)) {
-              rankVal = cachedMatch.rank;
-            }
-
-            if (!cachedMatch) {
-              return {
-                ...m,
-                stock: typeof m.stock === "number" && !isNaN(m.stock) ? m.stock : Math.max(1, 12 - (idx % 8)),
-                rank: rankVal,
-              };
-            }
-            return {
-              ...m,
-              stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
-              isActive: cachedMatch.isActive !== false,
-              rank: rankVal,
-            };
-          });
-
-          // Append any custom/cloned watches
           const combined = [...baseMaster, ...customClones];
           return sortCatalogStably(combined);
         }
@@ -1804,17 +1860,23 @@ export const productsService = {
     } catch (e) {
       console.warn("Could not parse cached products:", e);
     }
-    const base = PRODUCTS_DATA.map((p, idx) => {
-      const pId = String(p.id || "").toLowerCase();
-      const pSku = String(p.sku || "").toLowerCase();
-      const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
-      const rankVal = typeof customRank === "number" ? customRank : idx;
-      return {
-        ...p,
-        stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
-        rank: rankVal,
-      };
-    });
+    const base = PRODUCTS_DATA
+      .filter((p) => {
+        const pId = String(p.id || "").toLowerCase().trim();
+        const pSku = String(p.sku || "").toLowerCase().trim();
+        return !deletedIds.has(pId) && !deletedIds.has(pSku);
+      })
+      .map((p, idx) => {
+        const pId = String(p.id || "").toLowerCase();
+        const pSku = String(p.sku || "").toLowerCase();
+        const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
+        const rankVal = typeof customRank === "number" ? customRank : idx;
+        return {
+          ...p,
+          stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
+          rank: rankVal,
+        };
+      });
     return sortCatalogStably(base);
   },
 
@@ -1839,6 +1901,7 @@ export const productsService = {
   // Fetch products from Supabase with stable in-place merge (never scrambles or wipes watches on refresh)
   async fetchProducts() {
     const local = this.getLocalProducts();
+    const deletedIds = getDeletedProductIds();
     try {
       const { data, error } = await supabase
         .from("products")
@@ -1847,78 +1910,114 @@ export const productsService = {
 
       if (!error && data && data.length > 0) {
         // Map database columns to application format
-        const mapped = data.map((row) => {
-          const rowSpecs = typeof row.specs === "object" && row.specs !== null ? row.specs : {};
-          const rowModel = rowSpecs.modelNumber || (row.sku ? row.sku.split("-")[1] : "") || "";
-          return {
-            id: row.id,
-            sku: row.sku,
-            name: String(row.name || "").replace(/\s*\(Variant\)$/i, "").trim(),
-            subtitle: row.subtitle || "",
-            collection: row.collection || "TOURBILLON",
-            collectionName: row.collection_name || "Tourbillon & Complications",
-            tag: row.tag || "Haute Horlogerie",
-            price: row.price,
-            priceNumeric: parseInt(String(row.price || "0").replace(/[^\d]/g, ""), 10) || 45000,
-            priceUsd: row.price_usd || "$1,200",
-            availability: row.availability || "In Stock",
-            year: row.year || "2026",
-            summary: row.summary || "",
-            image: row.image,
-            transparentImage: row.transparent_image || row.image,
-            altImages: Array.isArray(row.alt_images) ? row.alt_images : [row.image],
-            gallery: Array.isArray(row.gallery) ? row.gallery : [],
-            specs: rowSpecs,
-            modelNumber: rowModel,
-            stock: typeof row.stock === "number" ? row.stock : 10,
-            isActive: row.is_active !== false,
-            createdAt: row.created_at,
-            updatedAt: row.updated_at,
-            isCustom: row.is_custom === true || rowSpecs.isCustom === true,
-          };
-        });
+        const mapped = data
+          .filter((row) => {
+            const rId = String(row.id || "").toLowerCase().trim();
+            const rSku = String(row.sku || "").toLowerCase().trim();
+            return !deletedIds.has(rId) && !deletedIds.has(rSku);
+          })
+          .map((row) => {
+            const rowSpecs = typeof row.specs === "object" && row.specs !== null ? row.specs : {};
+            const rowModel = rowSpecs.modelNumber || "";
+            return {
+              id: row.id,
+              sku: String(row.sku || "").trim().toUpperCase(),
+              name: String(row.name || "").replace(/\s*\(Variant\)$/i, "").trim(),
+              subtitle: row.subtitle || "",
+              collection: row.collection || "TOURBILLON",
+              collectionName: row.collection_name || "Tourbillon & Complications",
+              tag: row.tag || "Haute Horlogerie",
+              price: row.price,
+              priceNumeric: parseInt(String(row.price || "0").replace(/[^\d]/g, ""), 10) || 45000,
+              priceUsd: row.price_usd || "$1,200",
+              availability: row.availability || "In Stock",
+              year: row.year || "2026",
+              summary: row.summary || "",
+              image: row.image,
+              transparentImage: row.transparent_image || row.image,
+              altImages: Array.isArray(row.alt_images) && row.alt_images.length > 0 ? row.alt_images : [row.image],
+              gallery: Array.isArray(row.gallery) && row.gallery.length > 0 ? row.gallery : [],
+              specs: rowSpecs,
+              modelNumber: rowModel,
+              stock: typeof row.stock === "number" ? row.stock : 10,
+              isActive: row.is_active !== false,
+              createdAt: row.created_at,
+              updatedAt: row.updated_at,
+              isCustom: row.is_custom === true || rowSpecs.isCustom === true,
+            };
+          });
 
         const remoteById = new Map();
         const remoteBySku = new Map();
         mapped.forEach((rp) => {
-          if (rp.id) remoteById.set(String(rp.id).toLowerCase(), rp);
-          if (rp.sku) remoteBySku.set(String(rp.sku).toUpperCase(), rp);
+          if (rp.id) remoteById.set(String(rp.id).toLowerCase().trim(), rp);
+          if (rp.sku) remoteBySku.set(String(rp.sku).toUpperCase().trim(), rp);
         });
 
         const consumedRemoteIds = new Set();
         const consumedRemoteSkus = new Set();
 
-        const updatedExisting = local.map((lp, idx) => {
-          const lId = String(lp.id || "").toLowerCase();
-          const lSku = String(lp.sku || "").toUpperCase();
-          const remote = remoteById.get(lId) || remoteBySku.get(lSku);
+        const updatedExisting = local
+          .filter((lp) => {
+            const lId = String(lp.id || "").toLowerCase().trim();
+            const lSku = String(lp.sku || "").toLowerCase().trim();
+            return !deletedIds.has(lId) && !deletedIds.has(lSku);
+          })
+          .map((lp, idx) => {
+            const lId = String(lp.id || "").toLowerCase().trim();
+            const lSku = String(lp.sku || "").toUpperCase().trim();
+            const remote = remoteById.get(lId) || remoteBySku.get(lSku);
 
-          if (remote) {
-            consumedRemoteIds.add(String(remote.id).toLowerCase());
-            if (remote.sku) consumedRemoteSkus.add(String(remote.sku).toUpperCase());
-            return {
-              ...lp,
-              stock: remote.stock ?? lp.stock,
-              isActive: remote.isActive ?? lp.isActive,
-              rank: lp.rank !== undefined && typeof lp.rank === "number"
-                ? lp.rank
-                : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx),
-            };
-          }
+            if (remote) {
+              consumedRemoteIds.add(String(remote.id).toLowerCase().trim());
+              if (remote.sku) consumedRemoteSkus.add(String(remote.sku).toUpperCase().trim());
 
-          return lp;
-        });
+              const resolvedRank =
+                lp.rank !== undefined && typeof lp.rank === "number"
+                  ? lp.rank
+                  : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx);
 
-        // Any custom / cloned timepieces in Supabase not matching local id or sku
+              return {
+                ...lp,
+                ...remote,
+                sku: remote.sku || lp.sku,
+                name: remote.name || lp.name,
+                price: remote.price || lp.price,
+                modelNumber: remote.modelNumber || lp.modelNumber,
+                specs: {
+                  ...(lp.specs || {}),
+                  ...(remote.specs || {}),
+                },
+                stock: typeof remote.stock === "number" ? remote.stock : lp.stock,
+                isActive: remote.isActive !== false,
+                rank: resolvedRank,
+                altImages: (Array.isArray(remote.altImages) && remote.altImages.length > 0)
+                  ? remote.altImages
+                  : (Array.isArray(lp.altImages) && lp.altImages.length > 0 ? lp.altImages : [remote.image || lp.image]),
+                gallery: (Array.isArray(remote.gallery) && remote.gallery.length > 0)
+                  ? remote.gallery
+                  : (Array.isArray(lp.gallery) ? lp.gallery : []),
+              };
+            }
+
+            return lp;
+          });
+
+        // Any custom / cloned / added timepieces in Supabase not matching local
         const brandNewRemote = mapped
-          .filter((rp) =>
-            (rp.isCustom === true || /-clone-/i.test(String(rp.id))) &&
-            !consumedRemoteIds.has(String(rp.id).toLowerCase()) &&
-            (!rp.sku || !consumedRemoteSkus.has(String(rp.sku).toUpperCase())) &&
-            !["flying-skeleton", "celestial-tourbillon"].includes(rp.id) &&
-            !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(rp.sku) &&
-            !isStaleClone(rp)
-          )
+          .filter((rp) => {
+            const rId = String(rp.id).toLowerCase().trim();
+            const rSku = String(rp.sku || "").toUpperCase().trim();
+            return (
+              !consumedRemoteIds.has(rId) &&
+              (!rSku || !consumedRemoteSkus.has(rSku)) &&
+              !deletedIds.has(rId) &&
+              !deletedIds.has(rSku.toLowerCase()) &&
+              !["flying-skeleton", "celestial-tourbillon"].includes(rId) &&
+              !["HBR-702-TOURB-SKELETON", "HBR-901-ASTRONOMICAL"].includes(rSku) &&
+              !isStaleClone(rp)
+            );
+          })
           .map((rp, idx) => {
             const baseId = String(rp.id).replace(/-clone-.*$/i, "").trim().toLowerCase();
             const parent = PRODUCTS_DATA.find((m) => String(m.id).toLowerCase() === baseId);
@@ -2079,6 +2178,12 @@ export const productsService = {
       updatedAt: new Date().toISOString(),
     };
 
+    // Unmark from deleted IDs if previously deleted
+    removeDeletedProductId(safeProduct.id);
+    if (newSku) removeDeletedProductId(newSku);
+    if (previousId) removeDeletedProductId(previousId);
+    if (oldSku) removeDeletedProductId(oldSku);
+
     // Find if the product already exists by ID or SKU
     let existingIndex = local.findIndex((p) => 
       (p.id && String(p.id).trim().toLowerCase() === targetId) ||
@@ -2150,7 +2255,19 @@ export const productsService = {
     const local = this.getLocalProducts();
     const clean = String(productId || "").trim().toLowerCase();
     const target = local.find((p) => String(p.id).trim().toLowerCase() === clean || String(p.sku).trim().toLowerCase() === clean);
-    const updated = local.filter((p) => String(p.id).trim().toLowerCase() !== clean && String(p.sku).trim().toLowerCase() !== clean);
+
+    // Permanently record in deleted IDs to prevent resurrecting on reload
+    recordDeletedProductId(clean);
+    if (target?.id) recordDeletedProductId(target.id);
+    if (target?.sku) recordDeletedProductId(target.sku);
+
+    const updated = local.filter((p) => {
+      const pId = String(p.id || "").trim().toLowerCase();
+      const pSku = String(p.sku || "").trim().toLowerCase();
+      if (pId === clean || pSku === clean) return false;
+      if (target && (pId === String(target.id).trim().toLowerCase() || pSku === String(target.sku).trim().toLowerCase())) return false;
+      return true;
+    });
     this.saveLocalProducts(updated);
 
     const targetId = target?.id || productId;
