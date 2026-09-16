@@ -26,6 +26,11 @@
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
     <image:image>
+      <image:loc>https://www.hanborowatches.in/favicon-512x512.png</image:loc>
+      <image:title>Hanboro Haute Horlogerie Official Emblem</image:title>
+      <image:caption>Official Hanboro Luxury Horology Atelier</image:caption>
+    </image:image>
+    <image:image>
       <image:loc>https://www.hanborowatches.in/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp</image:loc>
       <image:title>Astroworld Tourbillon Skeleton Watch</image:title>
       <image:caption>Flying tourbillon with fluted bezel and celestial dial</image:caption>
@@ -35,10 +40,18 @@
       <image:title>Casino Roulette Emerald Edition Watch</image:title>
       <image:caption>Interactive spinning roulette wheel complication in solid stainless steel</image:caption>
     </image:image>
+  </url>
+
+  <!-- Curated Horology Collections -->
+  <url>
+    <loc>https://www.hanborowatches.in/collections</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.90</priority>
     <image:image>
-      <image:loc>https://www.hanborowatches.in/watch-celestial-dragon-tourbillon-silver-front-transparent.webp</image:loc>
-      <image:title>Celestial Dragon Tourbillon Watch</image:title>
-      <image:caption>Sculpted dragon high horology mechanical tourbillon</image:caption>
+      <image:loc>https://www.hanborowatches.in/favicon-512x512.png</image:loc>
+      <image:title>Hanboro Horology Collections Emblem</image:title>
+      <image:caption>Curated Haute Horlogerie Masterpieces</image:caption>
     </image:image>
   </url>
 

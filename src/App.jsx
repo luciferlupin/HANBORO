@@ -2511,78 +2511,83 @@ function FloatingWhatsAppButton() {
 function Website({ onRestart }) {
   const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen } = useStore();
   const [visible, setVisible] = useState(true);
-  const [view, setView] = useState(() => {
-    const hash = window.location.hash.toLowerCase();
-    if (hash.startsWith("#admin")) return "admin";
-    if (hash.startsWith("#checkout")) return "checkout";
-    if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) return "profile";
-    if (hash.startsWith("#stores")) return "stores";
-    if (hash.startsWith("#privacy")) return "privacy";
-    if (hash.startsWith("#shipping")) return "shipping";
-    if (hash.startsWith("#refund") || hash.startsWith("#returns") || hash.startsWith("#replacement")) return "refund";
-    if (hash.startsWith("#terms") || hash.startsWith("#tos") || hash.startsWith("#legal")) return "terms";
-    if (hash.startsWith("#sku/") || hash.startsWith("#product/") || hash.startsWith("#products") || hash.startsWith("#archive")) {
-      return "products";
+  const getRouteState = () => {
+    if (typeof window === "undefined") return { view: "home", selectedSkuId: null };
+    const hash = (window.location.hash || "").toLowerCase();
+    const pathname = (window.location.pathname || "").toLowerCase().replace(/^\/+|\/+$/g, "");
+    
+    // Check hash first, then pathname for direct Google sitelinks & shared URLs
+    const target = hash ? hash.replace(/^#/, "") : pathname;
+
+    if (target.startsWith("admin")) return { view: "admin", selectedSkuId: null };
+    if (target.startsWith("checkout")) return { view: "checkout", selectedSkuId: null };
+    if (target.startsWith("profile") || target.startsWith("account") || target.startsWith("dossier")) {
+      return { view: "profile", selectedSkuId: null };
     }
-    return "home";
-  });
-  const [selectedSkuId, setSelectedSkuId] = useState(() => {
-    const hash = window.location.hash.toLowerCase();
-    if (hash.startsWith("#sku/")) return hash.replace("#sku/", "").trim();
-    if (hash.startsWith("#product/")) return hash.replace("#product/", "").trim();
-    return null;
-  });
+    if (target.startsWith("stores") || target.startsWith("boutiques")) {
+      return { view: "stores", selectedSkuId: null };
+    }
+    if (target.startsWith("privacy")) return { view: "privacy", selectedSkuId: null };
+    if (target.startsWith("shipping")) return { view: "shipping", selectedSkuId: null };
+    if (target.startsWith("refund") || target.startsWith("returns") || target.startsWith("replacement")) {
+      return { view: "refund", selectedSkuId: null };
+    }
+    if (target.startsWith("terms") || target.startsWith("tos") || target.startsWith("legal")) {
+      return { view: "terms", selectedSkuId: null };
+    }
+    if (target.startsWith("sku/")) {
+      return { view: "products", selectedSkuId: target.replace(/^sku\//, "").trim() };
+    }
+    if (target.startsWith("product/")) {
+      return { view: "products", selectedSkuId: target.replace(/^product\//, "").trim() };
+    }
+    if (target.startsWith("products") || target.startsWith("collections") || target.startsWith("collection") || target.startsWith("archive") || target.startsWith("timepieces")) {
+      return { view: "products", selectedSkuId: null };
+    }
+    return { view: "home", selectedSkuId: null };
+  };
+
+  const initialRoute = getRouteState();
+  const [view, setView] = useState(initialRoute.view);
+  const [selectedSkuId, setSelectedSkuId] = useState(initialRoute.selectedSkuId);
 
   useScrollReveal(visible, view, selectedSkuId);
 
+  // Update document title and ensure favicon tags across all link views
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.toLowerCase();
-      if (hash.startsWith("#admin")) {
-        setView("admin");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#checkout")) {
-        setView("checkout");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#profile") || hash.startsWith("#account") || hash.startsWith("#dossier")) {
-        setView("profile");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#stores")) {
-        setView("stores");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#privacy")) {
-        setView("privacy");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#shipping")) {
-        setView("shipping");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#refund") || hash.startsWith("#returns") || hash.startsWith("#replacement")) {
-        setView("refund");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#terms") || hash.startsWith("#tos") || hash.startsWith("#legal")) {
-        setView("terms");
-        setSelectedSkuId(null);
-      } else if (hash.startsWith("#sku/")) {
-        setView("products");
-        setSelectedSkuId(hash.replace("#sku/", "").trim());
+    const titles = {
+      home: "Hanboro — Make time matter",
+      products: "Hanboro — Masterpiece Timepieces | Haute Horlogerie India",
+      stores: "Hanboro — Flagship Boutiques | DLF Phase II",
+      checkout: "Hanboro — Secure Horology Checkout",
+      profile: "Hanboro — Collector Dossier & Orders",
+      admin: "Hanboro — Atelier Administrative Portal",
+      shipping: "Hanboro — Insured Express Delivery Policy",
+      refund: "Hanboro — Authenticity Guarantee & Returns",
+      terms: "Hanboro — Terms of Haute Horlogerie",
+      privacy: "Hanboro — Client Privacy & Confidentiality"
+    };
+    if (typeof document !== "undefined") {
+      document.title = titles[view] || "Hanboro — Make time matter";
+    }
+  }, [view]);
+
+  useEffect(() => {
+    const syncRoute = () => {
+      const { view: nextView, selectedSkuId: nextSkuId } = getRouteState();
+      setView(nextView);
+      setSelectedSkuId(nextSkuId);
+      if (nextView !== "home") {
         forceScrollToTop();
-      } else if (hash.startsWith("#product/")) {
-        setView("products");
-        setSelectedSkuId(hash.replace("#product/", "").trim());
-        forceScrollToTop();
-      } else if (hash.startsWith("#products") || hash.startsWith("#archive") || hash.startsWith("#timepieces")) {
-        setView("products");
-        setSelectedSkuId(null);
-        forceScrollToTop();
-      } else if (hash === "#home" || hash === "#top" || !hash || hash.startsWith("#collection") || hash.startsWith("#lookbook") || hash.startsWith("#packaging") || hash.startsWith("#contact")) {
-        setView("home");
-        setSelectedSkuId(null);
       }
     };
-    window.addEventListener("hashchange", handleHashChange);
+
+    window.addEventListener("hashchange", syncRoute);
+    window.addEventListener("popstate", syncRoute);
 
     return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("hashchange", syncRoute);
+      window.removeEventListener("popstate", syncRoute);
     };
   }, []);
 
