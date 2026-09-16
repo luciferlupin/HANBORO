@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Official Homepage -->
+  <url>
+    <loc>https://www.hanborowatches.in/</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/hanboro-horizontal-light.png</image:loc>
+      <image:title>Hanboro Haute Horlogerie India Emblem</image:title>
+      <image:caption>Official Hanboro Luxury Horology Atelier</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/hero-video-poster.jpg</image:loc>
+      <image:title>Hanboro Haute Horlogerie Masterpiece Collection</image:title>
+      <image:caption>Hand-finished skeletonized automatic timepieces</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Complete Timepieces Catalog -->
+  <url>
+    <loc>https://www.hanborowatches.in/products</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp</image:loc>
+      <image:title>Astroworld Tourbillon Skeleton Watch</image:title>
+      <image:caption>Flying tourbillon with fluted bezel and celestial dial</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp</image:loc>
+      <image:title>Casino Roulette Emerald Edition Watch</image:title>
+      <image:caption>Interactive spinning roulette wheel complication in solid stainless steel</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/watch-celestial-dragon-tourbillon-silver-front-transparent.webp</image:loc>
+      <image:title>Celestial Dragon Tourbillon Watch</image:title>
+      <image:caption>Sculpted dragon high horology mechanical tourbillon</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Flagship Boutiques & Stores -->
+  <url>
+    <loc>https://www.hanborowatches.in/stores</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/store-facade.jpg</image:loc>
+      <image:title>Hanboro Flagship Boutique DLF Phase II</image:title>
+      <image:caption>Authorized luxury horology boutique and atelier in Gurugram</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.hanborowatches.in/store-interior.jpg</image:loc>
+      <image:title>Hanboro Horology Lounge Interior</image:title>
+      <image:caption>VIP private horology consultation salon</image:caption>
+    </image:image>
+  </url>
+
+  <!-- About the Maison -->
+  <url>
+    <loc>https://www.hanborowatches.in/about</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- VIP Atelier Concierge & Contact -->
+  <url>
+    <loc>https://www.hanborowatches.in/contact</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- White-Glove Insured Delivery & Logistics -->
+  <url>
+    <loc>https://www.hanborowatches.in/shipping</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Authenticity Guarantee & Refund Policy -->
+  <url>
+    <loc>https://www.hanborowatches.in/refund</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Terms of Haute Horlogerie -->
+  <url>
+    <loc>https://www.hanborowatches.in/terms</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+
+  <!-- Privacy Policy & Client Data Confidentiality -->
+  <url>
+    <loc>https://www.hanborowatches.in/privacy</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+</urlset>
