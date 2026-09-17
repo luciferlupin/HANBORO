@@ -23859,8 +23859,9 @@ tr.is-selected-row td {
     max-height: none !important;
     margin: 0 0 6px 0 !important;
     color: #ffffff !important;
-    display: block !important;
+    display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
   }
@@ -24056,6 +24057,7 @@ tr.is-selected-row td {
     color: #ffffff !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
   }
