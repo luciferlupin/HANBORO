@@ -270,7 +270,14 @@ export function CartDrawer() {
 
             <a
               href={`https://wa.me/918882069334?text=${encodeURIComponent(
-                `Hello HANBORO Concierge,\n\nI would like to inquire / order the items in my shopping bag:\n${cart.map((item) => `• ${item.name} (Qty: ${item.quantity}) - ₹${(item.priceInr * item.quantity).toLocaleString("en-IN")}`).join("\n")}\n\nEstimated Total: ₹${finalTotalInr.toLocaleString("en-IN")}\n\nPlease assist with acquisition and priority courier.`
+                `Hello HANBORO Concierge,\n\nI would like to inquire / order the items in my shopping bag:\n${cart
+                  .map((item) => {
+                    const pName = item.product?.name || "HANBORO Watch";
+                    const pSku = item.product?.sku ? ` [REF: ${item.product.sku}]` : "";
+                    const pPrice = parseInt(String(item.product?.price || 0).replace(/[^\d]/g, ""), 10) || 0;
+                    return `• ${pName}${pSku} (Qty: ${item.quantity}) - ₹${(pPrice * item.quantity).toLocaleString("en-IN")}`;
+                  })
+                  .join("\n")}\n\nEstimated Total: ₹${finalTotalInr.toLocaleString("en-IN")}\n\nPlease assist with acquisition and priority courier.`
               )}`}
               target="_blank"
               rel="noopener noreferrer"

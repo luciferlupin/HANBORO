@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useStore } from "./StoreContext";
-import { ordersService } from "./supabaseClient";
+import { ordersService, enrichOrderItemWithSkuEan } from "./supabaseClient";
+import { PRODUCTS_DATA } from "./productsData";
 import { HanboroLogo } from "./HanboroLogo";
 
 /* ── APPLE-GRADE MINIMALIST VECTOR ICONS (No child/cartoon emojis) ── */
@@ -23,6 +24,20 @@ const Icons = {
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <path d="M9 12l2 2 4-4" />
+    </svg>
+  ),
+  Heart: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  ),
+  FileText: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
     </svg>
   ),
   ArrowLeft: () => (
@@ -78,13 +93,34 @@ export function ProfilePage({ onNavigate }) {
     openCheckout,
     logout,
     openAuthModal,
+    products,
+    wishlist,
+    toggleWishlist,
+    addToCart,
   } = useStore();
 
-  const [activeTab, setActiveTab] = useState("bag"); // "bag" | "orders" | "settings"
+  const [activeTab, setActiveTab] = useState("bag"); // "bag" | "orders" | "wishlist" | "settings"
   const [userOrders, setUserOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
   const [orderToCancel, setOrderToCancel] = useState(null);
   const [cancelling, setCancelling] = useState(false);
+  const [copiedTrackingId, setCopiedTrackingId] = useState(null);
+  const [viewingInvoiceOrder, setViewingInvoiceOrder] = useState(null);
+
+  const savedWatches = useMemo(() => {
+    if (!wishlist || typeof wishlist !== "object") return [];
+    const all = Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA;
+    return all.filter((p) => wishlist[p.id]);
+  }, [wishlist, products]);
+
+  const handleCopyTracking = (code) => {
+    if (!code) return;
+    try {
+      navigator.clipboard.writeText(code);
+      setCopiedTrackingId(code);
+      setTimeout(() => setCopiedTrackingId(null), 2500);
+    } catch {}
+  };
 
   // If user is not logged in, prompt sign in
   useEffect(() => {
@@ -256,6 +292,11 @@ export function ProfilePage({ onNavigate }) {
               </div>
               <div className="apple-metric-divider" />
               <div className="apple-metric-item">
+                <span className="metric-title">SAVED WATCHES</span>
+                <span className="metric-value">{savedWatches.length} {savedWatches.length === 1 ? "Piece" : "Pieces"}</span>
+              </div>
+              <div className="apple-metric-divider" />
+              <div className="apple-metric-item">
                 <span className="metric-title">BAG ALLOCATION</span>
                 <span className="metric-value">{cartCount} {cartCount === 1 ? "Piece" : "Pieces"}</span>
               </div>
@@ -288,6 +329,16 @@ export function ProfilePage({ onNavigate }) {
             <Icons.Box />
             <span>Orders & Tracking</span>
             {userOrders.length > 0 && <span className="segment-counter">{userOrders.length}</span>}
+          </button>
+
+          <button
+            type="button"
+            className={`apple-segment-btn ${activeTab === "wishlist" ? "is-active" : ""}`}
+            onClick={() => setActiveTab("wishlist")}
+          >
+            <Icons.Heart />
+            <span>Saved Watches</span>
+            {savedWatches.length > 0 && <span className="segment-counter">{savedWatches.length}</span>}
           </button>
 
           <button
@@ -589,7 +640,28 @@ export function ProfilePage({ onNavigate }) {
                         </div>
                         <div className="apple-footer-stat">
                           <span className="stat-label">AIRWAY BILL / TRACKING</span>
-                          <span className="stat-value stat-value--mono">{ord.tracking_number || "Awaiting Dispatch"}</span>
+                          <span className="stat-value stat-value--mono" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            {ord.tracking_number || "Awaiting Dispatch"}
+                            {ord.tracking_number && (
+                              <button
+                                type="button"
+                                onClick={() => handleCopyTracking(ord.tracking_number)}
+                                style={{
+                                  background: copiedTrackingId === ord.tracking_number ? "#dcfce7" : "#f1f5f9",
+                                  color: copiedTrackingId === ord.tracking_number ? "#15803d" : "#475569",
+                                  border: "1px solid #cbd5e1",
+                                  borderRadius: "4px",
+                                  padding: "2px 8px",
+                                  fontSize: "10.5px",
+                                  cursor: "pointer",
+                                  fontWeight: 600,
+                                }}
+                                title="Copy tracking code"
+                              >
+                                {copiedTrackingId === ord.tracking_number ? "✓ Copied" : "Copy"}
+                              </button>
+                            )}
+                          </span>
                         </div>
                         <div className="apple-footer-stat apple-footer-stat--total">
                           <span className="stat-label">TOTAL ALLOCATION</span>
@@ -603,9 +675,117 @@ export function ProfilePage({ onNavigate }) {
                           </span>
                         </div>
                       </div>
+
+                      <div className="apple-order-bill-row" style={{ marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #f1f5f9", display: "flex", justifyContent: "flex-end" }}>
+                        <button
+                          type="button"
+                          onClick={() => setViewingInvoiceOrder(ord)}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            background: "#0f172a",
+                            color: "#ffffff",
+                            border: "none",
+                            borderRadius: "6px",
+                            padding: "6px 14px",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <Icons.FileText />
+                          <span>View Official Tax Invoice & Bill</span>
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            TAB: WISHLIST / SAVED WATCHES
+        ══════════════════════════════════════════════════════════════════════ */}
+        {activeTab === "wishlist" && (
+          <section className="apple-pane-card">
+            <div className="apple-pane-header">
+              <div>
+                <h2 className="apple-pane-title">Saved Timepieces</h2>
+                <p className="apple-pane-desc">
+                  Your private curation of Haute Horlogerie masterpieces.
+                </p>
+              </div>
+            </div>
+
+            {savedWatches.length === 0 ? (
+              <div className="apple-empty-state">
+                <div className="apple-empty-icon">
+                  <Icons.Heart />
+                </div>
+                <h3 className="apple-empty-title">No Saved Timepieces</h3>
+                <p className="apple-empty-text">
+                  Heart any timepiece in the boutique catalog to save it in your private collector curation.
+                </p>
+                <button
+                  type="button"
+                  className="apple-primary-btn"
+                  onClick={() => onNavigate && onNavigate("products", "#products")}
+                >
+                  Explore Collection →
+                </button>
+              </div>
+            ) : (
+              <div className="apple-cart-items-stack">
+                {savedWatches.map((watch) => (
+                  <div key={watch.id} className="apple-cart-card">
+                    <div
+                      className="apple-cart-card-img-wrap"
+                      onClick={() => onNavigate && onNavigate("products", `#sku/${watch.sku || watch.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <img
+                        src={watch.image}
+                        alt={watch.name}
+                        className="apple-cart-card-img"
+                      />
+                    </div>
+
+                    <div
+                      className="apple-cart-card-info"
+                      onClick={() => onNavigate && onNavigate("products", `#sku/${watch.sku || watch.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <span className="apple-cart-sku">{watch.sku}</span>
+                      <h4 className="apple-cart-name">{watch.name}</h4>
+                      <span className="apple-cart-unit-price">{watch.price}</span>
+                    </div>
+
+                    <div className="apple-cart-card-controls">
+                      <button
+                        type="button"
+                        className="apple-primary-btn"
+                        style={{ padding: "8px 16px", fontSize: "12px", width: "auto" }}
+                        onClick={() => {
+                          addToCart(watch, 1, true);
+                        }}
+                      >
+                        + Add to Bag
+                      </button>
+
+                      <button
+                        type="button"
+                        className="apple-remove-btn"
+                        onClick={() => toggleWishlist(watch.id)}
+                        title="Remove from saved watches"
+                      >
+                        <Icons.Trash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </section>
@@ -695,6 +875,188 @@ export function ProfilePage({ onNavigate }) {
           </div>
         </div>
       )}
+
+      {/* ── OFFICIAL TAX INVOICE MODAL ── */}
+      {viewingInvoiceOrder && (() => {
+        const ord = viewingInvoiceOrder;
+        const total = Number(ord.total_amount || 0);
+        const taxableSubtotal = Math.round(total / 1.18);
+        const totalTax = total - taxableSubtotal;
+        const cgst = Math.round(totalTax / 2);
+        const sgst = totalTax - cgst;
+        const invoiceYear = new Date(ord.created_at || Date.now()).getFullYear();
+        const invoiceNum = `INV-HNB-${invoiceYear}-${String(ord.order_ref || ord.id || "1001").replace(/[^\d]/g, "").slice(-4).padStart(4, "0")}`;
+        const invoiceDate = new Date(ord.created_at || Date.now()).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        const allProds = products && products.length > 0 ? products : PRODUCTS_DATA;
+        const items = (ord.items || []).map((it) => enrichOrderItemWithSkuEan(it, allProds));
+        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || user?.fullName || "Valued Horology Patron";
+        const custEmail = ord.customer_email || user?.email || "client@hanborowatches.in";
+        const custPhone = ord.customer_phone || (ord.shipping_address && ord.shipping_address.phone) || user?.phone || "+91 98300 11223";
+        const shipAddress = ord.shipping_address || {};
+
+        const isCod =
+          (String(ord.payment_method || "").toLowerCase().includes("cod") ||
+           String(ord.payment_method || "").toLowerCase().includes("cash on delivery") ||
+           ord.payment_status === "Pending") && ord.payment_status !== "Paid";
+
+        return (
+          <div className="sp-invoice-overlay" role="dialog" aria-modal="true" data-lenis-prevent="true">
+            <div className="sp-invoice-backdrop" onClick={() => setViewingInvoiceOrder(null)} />
+            
+            <div className="sp-invoice-toolbar">
+              <div className="sp-invoice-toolbar-title">
+                <span>Official Tax Invoice Preview</span>
+                <code>{invoiceNum}</code>
+              </div>
+              <div className="sp-invoice-toolbar-actions">
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--primary"
+                  onClick={() => window.print()}
+                >
+                  <span>Print Invoice / Save PDF</span>
+                </button>
+                <button
+                  type="button"
+                  className="sp-close-btn"
+                  onClick={() => setViewingInvoiceOrder(null)}
+                  title="Close Invoice Preview"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div className="sp-invoice-sheet" id="hanboro-tax-invoice-sheet">
+              <div className="sp-invoice-header">
+                <div className="sp-invoice-brand">
+                  <h1 className="sp-invoice-logo">HANBORO</h1>
+                  <span className="sp-invoice-sublogo">HAUTE HORLOGERIE • ATELIER SUISSE & INDIA</span>
+                  <div className="sp-invoice-issuer-details">
+                    <strong>RISE N BE ORIGINAL LIFESTYLE PRIVATE LIMITED</strong><br />
+                    Fourth Floor, Building No. 3, Block M, DLF City Phase II, Road Number 5, Sector 25<br />
+                    Gurugram, Haryana - 122008, India<br />
+                    <span><strong>GSTIN:</strong> 06AAMCR0380F1ZG</span> &nbsp;|&nbsp; <span><strong>HSN:</strong> 9102 (Wrist Watches)</span><br />
+                    <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; connect@hanborowatches.in</span>
+                  </div>
+                </div>
+
+                <div className="sp-invoice-badge-box">
+                  <div className="sp-invoice-title-badge">TAX INVOICE & BILL OF SUPPLY</div>
+                  <div className="sp-invoice-meta-grid">
+                    <div className="sp-inv-meta-row">
+                      <span>Invoice Number:</span>
+                      <strong>{invoiceNum}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Invoice Date:</span>
+                      <strong>{invoiceDate}</strong>
+                    </div>
+                    <div className="sp-inv-meta-row">
+                      <span>Order Reference:</span>
+                      <strong>{ord.order_ref || ord.id || "#1001"}</strong>
+                    </div>
+                  </div>
+
+                  {isCod ? (
+                    <div className="sp-invoice-paid-seal" style={{ borderColor: "#d97706", color: "#b45309" }}>
+                      <span className="sp-paid-stamp" style={{ borderColor: "#d97706", color: "#b45309" }}>COD • DUE ON DELIVERY</span>
+                      <span className="sp-paid-date">{ord.payment_method || "Cash on Delivery"}</span>
+                    </div>
+                  ) : (
+                    <div className="sp-invoice-paid-seal">
+                      <span className="sp-paid-stamp">PAID • VERIFIED</span>
+                      <span className="sp-paid-date">{ord.payment_method || "Electronic Transfer"}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="sp-invoice-addresses">
+                <div className="sp-inv-address-box">
+                  <div className="sp-inv-address-title">Billed & Consigned To:</div>
+                  <strong>{custName}</strong><br />
+                  {shipAddress.address ? <span>{shipAddress.address}<br /></span> : null}
+                  <span>{shipAddress.city || "City"}, {shipAddress.state || "State"} {shipAddress.pin || shipAddress.pincode || ""}</span><br />
+                  <span>India</span><br />
+                  <span>Phone: {custPhone}</span><br />
+                  <span>Email: {custEmail}</span>
+                </div>
+                <div className="sp-inv-address-box">
+                  <div className="sp-inv-address-title">Shipment & Delivery Protocol:</div>
+                  <strong>Delivery Channel:</strong> {ord.delivery_method || (isCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)")}<br />
+                  <strong>Airway Bill (AWB):</strong> {ord.tracking_number || "EXP-983011"}<br />
+                  <strong>Fulfillment Status:</strong> {ord.fulfillment_status || "In progress"}<br />
+                  <strong>Packaging:</strong> Armored Tamper-Proof Wooden Presentation Box
+                </div>
+              </div>
+
+              <table className="sp-invoice-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Timepiece Reference & Description</th>
+                    <th>HSN</th>
+                    <th>Qty</th>
+                    <th>Rate (₹)</th>
+                    <th>Amount (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((it, idx) => {
+                    const itPrice = parseInt(String(it.price || total).replace(/[^\d]/g, ""), 10) || total;
+                    const itQty = it.qty || it.quantity || 1;
+                    return (
+                      <tr key={idx}>
+                        <td>{idx + 1}</td>
+                        <td>
+                          <strong>{it.name}</strong>
+                          <div style={{ fontSize: "11px", color: "#64748b" }}>
+                            SKU: {it.sku} &bull; Model: {it.modelNumber || "Automatic"}
+                          </div>
+                        </td>
+                        <td>9102</td>
+                        <td>{itQty}</td>
+                        <td>₹{itPrice.toLocaleString("en-IN")}</td>
+                        <td>₹{(itPrice * itQty).toLocaleString("en-IN")}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+
+              <div className="sp-invoice-totals-wrap">
+                <div className="sp-invoice-totals">
+                  <div className="sp-inv-tot-row">
+                    <span>Taxable Subtotal (Excl. GST):</span>
+                    <strong>₹{taxableSubtotal.toLocaleString("en-IN")}</strong>
+                  </div>
+                  <div className="sp-inv-tot-row">
+                    <span>CGST (9%):</span>
+                    <span>₹{cgst.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="sp-inv-tot-row">
+                    <span>SGST (9%):</span>
+                    <span>₹{sgst.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="sp-inv-tot-row sp-inv-tot-row--grand">
+                    <span>Total Amount Billed (INR):</span>
+                    <strong>₹{total.toLocaleString("en-IN")}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sp-invoice-footer">
+                <p>This is an official computer-generated Tax Invoice and Bill of Supply issued by Rise N Be Original Lifestyle Pvt. Ltd., authorized distributor of Hanboro Haute Horlogerie in India.</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

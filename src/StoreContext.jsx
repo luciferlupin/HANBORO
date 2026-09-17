@@ -6,6 +6,7 @@ const StoreContext = createContext(null);
 
 const CART_STORAGE_KEY = "hanboro_cart_items";
 const OWNER_MODE_KEY = "hanboro_atelier_owner_mode";
+const WISHLIST_STORAGE_KEY = "hanboro_wishlist_items";
 
 // Built-in Luxury Promo Codes
 export const PROMO_CODES = {
@@ -33,6 +34,32 @@ export function StoreProvider({ children }) {
   });
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [appliedPromo, setAppliedPromo] = useState(null);
+
+  // ── WISHLIST STATE (Persisted) ──
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const saved = localStorage.getItem(WISHLIST_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const toggleWishlist = useCallback((productId) => {
+    if (!productId) return;
+    setWishlist((prev) => {
+      const next = { ...prev, [productId]: !prev[productId] };
+      try {
+        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  const isWishlisted = useCallback(
+    (productId) => Boolean(wishlist[productId]),
+    [wishlist]
+  );
 
   // ── CHECKOUT STATE ──
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -882,7 +909,10 @@ export function StoreProvider({ children }) {
         updateQuantity,
         clearCart,
 
-        // Checkout & Buy Now
+        // Wishlist & Saved Timepieces
+        wishlist,
+        toggleWishlist,
+        isWishlisted,
         isCheckoutOpen,
         directCheckoutItem,
         activeCheckoutItems,

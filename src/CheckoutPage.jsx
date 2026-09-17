@@ -165,10 +165,40 @@ export function CheckoutPage({ onNavigate }) {
 
   const handleGoToPayment = (e) => {
     e.preventDefault();
-    if (!name || !email || !address || !city || !pincode) {
-      alert("Please fill in all required shipping details.");
+    const trimmedName = (name || "").trim();
+    const trimmedEmail = (email || "").trim();
+    const trimmedPhone = (phone || "").trim();
+    const trimmedAddress = (address || "").trim();
+    const trimmedCity = (city || "").trim();
+    const trimmedPin = (pincode || "").trim();
+
+    if (!trimmedName) {
+      alert("Please enter your full name for timepiece consignment.");
       return;
     }
+    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      alert("Please enter a valid email address for order confirmation and tracking.");
+      return;
+    }
+    const phoneDigits = trimmedPhone.replace(/[^\d]/g, "");
+    if (!trimmedPhone || phoneDigits.length < 10) {
+      alert("Please enter a valid 10-digit contact mobile number for courier dispatch.");
+      return;
+    }
+    if (!trimmedAddress) {
+      alert("Please enter your delivery street address.");
+      return;
+    }
+    if (!trimmedCity) {
+      alert("Please enter your delivery city.");
+      return;
+    }
+    const pinDigits = trimmedPin.replace(/[^\d]/g, "");
+    if (!trimmedPin || pinDigits.length !== 6) {
+      alert("Please enter a valid 6-digit Indian PIN code.");
+      return;
+    }
+
     setStep(2);
     // Explicitly update telemetry on step change
     abandonedCheckoutsService

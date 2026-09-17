@@ -2541,6 +2541,12 @@ function Website({ onRestart }) {
     if (target.startsWith("product/")) {
       return { view: "products", selectedSkuId: target.replace(/^product\//, "").trim() };
     }
+    if (target.startsWith("watch/")) {
+      return { view: "products", selectedSkuId: target.replace(/^watch\//, "").trim() };
+    }
+    if (target.startsWith("cart") || target === "bag") {
+      return { view: "home", selectedSkuId: null, openCart: true };
+    }
     if (target.startsWith("products") || target.startsWith("collections") || target.startsWith("collection") || target.startsWith("archive") || target.startsWith("timepieces")) {
       return { view: "products", selectedSkuId: null };
     }
@@ -2550,6 +2556,12 @@ function Website({ onRestart }) {
   const initialRoute = getRouteState();
   const [view, setView] = useState(initialRoute.view);
   const [selectedSkuId, setSelectedSkuId] = useState(initialRoute.selectedSkuId);
+
+  useEffect(() => {
+    if (initialRoute.openCart) {
+      setIsCartOpen(true);
+    }
+  }, []);
 
   useScrollReveal(visible, view, selectedSkuId);
 
@@ -2574,9 +2586,12 @@ function Website({ onRestart }) {
 
   useEffect(() => {
     const syncRoute = () => {
-      const { view: nextView, selectedSkuId: nextSkuId } = getRouteState();
+      const { view: nextView, selectedSkuId: nextSkuId, openCart } = getRouteState();
       setView(nextView);
       setSelectedSkuId(nextSkuId);
+      if (openCart) {
+        setIsCartOpen(true);
+      }
       if (nextView !== "home") {
         forceScrollToTop();
       }

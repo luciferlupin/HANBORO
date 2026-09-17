@@ -17,12 +17,11 @@ export function ProductsView({
   onNavigateHome,
   onNavigateToStores
 }) {
-  const { products, addToCart, buyNow } = useStore();
+  const { products, addToCart, buyNow, wishlist, toggleWishlist } = useStore();
 
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("DEFAULT");
-  const [wishlist, setWishlist] = useState({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [comparedIds, setComparedIds] = useState([]);
   const [showCompareModal, setShowCompareModal] = useState(false);
@@ -92,7 +91,9 @@ export function ProductsView({
 
   const handleToggleWishlist = (id, e) => {
     e.stopPropagation();
-    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
+    if (toggleWishlist) {
+      toggleWishlist(id);
+    }
   };
 
   const handleProductClick = (product) => {

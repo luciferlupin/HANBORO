@@ -131,8 +131,12 @@ export function ProductDetailPage({
     .filter((p) => !/-clone-/i.test(String(p.id)) && !/-clone-/i.test(String(p.sku || "")));
   const currentIndex = masterCatalog.findIndex((p) => p.id === product.id || p.sku === product.sku);
   const safeIdx = currentIndex >= 0 ? currentIndex : 0;
-  const prevProduct = safeIdx > 0 ? masterCatalog[safeIdx - 1] : masterCatalog[masterCatalog.length - 1];
-  const nextProduct = safeIdx < masterCatalog.length - 1 ? masterCatalog[safeIdx + 1] : masterCatalog[0];
+  const prevProduct = masterCatalog.length > 1
+    ? (safeIdx > 0 ? masterCatalog[safeIdx - 1] : masterCatalog[masterCatalog.length - 1])
+    : null;
+  const nextProduct = masterCatalog.length > 1
+    ? (safeIdx < masterCatalog.length - 1 ? masterCatalog[safeIdx + 1] : masterCatalog[0])
+    : null;
 
   // Related products from same collection or adjacent (also no clones)
   const collectionMatches = masterCatalog
@@ -212,28 +216,32 @@ export function ProductDetailPage({
           </div>
 
           <div className="pdp-sibling-nav">
-            <button
-              type="button"
-              className="sibling-btn"
-              onClick={() => {
-                forceScrollToTop();
-                onSelectSku(prevProduct.id);
-              }}
-              title={`Previous: ${prevProduct.name}`}
-            >
-              <span>← Prev Reference</span>
-            </button>
-            <button
-              type="button"
-              className="sibling-btn"
-              onClick={() => {
-                forceScrollToTop();
-                onSelectSku(nextProduct.id);
-              }}
-              title={`Next: ${nextProduct.name}`}
-            >
-              <span>Next Reference →</span>
-            </button>
+            {prevProduct && (
+              <button
+                type="button"
+                className="sibling-btn"
+                onClick={() => {
+                  forceScrollToTop();
+                  onSelectSku(prevProduct.id);
+                }}
+                title={`Previous: ${prevProduct.name}`}
+              >
+                <span>← Prev Reference</span>
+              </button>
+            )}
+            {nextProduct && (
+              <button
+                type="button"
+                className="sibling-btn"
+                onClick={() => {
+                  forceScrollToTop();
+                  onSelectSku(nextProduct.id);
+                }}
+                title={`Next: ${nextProduct.name}`}
+              >
+                <span>Next Reference →</span>
+              </button>
+            )}
           </div>
         </div>
       </nav>

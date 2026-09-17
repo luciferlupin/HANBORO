@@ -2679,6 +2679,8 @@ export const draftOrdersService = {
             customerPhone: d.customer_phone,
             total: Number(d.total) || 0,
             status: d.status || "Open",
+            deliveryMethod: d.delivery_method || "Standard (Prepaid)",
+            paymentMethod: d.payment_method || (d.delivery_method?.includes("COD") ? "COD" : "Prepaid"),
             createdAt: d.created_at ? new Date(d.created_at).toLocaleDateString() : "Recently",
             items: Array.isArray(d.items) ? d.items : [],
             notes: d.notes,
@@ -2707,6 +2709,7 @@ export const draftOrdersService = {
         total: draft.total,
         status: draft.status || "Open",
         items: draft.items || [],
+        delivery_method: draft.deliveryMethod || (draft.paymentMethod?.toLowerCase().includes("cod") ? "Concierge White-Glove (COD)" : "Standard (Prepaid)"),
         notes: draft.notes,
         updated_at: new Date().toISOString(),
       });
