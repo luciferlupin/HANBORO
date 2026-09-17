@@ -17,7 +17,7 @@ global.window = {
 };
 
 import { PRODUCTS_DATA } from "../src/productsData.js";
-import { productsService, sortCatalogStably, CANONICAL_PRODUCT_ORDER } from "../src/supabaseClient.js";
+import { productsService, sortCatalogStably, CANONICAL_PRODUCT_ORDER, MASTER_CANONICAL_ORDER } from "../src/supabaseClient.js";
 
 // Ensure remote Supabase calls are mocked in unit tests
 productsService.syncProductsOrderToSupabase = async () => {};
@@ -25,8 +25,8 @@ productsService.syncProductsOrderToSupabase = async () => {};
 test("Watch Reorder: Initial master catalogue has default canonical order", () => {
   const initial = productsService.getLocalProducts();
   assert.equal(initial.length, PRODUCTS_DATA.length);
-  assert.equal(initial[0].id, PRODUCTS_DATA[0].id);
-  assert.equal(initial[1].id, PRODUCTS_DATA[1].id);
+  assert.equal(initial[0].sku, MASTER_CANONICAL_ORDER[0]);
+  assert.equal(initial[1].sku, MASTER_CANONICAL_ORDER[1]);
 });
 
 test("Watch Reorder: Dragging and dropping a watch model persists the new order", async () => {
@@ -117,9 +117,9 @@ test("Watch Reorder: Moving watch to the bottom of the collection works properly
 test("Watch Reorder: resetProductOrder restores factory canonical reference sequence", async () => {
   const resetList = await productsService.resetProductOrder();
   assert.equal(resetList.length, PRODUCTS_DATA.length);
-  assert.equal(resetList[0].id, PRODUCTS_DATA[0].id, "First watch should be back to factory master");
-  assert.equal(resetList[1].id, PRODUCTS_DATA[1].id, "Second watch should be back to factory master");
+  assert.equal(resetList[0].sku, MASTER_CANONICAL_ORDER[0], "First watch should be back to factory master");
+  assert.equal(resetList[1].sku, MASTER_CANONICAL_ORDER[1], "Second watch should be back to factory master");
 
   const refreshed = productsService.getLocalProducts();
-  assert.equal(refreshed[0].id, PRODUCTS_DATA[0].id);
+  assert.equal(refreshed[0].sku, MASTER_CANONICAL_ORDER[0]);
 });

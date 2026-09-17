@@ -502,6 +502,27 @@ export function ProfilePage({ onNavigate }) {
                         </div>
 
                         <div className="apple-order-actions-top">
+                          {(() => {
+                            const isCod =
+                              String(ord.payment_method || "").toLowerCase().includes("cod") ||
+                              String(ord.payment_method || "").toLowerCase().includes("cash on delivery") ||
+                              ord.payment_status === "Pending";
+                            const isPaid = ord.payment_status === "Paid";
+
+                            return (
+                              <span
+                                className="apple-status-pill"
+                                style={{
+                                  background: isPaid ? "#dcfce7" : isCancelled ? "#fee2e2" : "#fef3c7",
+                                  color: isPaid ? "#15803d" : isCancelled ? "#b91c1c" : "#b45309",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                ● {isPaid ? "Paid" : isCancelled ? "Refund Initiated" : isCod ? "Due on Delivery" : (ord.payment_status || "Pending")}
+                              </span>
+                            );
+                          })()}
+
                           <span className={`apple-status-pill apple-status-pill--${ord.order_status?.toLowerCase() || "processing"}`}>
                             {ord.order_status || "Processing"}
                           </span>
@@ -551,12 +572,35 @@ export function ProfilePage({ onNavigate }) {
                           <span className="stat-value">{ord.payment_method || "Credit Card"}</span>
                         </div>
                         <div className="apple-footer-stat">
+                          <span className="stat-label">PAYMENT STATUS</span>
+                          <span
+                            className="stat-value"
+                            style={{
+                              color: ord.payment_status === "Paid" ? "#15803d" : "#b45309",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {ord.payment_status === "Paid"
+                              ? "Paid (Verified)"
+                              : String(ord.payment_method || "").toLowerCase().includes("cod")
+                              ? "Pending (Due on Delivery)"
+                              : (ord.payment_status || "Pending")}
+                          </span>
+                        </div>
+                        <div className="apple-footer-stat">
                           <span className="stat-label">AIRWAY BILL / TRACKING</span>
                           <span className="stat-value stat-value--mono">{ord.tracking_number || "Awaiting Dispatch"}</span>
                         </div>
                         <div className="apple-footer-stat apple-footer-stat--total">
                           <span className="stat-label">TOTAL ALLOCATION</span>
-                          <span className="stat-value-total">₹{Number(ord.total_amount).toLocaleString("en-IN")}</span>
+                          <span className="stat-value-total">
+                            ₹{Number(ord.total_amount).toLocaleString("en-IN")}
+                            {String(ord.payment_method || "").toLowerCase().includes("cod") && ord.payment_status !== "Paid" ? (
+                              <span style={{ display: "block", fontSize: "10.5px", color: "#b45309", fontWeight: 600, letterSpacing: "0.02em" }}>
+                                Payable on Handover
+                              </span>
+                            ) : null}
+                          </span>
                         </div>
                       </div>
                     </div>

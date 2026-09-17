@@ -62,7 +62,8 @@ export function isUuid(str) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(str || "").trim());
 }
 
-// Safe localStorage wrapper for SSR / worker safety
+// Safe localStorage wrapper for SSR / worker safety with in-memory fallback
+const memoryStore = new Map();
 export const safeStorage = {
   getItem(k) {
     try {
@@ -70,7 +71,7 @@ export const safeStorage = {
         return window.localStorage.getItem(k);
       }
     } catch {}
-    return null;
+    return memoryStore.get(k) ?? null;
   },
   setItem(k, v) {
     try {
@@ -78,6 +79,7 @@ export const safeStorage = {
         window.localStorage.setItem(k, v);
       }
     } catch {}
+    memoryStore.set(k, String(v));
   },
   removeItem(k) {
     try {
@@ -85,6 +87,7 @@ export const safeStorage = {
         window.localStorage.removeItem(k);
       }
     } catch {}
+    memoryStore.delete(k);
   },
 };
 
@@ -133,32 +136,18 @@ export function removeDeletedProductId(idOrSku) {
   } catch {}
 }
 
-// One-time production zero database cache reset & purge of stale clones / dev artifacts
-if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v2")) {
+// One-time production zero database cache reset (v3) & purge of legacy 83-SKU cache / dev artifacts
+if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v3")) {
   safeStorage.removeItem(STORAGE_KEYS.ORDERS);
   safeStorage.removeItem(STORAGE_KEYS.CUSTOMERS);
   safeStorage.removeItem(STORAGE_KEYS.PROFILES);
   safeStorage.removeItem("hanboro_draft_orders_cache");
   safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
   safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
-  try {
-    const rawProd = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
-    if (rawProd) {
-      const parsed = JSON.parse(rawProd);
-      if (Array.isArray(parsed)) {
-        const cleaned = parsed.filter(
-          (p) =>
-            p &&
-            !/-clone-/i.test(String(p.id || "")) &&
-            !/-clone-/i.test(String(p.sku || "")) &&
-            !/\(Variant\)/i.test(String(p.name || "")) &&
-            !String(p.name || "").includes("WITH Planetarium Design")
-        );
-        safeStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(cleaned));
-      }
-    }
-  } catch {}
-  safeStorage.setItem("hanboro_prod_zero_db_v2", "true");
+  safeStorage.removeItem(STORAGE_KEYS.DELETED_IDS);
+  safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+  safeStorage.removeItem(STORAGE_KEYS.WATCH_ORDER);
+  safeStorage.setItem("hanboro_prod_zero_db_v3", "true");
 }
 
 /**
@@ -547,18 +536,6 @@ export const authService = {
       safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
       return { user: data.user, profile, error: null };
     } catch (err) {
-      // If user signed up locally or test password match
-      const cached = safeStorage.getItem(STORAGE_KEYS.SESSION_USER);
-      if (cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          if (parsed.email && parsed.email.toLowerCase() === (email || "").trim().toLowerCase()) {
-            return { user: parsed, profile: parsed, error: null };
-          }
-        } catch {
-          // ignore
-        }
-      }
       return { user: null, profile: null, error: err.message || "Invalid credentials" };
     }
   },
@@ -613,16 +590,29 @@ export const authService = {
   },
 };
 
+export function getOrCreateGuestSessionId() {
+  try {
+    let sess = safeStorage.getItem("hanboro_guest_session_id");
+    if (!sess) {
+      sess = `guest_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+      safeStorage.setItem("hanboro_guest_session_id", sess);
+    }
+    return sess;
+  } catch {
+    return `guest_${Date.now()}`;
+  }
+}
+
 // ── CART SERVICE ─────────────────────────────────────────────────────────────
 export const cartService = {
   // Fetch user's cart from Supabase `cart_items` table
   async getCart(userId) {
-    if (!userId) return [];
+    const targetUserId = userId || getOrCreateGuestSessionId();
     try {
       const { data, error } = await supabase
         .from("cart_items")
         .select("*")
-        .eq("user_id", userId);
+        .eq("user_id", targetUserId);
 
       if (!error && data && data.length > 0) {
         return data.map((row) => {
@@ -650,11 +640,12 @@ export const cartService = {
 
   // Save/upsert item to Supabase cart
   async saveCartItem(userId, product, quantity) {
-    if (!userId || !product) return;
+    const targetUserId = userId || getOrCreateGuestSessionId();
+    if (!product) return;
     try {
       await supabase.from("cart_items").upsert(
         {
-          user_id: userId,
+          user_id: targetUserId,
           product_id: product.id,
           sku: product.sku,
           name: product.name,
@@ -673,12 +664,13 @@ export const cartService = {
 
   // Remove single item from Supabase cart
   async removeCartItem(userId, productId) {
-    if (!userId || !productId) return;
+    const targetUserId = userId || getOrCreateGuestSessionId();
+    if (!productId) return;
     try {
       await supabase
         .from("cart_items")
         .delete()
-        .eq("user_id", userId)
+        .eq("user_id", targetUserId)
         .eq("product_id", productId);
     } catch (err) {
       console.warn("Supabase delete cart item note:", err);
@@ -687,9 +679,9 @@ export const cartService = {
 
   // Clear entire user's cart in Supabase
   async clearUserCart(userId) {
-    if (!userId) return;
+    const targetUserId = userId || getOrCreateGuestSessionId();
     try {
-      await supabase.from("cart_items").delete().eq("user_id", userId);
+      await supabase.from("cart_items").delete().eq("user_id", targetUserId);
     } catch (err) {
       console.warn("Supabase clear cart note:", err);
     }
@@ -785,6 +777,10 @@ export const cartService = {
 
 // ── ORDERS SERVICE ───────────────────────────────────────────────────────────
 export const ordersService = {
+  getLocalOrders() {
+    return getLocalOrders();
+  },
+
   // Create a new customer order
   async createOrder(orderPayload) {
     const orderRef =
@@ -792,6 +788,22 @@ export const ordersService = {
       `HNB-${Math.floor(10000 + Math.random() * 90000)}-IN`;
 
     const rawItems = orderPayload.items || [];
+
+    const isCod =
+      String(orderPayload.payment_method || "").toLowerCase().includes("cod") ||
+      String(orderPayload.payment_method || "").toLowerCase().includes("cash on delivery") ||
+      String(orderPayload.delivery_method || "").toLowerCase().includes("cod") ||
+      String(orderPayload.payment_status || "").toLowerCase() === "pending" ||
+      orderPayload.isCod === true;
+
+    const resolvedPaymentMethod =
+      orderPayload.payment_method || (isCod ? "Cash on Delivery (COD)" : "Credit Card (Encrypted)");
+    const resolvedPaymentStatus =
+      orderPayload.payment_status || (isCod ? "Pending" : "Paid");
+    const resolvedDeliveryMethod =
+      orderPayload.delivery_method || (isCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)");
+    const defaultTags = isCod ? ["COD", "White-Glove"] : ["Prepaid", "Standard"];
+
     const formattedOrder = {
       id: isUuid(orderPayload.id) ? orderPayload.id : `ord-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       user_id: orderPayload.user_id || null,
@@ -803,16 +815,16 @@ export const ordersService = {
       items: rawItems.map((it) => enrichOrderItemWithSkuEan(it)),
       total_amount: Number(orderPayload.total_amount) || 0,
       currency: orderPayload.currency || "INR",
-      payment_method: orderPayload.payment_method || "Credit Card (Encrypted)",
-      payment_status: orderPayload.payment_status || "Paid",
+      payment_method: resolvedPaymentMethod,
+      payment_status: resolvedPaymentStatus,
       order_status: orderPayload.order_status || "Processing",
       fulfillment_status: orderPayload.fulfillment_status || "Unfulfilled",
       delivery_status: orderPayload.delivery_status || "Processing",
-      delivery_method: orderPayload.delivery_method || "Standard (Prepaid)",
+      delivery_method: resolvedDeliveryMethod,
       channel: orderPayload.channel || "Online Store",
       tracking_number: orderPayload.tracking_number || `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
       items_count: orderPayload.items_count || `${orderPayload.items?.length || 1} item`,
-      tags: orderPayload.tags || [],
+      tags: orderPayload.tags && orderPayload.tags.length > 0 ? orderPayload.tags : defaultTags,
       discount_applied: orderPayload.discount_applied || null,
       notes: orderPayload.notes || null,
       created_at: orderPayload.created_at || new Date().toISOString(),
@@ -1671,11 +1683,134 @@ export const rouletteService = {
 };
 
 // ── PRODUCTS SERVICE & DETERMINISTIC RANKING ────────────────────────────────
-// Canonical rank index map to maintain stable editorial ordering across refreshes
+// 104 master timepieces canonical ordering matching desktop boutique sequence (#1: HBR-980-AUTO-ORBITA-G)
+export const MASTER_CANONICAL_ORDER = [
+  "HBR-980-AUTO-ORBITA-G",
+  "HBR-989-3-BLACK-AUTO",
+  "HBR-989-3-GREEN-AUTO",
+  "HBR-989-3-ORANGE-AUTO",
+  "HBR-989-3-WHITE-AUTO",
+  "HBR-989-3-RED-AUTO",
+  "HBR-8851-1-SILVER",
+  "HBR-8851-1-R.GOLD-SILVER",
+  "HBR-8851-1-R.GOLD-BROWN",
+  "HBR-985-AUTO-APEX-RG-BLK",
+  "HBR-985-AUTO-APEX-RG-RED",
+  "HBR-985-AUTO-APEX-SLV-RED",
+  "HBR-985-AUTO-APEX-SLV-YLW",
+  "HBR-985-AUTO-APEX-RG-FBLK",
+  "HBR-985-AUTO-APEX-slvr",
+  "HBR-989-3-BLUE-AUTO",
+  "HBR-980-AUTO-ORBITA-S",
+  "HBR-995-1-AUTO-G",
+  "HBR-995-1-AUTO-S",
+  "HBR-995-1-AUTO-RED",
+  "HBR-927-SLV-BLK",
+  "HBR-927-RG-BLK",
+  "HBR-927-RG-RED",
+  "HBR-30027-1-AUTO-GEAR-SLV-BLK",
+  "HBR-30027-1-AUTO-GEAR-GLD-BLK",
+  "HBR-30027-1-AUTO-GEAR-blk",
+  "HBR-8824-AUTO-NAVIGATOR-BLK",
+  "HBR-8824-AUTO-NAVIGATOR-RG-WYT",
+  "HBR-1018-AUTO-ZOD-GLD",
+  "HBR-1018-AUTO-ZOD-SLV",
+  "HBR-1001-1-AUTO-ROULETTE-GLD",
+  "HBR-1001-1-AUTO-ROULETTE-SLV",
+  "HBR-1001-2-AUTO-ROULETTE-GLD",
+  "HBR-1001-2-AUTO-ROULETTE-SLV",
+  "HBR-1020-AUTO-AST-GLD",
+  "HBR-1020-AUTO-AST-SLV",
+  "HBR-2003-AUTO-HIVE-aquablue",
+  "HBR-2003-AUTO-HIVE-BLK",
+  "HBR-2003-AUTO-HIVE-DEEPSEABLUE",
+  "HBR-933-AUTO-FALCONX-BLK",
+  "HBR-933-AUTO-FALCONX-BLUE",
+  "HBR-848-AUTO-NEBULA-BLK",
+  "vHBR-848-AUTO-NEBULA-Blue",
+  "HBR-8821-AUTO-ASTRO-BLUE",
+  "HBR-8821-AUTO-ASTRO-RG-WYT",
+  "HBR-8821-AUTO-ASTRO-BLACK",
+  "HBR-918-AUTO-TORQUE-SLV",
+  "HBR-918-AUTO-TORQUE-GREEN",
+  "HBR-918-AUTO-TORQUE-GLD",
+  "HBR-703-2-AUTO-PRISM",
+  "HBR-917-AUTO-AVENGER-SLV",
+  "HBR-917-AUTO-AVENGER-GOLD",
+  "HBR-RING-5378-2TIFFANY",
+  "HBR-RING-5378-BLUE",
+  "HBR-906-AUTO-RGSL",
+  "HBR-906-AUTO-SILVER",
+  "HBR-906-AUTO-BLACK",
+  "HBR-9038-AUTO-BLACK",
+  "HBR-9038-AUTO-BLUE",
+  "HBR-8821-2-AUTO-ASTRO-rslvr",
+  "HBR-8821-2-AUTO-ASTRO-slvr",
+  "HBR-1001-2-AUTO-ROULETTE-SLV-RED",
+  "HBR-1001-2-AUTO-ROULETTE-SLV-BLUE",
+  "HBR-1001-2-AUTO-ROULETTE-SLV-GREEN",
+  "HBR-902-AUTO-A200-BLACK-SILVER",
+  "HBR-902-AUTO-A200-SILVER-RG",
+  "HBR-902-AUTO-A200-BLACK",
+  "HBR-824-2-AUTO-BLUE-RG",
+  "HBR-824-2-AUTO-BROWN-RG",
+  "HBR-824-2-AUTO-GREEN-SILVER",
+  "HBR-1309-AUTO-PURPLE",
+  "HBR-1309-AUTO-BLUE",
+  "HBR-1309-AUTO-ORANGE",
+  "HBR-8824-AUTO-NS-BLACK",
+  "HBR-1001-2-AUTO-ROULETTE-RG-RED",
+  "HBR-1309-AUTO-GREEN",
+  "HBR-8824-AUTO-NS-BLUE",
+  "HBR-8824-AUTO-NS-RG-BROWN",
+  "HBR-981-AUTO-RGOLD",
+  "HBR-981-AUTO-SILVER",
+  "HBR-2712-AUTO-SILVER",
+  "HBR-2712-AUTO-RG-TIRANGA",
+  "HBR-2712-AUTO-SLV-TIRANGA",
+  "HBR-972-AUTO-RGLD",
+  "HBR-981-AUTO-GOLD",
+  "HBR-2712-AUTO-RGOLD",
+  "HBR-945-3-AUTO-BLACK",
+  "HBR-945-3-AUTO-WHITE",
+  "HBR-1307-AUTO-EMERALD",
+  "HBR-8022-1-AUTO-STELLAR",
+  "HBR-900-3-AUTO-BLACK",
+  "HBR-980-AUTO-ORBITA-GOLD",
+  "HBR-995-1-AUTO-GOLD",
+  "HBR-927-RGOLD-BLK",
+  "HBR-AERO-997-RG-BLK",
+  "HBR-AERO-997-BLK",
+  "HBR-AERO-997-SILVER",
+  "HBR-ZODIAC-1027-2-BLUE",
+  "HBR-ZODIAC-1027-2-BLACK",
+  "HBR-WC-1038-RG-BLK",
+  "HBR-WC-1038-SILVER-BLK",
+  "HBR-1308-AUTO-SAPPHIRE",
+  "HBR-902-AUTO-A200-SILVER",
+  "HBR-927-GOLD-BLK"
+];
+
 export const CANONICAL_PRODUCT_ORDER = new Map();
+MASTER_CANONICAL_ORDER.forEach((sku, rank) => {
+  const cleanSku = String(sku).trim().toUpperCase();
+  CANONICAL_PRODUCT_ORDER.set(cleanSku, rank);
+  const match = PRODUCTS_DATA.find((p) => String(p.sku || "").trim().toUpperCase() === cleanSku);
+  if (match?.id) {
+    CANONICAL_PRODUCT_ORDER.set(String(match.id).trim().toLowerCase(), rank);
+  }
+});
+
+// Fallback for any product in PRODUCTS_DATA not in master list
 PRODUCTS_DATA.forEach((p, idx) => {
-  if (p.id) CANONICAL_PRODUCT_ORDER.set(String(p.id).trim().toLowerCase(), idx);
-  if (p.sku) CANONICAL_PRODUCT_ORDER.set(String(p.sku).trim().toUpperCase(), idx);
+  const pId = String(p.id || "").trim().toLowerCase();
+  const pSku = String(p.sku || "").trim().toUpperCase();
+  if (pId && !CANONICAL_PRODUCT_ORDER.has(pId)) {
+    CANONICAL_PRODUCT_ORDER.set(pId, 104 + idx);
+  }
+  if (pSku && !CANONICAL_PRODUCT_ORDER.has(pSku)) {
+    CANONICAL_PRODUCT_ORDER.set(pSku, 104 + idx);
+  }
 });
 
 // Deterministic stable sorting function for products catalog
@@ -1728,7 +1863,7 @@ export function isStaleClone(p) {
     id.startsWith("astroworld-celestial-clone-") ||
     id.startsWith("astroworld-tourbillon-fluted-rosegold-clone-") ||
     id.startsWith("volcano-glacier-compass-gold-clone-") ||
-    (sku.includes("ORBITA") && sku.includes("CLONE")) ||
+    (sku.includes("ORBITA") && sku.includes("CLONE") && (sku.includes("LEGACY") || id.includes("legacy") || sku.includes("TEST-STALE"))) ||
     name.includes("WITH Planetarium Design") ||
     /\(Variant\)/i.test(name)
   );
@@ -1759,7 +1894,11 @@ export const productsService = {
       const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
         let parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
+        // Discard stale or incomplete cached product list (e.g. legacy 83-item cache)
+        if (Array.isArray(parsed) && parsed.length < PRODUCTS_DATA.length) {
+          safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+          parsed = null;
+        } else if (Array.isArray(parsed) && parsed.length > 0) {
           // ── Auto-purge stale test clones and legacy Orbita variant clones ──
           const hadStaleClones = parsed.some(isStaleClone);
           if (hadStaleClones) {
@@ -1792,7 +1931,8 @@ export const productsService = {
             );
 
             const customRank = customOrderMap ? (customOrderMap.get(mId) ?? customOrderMap.get(mSku)) : undefined;
-            let rankVal = idx;
+            const canonicalRank = CANONICAL_PRODUCT_ORDER.get(mId) ?? CANONICAL_PRODUCT_ORDER.get(mSku) ?? idx;
+            let rankVal = canonicalRank;
             if (typeof customRank === "number") {
               rankVal = customRank;
             } else if (cachedMatch && typeof cachedMatch.rank === "number" && !isNaN(cachedMatch.rank)) {
@@ -1898,9 +2038,10 @@ export const productsService = {
       })
       .map((p, idx) => {
         const pId = String(p.id || "").toLowerCase();
-        const pSku = String(p.sku || "").toLowerCase();
+        const pSku = String(p.sku || "").toUpperCase();
         const customRank = customOrderMap ? (customOrderMap.get(pId) ?? customOrderMap.get(pSku)) : undefined;
-        const rankVal = typeof customRank === "number" ? customRank : idx;
+        const canonicalRank = CANONICAL_PRODUCT_ORDER.get(pId) ?? CANONICAL_PRODUCT_ORDER.get(pSku) ?? idx;
+        const rankVal = typeof customRank === "number" ? customRank : canonicalRank;
         return {
           ...p,
           stock: typeof p.stock === "number" && !isNaN(p.stock) ? p.stock : Math.max(1, 12 - (idx % 8)),
@@ -1932,6 +2073,22 @@ export const productsService = {
   async fetchProducts() {
     const local = this.getLocalProducts();
     const deletedIds = getDeletedProductIds();
+    let customOrderMap = null;
+    try {
+      const rawOrder = safeStorage.getItem(STORAGE_KEYS.WATCH_ORDER);
+      if (rawOrder) {
+        const parsedOrder = JSON.parse(rawOrder);
+        if (Array.isArray(parsedOrder)) {
+          customOrderMap = new Map();
+          parsedOrder.forEach((key, idx) => {
+            if (key) {
+              const strKey = String(key).trim().toLowerCase();
+              customOrderMap.set(strKey, idx);
+            }
+          });
+        }
+      }
+    } catch {}
     try {
       const { data, error } = await supabase
         .from("products")
@@ -2013,10 +2170,14 @@ export const productsService = {
               if (prevSku) consumedRemoteSkus.add(prevSku);
 
               const remoteRank = typeof remote.specs?.rank === "number" && !isNaN(remote.specs.rank) ? remote.specs.rank : undefined;
-              const resolvedRank =
-                lp.rank !== undefined && typeof lp.rank === "number"
-                  ? lp.rank
-                  : (remoteRank ?? CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx);
+              const hasLocalCustomOrder = customOrderMap && (customOrderMap.has(lId) || customOrderMap.has(lSku));
+              const resolvedRank = hasLocalCustomOrder
+                ? (customOrderMap.get(lId) ?? customOrderMap.get(lSku))
+                : (remoteRank !== undefined
+                  ? remoteRank
+                  : (typeof lp.rank === "number" && !isNaN(lp.rank)
+                    ? lp.rank
+                    : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx)));
 
               // If local copy was updated more recently than remote, preserve local edits
               const lpTime = lp.updatedAt ? new Date(lp.updatedAt).getTime() : 0;
@@ -2100,9 +2261,26 @@ export const productsService = {
             };
           });
 
-        const merged = sortCatalogStably([...updatedExisting, ...brandNewRemote]);
-        this.saveLocalProducts(merged);
-        return merged;
+        const merged = [...updatedExisting, ...brandNewRemote];
+
+        // Guarantee all 104 canonical products are present in the final merged array
+        const mergedMap = new Set(merged.map((p) => String(p.id || "").toLowerCase().trim()));
+        const mergedSkuMap = new Set(merged.map((p) => String(p.sku || "").toUpperCase().trim()));
+        for (let idx = 0; idx < PRODUCTS_DATA.length; idx++) {
+          const m = PRODUCTS_DATA[idx];
+          const mId = String(m.id || "").toLowerCase().trim();
+          const mSku = String(m.sku || "").toUpperCase().trim();
+          if (!mergedMap.has(mId) && !mergedSkuMap.has(mSku) && !deletedIds.has(mId) && !deletedIds.has(mSku.toLowerCase())) {
+            const mRank = CANONICAL_PRODUCT_ORDER.get(mId) ?? CANONICAL_PRODUCT_ORDER.get(mSku) ?? idx;
+            merged.push({ ...m, rank: mRank });
+            mergedMap.add(mId);
+            mergedSkuMap.add(mSku);
+          }
+        }
+
+        const stablySorted = sortCatalogStably(merged);
+        this.saveLocalProducts(stablySorted);
+        return stablySorted;
       }
     } catch (err) {
       console.warn("Supabase fetch products note:", err);
@@ -2450,9 +2628,15 @@ export const productsService = {
     safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
     safeStorage.removeItem(STORAGE_KEYS.WATCH_ORDER);
-    const defaults = PRODUCTS_DATA.map((p, idx) => ({ ...p, rank: idx }));
-    this.saveLocalProducts(defaults);
-    return defaults;
+    const defaults = PRODUCTS_DATA.map((p, idx) => {
+      const pId = String(p.id || "").toLowerCase().trim();
+      const pSku = String(p.sku || "").toUpperCase().trim();
+      const canonRank = CANONICAL_PRODUCT_ORDER.get(pId) ?? CANONICAL_PRODUCT_ORDER.get(pSku) ?? idx;
+      return { ...p, rank: canonRank };
+    });
+    const sorted = sortCatalogStably(defaults);
+    this.saveLocalProducts(sorted);
+    return sorted;
   },
 };
 
@@ -2481,21 +2665,24 @@ export const draftOrdersService = {
       const { data, error } = await supabase
         .from("draft_orders")
         .select("*")
+        .neq("status", "Abandoned")
         .order("created_at", { ascending: false });
 
       if (!error && data && data.length > 0) {
-        const mapped = data.map((d) => ({
-          id: d.id,
-          draftNumber: d.draft_number,
-          customerName: d.customer_name,
-          customerEmail: d.customer_email,
-          customerPhone: d.customer_phone,
-          total: Number(d.total) || 0,
-          status: d.status || "Open",
-          createdAt: d.created_at ? new Date(d.created_at).toLocaleDateString() : "Recently",
-          items: Array.isArray(d.items) ? d.items : [],
-          notes: d.notes,
-        }));
+        const mapped = data
+          .filter((d) => d.status !== "Abandoned")
+          .map((d) => ({
+            id: d.id,
+            draftNumber: d.draft_number,
+            customerName: d.customer_name,
+            customerEmail: d.customer_email,
+            customerPhone: d.customer_phone,
+            total: Number(d.total) || 0,
+            status: d.status || "Open",
+            createdAt: d.created_at ? new Date(d.created_at).toLocaleDateString() : "Recently",
+            items: Array.isArray(d.items) ? d.items : [],
+            notes: d.notes,
+          }));
         this.saveLocalDrafts(mapped);
         return mapped;
       }
@@ -2540,6 +2727,261 @@ export const draftOrdersService = {
       console.warn("Supabase delete draft order note:", err);
     }
     return updated;
+  },
+};
+
+// ── ABANDONED CHECKOUTS SERVICE ──────────────────────────────────────────────
+export const abandonedCheckoutsService = {
+  getGuestCheckoutSessionId() {
+    try {
+      let sess = safeStorage.getItem("hanboro_checkout_session_id");
+      if (!sess) {
+        sess = `chk_sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        safeStorage.setItem("hanboro_checkout_session_id", sess);
+      }
+      return sess;
+    } catch {
+      return `chk_sess_${Date.now()}`;
+    }
+  },
+
+  hashCode(str) {
+    let hash = 0;
+    const s = String(str || "");
+    for (let i = 0; i < s.length; i++) {
+      hash = (hash << 5) - hash + s.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash);
+  },
+
+  getLocalAbandonedCheckouts() {
+    try {
+      const raw = safeStorage.getItem("hanboro_abandoned_checkouts_cache");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  saveLocalAbandonedCheckouts(checkouts) {
+    try {
+      safeStorage.setItem("hanboro_abandoned_checkouts_cache", JSON.stringify(checkouts));
+    } catch {}
+  },
+
+  async recordCheckoutLead(payload = {}) {
+    const sessionId = this.getGuestCheckoutSessionId();
+    const id = `chk-${sessionId}`;
+    const checkoutNumber =
+      payload.checkoutNumber || `#${44800000000000 + (this.hashCode(sessionId) % 900000000)}`;
+    const customerName = String(payload.name || payload.customerName || "").trim() || "Active Guest Shopper";
+    const customerEmail = String(payload.email || payload.customerEmail || "").trim();
+    const customerPhone = String(payload.phone || payload.customerPhone || "").trim();
+    const total = Number(payload.totalPrice || payload.total || 0);
+
+    const items = (payload.items || []).map((it) => ({
+      id: it.product?.id || it.id,
+      sku: it.product?.sku || it.sku,
+      name: it.product?.name || it.name,
+      price: it.product?.price || it.price,
+      quantity: it.quantity || 1,
+      image: it.product?.image || it.image,
+    }));
+
+    const region = payload.city
+      ? `${payload.city}, India`
+      : payload.state
+      ? `${payload.state}, India`
+      : "India";
+
+    const notesObj = {
+      address: payload.address || "",
+      city: payload.city || "",
+      state: payload.state || "",
+      pincode: payload.pincode || "",
+      region,
+      step: payload.step || 1,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const checkoutRecord = {
+      id,
+      checkoutNumber,
+      customerName,
+      customerEmail: customerEmail || "shopper@hanborowatches.in",
+      customerPhone: customerPhone || "",
+      totalPrice: total,
+      status: "Abandoned",
+      recoveryStatus: "Not recovered",
+      emailStatus: "Not sent",
+      region,
+      items,
+      createdAt: new Date().toISOString(),
+      shippingAddress: notesObj,
+    };
+
+    // 1. Update local cache
+    const local = this.getLocalAbandonedCheckouts();
+    const updated = [checkoutRecord, ...local.filter((c) => c.id !== id)];
+    this.saveLocalAbandonedCheckouts(updated);
+
+    // 2. Persist to Supabase draft_orders table with status 'Abandoned'
+    try {
+      await supabase.from("draft_orders").upsert(
+        {
+          id,
+          draft_number: checkoutNumber,
+          customer_name: customerName,
+          customer_email: customerEmail || null,
+          customer_phone: customerPhone || null,
+          total,
+          status: "Abandoned",
+          items,
+          delivery_method: payload.deliveryMethod || "Concierge White-Glove (COD)",
+          notes: JSON.stringify(notesObj),
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "id" }
+      );
+    } catch (err) {
+      console.warn("Supabase record checkout lead note:", err);
+    }
+
+    // 3. Also sync items to cart_items under sessionId if not empty
+    if (items.length > 0) {
+      for (const it of items) {
+        cartService.saveCartItem(sessionId, it, it.quantity).catch(() => {});
+      }
+    }
+
+    return checkoutRecord;
+  },
+
+  async fetchAbandonedCheckouts() {
+    const local = this.getLocalAbandonedCheckouts();
+    try {
+      // 1. Fetch from draft_orders where status is 'Abandoned'
+      const { data: abandonedDrafts, error: draftErr } = await supabase
+        .from("draft_orders")
+        .select("*")
+        .eq("status", "Abandoned")
+        .order("updated_at", { ascending: false });
+
+      // 2. Also fetch live carts from cartService
+      const liveCarts = await cartService.fetchAllLiveCarts().catch(() => []);
+
+      const recordsMap = new Map();
+
+      // Add Supabase abandoned drafts
+      if (!draftErr && Array.isArray(abandonedDrafts)) {
+        abandonedDrafts.forEach((d) => {
+          let notesObj = {};
+          try {
+            notesObj = typeof d.notes === "string" && d.notes.startsWith("{") ? JSON.parse(d.notes) : {};
+          } catch {}
+
+          recordsMap.set(d.id, {
+            id: d.id,
+            checkoutNumber: d.draft_number,
+            customerName: d.customer_name || "Active Guest Shopper",
+            customerEmail: d.customer_email || "shopper@hanborowatches.in",
+            customerPhone: d.customer_phone || "",
+            emailStatus: "Not sent",
+            recoveryStatus: d.status === "Recovered" ? "Recovered" : "Not recovered",
+            region: notesObj.region || (notesObj.city ? `${notesObj.city}, India` : "India"),
+            totalPrice: Number(d.total) || 0,
+            createdAt: d.created_at
+              ? new Date(d.created_at).toLocaleDateString("en-IN", {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "Just now",
+            items: Array.isArray(d.items) ? d.items : [],
+            shippingAddress: notesObj,
+          });
+        });
+      }
+
+      // Merge uncaptured live carts into abandoned list
+      if (Array.isArray(liveCarts)) {
+        liveCarts.forEach((cart, idx) => {
+          const cartId = `chk-cart-${cart.userId || idx}`;
+          if (!recordsMap.has(cartId)) {
+            recordsMap.set(cartId, {
+              id: cartId,
+              checkoutNumber: `#${44800000000000 + Math.floor(Math.random() * 999999999)}`,
+              customerName: cart.userEmail || cart.userId || "Active Guest Shopper",
+              customerEmail: cart.userEmail?.includes("@") ? cart.userEmail : "shopper@hanborowatches.in",
+              customerPhone: cart.userPhone || "",
+              emailStatus: "Not sent",
+              region: "India",
+              recoveryStatus: "Not recovered",
+              totalPrice: cart.totalValue || 45000,
+              createdAt: "Just now",
+              items: cart.items || [],
+              shippingAddress: {},
+            });
+          }
+        });
+      }
+
+      // Merge with local fallback if Supabase returned nothing
+      if (recordsMap.size === 0 && Array.isArray(local) && local.length > 0) {
+        local.forEach((c) => recordsMap.set(c.id, c));
+      }
+
+      const merged = Array.from(recordsMap.values());
+      this.saveLocalAbandonedCheckouts(merged);
+      return merged;
+    } catch (err) {
+      console.warn("Supabase fetch abandoned checkouts note:", err);
+    }
+    return local;
+  },
+
+  async markCheckoutRecovered(checkoutId, orderRef = "") {
+    const local = this.getLocalAbandonedCheckouts().map((c) =>
+      c.id === checkoutId ? { ...c, recoveryStatus: "Recovered", orderRef } : c
+    );
+    this.saveLocalAbandonedCheckouts(local);
+
+    try {
+      await supabase
+        .from("draft_orders")
+        .update({
+          status: "Recovered",
+          notes: `Recovered in order ${orderRef}`,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", checkoutId);
+    } catch (err) {
+      console.warn("Supabase mark checkout recovered note:", err);
+    }
+  },
+
+  async deleteAbandonedCheckout(checkoutId) {
+    const local = this.getLocalAbandonedCheckouts().filter((c) => c.id !== checkoutId);
+    this.saveLocalAbandonedCheckouts(local);
+
+    try {
+      await supabase.from("draft_orders").delete().eq("id", checkoutId);
+    } catch (err) {
+      console.warn("Supabase delete abandoned checkout note:", err);
+    }
+    return local;
+  },
+
+  clearCheckoutSession() {
+    try {
+      const sessId = safeStorage.getItem("hanboro_checkout_session_id");
+      if (sessId) {
+        cartService.clearUserCart(sessId).catch(() => {});
+        safeStorage.removeItem("hanboro_checkout_session_id");
+      }
+    } catch {}
   },
 };
 

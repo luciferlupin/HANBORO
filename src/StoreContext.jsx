@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
-import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, discountsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER, supabase, STORAGE_KEYS } from "./supabaseClient";
+import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, discountsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER, supabase, STORAGE_KEYS, getOrCreateGuestSessionId } from "./supabaseClient";
 import { PRODUCTS_DATA } from "./productsData";
 
 const StoreContext = createContext(null);
@@ -621,10 +621,9 @@ export function StoreProvider({ children }) {
       return [...prev, { product, quantity, addedAt: new Date().toISOString() }];
     });
 
-    // Save directly to Supabase `cart_items` table if logged in
-    if (user?.id) {
-      cartService.saveCartItem(user.id, product, targetQty);
-    }
+    // Save directly to Supabase `cart_items` table for both logged in and guest sessions
+    const targetUserId = user?.id || getOrCreateGuestSessionId();
+    cartService.saveCartItem(targetUserId, product, targetQty);
 
     showToast(`Added ${product.name} to Luxury Bag`);
     if (openDrawer) {
@@ -634,9 +633,8 @@ export function StoreProvider({ children }) {
 
   const removeFromCart = (productId) => {
     setCart((prev) => prev.filter((item) => item.product.id !== productId));
-    if (user?.id) {
-      cartService.removeCartItem(user.id, productId);
-    }
+    const targetUserId = user?.id || getOrCreateGuestSessionId();
+    cartService.removeCartItem(targetUserId, productId);
   };
 
   const updateQuantity = (productId, delta) => {
@@ -644,13 +642,14 @@ export function StoreProvider({ children }) {
       const item = prev.find((i) => i.product.id === productId);
       if (!item) return prev;
       const nextQty = item.quantity + delta;
+      const targetUserId = user?.id || getOrCreateGuestSessionId();
 
       if (nextQty <= 0) {
-        if (user?.id) cartService.removeCartItem(user.id, productId);
+        cartService.removeCartItem(targetUserId, productId);
         return prev.filter((i) => i.product.id !== productId);
       }
 
-      if (user?.id) cartService.saveCartItem(user.id, item.product, nextQty);
+      cartService.saveCartItem(targetUserId, item.product, nextQty);
       return prev.map((i) => (i.product.id === productId ? { ...i, quantity: nextQty } : i));
     });
   };
@@ -658,9 +657,8 @@ export function StoreProvider({ children }) {
   const clearCart = () => {
     setCart([]);
     setAppliedPromo(null);
-    if (user?.id) {
-      cartService.clearUserCart(user.id);
-    }
+    const targetUserId = user?.id || getOrCreateGuestSessionId();
+    cartService.clearUserCart(targetUserId);
   };
 
   // Buy Now: instantly triggers checkout for single product or active cart
@@ -811,6 +809,12 @@ export function StoreProvider({ children }) {
       };
     });
 
+    const isCod =
+      String(orderCustomerData.paymentMethod || "").toLowerCase().includes("cod") ||
+      String(orderCustomerData.paymentMethod || "").toLowerCase().includes("cash on delivery") ||
+      orderCustomerData.paymentStatus === "Pending" ||
+      orderCustomerData.isCod === true;
+
     const orderPayload = {
       user_id: user?.id || null,
       customer_name: orderCustomerData.name,
@@ -826,10 +830,14 @@ export function StoreProvider({ children }) {
       items: formattedItems,
       total_amount: finalTotalInr,
       currency: "INR",
-      payment_method: orderCustomerData.paymentMethod || "Credit Card",
-      payment_status: "Paid",
+      payment_method: orderCustomerData.paymentMethod || (isCod ? "Cash on Delivery (COD)" : "Credit Card (Encrypted)"),
+      payment_status: orderCustomerData.paymentStatus || (isCod ? "Pending" : "Paid"),
       order_status: "Processing",
+      fulfillment_status: "Unfulfilled",
+      delivery_status: "Processing",
+      delivery_method: orderCustomerData.deliveryMethod || (isCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)"),
       discount_applied: appliedPromo ? { code: appliedPromo.code, amount: discountAmount } : null,
+      isCod,
     };
 
     const created = await ordersService.createOrder(orderPayload);
@@ -843,9 +851,6 @@ export function StoreProvider({ children }) {
     // If it was standard cart, clear it locally and in Supabase
     if (!directCheckoutItem) {
       clearCart();
-      if (user?.id) {
-        cartService.clearUserCart(user.id);
-      }
     }
 
     showToast(`Order Confirmed! Ref: ${created.order_ref}`);

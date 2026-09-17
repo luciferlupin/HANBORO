@@ -120,7 +120,7 @@ export function ProductsView({
           <div className="maison-intro-columns">
             <div className="intro-column">
               <p>
-                Engineered without compromise. The Hanboro catalog unites 81 avant-garde mechanical complications, from rotating 3D lunar orbits and kinetic casino roulette dials to high-frequency flying tourbillons. Each calibre operates at 28,800 BPH with synthetic ruby bearings for frictionless chronometric precision.
+                Engineered without compromise. The Hanboro catalog unites 104 avant-garde mechanical complications, from rotating 3D lunar orbits and kinetic casino roulette dials to high-frequency flying tourbillons. Each calibre operates at 28,800 BPH with synthetic ruby bearings for frictionless chronometric precision.
               </p>
             </div>
           </div>

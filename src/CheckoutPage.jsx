@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
+import { abandonedCheckoutsService } from "./supabaseClient";
 
 /* ── APPLE-GRADE MINIMALIST VECTOR ICONS ── */
 const Icons = {
@@ -127,6 +128,41 @@ export function CheckoutPage({ onNavigate }) {
     }
   }, [user]);
 
+  // Telemetry: Auto-record active checkout lead to Supabase & local cache in real-time
+  useEffect(() => {
+    if (activeCheckoutItems.length > 0 && step < 3) {
+      const payload = {
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state: stateName,
+        pincode,
+        items: activeCheckoutItems,
+        totalPrice: finalTotalInr,
+        step,
+        deliveryMethod: paymentMethod === "cod" ? "Concierge White-Glove (COD)" : "Standard (Prepaid)",
+      };
+
+      const timer = setTimeout(() => {
+        abandonedCheckoutsService.recordCheckoutLead(payload).catch(() => {});
+      }, 350);
+
+      const handlePageLeave = () => {
+        abandonedCheckoutsService.recordCheckoutLead(payload).catch(() => {});
+      };
+      window.addEventListener("pagehide", handlePageLeave);
+      window.addEventListener("beforeunload", handlePageLeave);
+
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("pagehide", handlePageLeave);
+        window.removeEventListener("beforeunload", handlePageLeave);
+      };
+    }
+  }, [activeCheckoutItems, finalTotalInr, name, email, phone, address, city, stateName, pincode, step, paymentMethod]);
+
   const handleGoToPayment = (e) => {
     e.preventDefault();
     if (!name || !email || !address || !city || !pincode) {
@@ -134,12 +170,29 @@ export function CheckoutPage({ onNavigate }) {
       return;
     }
     setStep(2);
+    // Explicitly update telemetry on step change
+    abandonedCheckoutsService
+      .recordCheckoutLead({
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state: stateName,
+        pincode,
+        items: activeCheckoutItems,
+        totalPrice: finalTotalInr,
+        step: 2,
+        deliveryMethod: paymentMethod === "cod" ? "Concierge White-Glove (COD)" : "Standard (Prepaid)",
+      })
+      .catch(() => {});
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handlePlaceOrder = async () => {
     setIsSubmitting(true);
     try {
+      const isCod = paymentMethod === "cod";
       const orderData = {
         name,
         email,
@@ -153,12 +206,23 @@ export function CheckoutPage({ onNavigate }) {
             ? "Credit Card (Encrypted)"
             : paymentMethod === "upi"
             ? "Instant UPI / QR"
-            : "White-Glove Concierge COD",
+            : "Cash on Delivery (COD)",
+        paymentStatus: isCod ? "Pending" : "Paid",
+        deliveryMethod: isCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)",
+        isCod,
       };
 
       const order = await placeOrder(orderData);
       setCompletedOrder(order);
       setStep(3);
+
+      // Successfully placed order: mark abandoned checkout lead as recovered and clear session
+      try {
+        const sessId = abandonedCheckoutsService.getGuestCheckoutSessionId();
+        abandonedCheckoutsService.markCheckoutRecovered(`chk-${sessId}`, order.order_ref).catch(() => {});
+        abandonedCheckoutsService.clearCheckoutSession();
+      } catch {}
+
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       alert("Could not process order: " + err.message);
@@ -578,6 +642,8 @@ export function CheckoutPage({ onNavigate }) {
                   >
                     {isSubmitting ? (
                       <span>Securing Allocation...</span>
+                    ) : paymentMethod === "cod" ? (
+                      <span>Place Cash on Delivery Order (₹{finalTotalInr.toLocaleString("en-IN")} on Delivery) →</span>
                     ) : (
                       <span>Complete Acquisition (Pay ₹{finalTotalInr.toLocaleString("en-IN")}) →</span>
                     )}
@@ -587,71 +653,123 @@ export function CheckoutPage({ onNavigate }) {
             )}
 
             {/* ── STEP 3: ORDER CONFIRMED ── */}
-            {step === 3 && completedOrder && (
-              <div className="apple-confirmation-card">
-                <div className="confirm-icon-wrap">
-                  <Icons.Check />
-                </div>
+            {step === 3 && completedOrder && (() => {
+              const isCodOrder =
+                String(completedOrder.payment_method || "").toLowerCase().includes("cod") ||
+                String(completedOrder.payment_method || "").toLowerCase().includes("cash on delivery") ||
+                String(completedOrder.delivery_method || "").toLowerCase().includes("cod") ||
+                completedOrder.payment_status === "Pending";
 
-                <span className="confirm-tag">ACQUISITION COMPLETE</span>
-                <h1 className="confirm-title">Timepiece Allocation Confirmed</h1>
-                <p className="confirm-desc">
-                  Thank you, <strong>{completedOrder.customer_name}</strong>. Your horological allocation has been confirmed and saved to your account.
-                </p>
+              return (
+                <div className="apple-confirmation-card">
+                  <div className="confirm-icon-wrap">
+                    <Icons.Check />
+                  </div>
 
-                <div className="confirm-dossier-box">
-                  <div className="dossier-row">
-                    <span className="dossier-label">Official Order Reference</span>
-                    <strong className="dossier-ref">{completedOrder.order_ref}</strong>
+                  <span className="confirm-tag">
+                    {isCodOrder ? "CASH ON DELIVERY ORDER" : "ACQUISITION COMPLETE"}
+                  </span>
+                  <h1 className="confirm-title">
+                    {isCodOrder ? "Timepiece Reserved for Delivery" : "Timepiece Allocation Confirmed"}
+                  </h1>
+                  <p className="confirm-desc">
+                    {isCodOrder ? (
+                      <>
+                        Thank you, <strong>{completedOrder.customer_name}</strong>. Your horological allocation has been reserved. Payment of <strong>₹{Number(completedOrder.total_amount).toLocaleString("en-IN")}</strong> is payable to our armored courier upon white-glove delivery and physical inspection.
+                      </>
+                    ) : (
+                      <>
+                        Thank you, <strong>{completedOrder.customer_name}</strong>. Your horological allocation has been confirmed and saved to your account.
+                      </>
+                    )}
+                  </p>
+
+                  <div className="confirm-dossier-box">
+                    <div className="dossier-row">
+                      <span className="dossier-label">Official Order Reference</span>
+                      <strong className="dossier-ref">{completedOrder.order_ref}</strong>
+                    </div>
+                    <div className="dossier-row">
+                      <span className="dossier-label">Airway Bill / Tracking</span>
+                      <code className="dossier-tracking">{completedOrder.tracking_number}</code>
+                    </div>
+                    <div className="dossier-row">
+                      <span className="dossier-label">Destination</span>
+                      <span>{completedOrder.shipping_address?.address}, {completedOrder.shipping_address?.city}</span>
+                    </div>
+                    <div className="dossier-row">
+                      <span className="dossier-label">Payment Mode</span>
+                      <span>{completedOrder.payment_method}</span>
+                    </div>
+                    <div className="dossier-row">
+                      <span className="dossier-label">Payment Status</span>
+                      <span
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          background: isCodOrder ? "#fef3c7" : "#dcfce7",
+                          color: isCodOrder ? "#b45309" : "#15803d",
+                        }}
+                      >
+                        ● {completedOrder.payment_status || (isCodOrder ? "Pending" : "Paid")}
+                      </span>
+                    </div>
+                    <div className="dossier-row dossier-row--total">
+                      <span className="dossier-label">
+                        {isCodOrder ? "Total Payable on Delivery" : "Total Amount Paid"}
+                      </span>
+                      <strong className="dossier-total-num">₹{Number(completedOrder.total_amount).toLocaleString("en-IN")}</strong>
+                    </div>
                   </div>
-                  <div className="dossier-row">
-                    <span className="dossier-label">Airway Bill / Tracking</span>
-                    <code className="dossier-tracking">{completedOrder.tracking_number}</code>
-                  </div>
-                  <div className="dossier-row">
-                    <span className="dossier-label">Destination</span>
-                    <span>{completedOrder.shipping_address?.address}, {completedOrder.shipping_address?.city}</span>
-                  </div>
-                  <div className="dossier-row">
-                    <span className="dossier-label">Payment Mode</span>
-                    <span>{completedOrder.payment_method}</span>
-                  </div>
-                  <div className="dossier-row dossier-row--total">
-                    <span className="dossier-label">Total Amount Paid</span>
-                    <strong className="dossier-total-num">₹{Number(completedOrder.total_amount).toLocaleString("en-IN")}</strong>
+
+                  {isCodOrder && (
+                    <div className="apple-courier-banner" style={{ marginTop: "20px", textAlign: "left" }}>
+                      <div className="apple-courier-icon">
+                        <Icons.Check />
+                      </div>
+                      <div className="apple-courier-text">
+                        <strong>Cash on Delivery Dispatch Scheduled</strong>
+                        <p>Our courier will verify the tamper-proof seal and timepiece with you. Cash, UPI QR code, and Cards are accepted at doorstep.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="confirm-actions">
+                    <button
+                      type="button"
+                      className="apple-primary-btn"
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate("profile", "#profile");
+                        } else {
+                          window.location.hash = "#profile";
+                        }
+                      }}
+                    >
+                      View in My Account →
+                    </button>
+                    <button
+                      type="button"
+                      className="apple-secondary-btn"
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate("products", "#products");
+                        } else {
+                          window.location.hash = "#products";
+                        }
+                      }}
+                    >
+                      Return to Catalog
+                    </button>
                   </div>
                 </div>
-
-                <div className="confirm-actions">
-                  <button
-                    type="button"
-                    className="apple-primary-btn"
-                    onClick={() => {
-                      if (onNavigate) {
-                        onNavigate("profile", "#profile");
-                      } else {
-                        window.location.hash = "#profile";
-                      }
-                    }}
-                  >
-                    View in My Account →
-                  </button>
-                  <button
-                    type="button"
-                    className="apple-secondary-btn"
-                    onClick={() => {
-                      if (onNavigate) {
-                        onNavigate("products", "#products");
-                      } else {
-                        window.location.hash = "#products";
-                      }
-                    }}
-                  >
-                    Return to Catalog
-                  </button>
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
           </div>
 

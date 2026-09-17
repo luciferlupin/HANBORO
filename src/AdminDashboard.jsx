@@ -4,6 +4,7 @@ import {
   inventoryService,
   cartService,
   draftOrdersService,
+  abandonedCheckoutsService,
   discountsService,
   profilesService,
   calculateEan13,
@@ -469,20 +470,28 @@ export function AdminDashboard({ onNavigateHome }) {
 
   // WhatsApp quick-recovery message generator
   const triggerWhatsAppRecovery = (checkout) => {
-    const phone = checkout.customerPhone || "918882069334";
-    const cleanPhone = phone.replace(/[^\d]/g, "");
+    let cleanPhone = (checkout.customerPhone || "").replace(/[^\d]/g, "");
+    if (cleanPhone.length === 10) {
+      cleanPhone = `91${cleanPhone}`;
+    } else if (!cleanPhone) {
+      cleanPhone = "918882069334";
+    }
     const primaryItem = checkout.items?.[0]?.name || "HANBORO Luxury Timepiece";
     const text = encodeURIComponent(
       `Hello ${checkout.customerName || "Valued Client"},\n\nWe noticed you were selecting the ${primaryItem} at HANBORO Watches.\n\nTo ensure your allocation is secured, our boutique concierge has activated an exclusive 10% privilege voucher (CODE: VIP10) for you:\n\nAcquisition Reference: ${checkout.checkoutNumber}\nTotal: ₹${Number(checkout.totalPrice).toLocaleString("en-IN")}\nWebsite: https://hanborowatches.in/#cart\n\nMay we assist you with personal delivery or verification?\n— HANBORO VIP Concierge (+91 88820 69334)`
     );
     window.open(`https://wa.me/${cleanPhone}?text=${text}`, "_blank");
-    showToast(`WhatsApp recovery nudge opened for ${checkout.customerName}`);
+    showToast(`WhatsApp recovery nudge opened for ${checkout.customerName || "Client"}`);
   };
 
   // WhatsApp customer order update
   const triggerWhatsAppOrderUpdate = (order) => {
-    const phone = order.customer_phone || "918882069334";
-    const cleanPhone = phone.replace(/[^\d]/g, "");
+    let cleanPhone = (order.customer_phone || "").replace(/[^\d]/g, "");
+    if (cleanPhone.length === 10) {
+      cleanPhone = `91${cleanPhone}`;
+    } else if (!cleanPhone) {
+      cleanPhone = "918882069334";
+    }
     const text = encodeURIComponent(
       `Hello ${order.customer_name},\n\nUpdate regarding your HANBORO timepiece order ${order.order_ref}:\nStatus: ${order.order_status || "Processing"}\nPayment: ${order.payment_status || "Paid"}\nTracking Airway Bill: ${order.tracking_number || "Being assigned"}\n\nOur concierge is at your service.\n— HANBORO Watches (+91 88820 69334)`
     );
@@ -494,8 +503,9 @@ export function AdminDashboard({ onNavigateHome }) {
     setIsSyncing(true);
     setOrdersLoading(true);
     try {
-      const [loadedOrders, loadedCarts, loadedDrafts, loadedDiscounts, loadedProfiles] = await Promise.all([
+      const [loadedOrders, loadedAbandoned, loadedCarts, loadedDrafts, loadedDiscounts, loadedProfiles] = await Promise.all([
         ordersService.fetchOrders().catch(() => []),
+        abandonedCheckoutsService.fetchAbandonedCheckouts().catch(() => []),
         cartService.fetchAllLiveCarts().catch(() => []),
         draftOrdersService.fetchDraftOrders([]).catch(() => []),
         discountsService.fetchDiscounts(PROMO_CODES).catch(() => PROMO_CODES),
@@ -510,25 +520,25 @@ export function AdminDashboard({ onNavigateHome }) {
         setCustomPromos(loadedDiscounts);
       }
 
-      if (loadedCarts && loadedCarts.length > 0) {
-        // Map live carts into abandoned checkout format if not already completed
-        const mappedLiveCheckouts = loadedCarts.map((cart, idx) => ({
+      // Merge real recorded checkout leads with any active uncompleted cart sessions
+      const existingIds = new Set((loadedAbandoned || []).map((a) => a.id));
+      const additionalCarts = (loadedCarts || [])
+        .filter((c) => !existingIds.has(`chk-cart-${c.userId}`) && !existingIds.has(`chk-${c.userId}`))
+        .map((cart, idx) => ({
           id: `chk-live-${idx}-${Date.now()}`,
           checkoutNumber: `#${44800000000000 + Math.floor(Math.random() * 999999999)}`,
           createdAt: "Just now",
           customerName: cart.userEmail || cart.userId || "Active Guest Shopper",
           customerEmail: cart.userEmail?.includes("@") ? cart.userEmail : "shopper@hanborowatches.in",
-          customerPhone: "+918882069334",
+          customerPhone: "",
           emailStatus: "Not sent",
           region: "India",
           recoveryStatus: "Not recovered",
           totalPrice: cart.totalValue || 45000,
           items: cart.items || [],
         }));
-        setAbandonedCheckouts(mappedLiveCheckouts);
-      } else {
-        setAbandonedCheckouts([]);
-      }
+
+      setAbandonedCheckouts([...(loadedAbandoned || []), ...additionalCarts]);
     } catch (err) {
       console.warn("Data sync fallback active:", err);
     } finally {
@@ -838,15 +848,18 @@ export function AdminDashboard({ onNavigateHome }) {
         ];
       });
     } else if (type === "abandoned") {
-      headers = ["Checkout", "Created", "Customer Name", "Email Status", "Region", "Recovery Status", "Total Price"];
+      headers = ["Checkout", "Created", "Customer Name", "Customer Email", "Customer Phone", "Email Status", "Region", "Recovery Status", "Total Price", "Items"];
       rows = filteredAbandoned.map((c) => [
         c.checkoutNumber,
         `"${c.createdAt}"`,
         `"${c.customerName}"`,
+        `"${c.customerEmail || ''}"`,
+        `"${c.customerPhone || ''}"`,
         c.emailStatus,
         c.region,
         c.recoveryStatus,
         c.totalPrice,
+        `"${(c.items || []).map((i) => `${i.name || i.sku || 'Timepiece'} (x${i.quantity || 1})`).join('; ')}"`,
       ]);
     } else {
       headers = ["Order", "Date", "Customer", "Channel", "Total", "Payment Status", "Fulfillment Status", "Delivery Status", "Tracking"];
@@ -922,6 +935,10 @@ export function AdminDashboard({ onNavigateHome }) {
 
   // Convert Draft to Live Placed Order
   const handleConvertDraftToOrder = (draft) => {
+    const isDraftCod =
+      String(draft.paymentMethod || "").toLowerCase().includes("cod") ||
+      String(draft.deliveryMethod || "").toLowerCase().includes("cod");
+
     const newOrder = {
       id: `ord-${Date.now()}`,
       order_ref: `#${Math.floor(1000 + Math.random() * 9000)}`,
@@ -931,13 +948,14 @@ export function AdminDashboard({ onNavigateHome }) {
       channel: "Draft Order",
       total_amount: draft.total,
       currency: "INR",
-      payment_status: "Paid",
+      payment_status: isDraftCod ? "Pending" : "Paid",
+      payment_method: draft.paymentMethod || (isDraftCod ? "Cash on Delivery (COD)" : "Prepaid UPI / Card"),
       order_status: "Processing",
       fulfillment_status: "In progress",
       items_count: `${draft.items.length} item`,
       delivery_status: "Processing",
-      delivery_method: "Standard (Prepaid)",
-      tags: ["Draft Order", "VIP Direct"],
+      delivery_method: draft.deliveryMethod || (isDraftCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)"),
+      tags: ["Draft Order", isDraftCod ? "COD" : "Prepaid"],
       created_at: new Date().toISOString(),
       tracking_number: `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
       items: draft.items,
@@ -952,10 +970,45 @@ export function AdminDashboard({ onNavigateHome }) {
     setActiveTab("orders");
   };
 
-  // Production Clean-Slate Reset: Purge test leads and orders to 0 while keeping 98 Watch Catalogue & Inventory intact
+  // Convert Abandoned Lead to Live Boutique Order
+  const handleConvertAbandonedToOrder = (checkout) => {
+    const isCod = true;
+    const newOrder = {
+      id: `ord-${Date.now()}`,
+      order_ref: `#${Math.floor(1000 + Math.random() * 9000)}`,
+      customer_name: checkout.customerName || "Valued Client",
+      customer_email: checkout.customerEmail || "client@hanborowatches.in",
+      customer_phone: checkout.customerPhone || "+918882069334",
+      channel: "Recovered Checkout",
+      total_amount: checkout.totalPrice,
+      currency: "INR",
+      payment_status: "Pending",
+      payment_method: "Cash on Delivery (COD)",
+      order_status: "Processing",
+      fulfillment_status: "In progress",
+      items_count: `${(checkout.items || []).length} item`,
+      delivery_status: "Processing",
+      delivery_method: "Concierge White-Glove (COD)",
+      tags: ["Recovered Abandoned Checkout", "COD"],
+      created_at: new Date().toISOString(),
+      tracking_number: `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
+      items: checkout.items || [],
+      shipping_address: checkout.shippingAddress || { city: checkout.region || "India", state: "India", pin: "000000" },
+    };
+
+    ordersService.createOrder(newOrder).catch(() => {});
+    abandonedCheckoutsService.markCheckoutRecovered(checkout.id, newOrder.order_ref).catch(() => {});
+    setOrders([newOrder, ...orders]);
+    setAbandonedCheckouts(abandonedCheckouts.map((c) => c.id === checkout.id ? { ...c, recoveryStatus: "Recovered" } : c));
+    setInspectingCheckout(null);
+    showToast(`Abandoned Checkout converted to Live Order ${newOrder.order_ref}`);
+    setActiveTab("orders");
+  };
+
+  // Production Clean-Slate Reset: Purge test leads and orders to 0 while keeping 104 Watch Catalogue & Inventory intact
   const handleProductionZeroReset = () => {
     const confirmReset = window.confirm(
-      "PRODUCTION DATABASE RESET:\n\nAre you sure you want to clean-slate the admin database to 0?\n\n• Orders: Reset to 0\n• Abandoned Leads: Reset to 0\n• Draft Orders: Reset to 0\n• Customer Dossiers: Reset to 0\n\n✓ Master Watch Catalogue (98 Timepieces) and Inventory Allocations will remain 100% active and untouched."
+      "PRODUCTION DATABASE RESET:\n\nAre you sure you want to clean-slate the admin database to 0?\n\n• Orders: Reset to 0\n• Abandoned Leads: Reset to 0\n• Draft Orders: Reset to 0\n• Customer Dossiers: Reset to 0\n\n✓ Master Watch Catalogue (104 Timepieces) and Inventory Allocations will remain 100% active and untouched."
     );
     if (!confirmReset) return;
 
@@ -966,6 +1019,7 @@ export function AdminDashboard({ onNavigateHome }) {
 
     try {
       safeStorage.removeItem("hanboro_orders_cache");
+      safeStorage.removeItem("hanboro_abandoned_checkouts_cache");
       safeStorage.removeItem("hanboro_customers_cache");
       safeStorage.removeItem("hanboro_profiles_cache");
       safeStorage.removeItem("hanboro_draft_orders_cache");
@@ -1407,12 +1461,14 @@ export function AdminDashboard({ onNavigateHome }) {
                       type="button"
                       className="sp-icon-btn"
                       title="Delete / Archive selected"
-                      onClick={() => {
+                      onClick={async () => {
                         if (selectedCheckouts.size === 0) {
                           showToast("Select checkouts to archive");
                         } else {
+                          const toDelete = Array.from(selectedCheckouts);
                           setAbandonedCheckouts(abandonedCheckouts.filter((c) => !selectedCheckouts.has(c.id)));
                           setSelectedCheckouts(new Set());
+                          await Promise.all(toDelete.map((id) => abandonedCheckoutsService.deleteAbandonedCheckout(id))).catch(() => {});
                           showToast("Selected checkouts archived");
                         }
                       }}
@@ -1484,7 +1540,10 @@ export function AdminDashboard({ onNavigateHome }) {
                           <td className="sp-td--date">{item.createdAt}</td>
                           <td className="sp-td--customer">
                             <span className="sp-customer-name">{item.customerName}</span>
-                            <span className="sp-customer-sub">{item.customerEmail}</span>
+                            <span className="sp-customer-sub">
+                              {item.customerEmail}
+                              {item.customerPhone ? ` • ${item.customerPhone}` : ""}
+                            </span>
                           </td>
                           <td>
                             <span className={`sp-status-badge ${item.emailStatus === "Sent" ? "sp-status--green" : "sp-status--amber"}`}>
@@ -3643,8 +3702,18 @@ export function AdminDashboard({ onNavigateHome }) {
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span className="sp-title-icon"><IconOrders size={18} /></span>
                 <h2>Order Allocation: {inspectingOrder.order_ref}</h2>
-                <span className={`sp-pill ${inspectingOrder.payment_status === "Paid" ? "sp-pill--paid" : ""}`}>
-                  ● {inspectingOrder.payment_status}
+                <span
+                  className={`sp-badge-pill ${inspectingOrder.payment_status === "Paid" ? "sp-badge-pill--fulfilled" : "sp-badge-pill--unfulfilled"}`}
+                  style={{
+                    padding: "3px 8px",
+                    borderRadius: "12px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    background: inspectingOrder.payment_status === "Paid" ? "#dcfce7" : "#fef3c7",
+                    color: inspectingOrder.payment_status === "Paid" ? "#15803d" : "#b45309"
+                  }}
+                >
+                  ● {inspectingOrder.payment_status || "Pending"}
                 </span>
               </div>
               <button type="button" className="sp-close-btn" onClick={() => setInspectingOrder(null)}>✕</button>
@@ -3668,6 +3737,12 @@ export function AdminDashboard({ onNavigateHome }) {
                   <h4>Allocation & Financial Summary</h4>
                   <p><strong>Total Bill:</strong> ₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })} ({Math.round(inspectingOrder.total_amount / 83)} USD)</p>
                   <p><strong>Payment Mode:</strong> {inspectingOrder.payment_method || "Credit Card (Encrypted)"}</p>
+                  <p>
+                    <strong>Payment Status:</strong>{" "}
+                    <span style={{ fontWeight: 600, color: inspectingOrder.payment_status === "Paid" ? "#16a34a" : "#d97706" }}>
+                      ● {inspectingOrder.payment_status || "Pending"} {inspectingOrder.payment_status !== "Paid" ? "(Payable on Delivery)" : "(Verified)"}
+                    </span>
+                  </p>
                   <p><strong>Fulfillment Status:</strong> {inspectingOrder.fulfillment_status || "In progress"}</p>
                   <p><strong>Tracking Waybill:</strong> {inspectingOrder.tracking_number || "Being assigned"}</p>
                   <p><strong>Channel:</strong> {inspectingOrder.channel || "Online Boutique"}</p>
@@ -3781,6 +3856,16 @@ export function AdminDashboard({ onNavigateHome }) {
                   <IconInvoice size={14} />
                   <span>View & Print Official Bill / Tax Invoice</span>
                 </button>
+                {inspectingOrder.payment_status !== "Paid" && (
+                  <button
+                    type="button"
+                    className="sp-btn"
+                    style={{ background: "#16a34a", color: "#ffffff", borderColor: "#16a34a", fontWeight: 600 }}
+                    onClick={() => handleUpdateOrderStatus(inspectingOrder.order_ref, { payment_status: "Paid" })}
+                  >
+                    ✓ Mark Payment Collected (Paid)
+                  </button>
+                )}
                 <button
                   type="button"
                   className="sp-btn sp-btn--primary"
@@ -3812,9 +3897,12 @@ export function AdminDashboard({ onNavigateHome }) {
               <button type="button" className="sp-close-btn" onClick={() => setInspectingCheckout(null)}>✕</button>
             </div>
             <div className="sp-modal-body">
-              <p><strong>Client:</strong> {inspectingCheckout.customerName}</p>
-              <p><strong>Email:</strong> {inspectingCheckout.customerEmail}</p>
-              <p><strong>Phone:</strong> {inspectingCheckout.customerPhone}</p>
+              <p><strong>Client:</strong> {inspectingCheckout.customerName || "Guest Shopper"}</p>
+              <p><strong>Email:</strong> {inspectingCheckout.customerEmail || "Not provided"}</p>
+              <p><strong>Phone:</strong> {inspectingCheckout.customerPhone || "Not provided"}</p>
+              {inspectingCheckout.shippingAddress?.address && (
+                <p><strong>Shipping Address:</strong> {inspectingCheckout.shippingAddress.address}, {inspectingCheckout.shippingAddress.city} {inspectingCheckout.shippingAddress.pincode}</p>
+              )}
               <p><strong>Value:</strong> ₹{Number(inspectingCheckout.totalPrice).toLocaleString("en-IN")}</p>
               <p><strong>Region:</strong> {inspectingCheckout.region}</p>
               <p><strong>Created:</strong> {inspectingCheckout.createdAt}</p>
@@ -3835,12 +3923,20 @@ export function AdminDashboard({ onNavigateHome }) {
                   className="sp-btn sp-btn--whatsapp-nudge"
                   onClick={() => triggerWhatsAppRecovery(inspectingCheckout)}
                 >
-                  💬 1-Click WhatsApp Recovery Nudge (+91 88820 69334)
+                  💬 1-Click WhatsApp Recovery Nudge {inspectingCheckout.customerPhone ? `(${inspectingCheckout.customerPhone})` : ""}
+                </button>
+                <button
+                  type="button"
+                  className="sp-btn sp-btn--primary"
+                  onClick={() => handleConvertAbandonedToOrder(inspectingCheckout)}
+                >
+                  Create Order for Client
                 </button>
                 <button
                   type="button"
                   className="sp-btn sp-btn--default"
-                  onClick={() => {
+                  onClick={async () => {
+                    await abandonedCheckoutsService.markCheckoutRecovered(inspectingCheckout.id).catch(() => {});
                     setAbandonedCheckouts(abandonedCheckouts.map((c) => c.id === inspectingCheckout.id ? { ...c, recoveryStatus: "Recovered" } : c));
                     setInspectingCheckout(null);
                     showToast("Checkout marked as Recovered");
@@ -4453,10 +4549,28 @@ export function AdminDashboard({ onNavigateHome }) {
                     </div>
                   </div>
 
-                  <div className="sp-invoice-paid-seal">
-                    <span className="sp-paid-stamp">PAID • VERIFIED</span>
-                    <span className="sp-paid-date">{ord.payment_gateway || "Prepaid / Razorpay Secured"}</span>
-                  </div>
+                  {(() => {
+                    const isCod =
+                      (String(ord.payment_method || "").toLowerCase().includes("cod") ||
+                       String(ord.payment_method || "").toLowerCase().includes("cash on delivery") ||
+                       ord.payment_status === "Pending") && ord.payment_status !== "Paid";
+
+                    if (isCod) {
+                      return (
+                        <div className="sp-invoice-paid-seal" style={{ borderColor: "#d97706", color: "#b45309" }}>
+                          <span className="sp-paid-stamp" style={{ borderColor: "#d97706", color: "#b45309" }}>COD • DUE ON DELIVERY</span>
+                          <span className="sp-paid-date">{ord.payment_method || "Cash on Delivery"}</span>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div className="sp-invoice-paid-seal">
+                        <span className="sp-paid-stamp">PAID • VERIFIED</span>
+                        <span className="sp-paid-date">{ord.payment_gateway || "Prepaid / Razorpay Secured"}</span>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -4573,7 +4687,13 @@ export function AdminDashboard({ onNavigateHome }) {
                   </div>
                   <div className="sp-invoice-divider sp-inv-divider--subtle" />
                   <div className="sp-inv-calc-row sp-inv-calc-row--grand">
-                    <span>Grand Total (Billed):</span>
+                    <span>
+                      {(String(ord.payment_method || "").toLowerCase().includes("cod") ||
+                        String(ord.payment_method || "").toLowerCase().includes("cash on delivery") ||
+                        ord.payment_status === "Pending") && ord.payment_status !== "Paid"
+                        ? "Grand Total (Payable on Delivery):"
+                        : "Grand Total (Billed & Paid):"}
+                    </span>
                     <span className="sp-inv-grand-total">₹{total.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
                   </div>
                 </div>
