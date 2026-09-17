@@ -13,7 +13,6 @@ export function CartDrawer() {
     subtotalInr,
     discountAmount,
     finalTotalInr,
-    finalTotalUsd,
     appliedPromo,
     applyPromoCode,
     removePromoCode,
@@ -164,7 +163,9 @@ export function CartDrawer() {
 
                       <div className="cart-item-pricing">
                         <span className="cart-item-price-main">{product.price}</span>
-                        {product.priceUsd ? <span className="cart-item-price-sub">({product.priceUsd})</span> : null}
+                        {product.mrp && product.mrp !== product.price && (
+                          <span className="cart-item-mrp-cut">{product.mrp}</span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -253,7 +254,6 @@ export function CartDrawer() {
               <div className="summary-row summary-row--total">
                 <div className="total-label-wrap">
                   <span className="total-main-label">Estimated Total</span>
-                  <span className="total-usd-label">approx. ${finalTotalUsd.toLocaleString("en-US")} USD</span>
                 </div>
                 <span className="total-val">₹{finalTotalInr.toLocaleString("en-IN")}</span>
               </div>

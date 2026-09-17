@@ -2225,8 +2225,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         <th>Status</th>
                         <th>Inventory</th>
                         <th>Collection</th>
-                        <th className="sp-th--right">Price (INR)</th>
-                        <th className="sp-th--right">Price (USD)</th>
+                        <th className="sp-th--right">Price</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -2311,8 +2310,14 @@ export function AdminDashboard({ onNavigateHome }) {
                               </div>
                             </td>
                             <td className="sp-td--subdued">{p.collectionName || p.collection}</td>
-                            <td className="sp-td--price sp-td--right">{p.price}</td>
-                            <td className="sp-td--price sp-td--right sp-td--subdued">{p.priceUsd || "Not listed"}</td>
+                            <td className="sp-td--price sp-td--right">
+                              <div style={{ fontWeight: 600 }}>{p.price}</div>
+                              {p.mrp && p.mrp !== p.price && (
+                                <div style={{ fontSize: "11px", color: "#8c9196", textDecoration: "line-through", textDecorationColor: "#e5484d", marginTop: "1px" }}>
+                                  {p.mrp}
+                                </div>
+                              )}
+                            </td>
                             <td>
                               <div style={{ display: "flex", gap: "6px", alignItems: "center" }} onMouseDown={(e) => e.stopPropagation()}>
                                 <div className="sp-table-quick-nav" style={{ display: "inline-flex", gap: "2px" }}>

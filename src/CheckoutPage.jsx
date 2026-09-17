@@ -823,7 +823,14 @@ export function CheckoutPage({ onNavigate }) {
                         <div className="summary-item-meta">
                           <span className="summary-item-sku">MODEL {item.product.modelNumber || item.product.specs?.modelNumber || "—"} • REF. {item.product.sku}</span>
                           <span className="summary-item-name">{item.product.name}</span>
-                          <span className="summary-item-unit-price">{item.product.price}</span>
+                          <div className="summary-item-price-wrap" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span className="summary-item-unit-price">{item.product.price}</span>
+                            {item.product.mrp && item.product.mrp !== item.product.price && (
+                              <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                                {item.product.mrp}
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <div className="summary-item-total">
                           ₹{lineTotal.toLocaleString("en-IN")}

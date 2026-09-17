@@ -1247,6 +1247,9 @@ export const inventoryService = {
           collection: cp?.collectionName || cp?.collection || existing?.collection || p.collectionName || p.collection,
           price: cp?.price || existing?.price || p.price,
           priceUsd: cp?.priceUsd || existing?.priceUsd || p.priceUsd,
+          mrp: cp?.mrp || existing?.mrp || p.mrp,
+          mrpNumeric: cp?.mrpNumeric || existing?.mrpNumeric || p.mrpNumeric,
+          discountPercent: cp?.discountPercent || existing?.discountPercent || p.discountPercent || 20,
           stock: typeof cp?.stock === "number" ? cp.stock : (typeof existing?.stock === "number" ? existing.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8)))),
           isActive: cp ? cp.isActive !== false : (existing ? existing.isActive !== false : (p.isActive !== false)),
           image: cp?.image || existing?.image || p.image,
@@ -1953,14 +1956,28 @@ export const productsService = {
               if (cachedMatch.previousSku) consumedCachedSkus.add(String(cachedMatch.previousSku).toLowerCase().trim());
               consumedCachedSkus.add(mSku);
 
-              baseMaster.push({
+                const isOldUndiscounted = Boolean(
+                  cachedMatch &&
+                  (cachedMatch.price === m.mrp || cachedMatch.priceNumeric === m.mrpNumeric) &&
+                  m.price !== m.mrp
+                );
+                const finalPrice = isOldUndiscounted ? m.price : (cachedMatch.price || m.price);
+                const finalPriceNumeric = isOldUndiscounted ? m.priceNumeric : (cachedMatch.priceNumeric || parseInt(String(finalPrice).replace(/[^\d]/g, ""), 10) || m.priceNumeric || 45000);
+                const finalMrp = m.mrp || cachedMatch.mrp || `₹${(m.mrpNumeric || finalPriceNumeric).toLocaleString("en-IN")}`;
+                const finalMrpNumeric = m.mrpNumeric || cachedMatch.mrpNumeric || (finalMrp ? parseInt(String(finalMrp).replace(/[^\d]/g, ""), 10) : finalPriceNumeric);
+                const finalDiscountPercent = m.discountPercent || (finalMrpNumeric > finalPriceNumeric ? Math.round(((finalMrpNumeric - finalPriceNumeric) / finalMrpNumeric) * 100) : 0);
+
+                baseMaster.push({
                 ...m,
                 ...cachedMatch,
                 id: String(cachedMatch.id || mId).trim().toLowerCase(),
                 sku: String(cachedMatch.sku || m.sku || "").trim().toUpperCase(),
                 name: String(cachedMatch.name || m.name || "").trim(),
-                price: cachedMatch.price || m.price,
-                priceNumeric: parseInt(String(cachedMatch.price || m.price || "0").replace(/[^\d]/g, ""), 10) || m.priceNumeric || 45000,
+                price: finalPrice,
+                priceNumeric: finalPriceNumeric,
+                mrp: finalMrp,
+                mrpNumeric: finalMrpNumeric,
+                discountPercent: finalDiscountPercent,
                 modelNumber: cachedMatch.modelNumber || cachedMatch.specs?.modelNumber || m.modelNumber || "",
                 collection: cachedMatch.collection || m.collection,
                 collectionName: cachedMatch.collectionName || m.collectionName,

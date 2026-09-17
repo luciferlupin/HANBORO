@@ -6367,6 +6367,7 @@ body.modal-open {
   display: flex;
   align-items: baseline;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .pdp-price-val {
@@ -6376,6 +6377,63 @@ body.modal-open {
   letter-spacing: -0.025em;
   color: #ffffff;
   line-height: 1;
+}
+
+.pdp-mrp-cut {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: #71717a;
+  text-decoration: line-through;
+  text-decoration-color: #ef4444;
+  font-weight: 500;
+}
+
+.pdp-mrp-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.pdp-mrp-amount {
+  color: #71717a;
+}
+
+.pdp-discount-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.pdp-savings-callout {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdp-savings-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  padding: 3px 9px;
+  border-radius: 5px;
 }
 
 .pdp-price-usd {
@@ -9927,6 +9985,16 @@ body.modal-open {
   color: #fff;
   display: block;
 }
+.cart-item-mrp-cut {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: #71717a;
+  text-decoration: line-through;
+  text-decoration-color: #ef4444;
+  display: block;
+  margin-top: 2px;
+}
 .cart-item-price-sub {
   font-size: 11px;
   color: #8c8a92;
@@ -12166,7 +12234,10 @@ body.modal-open {
 }
 @media (max-width: 700px) {
   .apple-segmented-nav {
-    flex-direction: column;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
   }
 }
 .apple-segment-btn {
@@ -18435,12 +18506,42 @@ body.modal-open {
   text-align: left;
 }
 
+.maison-price-main-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .maison-price-val {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(13.5px, 1.1vw, 15px);
   font-weight: 750;
   color: #ffffff;
   letter-spacing: 0.02em;
+}
+
+.maison-mrp-cut {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(10.5px, 0.9vw, 12px);
+  font-weight: 500;
+  color: #71717a;
+  text-decoration: line-through;
+  text-decoration-color: #ef4444;
+  letter-spacing: 0.02em;
+}
+
+.maison-discount-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .maison-price-note {
@@ -24281,12 +24382,28 @@ tr.is-selected-row td {
     text-overflow: ellipsis !important;
   }
 
+  .pdp-mobile-sticky-pricing {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: 6px !important;
+  }
+
   .pdp-mobile-sticky-price {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 18px !important;
     font-weight: 800 !important;
     color: #ffffff !important;
     letter-spacing: -0.01em !important;
+    white-space: nowrap !important;
+  }
+
+  .pdp-mobile-sticky-mrp {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    color: #71717a !important;
+    text-decoration: line-through !important;
+    text-decoration-color: #ef4444 !important;
     white-space: nowrap !important;
   }
 
@@ -24367,40 +24484,295 @@ tr.is-selected-row td {
     font-size: 12px !important;
   }
 
-  /* 15. Checkout Mobile Flow */
+  /* 15. Checkout Mobile Flow (Fluid, Non-Clipping & Ergonomic) */
+  .apple-checkout-topbar {
+    height: 56px !important;
+  }
+
   .apple-checkout-topbar-inner {
     padding: 0 var(--mobile-gutter) !important;
+    gap: 8px !important;
   }
 
   .apple-checkout-brand-sub {
     display: none !important;
   }
 
+  .apple-back-btn {
+    padding: 6px 11px !important;
+    font-size: 12px !important;
+    gap: 6px !important;
+    min-height: 36px !important;
+    border-radius: 100px !important;
+  }
+
   .apple-secure-badge {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
+    padding: 3px 8px !important;
+    font-size: 10.5px !important;
+    gap: 4px !important;
+    border-radius: 100px !important;
   }
 
   .apple-checkout-container {
-    padding: 20px var(--mobile-gutter) max(60px, env(safe-area-inset-bottom)) var(--mobile-gutter) !important;
+    padding: 16px var(--mobile-gutter) max(60px, env(safe-area-inset-bottom)) var(--mobile-gutter) !important;
   }
 
   .apple-checkout-stepper {
-    gap: 10px !important;
-    margin-bottom: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .stepper-step {
+    gap: 6px !important;
+  }
+
+  .stepper-num {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 10.5px !important;
   }
 
   .stepper-text {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0 !important;
   }
 
   .stepper-line {
-    width: 28px !important;
+    width: 24px !important;
+    height: 2px !important;
+  }
+
+  .apple-checkout-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .apple-checkout-form,
+  .apple-checkout-payment-step {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
   }
 
   .apple-form-card {
-    padding: 20px 16px !important;
+    padding: 18px 16px !important;
     border-radius: 14px !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-form-card-title {
+    font-size: 14.5px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .apple-form-group {
+    margin-bottom: 12px !important;
+    gap: 5px !important;
+  }
+
+  .apple-form-label {
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    color: #a1a1aa !important;
+  }
+
+  .apple-form-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .apple-form-input,
+  .apple-form-select {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding: 0 14px !important;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-form-select {
+    padding-right: 36px !important;
+  }
+
+  .apple-form-actions {
+    margin-top: 8px !important;
+  }
+
+  .apple-primary-submit-btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-payment-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .apple-payment-pill {
+    padding: 12px 14px !important;
+    min-height: 48px !important;
+    border-radius: 12px !important;
+    gap: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-payment-title {
+    font-size: 13px !important;
+  }
+
+  .apple-payment-desc {
+    font-size: 11px !important;
+  }
+
+  .apple-black-card {
+    padding: 16px 16px !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-card-number {
+    font-size: 14.5px !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 14px !important;
+    word-break: break-all !important;
+  }
+
+  .apple-card-inputs {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .apple-upi-box {
+    max-width: 100% !important;
+    padding: 16px !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-upi-qr {
+    width: 110px !important;
+    height: 110px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .apple-upi-id {
+    font-size: 12px !important;
+  }
+
+  .apple-summary-card-body {
+    position: static !important;
+    padding: 18px 16px !important;
+    border-radius: 14px !important;
+    margin-top: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-summary-title {
+    font-size: 14px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .apple-summary-list {
+    max-height: 240px !important;
+    margin-bottom: 14px !important;
+    gap: 10px !important;
+  }
+
+  .apple-summary-item-card {
+    padding: 8px 10px !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .summary-thumb-wrap {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .summary-item-name {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+  }
+
+  .summary-item-total {
+    font-size: 12.5px !important;
+  }
+
+  .apple-summary-totals {
+    padding-top: 12px !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .grand-val {
+    font-size: 17px !important;
+  }
+
+  .apple-confirmation-card {
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .confirm-icon-wrap {
+    width: 48px !important;
+    height: 48px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .confirm-title {
+    font-size: 19px !important;
+  }
+
+  .confirm-desc {
+    font-size: 12.5px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .confirm-dossier-box {
+    padding: 12px 14px !important;
+    margin-bottom: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  .dossier-row {
+    padding: 6px 0 !important;
+    font-size: 11.5px !important;
+  }
+
+  .confirm-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .confirm-actions button {
+    width: 100% !important;
+    min-height: 46px !important;
+    justify-content: center !important;
+  }
+
+  .apple-checkout-empty-container {
+    padding: 32px 16px !important;
+    margin: 40px auto !important;
+    box-sizing: border-box !important;
   }
 
   /* 16. Contact & Editorial Mobile Flow */
@@ -24463,6 +24835,706 @@ tr.is-selected-row td {
     min-height: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
+  }
+
+  /* 18. User Profile & Account Vault Mobile Flow */
+  .apple-profile-root {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  .apple-profile-topbar {
+    height: 56px !important;
+  }
+
+  .apple-topbar-inner {
+    padding: 0 var(--mobile-gutter) !important;
+    gap: 8px !important;
+  }
+
+  .apple-topbar-brand {
+    gap: 6px !important;
+  }
+
+  @media (max-width: 540px) {
+    .apple-topbar-badge {
+      display: none !important;
+    }
+  }
+
+  .apple-topbar-actions {
+    gap: 6px !important;
+  }
+
+  .apple-admin-btn {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+    border-radius: 100px !important;
+    white-space: nowrap !important;
+  }
+
+  .apple-logout-btn {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+    border-radius: 100px !important;
+    white-space: nowrap !important;
+  }
+
+  @media (max-width: 400px) {
+    .apple-logout-btn span {
+      display: none !important;
+    }
+  }
+
+  .apple-profile-container {
+    padding: 16px var(--mobile-gutter) max(60px, env(safe-area-inset-bottom)) var(--mobile-gutter) !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-hero-card {
+    padding: 18px 16px !important;
+    border-radius: 16px !important;
+    margin-bottom: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-hero-body {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  .apple-hero-identity {
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  .apple-avatar-wrap {
+    width: 52px !important;
+    height: 52px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .apple-avatar-text {
+    font-size: 20px !important;
+  }
+
+  .apple-user-headline {
+    gap: 8px !important;
+  }
+
+  .apple-user-name {
+    font-size: 18px !important;
+  }
+
+  .apple-tier-tag {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
+  }
+
+  .apple-user-email {
+    font-size: 12px !important;
+  }
+
+  .apple-hero-metrics {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px 12px !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    justify-content: stretch !important;
+  }
+
+  .apple-metric-divider {
+    display: none !important;
+  }
+
+  .apple-metric-item {
+    min-width: 0 !important;
+  }
+
+  .metric-title {
+    font-size: 9px !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 2px !important;
+  }
+
+  .metric-value {
+    font-size: 12.5px !important;
+  }
+
+  .apple-segmented-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-segmented-nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .apple-segment-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 8px 13px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    gap: 6px !important;
+  }
+
+  .apple-pane-card {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-pane-header {
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  .apple-pane-title {
+    font-size: 16px !important;
+  }
+
+  .apple-pane-desc {
+    font-size: 12px !important;
+  }
+
+  .apple-cart-card {
+    flex-wrap: wrap !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-cart-card-img-wrap {
+    width: 48px !important;
+    height: 48px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .apple-cart-card-info {
+    flex: 1 1 calc(100% - 64px) !important;
+    min-width: 0 !important;
+  }
+
+  .apple-cart-name {
+    font-size: 13px !important;
+    margin: 1px 0 2px 0 !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+  }
+
+  .apple-cart-card-controls {
+    width: 100% !important;
+    justify-content: space-between !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    margin-top: 2px !important;
+  }
+
+  .apple-qty-btn {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 15px !important;
+  }
+
+  .apple-line-total {
+    font-size: 13.5px !important;
+    min-width: auto !important;
+    text-align: right !important;
+    margin-left: auto !important;
+    margin-right: 8px !important;
+  }
+
+  .apple-summary-card {
+    padding: 16px !important;
+    border-radius: 14px !important;
+    gap: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-summary-perks {
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  .apple-perk-row {
+    font-size: 11.5px !important;
+  }
+
+  .apple-summary-checkout-col {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .apple-summary-amount-block {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  .amount-label {
+    font-size: 11px !important;
+  }
+
+  .amount-num {
+    font-size: 18px !important;
+  }
+
+  .apple-checkout-btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 13.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .apple-order-card {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    margin-bottom: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-order-top {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .apple-order-ref-wrap {
+    flex-wrap: wrap !important;
+    gap: 6px 10px !important;
+  }
+
+  .apple-order-ref {
+    font-size: 13.5px !important;
+  }
+
+  .apple-order-date {
+    font-size: 11.5px !important;
+  }
+
+  .apple-order-item-row {
+    padding: 8px 10px !important;
+    gap: 10px !important;
+    border-radius: 8px !important;
+  }
+
+  .apple-order-item-img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .apple-order-item-name {
+    font-size: 12px !important;
+  }
+
+  .apple-order-footer {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding-top: 10px !important;
+  }
+
+  .apple-order-footer .apple-footer-stat--total {
+    grid-column: span 2 !important;
+  }
+
+  .apple-profile-details-card {
+    padding: 14px 14px !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .apple-subcard-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    padding: 8px 0 !important;
+  }
+
+  .subcard-label {
+    font-size: 11px !important;
+  }
+
+  .subcard-value {
+    font-size: 13px !important;
+  }
+
+  .apple-signout-btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+  }
+
+  .apple-modal-box {
+    width: calc(100vw - 32px) !important;
+    max-width: 440px !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 19. Admin Executive Portal Mobile Flow */
+  .shopify-admin-shell {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  .sp-topbar {
+    height: 54px !important;
+    padding: 0 12px !important;
+  }
+
+  .sp-brand-badge {
+    padding: 4px 6px !important;
+    font-size: 13px !important;
+    gap: 6px !important;
+  }
+
+  .sp-store-name {
+    font-size: 12.5px !important;
+  }
+
+  .sp-search-bar-wrap {
+    display: none !important;
+  }
+
+  .sp-user-label {
+    display: none !important;
+  }
+
+  .sp-theme-toggle-btn {
+    padding: 0 8px !important;
+    height: 30px !important;
+    font-size: 11px !important;
+  }
+
+  .sp-storefront-link {
+    padding: 0 8px !important;
+    height: 30px !important;
+    font-size: 11px !important;
+  }
+
+  .sp-logout-btn {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+  }
+
+  .sp-body-container {
+    flex-direction: column !important;
+  }
+
+  .sp-sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100vw !important;
+    padding: 8px 10px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 6px !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--sp-border) !important;
+    background: var(--sp-sidebar-bg) !important;
+    box-sizing: border-box !important;
+  }
+
+  .sp-sidebar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .sp-nav-group {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sp-nav-accordion {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sp-nav-sublist {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    padding-left: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sp-nav-sublink {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    border-radius: 16px !important;
+    background: var(--sp-surface-subdued, #f1f2f4) !important;
+  }
+
+  .sp-nav-link {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 6px 14px !important;
+    font-size: 12px !important;
+    border-radius: 20px !important;
+    border: 1px solid transparent !important;
+    width: auto !important;
+    min-height: 36px !important;
+  }
+
+  .sp-nav-link.is-active {
+    background: var(--sp-sidebar-active) !important;
+    border-color: var(--sp-border) !important;
+    font-weight: 600 !important;
+  }
+
+  .sp-sidebar-divider,
+  .sp-sidebar-heading,
+  .sp-sidebar-bottom,
+  .sp-sidebar-footer {
+    display: none !important;
+  }
+
+  .sp-content-stage {
+    padding: 14px 12px max(40px, env(safe-area-inset-bottom)) 12px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .sp-page-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .sp-page-header__actions {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .sp-page-header__actions .sp-btn {
+    flex: 1 1 auto !important;
+    min-height: 40px !important;
+    justify-content: center !important;
+    font-size: 12.5px !important;
+  }
+
+  .sp-stat-grid,
+  .sp-metrics-summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .sp-stat-card {
+    padding: 12px 14px !important;
+    border-radius: 10px !important;
+  }
+
+  .sp-card {
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
+    margin-bottom: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .sp-card-head-row {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .sp-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 8px !important;
+  }
+
+  .sp-table th,
+  .sp-table td {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+  }
+
+  .watch-editor-modal {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    height: 92vh !important;
+    max-height: 92vh !important;
+    border-radius: 16px !important;
+    margin: 8px auto !important;
+  }
+
+  .watch-editor-header {
+    padding: 12px 14px !important;
+  }
+
+  .editor-tabs-bar {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 6px 10px !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+  }
+
+  .editor-tab-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .watch-editor-body {
+    padding: 14px 12px !important;
+  }
+
+  .editor-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .editor-span-2 {
+    grid-column: span 1 !important;
+  }
+
+  .editor-card-section {
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
+  }
+
+  .delete-modal-dialog {
+    width: calc(100vw - 24px) !important;
+    max-width: 100% !important;
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+    gap: 14px !important;
+  }
+
+  .delete-modal-header {
+    gap: 10px !important;
+  }
+
+  .delete-warning-icon {
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .delete-modal-preview-box {
+    padding: 12px !important;
+    gap: 12px !important;
+  }
+
+  .delete-modal-footer {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .delete-modal-footer button {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+  }
+
+  .sp-login-gate {
+    padding: 16px var(--mobile-gutter) !important;
+  }
+
+  .sp-login-card {
+    padding: 24px 18px !important;
+    border-radius: 18px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .sp-login-title {
+    font-size: 20px !important;
+  }
+
+  .sp-login-subtitle {
+    font-size: 12.5px !important;
+  }
+
+  .sp-login-input {
+    height: 46px !important;
+    font-size: 16px !important;
+  }
+
+  .sp-login-submit-btn {
+    height: 48px !important;
+    font-size: 13.5px !important;
+  }
+
+  /* 20. Secondary Modals & Legal Flow */
+  .auth-modal-card {
+    width: calc(100vw - 24px) !important;
+    max-width: 100% !important;
+    padding: 20px 16px !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  .privacy-navbar {
+    height: 56px !important;
+    padding: 0 var(--mobile-gutter) !important;
+  }
+
+  .policy-nav-tabs {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 6px !important;
+  }
+
+  .policy-tab-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 8px 14px !important;
+    font-size: 12px !important;
   }
 }
 

@@ -351,7 +351,15 @@ export function ProductsView({
                   {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
                   <div className="maison-card-footer">
                     <div className="maison-card-price-wrap">
-                      <span className="maison-price-val">{watch.price}</span>
+                      <div className="maison-price-main-row">
+                        <span className="maison-price-val">{watch.price}</span>
+                        {watch.mrp && watch.mrp !== watch.price && (
+                          <span className="maison-mrp-cut" title={`Original MRP: ${watch.mrp}`}>{watch.mrp}</span>
+                        )}
+                        {watch.discountPercent ? (
+                          <span className="maison-discount-badge">{watch.discountPercent}% OFF</span>
+                        ) : null}
+                      </div>
                       <span className="maison-price-note">Tax Included</span>
                     </div>
 

@@ -445,8 +445,26 @@ export function ProductDetailPage({
                 <div className="pdp-price-box">
                   <div className="pdp-price-digits-row">
                     <span className="pdp-price-val">{product.price}</span>
-                    {product.priceUsd && <span className="pdp-price-usd">({product.priceUsd} USD)</span>}
+                    {product.mrp && product.mrp !== product.price && (
+                      <span className="pdp-mrp-cut">
+                        <span className="pdp-mrp-label">MRP</span>
+                        <span className="pdp-mrp-amount">{product.mrp}</span>
+                      </span>
+                    )}
+                    {product.discountPercent ? (
+                      <span className="pdp-discount-badge">{product.discountPercent}% OFF</span>
+                    ) : null}
                   </div>
+                  {product.mrp && product.mrp !== product.price && (
+                    <div className="pdp-savings-callout">
+                      <span className="pdp-savings-pill">
+                        Special Privilege: Save ₹{(
+                          (product.mrpNumeric || parseInt(String(product.mrp).replace(/[^\d]/g, ""), 10) || 0) -
+                          (product.priceNumeric || parseInt(String(product.price).replace(/[^\d]/g, ""), 10) || 0)
+                        ).toLocaleString("en-IN")} ({product.discountPercent || 20}% OFF)
+                      </span>
+                    </div>
+                  )}
                   <span className="pdp-price-subtext">Inclusive of all Taxes & Insured Express Air Courier</span>
                 </div>
                 <div className="pdp-avail-box">
@@ -932,7 +950,12 @@ export function ProductDetailPage({
       <div className="pdp-mobile-sticky-bar" aria-label="Quick Action Bar">
         <div className="pdp-mobile-sticky-info">
           <span className="pdp-mobile-sticky-sku">{product.sku}</span>
-          <span className="pdp-mobile-sticky-price">{product.price}</span>
+          <div className="pdp-mobile-sticky-pricing">
+            <span className="pdp-mobile-sticky-price">{product.price}</span>
+            {product.mrp && product.mrp !== product.price && (
+              <span className="pdp-mobile-sticky-mrp">{product.mrp}</span>
+            )}
+          </div>
         </div>
         <div className="pdp-mobile-sticky-actions">
           <button

@@ -2834,18 +2834,6 @@ function Website({ onRestart }) {
             <span className="drawer-link-text">Shopping Bag ({cartCount})</span>
             <span className="drawer-link-arrow">🛍️</span>
           </button>
-
-          <button
-            type="button"
-            className={`luxury-drawer__link ${view === "admin" ? "is-active" : ""}`}
-            onClick={() => {
-              setMenuOpen(false);
-              navigateTo("admin", "#admin");
-            }}
-          >
-            <span className="drawer-link-text">{isAdmin ? "Staff Dashboard" : "Staff Portal"}</span>
-            <span className="drawer-link-arrow">⚙️</span>
-          </button>
         </nav>
 
         <div className="luxury-drawer__foot">

@@ -1559,7 +1559,6 @@ export function WatchEditorModal({
                         <div className="card-pricing-meta-row">
                           <div className="card-price-display">
                             <span className="price-main">{form.price || "₹1,25,000"}</span>
-                            <span className="price-usd">{form.priceUsd || "$1,500"}</span>
                           </div>
                         </div>
                       </div>
@@ -1588,7 +1587,7 @@ export function WatchEditorModal({
                         </div>
                         <div className="dossier-summary-item">
                           <span>Retail Valuation</span>
-                          <strong className="dossier-price">{form.price} ({form.priceUsd})</strong>
+                          <strong className="dossier-price">{form.price}</strong>
                         </div>
                         <div className="dossier-summary-item">
                           <span>Vault Allocation</span>

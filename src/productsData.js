@@ -139,16 +139,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp",
+    "image": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+    "transparentImage": "/transparent/forged-carbon-tonneau-tourbillon.webp",
     "altImages": [
-      "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp",
+      "/transparent/forged-carbon-tonneau-tourbillon.webp",
       "/catalog/hbr-989-3-black-auto-view-1.jpg",
       "/catalog/hbr-989-3-black-auto-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp",
+        "url": "/transparent/forged-carbon-tonneau-tourbillon.webp",
         "title": "HBR-989-3-BLACK-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-BLACK-AUTO."
@@ -166,8 +166,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch for Men (Reference HBR-989-3-BLACK-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -199,7 +199,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -211,7 +211,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "clover-king-crimson",
@@ -255,8 +256,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch (Crimson Red Edition) (Reference HBR-989-3-RED-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -287,7 +288,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -299,7 +300,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "forged-carbon-ribbed-shield-green",
@@ -309,10 +311,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp",
+    "image": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+    "transparentImage": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
     "altImages": [
-      "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp",
+      "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-green-ferrari.webp",
       "/watch-forged-carbon-ribbed-shield-green-lamborghini.webp",
@@ -321,7 +323,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp",
+        "url": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
         "title": "HBR-989-3-GREEN-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-GREEN-AUTO."
@@ -357,8 +359,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch (Emerald Green Edition) (Reference HBR-989-3-GREEN-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -390,7 +392,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -402,7 +404,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-989-3-orange-auto",
@@ -432,8 +435,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch (Sunset Orange Edition) (Reference HBR-989-3-ORANGE-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -444,7 +447,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -456,7 +459,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "forged-carbon-ribbed-shield-white",
@@ -466,10 +470,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp",
+    "image": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+    "transparentImage": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
     "altImages": [
-      "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp",
+      "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-white-studio.webp",
       "/watch-forged-carbon-ribbed-shield-white-ferrari.webp",
@@ -479,7 +483,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp",
+        "url": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
         "title": "HBR-989-3-WHITE-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-WHITE-AUTO."
@@ -521,8 +525,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch (Pure White Edition) (Reference HBR-989-3-WHITE-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -554,7 +558,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -566,7 +570,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "forged-carbon-ribbed-shield-blue",
@@ -576,10 +581,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp",
+    "image": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+    "transparentImage": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
     "altImages": [
-      "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp",
+      "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-blue-ferrari.webp",
       "/watch-forged-carbon-ribbed-shield-blue-lamborghini.webp",
@@ -589,7 +594,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp",
+        "url": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
         "title": "HBR-989-3-BLUE-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-BLUE-AUTO."
@@ -631,8 +636,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of HANBORO Clover King – Carbon Fiber Bezel & Four-Leaf Skeleton Dial Watch (Ocean Blue Edition) (Reference HBR-989-3-BLUE-AUTO)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -664,7 +669,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Clover King is a statement of bold craftsmanship and rare elegance. Its stainless steel case with a carbon fiber textured finish is carved with a precise square diamond-blade pattern, giving the watch a commanding presence. At its core lies a four-leaf clover skeleton dial, symbolizing rarity and good fortune, with luminous strip markers ensuring clarity even in low light.\n\nPowered by the Nishitetsu 8N24 automatic mechanical movement, the Clover King offers 21 jewels, 21,600 vibrations/hour, and a 42-hour power reserve with precision of ±5 seconds/day. The fully open-worked skeleton exhibition caseback reveals the intricate interplay of gears, celebrating mechanical artistry.\n\nA flat diamond-knife crafted crystal mirror enhances visibility while repelling water, complementing the watch’s 50m water resistance. The timepiece is paired with a soft black rubber strap and butterfly spring clasp for modern comfort and durability.\n\nWith its 41mm x 50mm case dimensions and unique geometry, the Hanboro Clover King isn’t just a watch—it’s a bold expression of individuality designed for luxury connoisseurs who embrace originality.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -676,7 +681,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "989-3",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8851-1-silver",
@@ -706,8 +712,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-8851-1-SILVER."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -728,7 +734,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -740,7 +746,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8851-1-r-gold-silver",
@@ -770,8 +777,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "The Hanboro Four Leaf Clover is where bold geometry meets refined mechanics. Its twelve-sided diamond-cut stainless steel bezel frames a captivating skeleton dial in a four-leaf clover design, symboli"
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -792,7 +799,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -804,7 +811,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8851-1-r-gold-brown",
@@ -834,8 +842,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "The Hanboro Four Leaf Clover is where bold geometry meets refined mechanics. Its twelve-sided diamond-cut stainless steel bezel frames a captivating skeleton dial in a four-leaf clover design, symboli"
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -856,7 +864,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Hanboro Four Leaf Clover – Skeleton Automatic\n\nA bold expression of precision engineering and timeless design.\n\nThe Hanboro Four Leaf Clover stands apart with its twelve-sided diamond-cut bezel and a striking skeleton dial shaped like a four-leaf clover—symbolizing luck, power, and individuality. Beneath the surface, three interlocking flywheels echo the harmony of constant motion, illuminated by a soft nocturnal glow that commands attention.\n\nCrafted with meticulous detail, its luminous structure, transparent mechanics, and robust movement redefine modern horology. This is not just a watch—it's a statement of character, confidence, and craftsmanship.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -868,7 +876,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8851-1",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "double-balance-cantilever-rosegold",
@@ -919,8 +928,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Dynamic driving perspective behind steering wheel showcasing the exposed pulsing twin balance wheels."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -952,7 +961,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -964,7 +973,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-985-auto-apex-rg-red",
@@ -1043,8 +1053,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Rose Gold & Racing Red) (Reference HBR-985-AUTO-APEX-RG-RED)."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1055,7 +1065,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1067,7 +1077,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-985-auto-apex-slv-red",
@@ -1146,8 +1157,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Steel & Racing Red) (Reference HBR-985-AUTO-APEX-SLV-RED)."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1158,7 +1169,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1170,7 +1181,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "double-balance-cantilever-yellow",
@@ -1228,8 +1240,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Automotive on-wrist composition holding key beside black Porsche sports car."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1261,7 +1273,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1273,7 +1285,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-985-auto-apex-rg-fblk",
@@ -1352,8 +1365,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Rose Gold & Matte Black) (Reference HBR-985-AUTO-APEX-RG-FBLK)."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1364,7 +1377,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1376,7 +1389,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "double-balance-cantilever-red",
@@ -1386,16 +1400,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Double Balance Wheel F1-Inspired",
-    "image": "/watch-double-balance-cantilever-red-front-transparent-thumb.webp",
-    "transparentImage": "/watch-double-balance-cantilever-red-front-transparent-thumb.webp",
+    "image": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+    "transparentImage": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
     "altImages": [
-      "/watch-double-balance-cantilever-red-front-transparent-thumb.webp",
+      "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
       "/catalog/hbr-985-auto-apex-slvr-view-1.jpg",
       "/catalog/hbr-985-auto-apex-slvr-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-double-balance-cantilever-red-front-transparent-thumb.webp",
+        "url": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
         "title": "HBR-985-AUTO-APEX-slvr — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-985-AUTO-APEX-slvr."
@@ -1413,8 +1427,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece (Reference HBR-985-AUTO-APEX-slvr)."
       }
     ],
-    "price": "₹59,999",
-    "priceUsd": "$723",
+    "price": "₹47,999",
+    "priceUsd": "$578",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1446,7 +1460,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹59,999",
-    "priceNumeric": 59999,
+    "priceNumeric": 47999,
     "description": "Hanboro Apex Racer – Double Balance Wheel F1-Inspired Timepiece\nPerformance. Power. Prestige.\n\nThe Apex Racer is a mechanical beast—crafted not just to tell time, but to command it. Its bold, multi-layered steel case is sculpted with diamond-knife precision, wrapped around a skeletonized dial that exposes a twin flywheel movement built for visual drama and raw performance.\n\nAt its heart lies a 45-jewel engine, tuned for flawless execution and uncompromising precision. Every rotation, every gear is a statement—of craftsmanship, of complexity, of power in motion. Luminous numerals ignite the display, while the race-inspired silicone strap ensures comfort at high speed.\n\nThis isn’t just a timepiece. It’s a fusion of motorsport adrenaline and haute horology.\nCrafted for the fearless. Worn by those who live fast, dream big, and own every second.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1458,7 +1472,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "985",
     "mrpNumeric": 59999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-980-auto-orbita-g",
@@ -1495,8 +1510,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Orbita – Tourbillon Watch with Planetarium Design (Rose Gold Edition) (Reference HBR-980-AUTO-ORBITA-G)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1507,7 +1522,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro Orbita – Tourbillon Watch with Planetarium Design\nA cosmic fusion of mechanics and design.\n\nFeaturing a 24-hour rotating globe, luminous starfield, and engraved flywheel, the Hanboro Orbita captures the beauty of the universe in motion. Powered by the Shanghai 2797B mechanical movement with a 42-hour reserve, it showcases a visible tourbillon through a skeleton dial and exhibition caseback.\n\nHoused in rose gold 304 stainless steel with a 3D sapphire crystal mirror and paired with a soft silicone strap, it’s bold, brilliant, and built for visionaries",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1519,7 +1534,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "astroworld-celestial-silver",
@@ -1570,8 +1586,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Studio astronomical composition resting on lunar surface with planet Earth floating in deep space."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1603,7 +1619,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro Orbita – Tourbillon Watch with Planetarium Design\nA cosmic fusion of mechanics and design.\n\nFeaturing a 24-hour rotating globe, luminous starfield, and engraved flywheel, the Hanboro Orbita captures the beauty of the universe in motion. Powered by the Shanghai 2797B mechanical movement with a 42-hour reserve, it showcases a visible tourbillon through a skeleton dial and exhibition caseback.\n\nHoused in rose gold 304 stainless steel with a 3D sapphire crystal mirror and paired with a soft silicone strap, it’s bold, brilliant, and built for visionaries",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1615,7 +1631,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-995-1-auto-g",
@@ -1652,8 +1669,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro REV-X Ignition – Motorsport Edition Tourbillon Watch (Rose Gold) (Reference HBR-995-1-AUTO-G)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1664,7 +1681,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1676,7 +1693,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "mecha-cantilever-tourbillon-iceblue",
@@ -1734,8 +1752,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "On-wrist perspective in casual denim jacket highlighting the futuristic presence and wrist ergonomics."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 5,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1767,7 +1785,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1779,7 +1797,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-995-1-auto-red",
@@ -1844,8 +1863,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro REV-X Ignition – Motorsport Edition Tourbillon Watch (Track Red) (Reference HBR-995-1-AUTO-RED)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1856,7 +1875,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nInspired by the raw power of motorsport engineering, the Hanboro REV-X Ignition is a bold expression of modern horology. With its sculpted steel case and futuristic skeleton dial, this timepiece captures the adrenaline of speed and precision.\n\nThe rotating carved flywheel, designed in the shape of Earth, reveals the heartbeat of the machine—glowing vividly in the dark, ready to ignite attention wherever it goes. Every detail, from the transparent back to the signature cut crystal mirror, is crafted to thrill.\n\nA true statement piece for those who live fast, think sharp, and never blend in.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1868,7 +1887,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "sichuan-opera-diamond-steel",
@@ -1919,8 +1939,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Three-quarter isometric profile on black reflective base with mask fan in backdrop highlighting diamond pave fire and curved tonneau lines."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -1951,7 +1971,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro FaceShift Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -1963,7 +1983,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-927-rg-blk",
@@ -2028,8 +2049,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro FaceShift Series – FaceShift Automatic (Rose Gold & Black) (Reference HBR-927-RG-BLK)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2040,7 +2061,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro FaceShift Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2052,7 +2073,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-927-rg-red",
@@ -2117,8 +2139,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro FaceShift Series – FaceShift Automatic (Rose Gold & Crimson Red) (Reference HBR-927-RG-RED)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2129,7 +2151,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro FaceShift Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nA mechanical tribute to transformation and legacy, this timepiece features six rotating face masks, each appearing every four hours. Every face tells a story—power, wisdom, rebellion, honor, fearlessness, and clarity—capturing the many dimensions of identity.\n\nThe fan-shaped crystal bezel draws from traditional art forms, and in every box, you’ll find a handcrafted ceremonial fan, symbolizing elegance and heritage. Paired with luminous accents, exposed mechanics, and a bold silhouette, this watch is designed for those who wear their story with pride.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2141,7 +2163,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "cyber-cogwheel-skeleton-twotone",
@@ -2171,8 +2194,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-30027-1-AUTO-GEAR-SLV-BLK."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2206,7 +2229,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2218,7 +2241,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "30027-1",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "cyber-cogwheel-skeleton-rosegold",
@@ -2262,8 +2286,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Angled isometric perspective on industrial mesh grille showcasing the crown red ring, riveted bezel, and gear train."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2297,7 +2321,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2309,7 +2333,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "30027-1",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "cyber-cogwheel-skeleton-steel",
@@ -2367,8 +2392,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Outdoor daylight on-wrist angle in denim jacket highlighting the vibrant flame-blued hands and mint luminous markers."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2404,7 +2429,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Gear Rider – Skeleton Tourbillon Masterpiece\nWhere timeless elegance meets mechanical brilliance.\n\nThe Gear Rider is a tribute to refined engineering—an openworked marvel that exposes the poetry of movement beneath its sapphire-clear surface. With its sculpted steel case and intricate dial, every element reflects the craftsmanship of a watch built not just to tell time, but to embody it.\n\nAt the center, a skeletonized flywheel pulses with precision, framed by a dial that balances complexity with clarity. Its luxurious finish, seamless contours, and commanding presence on the wrist make it a true statement of power and taste.\n\nThis is more than a timepiece. This is the signature of those who understand legacy, and wear it with quiet authority.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2416,7 +2441,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "30027-1",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "dual-hemispheres-moonphase-steel",
@@ -2446,8 +2472,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-8824-AUTO-NAVIGATOR-BLK."
       }
     ],
-    "price": "₹31,999",
-    "priceUsd": "$386",
+    "price": "₹25,599",
+    "priceUsd": "$308",
     "stock": 4,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2480,7 +2506,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹31,999",
-    "priceNumeric": 31999,
+    "priceNumeric": 25599,
     "description": "Celestial Navigator – Voyage Edition\nA cosmic balance of elegance and engineering.\n\nThis timepiece draws inspiration from the celestial rhythm of the universe. Its layered black dial features a star map moonphase, a rotating flywheel at 9 o'clock, and a date subdial that mirrors the precision of planetary orbits. Every element is crafted to remind the wearer of their journey through time and space.\n\nWith radiant markers, celestial details, and a hand-finished leather strap, the Celestial Navigator doesn't just tell time—it reflects your sense of wonder, adventure, and distinction. It's a watch for those who dare to dream and dress accordingly.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2492,7 +2518,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8824",
     "mrpNumeric": 31999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "orbital-moonphase",
@@ -2522,8 +2549,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Celestial Navigator – Voyage Edition (Rose Gold & Pure White Dial) (Reference HBR-8824-AUTO-NAVIGATOR-RG-WYT)."
       }
     ],
-    "price": "₹31,999",
-    "priceUsd": "$386",
+    "price": "₹25,599",
+    "priceUsd": "$308",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2553,7 +2580,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹31,999",
-    "priceNumeric": 31999,
+    "priceNumeric": 25599,
     "description": "Celestial Navigator – Voyage Edition\nA cosmic balance of elegance and engineering.\n\nThis timepiece draws inspiration from the celestial rhythm of the universe. Its layered black dial features a star map moonphase, a rotating flywheel at 9 o'clock, and a date subdial that mirrors the precision of planetary orbits. Every element is crafted to remind the wearer of their journey through time and space.\n\nWith radiant markers, celestial details, and a hand-finished leather strap, the Celestial Navigator doesn't just tell time—it reflects your sense of wonder, adventure, and distinction. It's a watch for those who dare to dream and dress accordingly.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2565,7 +2592,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8824",
     "mrpNumeric": 31999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "imperial-dragon",
@@ -2602,8 +2630,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition (Reference HBR-1018-AUTO-ZOD-GLD)."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2633,7 +2661,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Hanboro Dragon’s Legacy – Zodiac Series\nA mythical fusion of craftsmanship and celestial energy.\n\nThe Hanboro Dragon’s Legacy captures the spirit of the ancient East with a 5D hand-carved golden dragon coiled across a skeletonized dial. Set against a starry sky chassis with luminous detailing, this timepiece is a bold tribute to heritage and horology.\n\nAt its core beats the high-frequency 6T15 automatic mechanical movement, delivering a 42-hour power reserve and exceptional precision. The double-bridge sapphire-grade crystal, hollowed gear flywheel, and transparent caseback reveal the mechanical artistry within.\n\nPaired with a genuine leather strap and secured by a dual butterfly clasp, this 45.5mm timepiece offers enduring comfort and unmistakable presence—crafted for those who command attention.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2645,7 +2673,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1018",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "celestial-dragon-tourbillon-silver",
@@ -2655,10 +2684,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "5D Dragon Imperial Zodiac Automatic",
-    "image": "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp",
-    "transparentImage": "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp",
+    "image": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+    "transparentImage": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
     "altImages": [
-      "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp",
+      "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
       "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
       "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.webp",
       "/watch-celestial-dragon-tourbillon-silver-lantern.webp",
@@ -2668,7 +2697,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp",
+        "url": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
         "title": "HBR-1018-AUTO-ZOD-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1018-AUTO-ZOD-SLV."
@@ -2710,8 +2739,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Zodiac Series: Dragon’s Legacy – Sapphire Dial Edition (Silver Edition) (Reference HBR-1018-AUTO-ZOD-SLV)."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2743,7 +2772,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Hanboro Dragon’s Legacy – Zodiac Series\nA mythical fusion of craftsmanship and celestial energy.\n\nThe Hanboro Dragon’s Legacy captures the spirit of the ancient East with a 5D hand-carved golden dragon coiled across a skeletonized dial. Set against a starry sky chassis with luminous detailing, this timepiece is a bold tribute to heritage and horology.\n\nAt its core beats the high-frequency 6T15 automatic mechanical movement, delivering a 42-hour power reserve and exceptional precision. The double-bridge sapphire-grade crystal, hollowed gear flywheel, and transparent caseback reveal the mechanical artistry within.\n\nPaired with a genuine leather strap and secured by a dual butterfly clasp, this 45.5mm timepiece offers enduring comfort and unmistakable presence—crafted for those who command attention.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2755,7 +2784,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1018",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-emerald-alligator",
@@ -2799,8 +2829,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Automatic Watch (Royal Gold Edition) (Reference HBR-1001-1-AUTO-ROULETTE-GLD)."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2832,7 +2862,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Casino Series: Roulette Royale Automatic Watch\nA mechanical marvel for risk-takers and purists alike.\n\nCrafted for collectors who crave originality, the Roulette Royale fuses fine horology with the thrill of the game. A dedicated button on the left side of the case activates the roulette disc—sending the ball spinning until it lands on a number, just like the real table.\n\nWith its rotating wheel, sand-textured dial, and mechanical movement ticking beneath, this is more than a watch—it's a game of chance on your wrist. For those who appreciate mechanics... and momentum.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2844,7 +2874,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-1",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-silver-emerald-alligator",
@@ -2895,8 +2926,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Angled studio perspective highlighting the domed sapphire crystal, pocket depth, and emerald green alligator leather strap."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -2928,7 +2959,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Casino Series: Roulette Royale Automatic Watch\nA mechanical marvel for risk-takers and purists alike.\n\nCrafted for collectors who crave originality, the Roulette Royale fuses fine horology with the thrill of the game. A dedicated button on the left side of the case activates the roulette disc—sending the ball spinning until it lands on a number, just like the real table.\n\nWith its rotating wheel, sand-textured dial, and mechanical movement ticking beneath, this is more than a watch—it's a game of chance on your wrist. For those who appreciate mechanics... and momentum.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -2940,7 +2971,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-1",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-rosegold",
@@ -2970,8 +3002,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-1001-2-AUTO-ROULETTE-GLD."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3003,7 +3035,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Casino Series: Roulette Royale Automatic Watch\n\nA mechanical marvel for risk-takers and purists alike. Crafted for collectors who crave originality, the Roulette Royale fuses fine horology with the thrill of the game.This version features a fully gem-set dial with radiant crystal baguettes and emerald-green markers.&nbsp;\n\nA dedicated button on the left side of the case activates the roulette disc—sending the ball spinning until it lands on a number, just like the real table. With its rotating wheel, sand-textured dial, and mechanical movement ticking beneath, this is more than a watch—it's a game of chance on your wrist. For those who appreciate mechanics... and momentum. give same justbtell about the dial",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3015,7 +3047,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-silver",
@@ -3157,8 +3190,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Baguette Diamond Edition (Monaco Silver) (Reference HBR-1001-2-AUTO-ROULETTE-SLV)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3190,7 +3223,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Casino Series: Roulette Royale Automatic Watch\n\nA mechanical marvel for risk-takers and purists alike. Crafted for collectors who crave originality, the Roulette Royale fuses fine horology with the thrill of the game.This version features a fully gem-set dial with radiant crystal baguettes and emerald-green markers.&nbsp;\n\nA dedicated button on the left side of the case activates the roulette disc—sending the ball spinning until it lands on a number, just like the real table. With its rotating wheel, sand-textured dial, and mechanical movement ticking beneath, this is more than a watch—it's a game of chance on your wrist. For those who appreciate mechanics... and momentum. give same justbtell about the dial",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3202,7 +3235,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "planetary-cosmos-tourbillon-rosegold",
@@ -3212,16 +3246,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "9INE Planet Orbiting Solar Complication",
-    "image": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp",
-    "transparentImage": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp",
+    "image": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+    "transparentImage": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
     "altImages": [
-      "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp",
+      "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
       "/catalog/hbr-1020-auto-ast-gld-view-1.jpg",
       "/catalog/hbr-1020-auto-ast-gld-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp",
+        "url": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
         "title": "HBR-1020-AUTO-AST-GLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1020-AUTO-AST-GLD."
@@ -3239,8 +3273,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of 9INE Planet Series: Nebula Craft – Space Art Timepiece (Reference HBR-1020-AUTO-AST-GLD)."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 3,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3272,7 +3306,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Hanboro 9ine Planet Tourbillon – Astroworld Collection\nA celestial masterpiece of modern horology.\n\nInspired by the cosmos, the Hanboro 9ine Planet Tourbillon features a skeletonized dial with a rotating globe, luminous planetary markers, and a manually carved flywheel. Powered by the reliable Japanese CITIZEN 8215 automatic movement, it offers a 42-hour power reserve and precision performance.\n\nCrafted with a domed sapphire-grade crystal and a transparent caseback &nbsp;this watch reveals the beauty of its mechanical core. Finished with a genuine leather strap and dual butterfly clasp, it’s designed for comfort, style, and timeless sophistication.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3284,7 +3318,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1020",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "planetary-cosmos-tourbillon-silver",
@@ -3294,10 +3329,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "9INE Planet Orbiting Solar Complication",
-    "image": "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp",
-    "transparentImage": "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp",
+    "image": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+    "transparentImage": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
     "altImages": [
-      "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp",
+      "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
       "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
       "/watch-planetary-cosmos-tourbillon-silver-galaxy.webp",
       "/watch-planetary-cosmos-tourbillon-silver-planets.webp",
@@ -3307,7 +3342,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp",
+        "url": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
         "title": "HBR-1020-AUTO-AST-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1020-AUTO-AST-SLV."
@@ -3349,8 +3384,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of 9INE Planet Series: Nebula Craft – Space Art Timepiece (Starlight Silver) (Reference HBR-1020-AUTO-AST-SLV)."
       }
     ],
-    "price": "₹50,999",
-    "priceUsd": "$614",
+    "price": "₹40,799",
+    "priceUsd": "$492",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3382,7 +3417,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
+    "priceNumeric": 40799,
     "description": "Hanboro 9ine Planet Tourbillon – Astroworld Collection\nA celestial masterpiece of modern horology.\n\nInspired by the cosmos, the Hanboro 9ine Planet Tourbillon features a skeletonized dial with a rotating globe, luminous planetary markers, and a manually carved flywheel. Powered by the reliable Japanese CITIZEN 8215 automatic movement, it offers a 42-hour power reserve and precision performance.\n\nCrafted with a domed sapphire-grade crystal and a transparent caseback &nbsp;this watch reveals the beauty of its mechanical core. Finished with a genuine leather strap and dual butterfly clasp, it’s designed for comfort, style, and timeless sophistication.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3394,7 +3429,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1020",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-2003-auto-hive-aquablue",
@@ -3431,8 +3467,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Queen Bee Series: The Hive Mechanica – Royal Precision Watch (Reference HBR-2003-AUTO-HIVE-aquablue)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 10,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3453,7 +3489,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3465,7 +3501,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2003",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-2003-auto-hive-blk",
@@ -3495,8 +3532,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Queen Bee Series: The Hive Mechanica – Royal Precision Watch (Midnight Black) (Reference HBR-2003-AUTO-HIVE-BLK)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3507,7 +3544,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3519,7 +3556,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2003",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-2003-auto-hive-deepseablue",
@@ -3549,8 +3587,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Queen Bee Series: The Hive Mechanica – Royal Precision Watch (Deep Sea Blue) (Reference HBR-2003-AUTO-HIVE-DEEPSEABLUE)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3561,7 +3599,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Queen Bee Series: The Hive Mechanica – Royal Precision Watch\nElegance in motion. Built with purpose.\n\nThe Hive Mechanica is a testament to precision engineering and refined craftsmanship. Its meticulously finished 304 fine steel case, shaped using diamond knife drawing techniques, radiates modern sophistication while paying homage to timeless mechanical artistry.\n\nAt its heart beats the original Shanghai 1911 multifunctional mechanical movement—featuring a skeletonized flywheel, 24-hour subdial, and calendar complication, all working in perfect harmony. The sapphire crystal glass mirror, carved with diamond-blade precision, offers unmatched clarity and brilliance.\n\nFrom the Geneva-patterned transparent caseback to the fluid sweep of the ornamental flywheel, every detail is designed to inspire. Paired with a supple silicone strap and a finely engineered double-control butterfly clasp, it promises both comfort and strength.\n\nA watch made not just to be worn—but to be remembered",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3573,7 +3611,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2003",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "stealth-fighter-jet-tonneau",
@@ -3610,8 +3649,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Falcon X Series: Aviation-Inspired Precision Watch (Reference HBR-933-AUTO-FALCONX-BLK)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$458",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3643,7 +3682,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3655,7 +3694,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "933",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-933-auto-falconx-blue",
@@ -3692,8 +3732,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Falcon X Series: Aviation-Inspired Precision Watch (Flight Blue) (Reference HBR-933-AUTO-FALCONX-BLUE)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$458",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3704,7 +3744,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Falcon X Series: Aviation-Inspired Precision Watch\n\nWhere bold engineering meets aerial imagination. The Falcon X features a sharply contoured stainless steel case and a commanding skeleton dial shaped like a fighter jet. The rotating “Future Planet” disc moves with each passing day, while luminous markers ensure clarity in low light. From its see-through caseback to its dynamic presence, this timepiece is crafted for high flyers with an eye for mechanical artistry.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3716,7 +3756,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "933",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "aurora-celestial-frost",
@@ -3726,16 +3767,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Aurora Globe & Meteorite Dial",
-    "image": "/watch-aurora-celestial-frost-front-transparent-thumb.webp",
-    "transparentImage": "/watch-aurora-celestial-frost-front-transparent-thumb.webp",
+    "image": "/transparent/astroworld-celestial.webp",
+    "transparentImage": "/transparent/astroworld-celestial.webp",
     "altImages": [
-      "/watch-aurora-celestial-frost-front-transparent-thumb.webp",
+      "/transparent/astroworld-celestial.webp",
       "/catalog/hbr-848-auto-nebula-blk-view-1.jpg",
       "/catalog/hbr-848-auto-nebula-blk-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-aurora-celestial-frost-front-transparent-thumb.webp",
+        "url": "/transparent/astroworld-celestial.webp",
         "title": "HBR-848-AUTO-NEBULA-BLK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-848-AUTO-NEBULA-BLK."
@@ -3753,8 +3794,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Silver Nebula – Diamond Hour Markers & Meteoric Texture (Reference HBR-848-AUTO-NEBULA-BLK)."
       }
     ],
-    "price": "₹39,999",
-    "priceUsd": "$482",
+    "price": "₹31,999",
+    "priceUsd": "$386",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3786,7 +3827,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹39,999",
-    "priceNumeric": 39999,
+    "priceNumeric": 31999,
     "description": "Silver Nebula – Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display—bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3798,7 +3839,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "848",
     "mrpNumeric": 39999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "vhbr-848-auto-nebula-blue",
@@ -3828,8 +3870,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Silver Nebula – Diamond Hour Markers & Meteoric Texture (Cosmic Blue) (Reference vHBR-848-AUTO-NEBULA-Blue)."
       }
     ],
-    "price": "₹39,999",
-    "priceUsd": "$482",
+    "price": "₹31,999",
+    "priceUsd": "$386",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3840,7 +3882,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹39,999",
-    "priceNumeric": 39999,
+    "priceNumeric": 31999,
     "description": "Silver Nebula – Diamond Hour Markers & Meteoric Texture\n\nBold elegance meets cosmic detail.\n\nThe Silver Nebula is powered by the reliable imported 8217 mechanical movement, known for its precision and performance. The dial features a meteorite-texture finish with 48 sparkling crystal diamonds, luminous markers, and a stunning 24-hour aurora globe display—bringing depth and brilliance to every glance.\n\nDesigned with comfort and versatility in mind, this watch comes with a soft silicone strap for everyday wear and an additional stainless steel strap to elevate your look when needed. Whether you're navigating your day or dressing for the night, the Silver Nebula moves effortlessly with you",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3852,7 +3894,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "848",
     "mrpNumeric": 39999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8821-auto-astro-blue",
@@ -3882,8 +3925,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of AstroSphere DualCore – Twin Tourbillon Timepiece (Celestial Blue) (Reference HBR-8821-AUTO-ASTRO-BLUE)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3894,7 +3937,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3906,7 +3949,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8821",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8821-auto-astro-rg-wyt",
@@ -3936,8 +3980,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of AstroSphere DualCore – Twin Tourbillon Timepiece (Rose Gold & Pearl White) (Reference HBR-8821-AUTO-ASTRO-RG-WYT)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -3948,7 +3992,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -3960,7 +4004,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8821",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8821-auto-astro-black",
@@ -3990,8 +4035,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of AstroSphere DualCore –  Twin Tourbillon Timepiece (Reference HBR-8821-AUTO-ASTRO-BLACK)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 10,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4012,7 +4057,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "AstroSphere DualCore – Twin Tourbillon Timepiece\nAll eyes on your wrist.\n\nThe AstroSphere DualCore isn’t just a watch—it’s a conversation starter. With twin exposed flywheels in motion and a globe at its heart, this timepiece brings the universe to your fingertips. The open worked dial glows after dark, radiating a mysterious charm that turns heads day or night.\n\nWrapped in a polished steel case and finished with a&nbsp; leather strap, it’s designed for those who appreciate complexity, beauty, and bold statements. Every glance reveals a new detail. Every second, a reminder that you don’t follow time—you lead it.\n\nOwn it, and let the world take notice.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4024,7 +4069,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8821",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-918-auto-torque-slv",
@@ -4054,8 +4100,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Torque Edge – Futuristic Mechanical Timepiece (Cyber Silver) (Reference HBR-918-AUTO-TORQUE-SLV)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$458",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4066,7 +4112,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4078,7 +4124,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "918",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "arachnid-geometric-skeleton",
@@ -4115,8 +4162,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Torque Edge – Futuristic Mechanical Timepiece (Reference HBR-918-AUTO-TORQUE-GREEN)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$458",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4148,7 +4195,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4160,7 +4207,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "918",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-918-auto-torque-gld",
@@ -4190,8 +4238,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Torque Edge – Futuristic Mechanical Timepiece (Imperial Gold) (Reference HBR-918-AUTO-TORQUE-GLD)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$458",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4202,7 +4250,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Torque Edge – Futuristic Mechanical Timepiece\nDesigned to turn heads. Built to move with purpose.\n\nThe Torque Edge blends cutting-edge mechanics with bold design. Its skeletonized dial reveals the intricate gears beneath, glowing vividly in the dark for round-the-clock presence. The brushed steel case and luminous details give it a futuristic edge, while the textured strap ensures comfort with every wear.\n\nWhether you're powering through the day or stepping into the night, this watch doesn’t just keep time—it defines your pace. Confident. Distinct. Always one step ahead.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4214,7 +4262,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "918",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-703-2-auto-prism",
@@ -4244,8 +4293,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Prism Royale – Skeleton Diamond Watch (Diamond Bezel Edition) (Reference HBR-703-2-AUTO-PRISM)."
       }
     ],
-    "price": "₹37,999",
-    "priceUsd": "$458",
+    "price": "₹30,399",
+    "priceUsd": "$366",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4256,7 +4305,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "priceNumeric": 30399,
     "description": "Prism Royale – Skeleton Diamond Watch\nStand out without saying a word.\n\nThe Prism Royale is designed for those who appreciate style with a statement. With a bezel set with 54 shimmering crystals and a bold skeleton dial, this watch catches the eye without trying too hard. It’s the kind of piece people notice—and remember.\n\nInside, a reliable mechanical movement keeps you running on time, while the luminous dial ensures visibility day or night. The soft silicone strap feels just right on the wrist, making it perfect for everyday wear with a luxury edge.\n\nWhether you're dressing for the moment or making one, this is the watch that brings it all together. Own your style. Wear something unforgettable",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4268,7 +4317,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "703-2",
     "mrpNumeric": 37999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "cyber-green-skeleton",
@@ -4278,16 +4328,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Heroic Superhero Skeleton Automatic",
-    "image": "/watch-cyber-green-skeleton-front-transparent-thumb.webp",
-    "transparentImage": "/watch-cyber-green-skeleton-front-transparent-thumb.webp",
+    "image": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+    "transparentImage": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
     "altImages": [
-      "/watch-cyber-green-skeleton-front-transparent-thumb.webp",
+      "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
       "/catalog/hbr-917-auto-avenger-slv-view-1.jpg",
       "/catalog/hbr-917-auto-avenger-slv-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-cyber-green-skeleton-front-transparent-thumb.webp",
+        "url": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
         "title": "HBR-917-AUTO-AVENGER-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-917-AUTO-AVENGER-SLV."
@@ -4305,8 +4355,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of TimeAvenger – Bold Skeletonized Hero Timepiece (Reference HBR-917-AUTO-AVENGER-SLV)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$458",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4337,7 +4387,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4349,7 +4399,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "917",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-917-auto-avenger-gold",
@@ -4379,8 +4430,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of TimeAvenger – Bold Skeletonized Hero Timepiece (Gold Hero Edition) (Reference HBR-917-AUTO-AVENGER-GOLD)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$458",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4391,7 +4442,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "TimeAvenger – Bold Skeletonized Hero Timepiece\nBuilt for legends. Designed for the bold.\n\nThe TimeAvenger is more than a watch—it's a symbol of strength, precision, and individuality. With its sculpted hexagonal case and intricate web-like skeleton dial, every glance pulls you deeper into its mechanical world. The heroic centerpiece commands attention, while the glowing accents light up the night with effortless cool.\n\nFrom the soft, secure strap to the exposed heartbeat of the movement, this piece doesn’t just sit on your wrist—it stands for who you are. Powerful. Iconic. Unstoppable.\n\nTime doesn’t wait. Neither should you.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4403,7 +4454,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "917",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "turquoise-ringbell",
@@ -4440,8 +4492,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Ring the Bell – The Celebration Timepiece   (Reference HBR-RING-5378-2TIFFANY)."
       }
     ],
-    "price": "₹37,999",
-    "priceUsd": "$458",
+    "price": "₹30,399",
+    "priceUsd": "$366",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4471,7 +4523,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "priceNumeric": 30399,
     "description": "Hanboro Ring the Bell – Celebration Watch\nA moment in time, transformed into a celebration. The Hanboro Ring the Bell is a testament to refined craftsmanship, where light dances across a diamond-set dial and every detail whispers sophistication.\n\nThe polished 904L steel case frames a dial adorned with 48 shimmering crystal diamonds and skeletonized luminous markers, while the double sapphire crystal ensures enduring clarity and elegance. Through the transparent caseback, the artistry of fine watchmaking is revealed—inviting you to appreciate time not only as it passes, but as it lives.\n\nWater-resistant to 100 meters and secured by a sculpted steel bracelet with a butterfly clasp, this timepiece is created for those who understand that true luxury lies in the moments worth celebrating.\n\nHanboro Ring the Bell – Not just a watch. A tribute to your finest moments.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4483,7 +4535,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "5378-2",
     "mrpNumeric": 37999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "sonnerie-bell-blue",
@@ -4493,10 +4546,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "904L Steel Celebration Masterpiece",
-    "image": "/watch-sonnerie-bell-blue-front-transparent-thumb.webp",
-    "transparentImage": "/watch-sonnerie-bell-blue-front-transparent-thumb.webp",
+    "image": "/watch-sonnerie-bell-blue-front-transparent.webp",
+    "transparentImage": "/watch-sonnerie-bell-blue-front-transparent.webp",
     "altImages": [
-      "/watch-sonnerie-bell-blue-front-transparent-thumb.webp",
+      "/watch-sonnerie-bell-blue-front-transparent.webp",
       "/watch-sonnerie-bell-blue-front-transparent.webp",
       "/watch-sonnerie-bell-blue-display.webp",
       "/watch-sonnerie-bell-blue-vinyl.webp",
@@ -4506,7 +4559,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-sonnerie-bell-blue-front-transparent-thumb.webp",
+        "url": "/watch-sonnerie-bell-blue-front-transparent.webp",
         "title": "HBR-RING-5378-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-RING-5378-BLUE."
@@ -4548,8 +4601,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Ring the Bell – The Celebration Timepiece (Royal Blue Dial Edition) (Reference HBR-RING-5378-BLUE)."
       }
     ],
-    "price": "₹37,999",
-    "priceUsd": "$458",
+    "price": "₹30,399",
+    "priceUsd": "$366",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4584,7 +4637,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹37,999",
-    "priceNumeric": 37999,
+    "priceNumeric": 30399,
     "description": "Hanboro Ring the Bell – Celebration Watch\nA moment in time, transformed into a celebration. The Hanboro Ring the Bell is a testament to refined craftsmanship, where light dances across a diamond-set dial and every detail whispers sophistication.\n\nThe polished 904L steel case frames a dial adorned with 48 shimmering crystal diamonds and skeletonized luminous markers, while the double sapphire crystal ensures enduring clarity and elegance. Through the transparent caseback, the artistry of fine watchmaking is revealed—inviting you to appreciate time not only as it passes, but as it lives.\n\nWater-resistant to 100 meters and secured by a sculpted steel bracelet with a butterfly clasp, this timepiece is created for those who understand that true luxury lies in the moments worth celebrating.\n\nHanboro Ring the Bell – Not just a watch. A tribute to your finest moments.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4596,7 +4649,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "5378",
     "mrpNumeric": 37999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "architectural-skeleton-rosegold",
@@ -4606,15 +4660,15 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Double-Sided Transparent Skeleton",
-    "image": "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp",
-    "transparentImage": "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp",
+    "image": "/watch-architectural-skeleton-black-front-transparent.webp",
+    "transparentImage": "/watch-architectural-skeleton-black-front-transparent.webp",
     "altImages": [
-      "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp",
+      "/watch-architectural-skeleton-black-front-transparent.webp",
       "/catalog/hbr-906-auto-rgsl-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp",
+        "url": "/watch-architectural-skeleton-black-front-transparent.webp",
         "title": "HBR-906-AUTO-RGSL — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-906-AUTO-RGSL."
@@ -4626,8 +4680,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Transperence Excellence Automatic Skeleton Watch (Reference HBR-906-AUTO-RGSL)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4658,7 +4712,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Experience timeless craftsmanship with the Hanboro Transparence Excellence Automatic Watch – a luxury men’s timepiece designed for those who value precision and style. Crafted with a diamond-cut stainless steel case and a scratch-resistant sapphire crystal, this watch showcases durability with a premium finish.\n\nThe double-sided skeleton flywheel dial reveals the beauty of the mechanical movement, while luminous markers ensure perfect readability day or night. Powered by an automatic movement with a 40-hour power reserve, it blends performance with sophistication.\n\nChoose between a stainless steel bracelet or genuine leather strap, secured with a double-press butterfly clasp for all-day comfort. With 50M water resistance, the Transparence Excellence is built for both everyday wear and refined occasions.\n\nWhether you’re building your collection or searching for a statement accessory, this automatic skeleton watch is designed to turn heads and elevate your style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4670,7 +4724,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "906",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-906-auto-silver",
@@ -4700,8 +4755,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Transparence Excellence Automatic Skeleton Watch (Stainless Steel) (Reference HBR-906-AUTO-SILVER)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4712,7 +4767,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Experience timeless craftsmanship with the Hanboro Transparence Excellence Automatic Watch – a luxury men’s timepiece designed for those who value precision and style. Crafted with a diamond-cut stainless steel case and a scratch-resistant sapphire crystal, this watch showcases durability with a premium finish.\n\nThe double-sided skeleton flywheel dial reveals the beauty of the mechanical movement, while luminous markers ensure perfect readability day or night. Powered by an automatic movement with a 40-hour power reserve, it blends performance with sophistication.\n\nChoose between a stainless steel bracelet or genuine leather strap, secured with a double-press butterfly clasp for all-day comfort. With 50M water resistance, the Transparence Excellence is built for both everyday wear and refined occasions.\n\nWhether you’re building your collection or searching for a statement accessory, this automatic skeleton watch is designed to turn heads and elevate your style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4724,7 +4779,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "906",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "architectural-skeleton-black",
@@ -4775,8 +4831,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Transparence Excellence Automatic Skeleton Watch (Stealth Black) (Reference HBR-906-AUTO-BLACK)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4807,7 +4863,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "41mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "Experience timeless craftsmanship with the Hanboro Transparence Excellence Automatic Watch – a luxury men’s timepiece designed for those who value precision and style. Crafted with a diamond-cut stainless steel case and a scratch-resistant sapphire crystal, this watch showcases durability with a premium finish.\n\nThe double-sided skeleton flywheel dial reveals the beauty of the mechanical movement, while luminous markers ensure perfect readability day or night. Powered by an automatic movement with a 40-hour power reserve, it blends performance with sophistication.\n\nChoose between a stainless steel bracelet or genuine leather strap, secured with a double-press butterfly clasp for all-day comfort. With 50M water resistance, the Transparence Excellence is built for both everyday wear and refined occasions.\n\nWhether you’re building your collection or searching for a statement accessory, this automatic skeleton watch is designed to turn heads and elevate your style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4819,7 +4875,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "906",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-9038-auto-black",
@@ -4856,8 +4913,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Nautilus Spirit – Great Wave Edition (Reference HBR-9038-AUTO-BLACK)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 10,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4878,7 +4935,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "52mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro Nautilus Spirit – Ocean Wave Edition\nA fusion of transparency, mechanics, and artistry.\n\nThe Hanboro Nautilus Spirit is designed for those who appreciate both innovation and style. Featuring a square transparent case with crystal glass bezel, it offers a bold and futuristic presence on the wrist. The hollow wave-pattern dial, enhanced with luminous detailing, creates a striking visual inspired by the power of the ocean.\n\nAt its heart, the original Hangzhou 7500 hollow mechanical movement beats with precision – delivering a swing frequency of 28,800 vibrations/hour, a 40-hour power reserve, and accuracy within ±3 seconds/day. The exhibition back reveals the intricate mechanics in motion, thanks to a diamond-knife crafted crystal mirror for ultimate clarity.\n\nFinished with a soft silicone strap for comfort and durability, and equipped with a secure butterfly spring clasp, this timepiece is made for daily wear. With deep waterproofing, it stands resilient through handwashing, rain, and swimming – without compromising its elegance.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4890,7 +4947,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "9038",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "sapphire-kanagawa-wave",
@@ -4900,10 +4958,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Great Wave Ocean-Inspired Automatic",
-    "image": "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp",
-    "transparentImage": "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp",
+    "image": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+    "transparentImage": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
     "altImages": [
-      "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp",
+      "/watch-sapphire-kanagawa-wave-front-transparent.webp",
       "/watch-sapphire-kanagawa-wave-front-transparent.webp",
       "/watch-sapphire-kanagawa-wave-motorsport.webp",
       "/watch-sapphire-kanagawa-wave-ocean.webp",
@@ -4912,7 +4970,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp",
+        "url": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
         "title": "HBR-9038-AUTO-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-9038-AUTO-BLUE."
@@ -4948,8 +5006,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Nautilus Spirit – Great Wave Edition (Pacific Blue) (Reference HBR-9038-AUTO-BLUE)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -4982,7 +5040,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "52mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro Nautilus Spirit – Ocean Wave Edition\nA fusion of transparency, mechanics, and artistry.\n\nThe Hanboro Nautilus Spirit is designed for those who appreciate both innovation and style. Featuring a square transparent case with crystal glass bezel, it offers a bold and futuristic presence on the wrist. The hollow wave-pattern dial, enhanced with luminous detailing, creates a striking visual inspired by the power of the ocean.\n\nAt its heart, the original Hangzhou 7500 hollow mechanical movement beats with precision – delivering a swing frequency of 28,800 vibrations/hour, a 40-hour power reserve, and accuracy within ±3 seconds/day. The exhibition back reveals the intricate mechanics in motion, thanks to a diamond-knife crafted crystal mirror for ultimate clarity.\n\nFinished with a soft silicone strap for comfort and durability, and equipped with a secure butterfly spring clasp, this timepiece is made for daily wear. With deep waterproofing, it stands resilient through handwashing, rain, and swimming – without compromising its elegance.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -4994,7 +5052,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "9038",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8821-2-auto-astro-rslvr",
@@ -5024,8 +5083,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of AstroSphere DualCore – Twin Tourbillon Timepiece (Steel Bracelet Rose Silver) (Reference HBR-8821-2-AUTO-ASTRO-rslvr)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 2,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5036,7 +5095,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "Hanboro Nautilus Spirit – Ocean Wave Edition\nA fusion of transparency, mechanics, and artistry.\n\nThe Hanboro Nautilus Spirit is designed for those who appreciate both innovation and style. Featuring a square transparent case with crystal glass bezel, it offers a bold and futuristic presence on the wrist. The hollow wave-pattern dial, enhanced with luminous detailing, creates a striking visual inspired by the power of the ocean.\n\nAt its heart, the original Hangzhou 7500 hollow mechanical movement beats with precision – delivering a swing frequency of 28,800 vibrations/hour, a 40-hour power reserve, and accuracy within ±3 seconds/day. The exhibition back reveals the intricate mechanics in motion, thanks to a diamond-knife crafted crystal mirror for ultimate clarity.\n\nFinished with a soft silicone strap for comfort and durability, and equipped with a secure butterfly spring clasp, this timepiece is made for daily wear. With deep waterproofing, it stands resilient through handwashing, rain, and swimming – without compromising its elegance.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5048,7 +5107,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8821-2",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-8821-2-auto-astro-slvr",
@@ -5078,8 +5138,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of AstroSphere DualCore – Twin Tourbillon Timepiece (Steel Bracelet Pure Silver) (Reference HBR-8821-2-AUTO-ASTRO-slvr)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 1,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5090,7 +5150,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "AstroSphere DualCore – Twin Tourbillon Timepiece (Steel Bracelet Pure Silver)",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5102,7 +5162,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8821-2",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-silver-ruby-diamond",
@@ -5153,8 +5214,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Automatic Watch (Silver & Monte Carlo Red) (Reference HBR-1001-2-AUTO-ROULETTE-SLV-RED)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5186,7 +5247,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Roulette Royale – Red Gem Silver Edition is an exercise in controlled intensity. Inspired by the precision geometry of a classic roulette wheel, its dial is meticulously structured with concentric detailing and deep red crystal accents that create depth, balance, and visual rhythm.\n\nThe polished silver-toned case enhances the architectural clarity of the design, offering a sharper, more contemporary presence on the wrist. Beneath the sculpted dial, the automatic mechanical movement operates with quiet authority — a reminder that true luxury is engineered, not exaggerated.\n\nFinished with a refined leather strap and balanced proportions, this timepiece is crafted for collectors who appreciate mechanical artistry with confidence.\n\nDistinct. Composed. Intentional.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5198,7 +5259,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "blue-roulette",
@@ -5249,8 +5311,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Automatic Watch (Silver & Royale Blue) (Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5280,7 +5342,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Roulette Royale – Blue Sapphire Silver Edition is a study in precision and architectural balance. Inspired by the geometry of a roulette wheel, the dial is meticulously structured with layered blue crystal elements that create depth, rhythm, and refined symmetry.\n\nThe polished silver-toned case sharpens the contrast, delivering a clean and contemporary presence on the wrist. Beneath the sculpted dial, the automatic mechanical movement operates with measured authority — visible, deliberate, and engineered for longevity.\n\nPaired with a classic leather strap, this timepiece speaks to collectors who prefer composure over spectacle and design rooted in structure.\n\nCalculated. Refined. Intentional.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5292,7 +5354,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-silver-diamond-emerald",
@@ -5343,8 +5406,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Automatic Watch (Silver & Casino Green) (Reference HBR-1001-2-AUTO-ROULETTE-SLV-GREEN)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5376,7 +5439,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Roulette Royale – Emerald Reserve Edition captures the sophistication of high-stakes precision. Inspired by the architectural geometry of a roulette wheel, its dial is layered with emerald-toned crystal detailing, creating remarkable depth and symmetry across every rotation.\n\nEncased in polished silver-toned steel, the watch presents a sharp and commanding presence. The rich green dial paired with a matching leather strap evokes understated power — bold without excess.\n\nDriven by an automatic mechanical movement, the piece reflects discipline beneath its dramatic exterior. Designed for collectors who understand that true luxury is measured in detail, balance, and control.\n\nNot luck.\nStrategy.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5388,7 +5451,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "powerreserve-opaline",
@@ -5398,10 +5462,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Power Reserve Indicator Complication",
-    "image": "/watch-powerreserve-opaline-front-transparent-thumb.webp",
-    "transparentImage": "/watch-powerreserve-opaline-front-transparent-thumb.webp",
+    "image": "/transparent/powerreserve-black.webp",
+    "transparentImage": "/transparent/powerreserve-black.webp",
     "altImages": [
-      "/watch-powerreserve-opaline-front-transparent-thumb.webp",
+      "/transparent/powerreserve-black.webp",
       "/catalog/hbr-902-auto-a200-black-silver-view-1.jpg",
       "/catalog/hbr-902-auto-a200-black-silver-view-2.jpg",
       "/catalog/hbr-902-auto-a200-black-silver-view-3.jpg",
@@ -5409,7 +5473,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-opaline-front-transparent-thumb.webp",
+        "url": "/transparent/powerreserve-black.webp",
         "title": "HBR-902-AUTO-A200-BLACK-SILVER — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-902-AUTO-A200-BLACK-SILVER."
@@ -5439,8 +5503,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Black & Silver) (Reference HBR-902-AUTO-A200-BLACK-SILVER)."
       }
     ],
-    "price": "₹22,999",
-    "priceUsd": "$277",
+    "price": "₹18,399",
+    "priceUsd": "$222",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5472,7 +5536,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
-    "priceNumeric": 22999,
+    "priceNumeric": 18399,
     "description": "The Hanboro A200 Reserve is a study in restrained power and modern mechanical precision. Designed for those who understand true horology, its deep black sunray dial creates a dramatic contrast against the polished stainless steel case and bracelet.\n\nPowered by the original Hangzhou A200 automatic movement, it delivers reliable performance with a refined energy reserve display and small seconds complication — a quiet nod to traditional watchmaking mastery.\n\nThe sapphire crystal enhances clarity while protecting the minimalist dial architecture. With its balanced proportions and clean aesthetic, the A200 Reserve is a statement of sophistication — engineered for collectors who value precision, purity, and presence.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5484,7 +5548,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "902",
     "mrpNumeric": 22999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "powerreserve-twotone",
@@ -5494,10 +5559,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Power Reserve Indicator Complication",
-    "image": "/watch-powerreserve-twotone-front-transparent-thumb.webp",
-    "transparentImage": "/watch-powerreserve-twotone-front-transparent-thumb.webp",
+    "image": "/watch-powerreserve-midnight-front-transparent.webp",
+    "transparentImage": "/watch-powerreserve-midnight-front-transparent.webp",
     "altImages": [
-      "/watch-powerreserve-twotone-front-transparent-thumb.webp",
+      "/watch-powerreserve-midnight-front-transparent.webp",
       "/catalog/hbr-902-auto-a200-silver-rg-view-1.jpg",
       "/catalog/hbr-902-auto-a200-silver-rg-view-2.jpg",
       "/catalog/hbr-902-auto-a200-silver-rg-view-3.jpg",
@@ -5505,7 +5570,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-twotone-front-transparent-thumb.webp",
+        "url": "/watch-powerreserve-midnight-front-transparent.webp",
         "title": "HBR-902-AUTO-A200-SILVER-RG — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-902-AUTO-A200-SILVER-RG."
@@ -5535,8 +5600,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Silver & Rose Gold) (Reference HBR-902-AUTO-A200-SILVER-RG)."
       }
     ],
-    "price": "₹22,999",
-    "priceUsd": "$277",
+    "price": "₹18,399",
+    "priceUsd": "$222",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5568,7 +5633,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
-    "priceNumeric": 22999,
+    "priceNumeric": 18399,
     "description": "The Hanboro A200 Reserve Two-Tone Edition blends contemporary minimalism with timeless elegance. Framed in a refined rose gold bezel and paired with a polished stainless steel bracelet, this timepiece speaks to those who appreciate subtle luxury.\n\nIts silver sunray dial reflects light with quiet brilliance, complemented by striking blue hands and a refined power reserve display. Powered by the original Hangzhou A200 automatic movement, it offers mechanical precision with a smooth 40-hour reserve.\n\nProtected by sapphire crystal and finished with a transparent caseback, the A200 Reserve is a statement of confidence — designed for professionals who value craftsmanship over noise and precision over excess.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5580,7 +5645,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "902",
     "mrpNumeric": 22999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "powerreserve-black",
@@ -5666,8 +5732,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Full Stealth Black) (Reference HBR-902-AUTO-A200-BLACK)."
       }
     ],
-    "price": "₹22,999",
-    "priceUsd": "$277",
+    "price": "₹18,399",
+    "priceUsd": "$222",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5698,7 +5764,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
-    "priceNumeric": 22999,
+    "priceNumeric": 18399,
     "description": "The Hanboro A200 Reserve Black Edition is engineered for those who command presence without saying a word. Encased in deep black stainless steel with a matching bracelet, this timepiece embodies modern stealth luxury.\n\nThe monochrome sunray dial enhances the bold aesthetic, while the refined power reserve display and small seconds complication reflect true mechanical craftsmanship. Powered by the Hangzhou A200 automatic movement, it delivers precision with a 40-hour reserve.\n\nProtected by sapphire crystal and finished with a transparent caseback, the A200 Black Edition is not just a watch — it is authority on the wrist. Designed for leaders who prefer confidence over flash.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5710,7 +5776,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "902",
     "mrpNumeric": 22999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "octagonal-blue",
@@ -5768,8 +5835,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Meridian – Octagonal Day-Date Automatic Watch (Ocean Blue & Rose Gold) (Reference HBR-824-2-AUTO-BLUE-RG)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5799,7 +5866,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "38mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.\n\nAt its heart beats the original Shanghai JHS17 multifunction automatic movement, offering 40 hours of power reserve and refined timekeeping precision. The dial showcases a complete complication layout — date, day, small seconds, and celestial sun-moon display — all enhanced with luminous markers for powerful night visibility.\n\nProtected by sapphire crystal and water resistant up to 100 meters, the Meridian is built for those who demand elegance with endurance.\n\nA timepiece of structure. Brilliance. Authority.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5811,7 +5878,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "824-2",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "octagonal-diamond-bronze",
@@ -5869,8 +5937,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Meridian – Octagonal Day-Date Automatic Watch (Espresso Brown & Rose Gold) (Reference HBR-824-2-AUTO-BROWN-RG)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -5902,7 +5970,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "38mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -5914,7 +5982,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "824-2",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "octagonal-diamond-emerald",
@@ -5972,8 +6041,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Meridian – Octagonal Day-Date Automatic Watch (Emerald Green & Silver) (Reference HBR-824-2-AUTO-GREEN-SILVER)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6005,7 +6074,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "38mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Meridian is a bold expression of architectural luxury and mechanical mastery. Crafted from 304 fine steel using precision diamond-knife angle finishing, the octagonal case is elevated with 56 square-cut crystals — delivering brilliance without compromising strength.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6017,7 +6086,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "824-2",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "purple-chrono",
@@ -6068,8 +6138,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro OceanStrike Purple Abyss – 100M Steel Diver Chronograph (Reference HBR-1309-AUTO-PURPLE)."
       }
     ],
-    "price": "₹24,999",
-    "priceUsd": "$301",
+    "price": "₹19,999",
+    "priceUsd": "$241",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6100,7 +6170,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
-    "priceNumeric": 24999,
+    "priceNumeric": 19999,
     "description": "The OceanStrike “Purple Abyss” is designed for those who move differently. Its deep violet gradient dial shifts from shadow to brilliance under light, creating a rare and commanding presence.\n\nInside, the Shanghai JHS08 automatic movement delivers precision with a 40-hour reserve and full calendar functionality. The skeletonized tourbillon window exposes the mechanical core, enhanced by luminous markers for bold night visibility.\n\nWith 100M water resistance and a ceramic rotating bezel, Purple Abyss merges technical diving capability with avant-garde luxury.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6112,7 +6182,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1309",
     "mrpNumeric": 24999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "seamaster-chronograph-diver-teal",
@@ -6122,10 +6193,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp",
+    "image": "/transparent/purple-chrono.webp",
+    "transparentImage": "/transparent/purple-chrono.webp",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp",
+      "/transparent/purple-chrono.webp",
       "/catalog/hbr-1309-auto-blue-view-1.png",
       "/catalog/hbr-1309-auto-blue-view-2.jpg",
       "/catalog/hbr-1309-auto-blue-view-3.jpg",
@@ -6133,7 +6204,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp",
+        "url": "/transparent/purple-chrono.webp",
         "title": "HBR-1309-AUTO-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-BLUE."
@@ -6163,8 +6234,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro OceanStrike Lagoon Surge – Steel 100M Diver Chronograph (Reference HBR-1309-AUTO-BLUE)."
       }
     ],
-    "price": "₹24,999",
-    "priceUsd": "$301",
+    "price": "₹19,999",
+    "priceUsd": "$241",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6199,7 +6270,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
-    "priceNumeric": 24999,
+    "priceNumeric": 19999,
     "description": "The OceanStrike “Lagoon Surge” channels coastal sophistication with its cool teal gradient dial. Elegant yet powerful, the dial houses a complete multifunction complication layout with luminous clarity for day or night readability.\n\nDriven by the Shanghai JHS08 automatic movement, it offers a 40-hour power reserve and visible tourbillon architecture beneath sapphire crystal. The unidirectional ceramic bezel reinforces its diver heritage.\n\nBalanced, refined, and engineered for performance, Lagoon Surge is luxury engineered for motion.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6211,7 +6282,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1309",
     "mrpNumeric": 24999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "seamaster-chronograph-diver-amber",
@@ -6221,10 +6293,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp",
+    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp",
+      "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1309-auto-orange-view-1.png",
       "/catalog/hbr-1309-auto-orange-view-2.jpg",
       "/catalog/hbr-1309-auto-orange-view-3.jpg",
@@ -6233,7 +6305,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp",
+        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
         "title": "HBR-1309-AUTO-ORANGE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-ORANGE."
@@ -6269,8 +6341,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro OceanStrike Volcanic Reef – 100M Luxury Diver Watch (Reference HBR-1309-AUTO-ORANGE)."
       }
     ],
-    "price": "₹24,999",
-    "priceUsd": "$301",
+    "price": "₹19,999",
+    "priceUsd": "$241",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6305,7 +6377,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
-    "priceNumeric": 24999,
+    "priceNumeric": 19999,
     "description": "The OceanStrike “Volcanic Reef” is raw energy contained in steel. Its fiery sunburst orange dial radiates intensity, contrasted by a precision ceramic bezel and polished 304 steel case.\n\nEquipped with a six-hand multifunction layout, including 24-hour, day, month, and calendar displays, it is powered by the robust Shanghai JHS08 mechanical movement. The visible Geneva-pattern tourbillon mechanism delivers horological theatre at every glance.\n\nWater-resistant to 100 meters and secured with a solid steel bracelet, Volcanic Reef is built for those who prefer bold dominance over subtlety.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6317,7 +6389,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1309",
     "mrpNumeric": 24999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "celestial-pilot-moonphase-black",
@@ -6327,10 +6400,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp",
-    "transparentImage": "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp",
+    "image": "/watch-astroworld-moon-silver-front-transparent.webp",
+    "transparentImage": "/watch-astroworld-moon-silver-front-transparent.webp",
     "altImages": [
-      "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp",
+      "/watch-astroworld-moon-silver-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-black-view-1.jpg",
       "/catalog/hbr-8824-auto-ns-black-view-2.jpg",
       "/catalog/hbr-8824-auto-ns-black-view-3.jpg",
@@ -6339,7 +6412,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp",
+        "url": "/watch-astroworld-moon-silver-front-transparent.webp",
         "title": "HBR-8824-AUTO-NS-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-BLACK."
@@ -6375,8 +6448,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Nocturne Black) (Reference HBR-8824-AUTO-NS-BLACK)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6409,7 +6482,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6421,7 +6494,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8824",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "casino-roulette-wheel-ruby-diamond",
@@ -6465,8 +6539,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Casino Series: Roulette Royale Automatic Watch (Rose Gold & Monte Carlo Red) (Reference HBR-1001-2-AUTO-ROULETTE-RG-RED)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6498,7 +6572,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "45.5mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "The Hanboro Roulette Royale – Red Gem Edition is a statement in mechanical theatre. Inspired by the geometry and rhythm of a classic roulette wheel, its dial is meticulously structured with concentric detailing and deep red crystal accents that create remarkable depth and symmetry.\n\nEncased in rose gold-toned steel, the watch carries a commanding presence while maintaining refined elegance. The automatic movement beats beneath the surface, visible through its open architecture — a reminder that true luxury lies in mechanical precision, not decoration.\n\nBalanced by a supple leather strap and timeless proportions, this timepiece is crafted for collectors who appreciate design with intent.\n\nNot made for everyone.\nMade for those who understand presence.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6510,7 +6584,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1001-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "seamaster-chronograph-diver-olive",
@@ -6520,10 +6595,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp",
-    "transparentImage": "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp",
+    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
     "altImages": [
-      "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp",
+      "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1309-auto-green-view-1.jpg",
       "/catalog/hbr-1309-auto-green-view-2.jpg",
       "/catalog/hbr-1309-auto-green-view-3.png",
@@ -6533,7 +6608,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp",
+        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
         "title": "HBR-1309-AUTO-GREEN — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-GREEN."
@@ -6575,8 +6650,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro OceanStrike Emerald Tide – 100M Diver Chronograph Watch (Reference HBR-1309-AUTO-GREEN)."
       }
     ],
-    "price": "₹24,999",
-    "priceUsd": "$301",
+    "price": "₹19,999",
+    "priceUsd": "$241",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6611,7 +6686,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹24,999",
-    "priceNumeric": 24999,
+    "priceNumeric": 19999,
     "description": "The Hanboro OceanStrike “Emerald Tide” captures the depth of the ocean in motion. Its gradient green dial reflects shifting light like deep water under pressure, framed by a unidirectional ceramic bezel engineered for precision.\n\nPowered by the Shanghai JHS08 multifunction mechanical movement, it features a six-hand layout with 24-hour display, day, month, and calendar complications. The open Geneva-pattern tourbillon architecture reveals the heartbeat beneath, while sapphire crystal and 100M water resistance ensure durability beyond elegance.\n\nBuilt in 304 steel with a solid bracelet and double safety clasp, Emerald Tide is not just a diver — it is controlled power on the wrist.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6623,7 +6698,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1309",
     "mrpNumeric": 24999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "dual-hemispheres-moonphase-blue",
@@ -6633,17 +6709,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp",
-    "transparentImage": "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp",
+    "image": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+    "transparentImage": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
     "altImages": [
-      "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp",
+      "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-blue-view-1.png",
       "/catalog/hbr-8824-auto-ns-blue-view-2.png",
       "/catalog/hbr-8824-auto-ns-blue-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp",
+        "url": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
         "title": "HBR-8824-AUTO-NS-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-BLUE."
@@ -6667,8 +6743,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Deep Sky Blue) (Reference HBR-8824-AUTO-NS-BLUE)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6701,7 +6777,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6713,7 +6789,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8824",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "celestial-pilot-moonphase-rosegold",
@@ -6723,17 +6800,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp",
-    "transparentImage": "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp",
+    "image": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    "transparentImage": "/watch-astroworld-moon-rosegold-front-transparent.webp",
     "altImages": [
-      "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp",
+      "/watch-astroworld-moon-rosegold-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-rg-brown-view-1.png",
       "/catalog/hbr-8824-auto-ns-rg-brown-view-2.png",
       "/catalog/hbr-8824-auto-ns-rg-brown-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp",
+        "url": "/watch-astroworld-moon-rosegold-front-transparent.webp",
         "title": "HBR-8824-AUTO-NS-RG-BROWN — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-RG-BROWN."
@@ -6757,8 +6834,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Hemisphera – Dual Hemisphere Automatic Moonphase Watch (Rose Gold & Saddle Brown) (Reference HBR-8824-AUTO-NS-RG-BROWN)."
       }
     ],
-    "price": "₹34,999",
-    "priceUsd": "$422",
+    "price": "₹27,999",
+    "priceUsd": "$337",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6791,7 +6868,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹34,999",
-    "priceNumeric": 34999,
+    "priceNumeric": 27999,
     "description": "The Hanboro Hemisphera is a mechanical tribute to the world above us. Designed around a rare dual-hemisphere complication, it simultaneously tracks 24-hour sun and moon cycles for both the Northern and Southern hemispheres — a feature inspired by global navigation and celestial mechanics.\n\nEncased in precision-crafted 316L stainless steel with diamond-knife finishing, the 44mm architecture delivers strength with refined detailing. At 12 o’clock, the open flywheel reveals the beating heart of the automatic movement, oscillating at 21,600 vibrations per hour and offering a 40-hour power reserve.\n\nThe 3D multi-functional dial integrates:\n\nNorthern Hemisphere 24-hour sun & moon display\n\nSouthern Hemisphere 24-hour sun & moon display\n\nOpen mechanical flywheel\n\nLuminous hour markers\n\nProtected by a sapphire crystal and water-resistant up to 100 meters, the Hemisphera blends global sophistication with mechanical depth.\n\nBuilt for collectors who think beyond borders.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6803,7 +6880,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8824",
     "mrpNumeric": 34999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "volcano-glacier-compass-rosegold",
@@ -6813,10 +6891,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp",
+    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
     "altImages": [
-      "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp",
+      "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-rgold-view-1.png",
       "/catalog/hbr-981-auto-rgold-view-2.png",
       "/catalog/hbr-981-auto-rgold-lume.jpg",
@@ -6824,7 +6902,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp",
+        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
         "title": "HBR-981-AUTO-RGOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-RGOLD."
@@ -6854,8 +6932,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Rose Gold) (Reference HBR-981-AUTO-RGOLD)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6887,7 +6965,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6900,7 +6978,8 @@ const RAW_PRODUCTS_DATA = [
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-rgold-lume.jpg",
     "modelNumber": "981",
-    "mrpNumeric": 44999
+    "mrpNumeric": 44999,
+    "discountPercent": 20
   },
   {
     "id": "volcano-glacier-compass-silver",
@@ -6910,10 +6989,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp",
+    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
     "altImages": [
-      "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp",
+      "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-silver-view-1.png",
       "/catalog/hbr-981-auto-silver-view-2.png",
       "/catalog/hbr-981-auto-silver-lume.jpg",
@@ -6921,7 +7000,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp",
+        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
         "title": "HBR-981-AUTO-SILVER — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-SILVER."
@@ -6951,8 +7030,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Glacier Silver) (Reference HBR-981-AUTO-SILVER)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -6984,7 +7063,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -6997,7 +7076,8 @@ const RAW_PRODUCTS_DATA = [
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-silver-lume.jpg",
     "modelNumber": "981",
-    "mrpNumeric": 44999
+    "mrpNumeric": 44999,
+    "discountPercent": 20
   },
   {
     "id": "world-globe",
@@ -7034,8 +7114,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro WorldMaster – 3D Globe Carve Automatic Watch | Central Flywheel Edition (Silver) (Reference HBR-2712-AUTO-SILVER)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7065,7 +7145,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "The Hanboro WorldMaster – Globe Carve Edition celebrates the art of world-class horology. Its striking dial features 3D hand-carved continents floating over a deep royal blue base, centered around a mesmerizing open flywheel. A curved crystal dome amplifies the depth of the sculpture, while the leather strap and butterfly clasp complete the elegance. A statement timepiece for collectors who appreciate global artistry and mechanical mastery.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7077,7 +7157,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2712",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "world-map-tourbillon-silver-dual",
@@ -7087,16 +7168,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Globe Carve Central Flywheel",
-    "image": "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp",
-    "transparentImage": "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp",
+    "image": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+    "transparentImage": "/watch-world-map-tourbillon-silver-front-transparent.webp",
     "altImages": [
-      "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp",
+      "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/catalog/hbr-2712-auto-rg-tiranga-view-1.JPG",
       "/catalog/hbr-2712-auto-rg-tiranga-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp",
+        "url": "/watch-world-map-tourbillon-silver-front-transparent.webp",
         "title": "HBR-2712-AUTO-RG-TIRANGA — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-RG-TIRANGA."
@@ -7114,8 +7195,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro WorldMaster Tricolour – 3D Globe Open-Heart Automatic Watch (Rose Gold) (Reference HBR-2712-AUTO-RG-TIRANGA)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7147,7 +7228,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "The Hanboro WorldMaster Tricolour Edition is a bold expression of identity and global vision. Its extraordinary dial showcases 3D hand-carved continents rising from a deep royal blue base At the heart, an open flywheel reveals the living mechanics beneath — a reminder that time moves with purpose. The dial’s saffron, white, and green accents create a striking tri-tone composition, symbolising strength, balance, and ambition.\n\nThe sculpted world map appears almost suspended beneath the curved crystal, delivering remarkable depth and dimension. Paired with a premium leather strap and butterfly clasp, this timepiece blends cultural character with mechanical artistry.\n\nCrafted for leaders, collectors, and visionaries — the WorldMaster Tricolour is not just worn. It is represented.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7159,7 +7240,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2712",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "world-map-tourbillon-silver",
@@ -7169,10 +7251,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Globe Carve Central Flywheel",
-    "image": "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp",
-    "transparentImage": "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp",
+    "image": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+    "transparentImage": "/watch-world-map-tourbillon-silver-front-transparent.webp",
     "altImages": [
-      "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp",
+      "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/watch-world-map-tourbillon-silver-isometric-transparent.webp",
       "/watch-world-map-tourbillon-silver-space.webp",
@@ -7182,7 +7264,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp",
+        "url": "/watch-world-map-tourbillon-silver-front-transparent.webp",
         "title": "HBR-2712-AUTO-SLV-TIRANGA — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-SLV-TIRANGA."
@@ -7224,8 +7306,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro WorldMaster Tricolour – 3D Globe Open-Heart Automatic Watch (Silver) (Reference HBR-2712-AUTO-SLV-TIRANGA)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7257,7 +7339,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "The Hanboro WorldMaster Tricolour Edition is a bold expression of identity and global vision. Its extraordinary dial showcases 3D hand-carved continents rising from a deep royal blue base At the heart, an open flywheel reveals the living mechanics beneath — a reminder that time moves with purpose. The dial’s saffron, white, and green accents create a striking tri-tone composition, symbolising strength, balance, and ambition.\n\nThe sculpted world map appears almost suspended beneath the curved crystal, delivering remarkable depth and dimension. Paired with a premium leather strap and butterfly clasp, this timepiece blends cultural character with mechanical artistry.\n\nCrafted for leaders, collectors, and visionaries — the WorldMaster Tricolour is not just worn. It is represented.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7269,7 +7351,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2712",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "octagonal-skeleton-steel",
@@ -7334,8 +7417,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro OctaFrame – Rose Gold Open-Heart Automatic Watch (Reference HBR-972-AUTO-RGLD)."
       }
     ],
-    "price": "₹27,999",
-    "priceUsd": "$337",
+    "price": "₹22,399",
+    "priceUsd": "$270",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7365,7 +7448,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹27,999",
-    "priceNumeric": 27999,
+    "priceNumeric": 22399,
     "description": "The Hanboro OctaFrame – Silver Open-Heart Automatic embodies the art of mechanical beauty and modern sophistication. Its bold octagonal design and open-heart dial reveal the mesmerizing rhythm of time, capturing both strength and grace. A fusion of luxury and innovation, the OctaFrame stands as a statement piece for those who appreciate fine craftsmanship and timeless allure.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7377,7 +7460,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "972",
     "mrpNumeric": 27999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "volcano-glacier-compass-gold",
@@ -7387,10 +7471,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp",
+    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
     "altImages": [
-      "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp",
+      "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-gold-view-1.png",
       "/catalog/hbr-981-auto-gold-view-2.png",
       "/catalog/hbr-981-auto-gold-lume.jpg",
@@ -7398,7 +7482,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp",
+        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
         "title": "HBR-981-AUTO-GOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-GOLD."
@@ -7428,8 +7512,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Frozen Planet – Summit Edition Automatic Watch | 3D Mountain Dial (Royal Gold) (Reference HBR-981-AUTO-GOLD)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7461,7 +7545,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "The Hanboro Frozen Planet – Summit Edition captures the clash of elements with a breathtaking 3D dial featuring golden peaks and snow-covered mountains. The open-heart mechanics,and integrated compass create a true explorer’s aesthetic. Crafted in precision 304 steel with luminous detailing and a premium silicone strap, this timepiece blends adventure with artistry—made for those who conquer both summits and style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7474,7 +7558,8 @@ const RAW_PRODUCTS_DATA = [
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-981-auto-gold-lume.jpg",
     "modelNumber": "981",
-    "mrpNumeric": 44999
+    "mrpNumeric": 44999,
+    "discountPercent": 20
   },
   {
     "id": "world-map-tourbillon-rosegold",
@@ -7532,8 +7617,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro WorldMaster – 3D Globe Carve Automatic Watch | Central Flywheel Edition (Rose Gold) (Reference HBR-2712-AUTO-RGOLD)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7565,7 +7650,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "The Hanboro WorldMaster – Globe Carve Edition celebrates the art of world-class horology. Its striking dial features 3D hand-carved continents floating over a deep royal blue base, centered around a mesmerizing open flywheel. A curved crystal dome amplifies the depth of the sculpture, while the leather strap and butterfly clasp complete the elegance. A statement timepiece for collectors who appreciate global artistry and mechanical mastery.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7577,7 +7662,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "2712",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "forged-carbon-damascus-10atm",
@@ -7587,10 +7673,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "CarbonX ChronoTech Tonneau Skeleton",
-    "image": "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp",
-    "transparentImage": "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp",
+    "image": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+    "transparentImage": "/transparent/forged-carbon-tonneau-tourbillon.webp",
     "altImages": [
-      "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp",
+      "/transparent/forged-carbon-tonneau-tourbillon.webp",
       "/catalog/hbr-945-3-auto-black-view-1.jpg",
       "/catalog/hbr-945-3-auto-black-view-2.png",
       "/catalog/hbr-945-3-auto-black-view-3.png",
@@ -7600,7 +7686,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp",
+        "url": "/transparent/forged-carbon-tonneau-tourbillon.webp",
         "title": "HBR-945-3-AUTO-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-945-3-AUTO-BLACK."
@@ -7642,8 +7728,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition (Black) (Reference HBR-945-3-AUTO-BLACK)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7676,7 +7762,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "The Hanboro CarbonX ChronoTech brings racing DNA to the wrist with its bold tonneau-shaped carbon fiber case and multi-layer skeleton mechanics. Powered by a Japanese multifunction automatic movement, it features luminous detailing, 24-hour display, and a precision small-seconds dial. A sapphire crystal and quick-release silicone strap complete this high-performance luxury machine — crafted for those who live fast and think bold.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7688,7 +7774,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "945-3",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "arctic-tonneau-10atm-white",
@@ -7746,8 +7833,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro CarbonX ChronoTech – Tonneau Skeleton Automatic Watch | Carbon Fiber Edition (White) (Reference HBR-945-3-AUTO-WHITE)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7780,7 +7867,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "The Hanboro CarbonX ChronoTech brings racing DNA to the wrist with its bold tonneau-shaped carbon fiber case and multi-layer skeleton mechanics. Powered by a Japanese multifunction automatic movement, it features luminous detailing, 24-hour display, and a precision small-seconds dial. A sapphire crystal and quick-release silicone strap complete this high-performance luxury machine — crafted for those who live fast and think bold.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7793,7 +7880,8 @@ const RAW_PRODUCTS_DATA = [
     "hasNightMode": true,
     "nightImage": "/catalog/hbr-945-3-auto-white-lume.jpg",
     "modelNumber": "945-3",
-    "mrpNumeric": 44999
+    "mrpNumeric": 44999,
+    "discountPercent": 20
   },
   {
     "id": "oceanic-diver-200m-green",
@@ -7803,10 +7891,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "SeaKing 100M Luxury Deep Diver",
-    "image": "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp",
-    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp",
+    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
     "altImages": [
-      "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp",
+      "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1307-auto-emerald-view-1.png",
       "/catalog/hbr-1307-auto-emerald-view-2.jpg",
       "/catalog/hbr-1307-auto-emerald-view-3.jpg",
@@ -7815,7 +7903,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp",
+        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
         "title": "HBR-1307-AUTO-EMERALD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1307-AUTO-EMERALD."
@@ -7851,8 +7939,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro SeaKing Emerald – Automatic Deep-Dive Luxury Watch (Reference HBR-1307-AUTO-EMERALD)."
       }
     ],
-    "price": "₹28,999",
-    "priceUsd": "$349",
+    "price": "₹23,199",
+    "priceUsd": "$280",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7880,7 +7968,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹28,999",
-    "priceNumeric": 28999,
+    "priceNumeric": 23199,
     "description": "The Hanboro SeaKing Emerald blends classic dive-watch heritage with modern luxury. Its emerald sunburst dial, ceramic bezel, and diamond-cut steel case create a bold, refined presence. Powered by an automatic movement with 48-hour reserve, it delivers reliable precision. Luminous markers, sapphire-grade crystal, and a secure steel bracelet make it perfect for everyday wear. Stylish, durable, and built for depth.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7892,7 +7980,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1307",
     "mrpNumeric": 28999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "overseas-perpetual-skeleton-steel",
@@ -7902,10 +7991,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Celestial Astronomical Tourbillon",
-    "image": "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp",
-    "transparentImage": "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp",
+    "image": "/transparent/octagonal-skeleton-steel.webp",
+    "transparentImage": "/transparent/octagonal-skeleton-steel.webp",
     "altImages": [
-      "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp",
+      "/transparent/octagonal-skeleton-steel.webp",
       "/catalog/hbr-8022-1-auto-stellar-view-1.png",
       "/catalog/hbr-8022-1-auto-stellar-view-2.png",
       "/catalog/hbr-8022-1-auto-stellar-view-3.jpg",
@@ -7914,7 +8003,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp",
+        "url": "/transparent/octagonal-skeleton-steel.webp",
         "title": "HBR-8022-1-AUTO-STELLAR — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8022-1-AUTO-STELLAR."
@@ -7950,8 +8039,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro StellarComplication – Celestial Skeleton Automatic Watch (Reference HBR-8022-1-AUTO-STELLAR)."
       }
     ],
-    "price": "₹41,999",
-    "priceUsd": "$506",
+    "price": "₹33,599",
+    "priceUsd": "$405",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -7985,7 +8074,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹41,999",
-    "priceNumeric": 41999,
+    "priceNumeric": 33599,
     "description": "A masterpiece of mechanical artistry, the Hanboro StellarComplication blends a full-skeleton dial with day, date, month, and moon-phase displays—crafted for true collectors. The diamond-cut steel case, sapphire-bright crystal, and luminous detailing give it a commanding presence from day to night. Paired with a solid steel bracelet, it’s a premium complication watch built for those who appreciate depth, detail, and distinction.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -7997,7 +8086,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "8022-1",
     "mrpNumeric": 41999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "forged-carbon-tonneau-tourbillon",
@@ -8055,8 +8145,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro CarbonForge (Reference HBR-900-3-AUTO-BLACK)."
       }
     ],
-    "price": "₹36,999",
-    "priceUsd": "$446",
+    "price": "₹29,599",
+    "priceUsd": "$357",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -8088,7 +8178,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "44.5mm"
     },
     "mrp": "₹36,999",
-    "priceNumeric": 36999,
+    "priceNumeric": 29599,
     "description": "The Hanboro CarbonForge is built for collectors who crave bold engineering. Its carbon-fiber steel case frames a fully openworked dial with week, month, and date displays, powered by the JHS19 automatic movement. Luminous accents ignite the skeleton bridges at night, while a sapphire-grade crystal and transparent caseback reveal every mechanical detail. Finished with a premium silicone strap, this 44.5mm timepiece is crafted for those who live fast and lead with style.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -8100,7 +8190,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "900-3",
     "mrpNumeric": 36999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "astroworld-celestial",
@@ -8137,8 +8228,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Orbita - Tourbillon Watch WITH Planetarium Design (Reference HBR-980-AUTO-ORBITA-GOLD)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 12,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -8170,7 +8261,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro Orbita – Cosmic Tourbillon with Planetarium Dial\nThe Hanboro Orbita is more than a timepiece—it’s a celestial experience on the wrist. Designed with an irregular diamond-cut stainless steel case, it houses the Shanghai 2797B mechanical movement with 22 jewels, offering a 42-hour power reserve and stop-second precision.\n\nIts skeleton dial features a 24-hour rotating globe, luminous starfield, and engraved flywheel tourbillon, creating the illusion of a living universe in motion. The 3D diamond-knife carved glass ensures clarity, while the exhibition caseback reveals the intricate mechanics beneath.\n\nPaired with a breathable silicone strap and double-press safety clasp, the Orbita balances cosmic artistry with everyday wearability. Waterproof up to 50m, this timepiece embodies luxury, precision, and imagination—crafted for visionaries who carry the universe with them.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -8182,7 +8273,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "980-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-995-1-auto-gold",
@@ -8219,8 +8311,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro REV-X Ignition – Motorsport Edition - TOURBILLION WATCH (Reference HBR-995-1-AUTO-GOLD)."
       }
     ],
-    "price": "₹44,999",
-    "priceUsd": "$542",
+    "price": "₹35,999",
+    "priceUsd": "$434",
     "stock": 10,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -8241,7 +8333,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "46mm"
     },
     "mrp": "₹44,999",
-    "priceNumeric": 44999,
+    "priceNumeric": 35999,
     "description": "Hanboro REV-X Ignition – Motorsport Edition – Tourbillon Watch\n\nThe Hanboro REV-X Ignition is where motorsport adrenaline meets haute horology. Forged in 304 stainless steel with diamond knife case design and an irregular-cut crystal, it reflects boldness in every angle.\n\nPowered by the original Shanghai 2797B skeleton mechanical movement with 22 jewels, it delivers 21,600 vibrations/hour and a 42-hour reserve—a true engine of precision. The convex skeleton dial showcases a luminous Earth-shaped flywheel that rotates like gears in motion, glowing brilliantly in the dark.\n\nA transparent caseback reveals the tourbillon in action, while the soft silicone strap with double-press clasp ensures comfort and control. With 50m water resistance, REV-X Ignition is as resilient as it is revolutionary.\n\nA statement for visionaries who live fast, think sharp, and demand a timepiece as fearless as their drive.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -8253,7 +8345,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "995-1",
     "mrpNumeric": 44999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-927-rgold-blk",
@@ -8283,8 +8376,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro FaceShift Series – FaceShift Automatic (Rose Gold & Onyx Black Edition) (Reference HBR-927-RGOLD-BLK)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "Limited Allocation",
     "year": "2026",
@@ -8295,7 +8388,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro FaceShift Series – FaceShift Automatic (Rose Gold & Onyx Black Edition)",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -8307,7 +8400,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-aero-997-rg-blk",
@@ -8358,10 +8452,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-RG-BLK."
       }
     ],
-    "price": "₹54,999",
+    "price": "₹43,999",
     "mrp": "₹54,999",
-    "priceNumeric": 54999,
-    "priceUsd": "$663",
+    "priceNumeric": 43999,
+    "priceUsd": "$530",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8392,7 +8486,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "997",
     "mrpNumeric": 54999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-aero-997-blk",
@@ -8443,10 +8538,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-BLK."
       }
     ],
-    "price": "₹54,999",
+    "price": "₹43,999",
     "mrp": "₹54,999",
-    "priceNumeric": 54999,
-    "priceUsd": "$663",
+    "priceNumeric": 43999,
+    "priceUsd": "$530",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8477,7 +8572,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "997",
     "mrpNumeric": 54999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-aero-997-silver",
@@ -8528,10 +8624,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-AERO-997-SILVER."
       }
     ],
-    "price": "₹54,999",
+    "price": "₹43,999",
     "mrp": "₹54,999",
-    "priceNumeric": 54999,
-    "priceUsd": "$663",
+    "priceNumeric": 43999,
+    "priceUsd": "$530",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8562,7 +8658,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "997",
     "mrpNumeric": 54999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-zodiac-1027-2-blue",
@@ -8613,10 +8710,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Horological craftsmanship inspection of Reference HBR-ZODIAC-1027-2-BLUE."
       }
     ],
-    "price": "₹50,999",
+    "price": "₹40,799",
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
-    "priceUsd": "$614",
+    "priceNumeric": 40799,
+    "priceUsd": "$492",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8647,7 +8744,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1027-2",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-zodiac-1027-2-black",
@@ -8698,10 +8796,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Black Dial (Reference HBR-ZODIAC-1027-2-BLACK)."
       }
     ],
-    "price": "₹50,999",
+    "price": "₹40,799",
     "mrp": "₹50,999",
-    "priceNumeric": 50999,
-    "priceUsd": "$614",
+    "priceNumeric": 40799,
+    "priceUsd": "$492",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8732,7 +8830,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1027-2",
     "mrpNumeric": 50999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-wc-1038-rg-blk",
@@ -8797,10 +8896,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-RG-BLK)."
       }
     ],
-    "price": "₹52,999",
+    "price": "₹42,399",
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
-    "priceUsd": "$639",
+    "priceNumeric": 42399,
+    "priceUsd": "$511",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8831,7 +8930,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1038",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "hbr-wc-1038-silver-blk",
@@ -8889,10 +8989,10 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-SILVER-BLK)."
       }
     ],
-    "price": "₹52,999",
+    "price": "₹42,399",
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
-    "priceUsd": "$639",
+    "priceNumeric": 42399,
+    "priceUsd": "$511",
     "stock": 10,
     "availability": "Ready for Dispatch",
     "year": 2026,
@@ -8923,7 +9023,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "1038",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "green-diver",
@@ -8941,8 +9042,8 @@ const RAW_PRODUCTS_DATA = [
       "/catalog/hbr-1308-auto-sapphire-view-3.jpg",
       "/catalog/hbr-1308-auto-sapphire-view-4.jpg"
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 8,
     "availability": "In Stock",
     "year": "2026",
@@ -8973,7 +9074,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Bold, refined, and built for the deep — the Hanboro SeaKing Sapphire blends a ceramic bezel with a wave-pattern skeleton dial for a truly premium look. Powered by a reliable 82S7 automatic movement, it features a 24-hour subdial, open-heart flywheel, and luminous markers for perfect visibility. Finished with a stainless-steel bracelet and 50M water resistance, it’s a standout choice for collectors who want style, engineering, and everyday durability.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -9018,7 +9119,8 @@ const RAW_PRODUCTS_DATA = [
     ],
     "modelNumber": "1308",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "powerreserve-silver",
@@ -9104,8 +9206,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "High-precision horological studio capture of Hanboro A200 Reserve – Automatic Power Reserve Stainless Steel Watch (Reference HBR-902-AUTO-A200-SILVER)."
       }
     ],
-    "price": "₹22,999",
-    "priceUsd": "$277",
+    "price": "₹18,399",
+    "priceUsd": "$222",
     "stock": 8,
     "availability": "In Stock",
     "year": "2026",
@@ -9136,7 +9238,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "42mm"
     },
     "mrp": "₹22,999",
-    "priceNumeric": 22999,
+    "priceNumeric": 18399,
     "description": "The Hanboro A200 Reserve is a study in precision and restraint. Designed with a clean sunburst silver dial and sharp blue hands, it reflects the philosophy that true luxury lies in clarity and engineering.\n\nPowered by the A200 automatic mechanical movement, the watch features a dedicated power reserve indicator and small seconds display — subtle complications that reveal its technical depth without disturbing its minimalist balance.\n\nEncased in finely polished stainless steel and protected by sapphire crystal, the A200 Reserve delivers durability with refined presence. The exhibition caseback allows a glimpse into its mechanical heartbeat, reinforcing the craftsmanship within.\n\nPaired with a sculpted steel bracelet and butterfly clasp, this timepiece is built for modern professionals who value precision over excess and structure over noise.\n\nUnderstated. Engineered. Timeless.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -9148,7 +9250,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "902",
     "mrpNumeric": 22999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   },
   {
     "id": "sichuan-opera-diamond-tonneau",
@@ -9185,8 +9288,8 @@ const RAW_PRODUCTS_DATA = [
         "caption": "Official boutique presentation of Hanboro Facebook Series – FaceShift Automatic SIX faces. One bold identity. (Reference HBR-927-GOLD-BLK)."
       }
     ],
-    "price": "₹52,999",
-    "priceUsd": "$639",
+    "price": "₹42,399",
+    "priceUsd": "$511",
     "stock": 10,
     "availability": "In Stock",
     "year": "2026",
@@ -9217,7 +9320,7 @@ const RAW_PRODUCTS_DATA = [
       "caseDiameter": "43mm"
     },
     "mrp": "₹52,999",
-    "priceNumeric": 52999,
+    "priceNumeric": 42399,
     "description": "Hanboro FaceShift Series – FaceShift Automatic\n“Six faces. One bold identity.”\n\nThe Hanboro FaceShift is more than a timepiece—it’s a statement of transformation. Featuring six rotating luminous masks, each revealed every four hours, it symbolizes power, wisdom, rebellion, honor, fearlessness, and clarity.\n\nIts fan-shaped crystal bezel, set with 174 diamonds, draws inspiration from artistic traditions, while the exposed Japanese  8215 movement celebrates fine mechanical engineering. Each watch comes with a handcrafted ceremonial fan, echoing heritage and timeless elegance.\n\nWith a sapphire crystal, transparent tourbillon back, and 50m water resistance, the FaceShift Automatic combines performance with artistry—crafted for those who embrace every side of their identity.",
     "compliance": {
       "countryOfOrigin": "People’s Republic of China",
@@ -9229,7 +9332,8 @@ const RAW_PRODUCTS_DATA = [
     },
     "modelNumber": "927-2",
     "mrpNumeric": 52999,
-    "hasNightMode": false
+    "hasNightMode": false,
+    "discountPercent": 20
   }
 ];
 
@@ -9243,8 +9347,21 @@ export const PRODUCTS_DATA = RAW_PRODUCTS_DATA.map((p) => {
     ? p.gallery.map((g) => (typeof g === "string" ? getHighResWatchImage(g) : { ...g, url: getHighResWatchImage(g?.url) }))
     : p.gallery;
 
+  const mrpNumeric = p.mrpNumeric || p.priceNumeric;
+  const mrp = p.mrp || `₹${mrpNumeric.toLocaleString("en-IN")}`;
+  const discountPercent = typeof p.discountPercent === "number" ? p.discountPercent : 20;
+  const priceNumeric = p.priceNumeric && p.priceNumeric < mrpNumeric ? p.priceNumeric : Math.round(mrpNumeric * (1 - discountPercent / 100));
+  const price = p.price && p.price !== mrp ? p.price : `₹${priceNumeric.toLocaleString("en-IN")}`;
+  const priceUsd = p.priceUsd || `$${Math.round(priceNumeric / 83)}`;
+
   return {
     ...p,
+    mrp,
+    mrpNumeric,
+    discountPercent,
+    price,
+    priceNumeric,
+    priceUsd,
     image: highResImage,
     transparentImage: highResTransparent,
     altImages: updatedAltImages,
@@ -9260,4 +9377,54 @@ export function getProductByIdOrSku(identifier) {
     PRODUCTS_DATA.find((p) => p.id.toLowerCase() === clean || p.sku.toLowerCase() === clean) ||
     null
   );
+}
+
+// Watch Pricing & Discount Calculation Helper
+export function getWatchPricing(watch) {
+  if (!watch) {
+    return {
+      price: "₹0",
+      priceNumeric: 0,
+      mrp: null,
+      mrpNumeric: 0,
+      hasDiscount: false,
+      discountPercent: 0,
+      savings: 0,
+      savingsFormatted: "₹0"
+    };
+  }
+
+  const mrpNum = typeof watch.mrpNumeric === "number" && !isNaN(watch.mrpNumeric)
+    ? watch.mrpNumeric
+    : (watch.mrp ? parseInt(String(watch.mrp).replace(/[^\d]/g, ""), 10) : 0);
+
+  const priceNum = typeof watch.priceNumeric === "number" && !isNaN(watch.priceNumeric)
+    ? watch.priceNumeric
+    : (watch.price ? parseInt(String(watch.price).replace(/[^\d]/g, ""), 10) : 0);
+
+  if (mrpNum > priceNum && priceNum > 0) {
+    const savings = mrpNum - priceNum;
+    const discountPercent = watch.discountPercent || Math.round((savings / mrpNum) * 100);
+    return {
+      price: watch.price || `₹${priceNum.toLocaleString("en-IN")}`,
+      priceNumeric: priceNum,
+      mrp: watch.mrp || `₹${mrpNum.toLocaleString("en-IN")}`,
+      mrpNumeric: mrpNum,
+      hasDiscount: true,
+      discountPercent,
+      savings,
+      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`
+    };
+  }
+
+  return {
+    price: watch.price || `₹${priceNum.toLocaleString("en-IN")}`,
+    priceNumeric: priceNum,
+    mrp: null,
+    mrpNumeric: mrpNum || priceNum,
+    hasDiscount: false,
+    discountPercent: 0,
+    savings: 0,
+    savingsFormatted: "₹0"
+  };
 }
