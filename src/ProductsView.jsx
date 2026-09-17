@@ -27,6 +27,22 @@ export function ProductsView({
   const [comparedIds, setComparedIds] = useState([]);
   const [showCompareModal, setShowCompareModal] = useState(false);
 
+  // View Mode: 'desktop' (Grand 1-Col Desktop-Like Luxury Showcase) vs 'grid' (Compact 2-Col)
+  const [viewMode, setViewMode] = useState(() => {
+    try {
+      return localStorage.getItem("hanboro_catalog_view_mode") || "desktop";
+    } catch {
+      return "desktop";
+    }
+  });
+
+  const handleSetViewMode = (mode) => {
+    setViewMode(mode);
+    try {
+      localStorage.setItem("hanboro_catalog_view_mode", mode);
+    } catch {}
+  };
+
   // Scroll to top immediately when entering catalog
   useEffect(() => {
     forceScrollToTop();
@@ -178,23 +194,58 @@ export function ProductsView({
               )}
             </div>
 
-            <div className="maison-sort-dropdown-wrap">
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-                className="maison-sort-dropdown"
-                aria-label="Sort collection"
-              >
-                <option value="DEFAULT">Sort: New Arrivals</option>
-                <option value="PRICE_DESC">Price: High to Low</option>
-                <option value="PRICE_ASC">Price: Low to High</option>
-              </select>
+            <div className="maison-sub-controls-row">
+              <div className="maison-sort-dropdown-wrap">
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="maison-sort-dropdown"
+                  aria-label="Sort collection"
+                >
+                  <option value="DEFAULT">Sort: New Arrivals</option>
+                  <option value="PRICE_DESC">Price: High to Low</option>
+                  <option value="PRICE_ASC">Price: Low to High</option>
+                </select>
+              </div>
+
+              {/* View Layout Switcher: Desktop View (1-col grand showcase) vs Grid (2-col) */}
+              <div className="maison-view-toggle" role="group" aria-label="Catalog View Mode">
+                <button
+                  type="button"
+                  className={`maison-view-btn ${viewMode === "desktop" ? "is-active" : ""}`}
+                  onClick={() => handleSetViewMode("desktop")}
+                  title="Desktop-like Luxury Showcase View"
+                  aria-label="Desktop Showcase View"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                  </svg>
+                  <span>Desktop</span>
+                </button>
+                <button
+                  type="button"
+                  className={`maison-view-btn ${viewMode === "grid" ? "is-active" : ""}`}
+                  onClick={() => handleSetViewMode("grid")}
+                  title="Compact Grid View"
+                  aria-label="Compact Grid View"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                  </svg>
+                  <span>Grid</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── REFINED 3-COLUMN PRODUCT GALLERY GRID ── */}
+      {/* ── REFINED PRODUCT GALLERY GRID ── */}
       <section className="maison-gallery-section">
         {filteredProducts.length === 0 ? (
           <div className="maison-empty-state">
@@ -213,7 +264,7 @@ export function ProductsView({
             </button>
           </div>
         ) : (
-          <div className="maison-gallery-grid">
+          <div className={`maison-gallery-grid maison-gallery-grid--${viewMode}`}>
             {filteredProducts.map((watch) => {
               const isWishlisted = !!wishlist[watch.id];
 

@@ -18164,6 +18164,50 @@ body.modal-open {
   color: #ffffff;
 }
 
+.maison-sub-controls-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.maison-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 9999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.maison-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.maison-view-btn:hover {
+  color: #ffffff;
+}
+
+.maison-view-btn.is-active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-weight: 800;
+}
+
 /* ── 3-Column Product Gallery Grid ── */
 .maison-gallery-section {
   max-width: 1440px;
@@ -23611,19 +23655,19 @@ tr.is-selected-row td {
     opacity: 0.65 !important;
   }
 
-  /* Search and Sort Row */
+  /* Search, Sort, and View Switcher Row */
   .maison-controls-group {
     display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
     width: 100% !important;
   }
 
   .maison-search-input-wrap {
-    flex: 1 !important;
-    min-width: 0 !important;
-    height: 38px !important;
-    padding: 0 12px !important;
+    width: 100% !important;
+    height: 40px !important;
+    padding: 0 14px !important;
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 9999px !important;
@@ -23641,13 +23685,21 @@ tr.is-selected-row td {
     outline: none !important;
   }
 
-  .maison-sort-dropdown-wrap,
-  .maison-sort-wrap {
-    flex-shrink: 0 !important;
+  .maison-sub-controls-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    width: 100% !important;
   }
 
-  .maison-sort-dropdown,
-  .maison-sort-select {
+  .maison-sort-dropdown-wrap {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .maison-sort-dropdown {
+    width: 100% !important;
     height: 38px !important;
     padding: 0 12px !important;
     font-size: 11.5px !important;
@@ -23658,9 +23710,238 @@ tr.is-selected-row td {
     outline: none !important;
   }
 
+  .maison-view-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 9999px !important;
+    padding: 3px !important;
+    gap: 2px !important;
+    flex-shrink: 0 !important;
+  }
 
-  /* 2-Column Gallery Grid on Mobile matching Desktop Proportion */
-  .maison-gallery-grid {
+  .maison-view-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 5px 11px !important;
+    border-radius: 9999px !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+  }
+
+  /* Desktop-Like Luxury View on Mobile Phone (1-column grand showcase matching desktop anatomy) */
+  .maison-gallery-grid,
+  .maison-gallery-grid.maison-gallery-grid--desktop {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-watch-card {
+    padding: 18px 16px !important;
+    border-radius: 12px !important;
+    background: #08080a !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-watch-card:active {
+    transform: scale(0.99) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-badge {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    max-width: none !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-wishlist-btn {
+    padding: 4px !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-wishlist-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-stage {
+    width: 100% !important;
+    aspect-ratio: 1 / 1.02 !important;
+    min-height: 270px !important;
+    max-height: 380px !important;
+    margin-bottom: 14px !important;
+    border-radius: 8px !important;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-watch-img {
+    max-width: 82% !important;
+    max-height: 82% !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.95)) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-eyebrow {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-eyebrow .card-sku-code {
+    color: var(--red) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-eyebrow .card-dot {
+    display: inline-block !important;
+    color: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-eyebrow .card-caliber {
+    display: inline-block !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-title {
+    font-size: 15.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    min-height: auto !important;
+    max-height: none !important;
+    margin: 0 0 6px 0 !important;
+    color: #ffffff !important;
+    display: block !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-specs-line {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 10.5px !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    margin-bottom: 14px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-footer {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-top: auto !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-top: 14px !important;
+    width: 100% !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-price-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+    text-align: left !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-price-val {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-price-note {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 9px !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: auto !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-action-btn {
+    padding: 8px 14px !important;
+    font-size: 10.5px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 5px !important;
+    min-height: 38px !important;
+    white-space: nowrap !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-action-btn--bag {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+  }
+
+  .maison-gallery-grid--desktop .maison-card-action-btn--buy {
+    background: var(--red) !important;
+    border: 1px solid var(--red) !important;
+    color: #ffffff !important;
+  }
+
+  /* Compact 2-Column Grid Mode on Mobile */
+  .maison-gallery-grid.maison-gallery-grid--grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px !important;
@@ -23670,8 +23951,7 @@ tr.is-selected-row td {
     padding: 0 !important;
   }
 
-  /* Individual Watch Card on Phone matching Desktop Anatomy */
-  .maison-watch-card {
+  .maison-gallery-grid--grid .maison-watch-card {
     padding: 12px !important;
     border-radius: 8px !important;
     background: #08080a !important;
@@ -23683,7 +23963,7 @@ tr.is-selected-row td {
     box-sizing: border-box !important;
   }
 
-  .maison-card-header {
+  .maison-gallery-grid--grid .maison-card-header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -23691,7 +23971,7 @@ tr.is-selected-row td {
     width: 100% !important;
   }
 
-  .maison-card-badge {
+  .maison-gallery-grid--grid .maison-card-badge {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 7.5px !important;
     font-weight: 700 !important;
@@ -23707,16 +23987,16 @@ tr.is-selected-row td {
     color: rgba(255, 255, 255, 0.65) !important;
   }
 
-  .maison-wishlist-btn {
+  .maison-gallery-grid--grid .maison-wishlist-btn {
     padding: 2px !important;
   }
 
-  .maison-wishlist-btn svg {
+  .maison-gallery-grid--grid .maison-wishlist-btn svg {
     width: 13px !important;
     height: 13px !important;
   }
 
-  .maison-card-stage {
+  .maison-gallery-grid--grid .maison-card-stage {
     width: 100% !important;
     aspect-ratio: 1 / 1.05 !important;
     margin-bottom: 8px !important;
@@ -23728,14 +24008,14 @@ tr.is-selected-row td {
     position: relative !important;
   }
 
-  .maison-watch-img {
+  .maison-gallery-grid--grid .maison-watch-img {
     max-width: 90% !important;
     max-height: 90% !important;
     object-fit: contain !important;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.95)) !important;
   }
 
-  .maison-card-eyebrow {
+  .maison-gallery-grid--grid .maison-card-eyebrow {
     display: flex !important;
     align-items: center !important;
     gap: 4px !important;
@@ -23750,15 +24030,15 @@ tr.is-selected-row td {
     text-overflow: ellipsis !important;
   }
 
-  .maison-card-eyebrow .card-caliber {
+  .maison-gallery-grid--grid .maison-card-eyebrow .card-caliber {
     display: none !important;
   }
 
-  .maison-card-eyebrow .card-dot {
+  .maison-gallery-grid--grid .maison-card-eyebrow .card-dot {
     display: none !important;
   }
 
-  .maison-card-title {
+  .maison-gallery-grid--grid .maison-card-title {
     font-size: 11.5px !important;
     font-weight: 700 !important;
     line-height: 1.3 !important;
@@ -23772,7 +24052,7 @@ tr.is-selected-row td {
     overflow: hidden !important;
   }
 
-  .maison-card-specs-line {
+  .maison-gallery-grid--grid .maison-card-specs-line {
     display: flex !important;
     align-items: center !important;
     gap: 4px !important;
@@ -23785,7 +24065,7 @@ tr.is-selected-row td {
     text-overflow: ellipsis !important;
   }
 
-  .maison-card-footer {
+  .maison-gallery-grid--grid .maison-card-footer {
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
@@ -23796,7 +24076,7 @@ tr.is-selected-row td {
     width: 100% !important;
   }
 
-  .maison-card-price-wrap {
+  .maison-gallery-grid--grid .maison-card-price-wrap {
     display: flex !important;
     flex-direction: row !important;
     align-items: baseline !important;
@@ -23804,28 +24084,28 @@ tr.is-selected-row td {
     width: 100% !important;
   }
 
-  .maison-price-val {
+  .maison-gallery-grid--grid .maison-price-val {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 12.5px !important;
     font-weight: 800 !important;
     color: #ffffff !important;
   }
 
-  .maison-price-note {
+  .maison-gallery-grid--grid .maison-price-note {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 7.5px !important;
     color: rgba(255, 255, 255, 0.35) !important;
     text-transform: uppercase !important;
   }
 
-  .maison-card-actions {
+  .maison-gallery-grid--grid .maison-card-actions {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 4px !important;
     width: 100% !important;
   }
 
-  .maison-card-action-btn {
+  .maison-gallery-grid--grid .maison-card-action-btn {
     padding: 5px 2px !important;
     font-size: 8.5px !important;
     font-family: 'JetBrains Mono', monospace !important;
