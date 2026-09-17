@@ -1451,8 +1451,12 @@ body.modal-open {
   display: flex;
   width: max-content;
   overflow: visible;
-  animation: endlessAppleGlide 540s linear infinite;
+  animation: endlessAppleGlide 32s linear infinite;
   will-change: transform;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
 }
 
 .carousel-group {
@@ -3292,7 +3296,7 @@ body.modal-open {
   }
 
   .carousel-track {
-    animation: endlessAppleGlide 580s linear infinite;
+    animation: endlessAppleGlide 28s linear infinite;
   }
 
   .carousel-group {
@@ -23516,6 +23520,10 @@ tr.is-selected-row td {
 
   .carousel-track-wrapper {
     height: 240px !important;
+  }
+
+  .carousel-track {
+    animation: endlessAppleGlide 28s linear infinite !important;
   }
 
   .watch-float-item {
