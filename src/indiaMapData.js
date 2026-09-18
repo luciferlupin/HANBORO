@@ -11,6 +11,23 @@ export const MAP_CITIES = [
     "labelDy": 4
   },
   {
+    "name": "KARNAL",
+    "cityKey": "Karnal",
+    "x": 182,
+    "y": 186,
+    "labelDx": 14,
+    "labelDy": 4
+  },
+  {
+    "name": "BAHADURGARH",
+    "cityKey": "Bahadurgarh",
+    "x": 176,
+    "y": 202,
+    "labelDx": -12,
+    "labelDy": 4,
+    "textAnchor": "end"
+  },
+  {
     "name": "DELHI",
     "cityKey": "Delhi",
     "x": 187,
@@ -19,12 +36,39 @@ export const MAP_CITIES = [
     "labelDy": 4
   },
   {
+    "name": "BHIWADI",
+    "cityKey": "Bhiwadi",
+    "x": 178,
+    "y": 218,
+    "labelDx": -12,
+    "labelDy": 4,
+    "textAnchor": "end"
+  },
+  {
+    "name": "MATHURA",
+    "cityKey": "Mathura",
+    "x": 196,
+    "y": 233,
+    "labelDx": 12,
+    "labelDy": 4,
+    "textAnchor": "start"
+  },
+  {
     "name": "LUCKNOW",
     "cityKey": "Lucknow",
     "x": 268,
     "y": 247,
     "labelDx": 14,
     "labelDy": 4
+  },
+  {
+    "name": "JHANSI",
+    "cityKey": "Jhansi",
+    "x": 214,
+    "y": 275,
+    "labelDx": 12,
+    "labelDy": 4,
+    "textAnchor": "start"
   },
   {
     "name": "AHMEDABAD",
@@ -76,6 +120,42 @@ export const MAP_CITIES = [
     "y": 559,
     "labelDx": 14,
     "labelDy": 4
+  },
+  {
+    "name": "TIRUPATI",
+    "cityKey": "Tirupati",
+    "x": 239,
+    "y": 547,
+    "labelDx": -12,
+    "labelDy": -8,
+    "textAnchor": "end"
+  },
+  {
+    "name": "VISAKHAPATNAM",
+    "cityKey": "Visakhapatnam",
+    "x": 320,
+    "y": 456,
+    "labelDx": 12,
+    "labelDy": 4,
+    "textAnchor": "start"
+  },
+  {
+    "name": "NELLORE",
+    "cityKey": "Nellore",
+    "x": 252,
+    "y": 529,
+    "labelDx": 12,
+    "labelDy": 4,
+    "textAnchor": "start"
+  },
+  {
+    "name": "VIRAR",
+    "cityKey": "Virar",
+    "x": 95,
+    "y": 416,
+    "labelDx": -12,
+    "labelDy": -4,
+    "textAnchor": "end"
   }
 ];
 

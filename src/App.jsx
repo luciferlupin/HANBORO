@@ -1609,23 +1609,120 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
 // ══════════════════════════════════════════════════════════════════════════════
 // OFFICIAL STORE LOCATOR DIRECTORY DATA
 // ══════════════════════════════════════════════════════════════════════════════
-// OFFICIAL STORE LOCATOR DIRECTORY DATA
-// ══════════════════════════════════════════════════════════════════════════════
 const STORES_DATA = [
   {
-    id: "nagpal-watches-delhi",
+    id: "nagpal-watches-karnal",
     name: "NAGPAL WATCHES",
+    city: "Karnal",
+    state: "Haryana",
+    country: "India",
+    address: "Shop No. 2, Near Reliance Trends, Kunjpura Road, Karnal, Haryana – 132001",
+    phone: "+91 90341 38000",
+    phoneRaw: "+919034138000",
+    hours: "10:00 AM – 9:00 PM (All Days)",
+    image: "/store-nagpal-watches.jpg",
+    mapUrl: "https://maps.google.com/?q=Nagpal+Watches+Kunjpura+Road+Karnal",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: true,
+    keywords: "Delhi NCR Haryana"
+  },
+  {
+    id: "time-point-pitampura",
+    name: "TIME POINT",
     city: "Delhi",
+    area: "Pitampura",
     state: "Delhi",
     country: "India",
-    address: "16/29, Roop Nagar, Kamla Nagar, New Delhi – 110007",
-    phone: "+91 11 4321 1234",
-    phoneRaw: "+911143211234",
-    hours: "10:30 AM – 8:30 PM (All Days)",
-    image: "/store-nagpal-watches.jpg",
-    mapUrl: "https://maps.google.com/?q=Nagpal+Watches+Kamla+Nagar+Delhi",
+    address: "Shop No. 9, JD Market, Main Road, Opposite Metro Pillar 359, Pitampura, New Delhi – 110034",
+    phone: "+91 99993 03888",
+    phoneRaw: "+919999303888",
+    hours: "11:00 AM – 9:00 PM (All Days)",
+    image: "/store-interior.jpg",
+    mapUrl: "https://maps.google.com/?q=Time+Point+JD+Market+Pitampura+Delhi",
     type: "Authorized Hanboro Retailer",
-    isFeatured: true
+    isFeatured: false,
+    keywords: "Time Point Pitampura Delhi New Delhi NCR JD Market Metro Pillar 359 110034"
+  },
+  {
+    id: "time-planet-bahadurgarh",
+    name: "TIME PLANET",
+    city: "Bahadurgarh",
+    area: "Delhi-Rohtak Road",
+    state: "Haryana",
+    country: "India",
+    address: "Metro Pillar No. 840, Delhi - Rohtak Road, Opposite ICICI Bank, Dharampura, Bahadurgarh, Haryana – 124507",
+    phone: "+91 89015 09654",
+    phoneRaw: "+918901509654",
+    hours: "10:00 AM – 9:00 PM (All Days)",
+    image: "/store-interior.jpg",
+    mapUrl: "https://www.google.com/maps/place/TIME+PLANET/@28.6909983,76.9295432,17z/data=!3m1!4b1!4m6!3m5!1s0x390d09994b76e7cd:0x30fc8774131e9375!8m2!3d28.6909983!4d76.9321181!16s%2Fg%2F11fwhzlwvn?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Time Planet Bahadurgarh Haryana Delhi NCR Rohtak Road Dharampura Metro Pillar 840 124507"
+  },
+  {
+    id: "timeland-tirupati",
+    name: "TIME LAND",
+    city: "Tirupati",
+    state: "Andhra Pradesh",
+    country: "India",
+    address: "Opp. Lalitha Jewellery & KFC, V.V. Mahal Road, Bhavani Nagar, Tirupati, Andhra Pradesh – 517501",
+    phone: "+91 85007 34343",
+    phoneRaw: "+918500734343",
+    hours: "9:30 AM – 9:30 PM (All Days)",
+    image: "/store-interior.jpg",
+    mapUrl: "https://www.google.com/maps/place/TIMELAND/@13.6407904,79.4133274,17z/data=!4m6!3m5!1s0x3a4d4bca23fb2c8f:0x299e298b0d1e8085!8m2!3d13.637068!4d79.4206308!16s%2Fg%2F11whwgkqfc?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Time Land Timeland Tirupati Andhra Pradesh South India 517501 Lalitha Jewellery"
+  },
+  {
+    id: "timeland-visakhapatnam",
+    name: "TIME LAND",
+    city: "Visakhapatnam",
+    state: "Andhra Pradesh",
+    country: "India",
+    address: "D.No. 10/50/84, Waltair Main Road, Opposite Dr. Agarwal's Eye Hospital, Ram Nagar, Visakhapatnam, Andhra Pradesh – 530002",
+    phone: "+91 81426 00001",
+    phoneRaw: "+918142600001",
+    hours: "11:00 AM – 9:30 PM (All Days)",
+    image: "/store-facade.jpg",
+    mapUrl: "https://maps.google.com/?q=Time+Land+Waltair+Main+Road+Visakhapatnam",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Time Land Timeland Visakhapatnam Vizag Andhra Pradesh Waltair Main Road Ram Nagar 530002"
+  },
+  {
+    id: "madina-nellore",
+    name: "MADINA WATCHES",
+    city: "Nellore",
+    state: "Andhra Pradesh",
+    country: "India",
+    address: "Trunk Road, Opposite Sunday Market, Near Gandhi Statue, Nellore, Andhra Pradesh – 524001",
+    phone: "+91 861 232 9401",
+    phoneRaw: "+918612329401",
+    hours: "9:30 AM – 9:30 PM (All Days)",
+    image: "/store-signage.jpg",
+    mapUrl: "https://maps.google.com/?q=Madina+Watches+Trunk+Road+Nellore",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Madina Watches Watch Agencies Nellore Andhra Pradesh Trunk Road 524001"
+  },
+  {
+    id: "arihant-virar",
+    name: "ARIHANT WATCHES & OPTICAL STUDIO",
+    city: "Virar",
+    state: "Maharashtra",
+    country: "India",
+    address: "Shop No. 4–7, Gopani Centre, Agashi Road, Opposite Hotel On The Way, Virar West, Maharashtra – 401303",
+    phone: "+91 73037 57498",
+    phoneRaw: "+917303757498",
+    hours: "10:00 AM – 9:00 PM (All Days)",
+    image: "/store-facade.jpg",
+    mapUrl: "https://maps.google.com/?q=Arihant+Watches+Gopani+Centre+Virar+West",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Arihant Watches Optical Studio Virar Mumbai Maharashtra Gopani Centre Agashi Road 401303"
   },
   {
     id: "the-time-avenue-mumbai",
@@ -1641,6 +1738,71 @@ const STORES_DATA = [
     mapUrl: "https://maps.google.com/?q=The+Time+Avenue+Bandra+Mumbai",
     type: "Authorized Hanboro Retailer",
     isFeatured: false
+  },
+  {
+    id: "the-watch-store-mumbai",
+    name: "THE WATCH STORE",
+    city: "Mumbai",
+    state: "Maharashtra",
+    country: "India",
+    address: "Shop No. 9 & 10, Building B/69, Sector 1, Shanti Nagar, Opposite TMT Bus Stop, Mira Road East, Mumbai MMR / Thane – 401107",
+    phone: "+91 99870 50065",
+    phoneRaw: "+919987050065",
+    hours: "10:30 AM – 10:00 PM (All Days)",
+    image: "/store-interior.jpg",
+    mapUrl: "https://maps.google.com/?q=The+Watch+Store+Mira+Road+East+Thane",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "The Watch Store Mumbai Thane Mira Road East Shanti Nagar 401107 Maharashtra"
+  },
+  {
+    id: "sharma-bhiwadi",
+    name: "SHARMA WATCH HOUSE",
+    city: "Bhiwadi",
+    state: "Rajasthan",
+    country: "India",
+    address: "Titan Building, Samtel Road, Central Market, Neelam Chowk, Bhiwadi, Rajasthan – 301019",
+    phone: "+91 94609 65959",
+    phoneRaw: "+919460965959",
+    hours: "9:30 AM – 9:00 PM (All Days)",
+    image: "/store-facade.jpg",
+    mapUrl: "https://maps.google.com/?q=Sharma+Watch+Company+Samtel+Road+Bhiwadi",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Sharma Watch House Company Bhiwadi Rajasthan NCR Central Market Samtel Road 301019"
+  },
+  {
+    id: "elephanta-jhansi",
+    name: "ELEPHANTA WATCH COMPANY",
+    city: "Jhansi",
+    state: "Uttar Pradesh",
+    country: "India",
+    address: "380, Sadar Bazaar, Main Market, Opposite Axis Bank, Cantt, Jhansi, Uttar Pradesh – 284001",
+    phone: "+91 91986 67170",
+    phoneRaw: "+919198667170",
+    hours: "10:30 AM – 9:00 PM (All Days)",
+    image: "/store-signage.jpg",
+    mapUrl: "https://maps.google.com/?q=Elephanta+Watch+Company+Sadar+Bazaar+Jhansi",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Elephanta Watch Company Jhansi Uttar Pradesh Sadar Bazaar Cantt 284001"
+  },
+  {
+    id: "prakash-watch-mathura",
+    name: "PRAKASH WATCH & OPTICALS",
+    city: "Mathura",
+    area: "Krishna Nagar",
+    state: "Uttar Pradesh",
+    country: "India",
+    address: "Shop 2-B, Near Rahul Bakers, Krishna Nagar, Mathura, Uttar Pradesh – 281004",
+    phone: "+91 97607 29270",
+    phoneRaw: "+919760729270",
+    hours: "10:00 AM – 9:00 PM (All Days)",
+    image: "/store-facade.jpg",
+    mapUrl: "https://maps.google.com/?q=Prakash+Watch+and+Opticals+Krishna+Nagar+Mathura",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Prakash Watch and Opticals Mathura Krishna Nagar Rahul Bakers Uttar Pradesh 281004 Braj"
   },
   {
     id: "time-craft-bangalore",
@@ -1760,19 +1922,31 @@ const STORES_DATA = [
 const CITY_FILTERS = [
   "ALL",
   "DELHI",
+  "PITAMPURA",
+  "BAHADURGARH",
+  "KARNAL",
+  "BHIWADI",
+  "MATHURA",
+  "JHANSI",
+  "TIRUPATI",
+  "VISAKHAPATNAM",
+  "NELLORE",
+  "VIRAR",
   "MUMBAI",
+  "THANE",
+  "CHANDIGARH",
   "BANGALORE",
   "HYDERABAD",
-  "CHANDIGARH",
   "KOLKATA",
   "CHENNAI",
-  "AHMEDABAD"
+  "AHMEDABAD",
+  "LUCKNOW"
 ];
 
 function StoreLocatorView({ onNavigate, onOpenConcierge }) {
   const [selectedCity, setSelectedCity] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeStoreId, setActiveStoreId] = useState("nagpal-watches-delhi");
+  const [activeStoreId, setActiveStoreId] = useState("nagpal-watches-karnal");
   const featuredCardRef = useRef(null);
 
   // Selected or active featured store
@@ -1781,14 +1955,19 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
   // Filtering logic
   const filteredStores = STORES_DATA.filter((store) => {
     const matchesCity =
-      selectedCity === "ALL" || store.city.toUpperCase() === selectedCity;
+      selectedCity === "ALL" ||
+      store.city.toUpperCase() === selectedCity ||
+      (store.area && store.area.toUpperCase() === selectedCity) ||
+      (store.keywords && store.keywords.toUpperCase().includes(selectedCity));
     const q = searchQuery.toLowerCase().trim();
     const matchesQuery =
       !q ||
       store.name.toLowerCase().includes(q) ||
       store.city.toLowerCase().includes(q) ||
+      (store.area && store.area.toLowerCase().includes(q)) ||
       store.state.toLowerCase().includes(q) ||
-      store.address.toLowerCase().includes(q);
+      store.address.toLowerCase().includes(q) ||
+      (store.keywords && store.keywords.toLowerCase().includes(q));
     return matchesCity && matchesQuery;
   });
 
@@ -1796,7 +1975,10 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
     setSelectedCity(cityUpper);
     if (cityUpper !== "ALL") {
       const match = STORES_DATA.find(
-        (s) => s.city.toUpperCase() === cityUpper
+        (s) =>
+          s.city.toUpperCase() === cityUpper ||
+          (s.area && s.area.toUpperCase() === cityUpper) ||
+          (s.keywords && s.keywords.toUpperCase().includes(cityUpper))
       );
       if (match) {
         setActiveStoreId(match.id);
@@ -1959,6 +2141,12 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
                       key={city.name}
                       className={`map-city-node ${isCityActive ? "is-city-active" : ""}`}
                       onClick={() => handleSelectCity(city.name)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleSelectCity(city.name);
+                        }
+                      }}
                       role="button"
                       tabIndex={0}
                       aria-label={`Select ${city.name} boutiques`}
@@ -2067,7 +2255,7 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
             
             <h2 className="featured-store-name">{activeStore.name}</h2>
             <p className="featured-store-location">
-              {activeStore.city.toUpperCase()}, {activeStore.country?.toUpperCase() || "INDIA"}
+              {activeStore.city.toUpperCase()}{activeStore.area ? ` • ${activeStore.area.toUpperCase()}` : ""}, {activeStore.country?.toUpperCase() || "INDIA"}
             </p>
 
             <div className="featured-auth-badge">
@@ -2210,7 +2398,9 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
 
                   <div className="boutique-card__body">
                     <h3 className="boutique-card__title">{store.name}</h3>
-                    <p className="boutique-card__city">{store.city.toUpperCase()}</p>
+                    <p className="boutique-card__city">
+                      {store.city.toUpperCase()}{store.area ? ` • ${store.area.toUpperCase()}` : ""}
+                    </p>
                     <p className="boutique-card__tag">Authorized Hanboro Retailer</p>
 
                     <button
