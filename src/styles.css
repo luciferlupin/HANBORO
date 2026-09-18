@@ -20067,6 +20067,19 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   user-select: none;
+  overflow-y: auto;
+  max-height: calc(100vh - 56px);
+  position: sticky;
+  top: 56px;
+}
+
+.sp-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sp-sidebar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
 .sp-nav-group {

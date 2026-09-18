@@ -1250,6 +1250,43 @@ export function AdminDashboard({ onNavigateHome }) {
         </div>
 
         <div className="sp-topbar__right">
+          {/* Prominent Team Audit Direct Action Pill */}
+          <button
+            type="button"
+            className="sp-topbar-audit-btn"
+            onClick={() => setActiveTab("audit")}
+            title="Open real-time Team Audit Trail"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "5px 12px",
+              borderRadius: "8px",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              transition: "all 0.15s ease",
+              backgroundColor: activeTab === "audit" ? "#008060" : "#ecfdf5",
+              color: activeTab === "audit" ? "#ffffff" : "#047857",
+              border: activeTab === "audit" ? "1px solid #008060" : "1px solid #a7f3d0",
+            }}
+          >
+            <IconAudit size={14} />
+            <span>Team Audit</span>
+            <span
+              style={{
+                backgroundColor: activeTab === "audit" ? "rgba(255,255,255,0.25)" : "#059669",
+                color: "#ffffff",
+                fontSize: "10px",
+                padding: "1px 6px",
+                borderRadius: "10px",
+                fontWeight: 700,
+              }}
+            >
+              {auditLogs.length} Live
+            </span>
+          </button>
+
           {/* Cloud Sync Status Pill */}
           <div
             className="sp-sync-badge"
@@ -1392,7 +1429,24 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-badge">{customersList.length}</span>
             </button>
 
-            {/* 5. Growth */}
+            {/* 5. Team Audit (Real-time activity ledger) */}
+            <button
+              type="button"
+              className={`sp-nav-link ${activeTab === "audit" ? "is-active" : ""}`}
+              onClick={() => setActiveTab("audit")}
+              style={{
+                backgroundColor: activeTab === "audit" ? "rgba(0, 128, 96, 0.12)" : "transparent",
+                color: activeTab === "audit" ? "#008060" : "inherit",
+              }}
+            >
+              <span className="sp-nav-icon" style={{ color: "#008060" }}><IconAudit size={16} /></span>
+              <span className="sp-nav-text" style={{ fontWeight: 600 }}>Team Audit</span>
+              <span className="sp-nav-badge" style={{ backgroundColor: "#008060", color: "#ffffff", fontSize: "10px", padding: "1px 6px", borderRadius: "10px", fontWeight: 700 }}>
+                {auditLogs.length} Live
+              </span>
+            </button>
+
+            {/* 6. Growth */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "growth" ? "is-active" : ""}`}
@@ -1402,7 +1456,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Growth</span>
             </button>
 
-            {/* 6. Discounts */}
+            {/* 7. Discounts */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "discounts" ? "is-active" : ""}`}
@@ -1412,7 +1466,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Discounts</span>
             </button>
 
-            {/* 7. Content */}
+            {/* 8. Content */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "content" ? "is-active" : ""}`}
@@ -1422,7 +1476,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Content</span>
             </button>
 
-            {/* 8. Markets */}
+            {/* 9. Markets */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "markets" ? "is-active" : ""}`}
@@ -1432,7 +1486,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Markets</span>
             </button>
 
-            {/* 9. Analytics */}
+            {/* 10. Analytics */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "analytics" ? "is-active" : ""}`}
@@ -1440,17 +1494,6 @@ export function AdminDashboard({ onNavigateHome }) {
             >
               <span className="sp-nav-icon"><IconAnalytics size={16} /></span>
               <span className="sp-nav-text">Analytics</span>
-            </button>
-
-            {/* 10. Team Audit */}
-            <button
-              type="button"
-              className={`sp-nav-link ${activeTab === "audit" ? "is-active" : ""}`}
-              onClick={() => setActiveTab("audit")}
-            >
-              <span className="sp-nav-icon" style={{ color: activeTab === "audit" ? "#008060" : "inherit" }}><IconAudit size={16} /></span>
-              <span className="sp-nav-text">Team Audit</span>
-              <span className="sp-nav-badge" style={{ backgroundColor: "#008060", color: "#ffffff", fontSize: "10px", padding: "1px 6px", borderRadius: "10px", fontWeight: 600 }}>Live</span>
             </button>
           </nav>
 
@@ -1743,6 +1786,16 @@ export function AdminDashboard({ onNavigateHome }) {
                   <h1 className="sp-page-title">Orders</h1>
                 </div>
                 <div className="sp-header-actions">
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--default"
+                    onClick={() => setActiveTab("audit")}
+                    title="View real-time Team Audit Trail for order placements and status changes"
+                    style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "#047857", borderColor: "#a7f3d0", backgroundColor: "#ecfdf5", fontWeight: 600 }}
+                  >
+                    <IconAudit size={13} />
+                    <span>Orders Audit</span>
+                  </button>
                   <button
                     type="button"
                     className="sp-btn sp-btn--default"
@@ -2142,6 +2195,18 @@ export function AdminDashboard({ onNavigateHome }) {
                     <IconSync size={13} />
                     <span>Reset Order</span>
                   </button>
+
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--default"
+                    onClick={() => setActiveTab("audit")}
+                    title="View Team Audit Trail for timepiece changes and SKU edits"
+                    style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "#047857", borderColor: "#a7f3d0", backgroundColor: "#ecfdf5", fontWeight: 600 }}
+                  >
+                    <IconAudit size={13} />
+                    <span>Team Audit</span>
+                  </button>
+
                   <button
                     type="button"
                     className="sp-btn sp-btn--default"
@@ -2557,6 +2622,16 @@ export function AdminDashboard({ onNavigateHome }) {
                     <button
                       type="button"
                       className="sp-btn sp-btn--default"
+                      onClick={() => setActiveTab("audit")}
+                      title="View real-time Team Audit Trail for customer accounts"
+                      style={{ display: "inline-flex", alignItems: "center", gap: "6px", color: "#047857", borderColor: "#a7f3d0", backgroundColor: "#ecfdf5", fontWeight: 600 }}
+                    >
+                      <IconAudit size={13} />
+                      <span>Customer Audit</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="sp-btn sp-btn--default"
                       onClick={() => handleExportCSV("customers")}
                       title="Export all customer dossiers and SKU purchases"
                     >
@@ -2787,7 +2862,10 @@ export function AdminDashboard({ onNavigateHome }) {
                 <div className="sp-banner-text">
                   <span className="sp-live-pulse-dot" /> <strong>Shopify Command Active</strong> • Real-time telemetry synchronized with storefront and Supabase Cloud.
                 </div>
-                <div className="sp-banner-actions">
+                <div className="sp-banner-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <button type="button" className="sp-btn sp-btn--sm" onClick={() => setActiveTab("audit")} style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: "#008060", color: "#ffffff", border: "1px solid #008060", fontWeight: 600 }}>
+                    <IconAudit size={13} /> Team Audit ({auditLogs.length} Events) →
+                  </button>
                   <button type="button" className="sp-btn sp-btn--sm" onClick={() => setActiveTab("abandoned")}>
                     Recover Abandoned ({abandonedCheckouts.length}) →
                   </button>
