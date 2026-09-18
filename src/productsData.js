@@ -37,85 +37,85 @@ export const CATEGORIES = [
 ];
 
 export const HIGH_RES_IMAGE_MAP = {
-  "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-  "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
-  "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
-  "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+  "/watch-forged-carbon-ribbed-shield-front-transparent-thumb.webp": "/transparent/hbr-989-3-black-auto.webp",
+  "/watch-forged-carbon-ribbed-shield-green-front-transparent-thumb.webp": "/transparent/hbr-989-3-green-auto.webp",
+  "/watch-forged-carbon-ribbed-shield-white-front-transparent-thumb.webp": "/transparent/hbr-989-3-white-auto.webp",
+  "/watch-forged-carbon-ribbed-shield-blue-front-transparent-thumb.webp": "/transparent/hbr-989-3-blue-auto.webp",
   "/watch-double-balance-cantilever-red-front-transparent-thumb.webp": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
-  "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
-  "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-  "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
-  "/watch-aurora-celestial-frost-front-transparent-thumb.webp": "/transparent/astroworld-celestial.webp",
-  "/watch-cyber-green-skeleton-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
-  "/watch-sonnerie-bell-blue-front-transparent-thumb.webp": "/watch-sonnerie-bell-blue-front-transparent.webp",
-  "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp": "/watch-architectural-skeleton-black-front-transparent.webp",
-  "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
-  "/watch-powerreserve-opaline-front-transparent-thumb.webp": "/transparent/powerreserve-black.webp",
-  "/watch-powerreserve-twotone-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
-  "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp": "/transparent/purple-chrono.webp",
-  "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-  "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp": "/watch-astroworld-moon-silver-front-transparent.webp",
-  "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-  "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
-  "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-  "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-  "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-  "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp": "/watch-world-map-tourbillon-silver-front-transparent.webp",
-  "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp": "/watch-world-map-tourbillon-silver-front-transparent.webp",
-  "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-  "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-  "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-  "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp": "/transparent/octagonal-skeleton-steel.webp",
+  "/watch-celestial-dragon-tourbillon-silver-front-transparent-thumb.webp": "/transparent/hbr-1018-auto-zod-slv.webp",
+  "/watch-planetary-cosmos-tourbillon-rosegold-front-transparent-thumb.webp": "/transparent/hbr-1020-auto-ast-gld.webp",
+  "/watch-planetary-cosmos-tourbillon-silver-front-transparent-thumb.webp": "/transparent/hbr-1020-auto-ast-slv.webp",
+  "/watch-aurora-celestial-frost-front-transparent-thumb.webp": "/catalog/hbr-980-auto-orbita-g-front.png",
+  "/watch-cyber-green-skeleton-front-transparent-thumb.webp": "/transparent/hbr-918-auto-torque-green.webp",
+  "/watch-sonnerie-bell-blue-front-transparent-thumb.webp": "/transparent/hbr-ring-5378-blue.webp",
+  "/watch-architectural-skeleton-rosegold-front-transparent-thumb.webp": "/transparent/hbr-906-auto-rgsl.webp",
+  "/watch-sapphire-kanagawa-wave-front-transparent-thumb.webp": "/transparent/hbr-9038-auto-blue.webp",
+  "/watch-powerreserve-opaline-front-transparent-thumb.webp": "/transparent/hbr-902-auto-a200-black-silver.webp",
+  "/watch-powerreserve-twotone-front-transparent-thumb.webp": "/transparent/hbr-902-auto-a200-silver-rg.webp",
+  "/watch-seamaster-chronograph-diver-teal-front-transparent-thumb.webp": "/transparent/hbr-1309-auto-blue.webp",
+  "/watch-seamaster-chronograph-diver-amber-front-transparent-thumb.webp": "/transparent/hbr-1309-auto-orange.webp",
+  "/watch-celestial-pilot-moonphase-black-front-transparent-thumb.webp": "/transparent/hbr-8824-auto-ns-black.webp",
+  "/watch-seamaster-chronograph-diver-olive-front-transparent-thumb.webp": "/transparent/hbr-1309-auto-green.webp",
+  "/watch-dual-hemispheres-moonphase-blue-front-transparent-thumb.webp": "/transparent/hbr-8824-auto-ns-blue.webp",
+  "/watch-celestial-pilot-moonphase-rosegold-front-transparent-thumb.webp": "/transparent/hbr-8824-auto-ns-rg-brown.webp",
+  "/watch-volcano-glacier-compass-rosegold-front-transparent-thumb.webp": "/transparent/hbr-981-auto-rgold.webp",
+  "/watch-volcano-glacier-compass-silver-front-transparent-thumb.webp": "/transparent/hbr-981-auto-silver.webp",
+  "/watch-world-map-tourbillon-silver-dual-front-transparent-thumb.webp": "/transparent/hbr-2712-auto-rg-tiranga.webp",
+  "/watch-world-map-tourbillon-silver-front-transparent-thumb.webp": "/transparent/hbr-2712-auto-slv-tiranga.webp",
+  "/watch-volcano-glacier-compass-gold-front-transparent-thumb.webp": "/transparent/hbr-981-auto-gold.webp",
+  "/watch-forged-carbon-damascus-10atm-front-transparent-thumb.webp": "/transparent/hbr-945-3-auto-black.webp",
+  "/watch-oceanic-diver-200m-green-front-transparent-thumb.webp": "/transparent/hbr-1307-auto-emerald.webp",
+  "/watch-overseas-perpetual-skeleton-steel-front-transparent-thumb.webp": "/transparent/hbr-8022-1-auto-stellar.webp",
   "/watch-astroworld-moon-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
   "/watch-astroworld-moon-silver-front-transparent-thumb.webp": "/watch-astroworld-moon-silver-front-transparent.webp",
   "/watch-astroworld-tourbillon-dlc-front-transparent-thumb.webp": "/watch-astroworld-tourbillon-dlc-front-transparent.webp",
-  "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent-thumb.webp": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-  "/watch-astroworld-tourbillon-fluted-silver-front-transparent-thumb.webp": "/watch-astroworld-tourbillon-fluted-silver-front-transparent.webp",
-  "/watch-supercar-engine-block-rosegold-front-transparent-thumb.webp": "/watch-supercar-engine-block-rosegold-front-transparent.webp",
-  "/watch-supercar-engine-block-silver-front-transparent-thumb.webp": "/watch-supercar-engine-block-silver-driving.webp",
-  "/watch-casino-roulette-rosegold-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-ruby-diamond.webp",
-  "/watch-casino-roulette-silver-front-transparent-thumb.webp": "/watch-casino-roulette-silver-front-transparent.webp",
-  "/watch-casino-roulette-diamond-emerald-front-transparent-thumb.webp": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
+  "/watch-astroworld-tourbillon-fluted-rosegold-front-transparent-thumb.webp": "/catalog/hbr-980-auto-orbita-g-front.png",
+  "/watch-astroworld-tourbillon-fluted-silver-front-transparent-thumb.webp": "/catalog/hbr-980-auto-orbita-s-front.png",
+  "/watch-supercar-engine-block-rosegold-front-transparent-thumb.webp": "/catalog/hbr-995-1-auto-g-front.png",
+  "/watch-supercar-engine-block-silver-front-transparent-thumb.webp": "/catalog/hbr-995-1-auto-s-front.png",
+  "/watch-casino-roulette-rosegold-front-transparent-thumb.webp": "/catalog/hbr-1001-1-auto-roulette-gld-front.png",
+  "/watch-casino-roulette-silver-front-transparent-thumb.webp": "/catalog/hbr-1001-1-auto-roulette-slv-front.png",
+  "/watch-casino-roulette-diamond-emerald-front-transparent-thumb.webp": "/catalog/hbr-1001-2-auto-roulette-gld-front.png",
   "/watch-casino-roulette-sapphire-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
-  "/watch-casino-roulette-emerald-alligator-front-transparent-thumb.webp": "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+  "/watch-casino-roulette-emerald-alligator-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
   "/watch-casino-roulette-ruby-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-ruby-diamond.webp",
   "/watch-casino-roulette-silver-diamond-emerald-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
   "/watch-casino-roulette-silver-sapphire-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
-  "/watch-casino-roulette-silver-emerald-alligator-front-transparent-thumb.webp": "/watch-casino-roulette-silver-emerald-alligator-front-transparent.webp",
+  "/watch-casino-roulette-silver-emerald-alligator-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-diamond-emerald.webp",
   "/watch-casino-roulette-silver-ruby-diamond-front-transparent-thumb.webp": "/transparent/casino-roulette-wheel-silver-ruby-diamond.webp",
-  "/watch-celestial-dragon-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+  "/watch-celestial-dragon-tourbillon-rosegold-front-transparent-thumb.webp": "/transparent/imperial-dragon.webp",
   "/watch-seamaster-chronograph-diver-violet-front-transparent-thumb.webp": "/transparent/purple-chrono.webp",
   "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent-thumb.webp": "/watch-mecha-cantilever-tourbillon-iceblue-front-transparent.webp",
-  "/watch-world-map-tourbillon-rosegold-front-transparent-thumb.webp": "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
-  "/watch-world-map-tourbillon-blue-front-transparent-thumb.webp": "/watch-world-map-tourbillon-blue-front-transparent.webp",
-  "/watch-dual-hemispheres-moonphase-steel-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
-  "/watch-dual-hemispheres-moonphase-rosegold-front-transparent-thumb.webp": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
-  "/watch-sonnerie-bell-iceblue-front-transparent-thumb.webp": "/watch-sonnerie-bell-blue-front-transparent.webp",
-  "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent.webp",
-  "/watch-cyber-cogwheel-skeleton-twotone-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp",
-  "/watch-cyber-cogwheel-skeleton-steel-front-transparent-thumb.webp": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+  "/watch-world-map-tourbillon-rosegold-front-transparent-thumb.webp": "/transparent/hbr-2712-auto-rgold.webp",
+  "/watch-world-map-tourbillon-blue-front-transparent-thumb.webp": "/transparent/world-globe.webp",
+  "/watch-dual-hemispheres-moonphase-steel-front-transparent-thumb.webp": "/transparent/hbr-8824-auto-ns-black.webp",
+  "/watch-dual-hemispheres-moonphase-rosegold-front-transparent-thumb.webp": "/transparent/hbr-8824-auto-ns-rg-brown.webp",
+  "/watch-sonnerie-bell-iceblue-front-transparent-thumb.webp": "/transparent/turquoise-ringbell.webp",
+  "/watch-cyber-cogwheel-skeleton-rosegold-front-transparent-thumb.webp": "/transparent/hbr-918-auto-torque-gld.webp",
+  "/watch-cyber-cogwheel-skeleton-twotone-front-transparent-thumb.webp": "/transparent/hbr-918-auto-torque-slv.webp",
+  "/watch-cyber-cogwheel-skeleton-steel-front-transparent-thumb.webp": "/transparent/hbr-918-auto-torque-slv.webp",
   "/watch-stealth-fighter-jet-front-transparent-thumb.webp": "/transparent/stealth-fighter-jet-tonneau.webp",
   "/watch-sichuan-opera-diamond-front-transparent-thumb.webp": "/transparent/sichuan-opera-diamond-tonneau.webp",
-  "/watch-sichuan-opera-steel-front-transparent-thumb.webp": "/watch-sichuan-opera-steel-front-transparent.webp",
-  "/watch-forged-carbon-tonneau-front-transparent-thumb.webp": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-  "/watch-arctic-tonneau-10atm-white-front-transparent-thumb.webp": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-  "/watch-forged-carbon-ribbed-shield-red-front-transparent-thumb.webp": "/watch-forged-carbon-ribbed-shield-red-front-transparent.webp",
-  "/watch-double-balance-cantilever-rosegold-front-transparent-thumb.webp": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
-  "/watch-double-balance-cantilever-yellow-front-transparent-thumb.webp": "/watch-double-balance-cantilever-yellow-front-transparent.webp",
-  "/watch-diamond-octagonal-front-transparent-thumb.webp": "/watch-diamond-octagonal-front-transparent.webp",
+  "/watch-sichuan-opera-steel-front-transparent-thumb.webp": "/transparent/hbr-927-rgold-blk.webp",
+  "/watch-forged-carbon-tonneau-front-transparent-thumb.webp": "/transparent/hbr-900-3-auto-black.webp",
+  "/watch-arctic-tonneau-10atm-white-front-transparent-thumb.webp": "/transparent/hbr-945-3-auto-white.webp",
+  "/watch-forged-carbon-ribbed-shield-red-front-transparent-thumb.webp": "/transparent/clover-king-crimson.webp",
+  "/watch-double-balance-cantilever-rosegold-front-transparent-thumb.webp": "/transparent/hbr-985-auto-apex-rg-blk.webp",
+  "/watch-double-balance-cantilever-yellow-front-transparent-thumb.webp": "/transparent/hbr-985-auto-apex-slv-ylw.webp",
+  "/watch-diamond-octagonal-front-transparent-thumb.webp": "/transparent/octagonal-blue.webp",
   "/watch-diamond-octagonal-bronze-front-transparent-thumb.webp": "/transparent/octagonal-diamond-bronze.webp",
-  "/watch-diamond-octagonal-green-front-transparent-thumb.webp": "/watch-diamond-octagonal-green-front-transparent.webp",
+  "/watch-diamond-octagonal-green-front-transparent-thumb.webp": "/transparent/octagonal-diamond-emerald.webp",
   "/watch-arachnid-geometric-front-transparent-thumb.webp": "/transparent/arachnid-geometric-skeleton.webp",
   "/watch-world-globe-thumb.webp": "/transparent/world-globe.webp",
-  "/watch-architectural-skeleton-black-front-transparent-thumb.webp": "/watch-architectural-skeleton-black-front-transparent.webp",
-  "/watch-emerald-roulette-thumb.webp": "/watch-casino-roulette-diamond-emerald-front-transparent.webp",
-  "/watch-arctic-tonneau-white-thumb.webp": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-  "/watch-blue-roulette-thumb.webp": "/watch-blue-roulette.webp",
-  "/watch-orbital-moonphase-thumb.webp": "/watch-orbital-moonphase.webp",
+  "/watch-architectural-skeleton-black-front-transparent-thumb.webp": "/transparent/hbr-906-auto-black.webp",
+  "/watch-emerald-roulette-thumb.webp": "/catalog/hbr-1001-2-auto-roulette-gld-front.png",
+  "/watch-arctic-tonneau-white-thumb.webp": "/transparent/hbr-945-3-auto-white.webp",
+  "/watch-blue-roulette-thumb.webp": "/transparent/hbr-1001-2-auto-roulette-slv-blue.webp",
+  "/watch-orbital-moonphase-thumb.webp": "/transparent/world-globe.webp",
   "/watch-rosegold-octagonal-blue-thumb.webp": "/transparent/octagonal-blue.webp",
-  "/watch-powerreserve-midnight-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
-  "/watch-powerreserve-silver-front-transparent-thumb.webp": "/watch-powerreserve-midnight-front-transparent.webp",
-  "/watch-green-diver-thumb.webp": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+  "/watch-powerreserve-midnight-front-transparent-thumb.webp": "/transparent/hbr-902-auto-a200-black-silver.webp",
+  "/watch-powerreserve-silver-front-transparent-thumb.webp": "/catalog/hbr-902-auto-a200-silver-front.png",
+  "/watch-green-diver-thumb.webp": "/transparent/hbr-1307-auto-emerald.webp",
   "/watch-turquoise-ringbell-thumb.webp": "/transparent/turquoise-ringbell.webp"
 };
 
@@ -139,16 +139,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-    "transparentImage": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+    "image": "/transparent/hbr-989-3-black-auto.webp",
+    "transparentImage": "/transparent/hbr-989-3-black-auto.webp",
     "altImages": [
-      "/transparent/forged-carbon-tonneau-tourbillon.webp",
+      "/transparent/hbr-989-3-black-auto.webp",
       "/catalog/hbr-989-3-black-auto-view-1.jpg",
       "/catalog/hbr-989-3-black-auto-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+        "url": "/transparent/hbr-989-3-black-auto.webp",
         "title": "HBR-989-3-BLACK-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-BLACK-AUTO."
@@ -311,9 +311,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+    "image": "/transparent/hbr-989-3-green-auto.webp",
+    "transparentImage": "/transparent/hbr-989-3-green-auto.webp",
     "altImages": [
+      "/transparent/hbr-989-3-green-auto.webp",
       "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-green-ferrari.webp",
@@ -323,7 +324,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-green-front-transparent.webp",
+        "url": "/transparent/hbr-989-3-green-auto.webp",
         "title": "HBR-989-3-GREEN-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-GREEN-AUTO."
@@ -470,9 +471,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+    "image": "/transparent/hbr-989-3-white-auto.webp",
+    "transparentImage": "/transparent/hbr-989-3-white-auto.webp",
     "altImages": [
+      "/transparent/hbr-989-3-white-auto.webp",
       "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-white-studio.webp",
@@ -483,7 +485,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-white-front-transparent.webp",
+        "url": "/transparent/hbr-989-3-white-auto.webp",
         "title": "HBR-989-3-WHITE-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-WHITE-AUTO."
@@ -581,9 +583,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Carbon Fiber Skeleton Automatic",
-    "image": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
-    "transparentImage": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+    "image": "/transparent/hbr-989-3-blue-auto.webp",
+    "transparentImage": "/transparent/hbr-989-3-blue-auto.webp",
     "altImages": [
+      "/transparent/hbr-989-3-blue-auto.webp",
       "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
       "/watch-forged-carbon-ribbed-shield-blue-ferrari.webp",
@@ -594,7 +597,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-forged-carbon-ribbed-shield-blue-front-transparent.webp",
+        "url": "/transparent/hbr-989-3-blue-auto.webp",
         "title": "HBR-989-3-BLUE-AUTO — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-989-3-BLUE-AUTO."
@@ -1400,16 +1403,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Double Balance Wheel F1-Inspired",
-    "image": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+    "image": "/transparent/hbr-985-auto-apex-slvr.webp",
+    "transparentImage": "/transparent/hbr-985-auto-apex-slvr.webp",
     "altImages": [
+      "/transparent/hbr-985-auto-apex-slvr.webp",
       "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
       "/catalog/hbr-985-auto-apex-slvr-view-1.jpg",
       "/catalog/hbr-985-auto-apex-slvr-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-double-balance-cantilever-rosegold-front-transparent.webp",
+        "url": "/transparent/hbr-985-auto-apex-slvr.webp",
         "title": "HBR-985-AUTO-APEX-slvr — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-985-AUTO-APEX-slvr."
@@ -2684,9 +2688,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "5D Dragon Imperial Zodiac Automatic",
-    "image": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
-    "transparentImage": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+    "image": "/transparent/hbr-1018-auto-zod-slv.webp",
+    "transparentImage": "/transparent/hbr-1018-auto-zod-slv.webp",
     "altImages": [
+      "/transparent/hbr-1018-auto-zod-slv.webp",
       "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
       "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
       "/watch-celestial-dragon-tourbillon-silver-isometric-transparent.webp",
@@ -2697,7 +2702,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-dragon-tourbillon-silver-front-transparent.webp",
+        "url": "/transparent/hbr-1018-auto-zod-slv.webp",
         "title": "HBR-1018-AUTO-ZOD-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1018-AUTO-ZOD-SLV."
@@ -3246,16 +3251,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "9INE Planet Orbiting Solar Complication",
-    "image": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+    "image": "/transparent/hbr-1020-auto-ast-gld.webp",
+    "transparentImage": "/transparent/hbr-1020-auto-ast-gld.webp",
     "altImages": [
+      "/transparent/hbr-1020-auto-ast-gld.webp",
       "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
       "/catalog/hbr-1020-auto-ast-gld-view-1.jpg",
       "/catalog/hbr-1020-auto-ast-gld-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp",
+        "url": "/transparent/hbr-1020-auto-ast-gld.webp",
         "title": "HBR-1020-AUTO-AST-GLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1020-AUTO-AST-GLD."
@@ -3329,9 +3335,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "9INE Planet Orbiting Solar Complication",
-    "image": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
-    "transparentImage": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+    "image": "/transparent/hbr-1020-auto-ast-slv.webp",
+    "transparentImage": "/transparent/hbr-1020-auto-ast-slv.webp",
     "altImages": [
+      "/transparent/hbr-1020-auto-ast-slv.webp",
       "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
       "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
       "/watch-planetary-cosmos-tourbillon-silver-galaxy.webp",
@@ -3342,7 +3349,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-planetary-cosmos-tourbillon-silver-front-transparent.webp",
+        "url": "/transparent/hbr-1020-auto-ast-slv.webp",
         "title": "HBR-1020-AUTO-AST-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1020-AUTO-AST-SLV."
@@ -3767,16 +3774,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Aurora Globe & Meteorite Dial",
-    "image": "/transparent/astroworld-celestial.webp",
-    "transparentImage": "/transparent/astroworld-celestial.webp",
+    "image": "/transparent/hbr-848-auto-nebula-blk.webp",
+    "transparentImage": "/transparent/hbr-848-auto-nebula-blk.webp",
     "altImages": [
-      "/transparent/astroworld-celestial.webp",
+      "/transparent/hbr-848-auto-nebula-blk.webp",
       "/catalog/hbr-848-auto-nebula-blk-view-1.jpg",
       "/catalog/hbr-848-auto-nebula-blk-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/transparent/astroworld-celestial.webp",
+        "url": "/transparent/hbr-848-auto-nebula-blk.webp",
         "title": "HBR-848-AUTO-NEBULA-BLK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-848-AUTO-NEBULA-BLK."
@@ -4328,16 +4335,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "OCTAGONAL",
     "collectionName": "Royal Octagonal",
     "tag": "Heroic Superhero Skeleton Automatic",
-    "image": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
-    "transparentImage": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+    "image": "/transparent/hbr-917-auto-avenger-slv.webp",
+    "transparentImage": "/transparent/hbr-917-auto-avenger-slv.webp",
     "altImages": [
+      "/transparent/hbr-917-auto-avenger-slv.webp",
       "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
       "/catalog/hbr-917-auto-avenger-slv-view-1.jpg",
       "/catalog/hbr-917-auto-avenger-slv-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-cyber-cogwheel-skeleton-steel-front-transparent.webp",
+        "url": "/transparent/hbr-917-auto-avenger-slv.webp",
         "title": "HBR-917-AUTO-AVENGER-SLV — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-917-AUTO-AVENGER-SLV."
@@ -4546,9 +4554,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "904L Steel Celebration Masterpiece",
-    "image": "/watch-sonnerie-bell-blue-front-transparent.webp",
-    "transparentImage": "/watch-sonnerie-bell-blue-front-transparent.webp",
+    "image": "/transparent/hbr-ring-5378-blue.webp",
+    "transparentImage": "/transparent/hbr-ring-5378-blue.webp",
     "altImages": [
+      "/transparent/hbr-ring-5378-blue.webp",
       "/watch-sonnerie-bell-blue-front-transparent.webp",
       "/watch-sonnerie-bell-blue-front-transparent.webp",
       "/watch-sonnerie-bell-blue-display.webp",
@@ -4559,7 +4568,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-sonnerie-bell-blue-front-transparent.webp",
+        "url": "/transparent/hbr-ring-5378-blue.webp",
         "title": "HBR-RING-5378-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-RING-5378-BLUE."
@@ -4660,15 +4669,16 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Double-Sided Transparent Skeleton",
-    "image": "/watch-architectural-skeleton-black-front-transparent.webp",
-    "transparentImage": "/watch-architectural-skeleton-black-front-transparent.webp",
+    "image": "/transparent/hbr-906-auto-rgsl.webp",
+    "transparentImage": "/transparent/hbr-906-auto-rgsl.webp",
     "altImages": [
+      "/transparent/hbr-906-auto-rgsl.webp",
       "/watch-architectural-skeleton-black-front-transparent.webp",
       "/catalog/hbr-906-auto-rgsl-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-architectural-skeleton-black-front-transparent.webp",
+        "url": "/transparent/hbr-906-auto-rgsl.webp",
         "title": "HBR-906-AUTO-RGSL — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-906-AUTO-RGSL."
@@ -4790,9 +4800,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Double-Sided Transparent Skeleton",
-    "image": "/watch-architectural-skeleton-black-front-transparent.webp",
-    "transparentImage": "/watch-architectural-skeleton-black-front-transparent.webp",
+    "image": "/transparent/hbr-906-auto-black.webp",
+    "transparentImage": "/transparent/hbr-906-auto-black.webp",
     "altImages": [
+      "/transparent/hbr-906-auto-black.webp",
       "/watch-architectural-skeleton-black-front-transparent.webp",
       "/watch-architectural-skeleton-black-briefcase.webp",
       "/watch-architectural-skeleton-black-sunlight.webp",
@@ -4801,7 +4812,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-architectural-skeleton-black-front-transparent.webp",
+        "url": "/transparent/hbr-906-auto-black.webp",
         "title": "HBR-906-AUTO-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-906-AUTO-BLACK."
@@ -4958,9 +4969,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "Great Wave Ocean-Inspired Automatic",
-    "image": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
-    "transparentImage": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+    "image": "/transparent/hbr-9038-auto-blue.webp",
+    "transparentImage": "/transparent/hbr-9038-auto-blue.webp",
     "altImages": [
+      "/transparent/hbr-9038-auto-blue.webp",
       "/watch-sapphire-kanagawa-wave-front-transparent.webp",
       "/watch-sapphire-kanagawa-wave-front-transparent.webp",
       "/watch-sapphire-kanagawa-wave-motorsport.webp",
@@ -4970,7 +4982,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-sapphire-kanagawa-wave-front-transparent.webp",
+        "url": "/transparent/hbr-9038-auto-blue.webp",
         "title": "HBR-9038-AUTO-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-9038-AUTO-BLUE."
@@ -5270,9 +5282,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "ROULETTE",
     "collectionName": "Casino & Roulette",
     "tag": "Casino Royale Baguette Gem-Set Edition",
-    "image": "/watch-blue-roulette.webp",
-    "transparentImage": "/watch-blue-roulette.webp",
+    "image": "/transparent/hbr-1001-2-auto-roulette-slv-blue.webp",
+    "transparentImage": "/transparent/hbr-1001-2-auto-roulette-slv-blue.webp",
     "altImages": [
+      "/transparent/hbr-1001-2-auto-roulette-slv-blue.webp",
       "/watch-blue-roulette.webp",
       "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-1.jpg",
       "/catalog/hbr-1001-2-auto-roulette-slv-blue-view-2.jpg",
@@ -5281,7 +5294,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-blue-roulette.webp",
+        "url": "/transparent/hbr-1001-2-auto-roulette-slv-blue.webp",
         "title": "HBR-1001-2-AUTO-ROULETTE-SLV-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1001-2-AUTO-ROULETTE-SLV-BLUE."
@@ -5462,9 +5475,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Power Reserve Indicator Complication",
-    "image": "/transparent/powerreserve-black.webp",
-    "transparentImage": "/transparent/powerreserve-black.webp",
+    "image": "/transparent/hbr-902-auto-a200-black-silver.webp",
+    "transparentImage": "/transparent/hbr-902-auto-a200-black-silver.webp",
     "altImages": [
+      "/transparent/hbr-902-auto-a200-black-silver.webp",
       "/transparent/powerreserve-black.webp",
       "/catalog/hbr-902-auto-a200-black-silver-view-1.jpg",
       "/catalog/hbr-902-auto-a200-black-silver-view-2.jpg",
@@ -5473,7 +5487,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/powerreserve-black.webp",
+        "url": "/transparent/hbr-902-auto-a200-black-silver.webp",
         "title": "HBR-902-AUTO-A200-BLACK-SILVER — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-902-AUTO-A200-BLACK-SILVER."
@@ -5559,9 +5573,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Power Reserve Indicator Complication",
-    "image": "/watch-powerreserve-midnight-front-transparent.webp",
-    "transparentImage": "/watch-powerreserve-midnight-front-transparent.webp",
+    "image": "/transparent/hbr-902-auto-a200-silver-rg.webp",
+    "transparentImage": "/transparent/hbr-902-auto-a200-silver-rg.webp",
     "altImages": [
+      "/transparent/hbr-902-auto-a200-silver-rg.webp",
       "/watch-powerreserve-midnight-front-transparent.webp",
       "/catalog/hbr-902-auto-a200-silver-rg-view-1.jpg",
       "/catalog/hbr-902-auto-a200-silver-rg-view-2.jpg",
@@ -5570,7 +5585,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-powerreserve-midnight-front-transparent.webp",
+        "url": "/transparent/hbr-902-auto-a200-silver-rg.webp",
         "title": "HBR-902-AUTO-A200-SILVER-RG — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-902-AUTO-A200-SILVER-RG."
@@ -5656,9 +5671,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Power Reserve Indicator Complication",
-    "image": "/transparent/powerreserve-black.webp",
-    "transparentImage": "/transparent/powerreserve-black.webp",
+    "image": "/transparent/hbr-902-auto-a200-black-silver.webp",
+    "transparentImage": "/transparent/hbr-902-auto-a200-black-silver.webp",
     "altImages": [
+      "/transparent/hbr-902-auto-a200-black-silver.webp",
       "/transparent/powerreserve-black.webp",
       "/watch-powerreserve-midnight-front-transparent.webp",
       "/watch-powerreserve-midnight-bronze.webp",
@@ -5672,7 +5688,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/powerreserve-black.webp",
+        "url": "/transparent/hbr-902-auto-a200-black-silver.webp",
         "title": "HBR-902-AUTO-A200-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-902-AUTO-A200-BLACK."
@@ -6193,9 +6209,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/transparent/purple-chrono.webp",
-    "transparentImage": "/transparent/purple-chrono.webp",
+    "image": "/transparent/hbr-1309-auto-blue.webp",
+    "transparentImage": "/transparent/hbr-1309-auto-blue.webp",
     "altImages": [
+      "/transparent/hbr-1309-auto-blue.webp",
       "/transparent/purple-chrono.webp",
       "/catalog/hbr-1309-auto-blue-view-1.png",
       "/catalog/hbr-1309-auto-blue-view-2.jpg",
@@ -6204,7 +6221,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/purple-chrono.webp",
+        "url": "/transparent/hbr-1309-auto-blue.webp",
         "title": "HBR-1309-AUTO-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-BLUE."
@@ -6293,9 +6310,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "image": "/transparent/hbr-1309-auto-orange.webp",
+    "transparentImage": "/transparent/hbr-1309-auto-orange.webp",
     "altImages": [
+      "/transparent/hbr-1309-auto-orange.webp",
       "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1309-auto-orange-view-1.png",
       "/catalog/hbr-1309-auto-orange-view-2.jpg",
@@ -6305,7 +6323,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+        "url": "/transparent/hbr-1309-auto-orange.webp",
         "title": "HBR-1309-AUTO-ORANGE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-ORANGE."
@@ -6400,9 +6418,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-astroworld-moon-silver-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-moon-silver-front-transparent.webp",
+    "image": "/transparent/hbr-8824-auto-ns-black.webp",
+    "transparentImage": "/transparent/hbr-8824-auto-ns-black.webp",
     "altImages": [
+      "/transparent/hbr-8824-auto-ns-black.webp",
       "/watch-astroworld-moon-silver-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-black-view-1.jpg",
       "/catalog/hbr-8824-auto-ns-black-view-2.jpg",
@@ -6412,7 +6431,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-moon-silver-front-transparent.webp",
+        "url": "/transparent/hbr-8824-auto-ns-black.webp",
         "title": "HBR-8824-AUTO-NS-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-BLACK."
@@ -6595,9 +6614,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "100M Steel Diver Chronograph",
-    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "image": "/transparent/hbr-1309-auto-green.webp",
+    "transparentImage": "/transparent/hbr-1309-auto-green.webp",
     "altImages": [
+      "/transparent/hbr-1309-auto-green.webp",
       "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1309-auto-green-view-1.jpg",
       "/catalog/hbr-1309-auto-green-view-2.jpg",
@@ -6608,7 +6628,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+        "url": "/transparent/hbr-1309-auto-green.webp",
         "title": "HBR-1309-AUTO-GREEN — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1309-AUTO-GREEN."
@@ -6709,9 +6729,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+    "image": "/transparent/hbr-8824-auto-ns-blue.webp",
+    "transparentImage": "/transparent/hbr-8824-auto-ns-blue.webp",
     "altImages": [
+      "/transparent/hbr-8824-auto-ns-blue.webp",
       "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-blue-view-1.png",
       "/catalog/hbr-8824-auto-ns-blue-view-2.png",
@@ -6719,7 +6740,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-dual-hemispheres-moonphase-rosegold-front-transparent.webp",
+        "url": "/transparent/hbr-8824-auto-ns-blue.webp",
         "title": "HBR-8824-AUTO-NS-BLUE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-BLUE."
@@ -6800,9 +6821,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestial Dual-Hemisphere Moonphase",
-    "image": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    "image": "/transparent/hbr-8824-auto-ns-rg-brown.webp",
+    "transparentImage": "/transparent/hbr-8824-auto-ns-rg-brown.webp",
     "altImages": [
+      "/transparent/hbr-8824-auto-ns-rg-brown.webp",
       "/watch-astroworld-moon-rosegold-front-transparent.webp",
       "/catalog/hbr-8824-auto-ns-rg-brown-view-1.png",
       "/catalog/hbr-8824-auto-ns-rg-brown-view-2.png",
@@ -6810,7 +6832,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+        "url": "/transparent/hbr-8824-auto-ns-rg-brown.webp",
         "title": "HBR-8824-AUTO-NS-RG-BROWN — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8824-AUTO-NS-RG-BROWN."
@@ -6891,9 +6913,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "image": "/transparent/hbr-981-auto-rgold.webp",
+    "transparentImage": "/transparent/hbr-981-auto-rgold.webp",
     "altImages": [
+      "/transparent/hbr-981-auto-rgold.webp",
       "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-rgold-view-1.png",
       "/catalog/hbr-981-auto-rgold-view-2.png",
@@ -6902,7 +6925,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+        "url": "/transparent/hbr-981-auto-rgold.webp",
         "title": "HBR-981-AUTO-RGOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-RGOLD."
@@ -6989,9 +7012,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "image": "/transparent/hbr-981-auto-silver.webp",
+    "transparentImage": "/transparent/hbr-981-auto-silver.webp",
     "altImages": [
+      "/transparent/hbr-981-auto-silver.webp",
       "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-silver-view-1.png",
       "/catalog/hbr-981-auto-silver-view-2.png",
@@ -7000,7 +7024,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+        "url": "/transparent/hbr-981-auto-silver.webp",
         "title": "HBR-981-AUTO-SILVER — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-SILVER."
@@ -7168,16 +7192,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Globe Carve Central Flywheel",
-    "image": "/watch-world-map-tourbillon-silver-front-transparent.webp",
-    "transparentImage": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+    "image": "/transparent/hbr-2712-auto-rg-tiranga.webp",
+    "transparentImage": "/transparent/hbr-2712-auto-rg-tiranga.webp",
     "altImages": [
+      "/transparent/hbr-2712-auto-rg-tiranga.webp",
       "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/catalog/hbr-2712-auto-rg-tiranga-view-1.JPG",
       "/catalog/hbr-2712-auto-rg-tiranga-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+        "url": "/transparent/hbr-2712-auto-rg-tiranga.webp",
         "title": "HBR-2712-AUTO-RG-TIRANGA — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-RG-TIRANGA."
@@ -7251,9 +7276,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Globe Carve Central Flywheel",
-    "image": "/watch-world-map-tourbillon-silver-front-transparent.webp",
-    "transparentImage": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+    "image": "/transparent/hbr-2712-auto-slv-tiranga.webp",
+    "transparentImage": "/transparent/hbr-2712-auto-slv-tiranga.webp",
     "altImages": [
+      "/transparent/hbr-2712-auto-slv-tiranga.webp",
       "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/watch-world-map-tourbillon-silver-front-transparent.webp",
       "/watch-world-map-tourbillon-silver-isometric-transparent.webp",
@@ -7264,7 +7290,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-silver-front-transparent.webp",
+        "url": "/transparent/hbr-2712-auto-slv-tiranga.webp",
         "title": "HBR-2712-AUTO-SLV-TIRANGA — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-SLV-TIRANGA."
@@ -7471,9 +7497,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Carved Glacier Mountain Dial",
-    "image": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
-    "transparentImage": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+    "image": "/transparent/hbr-981-auto-gold.webp",
+    "transparentImage": "/transparent/hbr-981-auto-gold.webp",
     "altImages": [
+      "/transparent/hbr-981-auto-gold.webp",
       "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
       "/catalog/hbr-981-auto-gold-view-1.png",
       "/catalog/hbr-981-auto-gold-view-2.png",
@@ -7482,7 +7509,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-volcano-glacier-compass-gold-macro-transparent.webp",
+        "url": "/transparent/hbr-981-auto-gold.webp",
         "title": "HBR-981-AUTO-GOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-981-AUTO-GOLD."
@@ -7569,9 +7596,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "3D Globe Carve Central Flywheel",
-    "image": "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
+    "image": "/transparent/hbr-2712-auto-rgold.webp",
+    "transparentImage": "/transparent/hbr-2712-auto-rgold.webp",
     "altImages": [
+      "/transparent/hbr-2712-auto-rgold.webp",
       "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
       "/watch-world-map-tourbillon-rosegold-clasp-transparent.webp",
       "/watch-world-map-tourbillon-rosegold-isometric-transparent.webp",
@@ -7581,7 +7609,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-world-map-tourbillon-rosegold-front-transparent.webp",
+        "url": "/transparent/hbr-2712-auto-rgold.webp",
         "title": "HBR-2712-AUTO-RGOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-2712-AUTO-RGOLD."
@@ -7673,10 +7701,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "CarbonX ChronoTech Tonneau Skeleton",
-    "image": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-    "transparentImage": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+    "image": "/transparent/hbr-945-3-auto-black.webp",
+    "transparentImage": "/transparent/hbr-945-3-auto-black.webp",
     "altImages": [
-      "/transparent/forged-carbon-tonneau-tourbillon.webp",
+      "/transparent/hbr-945-3-auto-black.webp",
       "/catalog/hbr-945-3-auto-black-view-1.jpg",
       "/catalog/hbr-945-3-auto-black-view-2.png",
       "/catalog/hbr-945-3-auto-black-view-3.png",
@@ -7686,7 +7714,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+        "url": "/transparent/hbr-945-3-auto-black.webp",
         "title": "HBR-945-3-AUTO-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-945-3-AUTO-BLACK."
@@ -7785,9 +7813,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "CarbonX ChronoTech Tonneau Skeleton",
-    "image": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
-    "transparentImage": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+    "image": "/transparent/hbr-945-3-auto-white.webp",
+    "transparentImage": "/transparent/hbr-945-3-auto-white.webp",
     "altImages": [
+      "/transparent/hbr-945-3-auto-white.webp",
       "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
       "/catalog/hbr-945-3-auto-white-view-1.png",
       "/catalog/hbr-945-3-auto-white-view-2.jpg",
@@ -7797,7 +7826,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-arctic-tonneau-10atm-white-front-transparent.webp",
+        "url": "/transparent/hbr-945-3-auto-white.webp",
         "title": "HBR-945-3-AUTO-WHITE — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-945-3-AUTO-WHITE."
@@ -7891,9 +7920,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "SeaKing 100M Luxury Deep Diver",
-    "image": "/watch-oceanic-diver-200m-green-front-transparent.webp",
-    "transparentImage": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+    "image": "/transparent/hbr-1307-auto-emerald.webp",
+    "transparentImage": "/transparent/hbr-1307-auto-emerald.webp",
     "altImages": [
+      "/transparent/hbr-1307-auto-emerald.webp",
       "/watch-oceanic-diver-200m-green-front-transparent.webp",
       "/catalog/hbr-1307-auto-emerald-view-1.png",
       "/catalog/hbr-1307-auto-emerald-view-2.jpg",
@@ -7903,7 +7933,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-oceanic-diver-200m-green-front-transparent.webp",
+        "url": "/transparent/hbr-1307-auto-emerald.webp",
         "title": "HBR-1307-AUTO-EMERALD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-1307-AUTO-EMERALD."
@@ -7991,9 +8021,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Celestial Astronomical Tourbillon",
-    "image": "/transparent/octagonal-skeleton-steel.webp",
-    "transparentImage": "/transparent/octagonal-skeleton-steel.webp",
+    "image": "/transparent/hbr-8022-1-auto-stellar.webp",
+    "transparentImage": "/transparent/hbr-8022-1-auto-stellar.webp",
     "altImages": [
+      "/transparent/hbr-8022-1-auto-stellar.webp",
       "/transparent/octagonal-skeleton-steel.webp",
       "/catalog/hbr-8022-1-auto-stellar-view-1.png",
       "/catalog/hbr-8022-1-auto-stellar-view-2.png",
@@ -8003,7 +8034,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/octagonal-skeleton-steel.webp",
+        "url": "/transparent/hbr-8022-1-auto-stellar.webp",
         "title": "HBR-8022-1-AUTO-STELLAR — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-8022-1-AUTO-STELLAR."
@@ -8097,9 +8128,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TONNEAU",
     "collectionName": "Tonneau Skeleton",
     "tag": "CarbonForge Full Carbon Automatic",
-    "image": "/transparent/forged-carbon-tonneau-tourbillon.webp",
-    "transparentImage": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+    "image": "/transparent/hbr-900-3-auto-black.webp",
+    "transparentImage": "/transparent/hbr-900-3-auto-black.webp",
     "altImages": [
+      "/transparent/hbr-900-3-auto-black.webp",
       "/transparent/forged-carbon-tonneau-tourbillon.webp",
       "/catalog/hbr-900-3-auto-black-view-1.jpg",
       "/catalog/hbr-900-3-auto-black-view-2.jpg",
@@ -8109,7 +8141,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/transparent/forged-carbon-tonneau-tourbillon.webp",
+        "url": "/transparent/hbr-900-3-auto-black.webp",
         "title": "HBR-900-3-AUTO-BLACK — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-900-3-AUTO-BLACK."
@@ -8201,16 +8233,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Flagship Planetarium Complication",
-    "image": "/transparent/astroworld-celestial.webp",
-    "transparentImage": "/transparent/astroworld-celestial.webp",
+    "image": "/catalog/hbr-980-auto-orbita-g-front.png",
+    "transparentImage": "/catalog/hbr-980-auto-orbita-g-front.png",
     "altImages": [
+      "/catalog/hbr-980-auto-orbita-g-front.png",
       "/transparent/astroworld-celestial.webp",
       "/catalog/hbr-980-auto-orbita-gold-view-1.jpg",
       "/catalog/hbr-980-auto-orbita-gold-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/transparent/astroworld-celestial.webp",
+        "url": "/catalog/hbr-980-auto-orbita-g-front.png",
         "title": "HBR-980-AUTO-ORBITA-GOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-980-AUTO-ORBITA-GOLD."
@@ -8284,16 +8317,17 @@ const RAW_PRODUCTS_DATA = [
     "collection": "TOURBILLON",
     "collectionName": "Tourbillon & Complications",
     "tag": "Motorsport Tourbillon Complication",
-    "image": "/transparent/hbr-995-1-auto-gold.webp",
-    "transparentImage": "/transparent/hbr-995-1-auto-gold.webp",
+    "image": "/catalog/hbr-995-1-auto-g-front.png",
+    "transparentImage": "/catalog/hbr-995-1-auto-g-front.png",
     "altImages": [
+      "/catalog/hbr-995-1-auto-g-front.png",
       "/transparent/hbr-995-1-auto-gold.webp",
       "/catalog/hbr-995-1-auto-gold-view-1.jpg",
       "/catalog/hbr-995-1-auto-gold-front.jpg"
     ],
     "gallery": [
       {
-        "url": "/transparent/hbr-995-1-auto-gold.webp",
+        "url": "/catalog/hbr-995-1-auto-g-front.png",
         "title": "HBR-995-1-AUTO-GOLD — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Reference HBR-995-1-AUTO-GOLD."
@@ -8755,9 +8789,10 @@ const RAW_PRODUCTS_DATA = [
     "collection": "CLASSIC",
     "collectionName": "Classic & Moonphase",
     "tag": "Celestia Astryx Zodiac",
-    "image": "/watch-astroworld-moon-rosegold-front-transparent.webp",
-    "transparentImage": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+    "image": "/catalog/hbr-zodiac-1027-2-black-front.png",
+    "transparentImage": "/catalog/hbr-zodiac-1027-2-black-front.png",
     "altImages": [
+      "/catalog/hbr-zodiac-1027-2-black-front.png",
       "/watch-astroworld-moon-rosegold-front-transparent.webp",
       "/catalog/hbr-zodiac-1027-2-blue-view-1.png",
       "/catalog/hbr-zodiac-1027-2-blue-view-2.png",
@@ -8766,7 +8801,7 @@ const RAW_PRODUCTS_DATA = [
     ],
     "gallery": [
       {
-        "url": "/watch-astroworld-moon-rosegold-front-transparent.webp",
+        "url": "/catalog/hbr-zodiac-1027-2-black-front.png",
         "title": "Hanboro Celestia Astryx Automatic Zodiac Timepiece – Rose Gold & Blue Dial",
         "label": "Front View",
         "caption": "The Hanboro Celestia Astryx is a statement of celestial precision and mechanical artistry. Inspired by the movement of the cosmos, this timepiece features an intricately crafted zodiac dial paired wit"
@@ -8841,20 +8876,20 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Nations Cup Limited Series",
-    "image": "/transparent/hbr-wc-1038-rg-blk.webp",
-    "transparentImage": "/transparent/hbr-wc-1038-rg-blk.webp",
+    "image": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
+    "transparentImage": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
     "altImages": [
+      "/catalog/hbr-wc-1038-rg-blk-front.PNG",
       "/transparent/hbr-wc-1038-rg-blk.webp",
       "/catalog/hbr-wc-1038-rg-blk-view-1.JPG",
       "/catalog/hbr-wc-1038-rg-blk-view-2.jpeg",
       "/catalog/hbr-wc-1038-rg-blk-view-3.png",
       "/catalog/hbr-wc-1038-rg-blk-view-4.jpeg",
-      "/catalog/hbr-wc-1038-rg-blk-view-5.jpeg",
-      "/catalog/hbr-wc-1038-rg-blk-front.PNG"
+      "/catalog/hbr-wc-1038-rg-blk-view-5.jpeg"
     ],
     "gallery": [
       {
-        "url": "/transparent/hbr-wc-1038-rg-blk.webp",
+        "url": "/catalog/hbr-wc-1038-rg-blk-front.PNG",
         "title": "Hanboro Worl Cup Edition — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-RG-BLK)."
@@ -8941,19 +8976,19 @@ const RAW_PRODUCTS_DATA = [
     "collection": "DIVER_SPORT",
     "collectionName": "Diver & Sport Chrono",
     "tag": "Nations Cup Limited Series",
-    "image": "/transparent/hbr-wc-1038-silver-blk.webp",
-    "transparentImage": "/transparent/hbr-wc-1038-silver-blk.webp",
+    "image": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
+    "transparentImage": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
     "altImages": [
+      "/catalog/hbr-wc-1038-silver-blk-front.PNG",
       "/transparent/hbr-wc-1038-silver-blk.webp",
       "/catalog/hbr-wc-1038-silver-blk-view-1.JPG",
       "/catalog/hbr-wc-1038-silver-blk-view-2.JPG",
       "/catalog/hbr-wc-1038-silver-blk-view-3.JPG",
-      "/catalog/hbr-wc-1038-silver-blk-view-4.JPG",
-      "/catalog/hbr-wc-1038-silver-blk-front.PNG"
+      "/catalog/hbr-wc-1038-silver-blk-view-4.JPG"
     ],
     "gallery": [
       {
-        "url": "/transparent/hbr-wc-1038-silver-blk.webp",
+        "url": "/catalog/hbr-wc-1038-silver-blk-front.PNG",
         "title": "Hanboro Worl Cup Edition — Front Dial View",
         "label": "01 Front View",
         "caption": "Official boutique presentation of Hanboro Worl Cup Edition (Reference HBR-WC-1038-SILVER-BLK)."

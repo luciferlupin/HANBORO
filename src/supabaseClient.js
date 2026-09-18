@@ -1904,6 +1904,11 @@ export const productsService = {
     } catch {}
 
     try {
+      const currentImgVersion = safeStorage.getItem("hanboro_catalog_img_version");
+      if (currentImgVersion !== "v4_authentic_photography") {
+        safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+        safeStorage.setItem("hanboro_catalog_img_version", "v4_authentic_photography");
+      }
       const raw = safeStorage.getItem(STORAGE_KEYS.PRODUCTS);
       if (raw) {
         let parsed = JSON.parse(raw);
@@ -2008,10 +2013,10 @@ export const productsService = {
                 collection: cachedMatch.collection || m.collection,
                 collectionName: cachedMatch.collectionName || m.collectionName,
                 tag: cachedMatch.tag || m.tag,
-                image: cachedMatch.image || m.image,
-                transparentImage: cachedMatch.transparentImage || cachedMatch.image || m.transparentImage || m.image,
-                altImages: Array.isArray(cachedMatch.altImages) && cachedMatch.altImages.length > 0 ? cachedMatch.altImages : m.altImages,
-                gallery: Array.isArray(cachedMatch.gallery) && cachedMatch.gallery.length > 0 ? cachedMatch.gallery : m.gallery,
+                image: (cachedMatch.hasCustomImage && cachedMatch.image) ? cachedMatch.image : m.image,
+                transparentImage: (cachedMatch.hasCustomImage && cachedMatch.transparentImage) ? cachedMatch.transparentImage : (m.transparentImage || m.image),
+                altImages: (cachedMatch.hasCustomImage && Array.isArray(cachedMatch.altImages)) ? cachedMatch.altImages : m.altImages,
+                gallery: (cachedMatch.hasCustomImage && Array.isArray(cachedMatch.gallery)) ? cachedMatch.gallery : m.gallery,
                 specs: {
                   ...(m.specs || {}),
                   ...(cachedMatch.specs || {}),
