@@ -3,14 +3,6 @@ export const INDIA_MAP_VIEWBOX = "0 0 612 696";
 
 export const MAP_CITIES = [
   {
-    "name": "CHANDIGARH",
-    "cityKey": "Chandigarh",
-    "x": 177,
-    "y": 162,
-    "labelDx": 14,
-    "labelDy": 4
-  },
-  {
     "name": "KARNAL",
     "cityKey": "Karnal",
     "x": 182,
@@ -54,14 +46,6 @@ export const MAP_CITIES = [
     "textAnchor": "start"
   },
   {
-    "name": "LUCKNOW",
-    "cityKey": "Lucknow",
-    "x": 268,
-    "y": 247,
-    "labelDx": 14,
-    "labelDy": 4
-  },
-  {
     "name": "JHANSI",
     "cityKey": "Jhansi",
     "x": 214,
@@ -71,21 +55,13 @@ export const MAP_CITIES = [
     "textAnchor": "start"
   },
   {
-    "name": "AHMEDABAD",
-    "cityKey": "Ahmedabad",
-    "x": 88,
-    "y": 340,
-    "labelDx": -10,
-    "labelDy": -12,
+    "name": "VIRAR",
+    "cityKey": "Virar",
+    "x": 95,
+    "y": 416,
+    "labelDx": -12,
+    "labelDy": -4,
     "textAnchor": "end"
-  },
-  {
-    "name": "KOLKATA",
-    "cityKey": "Kolkata",
-    "x": 431,
-    "y": 338,
-    "labelDx": 14,
-    "labelDy": 4
   },
   {
     "name": "MUMBAI",
@@ -94,40 +70,6 @@ export const MAP_CITIES = [
     "y": 430,
     "labelDx": -12,
     "labelDy": 4,
-    "textAnchor": "end"
-  },
-  {
-    "name": "HYDERABAD",
-    "cityKey": "Hyderabad",
-    "x": 218,
-    "y": 463,
-    "labelDx": 14,
-    "labelDy": 4
-  },
-  {
-    "name": "BANGALORE",
-    "cityKey": "Bangalore",
-    "x": 200,
-    "y": 563,
-    "labelDx": -14,
-    "labelDy": 4,
-    "textAnchor": "end"
-  },
-  {
-    "name": "CHENNAI",
-    "cityKey": "Chennai",
-    "x": 258,
-    "y": 559,
-    "labelDx": 14,
-    "labelDy": 4
-  },
-  {
-    "name": "TIRUPATI",
-    "cityKey": "Tirupati",
-    "x": 239,
-    "y": 547,
-    "labelDx": -12,
-    "labelDy": -8,
     "textAnchor": "end"
   },
   {
@@ -149,12 +91,12 @@ export const MAP_CITIES = [
     "textAnchor": "start"
   },
   {
-    "name": "VIRAR",
-    "cityKey": "Virar",
-    "x": 95,
-    "y": 416,
+    "name": "TIRUPATI",
+    "cityKey": "Tirupati",
+    "x": 239,
+    "y": 547,
     "labelDx": -12,
-    "labelDy": -4,
+    "labelDy": -8,
     "textAnchor": "end"
   }
 ];

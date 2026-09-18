@@ -21,17 +21,23 @@ function loadStoreLocatorData() {
   return { stores, filters };
 }
 
-test("Store Network QA: All stores have complete and valid dossiers", () => {
+test("Store Network QA: Exactly 11 authentic stores with 100% unique photos and valid dossiers", () => {
   const { stores } = loadStoreLocatorData();
-  assert.ok(stores.length >= 19, `Expected at least 19 authorized boutiques, got ${stores.length}`);
+  assert.equal(stores.length, 11, `Expected exactly 11 authentic authorized showrooms, got ${stores.length}`);
 
   const seenIds = new Set();
+  const seenImages = new Set();
 
   stores.forEach((store) => {
     // Unique ID
     assert.ok(store.id, `Store must have an ID: ${JSON.stringify(store)}`);
     assert.ok(!seenIds.has(store.id), `Duplicate store ID found: ${store.id}`);
     seenIds.add(store.id);
+
+    // ZERO duplicate photos across stores!
+    assert.ok(store.image && store.image.startsWith("/"), `Store ${store.id} invalid image path: ${store.image}`);
+    assert.ok(!seenImages.has(store.image), `Duplicate store photo detected! Store ${store.id} uses ${store.image} which is already used by another store`);
+    seenImages.add(store.image);
 
     // Essential fields
     assert.ok(store.name && store.name.trim().length > 0, `Store ${store.id} missing name`);
@@ -46,13 +52,15 @@ test("Store Network QA: All stores have complete and valid dossiers", () => {
     assert.ok(store.type && store.type.includes("Authorized"), `Store ${store.id} missing Authorized retailer type: ${store.type}`);
 
     // High-res Image file verification on disk
-    assert.ok(store.image && store.image.startsWith("/"), `Store ${store.id} invalid image path: ${store.image}`);
     const localImagePath = path.resolve(process.cwd(), "public" + store.image);
     assert.ok(fs.existsSync(localImagePath), `Store ${store.id} image missing from public/: ${store.image}`);
   });
+
+  // Verify seen images count equals stores count
+  assert.equal(seenImages.size, stores.length, "Each store must have a completely unique photo!");
 });
 
-test("Store Network QA: City filters match existing retailers", () => {
+test("Store Network QA: City filters match existing authentic retailers without ghost filters", () => {
   const { stores, filters } = loadStoreLocatorData();
   assert.ok(filters.includes("ALL"), "Filters must contain 'ALL'");
 
@@ -66,14 +74,15 @@ test("Store Network QA: City filters match existing retailers", () => {
       return cityMatches || areaMatches || keywordMatches;
     });
 
-    assert.ok(matched, `City filter '${filter}' does not match any store in STORES_DATA!`);
+    assert.ok(matched, `City filter '${filter}' does not match any authentic showroom in STORES_DATA!`);
   });
 });
 
-test("Store Network QA: India map data and pins are accurate", () => {
+test("Store Network QA: India map data has exactly 11 authentic pins matching directory", () => {
   const { stores } = loadStoreLocatorData();
   assert.equal(INDIA_MAP_VIEWBOX, "0 0 612 696");
   assert.ok(INDIA_MAP_PATHS.length >= 35, "Expected comprehensive Survey of India map regions");
+  assert.equal(MAP_CITIES.length, 11, `Expected exactly 11 map pins matching the 11 authentic stores, got ${MAP_CITIES.length}`);
 
   const [,, vbWidth, vbHeight] = INDIA_MAP_VIEWBOX.split(" ").map(Number);
   const seenCityNames = new Set();
@@ -87,7 +96,7 @@ test("Store Network QA: India map data and pins are accurate", () => {
     assert.ok(node.x >= 0 && node.x <= vbWidth, `Pin ${node.name} x:${node.x} outside viewBox width ${vbWidth}`);
     assert.ok(node.y >= 0 && node.y <= vbHeight, `Pin ${node.name} y:${node.y} outside viewBox height ${vbHeight}`);
 
-    // Matches a store
+    // Matches a real store
     const matchesStore = stores.some((s) => {
       return (
         s.city.toUpperCase() === node.name ||
