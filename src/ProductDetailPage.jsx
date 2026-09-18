@@ -423,7 +423,6 @@ export function ProductDetailPage({
 
               {/* Reference SKU & Model Badge */}
               <div className="pdp-sku-row">
-                <span className="sku-label">OFFICIAL MODEL & REF:</span>
                 {product.modelNumber && (
                   <span className="pdp-model-badge">MODEL {product.modelNumber || product.specs?.modelNumber}</span>
                 )}
@@ -433,13 +432,12 @@ export function ProductDetailPage({
                   onClick={handleCopySku}
                   aria-label="Copy reference SKU to clipboard"
                 >
-                  <span>{copiedSku ? "✓ SKU COPIED" : `REF. ${product.sku}`}</span>
+                  <span>{copiedSku ? "✓ COPIED" : `REF. ${product.sku}`}</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                   </svg>
                 </button>
-                <span className="pdp-verified-badge">● Official Direct Import</span>
               </div>
 
               {/* Pricing & Availability Ribbon */}
@@ -521,89 +519,27 @@ export function ProductDetailPage({
                   </button>
                 </div>
 
-                {!showInquiryForm ? (
-                  <div className="pdp-buttons-row">
-                    <button
-                      type="button"
-                      className="pdp-inquire-btn"
-                      onClick={() => setShowInquiryForm(true)}
-                    >
-                      <span>Request Allocation & Viewing</span>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </button>
+                <div className="pdp-buttons-row">
+                  <button
+                    type="button"
+                    className="pdp-whatsapp-btn"
+                    onClick={shareWhatsApp}
+                    title="Direct WhatsApp Consultation"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.51.08-1.16.12-3.76-.96-3.13-1.3-5.14-4.5-5.3-4.71-.16-.21-1.28-1.7-1.28-3.25 0-1.54.81-2.3 1.1-2.61.28-.31.62-.39.83-.39.21 0 .41 0 .59.01.19.01.44-.07.69.52.25.6.86 2.11.94 2.27.08.16.13.35.03.56-.11.21-.16.34-.32.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.84 1.39 1.8 2.25 1.24 1.11 2.28 1.45 2.6 1.61.32.16.51.14.7-.08.19-.22.82-.95 1.04-1.28.22-.33.44-.27.74-.16.3.11 1.91.9 2.24 1.06.33.16.55.24.63.38.08.14.08.82-.16 1.5z"/>
+                    </svg>
+                    <span>WhatsApp VIP</span>
+                  </button>
 
-                    <button
-                      type="button"
-                      className="pdp-whatsapp-btn"
-                      onClick={shareWhatsApp}
-                      title="Direct WhatsApp Consultation"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.51.08-1.16.12-3.76-.96-3.13-1.3-5.14-4.5-5.3-4.71-.16-.21-1.28-1.7-1.28-3.25 0-1.54.81-2.3 1.1-2.61.28-.31.62-.39.83-.39.21 0 .41 0 .59.01.19.01.44-.07.69.52.25.6.86 2.11.94 2.27.08.16.13.35.03.56-.11.21-.16.34-.32.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.84 1.39 1.8 2.25 1.24 1.11 2.28 1.45 2.6 1.61.32.16.51.14.7-.08.19-.22.82-.95 1.04-1.28.22-.33.44-.27.74-.16.3.11 1.91.9 2.24 1.06.33.16.55.24.63.38.08.14.08.82-.16 1.5z"/>
-                      </svg>
-                      <span>WhatsApp VIP</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className="pdp-boutique-btn"
-                      onClick={onNavigateToStores}
-                    >
-                      <span>Find in Boutique ↗</span>
-                    </button>
-                  </div>
-                ) : (
-                  <form className="pdp-inquiry-box" onSubmit={handleInquirySubmit}>
-                    <div className="inquiry-box-head">
-                      <h4>Reserve Allocation — {product.sku}</h4>
-                      <button
-                        type="button"
-                        className="inquiry-box-close"
-                        onClick={() => setShowInquiryForm(false)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-
-                    {inquirySent ? (
-                      <div className="inquiry-box-sent">
-                        <p>✓ Allocation request prepared! Our concierge will contact you regarding <strong>{product.sku}</strong>.</p>
-                      </div>
-                    ) : (
-                      <div className="inquiry-form-fields">
-                        <input
-                          type="text"
-                          required
-                          placeholder="Your Full Name *"
-                          value={inquiryName}
-                          onChange={(e) => setInquiryName(e.target.value)}
-                          className="pdp-input"
-                        />
-                        <input
-                          type="text"
-                          required
-                          placeholder="Phone / Email *"
-                          value={inquiryContact}
-                          onChange={(e) => setInquiryContact(e.target.value)}
-                          className="pdp-input"
-                        />
-                        <input
-                          type="text"
-                          placeholder="City / Country"
-                          value={inquiryCity}
-                          onChange={(e) => setInquiryCity(e.target.value)}
-                          className="pdp-input"
-                        />
-                        <button type="submit" className="pdp-submit-btn">
-                          Submit Allocation Request ↗
-                        </button>
-                      </div>
-                    )}
-                  </form>
-                )}
+                  <button
+                    type="button"
+                    className="pdp-boutique-btn"
+                    onClick={onNavigateToStores}
+                  >
+                    <span>Find in Boutique ↗</span>
+                  </button>
+                </div>
               </div>
 
               {/* Key Bento Spec Tiles */}
@@ -643,9 +579,6 @@ export function ProductDetailPage({
             <div className="pdp-section-header">
               <span className="section-eyebrow">VISUAL HOROLOGY & PERSPECTIVES</span>
               <h2 className="section-title">Photographic Portfolio & Watch Gallery</h2>
-              <p className="section-desc">
-                High-definition studio, sartorial on-wrist, and cinematic captures of Reference {product.sku}. Click any image to view in ultra-high resolution.
-              </p>
             </div>
 
             <div className="pdp-gallery-grid">
@@ -670,9 +603,6 @@ export function ProductDetailPage({
                       <span className="pdp-gallery-index">CALIBRE</span>
                       <h4 className="pdp-gallery-item-title">{product.name} — Calibre In Motion</h4>
                     </div>
-                    <p className="pdp-gallery-item-caption">
-                      Official motion video reel capturing the mechanical heartbeat, flywheel rotation, and precision hand-finishing of Reference {product.sku}.
-                    </p>
                   </div>
                 </div>
               )}
@@ -697,7 +627,7 @@ export function ProductDetailPage({
                           <line x1="11" y1="8" x2="11" y2="14" />
                           <line x1="8" y1="11" x2="14" y2="11" />
                         </svg>
-                        <span>Enlarge Micro-Horology</span>
+                        <span>Enlarge</span>
                       </div>
                     </div>
                   </div>
@@ -706,7 +636,6 @@ export function ProductDetailPage({
                       <span className="pdp-gallery-index">0{index + 1}</span>
                       <h4 className="pdp-gallery-item-title">{item.title}</h4>
                     </div>
-                    {item.caption && <p className="pdp-gallery-item-caption">{item.caption}</p>}
                   </div>
                 </div>
               ))}
@@ -721,9 +650,6 @@ export function ProductDetailPage({
           <div className="pdp-section-header">
             <span className="section-eyebrow">HOROLOGICAL ARCHITECTURE</span>
             <h2 className="section-title">Technical Specifications</h2>
-            <p className="section-desc">
-              Every component of {product.name} is meticulously assembled with Swiss-inspired precision.
-            </p>
           </div>
 
           <div className="pdp-specs-table-box">
@@ -732,19 +658,19 @@ export function ProductDetailPage({
               <span className="spec-item-v highlight-bold">{product.modelNumber || product.specs?.modelNumber}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Official Reference SKU</span>
+              <span className="spec-item-k">Reference</span>
               <span className="spec-item-v">{product.sku}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Official Retail Price (MRP)</span>
+              <span className="spec-item-k">Price (MRP)</span>
               <span className="spec-item-v highlight-red">{product.price} (Inclusive of Taxes)</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Caliber / Movement</span>
+              <span className="spec-item-k">Movement</span>
               <span className="spec-item-v highlight-red">{product.specs.movement}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Frequency & Beat Rate</span>
+              <span className="spec-item-k">Frequency</span>
               <span className="spec-item-v">{product.specs.frequency}</span>
             </div>
             <div className="pdp-spec-item-row">
@@ -752,19 +678,19 @@ export function ProductDetailPage({
               <span className="spec-item-v highlight-bold">{product.specs.powerReserve}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Jewel Bearings</span>
+              <span className="spec-item-k">Jewels</span>
               <span className="spec-item-v">{product.specs.jewels}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Case Dimensions</span>
+              <span className="spec-item-k">Case Size</span>
               <span className="spec-item-v">{product.specs.caseDimensions}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Case Material & Finish</span>
+              <span className="spec-item-k">Case Material</span>
               <span className="spec-item-v">{product.specs.caseMaterial}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Crystal Optics</span>
+              <span className="spec-item-k">Glass</span>
               <span className="spec-item-v">{product.specs.glass}</span>
             </div>
             <div className="pdp-spec-item-row">
@@ -772,7 +698,7 @@ export function ProductDetailPage({
               <span className="spec-item-v">{product.specs.caseback}</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Dial Finishing</span>
+              <span className="spec-item-k">Dial</span>
               <span className="spec-item-v">{product.specs.dial}</span>
             </div>
             <div className="pdp-spec-item-row">
@@ -784,7 +710,7 @@ export function ProductDetailPage({
               <span className="spec-item-v">{product.specs.strap} ({product.specs.clasp})</span>
             </div>
             <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Vault Packaging</span>
+              <span className="spec-item-k">Packaging</span>
               <span className="spec-item-v">{product.specs.packaging}</span>
             </div>
           </div>
@@ -805,9 +731,6 @@ export function ProductDetailPage({
                 <div key={idx} className="pdp-comp-card">
                   <span className="comp-card-num">0{idx + 1}</span>
                   <h3 className="comp-card-title">{comp}</h3>
-                  <p className="comp-card-desc">
-                    Engineered to the highest tolerances of Haute Horlogerie, delivering sublime tactile feedback and enduring mechanical reliability.
-                  </p>
                 </div>
               ))}
             </div>
@@ -939,9 +862,6 @@ export function ProductDetailPage({
             <div className="pdp-lightbox-footer">
               <div className="lightbox-caption-box">
                 <h3 className="lightbox-img-title">{allImages[lightboxIndex].title}</h3>
-                {allImages[lightboxIndex].caption && (
-                  <p className="lightbox-img-desc">{allImages[lightboxIndex].caption}</p>
-                )}
               </div>
 
               <div className="lightbox-thumb-tray">

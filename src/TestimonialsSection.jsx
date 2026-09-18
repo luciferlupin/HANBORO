@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 export const TESTIMONIALS_DATA = [
   {
@@ -69,13 +69,43 @@ export const TESTIMONIALS_DATA = [
   },
 ];
 
-function StarRating({ count = 5 }) {
+function ReviewCard({ review }) {
   return (
-    <span className="cr-stars" aria-label={`${count} stars`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <span key={i} aria-hidden="true">★</span>
-      ))}
-    </span>
+    <div className="cr-card">
+      <div className="cr-card-top">
+        <div className="cr-stars" aria-label={`${review.rating || 5} out of 5 stars`}>
+          ★★★★★
+        </div>
+        <div className="cr-verified-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          <span>Verified Collector</span>
+        </div>
+      </div>
+
+      <p className="cr-quote">"{review.quote}"</p>
+
+      <div className="cr-author-row">
+        <div className="cr-watch-thumb" aria-hidden="true">
+          <img
+            src={review.photo || "/watch-architectural-skeleton-black-front-transparent.webp"}
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div className="cr-author-info">
+          <span className="cr-author-name">{review.author}</span>
+          {review.location && (
+            <span className="cr-author-location">{review.location}</span>
+          )}
+          {review.watchName && (
+            <span className="cr-watch-model">{review.watchName}</span>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -97,14 +127,7 @@ export function TestimonialsSection({ onInspectSku }) {
     return TESTIMONIALS_DATA;
   });
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const timerRef = useRef(null);
-  const total = reviewsList.length;
-
-  // Listen for newly submitted reviews from Contact & Review section
+  // Live-update when new reviews are submitted in ContactSection
   useEffect(() => {
     const handleReviewAdded = () => {
       try {
@@ -113,7 +136,6 @@ export function TestimonialsSection({ onInspectSku }) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
             setReviewsList([...parsed, ...TESTIMONIALS_DATA]);
-            setActiveIndex(0); // Jump to new review immediately
           }
         }
       } catch (e) {}
@@ -123,102 +145,41 @@ export function TestimonialsSection({ onInspectSku }) {
     return () => window.removeEventListener("hanboro_review_added", handleReviewAdded);
   }, []);
 
-  const goto = (idx, dir) => {
-    if (isAnimating) return;
-    setDirection(dir);
-    setIsAnimating(true);
-    setTimeout(() => {
-      setActiveIndex((idx + total) % total);
-      setIsAnimating(false);
-    }, 320);
-  };
-
-  const handlePrev = () => goto(activeIndex - 1, -1);
-  const handleNext = () => goto(activeIndex + 1, 1);
-
-  useEffect(() => {
-    if (isPaused) return;
-    timerRef.current = setInterval(() => handleNext(), 7000);
-    return () => clearInterval(timerRef.current);
-  }, [isPaused, activeIndex, isAnimating, total]);
-
-  const current = reviewsList[activeIndex] || reviewsList[0];
-  const pad = (n) => String(n).padStart(2, "0");
-
   return (
-    <section
-      className="cr-section"
-      id="acclaim"
-      aria-labelledby="cr-title"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {/* Section heading */}
-      <div className="cr-heading">
-        <span className="cr-dash" aria-hidden="true">—</span>
-        <h2 className="cr-title" id="cr-title">Customer Reviews</h2>
-        {current?.isVerified && (
-          <span className="cr-verified-tag">✓ Verified Patron Provenance</span>
-        )}
+    <section className="cr-section" id="acclaim" aria-labelledby="cr-title">
+      {/* Editorial Header */}
+      <div className="cr-header" data-reveal>
+        <div className="cr-eyebrow">
+          <span className="cr-beacon-dot" aria-hidden="true" />
+          <span>VERIFIED PATRONS & REVIEWS</span>
+        </div>
+        <h2 className="cr-title" id="cr-title">
+          Customer Reviews
+        </h2>
+        <p className="cr-subtitle">
+          Authentic impressions and on-wrist experiences from collectors worldwide.
+        </p>
       </div>
 
-      {/* Main stage */}
-      <div className="cr-stage">
-        {/* Prev arrow */}
-        <button
-          type="button"
-          className="cr-arrow cr-arrow--prev"
-          onClick={handlePrev}
-          aria-label="Previous review"
-        >
-          &#8249;
-        </button>
-
-        {/* Content row */}
-        <div className={`cr-content ${isAnimating ? (direction > 0 ? "cr-exit-left" : "cr-exit-right") : ""}`}>
-          {/* Photo */}
-          <div className="cr-photo-wrap">
-            <img
-              key={current.id}
-              src={current.photo || "/watch-architectural-skeleton-black-front-transparent.webp"}
-              alt={current.watchName || "Hanboro Watch"}
-              className="cr-photo"
-              loading="eager"
-            />
+      {/* Seamless Continuous Loop Moving Carousel (No Hover Interruption) */}
+      <div className="cr-carousel-wrapper" aria-label="Customer reviews marquee">
+        <div className="cr-carousel-track">
+          {/* Primary Group */}
+          <div className="cr-carousel-group">
+            {reviewsList.map((review, i) => (
+              <ReviewCard key={`rev-a-${review.id || i}`} review={review} />
+            ))}
           </div>
-
-          {/* Text */}
-          <div className="cr-text-col">
-            {current.watchName && (
-              <span className="cr-watch-tag">{current.watchName}</span>
-            )}
-            <p className="cr-quote">"{current.quote}"</p>
-
-            <div className="cr-meta">
-              <div className="cr-meta-left">
-                <span className="cr-author">
-                  {current.author}
-                  {current.location ? ` • ${current.location}` : ""}
-                </span>
-                <StarRating count={current.rating} />
-              </div>
-              <span className="cr-counter" aria-live="polite">
-                {pad(activeIndex + 1)}/{pad(total)}
-              </span>
-            </div>
+          {/* Duplicate Group for Seamless Infinite Loop */}
+          <div className="cr-carousel-group" aria-hidden="true">
+            {reviewsList.map((review, i) => (
+              <ReviewCard key={`rev-b-${review.id || i}`} review={review} />
+            ))}
           </div>
         </div>
-
-        {/* Next arrow */}
-        <button
-          type="button"
-          className="cr-arrow cr-arrow--next"
-          onClick={handleNext}
-          aria-label="Next review"
-        >
-          &#8250;
-        </button>
       </div>
     </section>
   );
 }
+
+export default TestimonialsSection;

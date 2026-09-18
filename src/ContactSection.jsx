@@ -14,14 +14,6 @@ const WATCH_OPTIONS = [
   { label: "Other HANBORO Timepiece", photo: "/watch-architectural-skeleton-black-front-transparent.webp" }
 ];
 
-const RATING_LABELS = {
-  5: "5.0 — Exceptional Masterpiece",
-  4: "4.0 — High Precision & Presence",
-  3: "3.0 — Satisfying Horology",
-  2: "2.0 — Moderate Experience",
-  1: "1.0 — Needs Atelier Review"
-};
-
 export function ContactSection() {
   const [activeTab, setActiveTab] = useState("review"); // 'review' | 'message'
   
@@ -112,9 +104,6 @@ export function ContactSection() {
               We’d love to<br />
               <em>hear from you.</em>
             </h2>
-            <p className="contact-editorial-sub">
-              Connect with our master horologists for bespoke commissions, boutique consultations, or share your timepiece provenance with the global collector circle.
-            </p>
 
             <div className="contact-direct-channels">
               <div className="contact-row">
@@ -125,14 +114,7 @@ export function ContactSection() {
               </div>
 
               <div className="contact-row">
-                <span className="contact-label">Phone & Concierge</span>
-                <a href="tel:+918882069334" className="contact-link contact-mono">
-                  +91 88820 69334
-                </a>
-              </div>
-
-              <div className="contact-row">
-                <span className="contact-label">WhatsApp Direct</span>
+                <span className="contact-label">Phone & WhatsApp</span>
                 <a
                   href="https://wa.me/918882069334?text=Hello%20HANBORO%20Concierge%2C%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20timepieces."
                   target="_blank"
@@ -148,7 +130,7 @@ export function ContactSection() {
                 <span className="contact-label">Atelier Studio</span>
                 <address className="contact-address">
                   <span>Building No. 3, 4th Floor, Block M, DLF City Phase II</span>
-                  <span>Road No. 5, Sector 25, Gurugram, Haryana 122008, India</span>
+                  <span>Sector 25, Gurugram, Haryana 122008, India</span>
                 </address>
               </div>
             </div>
@@ -164,7 +146,7 @@ export function ContactSection() {
                 rel="noopener noreferrer"
                 className="contact-cta contact-cta--wa"
               >
-                <span>WhatsApp Concierge</span>
+                <span>WhatsApp</span>
                 <span className="contact-cta-arrow" aria-hidden="true">↗</span>
               </a>
             </div>
@@ -205,9 +187,9 @@ export function ContactSection() {
                       <div className="contact-success-icon-wrap">
                         <span className="contact-success-glyph">✓</span>
                       </div>
-                      <h3 className="contact-success-title">Provenance Review Recorded</h3>
+                      <h3 className="contact-success-title">Review Submitted</h3>
                       <p className="contact-success-desc">
-                        Thank you, <strong>{authorName || "Collector"}</strong>. Your review has been added to our live customer reviews registry and is now featured in our provenance showcase.
+                        Thank you, <strong>{authorName || "Collector"}</strong>. Your review has been added to our customer reviews registry.
                       </p>
                       <div className="contact-success-rating">
                         {Array.from({ length: rating }).map((_, i) => (
@@ -225,11 +207,7 @@ export function ContactSection() {
                   ) : (
                     <form onSubmit={handleSubmitReview} className="contact-form">
                       <div className="contact-form-header">
-                        <span className="contact-form-eyebrow">★ VERIFIED PATRON PROVENANCE</span>
-                        <h3 className="contact-form-title">Share Your Collector Experience</h3>
-                        <p className="contact-form-subtitle">
-                          Your testimonial helps horology enthusiasts worldwide discover the craftsmanship and precision of HANBORO timepieces.
-                        </p>
+                        <h3 className="contact-form-title">Share Your Experience</h3>
                       </div>
 
                       {/* Star Rating Interactive Selector */}
@@ -255,7 +233,7 @@ export function ContactSection() {
                             );
                           })}
                           <span className="contact-rating-caption">
-                            {RATING_LABELS[hoverRating || rating]}
+                            {hoverRating || rating}.0
                           </span>
                         </div>
                       </div>
@@ -263,7 +241,7 @@ export function ContactSection() {
                       {/* Watch Model Dropdown */}
                       <div className="contact-field-group">
                         <label htmlFor="review-watch-select" className="contact-input-label">
-                          Timepiece Owned
+                          Timepiece
                         </label>
                         <div className="contact-select-wrap">
                           <select
@@ -285,13 +263,13 @@ export function ContactSection() {
                       <div className="contact-grid-2">
                         <div className="contact-field-group">
                           <label htmlFor="review-author" className="contact-input-label">
-                            Your Name *
+                            Name *
                           </label>
                           <input
                             id="review-author"
                             type="text"
                             required
-                            placeholder="e.g. Julian Sommer"
+                            placeholder="Your name"
                             value={authorName}
                             onChange={(e) => setAuthorName(e.target.value)}
                             className="contact-text-input"
@@ -304,7 +282,7 @@ export function ContactSection() {
                           <input
                             id="review-location"
                             type="text"
-                            placeholder="e.g. Munich, Germany"
+                            placeholder="City, Country"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
                             className="contact-text-input"
@@ -315,13 +293,13 @@ export function ContactSection() {
                       {/* Review Quote Text Area */}
                       <div className="contact-field-group">
                         <label htmlFor="review-quote" className="contact-input-label">
-                          Your Review *
+                          Review *
                         </label>
                         <textarea
                           id="review-quote"
                           required
                           rows={4}
-                          placeholder="Describe the wrist presence, kinetic movement, ceramic finish, or unboxing experience..."
+                          placeholder="Share your experience with this timepiece..."
                           value={quote}
                           onChange={(e) => setQuote(e.target.value)}
                           className="contact-textarea"
@@ -334,7 +312,7 @@ export function ContactSection() {
                         disabled={isSubmittingReview}
                         className="contact-submit-btn"
                       >
-                        {isSubmittingReview ? "✦ Recording Provenance..." : "✦ Publish Collector Review"}
+                        {isSubmittingReview ? "Submitting..." : "Submit Review"}
                       </button>
                     </form>
                   )}
@@ -349,9 +327,9 @@ export function ContactSection() {
                       <div className="contact-success-icon-wrap">
                         <span className="contact-success-glyph">✉</span>
                       </div>
-                      <h3 className="contact-success-title">Message Prepared</h3>
+                      <h3 className="contact-success-title">Message Sent</h3>
                       <p className="contact-success-desc">
-                        Your inquiry has been formulated and directed to <strong>connect@hanborowatches.in</strong>. Our horology concierge will respond within 24 hours.
+                        Our concierge will respond to you within 24 hours.
                       </p>
                       <button
                         type="button"
@@ -369,23 +347,19 @@ export function ContactSection() {
                   ) : (
                     <form onSubmit={handleSendMessage} className="contact-form">
                       <div className="contact-form-header">
-                        <span className="contact-form-eyebrow">✉ DIRECT ATELIER CONCIERGE</span>
-                        <h3 className="contact-form-title">Send a Direct Inquiry</h3>
-                        <p className="contact-form-subtitle">
-                          Have a bespoke question regarding specifications, inventory allocation, or bespoke straps? Reach out directly.
-                        </p>
+                        <h3 className="contact-form-title">Send a Message</h3>
                       </div>
 
                       <div className="contact-grid-2">
                         <div className="contact-field-group">
                           <label htmlFor="msg-name" className="contact-input-label">
-                            Your Name *
+                            Name *
                           </label>
                           <input
                             id="msg-name"
                             type="text"
                             required
-                            placeholder="e.g. Elena Rostova"
+                            placeholder="Your name"
                             value={msgName}
                             onChange={(e) => setMsgName(e.target.value)}
                             className="contact-text-input"
@@ -393,12 +367,12 @@ export function ContactSection() {
                         </div>
                         <div className="contact-field-group">
                           <label htmlFor="msg-email" className="contact-input-label">
-                            Email Address
+                            Email
                           </label>
                           <input
                             id="msg-email"
                             type="email"
-                            placeholder="e.g. elena@domain.com"
+                            placeholder="your@email.com"
                             value={msgEmail}
                             onChange={(e) => setMsgEmail(e.target.value)}
                             className="contact-text-input"
@@ -408,7 +382,7 @@ export function ContactSection() {
 
                       <div className="contact-field-group">
                         <label htmlFor="msg-topic" className="contact-input-label">
-                          Inquiry Type
+                          Topic
                         </label>
                         <div className="contact-select-wrap">
                           <select
@@ -417,24 +391,23 @@ export function ContactSection() {
                             onChange={(e) => setMsgTopic(e.target.value)}
                             className="contact-select-input"
                           >
-                            <option value="Atelier Commission">Atelier Commission & Custom Build</option>
-                            <option value="Order & Shipping Inquiry">Order & Worldwide Shipping Inquiry</option>
-                            <option value="Warranty & Servicing">Warranty, Servicing & Authenticity</option>
-                            <option value="Press & Partnership">Press, Media & Brand Partnership</option>
-                            <option value="Other Concierge Request">Other Concierge Request</option>
+                            <option value="Atelier Commission">Bespoke Commission</option>
+                            <option value="Order & Shipping Inquiry">Order & Shipping</option>
+                            <option value="Warranty & Servicing">Warranty & Servicing</option>
+                            <option value="Other Concierge Request">General Inquiry</option>
                           </select>
                         </div>
                       </div>
 
                       <div className="contact-field-group">
                         <label htmlFor="msg-body" className="contact-input-label">
-                          Message Details *
+                          Message *
                         </label>
                         <textarea
                           id="msg-body"
                           required
                           rows={4}
-                          placeholder="How may our concierge assist you today?"
+                          placeholder="How can we help you?"
                           value={msgBody}
                           onChange={(e) => setMsgBody(e.target.value)}
                           className="contact-textarea"
@@ -442,7 +415,7 @@ export function ContactSection() {
                       </div>
 
                       <button type="submit" className="contact-submit-btn">
-                        Dispatch Concierge Inquiry ↗
+                        Send Message ↗
                       </button>
                     </form>
                   )}

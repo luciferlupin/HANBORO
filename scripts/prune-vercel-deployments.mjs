@@ -17,7 +17,8 @@
 import https from "node:https";
 
 const token = process.env.VERCEL_TOKEN || process.env.VERCEL_AUTH_TOKEN;
-const projectName = process.env.VERCEL_PROJECT_ID || process.env.VERCEL_PROJECT_NAME || "hanboro";
+const projectId = process.env.VERCEL_PROJECT_ID || "prj_u6pq1GyJ7MvpdjBSgp1EnAYzCUWI";
+const projectName = process.env.VERCEL_PROJECT_NAME || "hanboro";
 const teamId = process.env.VERCEL_ORG_ID;
 const keepCount = Math.max(1, parseInt(process.env.KEEP_COUNT || "1", 10));
 
@@ -58,29 +59,31 @@ function request(url, options = {}) {
 
 async function run() {
   console.log(`🔍 Fetching deployments for project "${projectName}"...`);
-  const query = new URLSearchParams({
-    limit: "100",
-  });
-  if (teamId) query.set("teamId", teamId);
-
-  const listUrl = `https://api.vercel.com/v6/deployments?${query.toString()}`;
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
 
-  const { status, body } = await request(listUrl, { headers });
-  if (status !== 200 || !body || !Array.isArray(body.deployments)) {
-    console.error(`❌ Failed to fetch deployments (HTTP ${status}):`, body);
-    process.exit(1);
-  }
+  const projectDeployments = [];
+  let until;
+  do {
+    const query = new URLSearchParams({ limit: "100", projectId });
+    if (teamId) query.set("teamId", teamId);
+    if (until) query.set("until", String(until));
 
-  // Filter deployments for this project
-  const projectDeployments = body.deployments.filter((d) => 
-    d.name === projectName || d.project === projectName
-  );
+    const listUrl = `https://api.vercel.com/v6/deployments?${query.toString()}`;
+    const { status, body } = await request(listUrl, { headers });
+    if (status !== 200 || !body || !Array.isArray(body.deployments)) {
+      console.error(`❌ Failed to fetch deployments (HTTP ${status}):`, body);
+      process.exit(1);
+    }
 
-  console.log(`Found ${projectDeployments.length} total deployments for ${projectName}.`);
+    projectDeployments.push(...body.deployments);
+    const last = body.deployments.at(-1);
+    until = body.deployments.length === 100 && last?.createdAt ? last.createdAt : undefined;
+  } while (until);
+
+  console.log(`Found ${projectDeployments.length} total deployments for ${projectName} (${projectId}).`);
   if (projectDeployments.length <= keepCount) {
     console.log(`✅ Only ${projectDeployments.length} deployment(s) exist (<= ${keepCount} to keep). No pruning needed.`);
     return;

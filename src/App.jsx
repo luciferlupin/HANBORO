@@ -572,11 +572,43 @@ function Splash({ onEnter, exiting }) {
     return () => cancelAnimationFrame(id);
   }, []);
 
+  const handleSplashInteraction = (e) => {
+    // Synchronously prime audio context and hero video on user touch gesture
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        if (!window.__hanboro_actx) {
+          window.__hanboro_actx = new AudioCtx();
+        }
+        if (window.__hanboro_actx.state === "suspended") {
+          window.__hanboro_actx.resume().catch(() => {});
+        }
+      }
+      const heroVideo = document.querySelector(".hero-video-media");
+      if (heroVideo && !window.__hanboro_user_explicitly_muted) {
+        heroVideo.setAttribute("playsinline", "");
+        heroVideo.setAttribute("webkit-playsinline", "");
+        heroVideo.muted = false;
+        heroVideo.volume = 1;
+        const p = heroVideo.play();
+        if (p !== undefined) {
+          p.catch(() => {
+            heroVideo.muted = true;
+            heroVideo.play().catch(() => {});
+          });
+        }
+      }
+    } catch {}
+    onEnter?.();
+  };
+
   return (
     <section
       className={["splash", mounted ? "splash--in" : "", exiting ? "splash--exit" : ""].filter(Boolean).join(" ")}
       aria-label="Hanboro intro"
-      onClick={onEnter}
+      onClick={handleSplashInteraction}
+      onTouchStart={handleSplashInteraction}
+      onPointerDown={handleSplashInteraction}
     >
       <div className="splash__grain"/>
       <div className="splash__header">
@@ -590,7 +622,24 @@ function Splash({ onEnter, exiting }) {
         </div>
       </div>
       <div className="splash__footer s-footer">
-        <button className="text-button" type="button" onClick={onEnter}>Skip intro</button>
+        <button
+          className="text-button"
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSplashInteraction(e);
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            handleSplashInteraction(e);
+          }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            handleSplashInteraction(e);
+          }}
+        >
+          Skip intro
+        </button>
       </div>
     </section>
   );
@@ -609,6 +658,36 @@ function CloverKingExperience({ onInspectSku }) {
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
+
+  // Scroll color transition tracker for headline
+  const headerRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!headerRef.current || ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (!headerRef.current) {
+          ticking = false;
+          return;
+        }
+        const rect = headerRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const start = windowHeight * 0.95;
+        const end = windowHeight * 0.35;
+        const raw = (start - rect.top) / (start - end);
+        const clamped = Math.min(Math.max(raw, 0), 1);
+        setScrollProgress(clamped);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Update slider directly from pointer position on watch stage
   const handlePointerMove = (e) => {
@@ -642,16 +721,18 @@ function CloverKingExperience({ onInspectSku }) {
   return (
     <section className="stage-section stage-section--direct stage-section--interactive" id="interactive" aria-labelledby="clover-title">
       {/* Section Header */}
-      <div className="stage-header" data-reveal>
+      <div ref={headerRef} className="stage-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-index">CHAPTER 03 / 07</span>
-          <span className="stage-tag">KINETIC METAMORPHOSIS</span>
+          <span className="stage-tag stage-tag--lumen">
+            <span className="lumen-beacon-dot" aria-hidden="true" />
+            DAY & NIGHT LUMEN
+          </span>
         </div>
-        <h2 id="clover-title" className="stage-title">
-          How rare does time <em>need to be?</em>
+        <h2 id="clover-title" className="stage-title stage-title--lumen-clean">
+          How rare does time <span className="stage-title-accent">need to be?</span>
         </h2>
         <p className="stage-subtitle">
-          Drag the interactive divider to reveal the Clover King from its refined daytime mechanical presence to its electric green luminous night expression.
+          Slide to reveal the day and night luminous transition.
         </p>
       </div>
 
@@ -1349,33 +1430,94 @@ function HeroVideoSection({ onDiscover }) {
   const videoSrc = isMobile ? "/Hanboro-V1-mobile.mp4" : "/Hanboro-V1-720p.mp4";
   const posterSrc = isMobile ? "/hero-video-poster-mobile.jpg" : "/hero-video-poster.jpg";
 
-  // Video and soundtrack always playing and looping unmuted by default
+  // Video and soundtrack always playing and looping unmuted by default upon splash exit
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
-    video.volume = 1;
-    const playPromise = video.play();
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
 
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsMuted(false);
-        })
-        .catch((err) => {
-          console.info("Autoplay with sound paused pending user gesture:", err);
-          video.muted = true;
-          setIsMuted(true);
-          video.play().catch(() => {});
-        });
-    }
+    const playWithAudio = () => {
+      if (!video) return;
+
+      if (!window.__hanboro_user_explicitly_muted) {
+        video.muted = false;
+        video.volume = 1;
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsMuted(false);
+            })
+            .catch((err) => {
+              console.info("Autoplay with sound deferred on mobile pending gesture, starting muted fallback:", err);
+              video.muted = true;
+              setIsMuted(true);
+              video.play().catch(() => {});
+            });
+        }
+      } else {
+        video.muted = true;
+        setIsMuted(true);
+        video.play().catch(() => {});
+      }
+    };
+
+    playWithAudio();
+
+    const handleSplashExit = () => {
+      playWithAudio();
+    };
+
+    const handleSoundUnmuted = () => {
+      setIsMuted(false);
+    };
+
+    window.addEventListener("hanboro_splash_exit", handleSplashExit);
+    window.addEventListener("hanboro_video_sound_unmuted", handleSoundUnmuted);
+
+    return () => {
+      window.removeEventListener("hanboro_splash_exit", handleSplashExit);
+      window.removeEventListener("hanboro_video_sound_unmuted", handleSoundUnmuted);
+    };
+  }, [videoSrc]);
+
+  // One-time mobile interaction listener: unmutes automatically on the very first touch/scroll of the page
+  useEffect(() => {
+    const tryUnmuteOnInteraction = () => {
+      if (window.__hanboro_user_explicitly_muted) return;
+      const video = videoRef.current;
+      if (video) {
+        video.muted = false;
+        video.volume = 1;
+        const p = video.play();
+        if (p !== undefined) {
+          p.then(() => {
+            setIsMuted(false);
+          }).catch(() => {});
+        }
+      }
+    };
+
+    const interactionEvents = ["touchstart", "touchend", "pointerdown", "pointerup", "click", "scroll"];
+    interactionEvents.forEach((evt) => {
+      window.addEventListener(evt, tryUnmuteOnInteraction, { capture: true, passive: true });
+    });
+
+    return () => {
+      interactionEvents.forEach((evt) => {
+        window.removeEventListener(evt, tryUnmuteOnInteraction, true);
+      });
+    };
   }, []);
 
   const toggleMute = () => {
     const video = videoRef.current;
     if (!video) return;
     const nextMuted = !video.muted;
+    window.__hanboro_user_explicitly_muted = nextMuted;
     video.muted = nextMuted;
     if (!nextMuted) {
       video.volume = 1;
@@ -1398,9 +1540,9 @@ function HeroVideoSection({ onDiscover }) {
           poster={posterSrc}
           autoPlay
           loop
-          muted={false}
+          muted={isMuted}
           playsInline
-          preload="metadata"
+          preload="auto"
         />
         <div className="hero-video-overlay" aria-hidden="true" />
       </div>
@@ -1541,7 +1683,6 @@ function WatchCarouselSection({ onSelectProduct, onViewAllProducts }) {
     <section className="watch-carousel-section" id="collection" aria-labelledby="collection-title">
       <div className="carousel-section-header" data-reveal>
         <div className="stage-meta">
-          <span className="stage-index">CHAPTER 01 / 07</span>
           <span className="stage-tag">THE VAULT</span>
         </div>
         <h2 id="collection-title" className="carousel-heading">
@@ -1819,6 +1960,7 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
   const [selectedCity, setSelectedCity] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStoreId, setActiveStoreId] = useState("nagpal-watches-karnal");
+  const [mobileViewTab, setMobileViewTab] = useState("stores"); // "stores" | "map"
   const featuredCardRef = useRef(null);
 
   // Selected or active featured store
@@ -1841,6 +1983,16 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
       store.address.toLowerCase().includes(q) ||
       (store.keywords && store.keywords.toLowerCase().includes(q));
     return matchesCity && matchesQuery;
+  });
+
+  // Only show locations where we have stores located (matching active filter)
+  const visibleMapCities = MAP_CITIES.filter((city) => {
+    return filteredStores.some(
+      (store) =>
+        store.city.toUpperCase() === city.name ||
+        (store.area && store.area.toUpperCase() === city.name) ||
+        (store.keywords && store.keywords.toUpperCase().includes(city.name))
+    );
   });
 
   const handleSelectCity = (cityUpper) => {
@@ -1955,10 +2107,34 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
                 </div>
               </div>
             </div>
+
+            {/* Mobile View Switcher (Segmented Control) */}
+            <div className="network-mobile-tabs" role="tablist" aria-label="Showroom view toggle">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileViewTab === "stores"}
+                className={`network-mobile-tab ${mobileViewTab === "stores" ? "is-active" : ""}`}
+                onClick={() => setMobileViewTab("stores")}
+              >
+                <span className="tab-icon" aria-hidden="true">📍</span>
+                <span>Showrooms ({filteredStores.length})</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileViewTab === "map"}
+                className={`network-mobile-tab ${mobileViewTab === "map" ? "is-active" : ""}`}
+                onClick={() => setMobileViewTab("map")}
+              >
+                <span className="tab-icon" aria-hidden="true">🗺️</span>
+                <span>India Map ({visibleMapCities.length})</span>
+              </button>
+            </div>
           </div>
 
-          {/* Right Column: Dotted Interactive Real India Map with Glowing City Nodes */}
-          <div className="network-hero-right">
+          {/* Right Column: Interactive Real India Map with Verified Store Location Pins */}
+          <div className={`network-hero-right ${mobileViewTab === "map" ? "is-mobile-visible" : "is-mobile-hidden"}`}>
             <div className="network-map-wrap">
               <svg
                 className="network-india-map-svg"
@@ -1967,43 +2143,22 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
                 xmlns="http://www.w3.org/2000/svg"
                 aria-label="Map of authorized Hanboro retailers in India"
               >
-                <defs>
-                  {/* High-tech Halftone Dot Pattern */}
-                  <pattern
-                    id="indiaMeshPattern"
-                    x="0"
-                    y="0"
-                    width="12"
-                    height="12"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <circle cx="3.5" cy="3.5" r="1.3" fill="rgba(255, 255, 255, 0.2)" />
-                  </pattern>
-
-                  {/* Pulsing Radial Glow Gradient */}
-                  <radialGradient id="nodePulseGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#fa2d1d" stopOpacity="0.9" />
-                    <stop offset="50%" stopColor="#fa2d1d" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#fa2d1d" stopOpacity="0" />
-                  </radialGradient>
-                </defs>
-
-                {/* Real India Geographic State Boundaries with Halftone Mesh Fill */}
+                {/* Real India Geographic State Boundaries with Clean Luxury Silhouette */}
                 <g className="india-map-regions">
                   {INDIA_MAP_PATHS.map((region) => (
                     <path
                       key={region.id}
                       d={region.path}
-                      fill="url(#indiaMeshPattern)"
-                      stroke="rgba(255, 255, 255, 0.18)"
+                      fill="rgba(255, 255, 255, 0.04)"
+                      stroke="rgba(255, 255, 255, 0.16)"
                       strokeWidth="0.85"
                       className="india-state-shape"
                     />
                   ))}
                 </g>
 
-                {/* City Location Pins & Text Labels */}
-                {MAP_CITIES.map((city) => {
+                {/* City Location Pins - Only those locations where stores are located */}
+                {visibleMapCities.map((city) => {
                   const isCityActive =
                     selectedCity === city.name ||
                     (selectedCity === "ALL" && activeStore?.city.toUpperCase() === city.name);
@@ -2023,18 +2178,11 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
                       tabIndex={0}
                       aria-label={`Select ${city.name} boutiques`}
                     >
-                      {/* Pulsing Signal Red Rings */}
+                      {/* Clean Static Location Dot - Bubble Animation Removed */}
                       <circle
                         cx={city.x}
                         cy={city.y}
-                        r="14"
-                        fill="url(#nodePulseGlow)"
-                        className="node-ripple"
-                      />
-                      <circle
-                        cx={city.x}
-                        cy={city.y}
-                        r="4.5"
+                        r={isCityActive ? "5.5" : "4.5"}
                         fill="#fa2d1d"
                         stroke="#ffffff"
                         strokeWidth="1.5"
@@ -2246,7 +2394,7 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
       </section>
 
       {/* ── 4-COLUMN RETAILER BOUTIQUE CARDS GRID ── */}
-      <section className="network-grid-section">
+      <section className={`network-grid-section ${mobileViewTab === "stores" ? "is-mobile-visible" : "is-mobile-hidden"}`}>
         <div className="network-grid-container">
           <div className="network-cards-grid">
             {filteredStores.map((store) => {
@@ -2275,17 +2423,43 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
                     </p>
                     <p className="boutique-card__tag">Authorized Hanboro Retailer</p>
 
-                    <button
-                      type="button"
-                      className="boutique-card__link"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectStore(store);
-                      }}
-                    >
-                      <span>VIEW STORE</span>
-                      <span className="link-arrow" aria-hidden="true">→</span>
-                    </button>
+                    <div className="boutique-card__actions">
+                      <button
+                        type="button"
+                        className="boutique-card__link"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectStore(store);
+                        }}
+                      >
+                        <span>VIEW STORE</span>
+                        <span className="link-arrow" aria-hidden="true">→</span>
+                      </button>
+
+                      <a
+                        href={store.mapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="boutique-card__quick-dir"
+                        onClick={(e) => e.stopPropagation()}
+                        title="Directions"
+                        aria-label={`Get directions to ${store.name}`}
+                      >
+                        <span>Directions ↗</span>
+                      </a>
+
+                      {store.phoneRaw && (
+                        <a
+                          href={`tel:${store.phoneRaw}`}
+                          className="boutique-card__quick-call"
+                          onClick={(e) => e.stopPropagation()}
+                          title="Call"
+                          aria-label={`Call ${store.name}`}
+                        >
+                          <span>Call 📞</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </article>
               );
@@ -2552,23 +2726,6 @@ function FooterLiveClock() {
   );
 }
 
-function FloatingWhatsAppButton() {
-  return (
-    <a
-      href="https://wa.me/918882069334?text=Hello%20HANBORO%20Concierge%2C%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20timepieces."
-      target="_blank"
-      rel="noopener noreferrer"
-      className="floating-whatsapp-btn"
-      aria-label="Chat on WhatsApp with HANBORO VIP Concierge (+91 88820 69334)"
-    >
-      <div className="floating-whatsapp-pulse" aria-hidden="true" />
-      <svg className="floating-whatsapp-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.33 7.34 9 7.42 8.73 7.71C8.46 8 7.7 8.72 7.7 10.18C7.7 11.64 8.76 13.05 8.91 13.25C9.06 13.45 10.97 16.4 13.88 17.66C14.58 17.96 15.12 18.14 15.54 18.28C16.24 18.5 16.88 18.47 17.39 18.39C17.96 18.31 19.14 17.68 19.39 16.99C19.64 16.3 19.64 15.71 19.56 15.58C19.48 15.46 19.28 15.39 18.98 15.24C18.68 15.09 17.21 14.37 16.94 14.27C16.67 14.17 16.47 14.12 16.27 14.42C16.07 14.72 15.5 15.39 15.33 15.58C15.16 15.77 14.99 15.8 14.69 15.65C14.39 15.5 13.43 15.19 12.29 14.17C11.4 13.38 10.8 12.4 10.63 12.1C10.46 11.8 10.61 11.64 10.76 11.49C10.9 11.35 11.07 11.13 11.22 10.96C11.37 10.79 11.42 10.66 11.52 10.47C11.62 10.27 11.57 10.1 11.5 9.95C11.42 9.8 10.85 8.4 10.61 7.82C10.38 7.27 10.14 7.34 9.96 7.33C9.79 7.33 9.59 7.34 9.53 7.34Z"/>
-      </svg>
-      <span className="floating-whatsapp-text">WhatsApp</span>
-    </a>
-  );
-}
 
 function Website({ onRestart }) {
   const { user, isAdmin, cartCount, openAuthModal, setIsCartOpen } = useStore();
@@ -2977,31 +3134,31 @@ function Website({ onRestart }) {
             {/* ── ACT I: CINEMATIC VIDEO HERO ── */}
             <HeroVideoSection onDiscover={() => navigateTo("products", "#products")} />
 
-            {/* ── ACT I.5: ABOUT THE MAISON / ABOUT US (Sacred Geometry Architectural Editorial) ── */}
+            {/* ── ACT II: ABOUT THE MAISON / ATELIER HANBORO ── */}
             <AboutMaisonSection />
 
-            {/* ── ACT II: THE ART OF SUBTLE MASTERY (4 Pillars / Advantages) ── */}
+            {/* ── ACT III: THE ART OF MODERN HOROLOGY (4 Pillars / Advantages) ── */}
             <SubtleMasterySection onExploreCatalog={() => navigateTo("products", "#products")} />
 
-            {/* ── ACT III: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
+            {/* ── ACT IV: CRAFTED WITH LEGACY IN MIND (Philosophy Mosaic Banner) ── */}
             <CraftedWithLegacySection onExploreCatalog={() => navigateTo("products", "#products")} />
 
-            {/* ── ACT IV: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
+            {/* ── ACT V: THE VAULT / ICONIC TIMEPIECE CAROUSEL LOOP ── */}
             <WatchCarouselSection
               onSelectProduct={handleOpenSku}
               onViewAllProducts={() => navigateTo("products", "#products")}
             />
 
-            {/* ── ACT V: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
+            {/* ── ACT VI: CLOVER KING DAY VS NIGHT KINETIC REVEAL ── */}
             <CloverKingExperience onInspectSku={handleOpenSku} />
 
-
-            {/* ── ACT VIII: OUR MEDIA (Genesis of Time Accordion Slat Gallery) ── */}
+            {/* ── ACT VII: OUR MEDIA (Live On-Wrist Instagram Reels) ── */}
             <MediaSection onInspectSku={handleOpenSku} />
 
-            {/* ── ACT IX: PATRON ACCLAIM (Minimalist Collector Provenance) ── */}
+            {/* ── ACT VIII: PATRON ACCLAIM (Collector Acclaim & Reviews) ── */}
             <TestimonialsSection onInspectSku={handleOpenSku} />
-            {/* ── ACT X: CONTACT & COLLECTOR PROVENANCE REVIEWS ── */}
+
+            {/* ── ACT IX: CONTACT & COLLECTOR CONCIERGE ── */}
             <ContactSection />
 
           </>
@@ -3030,19 +3187,6 @@ function Website({ onRestart }) {
               <div className="footer__address">
                 <p className="eyebrow">Call Us</p>
                 <a className="footer__phone" href="tel:+918882069334">+91 88820 69334</a>
-              </div>
-
-              <div className="footer__address">
-                <p className="eyebrow">WhatsApp Concierge</p>
-                <a
-                  className="footer__phone"
-                  href="https://wa.me/918882069334?text=Hello%20HANBORO%20Concierge%2C%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20timepieces."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "#25d366" }}
-                >
-                  +91 88820 69334 ↗
-                </a>
               </div>
             </div>
 
@@ -3105,16 +3249,6 @@ function Website({ onRestart }) {
             </div>
 
             <div className="footer-bottom-links-group">
-              <a
-                href="#admin"
-                className="footer-admin-portal-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateTo("admin", "#admin");
-                }}
-              >
-                {isAdmin ? "Admin Portal ↗" : "Staff Portal ↗"}
-              </a>
               <a href="#top">Back to top ↑</a>
             </div>
           </div>
@@ -3124,7 +3258,6 @@ function Website({ onRestart }) {
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <AuthModal />
       <CartDrawer />
-      <FloatingWhatsAppButton />
     </main>
   );
 }
@@ -3150,25 +3283,28 @@ export function App() {
             window.__hanboro_actx = new AudioCtx();
           }
           if (window.__hanboro_actx.state === "suspended") {
-            window.__hanboro_actx.resume();
+            window.__hanboro_actx.resume().catch(() => {});
+          }
+        }
+
+        if (!window.__hanboro_user_explicitly_muted) {
+          const heroVideo = document.querySelector(".hero-video-media");
+          if (heroVideo) {
+            heroVideo.setAttribute("playsinline", "");
+            heroVideo.setAttribute("webkit-playsinline", "");
+            if (heroVideo.muted || heroVideo.paused) {
+              heroVideo.muted = false;
+              heroVideo.volume = 1;
+              const p = heroVideo.play();
+              if (p !== undefined) {
+                p.then(() => {
+                  window.dispatchEvent(new CustomEvent("hanboro_video_sound_unmuted"));
+                }).catch(() => {});
+              }
+            }
           }
         }
       } catch {}
-
-      // If video exists on page, unmute and ensure playing
-      const heroVideo = document.querySelector(".hero-video-media");
-      if (heroVideo) {
-        heroVideo.muted = false;
-        heroVideo.volume = 1;
-        const p = heroVideo.play();
-        if (p !== undefined) {
-          p.then(() => {
-            gestureEvents.forEach((evt) =>
-              window.removeEventListener(evt, unlockMediaAudio, true)
-            );
-          }).catch(() => {});
-        }
-      }
     };
 
     gestureEvents.forEach((evt) =>
@@ -3206,16 +3342,39 @@ export function App() {
 
     // Immediately trigger unmuted video audio playback synchronously
     try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        if (!window.__hanboro_actx) {
+          window.__hanboro_actx = new AudioCtx();
+        }
+        if (window.__hanboro_actx.state === "suspended") {
+          window.__hanboro_actx.resume().catch(() => {});
+        }
+      }
+
       const heroVideo = document.querySelector(".hero-video-media");
       if (heroVideo) {
-        heroVideo.muted = false;
-        heroVideo.volume = 1;
-        const p = heroVideo.play();
-        if (p !== undefined) {
-          p.catch(() => {});
+        heroVideo.setAttribute("playsinline", "");
+        heroVideo.setAttribute("webkit-playsinline", "");
+        if (!window.__hanboro_user_explicitly_muted) {
+          heroVideo.muted = false;
+          heroVideo.volume = 1;
+          const p = heroVideo.play();
+          if (p !== undefined) {
+            p.catch(() => {
+              // Mobile policy fallback: play muted immediately so video never freezes
+              heroVideo.muted = true;
+              heroVideo.play().catch(() => {});
+            });
+          }
+        } else {
+          heroVideo.muted = true;
+          heroVideo.play().catch(() => {});
         }
       }
     } catch {}
+
+    window.dispatchEvent(new CustomEvent("hanboro_splash_exit"));
 
     // 1. Start splash exit + iris expand simultaneously
     setPhase("exiting");

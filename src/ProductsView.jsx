@@ -127,20 +127,12 @@ export function ProductsView({
         </div>
       </header>
 
-      {/* ── EDITORIAL HEADER: CLEAN LUXURY TYPOGRAPHY & DUAL PARAGRAPH INTRO ── */}
+      {/* ── EDITORIAL HEADER: CLEAN LUXURY TITLE ── */}
       <section className="maison-editorial-header">
         <div className="maison-header-container">
           <h1 className="maison-giant-title">
             {activeCategory === "ALL" ? "COLLECTION" : activeCategory.replace(/_/g, " ")}
           </h1>
-
-          <div className="maison-intro-columns">
-            <div className="intro-column">
-              <p>
-                Engineered without compromise. The Hanboro catalog unites 104 avant-garde mechanical complications, from rotating 3D lunar orbits and kinetic casino roulette dials to high-frequency flying tourbillons. Each calibre operates at 28,800 BPH with synthetic ruby bearings for frictionless chronometric precision.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -252,7 +244,7 @@ export function ProductsView({
           <div className="maison-empty-state">
             <span className="empty-symbol">✦</span>
             <h3>No Timepieces Found</h3>
-            <p>No master reference matches your selected filters. Reset to view the complete catalog.</p>
+            <p>Reset filters to view all timepieces.</p>
             <button
               type="button"
               className="maison-reset-btn"
@@ -327,25 +319,15 @@ export function ProductsView({
                     )}
                   </div>
 
-                  {/* Structured Middle Info: Ref/Movement Eyebrow + 2-Line Clamped Title + Specs */}
+                  {/* Clean Middle Info: Ref Eyebrow + Title */}
                   <div className="maison-card-body">
                     <div className="maison-card-eyebrow">
-                      <span className="card-sku-code">MODEL {watch.modelNumber || watch.specs?.modelNumber || watch.sku.split("-")[1]} • REF. {watch.sku}</span>
-                      <span className="card-dot">•</span>
-                      <span className="card-caliber">{watch.specs?.movement ? watch.specs.movement.split(" ")[0] : "AUTOMATIC"}</span>
+                      <span className="card-sku-code">REF. {watch.sku}</span>
                     </div>
 
                     <h3 className="maison-card-title" title={watch.name}>
                       {watch.name}
                     </h3>
-
-                    <div className="maison-card-specs-line">
-                      <span>{watch.specs?.caseDimensions ? watch.specs.caseDimensions.split(" ")[0] : "44mm"}</span>
-                      <span className="card-dot">•</span>
-                      <span>{watch.specs?.glass ? watch.specs.glass.split(" ")[0] : "Sapphire"}</span>
-                      <span className="card-dot">•</span>
-                      <span>{watch.specs?.waterResistance || "50M WR"}</span>
-                    </div>
                   </div>
 
                   {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
@@ -365,7 +347,6 @@ export function ProductsView({
                           </div>
                         );
                       })()}
-                      <span className="maison-price-note">Tax Included</span>
                     </div>
 
                     <div className="maison-card-actions" onClick={(e) => e.stopPropagation()}>
