@@ -7,6 +7,7 @@ import {
   abandonedCheckoutsService,
   discountsService,
   profilesService,
+  teamAuditService,
   calculateEan13,
   enrichOrderItemWithSkuEan,
   safeStorage,
@@ -27,6 +28,7 @@ import {
   IconContent,
   IconMarkets,
   IconAnalytics,
+  IconAudit,
   IconStorefront,
   IconAgentic,
   IconSocial,
@@ -198,6 +200,7 @@ export function AdminDashboard({ onNavigateHome }) {
     if (hash.includes("products") || hash.includes("inventory")) return "products";
     if (hash.includes("customers")) return "customers";
     if (hash.includes("analytics")) return "analytics";
+    if (hash.includes("audit")) return "audit";
     if (hash.includes("discounts")) return "discounts";
     if (hash.includes("whatsapp")) return "whatsapp";
     if (hash.includes("settings")) return "settings";
@@ -443,6 +446,116 @@ export function AdminDashboard({ onNavigateHome }) {
     }
     setEditingNotesEmail(null);
     showToast("Customer dossier notes updated in database");
+  };
+
+  // ── TEAM AUDIT LEDGER STATE (Real-Time Atelier Activity) ──
+  const [auditLogs, setAuditLogs] = useState(() => teamAuditService.getAuditLogs());
+  const [auditSearch, setAuditSearch] = useState("");
+  const [auditCategoryFilter, setAuditCategoryFilter] = useState("all");
+  const [inspectingAuditLog, setInspectingAuditLog] = useState(null);
+  const [showClearAuditModal, setShowClearAuditModal] = useState(false);
+
+  useEffect(() => {
+    const unsub = teamAuditService.subscribe((logs) => {
+      setAuditLogs(logs);
+    });
+    return () => unsub();
+  }, []);
+
+  const handleExportAuditJson = () => {
+    try {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(auditLogs, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `hanboro-team-audit-ledger-${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Exported Team Audit Ledger (JSON)");
+    } catch {
+      showToast("Could not export audit ledger");
+    }
+  };
+
+  const handleExportAuditCsv = () => {
+    try {
+      const headers = ["ID", "Timestamp", "Category", "Action", "Actor", "Actor Role", "Target", "Summary"];
+      const rows = auditLogs.map((log) => [
+        `"${String(log.id || "").replace(/"/g, '""')}"`,
+        `"${String(log.timestamp || "").replace(/"/g, '""')}"`,
+        `"${String(log.category || "").replace(/"/g, '""')}"`,
+        `"${String(log.action || "").replace(/"/g, '""')}"`,
+        `"${String(log.actor || "").replace(/"/g, '""')}"`,
+        `"${String(log.actorRole || "").replace(/"/g, '""')}"`,
+        `"${String(log.target || "").replace(/"/g, '""')}"`,
+        `"${String(log.summary || "").replace(/"/g, '""')}"`,
+      ]);
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `hanboro-team-audit-ledger-${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast("Exported Team Audit Ledger (CSV)");
+    } catch {
+      showToast("Could not export audit CSV");
+    }
+  };
+
+  const handleClearAuditLedger = () => {
+    const resetLogs = teamAuditService.clearAuditLogs();
+    setAuditLogs(resetLogs);
+    setShowClearAuditModal(false);
+    showToast("Audit ledger history reset. Reset event recorded.");
+  };
+
+  // Filtered audit logs
+  const filteredAuditLogs = useMemo(() => {
+    return auditLogs.filter((log) => {
+      if (auditCategoryFilter !== "all" && String(log.category || "").toLowerCase() !== auditCategoryFilter.toLowerCase()) {
+        return false;
+      }
+      if (auditSearch.trim()) {
+        const query = auditSearch.toLowerCase();
+        const matchesSummary = String(log.summary || "").toLowerCase().includes(query);
+        const matchesActor = String(log.actor || "").toLowerCase().includes(query);
+        const matchesAction = String(log.action || "").toLowerCase().includes(query);
+        const matchesTarget = String(log.target || "").toLowerCase().includes(query);
+        const matchesCat = String(log.category || "").toLowerCase().includes(query);
+        return matchesSummary || matchesActor || matchesAction || matchesTarget || matchesCat;
+      }
+      return true;
+    });
+  }, [auditLogs, auditCategoryFilter, auditSearch]);
+
+  const auditStats = useMemo(() => {
+    const total = auditLogs.length;
+    const catalogue = auditLogs.filter((l) => l.category === "Catalogue").length;
+    const orders = auditLogs.filter((l) => l.category === "Orders").length;
+    const customers = auditLogs.filter((l) => l.category === "Customers").length;
+    const discounts = auditLogs.filter((l) => l.category === "Discounts").length;
+    const security = auditLogs.filter((l) => l.category === "Security").length;
+    return { total, catalogue, orders, customers, discounts, security };
+  }, [auditLogs]);
+
+  const formatAuditTime = (isoString) => {
+    if (!isoString) return { dateStr: "—", timeStr: "—", relativeStr: "—" };
+    try {
+      const d = new Date(isoString);
+      const dateStr = d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+      const timeStr = d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
+      const diffSec = Math.max(0, Math.floor((Date.now() - d.getTime()) / 1000));
+      let relativeStr = "Just now";
+      if (diffSec >= 86400) relativeStr = `${Math.floor(diffSec / 86400)}d ago`;
+      else if (diffSec >= 3600) relativeStr = `${Math.floor(diffSec / 3600)}h ago`;
+      else if (diffSec >= 60) relativeStr = `${Math.floor(diffSec / 60)}m ago`;
+      else if (diffSec > 5) relativeStr = `${diffSec}s ago`;
+      return { dateStr, timeStr, relativeStr };
+    } catch {
+      return { dateStr: isoString, timeStr: "", relativeStr: "" };
+    }
   };
 
   // Discounts State
@@ -1327,6 +1440,17 @@ export function AdminDashboard({ onNavigateHome }) {
             >
               <span className="sp-nav-icon"><IconAnalytics size={16} /></span>
               <span className="sp-nav-text">Analytics</span>
+            </button>
+
+            {/* 10. Team Audit */}
+            <button
+              type="button"
+              className={`sp-nav-link ${activeTab === "audit" ? "is-active" : ""}`}
+              onClick={() => setActiveTab("audit")}
+            >
+              <span className="sp-nav-icon" style={{ color: activeTab === "audit" ? "#008060" : "inherit" }}><IconAudit size={16} /></span>
+              <span className="sp-nav-text">Team Audit</span>
+              <span className="sp-nav-badge" style={{ backgroundColor: "#008060", color: "#ffffff", fontSize: "10px", padding: "1px 6px", borderRadius: "10px", fontWeight: 600 }}>Live</span>
             </button>
           </nav>
 
@@ -3698,6 +3822,370 @@ export function AdminDashboard({ onNavigateHome }) {
             </div>
           )}
 
+          {/* ══════════════════════════════════════════════════════════════════
+              TAB 14: TEAM AUDIT TRAIL (Live Changes, Edits, Orders, Customers)
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeTab === "audit" && (
+            <div className="sp-page-card">
+              <div className="sp-card-header" style={{ alignItems: "flex-start" }}>
+                <div className="sp-card-title-wrap">
+                  <span className="sp-title-icon" style={{ color: "#008060" }}><IconAudit size={20} /></span>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <h1 className="sp-page-title">Team Audit Trail</h1>
+                      <span className="sp-badge-pill sp-badge-pill--fulfilled" style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "2px 8px", fontSize: "11px", fontWeight: 600 }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#15803d", display: "inline-block" }}></span>
+                        Live Ledger Active
+                      </span>
+                    </div>
+                    <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--sp-text-subdued, #6d7175)" }}>
+                      Real-time activity ledger recording all catalogue edits, SKU modifications, new customer orders, user registrations, and atelier actions from now onwards.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="sp-header-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--secondary"
+                    onClick={() => {
+                      const latest = teamAuditService.getAuditLogs();
+                      setAuditLogs(latest);
+                      showToast("Audit feed refreshed");
+                    }}
+                    title="Refresh latest audit events"
+                  >
+                    <IconSync size={13} />
+                    <span>Refresh Feed</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--secondary"
+                    onClick={handleExportAuditJson}
+                    title="Download complete audit history as JSON"
+                  >
+                    <IconExport size={13} />
+                    <span>Export JSON</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--secondary"
+                    onClick={handleExportAuditCsv}
+                    title="Download audit spreadsheet CSV"
+                  >
+                    <IconExport size={13} />
+                    <span>Export CSV</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--secondary"
+                    style={{ color: "#dc2626", borderColor: "#fecaca" }}
+                    onClick={() => setShowClearAuditModal(true)}
+                    title="Clear and reset local audit ledger"
+                  >
+                    <IconTrash size={13} />
+                    <span>Clear Ledger</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Metrics Summary Strip */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "14px",
+                padding: "16px 20px",
+                backgroundColor: "var(--sp-bg, #f6f6f7)",
+                borderBottom: "1px solid var(--sp-border-subtle, #e1e3e5)"
+              }}>
+                <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Total Ledger Events</div>
+                  <div style={{ fontSize: "22px", fontWeight: 700, color: "var(--sp-text, #202223)", marginTop: "4px" }}>{auditStats.total}</div>
+                  <div style={{ fontSize: "11px", color: "#16a34a", marginTop: "2px" }}>● Live from now onwards</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Catalogue & SKUs</div>
+                  <div style={{ fontSize: "22px", fontWeight: 700, color: "#4f46e5", marginTop: "4px" }}>{auditStats.catalogue}</div>
+                  <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Edits, prices, reorders</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Customer Orders</div>
+                  <div style={{ fontSize: "22px", fontWeight: 700, color: "#15803d", marginTop: "4px" }}>{auditStats.orders}</div>
+                  <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Placed & status changes</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Customer Accounts</div>
+                  <div style={{ fontSize: "22px", fontWeight: 700, color: "#0369a1", marginTop: "4px" }}>{auditStats.customers}</div>
+                  <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Signups & dossier edits</div>
+                </div>
+                <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Promos & Atelier</div>
+                  <div style={{ fontSize: "22px", fontWeight: 700, color: "#b45309", marginTop: "4px" }}>{auditStats.discounts + auditStats.security}</div>
+                  <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Vouchers & security</div>
+                </div>
+              </div>
+
+              {/* Filters & Search Toolbar */}
+              <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--sp-border-subtle, #e1e3e5)" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+                  {/* Category Pills */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                    {[
+                      { key: "all", label: "All Activities", count: auditStats.total },
+                      { key: "Catalogue", label: "Catalogue & SKUs", count: auditStats.catalogue },
+                      { key: "Orders", label: "Orders", count: auditStats.orders },
+                      { key: "Customers", label: "Customers", count: auditStats.customers },
+                      { key: "Discounts", label: "Discounts", count: auditStats.discounts },
+                      { key: "Security", label: "Security & System", count: auditStats.security },
+                    ].map((tab) => {
+                      const isActive = auditCategoryFilter === tab.key;
+                      return (
+                        <button
+                          key={tab.key}
+                          type="button"
+                          onClick={() => setAuditCategoryFilter(tab.key)}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: "20px",
+                            fontSize: "12px",
+                            fontWeight: isActive ? 600 : 500,
+                            border: isActive ? "1px solid #202223" : "1px solid #d1d5db",
+                            backgroundColor: isActive ? "#202223" : "#ffffff",
+                            color: isActive ? "#ffffff" : "#4b5563",
+                            cursor: "pointer",
+                            transition: "all 0.15s ease",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px"
+                          }}
+                        >
+                          <span>{tab.label}</span>
+                          <span style={{
+                            padding: "1px 6px",
+                            borderRadius: "10px",
+                            fontSize: "10px",
+                            backgroundColor: isActive ? "rgba(255,255,255,0.25)" : "#f3f4f6",
+                            color: isActive ? "#ffffff" : "#6b7280"
+                          }}>
+                            {tab.count}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Search Box */}
+                  <div style={{ position: "relative", width: "100%", maxWidth: "340px" }}>
+                    <span style={{ position: "absolute", left: "10px", top: "50%", transform: "translateY(-50%)", color: "#9ca3af" }}>
+                      <IconSearch size={14} />
+                    </span>
+                    <input
+                      type="text"
+                      className="sp-search-input"
+                      placeholder="Search actor, SKU, order, summary..."
+                      value={auditSearch}
+                      onChange={(e) => setAuditSearch(e.target.value)}
+                      style={{ paddingLeft: "32px", width: "100%", fontSize: "13px" }}
+                    />
+                    {auditSearch && (
+                      <button
+                        type="button"
+                        onClick={() => setAuditSearch("")}
+                        style={{ position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#9ca3af", cursor: "pointer", fontSize: "12px" }}
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Audit Ledger Table */}
+              <div className="sp-table-wrap">
+                {filteredAuditLogs.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: "48px 20px" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "48px", height: "48px", borderRadius: "50%", backgroundColor: "#f3f4f6", color: "#6b7280", marginBottom: "12px" }}>
+                      <IconAudit size={24} />
+                    </div>
+                    <h3 style={{ fontSize: "15px", fontWeight: 600, color: "#111827", margin: "0 0 6px" }}>
+                      {auditSearch || auditCategoryFilter !== "all" ? "No matching audit records" : "No audit events recorded yet"}
+                    </h3>
+                    <p style={{ fontSize: "13px", color: "#6b7280", maxWidth: "420px", margin: "0 auto" }}>
+                      {auditSearch || auditCategoryFilter !== "all"
+                        ? "Try adjusting your category filter or search query to view other logged activities."
+                        : "Activities from now onwards (watch edits, customer orders, new accounts, and discounts) will appear here in real time."}
+                    </p>
+                    {(auditSearch || auditCategoryFilter !== "all") && (
+                      <button
+                        type="button"
+                        className="sp-btn sp-btn--secondary"
+                        onClick={() => { setAuditSearch(""); setAuditCategoryFilter("all"); }}
+                        style={{ marginTop: "16px" }}
+                      >
+                        Clear Filters
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <table className="sp-table" style={{ width: "100%" }}>
+                    <thead>
+                      <tr>
+                        <th style={{ width: "160px" }}>Timestamp</th>
+                        <th style={{ width: "110px" }}>Category</th>
+                        <th style={{ width: "150px" }}>Action</th>
+                        <th style={{ width: "180px" }}>Team Member / Actor</th>
+                        <th style={{ width: "140px" }}>Target</th>
+                        <th>Summary of Changes</th>
+                        <th style={{ width: "90px", textAlign: "right" }}>Inspect</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredAuditLogs.map((log) => {
+                        const time = formatAuditTime(log.timestamp);
+                        const isCat = log.category === "Catalogue";
+                        const isOrd = log.category === "Orders";
+                        const isCus = log.category === "Customers";
+                        const isDisc = log.category === "Discounts";
+
+                        const badgeStyle = isCat
+                          ? { background: "#eef2ff", color: "#4f46e5", border: "1px solid #c7d2fe" }
+                          : isOrd
+                          ? { background: "#dcfce7", color: "#15803d", border: "1px solid #bbf7d0" }
+                          : isCus
+                          ? { background: "#e0f2fe", color: "#0369a1", border: "1px solid #bae6fd" }
+                          : isDisc
+                          ? { background: "#fef3c7", color: "#b45309", border: "1px solid #fde68a" }
+                          : { background: "#f1f5f9", color: "#334155", border: "1px solid #cbd5e1" };
+
+                        return (
+                          <tr key={log.id} style={{ transition: "background 0.15s" }}>
+                            {/* Timestamp */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <div style={{ fontSize: "12px", fontWeight: 600, color: "#111827" }}>{time.dateStr}</div>
+                              <div style={{ fontSize: "11px", color: "#6b7280", display: "flex", gap: "6px" }}>
+                                <span>{time.timeStr}</span>
+                                <span style={{ color: "#9ca3af" }}>•</span>
+                                <span style={{ color: "#2563eb", fontWeight: 500 }}>{time.relativeStr}</span>
+                              </div>
+                            </td>
+
+                            {/* Category */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <span style={{
+                                display: "inline-block",
+                                padding: "2px 8px",
+                                borderRadius: "12px",
+                                fontSize: "11px",
+                                fontWeight: 600,
+                                ...badgeStyle
+                              }}>
+                                {log.category || "General"}
+                              </span>
+                            </td>
+
+                            {/* Action Identifier */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <code style={{
+                                fontFamily: "'JetBrains Mono', monospace",
+                                fontSize: "11px",
+                                backgroundColor: "#f3f4f6",
+                                color: "#1f2937",
+                                padding: "2px 6px",
+                                borderRadius: "4px",
+                                border: "1px solid #e5e7eb",
+                                display: "inline-block"
+                              }}>
+                                {log.action}
+                              </code>
+                            </td>
+
+                            {/* Actor */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <div style={{ fontSize: "12px", fontWeight: 500, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "170px" }} title={log.actor}>
+                                {log.actor}
+                              </div>
+                              <div style={{ fontSize: "10px", color: "#6b7280" }}>
+                                {log.actorRole || "Staff"}
+                              </div>
+                            </td>
+
+                            {/* Target Entity */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <span style={{
+                                fontSize: "12px",
+                                fontWeight: 600,
+                                color: "#374151",
+                                fontFamily: "'JetBrains Mono', monospace",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                display: "inline-block",
+                                maxWidth: "130px"
+                              }} title={log.target}>
+                                {log.target || "—"}
+                              </span>
+                            </td>
+
+                            {/* Summary */}
+                            <td style={{ verticalAlign: "middle" }}>
+                              <div style={{ fontSize: "13px", color: "#1f2937", lineHeight: "1.4" }}>
+                                {log.summary}
+                              </div>
+                              {log.details?.diffs && Array.isArray(log.details.diffs) && log.details.diffs.length > 0 && (
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginTop: "4px" }}>
+                                  {log.details.diffs.map((d, i) => (
+                                    <span key={i} style={{
+                                      fontSize: "10px",
+                                      padding: "1px 6px",
+                                      borderRadius: "4px",
+                                      backgroundColor: "#fef3c7",
+                                      color: "#92400e",
+                                      border: "1px solid #fde68a"
+                                    }}>
+                                      {d}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Inspect */}
+                            <td style={{ verticalAlign: "middle", textAlign: "right" }}>
+                              <button
+                                type="button"
+                                className="sp-btn sp-btn--secondary"
+                                style={{ padding: "4px 8px", fontSize: "11px", height: "auto" }}
+                                onClick={() => setInspectingAuditLog(log)}
+                                title="Inspect audit event dossier"
+                              >
+                                <IconEye size={12} />
+                                <span>Inspect</span>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+
+              {/* Ledger Footer */}
+              <div style={{
+                padding: "12px 20px",
+                borderTop: "1px solid var(--sp-border-subtle, #e1e3e5)",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontSize: "12px",
+                color: "var(--sp-text-subdued, #6d7175)",
+                backgroundColor: "var(--sp-bg, #f6f6f7)"
+              }}>
+                <div>Showing {filteredAuditLogs.length} of {auditLogs.length} audit records</div>
+                <div>Storage: Resilient Local Ledger (SafeStorage) with Cloud Sync</div>
+              </div>
+            </div>
+          )}
+
         </main>
       </div>
 
@@ -4768,6 +5256,194 @@ export function AdminDashboard({ onNavigateHome }) {
             showToast("Timepiece archived");
           }}
         />
+      )}
+
+      {/* ── MODAL: TEAM AUDIT INSPECT DOSSIER MODAL ── */}
+      {inspectingAuditLog && (
+        <div className="sp-modal-overlay" role="dialog" aria-modal="true">
+          <div className="sp-modal-backdrop" onClick={() => setInspectingAuditLog(null)} />
+          <div className="sp-modal-box sp-modal-box--wide" style={{ maxWidth: "700px" }}>
+            <div className="sp-modal-header">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span className="sp-title-icon" style={{ color: "#008060" }}><IconAudit size={20} /></span>
+                <div>
+                  <h2 style={{ fontSize: "16px", margin: 0 }}>Audit Dossier: {inspectingAuditLog.action}</h2>
+                  <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>
+                    Logged on {new Date(inspectingAuditLog.timestamp).toLocaleString("en-IN")} • ID: {inspectingAuditLog.id}
+                  </div>
+                </div>
+              </div>
+              <button type="button" className="sp-close-btn" onClick={() => setInspectingAuditLog(null)}>✕</button>
+            </div>
+
+            <div className="sp-modal-body" style={{ maxHeight: "75vh", overflowY: "auto", padding: "20px" }}>
+              {/* Event Attributes Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "12px",
+                padding: "14px",
+                borderRadius: "8px",
+                backgroundColor: "#f9fafb",
+                border: "1px solid #e5e7eb",
+                marginBottom: "16px"
+              }}>
+                <div>
+                  <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", fontWeight: 600 }}>Category</div>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#111827", marginTop: "2px" }}>{inspectingAuditLog.category}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", fontWeight: 600 }}>Action Key</div>
+                  <code style={{ fontSize: "12px", color: "#4f46e5", fontFamily: "monospace", marginTop: "2px", display: "inline-block" }}>{inspectingAuditLog.action}</code>
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", fontWeight: 600 }}>Initiated By</div>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#111827", marginTop: "2px" }}>{inspectingAuditLog.actor}</div>
+                  <div style={{ fontSize: "11px", color: "#6b7280" }}>Role: {inspectingAuditLog.actorRole || "Staff"}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", fontWeight: 600 }}>Target Entity</div>
+                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#111827", marginTop: "2px", fontFamily: "monospace" }}>{inspectingAuditLog.target || "—"}</div>
+                </div>
+              </div>
+
+              {/* Summary Section */}
+              <div style={{ marginBottom: "16px" }}>
+                <h4 style={{ fontSize: "13px", fontWeight: 600, margin: "0 0 6px", color: "#374151" }}>Action Summary</h4>
+                <div style={{
+                  padding: "12px 14px",
+                  borderRadius: "6px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  fontSize: "13px",
+                  lineHeight: "1.5",
+                  color: "#111827"
+                }}>
+                  {inspectingAuditLog.summary}
+                </div>
+              </div>
+
+              {/* Specific Details / Diffs if present */}
+              {inspectingAuditLog.details && (
+                <div style={{ marginBottom: "16px" }}>
+                  <h4 style={{ fontSize: "13px", fontWeight: 600, margin: "0 0 6px", color: "#374151" }}>Structured Payload Details</h4>
+                  <div style={{
+                    padding: "12px 14px",
+                    borderRadius: "6px",
+                    backgroundColor: "#ffffff",
+                    border: "1px solid #e5e7eb"
+                  }}>
+                    {inspectingAuditLog.details.diffs && Array.isArray(inspectingAuditLog.details.diffs) ? (
+                      <div style={{ marginBottom: "10px" }}>
+                        <div style={{ fontSize: "12px", fontWeight: 600, color: "#92400e", marginBottom: "6px" }}>Detected Attribute Changes:</div>
+                        <ul style={{ margin: 0, paddingLeft: "20px", fontSize: "12px", color: "#374151" }}>
+                          {inspectingAuditLog.details.diffs.map((d, i) => (
+                            <li key={i} style={{ marginBottom: "2px" }}>{d}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    {/* Key-Value details */}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", fontSize: "12px" }}>
+                      {Object.entries(inspectingAuditLog.details).map(([k, v]) => {
+                        if (k === "diffs" || typeof v === "object") return null;
+                        return (
+                          <div key={k} style={{ padding: "4px 0" }}>
+                            <span style={{ color: "#6b7280", fontWeight: 500 }}>{k}: </span>
+                            <span style={{ color: "#111827", fontWeight: 600 }}>{String(v)}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Raw JSON Payload */}
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                  <h4 style={{ fontSize: "13px", fontWeight: 600, margin: 0, color: "#374151" }}>Raw Event Audit JSON</h4>
+                  <button
+                    type="button"
+                    className="sp-btn sp-btn--secondary"
+                    style={{ padding: "2px 8px", fontSize: "11px", height: "auto" }}
+                    onClick={() => {
+                      try {
+                        navigator.clipboard.writeText(JSON.stringify(inspectingAuditLog, null, 2));
+                        showToast("Audit JSON copied to clipboard");
+                      } catch {}
+                    }}
+                  >
+                    <IconCopy size={11} />
+                    <span>Copy JSON</span>
+                  </button>
+                </div>
+                <pre style={{
+                  padding: "12px",
+                  borderRadius: "6px",
+                  backgroundColor: "#1e293b",
+                  color: "#f8fafc",
+                  fontSize: "11px",
+                  lineHeight: "1.4",
+                  overflowX: "auto",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  margin: 0
+                }}>
+                  {JSON.stringify(inspectingAuditLog, null, 2)}
+                </pre>
+              </div>
+            </div>
+
+            <div className="sp-modal-actions" style={{ padding: "12px 20px", borderTop: "1px solid #e5e7eb", display: "flex", justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                className="sp-btn sp-btn--primary"
+                onClick={() => setInspectingAuditLog(null)}
+              >
+                Close Dossier
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── MODAL: CLEAR AUDIT LEDGER CONFIRMATION ── */}
+      {showClearAuditModal && (
+        <div className="sp-modal-overlay" role="dialog" aria-modal="true">
+          <div className="sp-modal-backdrop" onClick={() => setShowClearAuditModal(false)} />
+          <div className="sp-modal-box" style={{ maxWidth: "460px" }}>
+            <div className="sp-modal-header">
+              <h2 style={{ fontSize: "16px", color: "#b91c1c", margin: 0 }}>Reset Team Audit Ledger?</h2>
+              <button type="button" className="sp-close-btn" onClick={() => setShowClearAuditModal(false)}>✕</button>
+            </div>
+            <div className="sp-modal-body" style={{ padding: "20px" }}>
+              <p style={{ fontSize: "13px", lineHeight: "1.5", color: "#374151", margin: "0 0 12px" }}>
+                Are you sure you want to reset the local team audit history?
+              </p>
+              <p style={{ fontSize: "12px", lineHeight: "1.5", color: "#6b7280", margin: 0, backgroundColor: "#fef2f2", padding: "10px", borderRadius: "6px", border: "1px solid #fee2e2" }}>
+                <strong>Note:</strong> Prior events will be cleared from this browser session. A new audit entry (<code style={{ fontFamily: "monospace" }}>AUDIT_LEDGER_CLEARED</code>) will immediately be registered marking this administrative action.
+              </p>
+            </div>
+            <div className="sp-modal-actions" style={{ padding: "12px 20px", borderTop: "1px solid #e5e7eb", display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+              <button
+                type="button"
+                className="sp-btn sp-btn--secondary"
+                onClick={() => setShowClearAuditModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="sp-btn sp-btn--primary"
+                style={{ backgroundColor: "#dc2626", borderColor: "#dc2626", color: "#ffffff" }}
+                onClick={handleClearAuditLedger}
+              >
+                Confirm Reset
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

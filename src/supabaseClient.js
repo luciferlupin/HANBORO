@@ -102,6 +102,7 @@ export const STORAGE_KEYS = {
   PRODUCTS: "hanboro_custom_products",
   WATCH_ORDER: "hanboro_custom_watch_order",
   DELETED_IDS: "hanboro_deleted_product_ids",
+  AUDIT_LOGS: "hanboro_team_audit_logs",
 };
 
 export function getDeletedProductIds() {
@@ -455,6 +456,19 @@ export const authService = {
       }
 
       safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(profile));
+
+      try {
+        teamAuditService.recordLog({
+          category: "Customers",
+          action: "CUSTOMER_REGISTERED",
+          target: cleanEmail,
+          actor: cleanEmail,
+          actorRole: isAdminEmail ? "Admin" : "Customer",
+          summary: `New customer account registered: ${profile.fullName} (${cleanEmail})`,
+          details: { email: cleanEmail, fullName: profile.fullName, role: profile.role },
+        });
+      } catch {}
+
       return { user: data.user || profile, profile, error: null };
     } catch (err) {
       console.warn("Supabase signup warning, using fallback profile", err.message);
@@ -470,6 +484,19 @@ export const authService = {
         created_at: new Date().toISOString(),
       };
       safeStorage.setItem(STORAGE_KEYS.SESSION_USER, JSON.stringify(fallbackProfile));
+
+      try {
+        teamAuditService.recordLog({
+          category: "Customers",
+          action: "CUSTOMER_REGISTERED",
+          target: cleanEmail,
+          actor: cleanEmail,
+          actorRole: isAdminEmail ? "Admin" : "Customer",
+          summary: `New customer account registered: ${fallbackProfile.fullName} (${cleanEmail})`,
+          details: { email: cleanEmail, fullName: fallbackProfile.fullName, role: fallbackProfile.role },
+        });
+      } catch {}
+
       return { user: fallbackProfile, profile: fallbackProfile, error: null, fallback: true };
     }
   },
@@ -845,6 +872,30 @@ export const ordersService = {
       }).catch(() => {});
     }
 
+    // Record team audit log for new customer order
+    try {
+      teamAuditService.recordLog({
+        category: "Orders",
+        action: "ORDER_CREATED",
+        target: formattedOrder.order_ref,
+        actor: formattedOrder.customer_email || "Storefront Client",
+        actorRole: "Customer",
+        summary: `New customer order ${formattedOrder.order_ref} placed for ₹${Number(formattedOrder.total_amount || 0).toLocaleString("en-IN")} (${formattedOrder.items?.length || 1} item${(formattedOrder.items?.length || 1) === 1 ? "" : "s"}) via ${formattedOrder.payment_method}`,
+        details: {
+          orderRef: formattedOrder.order_ref,
+          totalAmount: formattedOrder.total_amount,
+          customerName: formattedOrder.customer_name,
+          customerEmail: formattedOrder.customer_email,
+          paymentMethod: formattedOrder.payment_method,
+          paymentStatus: formattedOrder.payment_status,
+          orderStatus: formattedOrder.order_status,
+          channel: formattedOrder.channel,
+          itemsCount: formattedOrder.items?.length || 1,
+          items: (formattedOrder.items || []).map((it) => ({ sku: it.sku, name: it.name, quantity: it.quantity, price: it.price })),
+        },
+      });
+    } catch {}
+
     // 2. Insert into Supabase `orders` table
     try {
       const dbInsertPayload = {
@@ -978,6 +1029,26 @@ export const ordersService = {
     );
     saveLocalOrders(updated);
 
+    // Record team audit log for order status / dispatch update
+    try {
+      const summaryParts = [];
+      if (updates.order_status) summaryParts.push(`Status → ${updates.order_status}`);
+      if (updates.fulfillment_status) summaryParts.push(`Fulfillment → ${updates.fulfillment_status}`);
+      if (updates.tracking_number) summaryParts.push(`Tracking → ${updates.tracking_number}`);
+      if (updates.payment_status) summaryParts.push(`Payment → ${updates.payment_status}`);
+      const summary = summaryParts.length > 0
+        ? `Order ${cleanTarget} updated: ${summaryParts.join(", ")}`
+        : `Order ${cleanTarget} details modified`;
+
+      teamAuditService.recordLog({
+        category: "Orders",
+        action: updates.order_status === "Cancelled" ? "ORDER_CANCELLED" : "ORDER_STATUS_UPDATE",
+        target: cleanTarget,
+        summary,
+        details: { orderRef: cleanTarget, updates },
+      });
+    } catch {}
+
     // 2. Update in Supabase safely
     try {
       const payload = {
@@ -1096,6 +1167,26 @@ export const profilesService = {
     }
     saveLocalProfiles(updatedList);
 
+    // Record team audit log for customer dossier
+    try {
+      const isNew = existingIndex < 0;
+      teamAuditService.recordLog({
+        category: "Customers",
+        action: isNew ? "CUSTOMER_REGISTERED" : "CUSTOMER_UPDATED",
+        target: updatedProfile.email,
+        summary: isNew
+          ? `New customer profile added: ${updatedProfile.full_name} (${updatedProfile.email})`
+          : `Customer dossier updated: ${updatedProfile.full_name} (${updatedProfile.email})`,
+        details: {
+          email: updatedProfile.email,
+          fullName: updatedProfile.full_name,
+          vipTier: updatedProfile.vip_tier,
+          phone: updatedProfile.phone,
+          isNew,
+        },
+      });
+    } catch {}
+
     try {
       const dbPayload = {
         email: updatedProfile.email,
@@ -1123,6 +1214,17 @@ export const profilesService = {
     const local = getLocalProfiles();
     const filtered = local.filter((p) => p.id !== clean && p.email?.toLowerCase() !== clean);
     saveLocalProfiles(filtered);
+
+    // Record team audit log for customer deletion
+    try {
+      teamAuditService.recordLog({
+        category: "Customers",
+        action: "CUSTOMER_DELETED",
+        target: clean,
+        summary: `Customer account deleted: ${clean}`,
+        details: { identifier: clean },
+      });
+    } catch {}
 
     try {
       if (clean.includes("@")) {
@@ -1358,6 +1460,17 @@ export const inventoryService = {
 
     try {
       safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+
+      try {
+        teamAuditService.recordLog({
+          category: "Catalogue",
+          action: "STOCK_UPDATE",
+          target: targetSku || targetId || cleanId,
+          summary: `Stock adjusted to ${stockVal} units for ${targetItem?.name || targetSku || cleanId}`,
+          details: { productId: cleanId, sku: targetSku, newStock: stockVal },
+        });
+      } catch {}
+
       await Promise.all([
         supabase
           .from("inventory")
@@ -1394,6 +1507,17 @@ export const inventoryService = {
 
     try {
       safeStorage.setItem(STORAGE_KEYS.INVENTORY, JSON.stringify(updated));
+
+      try {
+        teamAuditService.recordLog({
+          category: "Catalogue",
+          action: "PRODUCT_STATUS_TOGGLE",
+          target: targetSku || targetId || cleanId,
+          summary: `Timepiece ${targetItem?.name || targetSku || cleanId} marked as ${nextActive ? "Active / Visible" : "Draft / Archived"}`,
+          details: { productId: cleanId, sku: targetSku, isActive: nextActive },
+        });
+      } catch {}
+
       await Promise.all([
         supabase
           .from("inventory")
@@ -2621,6 +2745,39 @@ export const productsService = {
     const sortedUpdated = sortCatalogStably(updated);
     this.saveLocalProducts(sortedUpdated);
 
+    // Record team audit log for product creation or edit
+    try {
+      const isEdit = existingIndex >= 0;
+      const oldProduct = isEdit ? local[existingIndex] : null;
+      const diffs = [];
+      if (oldProduct) {
+        if (oldProduct.price !== safeProduct.price) diffs.push(`Price: ${oldProduct.price} → ${safeProduct.price}`);
+        if (oldProduct.stock !== safeProduct.stock) diffs.push(`Stock: ${oldProduct.stock} → ${safeProduct.stock}`);
+        if (oldProduct.sku !== safeProduct.sku) diffs.push(`SKU: ${oldProduct.sku} → ${safeProduct.sku}`);
+        if (oldProduct.name !== safeProduct.name) diffs.push(`Title: "${oldProduct.name}" → "${safeProduct.name}"`);
+        if (oldProduct.collectionName !== safeProduct.collectionName) diffs.push(`Collection: ${oldProduct.collectionName} → ${safeProduct.collectionName}`);
+      }
+      const summary = isEdit
+        ? (diffs.length > 0 ? `Updated ${safeProduct.sku || safeProduct.name}: ${diffs.join(", ")}` : `Updated ${safeProduct.sku || safeProduct.name} specifications`)
+        : `Created new timepiece SKU ${safeProduct.sku || safeProduct.id} (${safeProduct.name})`;
+
+      teamAuditService.recordLog({
+        category: "Catalogue",
+        action: isEdit ? "PRODUCT_EDIT" : "PRODUCT_CREATE",
+        target: safeProduct.sku || safeProduct.name || safeProduct.id,
+        summary,
+        details: {
+          productId: safeProduct.id,
+          sku: safeProduct.sku,
+          name: safeProduct.name,
+          price: safeProduct.price,
+          stock: safeProduct.stock,
+          diffs: diffs.length > 0 ? diffs : undefined,
+          previousSku: oldSku || undefined,
+        },
+      });
+    } catch {}
+
     // CRITICAL: If ID or SKU changed, delete previous record in Supabase FIRST to avoid unique constraint conflict on SKU
     const idChanged = previousId && String(previousId).trim().toLowerCase() !== safeProduct.id;
     const skuChanged = oldSku && oldSku !== newSku;
@@ -2684,6 +2841,21 @@ export const productsService = {
     const targetId = target?.id || productId;
     const targetSku = target?.sku || productId;
 
+    // Record team audit log for product deletion
+    try {
+      teamAuditService.recordLog({
+        category: "Catalogue",
+        action: "PRODUCT_DELETE",
+        target: target?.sku || target?.name || clean,
+        summary: `Deleted timepiece ${target?.sku || target?.name || clean} from atelier catalogue`,
+        details: {
+          productId: targetId,
+          sku: targetSku,
+          name: target?.name,
+        },
+      });
+    } catch {}
+
     try {
       if (targetId) {
         await Promise.all([
@@ -2719,6 +2891,20 @@ export const productsService = {
     }
 
     this.saveLocalProducts(withRanks);
+
+    // Record team audit log for catalogue reordering
+    try {
+      teamAuditService.recordLog({
+        category: "Catalogue",
+        action: "CATALOG_REORDER",
+        target: "Atelier Catalogue",
+        summary: `Reordered storefront watch sequence (${orderedProducts.length} timepieces)`,
+        details: {
+          totalTimepieces: orderedProducts.length,
+          topThree: orderedProducts.slice(0, 3).map((p) => p.sku || p.name),
+        },
+      });
+    } catch {}
 
     // Sync in background to Supabase
     this.syncProductsOrderToSupabase(withRanks).catch((err) => {
@@ -2777,6 +2963,16 @@ export const productsService = {
     });
     const sorted = sortCatalogStably(reordered);
     this.saveLocalProducts(sorted);
+
+    try {
+      teamAuditService.recordLog({
+        category: "Catalogue",
+        action: "CATALOG_REORDER_RESET",
+        target: "Atelier Catalogue",
+        summary: "Reset storefront watch catalogue sequence to default atelier showcase order",
+      });
+    } catch {}
+
     this.syncProductsOrderToSupabase(sorted).catch(() => {});
     return sorted;
   },
@@ -2857,6 +3053,17 @@ export const draftOrdersService = {
     const updated = [draft, ...local.filter((d) => d.id !== draft.id)];
     this.saveLocalDrafts(updated);
 
+    // Record team audit log for draft order
+    try {
+      teamAuditService.recordLog({
+        category: "Orders",
+        action: "DRAFT_ORDER_SAVED",
+        target: draft.draftNumber || draft.id,
+        summary: `Draft invoice ${draft.draftNumber || draft.id} created for ${draft.customerName || draft.customerEmail || "Client"} (${draft.total || "₹0"})`,
+        details: { draftId: draft.id, draftNumber: draft.draftNumber, total: draft.total },
+      });
+    } catch {}
+
     try {
       await supabase.from("draft_orders").upsert({
         id: draft.id,
@@ -2881,6 +3088,17 @@ export const draftOrdersService = {
     const local = this.getLocalDrafts() || [];
     const updated = local.filter((d) => d.id !== draftId);
     this.saveLocalDrafts(updated);
+
+    // Record team audit log for draft deletion
+    try {
+      teamAuditService.recordLog({
+        category: "Orders",
+        action: "DRAFT_ORDER_DELETED",
+        target: draftId,
+        summary: `Draft order ${draftId} removed`,
+        details: { draftId },
+      });
+    } catch {}
 
     try {
       await supabase.from("draft_orders").delete().eq("id", draftId);
@@ -3245,6 +3463,17 @@ export const discountsService = {
     const updated = { ...local, [cleanCode]: formattedConfig };
     this.saveLocalDiscounts(updated);
 
+    // Record team audit log for discount update
+    try {
+      teamAuditService.recordLog({
+        category: "Discounts",
+        action: "DISCOUNT_SAVED",
+        target: cleanCode,
+        summary: `Promotional code ${cleanCode} configured (${formattedConfig.value}${formattedConfig.type === "percent" ? "%" : "₹"} OFF)`,
+        details: { code: cleanCode, config: formattedConfig },
+      });
+    } catch {}
+
     try {
       const { data, error } = await supabase.from("discounts").upsert(
         {
@@ -3273,6 +3502,17 @@ export const discountsService = {
     delete local[cleanCode];
     this.saveLocalDiscounts(local);
 
+    // Record team audit log for discount deletion
+    try {
+      teamAuditService.recordLog({
+        category: "Discounts",
+        action: "DISCOUNT_DELETED",
+        target: cleanCode,
+        summary: `Promotional code ${cleanCode} deleted and deactivated`,
+        details: { code: cleanCode },
+      });
+    } catch {}
+
     try {
       const { error } = await supabase
         .from("discounts")
@@ -3286,6 +3526,168 @@ export const discountsService = {
       console.warn("Supabase delete discount exception:", err);
     }
     return local;
+  },
+};
+
+// ── TEAM AUDIT SERVICE (Real-Time Atelier Activity Ledger) ───────────────────
+export const teamAuditService = {
+  listeners: new Set(),
+
+  // Retrieve stored audit logs; auto-seeds genesis event if empty ("from now onwards")
+  getAuditLogs() {
+    try {
+      const raw = safeStorage.getItem(STORAGE_KEYS.AUDIT_LOGS);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {}
+
+    const genesisEvent = [
+      {
+        id: `audit-${Date.now()}-genesis`,
+        timestamp: new Date().toISOString(),
+        category: "Security",
+        action: "SYSTEM_INITIALIZED",
+        actor: "System Atelier",
+        actorRole: "Security Engine",
+        target: "Team Audit Ledger",
+        summary: "Team Audit Trail initiated. Tracking catalogue edits, new orders, customer accounts, and atelier activities from now onwards.",
+        details: {
+          scope: "Catalogue, Orders, Customers, Inventory, Discounts, System",
+          retention: "Up to 500 audit events retained locally",
+          activatedAt: new Date().toISOString(),
+        },
+      },
+    ];
+    try {
+      safeStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(genesisEvent));
+    } catch {}
+    return genesisEvent;
+  },
+
+  // Record an audit log entry safely without interrupting primary workflow
+  recordLog({
+    category = "General",
+    action,
+    actor = null,
+    actorRole = null,
+    target = "",
+    summary = "",
+    details = null,
+  }) {
+    if (!action) return null;
+    try {
+      const currentLogs = this.getAuditLogs();
+      let resolvedActor = actor;
+      let resolvedRole = actorRole;
+
+      if (!resolvedActor) {
+        try {
+          const sessionUser = authService.getCurrentUser();
+          if (sessionUser?.email) {
+            resolvedActor = sessionUser.email;
+            resolvedRole = sessionUser.role === "admin" ? "Administrator" : "Staff";
+          }
+        } catch {}
+      }
+
+      if (!resolvedActor) {
+        resolvedActor = "Horology Atelier Admin";
+        resolvedRole = "Administrator";
+      }
+      if (!resolvedRole) {
+        resolvedRole = String(resolvedActor).includes("@") ? "Staff" : "System";
+      }
+
+      const newEntry = {
+        id: `audit-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`,
+        timestamp: new Date().toISOString(),
+        category, // "Catalogue" | "Orders" | "Customers" | "Discounts" | "Security"
+        action: String(action).toUpperCase().trim(),
+        actor: String(resolvedActor),
+        actorRole: String(resolvedRole),
+        target: String(target || "System"),
+        summary: String(summary || action),
+        details: details || null,
+      };
+
+      const updated = [newEntry, ...currentLogs.filter((l) => l.id !== newEntry.id)].slice(0, 500);
+      safeStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(updated));
+
+      this.notifyListeners(updated);
+
+      // Async write to Supabase if team_audit_logs table exists
+      try {
+        if (supabase && typeof supabase.from === "function") {
+          supabase.from("team_audit_logs").insert([{
+            id: newEntry.id,
+            timestamp: newEntry.timestamp,
+            category: newEntry.category,
+            action: newEntry.action,
+            actor: newEntry.actor,
+            actor_role: newEntry.actorRole,
+            target: newEntry.target,
+            summary: newEntry.summary,
+            details: newEntry.details,
+          }]).then(() => {}).catch(() => {});
+        }
+      } catch {}
+
+      return newEntry;
+    } catch (err) {
+      console.warn("Audit record note (non-blocking):", err);
+      return null;
+    }
+  },
+
+  // Clear local audit logs with an explicit ledger-cleared audit record
+  clearAuditLogs() {
+    try {
+      let actor = "Horology Atelier Admin";
+      try {
+        const u = authService.getCurrentUser();
+        if (u?.email) actor = u.email;
+      } catch {}
+
+      const resetEvent = [
+        {
+          id: `audit-${Date.now()}-reset`,
+          timestamp: new Date().toISOString(),
+          category: "Security",
+          action: "AUDIT_LEDGER_CLEARED",
+          actor,
+          actorRole: "Administrator",
+          target: "Team Audit Ledger",
+          summary: "Team audit ledger history was archived and reset by administrator.",
+          details: { clearedAt: new Date().toISOString() },
+        },
+      ];
+      safeStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(resetEvent));
+      this.notifyListeners(resetEvent);
+      return resetEvent;
+    } catch {
+      return [];
+    }
+  },
+
+  // Subscribe to real-time audit updates in Admin dashboard
+  subscribe(callback) {
+    if (typeof callback === "function") {
+      this.listeners.add(callback);
+      return () => this.listeners.delete(callback);
+    }
+    return () => {};
+  },
+
+  notifyListeners(logs) {
+    this.listeners.forEach((fn) => {
+      try {
+        fn(logs);
+      } catch {}
+    });
   },
 };
 
