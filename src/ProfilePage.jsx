@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useStore } from "./StoreContext";
 import { ordersService, enrichOrderItemWithSkuEan } from "./supabaseClient";
-import { PRODUCTS_DATA } from "./productsData";
+import { PRODUCTS_DATA, getWatchPricing } from "./productsData";
 import { HanboroLogo } from "./HanboroLogo";
 
 /* ── APPLE-GRADE MINIMALIST VECTOR ICONS (No child/cartoon emojis) ── */
@@ -416,14 +416,19 @@ export function ProfilePage({ onNavigate }) {
                         <div className="apple-cart-card-info">
                           <span className="apple-cart-sku">{item.product.sku}</span>
                           <h4 className="apple-cart-name">{item.product.name}</h4>
-                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                            <span className="apple-cart-unit-price">{item.product.price}</span>
-                            {item.product.mrp && item.product.mrp !== item.product.price && (
-                              <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
-                                {item.product.mrp}
-                              </span>
-                            )}
-                          </div>
+                          {(() => {
+                            const pricing = getWatchPricing(item.product);
+                            return (
+                              <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+                                <span className="apple-cart-unit-price">{pricing.price}</span>
+                                {pricing.hasDiscount && pricing.mrp && (
+                                  <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                                    {pricing.mrp}
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })()}
                         </div>
 
                         <div className="apple-cart-card-controls">
@@ -767,14 +772,19 @@ export function ProfilePage({ onNavigate }) {
                     >
                       <span className="apple-cart-sku">{watch.sku}</span>
                       <h4 className="apple-cart-name">{watch.name}</h4>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <span className="apple-cart-unit-price">{watch.price}</span>
-                        {watch.mrp && watch.mrp !== watch.price && (
-                          <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
-                            {watch.mrp}
-                          </span>
-                        )}
-                      </div>
+                      {(() => {
+                        const pricing = getWatchPricing(watch);
+                        return (
+                          <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+                            <span className="apple-cart-unit-price">{pricing.price}</span>
+                            {pricing.hasDiscount && pricing.mrp && (
+                              <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                                {pricing.mrp}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     <div className="apple-cart-card-controls">

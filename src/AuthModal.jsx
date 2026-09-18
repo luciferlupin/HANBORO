@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getWatchPricing } from "./productsData";
 import { useStore } from "./StoreContext";
 import { ordersService } from "./supabaseClient";
 import { HanboroLogo } from "./HanboroLogo";
@@ -266,7 +267,19 @@ export function AuthModal() {
                           <div className="profile-item-meta">
                             <span className="profile-item-sku">{item.product.sku}</span>
                             <h4 className="profile-item-name">{item.product.name}</h4>
-                            <span className="profile-item-price">{item.product.price}</span>
+                            {(() => {
+                              const pricing = getWatchPricing(item.product);
+                              return (
+                                <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+                                  <span className="profile-item-price">{pricing.price}</span>
+                                  {pricing.hasDiscount && pricing.mrp && (
+                                    <span style={{ fontSize: "11px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                                      {pricing.mrp}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
 
                           <div className="profile-item-controls">

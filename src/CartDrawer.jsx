@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getWatchPricing } from "./productsData";
 import { useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
 
@@ -161,12 +162,17 @@ export function CartDrawer() {
                         </button>
                       </div>
 
-                      <div className="cart-item-pricing">
-                        <span className="cart-item-price-main">{product.price}</span>
-                        {product.mrp && product.mrp !== product.price && (
-                          <span className="cart-item-mrp-cut">{product.mrp}</span>
-                        )}
-                      </div>
+                      {(() => {
+                        const pricing = getWatchPricing(product);
+                        return (
+                          <div className="cart-item-pricing">
+                            <span className="cart-item-price-main">{pricing.price}</span>
+                            {pricing.hasDiscount && pricing.mrp && (
+                              <span className="cart-item-mrp-cut">{pricing.mrp}</span>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>

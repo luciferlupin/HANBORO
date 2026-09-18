@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { getWatchPricing } from "./productsData";
 
 export function CompareModal({ comparedProducts, onRemove, onClear, onClose, onSelectProduct }) {
   const isOpen = Boolean(comparedProducts && comparedProducts.length > 0);
@@ -72,7 +73,24 @@ export function CompareModal({ comparedProducts, onRemove, onClear, onClose, onS
                       >
                         {p.name}
                       </h4>
-                      <span className="compare-item-price">{p.price}</span>
+                      {(() => {
+                        const pricing = getWatchPricing(p);
+                        return (
+                          <div style={{ display: "flex", alignItems: "baseline", gap: "6px", justifyContent: "center", flexWrap: "wrap", marginTop: "4px" }}>
+                            <span className="compare-item-price">{pricing.price}</span>
+                            {pricing.hasDiscount && pricing.mrp && (
+                              <span style={{ fontSize: "11px", color: "#71717a", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                                {pricing.mrp}
+                              </span>
+                            )}
+                            {pricing.discountPercent ? (
+                              <span style={{ fontSize: "9px", fontWeight: 700, color: "#f87171", background: "rgba(239, 68, 68, 0.14)", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "1px 4px", borderRadius: "3px" }}>
+                                {pricing.discountPercent}% OFF
+                              </span>
+                            ) : null}
+                          </div>
+                        );
+                      })()}
                     </div>
                   </th>
                 ))}

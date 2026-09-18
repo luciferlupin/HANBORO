@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
-import { PRODUCTS_DATA } from "./productsData";
+import { PRODUCTS_DATA, getWatchPricing } from "./productsData";
 import { useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 
@@ -19,6 +19,8 @@ export function ProductDetailPage({
   const product = useMemo(() => {
     return getProductByIdOrSku(skuId) || (products && products.find((p) => p.id === skuId || p.sku === skuId)) || null;
   }, [skuId, getProductByIdOrSku, products]);
+
+  const pricing = useMemo(() => getWatchPricing(product), [product]);
 
   const [buyQty, setBuyQty] = useState(1);
 
@@ -444,24 +446,21 @@ export function ProductDetailPage({
               <div className="pdp-price-ribbon">
                 <div className="pdp-price-box">
                   <div className="pdp-price-digits-row">
-                    <span className="pdp-price-val">{product.price}</span>
-                    {product.mrp && product.mrp !== product.price && (
+                    <span className="pdp-price-val">{pricing.price}</span>
+                    {pricing.hasDiscount && pricing.mrp && (
                       <span className="pdp-mrp-cut">
                         <span className="pdp-mrp-label">MRP</span>
-                        <span className="pdp-mrp-amount">{product.mrp}</span>
+                        <span className="pdp-mrp-amount">{pricing.mrp}</span>
                       </span>
                     )}
-                    {product.discountPercent ? (
-                      <span className="pdp-discount-badge">{product.discountPercent}% OFF</span>
+                    {pricing.discountPercent ? (
+                      <span className="pdp-discount-badge">{pricing.discountPercent}% OFF</span>
                     ) : null}
                   </div>
-                  {product.mrp && product.mrp !== product.price && (
+                  {pricing.hasDiscount && pricing.mrp && (
                     <div className="pdp-savings-callout">
                       <span className="pdp-savings-pill">
-                        Special Privilege: Save ₹{(
-                          (product.mrpNumeric || parseInt(String(product.mrp).replace(/[^\d]/g, ""), 10) || 0) -
-                          (product.priceNumeric || parseInt(String(product.price).replace(/[^\d]/g, ""), 10) || 0)
-                        ).toLocaleString("en-IN")} ({product.discountPercent || 20}% OFF)
+                        Special Privilege: Save {pricing.savingsFormatted} ({pricing.discountPercent}% OFF)
                       </span>
                     </div>
                   )}
@@ -840,7 +839,24 @@ export function ProductDetailPage({
                 <div className="related-details">
                   <span className="related-sku">REF. {rel.sku}</span>
                   <h3 className="related-name">{rel.name}</h3>
-                  <span className="related-price">{rel.price}</span>
+                  {(() => {
+                    const relPricing = getWatchPricing(rel);
+                    return (
+                      <div className="related-price-row" style={{ display: "flex", alignItems: "baseline", gap: "6px", margin: "4px 0" }}>
+                        <span className="related-price">{relPricing.price}</span>
+                        {relPricing.hasDiscount && relPricing.mrp && (
+                          <span className="related-mrp-cut" style={{ fontSize: "11px", color: "#71717a", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                            {relPricing.mrp}
+                          </span>
+                        )}
+                        {relPricing.discountPercent ? (
+                          <span style={{ fontSize: "9px", fontWeight: 700, color: "#f87171", background: "rgba(239, 68, 68, 0.14)", border: "1px solid rgba(239, 68, 68, 0.3)", padding: "1px 4px", borderRadius: "3px" }}>
+                            {relPricing.discountPercent}% OFF
+                          </span>
+                        ) : null}
+                      </div>
+                    );
+                  })()}
                   <span className="related-btn">Explore Reference ↗</span>
                 </div>
               </article>
@@ -951,10 +967,15 @@ export function ProductDetailPage({
         <div className="pdp-mobile-sticky-info">
           <span className="pdp-mobile-sticky-sku">{product.sku}</span>
           <div className="pdp-mobile-sticky-pricing">
-            <span className="pdp-mobile-sticky-price">{product.price}</span>
-            {product.mrp && product.mrp !== product.price && (
-              <span className="pdp-mobile-sticky-mrp">{product.mrp}</span>
+            <span className="pdp-mobile-sticky-price">{pricing.price}</span>
+            {pricing.hasDiscount && pricing.mrp && (
+              <span className="pdp-mobile-sticky-mrp">{pricing.mrp}</span>
             )}
+            {pricing.discountPercent ? (
+              <span style={{ fontSize: "9px", fontWeight: 800, color: "#f87171", marginLeft: "4px" }}>
+                {pricing.discountPercent}% OFF
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="pdp-mobile-sticky-actions">

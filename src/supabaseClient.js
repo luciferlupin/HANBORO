@@ -1169,13 +1169,23 @@ export const inventoryService = {
         const pId = String(p.id).toLowerCase();
         const pSku = String(p.sku).toUpperCase();
         const remote = remoteMap.get(pId) || remoteMap.get(pSku);
+        const remotePriceInr = typeof remote?.price_inr === "number"
+          ? remote.price_inr
+          : (remote?.price_inr ? parseInt(String(remote.price_inr).replace(/[^\d]/g, ""), 10) : null);
+        const isRemoteUndiscounted = remotePriceInr !== null && remotePriceInr >= p.mrpNumeric;
+        const resolvedPriceInr = (remotePriceInr && !isRemoteUndiscounted) ? remotePriceInr : p.priceNumeric;
+        const resolvedPrice = (remote?.price && !isRemoteUndiscounted) ? remote.price : p.price;
         return {
           id: remote?.id || p.id,
           sku: remote?.sku || p.sku,
           name: remote?.name || p.name,
           collection: remote?.collection || p.collectionName || p.collection || "Tourbillon & Complications",
-          price: remote?.price || (remote?.price_inr ? `₹${Number(remote.price_inr).toLocaleString("en-IN")}` : p.price),
+          price: resolvedPrice,
+          priceNumeric: resolvedPriceInr,
           priceUsd: remote?.price_usd || p.priceUsd,
+          mrp: p.mrp,
+          mrpNumeric: p.mrpNumeric,
+          discountPercent: p.discountPercent || 20,
           stock: typeof remote?.stock === "number" ? remote.stock : (typeof p.stock === "number" ? p.stock : Math.max(1, 12 - (idx % 8))),
           isActive: remote ? remote.is_active !== false : (p.isActive !== false),
           image: remote?.image || p.image,
@@ -1956,16 +1966,31 @@ export const productsService = {
               if (cachedMatch.previousSku) consumedCachedSkus.add(String(cachedMatch.previousSku).toLowerCase().trim());
               consumedCachedSkus.add(mSku);
 
+                const masterMrpNum = m.mrpNumeric || (m.mrp ? parseInt(String(m.mrp).replace(/[^\d]/g, ""), 10) : 0);
+                const masterPriceNum = m.priceNumeric || (m.price ? parseInt(String(m.price).replace(/[^\d]/g, ""), 10) : 0);
+                const cachedPriceNum = cachedMatch.priceNumeric || (cachedMatch.price ? parseInt(String(cachedMatch.price).replace(/[^\d]/g, ""), 10) : 0);
+                const cachedMrpNum = cachedMatch.mrpNumeric || (cachedMatch.mrp ? parseInt(String(cachedMatch.mrp).replace(/[^\d]/g, ""), 10) : 0);
+
+                const finalMrpNumeric = cachedMrpNum > 0 ? cachedMrpNum : masterMrpNum;
+                const finalMrp = (cachedMatch.mrp && String(cachedMatch.mrp).startsWith("₹"))
+                  ? cachedMatch.mrp
+                  : `₹${finalMrpNumeric.toLocaleString("en-IN")}`;
+
                 const isOldUndiscounted = Boolean(
-                  cachedMatch &&
-                  (cachedMatch.price === m.mrp || cachedMatch.priceNumeric === m.mrpNumeric) &&
-                  m.price !== m.mrp
+                  !cachedPriceNum ||
+                  cachedPriceNum >= finalMrpNumeric ||
+                  cachedMatch.price === finalMrp ||
+                  cachedMatch.price === m.mrp ||
+                  cachedPriceNum === masterMrpNum
                 );
-                const finalPrice = isOldUndiscounted ? m.price : (cachedMatch.price || m.price);
-                const finalPriceNumeric = isOldUndiscounted ? m.priceNumeric : (cachedMatch.priceNumeric || parseInt(String(finalPrice).replace(/[^\d]/g, ""), 10) || m.priceNumeric || 45000);
-                const finalMrp = m.mrp || cachedMatch.mrp || `₹${(m.mrpNumeric || finalPriceNumeric).toLocaleString("en-IN")}`;
-                const finalMrpNumeric = m.mrpNumeric || cachedMatch.mrpNumeric || (finalMrp ? parseInt(String(finalMrp).replace(/[^\d]/g, ""), 10) : finalPriceNumeric);
-                const finalDiscountPercent = m.discountPercent || (finalMrpNumeric > finalPriceNumeric ? Math.round(((finalMrpNumeric - finalPriceNumeric) / finalMrpNumeric) * 100) : 0);
+
+                const finalPriceNumeric = isOldUndiscounted
+                  ? masterPriceNum
+                  : cachedPriceNum;
+                const finalPrice = isOldUndiscounted
+                  ? m.price
+                  : (cachedMatch.price || `₹${finalPriceNumeric.toLocaleString("en-IN")}`);
+                const finalDiscountPercent = m.discountPercent || (finalMrpNumeric > finalPriceNumeric ? Math.round(((finalMrpNumeric - finalPriceNumeric) / finalMrpNumeric) * 100) : 20);
 
                 baseMaster.push({
                 ...m,
@@ -1975,6 +2000,7 @@ export const productsService = {
                 name: String(cachedMatch.name || m.name || "").trim(),
                 price: finalPrice,
                 priceNumeric: finalPriceNumeric,
+                priceUsd: cachedMatch.priceUsd || m.priceUsd || `$${Math.round(finalPriceNumeric / 83)}`,
                 mrp: finalMrp,
                 mrpNumeric: finalMrpNumeric,
                 discountPercent: finalDiscountPercent,
@@ -1990,6 +2016,9 @@ export const productsService = {
                   ...(m.specs || {}),
                   ...(cachedMatch.specs || {}),
                   modelNumber: cachedMatch.modelNumber || cachedMatch.specs?.modelNumber || m.modelNumber || "",
+                  mrp: finalMrp,
+                  mrpNumeric: finalMrpNumeric,
+                  discountPercent: finalDiscountPercent,
                 },
                 stock: typeof cachedMatch.stock === "number" && !isNaN(cachedMatch.stock) ? cachedMatch.stock : (m.stock || 12),
                 isActive: cachedMatch.isActive !== false,
@@ -2022,10 +2051,24 @@ export const productsService = {
                 : (typeof p.rank === "number" && !isNaN(p.rank) ? p.rank : Number((parentRank + 0.001 + (idx * 0.0001)).toFixed(5)));
               const cleanName = String(p.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
 
+              const mrpNum = parent?.mrpNumeric || (p.mrp ? parseInt(String(p.mrp).replace(/[^\d]/g, ""), 10) : 0) || Math.round((p.priceNumeric || 45000) / 0.8);
+              const mrpStr = parent?.mrp || p.mrp || `₹${mrpNum.toLocaleString("en-IN")}`;
+              const curPriceNum = p.priceNumeric || parseInt(String(p.price || "0").replace(/[^\d]/g, ""), 10);
+              const isCloneUndiscounted = !curPriceNum || curPriceNum >= mrpNum || p.price === mrpStr;
+              const priceNum = isCloneUndiscounted ? (parent?.priceNumeric || Math.round(mrpNum * 0.8)) : curPriceNum;
+              const priceStr = isCloneUndiscounted ? (parent?.price || `₹${priceNum.toLocaleString("en-IN")}`) : (p.price || `₹${priceNum.toLocaleString("en-IN")}`);
+              const discPercent = parent?.discountPercent || Math.round(((mrpNum - priceNum) / mrpNum) * 100);
+
               return {
                 ...(parent || {}),
                 ...p,
                 name: cleanName,
+                price: priceStr,
+                priceNumeric: priceNum,
+                priceUsd: p.priceUsd || parent?.priceUsd || `$${Math.round(priceNum / 83)}`,
+                mrp: mrpStr,
+                mrpNumeric: mrpNum,
+                discountPercent: discPercent,
                 image: safeImage,
                 transparentImage: p.transparentImage || safeImage,
                 altImages: Array.isArray(p.altImages) && p.altImages.length > 0 ? p.altImages : (parent?.altImages || [safeImage]),
@@ -2035,6 +2078,9 @@ export const productsService = {
                   ...(parent?.specs || {}),
                   ...(p.specs || {}),
                   modelNumber: p.modelNumber || p.specs?.modelNumber || parent?.modelNumber || "",
+                  mrp: mrpStr,
+                  mrpNumeric: mrpNum,
+                  discountPercent: discPercent,
                 },
                 rank: safeRank,
               };
@@ -2123,6 +2169,14 @@ export const productsService = {
           .map((row) => {
             const rowSpecs = typeof row.specs === "object" && row.specs !== null ? row.specs : {};
             const rowModel = rowSpecs.modelNumber || "";
+            const rowMrp = rowSpecs.mrp || row.mrp || null;
+            const rowMrpNumeric = typeof rowSpecs.mrpNumeric === "number"
+              ? rowSpecs.mrpNumeric
+              : (rowMrp ? parseInt(String(rowMrp).replace(/[^\d]/g, ""), 10) : null);
+            const rowDiscountPercent = typeof rowSpecs.discountPercent === "number"
+              ? rowSpecs.discountPercent
+              : (typeof row.discount_percent === "number" ? row.discount_percent : null);
+
             return {
               id: row.id,
               sku: String(row.sku || "").trim().toUpperCase(),
@@ -2134,6 +2188,9 @@ export const productsService = {
               price: row.price,
               priceNumeric: parseInt(String(row.price || "0").replace(/[^\d]/g, ""), 10) || 45000,
               priceUsd: row.price_usd || "$1,200",
+              mrp: rowMrp,
+              mrpNumeric: rowMrpNumeric,
+              discountPercent: rowDiscountPercent,
               availability: row.availability || "In Stock",
               year: row.year || "2026",
               summary: row.summary || "",
@@ -2196,6 +2253,15 @@ export const productsService = {
                     ? lp.rank
                     : (CANONICAL_PRODUCT_ORDER.get(lId) ?? CANONICAL_PRODUCT_ORDER.get(lSku) ?? idx)));
 
+              // Locate canonical master product in PRODUCTS_DATA
+              const canonical = PRODUCTS_DATA.find(
+                (m) =>
+                  String(m.id).toLowerCase().trim() === lId ||
+                  String(m.sku).toUpperCase().trim() === lSku ||
+                  (remote.id && String(m.id).toLowerCase().trim() === String(remote.id).toLowerCase().trim()) ||
+                  (remote.sku && String(m.sku).toUpperCase().trim() === String(remote.sku).toUpperCase().trim())
+              );
+
               // If local copy was updated more recently than remote, preserve local edits
               const lpTime = lp.updatedAt ? new Date(lp.updatedAt).getTime() : 0;
               const remoteTime = remote.updatedAt ? new Date(remote.updatedAt).getTime() : 0;
@@ -2203,13 +2269,60 @@ export const productsService = {
 
               const baseObj = preferLocal ? { ...remote, ...lp } : { ...lp, ...remote };
 
+              // Determine canonical and resolved MRP
+              const canonicalMrpNum = canonical?.mrpNumeric || (canonical?.mrp ? parseInt(String(canonical.mrp).replace(/[^\d]/g, ""), 10) : 0);
+              const canonicalPriceNum = canonical?.priceNumeric || (canonical?.price ? parseInt(String(canonical.price).replace(/[^\d]/g, ""), 10) : 0);
+
+              const resolvedMrpNum = canonicalMrpNum || remote.mrpNumeric || lp.mrpNumeric ||
+                (remote.mrp ? parseInt(String(remote.mrp).replace(/[^\d]/g, ""), 10) : null) ||
+                (lp.mrp ? parseInt(String(lp.mrp).replace(/[^\d]/g, ""), 10) : 0) || 50000;
+              const resolvedMrp = canonical?.mrp || remote.mrp || lp.mrp || `₹${resolvedMrpNum.toLocaleString("en-IN")}`;
+
+              const remotePriceNum = parseInt(String(remote.price || "0").replace(/[^\d]/g, ""), 10) || 0;
+              const localPriceNum = parseInt(String(lp.price || "0").replace(/[^\d]/g, ""), 10) || 0;
+
+              // If remote price is undiscounted (equal to or greater than MRP), it shouldn't overwrite discounted selling price
+              const isRemoteUndiscounted = !remotePriceNum || remotePriceNum >= resolvedMrpNum || remote.price === resolvedMrp || remote.price === canonical?.mrp;
+              const isLocalUndiscounted = !localPriceNum || localPriceNum >= resolvedMrpNum || lp.price === resolvedMrp;
+
+              let finalPrice;
+              let finalPriceNumeric;
+
+              if (preferLocal && !isLocalUndiscounted) {
+                finalPrice = lp.price;
+                finalPriceNumeric = localPriceNum;
+              } else if (!isRemoteUndiscounted) {
+                finalPrice = remote.price;
+                finalPriceNumeric = remotePriceNum;
+              } else if (canonical && canonicalPriceNum > 0 && canonicalPriceNum < resolvedMrpNum) {
+                finalPrice = canonical.price;
+                finalPriceNumeric = canonicalPriceNum;
+              } else if (!isLocalUndiscounted) {
+                finalPrice = lp.price;
+                finalPriceNumeric = localPriceNum;
+              } else {
+                finalPriceNumeric = Math.round(resolvedMrpNum * 0.8);
+                finalPrice = `₹${finalPriceNumeric.toLocaleString("en-IN")}`;
+              }
+
+              const finalDiscountPercent = canonical?.discountPercent ||
+                (resolvedMrpNum > finalPriceNumeric ? Math.round(((resolvedMrpNum - finalPriceNumeric) / resolvedMrpNum) * 100) : 20);
+
+              const finalPriceUsd = (preferLocal ? lp.priceUsd : remote.priceUsd) ||
+                canonical?.priceUsd ||
+                `$${Math.round(finalPriceNumeric / 83)}`;
+
               return {
                 ...baseObj,
                 id: preferLocal ? (lp.id || remote.id) : (remote.id || lp.id),
                 sku: preferLocal ? (lp.sku || remote.sku) : (remote.sku || lp.sku),
                 name: preferLocal ? (lp.name || remote.name) : (remote.name || lp.name),
-                price: preferLocal ? (lp.price || remote.price) : (remote.price || lp.price),
-                priceNumeric: parseInt(String(preferLocal ? (lp.price || remote.price || "0") : (remote.price || lp.price || "0")).replace(/[^\d]/g, ""), 10) || 45000,
+                price: finalPrice,
+                priceNumeric: finalPriceNumeric,
+                priceUsd: finalPriceUsd,
+                mrp: resolvedMrp,
+                mrpNumeric: resolvedMrpNum,
+                discountPercent: finalDiscountPercent,
                 modelNumber: preferLocal
                   ? (lp.modelNumber || lp.specs?.modelNumber || remote.modelNumber || remote.specs?.modelNumber || "")
                   : (remote.modelNumber || remote.specs?.modelNumber || lp.modelNumber || lp.specs?.modelNumber || ""),
@@ -2224,6 +2337,9 @@ export const productsService = {
                   modelNumber: preferLocal
                     ? (lp.modelNumber || lp.specs?.modelNumber || remote.modelNumber || remote.specs?.modelNumber || "")
                     : (remote.modelNumber || remote.specs?.modelNumber || lp.modelNumber || lp.specs?.modelNumber || ""),
+                  mrp: resolvedMrp,
+                  mrpNumeric: resolvedMrpNum,
+                  discountPercent: finalDiscountPercent,
                 },
                 stock: typeof remote.stock === "number" ? remote.stock : lp.stock,
                 isActive: remote.isActive !== false,
@@ -2264,15 +2380,32 @@ export const productsService = {
             const safeRank = Number((parentRank + 0.001 + (idx * 0.0001)).toFixed(5));
             const cleanName = String(rp.name || parent?.name || "Hanboro Timepiece").replace(/\s*\(Variant\)$/i, "").trim();
 
+            const mrpNum = parent?.mrpNumeric || rp.mrpNumeric || (rp.mrp ? parseInt(String(rp.mrp).replace(/[^\d]/g, ""), 10) : 0) || Math.round((rp.priceNumeric || 45000) / 0.8);
+            const mrpStr = parent?.mrp || rp.mrp || `₹${mrpNum.toLocaleString("en-IN")}`;
+            const curPriceNum = rp.priceNumeric || parseInt(String(rp.price || "0").replace(/[^\d]/g, ""), 10);
+            const isUndiscounted = !curPriceNum || curPriceNum >= mrpNum || rp.price === mrpStr;
+            const priceNum = isUndiscounted ? (parent?.priceNumeric || Math.round(mrpNum * 0.8)) : curPriceNum;
+            const priceStr = isUndiscounted ? (parent?.price || `₹${priceNum.toLocaleString("en-IN")}`) : (rp.price || `₹${priceNum.toLocaleString("en-IN")}`);
+            const discPercent = parent?.discountPercent || Math.round(((mrpNum - priceNum) / mrpNum) * 100);
+
             return {
               ...(parent || {}),
               ...rp,
               name: cleanName,
+              price: priceStr,
+              priceNumeric: priceNum,
+              priceUsd: rp.priceUsd || parent?.priceUsd || `$${Math.round(priceNum / 83)}`,
+              mrp: mrpStr,
+              mrpNumeric: mrpNum,
+              discountPercent: discPercent,
               modelNumber: rp.modelNumber || rp.specs?.modelNumber || parent?.modelNumber || rp.sku?.split("-")[1] || "980",
               specs: {
                 ...(parent?.specs || {}),
                 ...(rp.specs || {}),
                 modelNumber: rp.modelNumber || rp.specs?.modelNumber || parent?.modelNumber || rp.sku?.split("-")[1] || "980",
+                mrp: mrpStr,
+                mrpNumeric: mrpNum,
+                discountPercent: discPercent,
               },
               rank: safeRank,
             };
@@ -2346,6 +2479,9 @@ export const productsService = {
         ...(typeof product.specs === "object" && product.specs !== null ? product.specs : {}),
         modelNumber: product.modelNumber || product.specs?.modelNumber || "",
         rank: typeof product.rank === "number" ? product.rank : (product.specs?.rank ?? undefined),
+        mrp: product.mrp,
+        mrpNumeric: product.mrpNumeric,
+        discountPercent: product.discountPercent,
       },
       stock: safeStock,
       is_active: product.isActive !== false,

@@ -9394,24 +9394,72 @@ export function getWatchPricing(watch) {
     };
   }
 
-  const mrpNum = typeof watch.mrpNumeric === "number" && !isNaN(watch.mrpNumeric)
+  let mrpNum = typeof watch.mrpNumeric === "number" && !isNaN(watch.mrpNumeric)
     ? watch.mrpNumeric
     : (watch.mrp ? parseInt(String(watch.mrp).replace(/[^\d]/g, ""), 10) : 0);
 
-  const priceNum = typeof watch.priceNumeric === "number" && !isNaN(watch.priceNumeric)
+  let priceNum = typeof watch.priceNumeric === "number" && !isNaN(watch.priceNumeric)
     ? watch.priceNumeric
     : (watch.price ? parseInt(String(watch.price).replace(/[^\d]/g, ""), 10) : 0);
 
+  let mrpStr = watch.mrp;
+  let priceStr = watch.price;
+  let discountPercent = typeof watch.discountPercent === "number" ? watch.discountPercent : 0;
+
+  // If undiscounted, price equals MRP, or missing MRP, match against canonical master catalogue
+  if ((!mrpNum || mrpNum <= priceNum || mrpStr === priceStr || !priceNum) && (watch.sku || watch.id)) {
+    const cleanId = String(watch.id || "").toLowerCase().trim();
+    const cleanSku = String(watch.sku || "").toUpperCase().trim();
+    const canonical = RAW_PRODUCTS_DATA.find(
+      (p) =>
+        (p.id && String(p.id).toLowerCase().trim() === cleanId) ||
+        (p.sku && String(p.sku).toUpperCase().trim() === cleanSku)
+    );
+    if (canonical) {
+      const canMrpNum = canonical.mrpNumeric || canonical.priceNumeric || 0;
+      const canDisc = typeof canonical.discountPercent === "number" ? canonical.discountPercent : 20;
+      const canPriceNum = canonical.priceNumeric && canonical.priceNumeric < canMrpNum
+        ? canonical.priceNumeric
+        : Math.round(canMrpNum * (1 - canDisc / 100));
+      mrpNum = canMrpNum;
+      mrpStr = canonical.mrp || `₹${canMrpNum.toLocaleString("en-IN")}`;
+      priceNum = canPriceNum;
+      priceStr = `₹${canPriceNum.toLocaleString("en-IN")}`;
+      discountPercent = canDisc;
+    } else if (priceNum > 0 && (!mrpNum || mrpNum <= priceNum)) {
+      // Automatic baseline: treat existing price as selling price with 20% discount off MRP
+      mrpNum = Math.round(priceNum / 0.8);
+      mrpStr = `₹${mrpNum.toLocaleString("en-IN")}`;
+      discountPercent = 20;
+    }
+  }
+
   if (mrpNum > priceNum && priceNum > 0) {
     const savings = mrpNum - priceNum;
-    const discountPercent = watch.discountPercent || Math.round((savings / mrpNum) * 100);
+    const finalDiscountPercent = discountPercent || Math.round((savings / mrpNum) * 100);
     return {
-      price: watch.price || `₹${priceNum.toLocaleString("en-IN")}`,
+      price: priceStr || `₹${priceNum.toLocaleString("en-IN")}`,
       priceNumeric: priceNum,
-      mrp: watch.mrp || `₹${mrpNum.toLocaleString("en-IN")}`,
+      mrp: mrpStr || `₹${mrpNum.toLocaleString("en-IN")}`,
       mrpNumeric: mrpNum,
       hasDiscount: true,
-      discountPercent,
+      discountPercent: finalDiscountPercent,
+      savings,
+      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`
+    };
+  }
+
+  // Final fallback: if mrpNum and priceNum are identical, derive 20% discount
+  if (priceNum > 0) {
+    const derivedMrp = Math.round(priceNum / 0.8);
+    const savings = derivedMrp - priceNum;
+    return {
+      price: priceStr || `₹${priceNum.toLocaleString("en-IN")}`,
+      priceNumeric: priceNum,
+      mrp: `₹${derivedMrp.toLocaleString("en-IN")}`,
+      mrpNumeric: derivedMrp,
+      hasDiscount: true,
+      discountPercent: 20,
       savings,
       savingsFormatted: `₹${savings.toLocaleString("en-IN")}`
     };

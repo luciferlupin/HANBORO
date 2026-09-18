@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { CATEGORIES } from "./productsData";
+import { CATEGORIES, getWatchPricing } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
 import { sortCatalogStably } from "./supabaseClient";
@@ -351,15 +351,20 @@ export function ProductsView({
                   {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
                   <div className="maison-card-footer">
                     <div className="maison-card-price-wrap">
-                      <div className="maison-price-main-row">
-                        <span className="maison-price-val">{watch.price}</span>
-                        {watch.mrp && watch.mrp !== watch.price && (
-                          <span className="maison-mrp-cut" title={`Original MRP: ${watch.mrp}`}>{watch.mrp}</span>
-                        )}
-                        {watch.discountPercent ? (
-                          <span className="maison-discount-badge">{watch.discountPercent}% OFF</span>
-                        ) : null}
-                      </div>
+                      {(() => {
+                        const pricing = getWatchPricing(watch);
+                        return (
+                          <div className="maison-price-main-row">
+                            <span className="maison-price-val">{pricing.price}</span>
+                            {pricing.hasDiscount && pricing.mrp && (
+                              <span className="maison-mrp-cut" title={`Original MRP: ${pricing.mrp}`}>{pricing.mrp}</span>
+                            )}
+                            {pricing.discountPercent ? (
+                              <span className="maison-discount-badge">{pricing.discountPercent}% OFF</span>
+                            ) : null}
+                          </div>
+                        );
+                      })()}
                       <span className="maison-price-note">Tax Included</span>
                     </div>
 
