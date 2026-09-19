@@ -20779,9 +20779,10 @@ body.modal-open {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 7px 10px 7px 12px;
+  border-radius: 7px;
   border: none;
+  border-left: 3px solid transparent;
   background: transparent;
   color: #334155;
   font-size: 13px;
@@ -20790,7 +20791,8 @@ body.modal-open {
   text-align: left;
   text-decoration: none;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: background 0.12s ease, color 0.12s ease;
+  box-sizing: border-box;
 }
 
 .sp-nav-link:hover {
@@ -20798,11 +20800,32 @@ body.modal-open {
   color: #0f172a;
 }
 
+.sp-nav-link:focus-visible {
+  outline: 2px solid #fa2d1d;
+  outline-offset: 1px;
+}
+
 .sp-nav-link.is-active {
-  background-color: #f1f5f9;
+  background-color: #fef2f2;
   font-weight: 600;
-  color: #0f172a;
-  box-shadow: none;
+  color: #c0150a;
+  border-left-color: #fa2d1d;
+}
+
+/* Team Audit nav link special accent */
+.sp-nav-link--audit.is-active {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-left-color: #22c55e;
+}
+
+.sp-nav-badge--live {
+  background: #22c55e;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
 }
 
 .sp-nav-icon {
@@ -20812,10 +20835,14 @@ body.modal-open {
   margin-right: 8px;
   font-size: 13px;
   width: 18px;
+  flex-shrink: 0;
 }
 
 .sp-nav-text {
   flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sp-nav-badge,
@@ -20826,6 +20853,7 @@ body.modal-open {
   color: var(--sp-tag-text);
   padding: 1px 6px;
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .sp-nav-accordion {
@@ -20838,7 +20866,7 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding-left: 28px;
+  padding-left: 26px;
   margin: 2px 0 6px 0;
 }
 
@@ -20846,7 +20874,7 @@ body.modal-open {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: 6px;
   font-size: 12.5px;
   font-weight: 500;
@@ -20858,7 +20886,7 @@ body.modal-open {
   width: 100%;
   text-align: left;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: all 0.12s ease;
 }
 
 .sp-nav-sublink:hover {
@@ -20867,10 +20895,9 @@ body.modal-open {
 }
 
 .sp-nav-sublink.is-active {
-  color: #0f172a;
+  color: #c0150a;
   font-weight: 600;
-  background-color: #f1f5f9;
-  box-shadow: none;
+  background-color: #fef2f2;
 }
 
 .sp-sidebar-divider {
@@ -21273,37 +21300,47 @@ body.modal-open {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 0 14px;
+  height: 32px;
   font-size: 12.5px;
   font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
   border: 1px solid transparent;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
   text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.sp-btn:focus-visible {
+  outline: 2px solid #fa2d1d;
+  outline-offset: 2px;
 }
 
 .sp-btn--default {
   background: var(--sp-surface);
   border-color: var(--sp-border);
   color: var(--sp-text);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .sp-btn--default:hover {
   background: var(--sp-surface-hover);
+  border-color: #b8bfc8;
 }
 
 .sp-btn--primary {
   background: var(--sp-primary);
   color: var(--sp-primary-text);
   border-color: transparent;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .sp-btn--primary:hover {
   background: var(--sp-primary-hover);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .sp-btn--whatsapp-nudge {
@@ -21311,7 +21348,8 @@ body.modal-open {
   color: #0b1c11;
   font-size: 11.5px;
   font-weight: 700;
-  padding: 5px 11px;
+  height: 30px;
+  padding: 0 11px;
   border-radius: 6px;
   border: none;
   box-shadow: 0 1px 2px rgba(37, 211, 102, 0.3);
@@ -21320,12 +21358,11 @@ body.modal-open {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: all 0.15s ease;
+  transition: background 0.12s ease;
 }
 
 .sp-btn--whatsapp-nudge:hover {
   background: #20ba59;
-  transform: translateY(-1px);
 }
 
 /* ── Inline Stock Control ── */
@@ -21356,44 +21393,47 @@ body.modal-open {
 /* ── KPI Grid (Analytics & Home) ── */
 .sp-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .sp-kpi-card {
   background: var(--sp-surface);
   border: 1px solid var(--sp-border);
   border-radius: 10px;
-  padding: 18px 20px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  gap: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .sp-kpi-label {
   font-size: 11px;
-  font-weight: 700;
-  color: #64748b;
+  font-weight: 600;
+  color: var(--sp-text-subdued);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
+  margin-bottom: 2px;
 }
 
 .sp-kpi-val,
 .sp-kpi-value {
   font-family: 'JetBrains Mono', -apple-system, monospace;
   font-variant-numeric: tabular-nums;
-  font-size: 26px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
   color: var(--sp-text);
   letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .sp-kpi-sub {
-  font-size: 12px;
-  color: #64748b;
+  font-size: 11.5px;
+  color: var(--sp-text-subdued);
   font-weight: 400;
+  margin-top: 2px;
 }
 
 .sp-kpi-trend {
@@ -21409,6 +21449,7 @@ body.modal-open {
   color: #047857;
   border: 1px solid #a7f3d0;
   width: fit-content;
+  margin-top: 4px;
 }
 
 .sp-live-pulse-dot {
@@ -21504,7 +21545,8 @@ body.modal-open {
 .sp-form-select,
 .sp-form-textarea {
   width: 100%;
-  padding: 8px 12px;
+  height: 36px;
+  padding: 0 12px;
   background: var(--sp-surface);
   border: 1px solid var(--sp-border);
   border-radius: 6px;
@@ -21512,13 +21554,22 @@ body.modal-open {
   color: var(--sp-text);
   font-family: inherit;
   outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sp-form-textarea {
+  height: auto;
+  padding: 8px 12px;
+  resize: vertical;
+  min-height: 80px;
 }
 
 .sp-form-input:focus,
 .sp-form-select:focus,
 .sp-form-textarea:focus {
-  border-color: #005bd3;
-  box-shadow: 0 0 0 1px #005bd3;
+  border-color: #fa2d1d;
+  box-shadow: 0 0 0 2px rgba(250, 45, 29, 0.12);
 }
 
 /* ── Responsive rules ── */
@@ -21805,13 +21856,15 @@ tr.is-selected-row td {
 
 /* ── Buttons Sizing & Variants ── */
 .sp-btn--sm {
-  padding: 4px 8px !important;
+  height: 28px !important;
+  padding: 0 10px !important;
   font-size: 11.5px !important;
   border-radius: 5px !important;
 }
 
 .sp-btn--xs {
-  padding: 2px 6px !important;
+  height: 24px !important;
+  padding: 0 7px !important;
   font-size: 10.5px !important;
   border-radius: 4px !important;
 }
@@ -21821,8 +21874,12 @@ tr.is-selected-row td {
   color: #0b1c11 !important;
   border: none !important;
   font-size: 12px !important;
-  padding: 4px 8px !important;
+  height: 28px !important;
+  padding: 0 8px !important;
   cursor: pointer;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
 }
 
 .sp-btn--whatsapp-icon:hover {
@@ -21837,6 +21894,7 @@ tr.is-selected-row td {
 
 .sp-btn--danger:hover {
   background-color: #d82315 !important;
+  box-shadow: 0 2px 8px rgba(250, 45, 29, 0.3) !important;
 }
 
 /* ── Products View Elements ── */
@@ -23827,9 +23885,9 @@ tr.is-selected-row td {
 
 .sp-login-tagline {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: #fa2d1d;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  color: rgba(250, 45, 29, 0.85);
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -26614,18 +26672,26 @@ tr.is-selected-row td {
   .sp-nav-link {
     flex: 0 0 auto !important;
     white-space: nowrap !important;
-    padding: 6px 14px !important;
+    padding: 7px 14px !important;
     font-size: 12px !important;
     border-radius: 20px !important;
     border: 1px solid transparent !important;
+    border-left: none !important;
     width: auto !important;
     min-height: 36px !important;
   }
 
   .sp-nav-link.is-active {
-    background: var(--sp-sidebar-active) !important;
-    border-color: var(--sp-border) !important;
+    background: #fef2f2 !important;
+    border-color: rgba(250, 45, 29, 0.25) !important;
+    color: #c0150a !important;
     font-weight: 600 !important;
+  }
+
+  .sp-nav-link--audit.is-active {
+    background: #f0fdf4 !important;
+    border-color: rgba(34, 197, 94, 0.3) !important;
+    color: #15803d !important;
   }
 
   .sp-sidebar-divider,
@@ -27195,3 +27261,182 @@ tr.is-selected-row td {
   box-shadow: inset 0 2px 0 #2563eb, inset 0 -2px 0 #2563eb;
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   ADMIN UI REFINEMENTS — Topbar Pills, Sync Badge, Input Polish
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Topbar pill buttons (Audit + others) */
+.sp-topbar-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 7px;
+  border: 1px solid var(--sp-border);
+  background: var(--sp-topbar-btn-bg);
+  color: var(--sp-text-subdued);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  white-space: nowrap;
+}
+
+.sp-topbar-pill:hover {
+  background: var(--sp-surface-selected);
+  color: var(--sp-text);
+}
+
+.sp-topbar-pill--audit.is-active {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.shopify-admin-theme--luxury-dark .sp-topbar-pill--audit.is-active {
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.sp-topbar-pill-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 16px;
+  padding: 0 5px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.sp-topbar-pill--audit.is-active .sp-topbar-pill-count {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+/* Cloud sync status pill */
+.sp-sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 100px;
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  background: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  user-select: none;
+}
+
+.sp-sync-pill.is-syncing {
+  border-color: rgba(234, 179, 8, 0.28);
+  background: rgba(234, 179, 8, 0.08);
+  color: #ca8a04;
+}
+
+.sp-sync-pill-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+
+.sp-sync-pill.is-syncing .sp-sync-pill-dot {
+  background: #eab308;
+  animation: spPulse 1.2s infinite;
+}
+
+/* Field inputs inside forms focus ring using brand red */
+.sp-field-input:focus {
+  border-color: #fa2d1d;
+  box-shadow: 0 0 0 2px rgba(250, 45, 29, 0.1);
+  outline: none;
+}
+
+/* sp-form-group inputs: brand red focus ring */
+.sp-form-group input:focus,
+.sp-form-group select:focus,
+.sp-form-group textarea:focus {
+  border-color: #fa2d1d;
+  box-shadow: 0 0 0 2px rgba(250, 45, 29, 0.1);
+  outline: none;
+}
+
+/* Dark theme overrides for form input focus */
+.shopify-admin-theme--luxury-dark .sp-form-input:focus,
+.shopify-admin-theme--luxury-dark .sp-form-select:focus,
+.shopify-admin-theme--luxury-dark .sp-form-textarea:focus,
+.shopify-admin-theme--luxury-dark .sp-form-group input:focus,
+.shopify-admin-theme--luxury-dark .sp-form-group select:focus {
+  border-color: #fa2d1d;
+  box-shadow: 0 0 0 2px rgba(250, 45, 29, 0.18);
+}
+
+/* Dark theme sidebar active state */
+.shopify-admin-theme--luxury-dark .sp-nav-link.is-active {
+  background-color: rgba(250, 45, 29, 0.08);
+  color: #fc6b5e;
+  border-left-color: #fa2d1d;
+}
+
+/* Empty state */
+.sp-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  gap: 8px;
+  color: var(--sp-text-subdued);
+  text-align: center;
+}
+
+.sp-empty-state-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sp-text);
+}
+
+.sp-empty-state-sub {
+  font-size: 13px;
+  color: var(--sp-text-subdued);
+}
+
+/* Hide theme toggle on medium screens; sync pill on mobile */
+@media (max-width: 1024px) {
+  .sp-topbar__right { gap: 6px; }
+  .sp-theme-toggle-btn { display: none; }
+}
+
+@media (max-width: 768px) {
+  .sp-sync-pill { display: none; }
+  .sp-topbar-pill {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+  .sp-topbar-pill-count {
+    min-width: 16px;
+    height: 14px;
+    font-size: 9px;
+  }
+  .sp-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .sp-kpi-val,
+  .sp-kpi-value {
+    font-size: 22px !important;
+  }
+}

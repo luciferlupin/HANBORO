@@ -90,11 +90,11 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
         <div className="sp-login-header">
           <div className="sp-login-emblem">
             <HanboroLogo size={36} theme="light" />
-            <span className="sp-login-tagline">Haute Horlogerie • Staff Portal</span>
+            <span className="sp-login-tagline">HANBORO Staff Portal</span>
           </div>
-          <h1 className="sp-login-title">Executive Sign In</h1>
+          <h1 className="sp-login-title">Admin Sign In</h1>
           <p className="sp-login-subtitle">
-            Restricted administrative suite for authorized Hanboro horology directors and staff.
+            Authorized administrators and staff only.
           </p>
         </div>
 
@@ -106,7 +106,7 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
 
         <form className="sp-login-form" onSubmit={handleSubmit}>
           <div className="sp-login-field">
-            <label htmlFor="sp-admin-email">Administrator Email</label>
+            <label htmlFor="sp-admin-email">Email</label>
             <input
               id="sp-admin-email"
               type="email"
@@ -120,7 +120,7 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
           </div>
 
           <div className="sp-login-field">
-            <label htmlFor="sp-admin-password">Master Password</label>
+            <label htmlFor="sp-admin-password">Password</label>
             <div className="sp-login-password-wrap">
               <input
                 id="sp-admin-password"
@@ -149,7 +149,7 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
             className="sp-login-submit-btn"
             disabled={loading}
           >
-            {loading ? "Authenticating..." : "Access Executive Dashboard →"}
+            {loading ? "Signing in..." : "Sign In →"}
           </button>
         </form>
 
@@ -159,7 +159,7 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
             className="sp-login-back-btn"
             onClick={onNavigateHome}
           >
-            ← Return to Online Storefront
+            ← Back to Store
           </button>
         </div>
       </div>
@@ -1087,7 +1087,7 @@ export function AdminDashboard({ onNavigateHome }) {
       fulfillment_status: "In progress",
       items_count: `${draft.items.length} item`,
       delivery_status: "Processing",
-      delivery_method: draft.deliveryMethod || (isDraftCod ? "Concierge White-Glove (COD)" : "Standard (Prepaid)"),
+      delivery_method: draft.deliveryMethod || (isDraftCod ? "COD" : "Standard (Prepaid)"),
       tags: ["Draft Order", isDraftCod ? "COD" : "Prepaid"],
       created_at: new Date().toISOString(),
       tracking_number: `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
@@ -1121,7 +1121,7 @@ export function AdminDashboard({ onNavigateHome }) {
       fulfillment_status: "In progress",
       items_count: `${(checkout.items || []).length} item`,
       delivery_status: "Processing",
-      delivery_method: "Concierge White-Glove (COD)",
+      delivery_method: "COD",
       tags: ["Recovered Abandoned Checkout", "COD"],
       created_at: new Date().toISOString(),
       tracking_number: `EXP-${Math.floor(100000 + Math.random() * 900000)}`,
@@ -1206,7 +1206,7 @@ export function AdminDashboard({ onNavigateHome }) {
   // Delete / Remove discount promo code
   const handleDeletePromo = async (code) => {
     if (PROMO_CODES[code]) {
-      showToast(`${code} is a protected core boutique privilege voucher.`);
+      showToast(`${code} is a protected system discount code.`);
       return;
     }
     const updated = { ...customPromos };
@@ -1235,14 +1235,14 @@ export function AdminDashboard({ onNavigateHome }) {
 
   return (
     <div className={`shopify-admin-shell shopify-admin-theme--${adminTheme}`}>
-      {/* ── TOP SHOPIFY EXECUTIVE BAR ── */}
+      {/* ── ADMIN TOPBAR ── */}
       <header className="sp-topbar">
         <div className="sp-topbar__left">
           <button
             type="button"
             className="sp-brand-badge"
             onClick={onNavigateHome}
-            title="Return to public boutique"
+            title="Return to store"
           >
             <HanboroLogo theme={adminTheme === "shopify-light" ? "dark" : "light"} size={20} />
             <span className="sp-store-name">HANBORO Watches</span>
@@ -1254,7 +1254,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <input
               type="text"
               className="sp-search-input"
-              placeholder="Search portal (orders, SKUs, customers)..."
+              placeholder="Search orders, SKUs, customers..."
               value={orderSearch || abandonedSearch || productSearch}
               onChange={(e) => {
                 setOrderSearch(e.target.value);
@@ -1267,103 +1267,53 @@ export function AdminDashboard({ onNavigateHome }) {
         </div>
 
         <div className="sp-topbar__right">
-          {/* Prominent Team Audit Direct Action Pill */}
+          {/* Audit Pill */}
           <button
             type="button"
-            className="sp-topbar-audit-btn"
+            className={`sp-topbar-pill sp-topbar-pill--audit${activeTab === "audit" ? " is-active" : ""}`}
             onClick={() => setActiveTab("audit")}
-            title="Open real-time Team Audit Trail"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "5px 12px",
-              borderRadius: "8px",
-              fontSize: "12px",
-              fontWeight: 600,
-              cursor: "pointer",
-              transition: "all 0.15s ease",
-              backgroundColor: activeTab === "audit" ? "#008060" : "#ecfdf5",
-              color: activeTab === "audit" ? "#ffffff" : "#047857",
-              border: activeTab === "audit" ? "1px solid #008060" : "1px solid #a7f3d0",
-            }}
+            title="Team Audit Trail"
           >
-            <IconAudit size={14} />
-            <span>Team Audit</span>
-            <span
-              style={{
-                backgroundColor: activeTab === "audit" ? "rgba(255,255,255,0.25)" : "#059669",
-                color: "#ffffff",
-                fontSize: "10px",
-                padding: "1px 6px",
-                borderRadius: "10px",
-                fontWeight: 700,
-              }}
-            >
-              {auditLogs.length} Live
-            </span>
+            <IconAudit size={13} />
+            <span>Audit</span>
+            <span className="sp-topbar-pill-count">{auditLogs.length}</span>
           </button>
 
-          {/* Cloud Sync Status Pill */}
-          <div
-            className="sp-sync-badge"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              fontSize: "11px",
-              padding: "4px 10px",
-              borderRadius: "100px",
-              background: isSyncing ? "rgba(234, 179, 8, 0.12)" : "rgba(34, 197, 94, 0.12)",
-              color: isSyncing ? "#ca8a04" : "#16a34a",
-              fontWeight: 600,
-              letterSpacing: "0.02em",
-              border: `1px solid ${isSyncing ? "rgba(234, 179, 8, 0.25)" : "rgba(34, 197, 94, 0.25)"}`
-            }}
-          >
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: isSyncing ? "#eab308" : "#22c55e" }} />
-            {isSyncing ? "Syncing..." : "Cloud Live"}
+          {/* Live sync indicator */}
+          <div className={`sp-sync-pill${isSyncing ? " is-syncing" : ""}`}>
+            <span className="sp-sync-pill-dot" />
+            {isSyncing ? "Syncing..." : "Live"}
           </div>
 
-          {/* Refresh / Sync telemetry */}
+          {/* Refresh */}
           <button
             type="button"
             className={`sp-icon-btn ${isSyncing ? "is-spinning" : ""}`}
             onClick={loadAllAdminData}
-            title="Sync Live Telemetry"
+            title="Refresh data"
           >
             <IconSync size={14} />
           </button>
 
-          {/* Theme Switcher: Shopify Polaris Light vs Luxury Dark */}
+          {/* Theme toggle */}
           <button
             type="button"
             className="sp-theme-toggle-btn"
             onClick={toggleTheme}
-            title={`Switch to ${adminTheme === "shopify-light" ? "Dark Mode" : "Polaris Light"}`}
+            title={`Switch to ${adminTheme === "shopify-light" ? "Dark Mode" : "Light Mode"}`}
           >
-            {adminTheme === "shopify-light" ? "🌙 Dark View" : "☀️ Polaris Light"}
+            {adminTheme === "shopify-light" ? "🌙 Dark" : "☀️ Light"}
           </button>
 
-          {/* Direct Storefront Link */}
-          <button
-            type="button"
-            className="sp-storefront-link"
-            onClick={onNavigateHome}
-          >
-            <span>Online Store</span>
-            <IconExternalLink size={12} />
-          </button>
-
-          {/* User Account Capsule */}
+          {/* User Capsule */}
           <div className="sp-user-capsule">
-            <div className="sp-avatar">{(user?.fullName || user?.email || "Admin").charAt(0).toUpperCase()}</div>
-            <span className="sp-user-label">{user?.fullName || "Hanboro Administrator"}</span>
+            <div className="sp-avatar">{(user?.fullName || user?.email || "A").charAt(0).toUpperCase()}</div>
+            <span className="sp-user-label">{user?.fullName || "Admin"}</span>
             <button
               type="button"
               className="sp-logout-btn"
               onClick={logout}
-              title="Sign out of Admin"
+              title="Sign out"
             >
               Sign Out
             </button>
@@ -1449,18 +1399,12 @@ export function AdminDashboard({ onNavigateHome }) {
             {/* 5. Team Audit (Real-time activity ledger) */}
             <button
               type="button"
-              className={`sp-nav-link ${activeTab === "audit" ? "is-active" : ""}`}
+              className={`sp-nav-link sp-nav-link--audit ${activeTab === "audit" ? "is-active" : ""}`}
               onClick={() => setActiveTab("audit")}
-              style={{
-                backgroundColor: activeTab === "audit" ? "rgba(0, 128, 96, 0.12)" : "transparent",
-                color: activeTab === "audit" ? "#008060" : "inherit",
-              }}
             >
-              <span className="sp-nav-icon" style={{ color: "#008060" }}><IconAudit size={16} /></span>
-              <span className="sp-nav-text" style={{ fontWeight: 600 }}>Team Audit</span>
-              <span className="sp-nav-badge" style={{ backgroundColor: "#008060", color: "#ffffff", fontSize: "10px", padding: "1px 6px", borderRadius: "10px", fontWeight: 700 }}>
-                {auditLogs.length} Live
-              </span>
+              <span className="sp-nav-icon"><IconAudit size={16} /></span>
+              <span className="sp-nav-text">Team Audit</span>
+              <span className="sp-nav-badge sp-nav-badge--live">{auditLogs.length}</span>
             </button>
 
             {/* 6. Discounts */}
@@ -1524,21 +1468,7 @@ export function AdminDashboard({ onNavigateHome }) {
             </button>
           </nav>
 
-          {/* Sidekick / Concierge Assistant */}
-          <div className="sp-sidebar-divider" />
-          <div className="sp-sidebar-heading">Sidekick conversations</div>
-          <nav className="sp-nav-group">
-            <button
-              type="button"
-              className="sp-nav-link"
-              onClick={() => setActiveTab("abandoned")}
-            >
-              <span className="sp-nav-icon"><IconWhatsApp size={15} /></span>
-              <span className="sp-nav-text" style={{ fontSize: "12px", color: "var(--sp-text-subdued)" }}>
-                Recovering abandoned checkouts...
-              </span>
-            </button>
-          </nav>
+
 
           {/* Bottom Settings Button */}
           <div className="sp-sidebar-bottom">
@@ -1647,7 +1577,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       <th>Region</th>
                       <th>Recovery status</th>
                       <th className="sp-th--right">Total price</th>
-                      <th className="sp-th--action">WhatsApp VIP Recovery</th>
+                      <th className="sp-th--action">WhatsApp</th>
                     </tr>
                   </thead>
 
@@ -1722,7 +1652,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         <td colSpan="9" className="sp-empty-cell">
                           <div style={{ padding: "32px 16px", textAlign: "center" }}>
                             <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No abandoned checkouts</p>
-                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Prospective boutique leads and shopping cart drop-offs will appear here automatically for 1-click recovery.</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Prospective leads and abandoned carts will appear here for 1-click recovery.</p>
                           </div>
                         </td>
                       </tr>
@@ -1990,7 +1920,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         <td colSpan="12" className="sp-empty-cell">
                           <div style={{ padding: "32px 16px", textAlign: "center" }}>
                             <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No orders received yet</p>
-                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Your boutique is live in production. Fresh incoming customer orders and concierge requests will appear here in real time.</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Your store is live. Incoming orders will appear here in real time.</p>
                           </div>
                         </td>
                       </tr>
@@ -2571,17 +2501,17 @@ export function AdminDashboard({ onNavigateHome }) {
                 <div className="sp-kpi-card">
                   <div className="sp-kpi-label">COLLECTORS DATABASE</div>
                   <div className="sp-kpi-val">{customerKpis.totalProfiles}</div>
-                  <div className="sp-kpi-sub">● Synchronized with Supabase profiles</div>
+                  <div className="sp-kpi-sub">Registered customer accounts</div>
                 </div>
                 <div className="sp-kpi-card">
                   <div className="sp-kpi-label">WATCHES ORDERED</div>
                   <div className="sp-kpi-val">{customerKpis.totalOrders} Timepieces</div>
-                  <div className="sp-kpi-sub">Total horology allocations confirmed</div>
+                  <div className="sp-kpi-sub">Confirmed orders</div>
                 </div>
                 <div className="sp-kpi-card">
                   <div className="sp-kpi-label">COLLECTOR LIFETIME VALUE</div>
                   <div className="sp-kpi-val">₹{customerKpis.totalLtv.toLocaleString("en-IN")}</div>
-                  <div className="sp-kpi-sub">Total gross storefront & concierge sales</div>
+                  <div className="sp-kpi-sub">Total gross sales</div>
                 </div>
                 <div className="sp-kpi-card">
                   <div className="sp-kpi-label">VIP CLIENTS</div>
@@ -2813,7 +2743,7 @@ export function AdminDashboard({ onNavigateHome }) {
                                       e.stopPropagation();
                                       const clean = (c.phone || "918882069334").replace(/[^\d]/g, "");
                                       const text = encodeURIComponent(
-                                        `Hello ${c.name},\n\nThis is your personal VIP concierge at HANBORO Haute Horlogerie (+91 88820 69334). Regarding your luxury timepiece portfolio: How may our atelier assist you today?`
+                                        `Hello ${c.name},\n\nThis is HANBORO Watches (+91 88820 69334). How may we assist you today?`
                                       );
                                       window.open(`https://wa.me/${clean}?text=${text}`, "_blank");
                                     }}
@@ -2839,17 +2769,17 @@ export function AdminDashboard({ onNavigateHome }) {
               ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "home" && (
             <div className="sp-page-stack">
-              {/* Top Banner Alert */}
+              {/* Status Banner */}
               <div className="sp-banner-alert">
                 <div className="sp-banner-text">
-                  <span className="sp-live-pulse-dot" /> <strong>Shopify Command Active</strong> • Real-time telemetry synchronized with storefront and Supabase Cloud.
+                  <span className="sp-live-pulse-dot" /> <strong>Admin Dashboard</strong> — All data is live.
                 </div>
-                <div className="sp-banner-actions" style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                  <button type="button" className="sp-btn sp-btn--sm" onClick={() => setActiveTab("audit")} style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: "#008060", color: "#ffffff", border: "1px solid #008060", fontWeight: 600 }}>
-                    <IconAudit size={13} /> Team Audit ({auditLogs.length} Events) →
+                <div className="sp-banner-actions">
+                  <button type="button" className="sp-btn sp-btn--sm sp-btn--primary" onClick={() => setActiveTab("audit")}>
+                    <IconAudit size={13} /> Audit ({auditLogs.length})
                   </button>
                   <button type="button" className="sp-btn sp-btn--sm" onClick={() => setActiveTab("abandoned")}>
-                    Recover Abandoned ({abandonedCheckouts.length}) →
+                    Abandoned ({abandonedCheckouts.length})
                   </button>
                 </div>
               </div>
@@ -2879,7 +2809,7 @@ export function AdminDashboard({ onNavigateHome }) {
                 <div className="sp-kpi-card">
                   <div className="sp-kpi-label">AVERAGE ORDER VALUE</div>
                   <div className="sp-kpi-val">₹{analytics.aov.toLocaleString("en-IN")}</div>
-                  <div className="sp-kpi-sub">Luxury Tourbillon Average</div>
+                  <div className="sp-kpi-sub">Average per confirmed order</div>
                 </div>
               </div>
 
@@ -3078,7 +3008,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
                   <span className="sp-title-icon" style={{ color: "#25d366" }}><IconWhatsApp size={18} /></span>
-                  <h1 className="sp-page-title">WhatsApp Concierge & VIP Recovery</h1>
+                  <h1 className="sp-page-title">WhatsApp</h1>
                 </div>
                 <div className="sp-badge-pill sp-badge-pill--fulfilled">
                   Active Line: +91 88820 69334
@@ -3106,8 +3036,8 @@ export function AdminDashboard({ onNavigateHome }) {
                     />
                     <textarea
                       name="msg"
-                      placeholder="Custom message or concierge invitation..."
-                      defaultValue="Hello, this is your VIP concierge at HANBORO Watches (+91 88820 69334). How may we assist your timepiece acquisition?"
+                      placeholder="Custom message..."
+                      defaultValue="Hello, this is HANBORO Watches (+91 88820 69334). How may we help with your order?"
                       rows="3"
                     />
                     <button type="submit" className="sp-btn sp-btn--whatsapp-nudge">
@@ -3170,7 +3100,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <input type="text" defaultValue="HANBORO Watches" disabled />
                   </div>
                   <div className="sp-settings-field">
-                    <label>WhatsApp VIP Concierge Line</label>
+                    <label>WhatsApp Business Line</label>
                     <input type="text" defaultValue="+91 88820 69334" disabled />
                   </div>
                   <div className="sp-settings-field">
@@ -3195,10 +3125,10 @@ export function AdminDashboard({ onNavigateHome }) {
                   </div>
                   <div className="sp-settings-field">
                     <label>Payment Methods Active</label>
-                    <input type="text" defaultValue="Prepaid UPI / Cards / Net Banking + Concierge COD" disabled />
+                    <input type="text" defaultValue="Prepaid UPI / Cards / Net Banking + COD" disabled />
                   </div>
                   <div className="sp-settings-field">
-                    <label>Boutique Studio & Registered Location</label>
+                    <label>Studio & Registered Location</label>
                     <textarea defaultValue="Fourth Floor, Building No. 3, Block M, DLF City Phase II, Road Number 5, Sector 25, Gurugram, Haryana 122008, India" rows="3" disabled />
                   </div>
                 </div>
@@ -3267,7 +3197,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <span className="sp-title-icon"><IconMarkets size={18} /></span>
                     <div>
                       <h1 className="sp-page-title">Markets & International Allocations</h1>
-                      <div className="sp-page-sub">Configure regional pricing, currencies, tax jurisdictions, and white-glove international dispatch.</div>
+                      <div className="sp-page-sub">Configure regional pricing, currencies, and tax settings.</div>
                     </div>
                   </div>
                   <div className="sp-header-actions">
@@ -3419,8 +3349,8 @@ export function AdminDashboard({ onNavigateHome }) {
                   <div className="sp-card-title-wrap">
                     <span className="sp-title-icon"><IconAnalytics size={18} /></span>
                     <div>
-                      <h1 className="sp-page-title">Analytics & Horological Intelligence</h1>
-                      <div className="sp-page-sub">Comprehensive financial telemetry, average order value, conversion trends, and top timepiece performances.</div>
+                      <h1 className="sp-page-title">Analytics</h1>
+                      <div className="sp-page-sub">Order value, conversion trends, and top-performing products.</div>
                     </div>
                   </div>
                   <div className="sp-header-actions">
@@ -3515,7 +3445,7 @@ export function AdminDashboard({ onNavigateHome }) {
                           { method: "Prepaid Instant UPI / QR (GPay, PhonePe)", share: "56%", count: `${Math.round(orders.length * 0.56)} orders` },
                           { method: "Credit / Debit Cards (Encrypted 256-bit)", share: "28%", count: `${Math.round(orders.length * 0.28)} orders` },
                           { method: "Net Banking / Direct Bank Wire", share: "10%", count: `${Math.round(orders.length * 0.10)} orders` },
-                          { method: "White-Glove Concierge Cash on Delivery", share: "6%", count: `${Math.round(orders.length * 0.06)} orders` },
+                          { method: "Cash on Delivery (COD)", share: "6%", count: `${Math.round(orders.length * 0.06)} orders` },
                         ].map((pm, idx) => (
                           <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12.5px", padding: "8px 0", borderBottom: "1px solid #f1f5f9" }}>
                             <span>{pm.method}</span>
@@ -3612,7 +3542,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       </span>
                     </div>
                     <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--sp-text-subdued, #6d7175)" }}>
-                      Real-time activity ledger recording all catalogue edits, SKU modifications, new customer orders, user registrations, and atelier actions from now onwards.
+                      Real-time activity ledger recording all catalogue edits, SKU modifications, new customer orders, user registrations, and admin actions from now onwards.
                     </p>
                   </div>
                 </div>
@@ -3692,7 +3622,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Signups & dossier edits</div>
                 </div>
                 <div style={{ background: "#ffffff", padding: "12px 16px", borderRadius: "8px", border: "1px solid var(--sp-border, #e1e3e5)" }}>
-                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Promos & Atelier</div>
+                  <div style={{ fontSize: "12px", color: "var(--sp-text-subdued, #6d7175)", fontWeight: 500 }}>Promos</div>
                   <div style={{ fontSize: "22px", fontWeight: 700, color: "#b45309", marginTop: "4px" }}>{auditStats.discounts + auditStats.security}</div>
                   <div style={{ fontSize: "11px", color: "var(--sp-text-subdued, #6d7175)", marginTop: "2px" }}>Vouchers & security</div>
                 </div>
@@ -4039,7 +3969,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       </div>
                       <div className="sp-item-details-box">
                         <div className="sp-item-title-row">
-                          <strong className="sp-item-name">{it.name || "Haute Horlogerie Timepiece"}</strong>
+                          <strong className="sp-item-name">{it.name || "HANBORO Timepiece"}</strong>
                           <span className="sp-item-line-total">
                             ₹{((Number(it.price) || 0) * (it.quantity || 1)).toLocaleString("en-IN")}
                           </span>
@@ -4102,7 +4032,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <strong>₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</strong>
                   </div>
                   <div className="sp-bill-row">
-                    <span>VIP Insured White-Glove Courier</span>
+                    <span>Insured Courier</span>
                     <strong style={{ color: "#16a34a" }}>Complimentary (₹0.00)</strong>
                   </div>
                   <div className="sp-bill-row">
@@ -4412,7 +4342,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       <span>{selectedCustomerDossier.phone || "Not specified"}</span>
                       {selectedCustomerDossier.phone && (
                         <a
-                          href={`https://wa.me/${selectedCustomerDossier.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Greetings ${selectedCustomerDossier.name}, this is Hanboro Haute Horlogerie Concierge.`)}`}
+                          href={`https://wa.me/${selectedCustomerDossier.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Greetings ${selectedCustomerDossier.name}, this is HANBORO Watches.`)}`}
                           target="_blank"
                           rel="noreferrer"
                           className="sp-btn-link-wa"
@@ -4439,14 +4369,14 @@ export function AdminDashboard({ onNavigateHome }) {
                     {selectedCustomerDossier.city}, {selectedCustomerDossier.state || ""} {selectedCustomerDossier.pin ? `- ${selectedCustomerDossier.pin}` : ""}<br />
                     {selectedCustomerDossier.country || "India"}
                   </p>
-                  <span className="sp-badge-white-glove">⚡ Direct Insured Armored Courier Eligible</span>
+                  <span className="sp-badge-white-glove">⚡ Direct Insured Courier Eligible</span>
                 </div>
               </div>
 
               {/* Concierge Notes Editor */}
               <div className="sp-dossier-notes-card">
                 <div className="sp-notes-card-header">
-                  <h4 className="sp-dossier-sec-title">Administrative Concierge Notes & Preferences</h4>
+                  <h4 className="sp-dossier-sec-title">Admin Notes</h4>
                   {editingNotesEmail !== selectedCustomerDossier.email && (
                     <button
                       type="button"
@@ -4610,7 +4540,7 @@ export function AdminDashboard({ onNavigateHome }) {
 
                                   <div className="sp-item-details-box">
                                     <div className="sp-item-title-row">
-                                      <h5 className="sp-item-name">{it.name || it.title || "HANBORO Haute Horlogerie Timepiece"}</h5>
+                                      <h5 className="sp-item-name">{it.name || it.title || "HANBORO Timepiece"}</h5>
                                       <span className="sp-item-line-total">
                                         ₹{lineTotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                                       </span>
@@ -4697,7 +4627,7 @@ export function AdminDashboard({ onNavigateHome }) {
 
             <div className="sp-modal-footer">
               <div className="sp-modal-footer-left">
-                <span>Customer Profile Database • Hanboro India Haute Horlogerie</span>
+                <span>Customer Database — Hanboro India</span>
               </div>
               <div className="sp-modal-footer-actions">
                 <button
@@ -4794,7 +4724,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     Gurugram, Haryana - 122008, India<br />
                     <span><strong>GSTIN:</strong> 06AAMCR0380F1ZG</span> &nbsp;|&nbsp; <span><strong>Constitution:</strong> Private Limited Company</span><br />
                     <span><strong>HSN Chapter:</strong> 9102 (Wrist Watches)</span><br />
-                    <span><strong>Concierge Desk:</strong> +91 88820 69334 &nbsp;|&nbsp; connect@hanborowatches.in</span>
+                    <span><strong>Contact:</strong> +91 88820 69334 &nbsp;|&nbsp; connect@hanborowatches.in</span>
                   </div>
                 </div>
 
@@ -4868,7 +4798,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   <h4 className="sp-inv-address-title">SHIPPED TO (CONSIGNEE):</h4>
                   <p className="sp-inv-address-content">
                     <strong className="sp-inv-cust-name">{shipAddress.name || custName}</strong><br />
-                    {shipAddress.address ? <>{shipAddress.address}<br /></> : "Hanboro Atelier Client Handover Destination<br />"}
+                    {shipAddress.address ? <>{shipAddress.address}<br /></> : "Destination address on file<br />"}
                     {shipAddress.city || "Delhi NCR"}, {shipAddress.state || "Haryana"} {shipAddress.pin || shipAddress.pincode ? `- ${shipAddress.pin || shipAddress.pincode}` : ""}<br />
                     India<br />
                     <strong>Dispatch Method:</strong> Insured Armored Courier (Malca-Amit / Ferrari Group / BlueDart Apex)
@@ -4882,7 +4812,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   <thead>
                     <tr>
                       <th style={{ width: "4%" }}>#</th>
-                      <th style={{ width: "48%" }}>Description of Timepiece & Horological Reference</th>
+                      <th style={{ width: "48%" }}>Description of Timepiece</th>
                       <th style={{ width: "20%" }}>Watch SKU ID</th>
                       <th style={{ width: "8%" }}>HSN</th>
                       <th style={{ width: "5%" }}>Qty</th>
@@ -4902,7 +4832,7 @@ export function AdminDashboard({ onNavigateHome }) {
                           <td>{idx + 1}</td>
                           <td>
                             <div className="sp-inv-item-desc">
-                              <strong className="sp-inv-watch-title">{it.name || it.title || "HANBORO Haute Horlogerie Timepiece"}</strong>
+                              <strong className="sp-inv-watch-title">{it.name || it.title || "HANBORO Timepiece"}</strong>
                               <span className="sp-inv-watch-specs">Automated Skeleton Movement • Sapphire Crystal • 50M Waterproof • 2-Year International Warranty</span>
                             </div>
                           </td>
@@ -4932,10 +4862,10 @@ export function AdminDashboard({ onNavigateHome }) {
                   </div>
 
                   <div className="sp-inv-terms-box">
-                    <h5 className="sp-terms-title">Statutory Terms & Horological Warranty Conditions:</h5>
+                    <h5 className="sp-terms-title">Statutory Terms & Warranty Conditions:</h5>
                     <ol className="sp-terms-list">
-                      <li>All timepieces are certified genuine Haute Horlogerie masterpieces registered in the Hanboro Global Serial Registry under their respective SKU reference.</li>
-                      <li>Includes <strong>2-Year International Atelier Mechanical Warranty</strong> covering caliber accuracy and movement craftsmanship.</li>
+                      <li>All timepieces are certified genuine, registered in the Hanboro Global Serial Registry under their respective SKU reference.</li>
+                      <li>Includes <strong>2-Year International Mechanical Warranty</strong> covering caliber accuracy and movement craftsmanship.</li>
                       <li>Tax is charged under GST Council Section 9(1) for Horology & Timepieces (HSN Chapter 9102).</li>
                       <li>Subject to Gurugram / Delhi NCR Jurisdiction.</li>
                     </ol>
@@ -4956,7 +4886,7 @@ export function AdminDashboard({ onNavigateHome }) {
                     <span>₹{sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
                   </div>
                   <div className="sp-inv-calc-row">
-                    <span>VIP Insured White-Glove Logistics:</span>
+                    <span>Insured Logistics:</span>
                     <span style={{ color: "#16a34a", fontWeight: 600 }}>FREE (₹0.00)</span>
                   </div>
                   <div className="sp-invoice-divider sp-inv-divider--subtle" />
