@@ -15,11 +15,30 @@
  */
 
 import https from "node:https";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
-const token = process.env.VERCEL_TOKEN || process.env.VERCEL_AUTH_TOKEN;
-const projectId = process.env.VERCEL_PROJECT_ID || "prj_u6pq1GyJ7MvpdjBSgp1EnAYzCUWI";
+let token = process.env.VERCEL_TOKEN || process.env.VERCEL_AUTH_TOKEN;
+let teamId = process.env.VERCEL_ORG_ID;
+
+if (!token || !teamId) {
+  try {
+    const cliDir = path.join(os.homedir(), "Library/Application Support/com.vercel.cli");
+    const authPath = path.join(cliDir, "auth.json");
+    const configPath = path.join(cliDir, "config.json");
+    if (!token && fs.existsSync(authPath)) {
+      const auth = JSON.parse(fs.readFileSync(authPath, "utf-8"));
+      token = auth.token;
+    }
+    if (!teamId && fs.existsSync(configPath)) {
+      const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+      teamId = config.currentTeam;
+    }
+  } catch {}
+}
+
 const projectName = process.env.VERCEL_PROJECT_NAME || "hanboro";
-const teamId = process.env.VERCEL_ORG_ID;
 const keepCount = Math.max(1, parseInt(process.env.KEEP_COUNT || "1", 10));
 
 if (!token) {
@@ -58,16 +77,34 @@ function request(url, options = {}) {
 }
 
 async function run() {
-  console.log(`🔍 Fetching deployments for project "${projectName}"...`);
+  console.log(`🔍 Fetching project details for "${projectName}"...`);
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
 
+  let resolvedProjectId = process.env.VERCEL_PROJECT_ID;
+  try {
+    const projUrl = `https://api.vercel.com/v9/projects/${projectName}${teamId ? `?teamId=${teamId}` : ""}`;
+    const { status, body } = await request(projUrl, { headers });
+    if (status === 200 && body?.id) {
+      resolvedProjectId = body.id;
+      console.log(`✓ Resolved Project ID: ${resolvedProjectId}`);
+    }
+  } catch (e) {
+    console.warn("Could not query project ID dynamically:", e.message);
+  }
+
+  if (!resolvedProjectId) {
+    resolvedProjectId = "prj_M7MImII2ndTrx1sFruPcnoZAni5n";
+  }
+
+  console.log(`🔍 Fetching deployments for project "${projectName}" (${resolvedProjectId})...`);
+
   const projectDeployments = [];
   let until;
   do {
-    const query = new URLSearchParams({ limit: "100", projectId });
+    const query = new URLSearchParams({ limit: "100", projectId: resolvedProjectId });
     if (teamId) query.set("teamId", teamId);
     if (until) query.set("until", String(until));
 
@@ -83,7 +120,7 @@ async function run() {
     until = body.deployments.length === 100 && last?.createdAt ? last.createdAt : undefined;
   } while (until);
 
-  console.log(`Found ${projectDeployments.length} total deployments for ${projectName} (${projectId}).`);
+  console.log(`Found ${projectDeployments.length} total deployments for ${projectName} (${resolvedProjectId}).`);
   if (projectDeployments.length <= keepCount) {
     console.log(`✅ Only ${projectDeployments.length} deployment(s) exist (<= ${keepCount} to keep). No pruning needed.`);
     return;
