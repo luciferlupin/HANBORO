@@ -9414,8 +9414,48 @@ export function getProductByIdOrSku(identifier) {
   );
 }
 
-// Watch Pricing & Discount Calculation Helper
-export function getWatchPricing(watch) {
+// ──────────────────────────────────────────────────────────────────────────────
+// Storewide MRP Discount Configuration & Helper
+// ──────────────────────────────────────────────────────────────────────────────
+export const STORAGE_KEYS_PRICING = {
+  MRP_DISCOUNT_CONFIG: "hanboro_mrp_discount_config",
+};
+
+export function getMrpDiscountConfig() {
+  try {
+    if (typeof window !== "undefined" && window.localStorage) {
+      const raw = window.localStorage.getItem(STORAGE_KEYS_PRICING.MRP_DISCOUNT_CONFIG);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        return {
+          enabled: parsed.enabled !== false,
+          percent: typeof parsed.percent === "number" && parsed.percent >= 0 && parsed.percent <= 90 ? parsed.percent : 20,
+        };
+      }
+    }
+  } catch {}
+  return { enabled: true, percent: 20 };
+}
+
+export function saveMrpDiscountConfig(config) {
+  try {
+    const safe = {
+      enabled: Boolean(config.enabled),
+      percent: typeof config.percent === "number" ? Math.max(0, Math.min(90, Math.round(config.percent))) : 20,
+    };
+    if (typeof window !== "undefined" && window.localStorage) {
+      window.localStorage.setItem(STORAGE_KEYS_PRICING.MRP_DISCOUNT_CONFIG, JSON.stringify(safe));
+      window.dispatchEvent(new CustomEvent("hanboro:mrp_discount_changed", { detail: safe }));
+    }
+    return safe;
+  } catch (e) {
+    console.error("Failed to save MRP discount config:", e);
+    return { enabled: true, percent: 20 };
+  }
+}
+
+// Watch Pricing & Discount Calculation Helper (respects admin ON/OFF and % settings)
+export function getWatchPricing(watch, overrideConfig = null) {
   if (!watch) {
     return {
       price: "₹0",
@@ -9425,23 +9465,48 @@ export function getWatchPricing(watch) {
       hasDiscount: false,
       discountPercent: 0,
       savings: 0,
-      savingsFormatted: "₹0"
+      savingsFormatted: "₹0",
     };
   }
 
-  let mrpNum = typeof watch.mrpNumeric === "number" && !isNaN(watch.mrpNumeric)
-    ? watch.mrpNumeric
-    : (watch.mrp ? parseInt(String(watch.mrp).replace(/[^\d]/g, ""), 10) : 0);
+  const config = overrideConfig && typeof overrideConfig === "object"
+    ? overrideConfig
+    : getMrpDiscountConfig();
 
   let priceNum = typeof watch.priceNumeric === "number" && !isNaN(watch.priceNumeric)
     ? watch.priceNumeric
     : (watch.price ? parseInt(String(watch.price).replace(/[^\d]/g, ""), 10) : 0);
 
+  let priceStr = watch.price || (priceNum > 0 ? `₹${priceNum.toLocaleString("en-IN")}` : "₹0");
+
+  // Check if discount on MRP is disabled globally OR specifically on this timepiece
+  const isDiscountGloballyDisabled = config.enabled === false;
+  const isDiscountWatchDisabled = watch.showMrpDiscount === false || watch.enableDiscount === false;
+
+  if (isDiscountGloballyDisabled || isDiscountWatchDisabled) {
+    return {
+      price: priceStr,
+      priceNumeric: priceNum,
+      mrp: null,
+      mrpNumeric: priceNum,
+      hasDiscount: false,
+      discountPercent: 0,
+      savings: 0,
+      savingsFormatted: "₹0",
+    };
+  }
+
+  // Active baseline discount rate configured in Admin (default 20%)
+  const defaultDiscountPercent = typeof config.percent === "number" && config.percent > 0 ? config.percent : 20;
+
+  let mrpNum = typeof watch.mrpNumeric === "number" && !isNaN(watch.mrpNumeric)
+    ? watch.mrpNumeric
+    : (watch.mrp ? parseInt(String(watch.mrp).replace(/[^\d]/g, ""), 10) : 0);
+
   let mrpStr = watch.mrp;
-  let priceStr = watch.price;
   let discountPercent = typeof watch.discountPercent === "number" ? watch.discountPercent : 0;
 
-  // If undiscounted, price equals MRP, or missing MRP, match against canonical master catalogue
+  // If undiscounted, price equals MRP, or missing MRP, calculate using configured rate
   if ((!mrpNum || mrpNum <= priceNum || mrpStr === priceStr || !priceNum) && (watch.sku || watch.id)) {
     const cleanId = String(watch.id || "").toLowerCase().trim();
     const cleanSku = String(watch.sku || "").toUpperCase().trim();
@@ -9450,22 +9515,18 @@ export function getWatchPricing(watch) {
         (p.id && String(p.id).toLowerCase().trim() === cleanId) ||
         (p.sku && String(p.sku).toUpperCase().trim() === cleanSku)
     );
-    if (canonical) {
-      const canMrpNum = canonical.mrpNumeric || canonical.priceNumeric || 0;
-      const canDisc = typeof canonical.discountPercent === "number" ? canonical.discountPercent : 20;
-      const canPriceNum = canonical.priceNumeric && canonical.priceNumeric < canMrpNum
-        ? canonical.priceNumeric
-        : Math.round(canMrpNum * (1 - canDisc / 100));
+    if (canonical && canonical.mrpNumeric && canonical.mrpNumeric > priceNum) {
+      const canMrpNum = canonical.mrpNumeric;
+      const canDisc = typeof canonical.discountPercent === "number" ? canonical.discountPercent : defaultDiscountPercent;
       mrpNum = canMrpNum;
       mrpStr = canonical.mrp || `₹${canMrpNum.toLocaleString("en-IN")}`;
-      priceNum = canPriceNum;
-      priceStr = `₹${canPriceNum.toLocaleString("en-IN")}`;
       discountPercent = canDisc;
     } else if (priceNum > 0 && (!mrpNum || mrpNum <= priceNum)) {
-      // Automatic baseline: treat existing price as selling price with 20% discount off MRP
-      mrpNum = Math.round(priceNum / 0.8);
+      // Automatic baseline: calculate MRP based on configured discount %
+      const factor = Math.max(0.1, 1 - defaultDiscountPercent / 100);
+      mrpNum = Math.round(priceNum / factor);
       mrpStr = `₹${mrpNum.toLocaleString("en-IN")}`;
-      discountPercent = 20;
+      discountPercent = defaultDiscountPercent;
     }
   }
 
@@ -9473,41 +9534,120 @@ export function getWatchPricing(watch) {
     const savings = mrpNum - priceNum;
     const finalDiscountPercent = discountPercent || Math.round((savings / mrpNum) * 100);
     return {
-      price: priceStr || `₹${priceNum.toLocaleString("en-IN")}`,
+      price: priceStr,
       priceNumeric: priceNum,
       mrp: mrpStr || `₹${mrpNum.toLocaleString("en-IN")}`,
       mrpNumeric: mrpNum,
       hasDiscount: true,
       discountPercent: finalDiscountPercent,
       savings,
-      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`
+      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`,
     };
   }
 
-  // Final fallback: if mrpNum and priceNum are identical, derive 20% discount
-  if (priceNum > 0) {
-    const derivedMrp = Math.round(priceNum / 0.8);
+  // Fallback if priceNum > 0
+  if (priceNum > 0 && defaultDiscountPercent > 0) {
+    const factor = Math.max(0.1, 1 - defaultDiscountPercent / 100);
+    const derivedMrp = Math.round(priceNum / factor);
     const savings = derivedMrp - priceNum;
     return {
-      price: priceStr || `₹${priceNum.toLocaleString("en-IN")}`,
+      price: priceStr,
       priceNumeric: priceNum,
       mrp: `₹${derivedMrp.toLocaleString("en-IN")}`,
       mrpNumeric: derivedMrp,
       hasDiscount: true,
-      discountPercent: 20,
+      discountPercent: defaultDiscountPercent,
       savings,
-      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`
+      savingsFormatted: `₹${savings.toLocaleString("en-IN")}`,
     };
   }
 
   return {
-    price: watch.price || `₹${priceNum.toLocaleString("en-IN")}`,
+    price: priceStr,
     priceNumeric: priceNum,
     mrp: null,
     mrpNumeric: mrpNum || priceNum,
     hasDiscount: false,
     discountPercent: 0,
     savings: 0,
-    savingsFormatted: "₹0"
+    savingsFormatted: "₹0",
   };
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Model & Edition / Colour Variant Helpers
+// ──────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Derives a canonical model key for grouping colour options of the same watch model.
+ * E.g., Model 018, Model 989-3, Model 8851-1, Model 001.
+ */
+export function getWatchModelKey(watch) {
+  if (!watch) return "";
+  // 1. Explicit modelNumber property
+  const explicit = String(watch.modelNumber || watch.specs?.modelNumber || "").trim();
+  if (
+    explicit &&
+    explicit !== "—" &&
+    explicit.toLowerCase() !== "automatic" &&
+    explicit.toLowerCase() !== "tourbillon"
+  ) {
+    return explicit.toUpperCase();
+  }
+
+  // 2. Extract model part from canonical SKU format e.g. HBR-018-AUTO-STEEL-BLUE -> 018
+  if (watch.sku) {
+    const parts = String(watch.sku).toUpperCase().split("-");
+    if (parts.length >= 2 && parts[0] === "HBR") {
+      // Check if parts[2] is a sub-number (e.g. 989-3, 980-1, 8851-1)
+      if (parts.length >= 3 && /^\d+$/.test(parts[2])) {
+        return `${parts[1]}-${parts[2]}`;
+      }
+      return parts[1];
+    }
+  }
+
+  // 3. Fallback to clean base name or ID
+  const cleanId = String(watch.id || "").trim();
+  return cleanId;
+}
+
+/**
+ * Returns a human-friendly edition / colour label for the variant.
+ * E.g., "Steel Blue", "18K Rose Gold", "Midnight Onyx", "Emerald Green".
+ */
+export function getWatchVariantLabel(watch) {
+  if (!watch) return "Standard Edition";
+  if (watch.color && typeof watch.color === "string") return watch.color;
+  if (watch.edition && typeof watch.edition === "string") return watch.edition;
+  if (watch.variantName && typeof watch.variantName === "string") return watch.variantName;
+
+  // 1. Check parenthetical edition in name e.g. "HANBORO 989 (Ocean Blue Edition)" -> "Ocean Blue"
+  const parenMatch = String(watch.name || "").match(/\(([^)]+)\)/);
+  if (parenMatch && parenMatch[1]) {
+    const inside = parenMatch[1].trim();
+    if (/edition|color|gold|steel|black|blue|green|red|silver|white|dial|strap|starfield|design/i.test(inside)) {
+      return inside.replace(/ Edition$/i, "").replace(/ Design$/i, "").trim();
+    }
+  }
+
+  // 2. Match known horological finishes in SKU or name
+  const targetText = `${watch.sku || ""} ${watch.name || ""} ${watch.subtitle || ""}`.toUpperCase();
+  if (targetText.includes("STEEL-BLUE") || targetText.includes("STEEL BLUE") || targetText.includes("ICE BLUE")) return "Steel Blue";
+  if (targetText.includes("ROSE GOLD & SADDLE BROWN") || targetText.includes("R.GOLD-BROWN")) return "Rose Gold & Brown";
+  if (targetText.includes("ROSE GOLD & SILVER") || targetText.includes("R.GOLD-SILVER")) return "Rose Gold & Silver";
+  if (targetText.includes("ROSE GOLD") || targetText.includes("ROSEGOLD") || targetText.includes("R.GOLD")) return "Rose Gold";
+  if (targetText.includes("ROYAL GOLD") || targetText.includes("YELLOW GOLD") || targetText.includes("GOLD") || targetText.includes("GLD")) return "Royal Gold";
+  if (targetText.includes("SILVER STARFIELD") || targetText.includes("ORBITA-S")) return "Silver Starfield";
+  if (targetText.includes("SILVER") || targetText.includes("SLV") || targetText.includes("STEEL")) return "Sculpted Steel";
+  if (targetText.includes("EMERALD") || targetText.includes("GREEN")) return "Emerald Green";
+  if (targetText.includes("SUNSET ORANGE") || targetText.includes("ORANGE") || targetText.includes("AMBER")) return "Sunset Orange";
+  if (targetText.includes("PURE WHITE") || targetText.includes("WHITE") || targetText.includes("FROST")) return "Pure White";
+  if (targetText.includes("OCEAN BLUE") || targetText.includes("BLUE")) return "Ocean Blue";
+  if (targetText.includes("CRIMSON") || targetText.includes("RED")) return "Crimson Red";
+  if (targetText.includes("MIDNIGHT") || targetText.includes("BLACK") || targetText.includes("BLK") || targetText.includes("DLC") || targetText.includes("ONYX")) return "Midnight Black";
+  if (targetText.includes("CARBON") || targetText.includes("FORGED")) return "Forged Carbon";
+
+  // 3. Fallback
+  return watch.name?.split("–")[1]?.trim() || watch.name || "Default Edition";
 }

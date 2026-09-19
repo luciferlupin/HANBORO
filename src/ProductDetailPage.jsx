@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useMemo } from "react";
-import { PRODUCTS_DATA, getWatchPricing } from "./productsData";
+import { PRODUCTS_DATA, getWatchPricing, getWatchModelKey, getWatchVariantLabel } from "./productsData";
 import { useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 
@@ -14,13 +14,24 @@ export function ProductDetailPage({
     getProductByIdOrSku,
     addToCart,
     buyNow,
+    mrpDiscountConfig,
   } = useStore();
 
   const product = useMemo(() => {
     return getProductByIdOrSku(skuId) || (products && products.find((p) => p.id === skuId || p.sku === skuId)) || null;
   }, [skuId, getProductByIdOrSku, products]);
 
-  const pricing = useMemo(() => getWatchPricing(product), [product]);
+  const pricing = useMemo(() => getWatchPricing(product, mrpDiscountConfig), [product, mrpDiscountConfig]);
+
+  // All color options / editions for the same watch model
+  const modelVariants = useMemo(() => {
+    if (!product) return [];
+    const currentKey = getWatchModelKey(product);
+    if (!currentKey) return [product];
+    const all = Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA;
+    const matches = all.filter((p) => getWatchModelKey(p) === currentKey);
+    return matches.length > 0 ? matches : [product];
+  }, [product, products]);
 
   const [buyQty, setBuyQty] = useState(1);
 
@@ -470,6 +481,62 @@ export function ProductDetailPage({
                 </div>
               </div>
 
+              {/* Colour / Edition Variants for this Model */}
+              {modelVariants.length > 1 && (
+                <div className="pdp-editions-section">
+                  <div className="pdp-editions-header">
+                    <span className="pdp-editions-title">
+                      Available Editions / Colours ({modelVariants.length})
+                    </span>
+                    <span className="pdp-editions-active-name">
+                      {getWatchVariantLabel(product)}
+                    </span>
+                  </div>
+
+                  <div className="pdp-editions-grid">
+                    {modelVariants.map((variant) => {
+                      const isSelected = variant.id === product.id || variant.sku === product.sku;
+                      const variantLabel = getWatchVariantLabel(variant);
+                      const variantPricing = getWatchPricing(variant, mrpDiscountConfig);
+                      const isOutOfStock = variant.stock === 0 || variant.availability === "Out of Stock";
+
+                      return (
+                        <button
+                          key={variant.id || variant.sku}
+                          type="button"
+                          className={`pdp-edition-card ${isSelected ? "is-active" : ""} ${isOutOfStock ? "is-oos" : ""}`}
+                          onClick={() => {
+                            if (!isSelected && onSelectSku) {
+                              onSelectSku(variant.id || variant.sku);
+                            }
+                          }}
+                          title={`${variantLabel} — ${variantPricing.price} (${variant.sku})`}
+                        >
+                          <div className="pdp-edition-thumb-wrap">
+                            <img
+                              src={variant.image}
+                              alt={variantLabel}
+                              className="pdp-edition-thumb"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+                              }}
+                            />
+                            {isSelected && (
+                              <span className="pdp-edition-check-badge">✓</span>
+                            )}
+                          </div>
+                          <div className="pdp-edition-info">
+                            <span className="pdp-edition-name">{variantLabel}</span>
+                            <span className="pdp-edition-price">{variantPricing.price}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Action Buttons / Primary Commerce Row */}
               <div className="pdp-action-section">
                 <div className="pdp-commerce-cta-row">
@@ -763,7 +830,7 @@ export function ProductDetailPage({
                   <span className="related-sku">REF. {rel.sku}</span>
                   <h3 className="related-name">{rel.name}</h3>
                   {(() => {
-                    const relPricing = getWatchPricing(rel);
+                    const relPricing = getWatchPricing(rel, mrpDiscountConfig);
                     return (
                       <div className="related-price-row" style={{ display: "flex", alignItems: "baseline", gap: "6px", margin: "4px 0" }}>
                         <span className="related-price">{relPricing.price}</span>

@@ -167,6 +167,289 @@ function AdminLoginGate({ onNavigateHome, onLogin }) {
   );
 }
 
+function MrpDiscountManagerCard({ config, onUpdate }) {
+  const isEnabled = config?.enabled !== false;
+  const currentPercent = typeof config?.percent === "number" ? config.percent : 20;
+
+  const handleToggle = () => {
+    onUpdate({
+      enabled: !isEnabled,
+      percent: currentPercent,
+    });
+  };
+
+  const handlePercentChange = (val) => {
+    const num = Math.max(0, Math.min(90, parseInt(val, 10) || 0));
+    onUpdate({
+      enabled: isEnabled,
+      percent: num,
+    });
+  };
+
+  return (
+    <div
+      className="sp-form-box"
+      style={{
+        marginBottom: "24px",
+        background: "#ffffff",
+        border: "1px solid #e2e8f0",
+        borderRadius: "10px",
+        padding: "22px",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "16px", marginBottom: "18px" }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "20px" }}>🏷️</span>
+            <h3 style={{ margin: 0, fontSize: "17px", fontWeight: 700, color: "#0f172a" }}>
+              Storefront MRP Discount & Privilege Pricing
+            </h3>
+            <span
+              style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.5px",
+                padding: "3px 10px",
+                borderRadius: "12px",
+                background: isEnabled ? "#dcfce7" : "#f1f5f9",
+                color: isEnabled ? "#15803d" : "#64748b",
+                border: `1px solid ${isEnabled ? "#bbf7d0" : "#e2e8f0"}`,
+              }}
+            >
+              {isEnabled ? "● DISCOUNT ACTIVE" : "○ DISCOUNT DISABLED"}
+            </span>
+          </div>
+          <p style={{ margin: "6px 0 0", fontSize: "13px", color: "#64748b", maxWidth: "680px", lineHeight: "1.4" }}>
+            Turn ON or OFF the crossed-out MRP, discount percentage badge, and client privilege savings banner across the storefront, or adjust the storewide baseline discount percentage.
+          </p>
+        </div>
+
+        {/* ON / OFF Switch */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <span style={{ fontSize: "13px", fontWeight: 600, color: isEnabled ? "#0f172a" : "#64748b" }}>
+            {isEnabled ? "Discount ON" : "Discount OFF"}
+          </span>
+          <button
+            type="button"
+            onClick={handleToggle}
+            style={{
+              position: "relative",
+              width: "52px",
+              height: "28px",
+              borderRadius: "14px",
+              background: isEnabled ? "#16a34a" : "#cbd5e1",
+              border: "none",
+              cursor: "pointer",
+              transition: "background 0.2s ease",
+              padding: "2px",
+              display: "inline-flex",
+              alignItems: "center",
+            }}
+            aria-label="Toggle MRP Discount"
+          >
+            <span
+              style={{
+                display: "block",
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                background: "#ffffff",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.25)",
+                transform: isEnabled ? "translateX(24px)" : "translateX(0px)",
+                transition: "transform 0.2s ease",
+              }}
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Percentage Controls and Presets */}
+      <div
+        style={{
+          background: "#f8fafc",
+          border: "1px solid #e2e8f0",
+          borderRadius: "8px",
+          padding: "16px",
+          opacity: isEnabled ? 1 : 0.65,
+          pointerEvents: isEnabled ? "auto" : "none",
+          transition: "opacity 0.2s ease",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px", marginBottom: "14px" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "13px", fontWeight: 700, color: "#1e293b", marginBottom: "3px" }}>
+              Storewide Baseline Discount Rate (%)
+            </label>
+            <span style={{ fontSize: "12px", color: "#64748b" }}>
+              Sets the discount rate across all watches (or adjusts individual model MRPs automatically).
+            </span>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => handlePercentChange(currentPercent - 5)}
+              style={{
+                width: "34px",
+                height: "34px",
+                borderRadius: "6px",
+                border: "1px solid #cbd5e1",
+                background: "#fff",
+                cursor: "pointer",
+                fontWeight: "bold",
+                fontSize: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              −
+            </button>
+            <div style={{ position: "relative", width: "100px" }}>
+              <input
+                type="number"
+                min="0"
+                max="90"
+                value={currentPercent}
+                onChange={(e) => handlePercentChange(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "7px 26px 7px 12px",
+                  fontSize: "15px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  borderRadius: "6px",
+                  border: "1px solid #cbd5e1",
+                }}
+              />
+              <span style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", fontSize: "13px", color: "#64748b", fontWeight: 700 }}>
+                %
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => handlePercentChange(currentPercent + 5)}
+              style={{
+                width: "34px",
+                height: "34px",
+                borderRadius: "6px",
+                border: "1px solid #cbd5e1",
+                background: "#fff",
+                cursor: "pointer",
+                fontWeight: "bold",
+                fontSize: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
+        {/* Quick Presets */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "16px" }}>
+          <span style={{ fontSize: "12px", color: "#64748b", fontWeight: 600 }}>Quick Presets:</span>
+          {[10, 15, 20, 25, 30, 35, 40].map((rate) => (
+            <button
+              key={rate}
+              type="button"
+              onClick={() => handlePercentChange(rate)}
+              style={{
+                padding: "4px 14px",
+                borderRadius: "16px",
+                fontSize: "12px",
+                fontWeight: 700,
+                border: currentPercent === rate ? "1px solid #16a34a" : "1px solid #cbd5e1",
+                background: currentPercent === rate ? "#16a34a" : "#ffffff",
+                color: currentPercent === rate ? "#ffffff" : "#334155",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+              }}
+            >
+              {rate}% OFF
+            </button>
+          ))}
+        </div>
+
+        {/* Live Storefront Preview Ribbon matching the customer's PDP view */}
+        <div
+          style={{
+            background: "#0b0d10",
+            borderRadius: "8px",
+            padding: "16px 20px",
+            color: "#ffffff",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "1px", color: "#94a3b8", fontWeight: 700 }}>
+              Live Storefront Preview (Product Page Ribbon)
+            </span>
+            <span style={{ fontSize: "11px", fontWeight: 600, color: isEnabled ? "#4ade80" : "#ef4444" }}>
+              {isEnabled ? `● Discount Visible (${currentPercent}% OFF)` : "○ Strikethrough & Discount Hidden"}
+            </span>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "baseline", gap: "10px", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "24px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>
+              ₹43,999
+            </span>
+            {isEnabled && currentPercent > 0 && (
+              <>
+                <span style={{ fontSize: "14px", color: "#94a3b8", textDecoration: "line-through", textDecorationColor: "#ef4444" }}>
+                  MRP ₹{Math.round(43999 / (1 - currentPercent / 100)).toLocaleString("en-IN")}
+                </span>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    color: "#f87171",
+                    background: "rgba(239, 68, 68, 0.15)",
+                    border: "1px solid rgba(239, 68, 68, 0.35)",
+                    padding: "2px 8px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {currentPercent}% OFF
+                </span>
+              </>
+            )}
+          </div>
+
+          {isEnabled && currentPercent > 0 && (
+            <div>
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: "#4ade80",
+                  background: "rgba(74, 222, 128, 0.12)",
+                  border: "1px solid rgba(74, 222, 128, 0.25)",
+                  padding: "4px 12px",
+                  borderRadius: "6px",
+                  display: "inline-block",
+                }}
+              >
+                Special Privilege: Save ₹{(Math.round(43999 / (1 - currentPercent / 100)) - 43999).toLocaleString("en-IN")} ({currentPercent}% OFF)
+              </span>
+            </div>
+          )}
+
+          <span style={{ fontSize: "11px", color: "#64748b" }}>
+            Inclusive of all Taxes & Insured Express Air Courier
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AdminDashboard({ onNavigateHome }) {
   const {
     user,
@@ -181,6 +464,8 @@ export function AdminDashboard({ onNavigateHome }) {
     reorderProducts,
     resetProductOrder,
     resetProductsToDefault,
+    mrpDiscountConfig,
+    updateMrpDiscountConfig,
   } = useStore();
 
   // If user is not authenticated as admin, show dedicated executive login gate
@@ -2136,6 +2421,28 @@ export function AdminDashboard({ onNavigateHome }) {
 
                   <button
                     type="button"
+                    className="sp-btn"
+                    onClick={() => updateMrpDiscountConfig({ ...mrpDiscountConfig, enabled: !mrpDiscountConfig?.enabled })}
+                    title={`Click to toggle storefront MRP discount on/off (Currently: ${mrpDiscountConfig?.enabled ? "ON" : "OFF"})`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      backgroundColor: mrpDiscountConfig?.enabled ? "#f0fdf4" : "#f8fafc",
+                      borderColor: mrpDiscountConfig?.enabled ? "#86efac" : "#cbd5e1",
+                      color: mrpDiscountConfig?.enabled ? "#166534" : "#64748b",
+                      fontWeight: 600,
+                    }}
+                  >
+                    <span>🏷️</span>
+                    <span>Discount on MRP:</span>
+                    <strong style={{ color: mrpDiscountConfig?.enabled ? "#15803d" : "#ef4444" }}>
+                      {mrpDiscountConfig?.enabled ? `${mrpDiscountConfig?.percent || 20}% ON` : "OFF"}
+                    </strong>
+                  </button>
+
+                  <button
+                    type="button"
                     className="sp-btn sp-btn--default"
                     onClick={() => handleExportCSV("products")}
                   >
@@ -2908,6 +3215,12 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
               </div>
 
+              {/* Storewide MRP Discount Manager Card */}
+              <MrpDiscountManagerCard
+                config={mrpDiscountConfig}
+                onUpdate={updateMrpDiscountConfig}
+              />
+
               {/* Create Discount Box */}
               <form className="sp-form-box" onSubmit={handleCreatePromo}>
                 <h3>Create New Storefront Discount Code</h3>
@@ -3108,6 +3421,12 @@ export function AdminDashboard({ onNavigateHome }) {
                   <h1 className="sp-page-title">Store Settings</h1>
                 </div>
               </div>
+
+              {/* Storewide MRP Discount Manager Card */}
+              <MrpDiscountManagerCard
+                config={mrpDiscountConfig}
+                onUpdate={updateMrpDiscountConfig}
+              />
 
               <div className="sp-settings-grid">
                 <div className="sp-settings-card">

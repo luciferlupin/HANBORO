@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { authService, ordersService, inventoryService, cartService, rouletteService, productsService, discountsService, calculateEan13, sortCatalogStably, CANONICAL_PRODUCT_ORDER, supabase, STORAGE_KEYS, getOrCreateGuestSessionId } from "./supabaseClient";
-import { PRODUCTS_DATA } from "./productsData";
+import { PRODUCTS_DATA, getMrpDiscountConfig, saveMrpDiscountConfig } from "./productsData";
 
 const StoreContext = createContext(null);
 
@@ -122,6 +122,65 @@ export function StoreProvider({ children }) {
       setToastMessage((current) => (current === message ? null : current));
     }, duration);
   };
+
+  // ── STOREWIDE MRP DISCOUNT CONFIGURATION ──
+  const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
+
+  const updateMrpDiscountConfig = useCallback(async (newConfig) => {
+    const updated = saveMrpDiscountConfig(newConfig);
+    setMrpDiscountConfigState(updated);
+    try {
+      if (supabase && typeof supabase.from === "function") {
+        await supabase.from("discounts").upsert({
+          id: "config_mrp_discount",
+          code: "STORE_MRP_DISCOUNT",
+          type: "percent",
+          value: updated.percent,
+          label: "Storewide MRP Discount Display",
+          is_active: updated.enabled,
+        });
+      }
+    } catch (err) {
+      console.warn("Could not sync MRP discount config to Supabase:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleDiscountChange = (e) => {
+      if (e.detail) {
+        setMrpDiscountConfigState(e.detail);
+      }
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("hanboro:mrp_discount_changed", handleDiscountChange);
+    }
+    // Sync from Supabase on mount if stored
+    (async () => {
+      try {
+        if (supabase && typeof supabase.from === "function") {
+          const { data } = await supabase
+            .from("discounts")
+            .select("*")
+            .eq("code", "STORE_MRP_DISCOUNT")
+            .maybeSingle();
+          if (data) {
+            const remoteConfig = {
+              enabled: data.is_active !== false,
+              percent: typeof data.value === "number" ? data.value : 20,
+            };
+            saveMrpDiscountConfig(remoteConfig);
+            setMrpDiscountConfigState(remoteConfig);
+          }
+        }
+      } catch {}
+    })();
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("hanboro:mrp_discount_changed", handleDiscountChange);
+      }
+    };
+  }, []);
 
   // Sync initial user session, Supabase cart, and cloud products
   useEffect(() => {
@@ -948,6 +1007,10 @@ export function StoreProvider({ children }) {
 
         // Roulette & Privilege Services
         rouletteService,
+
+        // Storewide MRP Discount Controls
+        mrpDiscountConfig,
+        updateMrpDiscountConfig,
 
         // Brand Soundtrack Ambient Audio Controls (Always ON by default)
         isMusicPlaying,

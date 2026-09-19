@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { CATEGORIES, getWatchPricing } from "./productsData";
+import { CATEGORIES, getWatchPricing, getWatchModelKey, getWatchVariantLabel } from "./productsData";
 import { CompareModal } from "./CompareModal";
 import { useStore } from "./StoreContext";
 import { sortCatalogStably } from "./supabaseClient";
@@ -11,13 +11,149 @@ import { forceScrollToTop } from "./scrollUtils";
  * uniform 3-column product pedestals, interactive wishlist hearts, and fast actions.
  */
 
+/**
+ * MaisonWatchModelCard
+ * Displays 1 card per timepiece model with interactive edition/colour swatches,
+ * active image swapping, direct bag/buy actions, and model badges.
+ */
+function MaisonWatchModelCard({
+  modelGroup,
+  wishlist,
+  onToggleWishlist,
+  onSelectProduct,
+  addToCart,
+  buyNow,
+  mrpDiscountConfig,
+}) {
+  const { primaryWatch, variants, modelKey } = modelGroup;
+  const isWishlisted = !!wishlist[primaryWatch.id];
+  const pricing = getWatchPricing(primaryWatch, mrpDiscountConfig);
+
+  return (
+    <article
+      key={primaryWatch.id}
+      className="maison-watch-card"
+      onClick={() => onSelectProduct(primaryWatch)}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelectProduct(primaryWatch);
+        }
+      }}
+    >
+      {/* Top Header: Collection Label (Left) + Wishlist Heart (Right) */}
+      <div className="maison-card-header">
+        <span className="maison-card-badge">
+          {primaryWatch.collectionName || (primaryWatch.collection && primaryWatch.collection.replace(/_/g, " ")) || "HAUTE HORLOGERIE"}
+        </span>
+        <button
+          type="button"
+          className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
+          onClick={(e) => onToggleWishlist(primaryWatch.id, e)}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Centered Large Watch Visual Stage */}
+      <div className="maison-card-stage">
+        <div className="maison-card-shadow" aria-hidden="true" />
+        <img
+          src={primaryWatch.image}
+          alt={primaryWatch.name}
+          className="maison-watch-img"
+          loading="lazy"
+          onError={(e) => {
+            e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
+          }}
+        />
+        {primaryWatch.videoUrl && (
+          <span className="maison-stage-badge maison-stage-badge--reel" title="Mechanical Calibre Motion Reel Available">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            <span>Reel</span>
+          </span>
+        )}
+        {primaryWatch.hasNightMode && !primaryWatch.videoUrl && (
+          <span className="maison-stage-badge maison-stage-badge--lume" title="Super-LumiNova Night Illumination">
+            <span className="lume-dot-mini" />
+            <span>Lume</span>
+          </span>
+        )}
+      </div>
+
+      {/* Clean Middle Info: Ref Eyebrow + Title */}
+      <div className="maison-card-body">
+        <div className="maison-card-eyebrow">
+          <span className="card-sku-code">REF. {primaryWatch.sku}</span>
+          {variants.length > 1 && (
+            <>
+              <span className="card-dot">·</span>
+              <span className="card-editions-subtle">{variants.length} Colours Available</span>
+            </>
+          )}
+        </div>
+
+        <h3 className="maison-card-title" title={primaryWatch.name}>
+          {primaryWatch.name}
+        </h3>
+      </div>
+
+      {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
+      <div className="maison-card-footer">
+        <div className="maison-card-price-wrap">
+          <div className="maison-price-main-row">
+            <span className="maison-price-val">{pricing.price}</span>
+            {pricing.hasDiscount && pricing.mrp && (
+              <span className="maison-mrp-cut" title={`Original MRP: ${pricing.mrp}`}>{pricing.mrp}</span>
+            )}
+            {pricing.discountPercent ? (
+              <span className="maison-discount-badge">{pricing.discountPercent}% OFF</span>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="maison-card-actions" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="maison-card-action-btn maison-card-action-btn--bag"
+            onClick={(e) => {
+              e.stopPropagation();
+              addToCart(primaryWatch, 1, true);
+            }}
+            title="Add to Bag"
+          >
+            <span>+ Bag</span>
+          </button>
+          <button
+            type="button"
+            className="maison-card-action-btn maison-card-action-btn--buy"
+            onClick={(e) => {
+              e.stopPropagation();
+              buyNow(primaryWatch);
+            }}
+            title="Instant Buy Now"
+          >
+            <span>Buy Now ↗</span>
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function ProductsView({
   selectedSkuId,
   onSelectSku,
   onNavigateHome,
   onNavigateToStores
 }) {
-  const { products, addToCart, buyNow, wishlist, toggleWishlist } = useStore();
+  const { products, addToCart, buyNow, wishlist, toggleWishlist, mrpDiscountConfig } = useStore();
 
   const [activeCategory, setActiveCategory] = useState("ALL");
   const [searchQuery, setSearchQuery] = useState("");
@@ -102,8 +238,26 @@ export function ProductsView({
       list = sortCatalogStably(list);
     }
 
-    return list;
+    return sortCatalogStably(list);
   }, [catalogList, activeCategory, searchQuery, sortOrder]);
+
+  // Group timepieces by model number so identical models appear as 1 card with color options
+  const groupedModelCards = useMemo(() => {
+    const groups = new Map();
+    filteredProducts.forEach((watch) => {
+      const modelKey = getWatchModelKey(watch);
+      if (!groups.has(modelKey)) {
+        groups.set(modelKey, {
+          modelKey,
+          primaryWatch: watch,
+          variants: [watch],
+        });
+      } else {
+        groups.get(modelKey).variants.push(watch);
+      }
+    });
+    return Array.from(groups.values());
+  }, [filteredProducts]);
 
   const handleToggleWishlist = (id, e) => {
     e.stopPropagation();
@@ -274,125 +428,18 @@ export function ProductsView({
           </div>
         ) : (
           <div className={`maison-gallery-grid maison-gallery-grid--${viewMode}`}>
-            {filteredProducts.map((watch) => {
-              const isWishlisted = !!wishlist[watch.id];
-
-              return (
-                <article
-                  key={watch.id}
-                  className="maison-watch-card"
-                  onClick={() => handleProductClick(watch)}
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      handleProductClick(watch);
-                    }
-                  }}
-                >
-                  {/* Top Header: Collection Label (Left) + Wishlist Heart (Right) */}
-                  <div className="maison-card-header">
-                    <span className="maison-card-badge">
-                      {watch.collectionName || (watch.collection && watch.collection.replace(/_/g, " ")) || "HAUTE HORLOGERIE"}
-                    </span>
-                    <button
-                      type="button"
-                      className={`maison-wishlist-btn ${isWishlisted ? "is-active" : ""}`}
-                      onClick={(e) => handleToggleWishlist(watch.id, e)}
-                      aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                    >
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill={isWishlisted ? "var(--red)" : "none"} stroke={isWishlisted ? "var(--red)" : "currentColor"} strokeWidth="1.8">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Centered Large Watch Visual Stage */}
-                  <div className="maison-card-stage">
-                    <div className="maison-card-shadow" aria-hidden="true" />
-                    <img
-                      src={watch.image}
-                      alt={watch.name}
-                      className="maison-watch-img"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
-                      }}
-                    />
-                    {watch.videoUrl && (
-                      <span className="maison-stage-badge maison-stage-badge--reel" title="Mechanical Calibre Motion Reel Available">
-                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
-                          <polygon points="5 3 19 12 5 21 5 3" />
-                        </svg>
-                        <span>Reel</span>
-                      </span>
-                    )}
-                    {watch.hasNightMode && !watch.videoUrl && (
-                      <span className="maison-stage-badge maison-stage-badge--lume" title="Super-LumiNova Night Illumination">
-                        <span className="lume-dot-mini" />
-                        <span>Lume</span>
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Clean Middle Info: Ref Eyebrow + Title */}
-                  <div className="maison-card-body">
-                    <div className="maison-card-eyebrow">
-                      <span className="card-sku-code">REF. {watch.sku}</span>
-                    </div>
-
-                    <h3 className="maison-card-title" title={watch.name}>
-                      {watch.name}
-                    </h3>
-                  </div>
-
-                  {/* Clean Bottom Pedestal: Price & Direct Fast Actions */}
-                  <div className="maison-card-footer">
-                    <div className="maison-card-price-wrap">
-                      {(() => {
-                        const pricing = getWatchPricing(watch);
-                        return (
-                          <div className="maison-price-main-row">
-                            <span className="maison-price-val">{pricing.price}</span>
-                            {pricing.hasDiscount && pricing.mrp && (
-                              <span className="maison-mrp-cut" title={`Original MRP: ${pricing.mrp}`}>{pricing.mrp}</span>
-                            )}
-                            {pricing.discountPercent ? (
-                              <span className="maison-discount-badge">{pricing.discountPercent}% OFF</span>
-                            ) : null}
-                          </div>
-                        );
-                      })()}
-                    </div>
-
-                    <div className="maison-card-actions" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        className="maison-card-action-btn maison-card-action-btn--bag"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart(watch, 1, true);
-                        }}
-                        title="Add to Bag"
-                      >
-                        <span>+ Bag</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="maison-card-action-btn maison-card-action-btn--buy"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          buyNow(watch);
-                        }}
-                        title="Instant Buy Now"
-                      >
-                        <span>Buy Now ↗</span>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+            {groupedModelCards.map((group) => (
+              <MaisonWatchModelCard
+                key={group.modelKey || group.primaryWatch.id}
+                modelGroup={group}
+                wishlist={wishlist}
+                onToggleWishlist={handleToggleWishlist}
+                onSelectProduct={handleProductClick}
+                addToCart={addToCart}
+                buyNow={buyNow}
+                mrpDiscountConfig={mrpDiscountConfig}
+              />
+            ))}
           </div>
         )}
       </section>

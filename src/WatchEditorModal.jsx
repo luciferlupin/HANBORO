@@ -120,6 +120,7 @@ export function WatchEditorModal({
     price: "₹1,25,000",
     priceUsd: "$1,500",
     mrp: "₹1,25,000",
+    showMrpDiscount: true,
     availability: "In Stock",
     year: "2026",
     summary: "",
@@ -174,6 +175,7 @@ export function WatchEditorModal({
         price: initialData.price || "₹1,25,000",
         priceUsd: initialData.priceUsd || "$1,500",
         mrp: initialData.mrp || initialData.price || "₹1,25,000",
+        showMrpDiscount: initialData.showMrpDiscount !== false && (initialData.mrp ? initialData.mrp !== initialData.price : true),
         availability: initialData.availability || "In Stock",
         year: initialData.year || "2026",
         summary: initialData.summary || "",
@@ -529,7 +531,12 @@ export function WatchEditorModal({
       tag: form.tag.trim() || "Haute Horlogerie",
       price: form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`,
       priceUsd: form.priceUsd.trim().startsWith("$") ? form.priceUsd.trim() : `$${form.priceUsd.trim()}`,
-      mrp: form.mrp && form.mrp.trim() ? (form.mrp.trim().startsWith("₹") ? form.mrp.trim() : `₹${form.mrp.trim()}`) : (form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`),
+      showMrpDiscount: form.showMrpDiscount !== false,
+      mrp: form.showMrpDiscount === false
+        ? (form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`)
+        : (form.mrp && form.mrp.trim()
+            ? (form.mrp.trim().startsWith("₹") ? form.mrp.trim() : `₹${form.mrp.trim()}`)
+            : (form.price.trim().startsWith("₹") ? form.price.trim() : `₹${form.price.trim()}`)),
       availability: form.availability,
       year: form.year.trim() || "2026",
       summary: form.summary.trim() || "Precision mechanical luxury timepiece engineered by Hanboro Watches.",
@@ -1010,29 +1017,122 @@ export function WatchEditorModal({
                   </div>
 
                   <div className="editor-field-group">
-                    <label className="editor-label">Compare-at Price / MRP (INR ₹)</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="editor-label" style={{ margin: 0 }}>
+                        Compare-at Price / MRP (INR ₹)
+                      </label>
+                      <label style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "11px", cursor: "pointer", color: form.showMrpDiscount !== false ? "#16a34a" : "#64748b", fontWeight: 600 }}>
+                        <input
+                          type="checkbox"
+                          checked={form.showMrpDiscount !== false}
+                          onChange={(e) => {
+                            const enabled = e.target.checked;
+                            setForm((prev) => ({
+                              ...prev,
+                              showMrpDiscount: enabled,
+                              mrp: enabled
+                                ? prev.mrp && prev.mrp !== prev.price
+                                  ? prev.mrp
+                                  : (() => {
+                                      const pNum = parseInt(String(prev.price || "0").replace(/[^\d]/g, ""), 10) || 45000;
+                                      return `₹${Math.round(pNum / 0.8).toLocaleString("en-IN")}`;
+                                    })()
+                                : prev.price,
+                            }));
+                          }}
+                        />
+                        <span>{form.showMrpDiscount !== false ? "Discount ON" : "Discount OFF"}</span>
+                      </label>
+                    </div>
+
                     <div className="input-with-currency-prefix">
                       <span className="currency-symbol">₹</span>
                       <input
                         type="text"
                         className="editor-input"
                         placeholder="e.g. 1,45,000"
-                        value={form.mrp ? form.mrp.replace("₹", "") : ""}
+                        disabled={form.showMrpDiscount === false}
+                        value={form.showMrpDiscount === false ? form.price.replace("₹", "") : (form.mrp ? form.mrp.replace("₹", "") : "")}
                         onChange={(e) => {
                           const val = e.target.value.replace(/[^\d]/g, "");
                           const formatted = val ? `₹${Number(val).toLocaleString("en-IN")}` : "";
-                          setForm((prev) => ({ ...prev, mrp: formatted }));
+                          setForm((prev) => ({ ...prev, mrp: formatted, showMrpDiscount: true }));
                         }}
                       />
                     </div>
+
+                    {/* Quick Discount % Buttons */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "6px" }}>
+                      <span style={{ fontSize: "11px", color: "var(--sp-text-subdued, #666)" }}>Set Discount:</span>
+                      {[
+                        { label: "0% (Off)", percent: 0 },
+                        { label: "10%", percent: 10 },
+                        { label: "15%", percent: 15 },
+                        { label: "20%", percent: 20 },
+                        { label: "25%", percent: 25 },
+                        { label: "30%", percent: 30 },
+                        { label: "35%", percent: 35 },
+                      ].map((preset) => {
+                        const priceNum = parseInt(String(form.price || "0").replace(/[^\d]/g, ""), 10);
+                        const mrpNum = parseInt(String(form.mrp || "0").replace(/[^\d]/g, ""), 10);
+                        const isCurrent =
+                          preset.percent === 0
+                            ? form.showMrpDiscount === false || mrpNum <= priceNum
+                            : form.showMrpDiscount !== false && mrpNum > priceNum && Math.round(((mrpNum - priceNum) / mrpNum) * 100) === preset.percent;
+
+                        return (
+                          <button
+                            key={preset.label}
+                            type="button"
+                            style={{
+                              padding: "2px 8px",
+                              fontSize: "10px",
+                              fontWeight: 600,
+                              borderRadius: "4px",
+                              border: isCurrent ? "1px solid #16a34a" : "1px solid #d1d5db",
+                              background: isCurrent ? "#16a34a" : "#fff",
+                              color: isCurrent ? "#fff" : "#374151",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              if (preset.percent === 0) {
+                                setForm((prev) => ({
+                                  ...prev,
+                                  showMrpDiscount: false,
+                                  mrp: prev.price,
+                                }));
+                              } else {
+                                const p = parseInt(String(form.price || "0").replace(/[^\d]/g, ""), 10) || 45000;
+                                const calculatedMrp = Math.round(p / (1 - preset.percent / 100));
+                                setForm((prev) => ({
+                                  ...prev,
+                                  showMrpDiscount: true,
+                                  mrp: `₹${calculatedMrp.toLocaleString("en-IN")}`,
+                                }));
+                              }
+                            }}
+                          >
+                            {preset.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+
                     {(() => {
                       const priceNum = parseInt(String(form.price || "0").replace(/[^\d]/g, ""), 10);
                       const mrpNum = parseInt(String(form.mrp || "0").replace(/[^\d]/g, ""), 10);
-                      if (mrpNum > priceNum && priceNum > 0) {
+                      if (form.showMrpDiscount !== false && mrpNum > priceNum && priceNum > 0) {
                         const discPercent = Math.round(((mrpNum - priceNum) / mrpNum) * 100);
                         return (
-                          <span className="field-subnote" style={{ color: "#16a34a", fontWeight: 600 }}>
+                          <span className="field-subnote" style={{ color: "#16a34a", fontWeight: 600, marginTop: "4px", display: "block" }}>
                             🏷️ Computed Discount Rate: {discPercent}% OFF (Client saves ₹{(mrpNum - priceNum).toLocaleString("en-IN")})
+                          </span>
+                        );
+                      }
+                      if (form.showMrpDiscount === false) {
+                        return (
+                          <span className="field-subnote" style={{ color: "#64748b", marginTop: "4px", display: "block" }}>
+                            ○ Discount disabled for this model. Strikethrough & badges will not be shown.
                           </span>
                         );
                       }
