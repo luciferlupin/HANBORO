@@ -5,6 +5,7 @@ export default defineConfig({
   base: "/",
   build: {
     outDir: "dist/client",
+    emptyOutDir: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {

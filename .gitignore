@@ -1,6 +1,33 @@
-node_modules
-dist
-.DS_Store
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+build/
+.next/
+out/
+
+# Caches and logs
+.cache/
 *.log
-.vercel
+*.mjs.log
+logs/
+coverage/
+
+# OS and Environment
+.DS_Store
 .env*
+!.env.example
+
+# Vercel and AI IDE metadata
+.vercel/
+.gemini/
+.agents/
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.swp
+*.dump
+*.sql.bak
+.user_uploaded/
