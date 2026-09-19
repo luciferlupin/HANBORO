@@ -137,18 +137,18 @@ export function removeDeletedProductId(idOrSku) {
   } catch {}
 }
 
-// One-time production zero database cache reset (v3) & purge of legacy 83-SKU cache / dev artifacts
-if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v3")) {
+// One-time production zero database cache reset (v4) & purge of legacy demo seeds / dev artifacts
+if (typeof window !== "undefined" && !safeStorage.getItem("hanboro_prod_zero_db_v4")) {
   safeStorage.removeItem(STORAGE_KEYS.ORDERS);
   safeStorage.removeItem(STORAGE_KEYS.CUSTOMERS);
   safeStorage.removeItem(STORAGE_KEYS.PROFILES);
+  safeStorage.removeItem("hanboro_orders_cache");
+  safeStorage.removeItem("hanboro_abandoned_checkouts_cache");
   safeStorage.removeItem("hanboro_draft_orders_cache");
+  safeStorage.removeItem("hanboro_checkout_session_id");
   safeStorage.removeItem(STORAGE_KEYS.ROULETTE_SPINS);
-  safeStorage.removeItem(STORAGE_KEYS.INVENTORY);
-  safeStorage.removeItem(STORAGE_KEYS.DELETED_IDS);
-  safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
-  safeStorage.removeItem(STORAGE_KEYS.WATCH_ORDER);
-  safeStorage.setItem("hanboro_prod_zero_db_v3", "true");
+  safeStorage.removeItem("hanboro_cart");
+  safeStorage.setItem("hanboro_prod_zero_db_v4", "true");
 }
 
 /**
@@ -215,7 +215,47 @@ export function enrichOrderItemWithSkuEan(item, allProducts = []) {
   };
 }
 
-// Master VIP Customer Profiles Seed
+// Demo identity detection helpers to guarantee clean production state
+export const DEMO_EMAILS = new Set([
+  "ankan.das@bengalhorology.in",
+  "shiva.karnati@hyderabadtech.in",
+  "deepak.agarwal@delhiwealth.com",
+  "goutham.s@chennaiauto.com",
+  "nandan.shetty@bangalorecap.in",
+  "viren.mehta@mumbaitrading.com",
+  "shopper@hanborowatches.in",
+  "guest@hanborowatches.in",
+  "client@hanborowatches.in",
+]);
+
+export function isDemoEmail(email) {
+  if (!email) return false;
+  const clean = String(email).toLowerCase().trim();
+  return (
+    DEMO_EMAILS.has(clean) ||
+    clean.includes("demo") ||
+    clean.includes("bengalhorology") ||
+    clean.includes("hyderabadtech") ||
+    clean.includes("delhiwealth")
+  );
+}
+
+export function isDemoOrder(o) {
+  if (!o) return false;
+  if (o.id?.startsWith("ord-demo") || o.id?.startsWith("ord-100")) return true;
+  if (o.order_ref === "HNB-78219-IN" || o.order_ref === "HNB-64102-IN") return true;
+  if (isDemoEmail(o.customer_email)) return true;
+  if (
+    o.customer_name?.toLowerCase().includes("demo") ||
+    o.customer_name === "Ankan Das" ||
+    o.customer_name === "Shiva Karnati"
+  ) {
+    return true;
+  }
+  return false;
+}
+
+// Master Customer Profiles (Clean Production Slate: 0 demo customers)
 export const DEFAULT_CUSTOMER_PROFILES = [
   {
     id: "prof-admin-connect",
@@ -235,114 +275,6 @@ export const DEFAULT_CUSTOMER_PROFILES = [
     },
     created_at: new Date().toISOString(),
   },
-  {
-    id: "prof-ankan-das",
-    email: "ankan.das@bengalhorology.in",
-    full_name: "Ankan Das",
-    phone: "+919830011223",
-    role: "customer",
-    vip_tier: "VIP Horology Patron",
-    notes: "Astroworld Tourbillon collector. Prefers bespoke piano-lacquered wooden vault packaging.",
-    shipping_info: {
-      address: "Ballygunge Circular Road, Suite 4B",
-      city: "Kolkata",
-      state: "West Bengal",
-      pin: "700019",
-      pincode: "700019",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 30 * 86400000).toISOString(),
-  },
-  {
-    id: "prof-shiva-karnati",
-    email: "shiva.karnati@hyderabadtech.in",
-    full_name: "Shiva Karnati",
-    phone: "+919849012345",
-    role: "customer",
-    vip_tier: "Diamond Collector",
-    notes: "Casino Roulette Complications connoisseur. Fastrr VIP 1-click verified patron.",
-    shipping_info: {
-      address: "Road No. 36, Jubilee Hills Horizon",
-      city: "Hyderabad",
-      state: "Telangana",
-      pin: "500081",
-      pincode: "500081",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 45 * 86400000).toISOString(),
-  },
-  {
-    id: "prof-deepak-agarwal",
-    email: "deepak.agarwal@delhiwealth.com",
-    full_name: "Deepak Agarwal",
-    phone: "+919811122334",
-    role: "customer",
-    vip_tier: "Grand Complication Connoisseur",
-    notes: "Prefers Tonneau Skeleton and double tourbillon complications. Insured white-glove courier.",
-    shipping_info: {
-      address: "DLF Phase 5, Golf Course Road, The Crest",
-      city: "Gurgaon",
-      state: "Haryana",
-      pin: "122002",
-      pincode: "122002",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 60 * 86400000).toISOString(),
-  },
-  {
-    id: "prof-goutham-s",
-    email: "goutham.s@chennaiauto.com",
-    full_name: "Goutham singaravelu",
-    phone: "+919840012345",
-    role: "customer",
-    vip_tier: "Haute Horlogerie Patron",
-    notes: "Celestial Dragon Tourbillon allocation holder. Pre-paid VIP client.",
-    shipping_info: {
-      address: "12 Boat Club Road, RA Puram",
-      city: "Chennai",
-      state: "Tamil Nadu",
-      pin: "600004",
-      pincode: "600004",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 75 * 86400000).toISOString(),
-  },
-  {
-    id: "prof-nandan-shetty",
-    email: "nandan.shetty@bangalorecap.in",
-    full_name: "Nandan Shetty",
-    phone: "+919880023456",
-    role: "customer",
-    vip_tier: "VIP Horology Patron",
-    notes: "Cyber Cogwheel Skeleton collector.",
-    shipping_info: {
-      address: "Lavelle Road, Richmond Town",
-      city: "Bengaluru",
-      state: "Karnataka",
-      pin: "560001",
-      pincode: "560001",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 90 * 86400000).toISOString(),
-  },
-  {
-    id: "prof-viren-mehta",
-    email: "viren.mehta@mumbaitrading.com",
-    full_name: "VIREN-",
-    phone: "+919821098765",
-    role: "customer",
-    vip_tier: "Collector Tier",
-    notes: "Interested in limited edition bespoke allocations.",
-    shipping_info: {
-      address: "Pali Hill, Bandra West",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pin: "400050",
-      pincode: "400050",
-      country: "India",
-    },
-    created_at: new Date(Date.now() - 100 * 86400000).toISOString(),
-  },
 ];
 
 // Helper: load local customer profiles cache (pure live users only)
@@ -355,12 +287,9 @@ export function getLocalProfiles() {
       // Exclude any legacy mock patron seeds
       return parsed.filter(
         (p) =>
-          p.email !== "ankan.das@bengalhorology.in" &&
-          p.email !== "shiva.karnati@hyderabadtech.in" &&
-          p.email !== "deepak.agarwal@delhiwealth.com" &&
-          p.email !== "goutham.s@chennaiauto.com" &&
-          p.email !== "nandan.shetty@bangalorecap.in" &&
-          p.email !== "viren.mehta@mumbaitrading.com"
+          !isDemoEmail(p.email) &&
+          !p.full_name?.toLowerCase().includes("demo") &&
+          p.email !== "connect@hanborowatches.in"
       );
     }
     return [];
@@ -372,7 +301,10 @@ export function getLocalProfiles() {
 // Helper: save local customer profiles cache
 export function saveLocalProfiles(profiles) {
   try {
-    safeStorage.setItem(STORAGE_KEYS.PROFILES, JSON.stringify(profiles));
+    const clean = (Array.isArray(profiles) ? profiles : []).filter(
+      (p) => !isDemoEmail(p.email) && !p.full_name?.toLowerCase().includes("demo")
+    );
+    safeStorage.setItem(STORAGE_KEYS.PROFILES, JSON.stringify(clean));
   } catch (err) {
     console.warn("Could not save profiles locally", err);
   }
@@ -387,15 +319,7 @@ export function getLocalOrders() {
     }
     const parsed = JSON.parse(raw);
     // Filter out any legacy demo seed orders if present
-    const cleanOrders = (Array.isArray(parsed) ? parsed : []).filter(
-      (o) =>
-        !o.id?.startsWith("ord-demo") &&
-        !o.id?.startsWith("ord-100") &&
-        o.order_ref !== "HNB-78219-IN" &&
-        o.order_ref !== "HNB-64102-IN" &&
-        o.customer_email !== "ankan.das@bengalhorology.in" &&
-        o.customer_email !== "shiva.karnati@hyderabadtech.in"
-    );
+    const cleanOrders = (Array.isArray(parsed) ? parsed : []).filter((o) => !isDemoOrder(o));
     return cleanOrders;
   } catch {
     return [];
@@ -405,7 +329,8 @@ export function getLocalOrders() {
 // Helper: save local orders cache
 export function saveLocalOrders(orders) {
   try {
-    safeStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+    const clean = (Array.isArray(orders) ? orders : []).filter((o) => !isDemoOrder(o));
+    safeStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(clean));
   } catch (err) {
     console.warn("Could not save orders locally", err);
   }
@@ -945,9 +870,9 @@ export const ordersService = {
     return formattedOrder;
   },
 
-  // Fetch all orders for Admin Dashboard
+  // Fetch all orders for Admin Dashboard (Clean Production Slate: 0 demo orders)
   async fetchOrders() {
-    const local = getLocalOrders();
+    const local = getLocalOrders().filter((o) => !isDemoOrder(o));
     try {
       const { data, error } = await supabase
         .from("orders")
@@ -955,10 +880,11 @@ export const ordersService = {
         .order("created_at", { ascending: false });
 
       if (!error && data && data.length > 0) {
-        // Merge Supabase orders with any local orders and enrich with SKU + EAN
-        const ids = new Set(data.map((o) => o.order_ref));
+        // Filter out any demo orders from remote Supabase!
+        const cleanRemote = data.filter((o) => !isDemoOrder(o));
+        const ids = new Set(cleanRemote.map((o) => o.order_ref));
         const merged = [
-          ...data.map((o) => ({
+          ...cleanRemote.map((o) => ({
             ...o,
             items: (o.items || []).map((it) => enrichOrderItemWithSkuEan(it)),
           })),
@@ -1106,7 +1032,7 @@ export const ordersService = {
 
 // ── PROFILES SERVICE (Customer Dossier & VIP Database) ────────────────────────
 export const profilesService = {
-  // Fetch all customer profiles for Admin Dashboard
+  // Fetch all customer profiles for Admin Dashboard (Clean Production Slate)
   async fetchProfiles() {
     const local = getLocalProfiles();
     try {
@@ -1117,18 +1043,12 @@ export const profilesService = {
 
       if (!error && data && data.length > 0) {
         const liveOnly = data.filter(
-          (p) =>
-            p.email !== "ankan.das@bengalhorology.in" &&
-            p.email !== "shiva.karnati@hyderabadtech.in" &&
-            p.email !== "deepak.agarwal@delhiwealth.com" &&
-            p.email !== "goutham.s@chennaiauto.com" &&
-            p.email !== "nandan.shetty@bangalorecap.in" &&
-            p.email !== "viren.mehta@mumbaitrading.com"
+          (p) => !isDemoEmail(p.email) && !p.full_name?.toLowerCase().includes("demo")
         );
         const emailSet = new Set(liveOnly.map((p) => p.email?.toLowerCase()));
         const merged = [
           ...liveOnly,
-          ...local.filter((p) => !emailSet.has(p.email?.toLowerCase())),
+          ...local.filter((p) => !emailSet.has(p.email?.toLowerCase()) && !isDemoEmail(p.email)),
         ];
         saveLocalProfiles(merged);
         return merged;
@@ -3137,7 +3057,17 @@ export const abandonedCheckoutsService = {
   getLocalAbandonedCheckouts() {
     try {
       const raw = safeStorage.getItem("hanboro_abandoned_checkouts_cache");
-      return raw ? JSON.parse(raw) : [];
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return (Array.isArray(parsed) ? parsed : []).filter(
+        (c) =>
+          !c.id?.startsWith("chk-cart-") &&
+          !c.id?.startsWith("chk-live-") &&
+          c.customerEmail !== "shopper@hanborowatches.in" &&
+          c.customerName !== "Active Guest Shopper" &&
+          !isDemoEmail(c.customerEmail) &&
+          !c.customerName?.toLowerCase().includes("demo")
+      );
     } catch {
       return [];
     }
@@ -3145,7 +3075,16 @@ export const abandonedCheckoutsService = {
 
   saveLocalAbandonedCheckouts(checkouts) {
     try {
-      safeStorage.setItem("hanboro_abandoned_checkouts_cache", JSON.stringify(checkouts));
+      const clean = (Array.isArray(checkouts) ? checkouts : []).filter(
+        (c) =>
+          !c.id?.startsWith("chk-cart-") &&
+          !c.id?.startsWith("chk-live-") &&
+          c.customerEmail !== "shopper@hanborowatches.in" &&
+          c.customerName !== "Active Guest Shopper" &&
+          !isDemoEmail(c.customerEmail) &&
+          !c.customerName?.toLowerCase().includes("demo")
+      );
+      safeStorage.setItem("hanboro_abandoned_checkouts_cache", JSON.stringify(clean));
     } catch {}
   },
 
@@ -3154,7 +3093,7 @@ export const abandonedCheckoutsService = {
     const id = `chk-${sessionId}`;
     const checkoutNumber =
       payload.checkoutNumber || `#${44800000000000 + (this.hashCode(sessionId) % 900000000)}`;
-    const customerName = String(payload.name || payload.customerName || "").trim() || "Active Guest Shopper";
+    const customerName = String(payload.name || payload.customerName || "").trim() || "Guest Shopper";
     const customerEmail = String(payload.email || payload.customerEmail || "").trim();
     const customerPhone = String(payload.phone || payload.customerPhone || "").trim();
     const total = Number(payload.totalPrice || payload.total || 0);
@@ -3188,7 +3127,7 @@ export const abandonedCheckoutsService = {
       id,
       checkoutNumber,
       customerName,
-      customerEmail: customerEmail || "shopper@hanborowatches.in",
+      customerEmail: customerEmail || "",
       customerPhone: customerPhone || "",
       totalPrice: total,
       status: "Abandoned",
@@ -3247,14 +3186,22 @@ export const abandonedCheckoutsService = {
         .eq("status", "Abandoned")
         .order("updated_at", { ascending: false });
 
-      // 2. Also fetch live carts from cartService
-      const liveCarts = await cartService.fetchAllLiveCarts().catch(() => []);
-
       const recordsMap = new Map();
 
-      // Add Supabase abandoned drafts
+      // Add real Supabase abandoned drafts (excluding demo/synthetic records)
       if (!draftErr && Array.isArray(abandonedDrafts)) {
         abandonedDrafts.forEach((d) => {
+          if (
+            d.id?.startsWith("chk-cart-") ||
+            d.id?.startsWith("chk-live-") ||
+            d.customer_email === "shopper@hanborowatches.in" ||
+            d.customer_name === "Active Guest Shopper" ||
+            isDemoEmail(d.customer_email) ||
+            d.customer_name?.toLowerCase().includes("demo")
+          ) {
+            return;
+          }
+
           let notesObj = {};
           try {
             notesObj = typeof d.notes === "string" && d.notes.startsWith("{") ? JSON.parse(d.notes) : {};
@@ -3263,8 +3210,8 @@ export const abandonedCheckoutsService = {
           recordsMap.set(d.id, {
             id: d.id,
             checkoutNumber: d.draft_number,
-            customerName: d.customer_name || "Active Guest Shopper",
-            customerEmail: d.customer_email || "shopper@hanborowatches.in",
+            customerName: d.customer_name || "Guest Shopper",
+            customerEmail: d.customer_email || "",
             customerPhone: d.customer_phone || "",
             emailStatus: "Not sent",
             recoveryStatus: d.status === "Recovered" ? "Recovered" : "Not recovered",
@@ -3284,32 +3231,13 @@ export const abandonedCheckoutsService = {
         });
       }
 
-      // Merge uncaptured live carts into abandoned list
-      if (Array.isArray(liveCarts)) {
-        liveCarts.forEach((cart, idx) => {
-          const cartId = `chk-cart-${cart.userId || idx}`;
-          if (!recordsMap.has(cartId)) {
-            recordsMap.set(cartId, {
-              id: cartId,
-              checkoutNumber: `#${44800000000000 + Math.floor(Math.random() * 999999999)}`,
-              customerName: cart.userEmail || cart.userId || "Active Guest Shopper",
-              customerEmail: cart.userEmail?.includes("@") ? cart.userEmail : "shopper@hanborowatches.in",
-              customerPhone: cart.userPhone || "",
-              emailStatus: "Not sent",
-              region: "India",
-              recoveryStatus: "Not recovered",
-              totalPrice: cart.totalValue || 45000,
-              createdAt: "Just now",
-              items: cart.items || [],
-              shippingAddress: {},
-            });
+      // Merge with local clean leads
+      if (Array.isArray(local) && local.length > 0) {
+        local.forEach((c) => {
+          if (!recordsMap.has(c.id)) {
+            recordsMap.set(c.id, c);
           }
         });
-      }
-
-      // Merge with local fallback if Supabase returned nothing
-      if (recordsMap.size === 0 && Array.isArray(local) && local.length > 0) {
-        local.forEach((c) => recordsMap.set(c.id, c));
       }
 
       const merged = Array.from(recordsMap.values());

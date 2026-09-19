@@ -5,11 +5,24 @@ import {
   getLocalProfiles,
   ordersService,
   draftOrdersService,
+  abandonedCheckoutsService,
   profilesService,
   inventoryService,
   productsService,
+  safeStorage,
+  STORAGE_KEYS,
 } from "../src/supabaseClient.js";
 import { PRODUCTS_DATA } from "../src/productsData.js";
+
+// Ensure clean test environment isolated from previous test runs
+if (typeof global !== "undefined" && global.localStorage) {
+  global.localStorage.clear();
+}
+safeStorage.removeItem(STORAGE_KEYS.ORDERS);
+safeStorage.removeItem(STORAGE_KEYS.PROFILES);
+safeStorage.removeItem(STORAGE_KEYS.DRAFTS);
+safeStorage.removeItem(STORAGE_KEYS.ABANDONED);
+safeStorage.removeItem("hanboro_abandoned_checkouts_cache");
 
 test("Production clean-slate: getLocalOrders returns empty array when unseeded", () => {
   const orders = getLocalOrders();
@@ -27,6 +40,16 @@ test("Production clean-slate: draftOrdersService.fetchDraftOrders returns 0 draf
   const drafts = await draftOrdersService.fetchDraftOrders([]);
   assert.equal(Array.isArray(drafts), true);
   assert.equal(drafts.length, 0, "Initial draft orders must be 0");
+});
+
+test("Production clean-slate: abandonedCheckoutsService returns 0 abandoned checkouts by default (no demo leads)", async () => {
+  const local = abandonedCheckoutsService.getLocalAbandonedCheckouts();
+  assert.equal(Array.isArray(local), true);
+  assert.equal(local.length, 0, "Local abandoned checkouts must be 0 by default");
+
+  const fetched = await abandonedCheckoutsService.fetchAbandonedCheckouts();
+  assert.equal(Array.isArray(fetched), true);
+  assert.equal(fetched.length, 0, "Initial abandoned checkouts must be 0 (no fake demo leads)");
 });
 
 test("Inventory Check: Master watch catalogue and inventory allocations are 100% intact", () => {

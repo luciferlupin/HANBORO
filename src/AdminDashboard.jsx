@@ -12,6 +12,8 @@ import {
   enrichOrderItemWithSkuEan,
   safeStorage,
   sortCatalogStably,
+  isDemoEmail,
+  isDemoOrder,
 } from "./supabaseClient";
 import { PRODUCTS_DATA, CATEGORIES } from "./productsData";
 import { PROMO_CODES, useStore } from "./StoreContext";
@@ -23,16 +25,11 @@ import {
   IconOrders,
   IconProducts,
   IconCustomers,
-  IconGrowth,
   IconDiscounts,
-  IconContent,
   IconMarkets,
   IconAnalytics,
   IconAudit,
   IconStorefront,
-  IconAgentic,
-  IconSocial,
-  IconSmind,
   IconWhatsApp,
   IconSettings,
   IconSearch,
@@ -206,7 +203,7 @@ export function AdminDashboard({ onNavigateHome }) {
     if (hash.includes("settings")) return "settings";
     try {
       const saved = localStorage.getItem("hanboro_admin_tab");
-      if (saved) return saved;
+      if (saved && saved !== "growth" && saved !== "content") return saved;
     } catch {}
     return "products"; // Default to Products view so SKU listings are immediate
   });
@@ -558,6 +555,23 @@ export function AdminDashboard({ onNavigateHome }) {
     }
   };
 
+  const formatOrderTimestamp = (isoString) => {
+    if (!isoString) return { dateStr: "Just now", timeStr: "", fullStr: "Just now" };
+    try {
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return { dateStr: String(isoString), timeStr: "", fullStr: String(isoString) };
+      const dateStr = d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+      const timeStr = d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
+      return {
+        dateStr,
+        timeStr,
+        fullStr: `${dateStr}, ${timeStr}`,
+      };
+    } catch {
+      return { dateStr: String(isoString), timeStr: "", fullStr: String(isoString) };
+    }
+  };
+
   // Discounts State
   const [customPromos, setCustomPromos] = useState(() => {
     try {
@@ -633,25 +647,8 @@ export function AdminDashboard({ onNavigateHome }) {
         setCustomPromos(loadedDiscounts);
       }
 
-      // Merge real recorded checkout leads with any active uncompleted cart sessions
-      const existingIds = new Set((loadedAbandoned || []).map((a) => a.id));
-      const additionalCarts = (loadedCarts || [])
-        .filter((c) => !existingIds.has(`chk-cart-${c.userId}`) && !existingIds.has(`chk-${c.userId}`))
-        .map((cart, idx) => ({
-          id: `chk-live-${idx}-${Date.now()}`,
-          checkoutNumber: `#${44800000000000 + Math.floor(Math.random() * 999999999)}`,
-          createdAt: "Just now",
-          customerName: cart.userEmail || cart.userId || "Active Guest Shopper",
-          customerEmail: cart.userEmail?.includes("@") ? cart.userEmail : "shopper@hanborowatches.in",
-          customerPhone: "",
-          emailStatus: "Not sent",
-          region: "India",
-          recoveryStatus: "Not recovered",
-          totalPrice: cart.totalValue || 45000,
-          items: cart.items || [],
-        }));
-
-      setAbandonedCheckouts([...(loadedAbandoned || []), ...additionalCarts]);
+      // Pure recorded checkout leads (no synthetic phantom cart injections)
+      setAbandonedCheckouts(loadedAbandoned || []);
     } catch (err) {
       console.warn("Data sync fallback active:", err);
     } finally {
@@ -666,7 +663,7 @@ export function AdminDashboard({ onNavigateHome }) {
 
   // Filtered Orders List (Shopify style)
   const filteredOrders = useMemo(() => {
-    return orders.filter((o) => {
+    const list = orders.filter((o) => {
       // Tab filter
       if (orderStatusTab === "unfulfilled" && (o.fulfillment_status === "Fulfilled" || o.fulfillment_status === "Not required")) return false;
       if (orderStatusTab === "unpaid" && o.payment_status === "Paid") return false;
@@ -676,6 +673,7 @@ export function AdminDashboard({ onNavigateHome }) {
       // Search filter
       const q = orderSearch.toLowerCase().trim();
       if (!q) return true;
+      const dateInfo = formatOrderTimestamp(o.created_at);
       return (
         o.order_ref?.toLowerCase().includes(q) ||
         o.customer_name?.toLowerCase().includes(q) ||
@@ -684,8 +682,16 @@ export function AdminDashboard({ onNavigateHome }) {
         o.payment_status?.toLowerCase().includes(q) ||
         o.fulfillment_status?.toLowerCase().includes(q) ||
         o.tracking_number?.toLowerCase().includes(q) ||
+        dateInfo.fullStr?.toLowerCase().includes(q) ||
         (o.tags && o.tags.some((t) => t.toLowerCase().includes(q)))
       );
+    });
+
+    // Ensure newest orders are prioritized at top by timestamp
+    return list.slice().sort((a, b) => {
+      const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      return timeB - timeA;
     });
   }, [orders, orderStatusTab, orderSearch]);
 
@@ -709,15 +715,15 @@ export function AdminDashboard({ onNavigateHome }) {
   const customersDatabase = useMemo(() => {
     const map = {};
 
-    // 1. Initialize from Registered Customer Profiles (excluding administrative accounts)
+    // 1. Initialize from Registered Customer Profiles (excluding administrative accounts & demo profiles)
     (profiles || []).forEach((p) => {
       const emailKey = (p.email || "").toLowerCase().trim();
-      if (!emailKey || p.role === "admin" || emailKey === "connect@hanborowatches.in") return;
+      if (!emailKey || p.role === "admin" || emailKey === "connect@hanborowatches.in" || isDemoEmail(emailKey)) return;
       map[emailKey] = {
         id: p.id || `prof-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
         name: p.full_name || p.fullName || p.name || emailKey.split("@")[0],
         email: emailKey,
-        phone: p.phone || "+919830011223",
+        phone: p.phone || "",
         city: p.shipping_info?.city || "India",
         state: p.shipping_info?.state || "",
         pin: p.shipping_info?.pin || p.shipping_info?.pincode || "",
@@ -734,15 +740,17 @@ export function AdminDashboard({ onNavigateHome }) {
       };
     });
 
-    // 2. Associate All Storefront & Seed Orders
+    // 2. Associate Real Storefront Orders (excluding demo orders)
     (orders || []).forEach((o) => {
-      const emailKey = (o.customer_email || "").toLowerCase().trim() || o.customer_name?.toLowerCase().trim() || "guest@hanborowatches.in";
+      if (isDemoOrder(o)) return;
+      const emailKey = (o.customer_email || "").toLowerCase().trim();
+      if (!emailKey || isDemoEmail(emailKey)) return;
       if (!map[emailKey]) {
         map[emailKey] = {
           id: `cust-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
           name: o.customer_name || "Valued Client",
           email: o.customer_email || emailKey,
-          phone: o.customer_phone || "+919830011223",
+          phone: o.customer_phone || "",
           city: o.shipping_address?.city || "India",
           state: o.shipping_address?.state || "",
           pin: o.shipping_address?.pin || o.shipping_address?.pincode || "",
@@ -784,15 +792,24 @@ export function AdminDashboard({ onNavigateHome }) {
       if ((o.shipping_address?.pin || o.shipping_address?.pincode) && !map[emailKey].pin) {
         map[emailKey].pin = o.shipping_address.pin || o.shipping_address.pincode;
       }
-      if (o.customer_phone && (!map[emailKey].phone || map[emailKey].phone === "+918882069334")) {
+      if (o.customer_phone && !map[emailKey].phone) {
         map[emailKey].phone = o.customer_phone;
       }
     });
 
-    // 3. Include unique Abandoned Checkouts as prospective clients
+    // 3. Include unique Real Abandoned Checkouts as prospective clients (only genuine customer emails)
     (abandonedCheckouts || []).forEach((c) => {
       const emailKey = (c.customerEmail || "").toLowerCase().trim();
-      if (emailKey && !map[emailKey]) {
+      if (
+        !emailKey ||
+        isDemoEmail(emailKey) ||
+        emailKey === "shopper@hanborowatches.in" ||
+        c.customerName === "Active Guest Shopper" ||
+        c.customerName?.toLowerCase().includes("demo")
+      ) {
+        return;
+      }
+      if (!map[emailKey]) {
         const ship = c.shippingAddress || {};
         map[emailKey] = {
           id: `chk-cust-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
@@ -976,10 +993,10 @@ export function AdminDashboard({ onNavigateHome }) {
         `"${(c.items || []).map((i) => `${i.name || i.sku || 'Timepiece'} (x${i.quantity || 1})`).join('; ')}"`,
       ]);
     } else {
-      headers = ["Order", "Date", "Customer", "Channel", "Total", "Payment Status", "Fulfillment Status", "Delivery Status", "Tracking"];
+      headers = ["Order", "Date & Time", "Customer", "Channel", "Total", "Payment Status", "Fulfillment Status", "Delivery Status", "Tracking"];
       rows = filteredOrders.map((o) => [
         o.order_ref,
-        `"${new Date(o.created_at).toLocaleDateString()}"`,
+        `"${formatOrderTimestamp(o.created_at).fullStr}"`,
         `"${o.customer_name}"`,
         o.channel || "Online Store",
         o.total_amount,
@@ -1446,17 +1463,7 @@ export function AdminDashboard({ onNavigateHome }) {
               </span>
             </button>
 
-            {/* 6. Growth */}
-            <button
-              type="button"
-              className={`sp-nav-link ${activeTab === "growth" ? "is-active" : ""}`}
-              onClick={() => setActiveTab("growth")}
-            >
-              <span className="sp-nav-icon"><IconGrowth size={16} /></span>
-              <span className="sp-nav-text">Growth</span>
-            </button>
-
-            {/* 7. Discounts */}
+            {/* 6. Discounts */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "discounts" ? "is-active" : ""}`}
@@ -1466,17 +1473,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Discounts</span>
             </button>
 
-            {/* 8. Content */}
-            <button
-              type="button"
-              className={`sp-nav-link ${activeTab === "content" ? "is-active" : ""}`}
-              onClick={() => setActiveTab("content")}
-            >
-              <span className="sp-nav-icon"><IconContent size={16} /></span>
-              <span className="sp-nav-text">Content</span>
-            </button>
-
-            {/* 9. Markets */}
+            {/* 7. Markets */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "markets" ? "is-active" : ""}`}
@@ -1486,7 +1483,7 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Markets</span>
             </button>
 
-            {/* 10. Analytics */}
+            {/* 8. Analytics */}
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "analytics" ? "is-active" : ""}`}
@@ -1510,36 +1507,12 @@ export function AdminDashboard({ onNavigateHome }) {
               <span className="sp-nav-text">Online Store</span>
               <span className="sp-link-action"><IconExternalLink size={11} /></span>
             </button>
-            <button
-              type="button"
-              className="sp-nav-link"
-              onClick={() => showToast("Agentic AI Sales Assistant is active on storefront")}
-            >
-              <span className="sp-nav-icon"><IconAgentic size={16} /></span>
-              <span className="sp-nav-text">Agentic AI</span>
-            </button>
-            <button
-              type="button"
-              className="sp-nav-link"
-              onClick={() => window.open("https://instagram.com", "_blank")}
-            >
-              <span className="sp-nav-icon"><IconSocial size={16} /></span>
-              <span className="sp-nav-text">Facebook & Instagram</span>
-            </button>
           </nav>
 
           {/* Apps Group */}
           <div className="sp-sidebar-divider" />
           <div className="sp-sidebar-heading">Apps</div>
           <nav className="sp-nav-group">
-            <button
-              type="button"
-              className="sp-nav-link"
-              onClick={() => showToast("Smind Custom Design Sections active")}
-            >
-              <span className="sp-nav-icon"><IconSmind size={16} /></span>
-              <span className="sp-nav-text">Smind Sections</span>
-            </button>
             <button
               type="button"
               className={`sp-nav-link ${activeTab === "whatsapp" ? "is-active" : ""}`}
@@ -1899,7 +1872,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         />
                       </th>
                       <th>Customer</th>
-                      <th>Fulfill by</th>
+                      <th>Date & Time</th>
                       <th>Channel</th>
                       <th className="sp-th--right">Total</th>
                       <th>Payment status</th>
@@ -1943,7 +1916,14 @@ export function AdminDashboard({ onNavigateHome }) {
                             </button>
                             <div className="sp-order-ref-sub">{o.order_ref}</div>
                           </td>
-                          <td className="sp-td--subdued">—</td>
+                          <td className="sp-td--date">
+                            <div className="sp-order-date-primary">
+                              {formatOrderTimestamp(o.created_at).dateStr}
+                            </div>
+                            <div className="sp-order-time-sub">
+                              {formatOrderTimestamp(o.created_at).timeStr}
+                            </div>
+                          </td>
                           <td className="sp-td--channel">{o.channel || "Online Store"}</td>
                           <td className="sp-td--price sp-td--right">
                             ₹{Number(o.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
@@ -2042,7 +2022,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <div className="sp-page-card">
               <div className="sp-card-header">
                 <div className="sp-card-title-wrap">
-                  <span className="sp-title-icon"><IconContent size={18} /></span>
+                  <span className="sp-title-icon"><IconOrders size={18} /></span>
                   <h1 className="sp-page-title">Draft orders</h1>
                 </div>
                 <div className="sp-header-actions">
@@ -3275,294 +3255,7 @@ export function AdminDashboard({ onNavigateHome }) {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              VIEW 10: GROWTH & MARKETING OPERATIONS
-              ══════════════════════════════════════════════════════════════════ */}
-          {activeTab === "growth" && (
-            <div className="sp-page-stack">
-              <div className="sp-page-card">
-                <div className="sp-card-header">
-                  <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon"><IconGrowth size={18} /></span>
-                    <div>
-                      <h1 className="sp-page-title">Growth & Marketing Operations</h1>
-                      <div className="sp-page-sub">Acquisition channels, paid campaigns, conversion rate optimization, and VIP referrals.</div>
-                    </div>
-                  </div>
-                  <div className="sp-header-actions">
-                    <button
-                      type="button"
-                      className="sp-btn sp-btn--default"
-                      onClick={() => showToast("Meta Pixel & Google Analytics 4 telemetry re-synchronized")}
-                    >
-                      <IconSync size={13} />
-                      <span>Sync Telemetry</span>
-                    </button>
-                    <button
-                      type="button"
-                      className="sp-btn sp-btn--primary"
-                      onClick={() => showToast("New acquisition campaign creator initialized")}
-                    >
-                      + Launch Campaign
-                    </button>
-                  </div>
-                </div>
-
-                {/* Growth KPIs */}
-                <div style={{ padding: "20px 20px 0 20px" }}>
-                  <div className="sp-kpi-row">
-                    <div className="sp-kpi-card">
-                      <div className="sp-kpi-label">CONVERSION RATE</div>
-                      <div className="sp-kpi-val">3.42%</div>
-                      <div className="sp-kpi-sub" style={{ color: "#16a34a" }}>↑ +1.2% vs Horology benchmark (1.8%)</div>
-                    </div>
-                    <div className="sp-kpi-card">
-                      <div className="sp-kpi-label">BLENDED CAC</div>
-                      <div className="sp-kpi-val">₹4,250</div>
-                      <div className="sp-kpi-sub">Cost per confirmed collector</div>
-                    </div>
-                    <div className="sp-kpi-card">
-                      <div className="sp-kpi-label">BLENDED ROAS</div>
-                      <div className="sp-kpi-val">8.4x</div>
-                      <div className="sp-kpi-sub" style={{ color: "#16a34a" }}>High-margin luxury return</div>
-                    </div>
-                    <div className="sp-kpi-card">
-                      <div className="sp-kpi-label">WAITLIST INTENT</div>
-                      <div className="sp-kpi-val">842</div>
-                      <div className="sp-kpi-sub">Registered for 2026 Drops</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Active Campaigns Table */}
-                <div style={{ padding: "16px 20px 24px 20px" }}>
-                  <h3 style={{ margin: "0 0 14px 0", fontSize: "15px", fontWeight: 700, color: "var(--sp-text)" }}>
-                    Active Allocation Campaigns
-                  </h3>
-                  <div className="sp-table-wrap">
-                    <table className="sp-table">
-                      <thead>
-                        <tr>
-                          <th className="sp-th">Campaign & Initiative</th>
-                          <th className="sp-th">Channel</th>
-                          <th className="sp-th">Budget / Spent</th>
-                          <th className="sp-th">Conversions</th>
-                          <th className="sp-th">ROAS</th>
-                          <th className="sp-th">Status</th>
-                          <th className="sp-th" style={{ textAlign: "right" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          { name: "Diwali Haute Horlogerie Private Allocation", channel: "Meta & Instagram", budget: "₹2,50,000", spent: "₹1,84,000", conv: "42 Orders", roas: "9.2x", status: "Active" },
-                          { name: "Astroworld Tourbillon VIP Concierge Drop", channel: "WhatsApp VIP Line", budget: "₹45,000", spent: "₹45,000", conv: "28 Orders", roas: "14.6x", status: "Active" },
-                          { name: "Casino Roulette Diamond Viral Micro-Reels", channel: "YouTube & Reels", budget: "₹80,000", spent: "₹72,000", conv: "36 Orders", roas: "7.8x", status: "Active" },
-                          { name: "Delhi-NCR & Mumbai Private Viewing Invitations", channel: "Direct Outreach", budget: "₹1,20,000", spent: "₹95,000", conv: "19 Orders", roas: "8.1x", status: "Active" },
-                        ].map((c, idx) => (
-                          <tr key={idx} className="sp-tr">
-                            <td className="sp-td" style={{ fontWeight: 600, color: "var(--sp-text)" }}>{c.name}</td>
-                            <td className="sp-td">{c.channel}</td>
-                            <td className="sp-td">{c.budget} / {c.spent}</td>
-                            <td className="sp-td" style={{ fontWeight: 600, color: "#16a34a" }}>{c.conv}</td>
-                            <td className="sp-td" style={{ fontWeight: 700 }}>{c.roas}</td>
-                            <td className="sp-td">
-                              <span className="sp-badge-pill sp-badge-pill--fulfilled">{c.status}</span>
-                            </td>
-                            <td className="sp-td" style={{ textAlign: "right" }}>
-                              <button
-                                type="button"
-                                className="sp-btn sp-btn--xs"
-                                onClick={() => showToast(`Optimizing budget for "${c.name}"`)}
-                              >
-                                Optimize
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* 2-col Traffic Discovery & Funnel Breakdown */}
-                <div style={{ padding: "0 20px 24px 20px" }}>
-                  <div className="sp-grid-2col">
-                    <div className="sp-card" style={{ padding: "18px" }}>
-                      <h3 style={{ margin: "0 0 12px 0", fontSize: "14px", fontWeight: 700 }}>Collector Traffic Discovery</h3>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                        {[
-                          { label: "Direct & Private VIP Bookmarks", pct: "38%", color: "#fa2d1d" },
-                          { label: "Instagram & Social Horology Showcases", pct: "34%", color: "#3b82f6" },
-                          { label: "Organic Search (Google 'Hanboro watches')", pct: "20%", color: "#10b981" },
-                          { label: "WhatsApp Concierge & Client Invites", pct: "8%", color: "#25d366" },
-                        ].map((ch, i) => (
-                          <div key={i}>
-                            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12.5px", marginBottom: "4px" }}>
-                              <span>{ch.label}</span>
-                              <strong>{ch.pct}</strong>
-                            </div>
-                            <div style={{ width: "100%", height: "6px", background: "#f1f5f9", borderRadius: "3px", overflow: "hidden" }}>
-                              <div style={{ width: ch.pct, height: "100%", background: ch.color, borderRadius: "3px" }} />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="sp-card" style={{ padding: "18px" }}>
-                      <h3 style={{ margin: "0 0 12px 0", fontSize: "14px", fontWeight: 700 }}>Conversion Funnel Efficiency</h3>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                        {[
-                          { step: "1. Storefront Visitors", count: "64,280", drop: "100%" },
-                          { step: "2. Timepiece Detail Views", count: "38,940", drop: "60.5%" },
-                          { step: "3. Added to Private Bag", count: "6,820", drop: "10.6%" },
-                          { step: "4. Checkout Initiated", count: `${orders.length + abandonedCheckouts.length}`, drop: "5.4%" },
-                          { step: "5. Confirmed Acquisitions", count: `${orders.length}`, drop: "3.42%" },
-                        ].map((fn, i) => (
-                          <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12.5px", padding: "6px 0", borderBottom: "1px solid #f1f5f9" }}>
-                            <span>{fn.step}</span>
-                            <div>
-                              <strong style={{ marginRight: "8px" }}>{fn.count}</strong>
-                              <span style={{ fontSize: "11px", color: "var(--sp-text-subdued)" }}>({fn.drop})</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              VIEW 11: CONTENT & EDITORIAL DOSSIERS
-              ══════════════════════════════════════════════════════════════════ */}
-          {activeTab === "content" && (
-            <div className="sp-page-stack">
-              <div className="sp-page-card">
-                <div className="sp-card-header">
-                  <div className="sp-card-title-wrap">
-                    <span className="sp-title-icon"><IconContent size={18} /></span>
-                    <div>
-                      <h1 className="sp-page-title">Content & Editorial Dossiers</h1>
-                      <div className="sp-page-sub">Manage boutique storytelling, architectural exhibition sections, legal policies, and media assets.</div>
-                    </div>
-                  </div>
-                  <div className="sp-header-actions">
-                    <button
-                      type="button"
-                      className="sp-btn sp-btn--default"
-                      onClick={onNavigateHome}
-                    >
-                      <span>Boutique Preview</span>
-                      <IconExternalLink size={12} />
-                    </button>
-                    <button
-                      type="button"
-                      className="sp-btn sp-btn--primary"
-                      onClick={() => showToast("Editorial story editor opened")}
-                    >
-                      <IconPlus size={13} />
-                      <span>New Story</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Content Sections Grid */}
-                <div style={{ padding: "20px" }}>
-                  <h3 style={{ margin: "0 0 14px 0", fontSize: "15px", fontWeight: 700, color: "var(--sp-text)" }}>
-                    Storefront Display Sections
-                  </h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
-                    {[
-                      { title: "Hero Cinematic Stage", desc: "Fast-moving analogue clock entry & boutique video stage", status: "Published", file: "App.jsx (HeroVideoSection)" },
-                      { title: "About Maison", desc: "Heritage, manufacture atelier and high-horology philosophy", status: "Published", file: "AboutMaisonSection.jsx" },
-                      { title: "Subtle Mastery & Legacy", desc: "In-house mechanical movement caliber engineering narrative", status: "Published", file: "SubtleMasterySection.jsx" },
-                      { title: "Crafted With Legacy", desc: "Materials, sapphire crystal & architectural casing", status: "Published", file: "CraftedWithLegacySection.jsx" },
-                      { title: "Horological Media Vault", desc: "Cinematic film shorts, YouTube series & micro-reels showcase", status: "Published", file: "MediaSection.jsx" },
-                      { title: "Collector Testimonials", desc: "Verified collector reviews and bespoke unboxing experiences", status: "Published", file: "TestimonialsSection.jsx" },
-                      { title: "Boutique Concierge & Contact", desc: "VIP inquiries, studio appointments and direct support", status: "Published", file: "ContactSection.jsx" },
-                    ].map((sec, i) => (
-                      <div key={i} className="sp-card" style={{ padding: "18px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                          <h4 style={{ margin: 0, fontSize: "14px", fontWeight: 700, color: "var(--sp-text)" }}>{sec.title}</h4>
-                          <span className="sp-badge-pill sp-badge-pill--fulfilled">{sec.status}</span>
-                        </div>
-                        <p style={{ margin: 0, fontSize: "12.5px", color: "var(--sp-text-subdued)", lineHeight: 1.45 }}>{sec.desc}</p>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto", paddingTop: "8px", borderTop: "1px solid #f1f5f9" }}>
-                          <span style={{ fontSize: "11px", fontFamily: "ui-monospace, monospace", color: "var(--sp-text-subdued)" }}>{sec.file}</span>
-                          <button
-                            type="button"
-                            className="sp-btn sp-btn--xs"
-                            onClick={() => {
-                              onNavigateHome();
-                              showToast(`Navigated to ${sec.title}`);
-                            }}
-                          >
-                            Inspect View ↗
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Institutional Policies Table */}
-                <div style={{ padding: "0 20px 24px 20px" }}>
-                  <h3 style={{ margin: "0 0 14px 0", fontSize: "15px", fontWeight: 700, color: "var(--sp-text)" }}>
-                    Legal & Collector Policy Documents
-                  </h3>
-                  <div className="sp-table-wrap">
-                    <table className="sp-table">
-                      <thead>
-                        <tr>
-                          <th className="sp-th">Policy Document</th>
-                          <th className="sp-th">Jurisdiction & Standard</th>
-                          <th className="sp-th">Last Revision</th>
-                          <th className="sp-th">Compliance</th>
-                          <th className="sp-th" style={{ textAlign: "right" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          { title: "Terms of Service", reg: "India Consumer Protection & E-Commerce 2020", rev: "September 2026", comp: "Active (Compliant)", hash: "#terms" },
-                          { title: "Privacy Policy", reg: "India DPDP Act 2023 & Global GDPR", rev: "September 2026", comp: "Active (Compliant)", hash: "#privacy" },
-                          { title: "White-Glove Shipping & Armored Transit", reg: "Insured Transit Standard", rev: "September 2026", comp: "Active (Compliant)", hash: "#shipping" },
-                          { title: "7-Day Authenticity & Refund Guarantee", reg: "Collector Assurance Protocol", rev: "September 2026", comp: "Active (Compliant)", hash: "#refund" },
-                        ].map((pol, i) => (
-                          <tr key={i} className="sp-tr">
-                            <td className="sp-td" style={{ fontWeight: 600, color: "var(--sp-text)" }}>{pol.title}</td>
-                            <td className="sp-td">{pol.reg}</td>
-                            <td className="sp-td">{pol.rev}</td>
-                            <td className="sp-td">
-                              <span className="sp-badge-pill sp-badge-pill--fulfilled">{pol.comp}</span>
-                            </td>
-                            <td className="sp-td" style={{ textAlign: "right" }}>
-                              <button
-                                type="button"
-                                className="sp-btn sp-btn--xs"
-                                onClick={() => {
-                                  window.location.hash = pol.hash;
-                                  showToast(`Opened ${pol.title}`);
-                                }}
-                              >
-                                View Document ↗
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              VIEW 12: GLOBAL MARKETS & MULTI-CURRENCY ALLOCATIONS
+              VIEW 10: GLOBAL MARKETS & MULTI-CURRENCY ALLOCATIONS
               ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "markets" && (
             <div className="sp-page-stack">
@@ -4309,6 +4002,7 @@ export function AdminDashboard({ onNavigateHome }) {
                 </div>
                 <div>
                   <h4>Allocation & Financial Summary</h4>
+                  <p><strong>Date & Time:</strong> <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, color: "#0f172a" }}>{formatOrderTimestamp(inspectingOrder.created_at).fullStr}</span></p>
                   <p><strong>Total Bill:</strong> ₹{Number(inspectingOrder.total_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })} ({Math.round(inspectingOrder.total_amount / 83)} USD)</p>
                   <p><strong>Payment Mode:</strong> {inspectingOrder.payment_method || "Credit Card (Encrypted)"}</p>
                   <p>

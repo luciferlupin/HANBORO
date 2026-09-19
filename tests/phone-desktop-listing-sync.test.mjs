@@ -58,6 +58,7 @@ test("Stale 83-SKU phone cache auto-upgrade: Upgrades to full 104 SKUs without s
 });
 
 test("Category Breakdown Verification: All 6 Complication Series have accurate counts", async () => {
+  safeStorage.removeItem(STORAGE_KEYS.PRODUCTS);
   const catalog = await productsService.fetchProducts();
   assert.equal(catalog.length, 104, "Total catalog must be 104");
 

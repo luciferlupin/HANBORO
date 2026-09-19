@@ -41,13 +41,15 @@ test("enrichOrderItemWithSkuEan enriches items with proper SKU and EAN barcode",
   assert.match(enriched2.ean, /^8908012/);
 });
 
-test("DEFAULT_CUSTOMER_PROFILES contains seeded VIP profiles with shipping and contact dossiers", () => {
-  assert.ok(DEFAULT_CUSTOMER_PROFILES.length >= 4, "Must have default VIP patron profiles");
-  const ankan = DEFAULT_CUSTOMER_PROFILES.find(p => p.email === "ankan.das@bengalhorology.in");
-  assert.ok(ankan, "Ankan Das VIP profile exists");
-  assert.equal(ankan.vip_tier, "VIP Horology Patron");
-  assert.equal(ankan.shipping_info.city, "Kolkata");
-  assert.ok(ankan.shipping_info.address.includes("Ballygunge"));
+test("DEFAULT_CUSTOMER_PROFILES contains only official admin and zero demo customer seeds", () => {
+  assert.ok(DEFAULT_CUSTOMER_PROFILES.length >= 1, "Must have admin profile");
+  const admin = DEFAULT_CUSTOMER_PROFILES.find(p => p.email === "connect@hanborowatches.in");
+  assert.ok(admin, "Official Hanboro Admin profile exists");
+  assert.equal(admin.role, "admin");
+
+  // Zero demo customer profiles (Ankan Das, Shiva Karnati, etc. purged)
+  const demoProfile = DEFAULT_CUSTOMER_PROFILES.find(p => p.email === "ankan.das@bengalhorology.in");
+  assert.equal(demoProfile, undefined, "Demo customer profiles must not exist in DEFAULT_CUSTOMER_PROFILES");
 });
 
 test("Official Tax Invoice financial breakdown calculates correct GST 18% and taxable amounts", () => {

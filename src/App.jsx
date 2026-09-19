@@ -1765,7 +1765,7 @@ const STORES_DATA = [
     mapUrl: "https://maps.google.com/?q=Nagpal+Watches+Kunjpura+Road+Karnal",
     type: "Authorized Hanboro Retailer",
     isFeatured: true,
-    keywords: "Delhi NCR Haryana Karnal Kunjpura Road 132001"
+    keywords: "Nagpal Watches Haryana Karnal Kunjpura Road 132001"
   },
   {
     id: "time-point-pitampura",
@@ -1788,7 +1788,7 @@ const STORES_DATA = [
     id: "time-planet-bahadurgarh",
     name: "TIME PLANET",
     city: "Bahadurgarh",
-    area: "Delhi-Rohtak Road",
+    area: "Rohtak Road",
     state: "Haryana",
     country: "India",
     address: "Metro Pillar No. 840, Delhi - Rohtak Road, Opposite ICICI Bank, Dharampura, Bahadurgarh, Haryana – 124507",
@@ -1799,7 +1799,7 @@ const STORES_DATA = [
     mapUrl: "https://www.google.com/maps/place/TIME+PLANET/@28.6909983,76.9295432,17z/data=!3m1!4b1!4m6!3m5!1s0x390d09994b76e7cd:0x30fc8774131e9375!8m2!3d28.6909983!4d76.9321181!16s%2Fg%2F11fwhzlwvn?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D",
     type: "Authorized Hanboro Retailer",
     isFeatured: false,
-    keywords: "Time Planet Bahadurgarh Haryana Delhi NCR Rohtak Road Dharampura Metro Pillar 840 124507"
+    keywords: "Time Planet Bahadurgarh Haryana Rohtak Road Dharampura Metro Pillar 840 124507"
   },
   {
     id: "sharma-bhiwadi",
@@ -1865,6 +1865,23 @@ const STORES_DATA = [
     type: "Authorized Hanboro Retailer",
     isFeatured: false,
     keywords: "The Watch Store Mumbai Thane Mira Road East Shanti Nagar 401107 Maharashtra"
+  },
+  {
+    id: "lokhandwala-watches-mumbai",
+    name: "LOKHANDWALA WATCHES PVT LTD",
+    city: "Mumbai",
+    area: "Andheri West",
+    state: "Maharashtra",
+    country: "India",
+    address: "Shop No. 3 & 4, Swiss Palace, Shastri Nagar Lane 1, Near Lokhandwala Circle, Andheri West, Mumbai, Maharashtra – 400053",
+    phone: "+91 93231 25650",
+    phoneRaw: "+919323125650",
+    hours: "10:00 AM – 10:00 PM (All Days)",
+    image: "/store-lokhandwala-watches-mumbai.jpg",
+    mapUrl: "https://maps.google.com/?q=Lokhandwala+Watches+Pvt+Ltd+Swiss+Palace+Andheri+West+Mumbai",
+    type: "Authorized Hanboro Retailer",
+    isFeatured: false,
+    keywords: "Lokhandwala Watches Pvt Ltd Mumbai Maharashtra Andheri West Swiss Palace Shastri Nagar Lokhandwala Circle 400053"
   },
   {
     id: "arihant-virar",
@@ -1942,15 +1959,17 @@ const STORES_DATA = [
 const CITY_FILTERS = [
   "ALL",
   "DELHI",
+  "HARYANA",
+  "MUMBAI",
   "PITAMPURA",
   "BAHADURGARH",
   "KARNAL",
+  "ANDHERI WEST",
+  "THANE",
+  "VIRAR",
   "BHIWADI",
   "MATHURA",
   "JHANSI",
-  "MUMBAI",
-  "THANE",
-  "VIRAR",
   "TIRUPATI",
   "VISAKHAPATNAM",
   "NELLORE"
@@ -1968,11 +1987,24 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
 
   // Filtering logic
   const filteredStores = STORES_DATA.filter((store) => {
-    const matchesCity =
-      selectedCity === "ALL" ||
-      store.city.toUpperCase() === selectedCity ||
-      (store.area && store.area.toUpperCase() === selectedCity) ||
-      (store.keywords && store.keywords.toUpperCase().includes(selectedCity));
+    const filterUpper = selectedCity.trim().toUpperCase();
+    let matchesCity = false;
+    if (filterUpper === "ALL") {
+      matchesCity = true;
+    } else if (filterUpper === "DELHI") {
+      // Delhi strictly matches only Delhi stores (Time Point in Pitampura)
+      matchesCity = store.city.toUpperCase() === "DELHI" || (store.state && store.state.toUpperCase() === "DELHI");
+    } else if (filterUpper === "HARYANA") {
+      // Haryana matches Nagpal Watches (Karnal) and Time Planet (Bahadurgarh)
+      matchesCity = store.state && store.state.toUpperCase() === "HARYANA";
+    } else {
+      matchesCity =
+        store.city.toUpperCase() === filterUpper ||
+        (store.state && store.state.toUpperCase() === filterUpper) ||
+        (store.area && store.area.toUpperCase() === filterUpper) ||
+        (store.keywords && store.keywords.toUpperCase().includes(filterUpper));
+    }
+
     const q = searchQuery.toLowerCase().trim();
     const matchesQuery =
       !q ||
@@ -1991,6 +2023,7 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
       (store) =>
         store.city.toUpperCase() === city.name ||
         (store.area && store.area.toUpperCase() === city.name) ||
+        (store.state && store.state.toUpperCase() === city.name) ||
         (store.keywords && store.keywords.toUpperCase().includes(city.name))
     );
   });
@@ -1998,12 +2031,20 @@ function StoreLocatorView({ onNavigate, onOpenConcierge }) {
   const handleSelectCity = (cityUpper) => {
     setSelectedCity(cityUpper);
     if (cityUpper !== "ALL") {
-      const match = STORES_DATA.find(
-        (s) =>
+      const match = STORES_DATA.find((s) => {
+        if (cityUpper === "DELHI") {
+          return s.city.toUpperCase() === "DELHI" || (s.state && s.state.toUpperCase() === "DELHI");
+        }
+        if (cityUpper === "HARYANA") {
+          return s.state && s.state.toUpperCase() === "HARYANA";
+        }
+        return (
           s.city.toUpperCase() === cityUpper ||
+          (s.state && s.state.toUpperCase() === cityUpper) ||
           (s.area && s.area.toUpperCase() === cityUpper) ||
           (s.keywords && s.keywords.toUpperCase().includes(cityUpper))
-      );
+        );
+      });
       if (match) {
         setActiveStoreId(match.id);
       }

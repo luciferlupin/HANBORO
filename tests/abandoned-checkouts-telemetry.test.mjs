@@ -23,7 +23,25 @@ import {
   draftOrdersService,
   getOrCreateGuestSessionId,
   safeStorage,
+  supabase,
 } from "../src/supabaseClient.js";
+
+// Mock remote network mutations in unit tests to prevent cross-test race conditions
+const createFluentMock = () => {
+  const chain = {
+    select: () => chain,
+    eq: () => chain,
+    neq: () => chain,
+    order: async () => ({ data: [], error: null }),
+    upsert: async () => ({ data: null, error: null }),
+    insert: async () => ({ data: null, error: null }),
+    update: () => chain,
+    delete: () => chain,
+    then: (resolve) => resolve({ data: [], error: null }),
+  };
+  return chain;
+};
+supabase.from = () => createFluentMock();
 
 test("Abandoned Checkouts QA: Guest shopper on phone gets persistent session identifier", () => {
   storage.clear();
@@ -76,13 +94,16 @@ test("Abandoned Checkouts QA: Recording checkout lead saves customer name, email
   const found = allLeads.find((l) => l.customerPhone === "9876543210");
   assert.ok(found, "Saved lead must be found by phone number");
   assert.equal(found.customerName, "Aakash Varma");
+
+  // Clean up created test lead from Supabase
+  await abandonedCheckoutsService.deleteAbandonedCheckout(recorded.id);
 });
 
 test("Abandoned Checkouts QA: Manual Draft Orders do not include Abandoned Checkouts", async () => {
   storage.clear();
 
   // Create an abandoned lead
-  await abandonedCheckoutsService.recordCheckoutLead({
+  const rohitLead = await abandonedCheckoutsService.recordCheckoutLead({
     name: "Rohit Oberoi",
     email: "rohit.oberoi@luxury.in",
     phone: "9811122233",
@@ -94,6 +115,9 @@ test("Abandoned Checkouts QA: Manual Draft Orders do not include Abandoned Check
   const drafts = await draftOrdersService.fetchDraftOrders([]);
   const leaked = drafts.find((d) => d.customerName === "Rohit Oberoi");
   assert.equal(leaked, undefined, "Abandoned checkout must NOT leak into draft orders list");
+
+  // Clean up created test lead from Supabase
+  await abandonedCheckoutsService.deleteAbandonedCheckout(rohitLead.id);
 });
 
 test("Abandoned Checkouts QA: WhatsApp recovery URL formats 10-digit Indian phone with 91 prefix", () => {

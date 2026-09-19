@@ -21,9 +21,9 @@ function loadStoreLocatorData() {
   return { stores, filters };
 }
 
-test("Store Network QA: Exactly 11 authentic stores with 100% unique photos and valid dossiers", () => {
+test("Store Network QA: Exactly 12 authentic stores with 100% unique photos and valid dossiers", () => {
   const { stores } = loadStoreLocatorData();
-  assert.equal(stores.length, 11, `Expected exactly 11 authentic authorized showrooms, got ${stores.length}`);
+  assert.equal(stores.length, 12, `Expected exactly 12 authentic authorized showrooms, got ${stores.length}`);
 
   const seenIds = new Set();
   const seenImages = new Set();
@@ -60,7 +60,7 @@ test("Store Network QA: Exactly 11 authentic stores with 100% unique photos and 
   assert.equal(seenImages.size, stores.length, "Each store must have a completely unique photo!");
 });
 
-test("Store Network QA: City filters match existing authentic retailers without ghost filters", () => {
+test("Store Network QA: City/State filters match existing authentic retailers without ghost filters", () => {
   const { stores, filters } = loadStoreLocatorData();
   assert.ok(filters.includes("ALL"), "Filters must contain 'ALL'");
 
@@ -69,20 +69,56 @@ test("Store Network QA: City filters match existing authentic retailers without 
 
     const matched = stores.some((store) => {
       const cityMatches = store.city.toUpperCase() === filter;
+      const stateMatches = store.state && store.state.toUpperCase() === filter;
       const areaMatches = store.area && store.area.toUpperCase() === filter;
       const keywordMatches = store.keywords && store.keywords.toUpperCase().includes(filter);
-      return cityMatches || areaMatches || keywordMatches;
+      return cityMatches || stateMatches || areaMatches || keywordMatches;
     });
 
-    assert.ok(matched, `City filter '${filter}' does not match any authentic showroom in STORES_DATA!`);
+    assert.ok(matched, `Filter '${filter}' does not match any authentic showroom in STORES_DATA!`);
   });
+});
+
+test("Store Network QA: Delhi filter only returns Pitampura (Time Point); Nagpal and Time Planet are strictly under Haryana", () => {
+  const { stores } = loadStoreLocatorData();
+
+  // Delhi filter strictly contains only Delhi stores (Time Point in Pitampura)
+  const delhiStores = stores.filter((s) => s.city.toUpperCase() === "DELHI" || (s.state && s.state.toUpperCase() === "DELHI"));
+  assert.equal(delhiStores.length, 1, "Delhi must have exactly 1 store (Time Point in Pitampura)");
+  assert.equal(delhiStores[0].id, "time-point-pitampura");
+  assert.equal(delhiStores[0].area, "Pitampura");
+
+  // Nagpal Watches and Time Planet are strictly Haryana
+  const haryanaStores = stores.filter((s) => s.state && s.state.toUpperCase() === "HARYANA");
+  assert.equal(haryanaStores.length, 2, "Haryana must have exactly 2 stores (Nagpal Watches and Time Planet)");
+  const haryanaIds = haryanaStores.map((s) => s.id);
+  assert.ok(haryanaIds.includes("nagpal-watches-karnal"), "Nagpal Watches must be in Haryana");
+  assert.ok(haryanaIds.includes("time-planet-bahadurgarh"), "Time Planet must be in Haryana");
+
+  // Neither Nagpal Watches nor Time Planet contains Delhi in keywords
+  assert.ok(!haryanaStores.some((s) => s.keywords.includes("Delhi NCR")), "Haryana stores must not contain 'Delhi NCR' keywords");
+});
+
+test("Store Network QA: Lokhandwala Watches Pvt Ltd is present with valid Mumbai address, photo, and hours", () => {
+  const { stores } = loadStoreLocatorData();
+  const lokhandwala = stores.find((s) => s.id === "lokhandwala-watches-mumbai");
+  assert.ok(lokhandwala, "Lokhandwala Watches must be present in directory");
+  assert.equal(lokhandwala.name, "LOKHANDWALA WATCHES PVT LTD");
+  assert.equal(lokhandwala.city, "Mumbai");
+  assert.equal(lokhandwala.area, "Andheri West");
+  assert.equal(lokhandwala.state, "Maharashtra");
+  assert.ok(lokhandwala.address.includes("Swiss Palace"));
+  assert.ok(lokhandwala.address.includes("Shastri Nagar"));
+  assert.ok(lokhandwala.address.includes("Andheri West"));
+  assert.equal(lokhandwala.image, "/store-lokhandwala-watches-mumbai.jpg");
+  assert.ok(fs.existsSync(path.resolve(process.cwd(), "public" + lokhandwala.image)));
 });
 
 test("Store Network QA: India map data has exactly 11 authentic pins matching directory", () => {
   const { stores } = loadStoreLocatorData();
   assert.equal(INDIA_MAP_VIEWBOX, "0 0 612 696");
   assert.ok(INDIA_MAP_PATHS.length >= 35, "Expected comprehensive Survey of India map regions");
-  assert.equal(MAP_CITIES.length, 11, `Expected exactly 11 map pins matching the 11 authentic stores, got ${MAP_CITIES.length}`);
+  assert.equal(MAP_CITIES.length, 11, `Expected exactly 11 map pins matching the authentic store cities, got ${MAP_CITIES.length}`);
 
   const [,, vbWidth, vbHeight] = INDIA_MAP_VIEWBOX.split(" ").map(Number);
   const seenCityNames = new Set();
