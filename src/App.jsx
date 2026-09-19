@@ -3196,7 +3196,7 @@ function Website({ onRestart }) {
             {/* ── ACT VII: OUR MEDIA (Live On-Wrist Instagram Reels) ── */}
             <MediaSection onInspectSku={handleOpenSku} />
 
-            {/* ── ACT VIII: PATRON ACCLAIM (Collector Acclaim & Reviews) ── */}
+            {/* ── ACT VIII: CUSTOMER REVIEWS (Collector Acclaim & Reviews) ── */}
             <TestimonialsSection onInspectSku={handleOpenSku} />
 
             {/* ── ACT IX: CONTACT & COLLECTOR CONCIERGE ── */}

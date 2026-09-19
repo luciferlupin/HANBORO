@@ -163,12 +163,12 @@ test("ordersService.createOrder and updateOrder record audit entries", async () 
 });
 
 test("profilesService.upsertProfile records CUSTOMER_REGISTERED or CUSTOMER_UPDATED", async () => {
-  const testEmail = `vip.patron.${Date.now()}@hanborowatches.in`;
+  const testEmail = `vip.client.${Date.now()}@hanborowatches.in`;
   await profilesService.upsertProfile({
     email: testEmail,
     full_name: "Maharaja of Jodhpur",
     phone: "+91 98290 12345",
-    vip_tier: "VIP Imperial Patron",
+    vip_tier: "VIP Imperial Member",
   });
 
   const logs = teamAuditService.getAuditLogs();

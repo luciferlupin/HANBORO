@@ -287,7 +287,7 @@ export function ProfilePage({ onNavigate }) {
 
             <div className="apple-hero-metrics">
               <div className="apple-metric-item">
-                <span className="metric-title">COLLECTOR REF</span>
+                <span className="metric-title">ACCOUNT REF</span>
                 <span className="metric-value metric-value--mono">{collectorRef}</span>
               </div>
               <div className="apple-metric-divider" />
@@ -843,7 +843,7 @@ export function ProfilePage({ onNavigate }) {
                 <span className="subcard-value">{user.phone || "Not provided"}</span>
               </div>
               <div className="apple-subcard-row">
-                <span className="subcard-label">Collector Reference</span>
+                <span className="subcard-label">Account Reference</span>
                 <span className="subcard-value subcard-value--mono">{collectorRef}</span>
               </div>
               <div className="apple-subcard-row">
@@ -917,7 +917,7 @@ export function ProfilePage({ onNavigate }) {
         });
         const allProds = products && products.length > 0 ? products : PRODUCTS_DATA;
         const items = (ord.items || []).map((it) => enrichOrderItemWithSkuEan(it, allProds));
-        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || user?.fullName || "Valued Horology Patron";
+        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || user?.fullName || "Valued Customer";
         const custEmail = ord.customer_email || user?.email || "client@hanborowatches.in";
         const custPhone = ord.customer_phone || (ord.shipping_address && ord.shipping_address.phone) || user?.phone || "+91 98300 11223";
         const shipAddress = ord.shipping_address || {};

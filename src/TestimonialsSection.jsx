@@ -151,7 +151,7 @@ export function TestimonialsSection({ onInspectSku }) {
       <div className="cr-header" data-reveal>
         <div className="cr-eyebrow">
           <span className="cr-beacon-dot" aria-hidden="true" />
-          <span>VERIFIED PATRONS & REVIEWS</span>
+          <span>VERIFIED REVIEWS</span>
         </div>
         <h2 className="cr-title" id="cr-title">
           Customer Reviews

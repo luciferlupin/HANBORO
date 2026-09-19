@@ -57,7 +57,7 @@ draftOrdersService.deleteDraftOrder = async function (draftId) {
 test("E2E User Workflow: Sign up, Browse, Cart with Promo, COD Checkout, and Profile Dossier with Invoice", async () => {
   // 1. User Sign Up
   const signupResult = await authService.signUp({
-    email: "kabir.singh@patron.in",
+    email: "kabir.singh@client.in",
     password: "Password@123",
     fullName: "Kabir Singh",
     phone: "+91 98100 22334",
@@ -97,7 +97,7 @@ test("E2E User Workflow: Sign up, Browse, Cart with Promo, COD Checkout, and Pro
   // 5. Checkout validation
   const clientShipping = {
     name: "Kabir Singh",
-    email: "kabir.singh@patron.in",
+    email: "kabir.singh@client.in",
     phone: "9810022334",
     address: "Bungalow 12, Golf Course Road",
     city: "Gurugram",

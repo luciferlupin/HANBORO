@@ -729,9 +729,9 @@ export function AdminDashboard({ onNavigateHome }) {
         pin: p.shipping_info?.pin || p.shipping_info?.pincode || "",
         address: p.shipping_info?.address || "",
         country: p.shipping_info?.country || "India",
-        vip_tier: p.vip_tier || "VIP Horology Patron",
+        vip_tier: (p.vip_tier && !p.vip_tier.toLowerCase().includes("patron")) ? p.vip_tier : "Customer",
         role: p.role || "customer",
-        notes: p.notes || "Registered Haute Horlogerie Patron.",
+        notes: (p.notes && !p.notes.toLowerCase().includes("patron")) ? p.notes : "Registered customer profile.",
         registeredAt: p.created_at || new Date().toISOString(),
         totalSpent: 0,
         ordersCount: 0,
@@ -756,9 +756,9 @@ export function AdminDashboard({ onNavigateHome }) {
           pin: o.shipping_address?.pin || o.shipping_address?.pincode || "",
           address: o.shipping_address?.address || "",
           country: o.shipping_address?.country || "India",
-          vip_tier: "Haute Horlogerie Collector",
+          vip_tier: o.total_amount >= 50000 ? "VIP Client" : "Customer",
           role: "customer",
-          notes: "Storefront Collector with confirmed timepieces.",
+          notes: "Storefront customer with confirmed order.",
           registeredAt: o.created_at,
           totalSpent: 0,
           ordersCount: 0,
@@ -821,9 +821,9 @@ export function AdminDashboard({ onNavigateHome }) {
           pin: ship.pincode || ship.pin || "",
           address: ship.address || "",
           country: "India",
-          vip_tier: "Prospective Collector",
+          vip_tier: "Prospect",
           role: "prospect",
-          notes: "Cart checkout initiated. Ready for concierge privilege follow-up.",
+          notes: "Cart checkout initiated.",
           registeredAt: c.createdAt,
           totalSpent: 0,
           ordersCount: 0,
@@ -845,7 +845,7 @@ export function AdminDashboard({ onNavigateHome }) {
       // 1. VIP Filter
       if (customerVipFilter === "vip") {
         const tier = c.vip_tier?.toLowerCase() || "";
-        if (!tier.includes("vip") && !tier.includes("patron") && !tier.includes("diamond") && !tier.includes("connoisseur")) {
+        if (!tier.includes("vip") && !tier.includes("diamond") && c.ordersCount < 2 && c.totalSpent < 40000) {
           return false;
         }
       } else if (customerVipFilter === "repeat") {
@@ -892,9 +892,9 @@ export function AdminDashboard({ onNavigateHome }) {
     const vipCount = customersDatabase.filter(
       (c) =>
         c.vip_tier?.toLowerCase().includes("vip") ||
-        c.vip_tier?.toLowerCase().includes("patron") ||
         c.vip_tier?.toLowerCase().includes("diamond") ||
-        c.vip_tier?.toLowerCase().includes("connoisseur")
+        c.ordersCount > 1 ||
+        c.totalSpent >= 40000
     ).length;
 
     return { totalProfiles, totalOrders, totalLtv, avgLtv, vipCount };
@@ -963,14 +963,14 @@ export function AdminDashboard({ onNavigateHome }) {
     let filename = `shopify_export_${type}_${new Date().toISOString().slice(0, 10)}.csv`;
 
     if (type === "customers") {
-      headers = ["Customer Name", "Email", "Phone", "VIP Tier", "Location", "Orders Count", "Total Spent (INR)", "Last Order Date", "Purchased SKUs"];
+      headers = ["Customer Name", "Email", "Phone", "Customer Tier", "Location", "Orders Count", "Total Spent (INR)", "Last Order Date", "Purchased SKUs"];
       rows = filteredCustomers.map((c) => {
         const skus = (c.orders || []).flatMap((o) => (o.items || []).map((it) => it.sku)).filter(Boolean).join("; ");
         return [
           `"${c.name}"`,
           `"${c.email}"`,
           `"${c.phone || ''}"`,
-          `"${c.vip_tier || 'Patron'}"`,
+          `"${c.vip_tier || 'Customer'}"`,
           `"${c.city || 'India'}"`,
           c.ordersCount,
           c.totalSpent,
@@ -1254,7 +1254,7 @@ export function AdminDashboard({ onNavigateHome }) {
             <input
               type="text"
               className="sp-search-input"
-              placeholder="Search portal (orders, SKUs, patrons)..."
+              placeholder="Search portal (orders, SKUs, customers)..."
               value={orderSearch || abandonedSearch || productSearch}
               onChange={(e) => {
                 setOrderSearch(e.target.value);
@@ -2101,7 +2101,7 @@ export function AdminDashboard({ onNavigateHome }) {
                         <td colSpan="7" className="sp-empty-cell">
                           <div style={{ padding: "32px 16px", textAlign: "center" }}>
                             <p style={{ fontWeight: 600, color: "#0f172a", marginBottom: "4px" }}>No draft orders created</p>
-                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Click "Create draft order" above to generate a custom reservation or invoice for VIP patrons.</p>
+                            <p style={{ fontSize: "13px", color: "#64748b", margin: 0 }}>Click "Create draft order" above to generate a custom reservation or invoice for clients.</p>
                           </div>
                         </td>
                       </tr>
@@ -2562,7 +2562,7 @@ export function AdminDashboard({ onNavigateHome }) {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              VIEW 5: CUSTOMERS (VIP Horology Collectors & Profiles Database)
+              VIEW 5: CUSTOMERS (Customer Profiles & Orders Database)
               ══════════════════════════════════════════════════════════════════ */}
           {activeTab === "customers" && (
             <div className="sp-page-stack">
@@ -2584,9 +2584,9 @@ export function AdminDashboard({ onNavigateHome }) {
                   <div className="sp-kpi-sub">Total gross storefront & concierge sales</div>
                 </div>
                 <div className="sp-kpi-card">
-                  <div className="sp-kpi-label">VIP PATRON TIERS</div>
-                  <div className="sp-kpi-val">{customerKpis.vipCount} Patrons</div>
-                  <div className="sp-kpi-sub">Diamond & Grand Complication clients</div>
+                  <div className="sp-kpi-label">VIP CLIENTS</div>
+                  <div className="sp-kpi-val">{customerKpis.vipCount} Members</div>
+                  <div className="sp-kpi-sub">High-value & repeat customers</div>
                 </div>
               </div>
 
@@ -2636,7 +2636,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       className={`sp-filter-tab ${customerVipFilter === "vip" ? "is-active" : ""}`}
                       onClick={() => setCustomerVipFilter("vip")}
                     >
-                      VIP Patrons ({customerKpis.vipCount})
+                      VIP Clients ({customerKpis.vipCount})
                     </button>
                     <button
                       type="button"
@@ -2725,12 +2725,14 @@ export function AdminDashboard({ onNavigateHome }) {
                                   <div className="sp-customer-info">
                                     <div className="sp-customer-name-row">
                                       <span className="sp-customer-name">{c.name}</span>
-                                      <span className="sp-vip-pill">{c.vip_tier || "VIP Patron"}</span>
+                                      {c.vip_tier && c.vip_tier.toLowerCase().includes("vip") && (
+                                        <span className="sp-vip-pill sp-vip-pill--gold">{c.vip_tier}</span>
+                                      )}
                                     </div>
                                     <div className="sp-customer-sub">
                                       {c.registeredAt
                                         ? `Registered: ${new Date(c.registeredAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}`
-                                        : "Patron Dossier"}
+                                        : "Customer Profile"}
                                     </div>
                                   </div>
                                 </div>
@@ -4340,9 +4342,11 @@ export function AdminDashboard({ onNavigateHome }) {
                 <div>
                   <div className="sp-customer-modal-title-row">
                     <h2>{selectedCustomerDossier.name}</h2>
-                    <span className="sp-vip-pill sp-vip-pill--gold">
-                      ★ {selectedCustomerDossier.vip_tier || "VIP Horology Patron"}
-                    </span>
+                    {selectedCustomerDossier.vip_tier && selectedCustomerDossier.vip_tier.toLowerCase().includes("vip") && (
+                      <span className="sp-vip-pill sp-vip-pill--gold">
+                        ★ {selectedCustomerDossier.vip_tier}
+                      </span>
+                    )}
                     <span className="sp-role-badge">
                       {selectedCustomerDossier.role || "customer"}
                     </span>
@@ -4420,8 +4424,10 @@ export function AdminDashboard({ onNavigateHome }) {
                     </div>
                   </div>
                   <div className="sp-dossier-info-row">
-                    <span className="sp-info-label">VIP Tier Status:</span>
-                    <span className="sp-vip-tag-gold">{selectedCustomerDossier.vip_tier || "VIP Horology Patron"}</span>
+                    <span className="sp-info-label">Customer Tier:</span>
+                    <span className={selectedCustomerDossier.vip_tier?.toLowerCase().includes("vip") ? "sp-vip-tag-gold" : "sp-role-badge"}>
+                      {selectedCustomerDossier.vip_tier || "Customer"}
+                    </span>
                   </div>
                 </div>
 
@@ -4461,7 +4467,7 @@ export function AdminDashboard({ onNavigateHome }) {
                       rows={3}
                       value={notesDraft}
                       onChange={(e) => setNotesDraft(e.target.value)}
-                      placeholder="Enter horological preferences, wrist diameter, bespoke dial requests, or private collector notes..."
+                      placeholder="Enter customer preferences, wrist diameter, or private notes..."
                     />
                     <div className="sp-notes-actions">
                       <button
@@ -4485,7 +4491,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   </div>
                 ) : (
                   <p className="sp-notes-display-text">
-                    {selectedCustomerDossier.notes || "No custom collector notes recorded yet."}
+                    {selectedCustomerDossier.notes || "No custom customer notes recorded yet."}
                   </p>
                 )}
               </div>
@@ -4723,7 +4729,7 @@ export function AdminDashboard({ onNavigateHome }) {
           year: "numeric",
         });
         const items = (ord.items || []).map((it) => enrichOrderItemWithSkuEan(it, products || PRODUCTS_DATA));
-        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || "Valued Horology Patron";
+        const custName = ord.customer_name || (ord.shipping_address && ord.shipping_address.name) || "Valued Customer";
         const custEmail = ord.customer_email || "client@hanborowatches.in";
         const custPhone = ord.customer_phone || (ord.shipping_address && ord.shipping_address.phone) || "+91 98300 11223";
         const shipAddress = ord.shipping_address || {};
@@ -4756,7 +4762,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   <span>{copiedKey === "inv-summary" ? "Copied!" : "Copy Summary"}</span>
                 </button>
                 <a
-                  href={`https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Dear ${custName},\nYour official Hanboro Haute Horlogerie Tax Invoice ${invoiceNum} for ₹${total.toLocaleString("en-IN")} is ready.\nTimepiece(s): ${items.map(i => `${i.name} (SKU: ${i.sku})`).join(", ")}\nThank you for your patronage.`)}`}
+                  href={`https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(`Dear ${custName},\nYour official Hanboro Haute Horlogerie Tax Invoice ${invoiceNum} for ₹${total.toLocaleString("en-IN")} is ready.\nTimepiece(s): ${items.map(i => `${i.name} (SKU: ${i.sku})`).join(", ")}\nThank you for your order.`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="sp-btn sp-btn--whatsapp-nudge"

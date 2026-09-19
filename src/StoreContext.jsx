@@ -11,7 +11,7 @@ const WISHLIST_STORAGE_KEY = "hanboro_wishlist_items";
 // Built-in Luxury Promo Codes
 export const PROMO_CODES = {
   HANBORO10: { type: "percent", value: 10, label: "10% Welcome Discount" },
-  VIP1000: { type: "flat", value: 1000, label: "₹1,000 Horology Collector Credit" },
+  VIP1000: { type: "flat", value: 1000, label: "₹1,000 Special Credit Voucher" },
   SWISS15: { type: "percent", value: 15, label: "15% Private Collector Tier" },
   HANBORO5: { type: "percent", value: 5, label: "5% Collector Privilege" },
 };

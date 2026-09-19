@@ -203,7 +203,7 @@ export function AuthModal() {
                 <div className="profile-name-row">
                   <h3 className="profile-name">{user.fullName || "Valued Client"}</h3>
                   <span className="profile-role-pill">
-                    {isAdmin ? "✦ Verified Executive" : "✦ Collector Tier"}
+                    {isAdmin ? "✦ Verified Executive" : "✦ Member"}
                   </span>
                 </div>
                 <p className="profile-email">{user.email}</p>

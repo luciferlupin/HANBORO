@@ -24788,7 +24788,7 @@ tr.is-selected-row td {
     height: 100% !important;
   }
 
-  /* 10. Testimonials / Patron Acclaim */
+  /* 10. Testimonials / Client Reviews */
   .cr-section {
     padding-top: clamp(64px, 9vh, 88px) !important;
     padding-bottom: clamp(64px, 9vh, 88px) !important;

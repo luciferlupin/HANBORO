@@ -45,7 +45,7 @@ CREATE TABLE public.profiles (
     full_name TEXT,
     phone TEXT,
     role TEXT DEFAULT 'customer',
-    vip_tier TEXT DEFAULT 'VIP Patron',
+    vip_tier TEXT DEFAULT 'Customer',
     notes TEXT,
     shipping_info JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ DEFAULT now(),
@@ -275,7 +275,7 @@ CREATE POLICY "Discounts write" ON public.discounts FOR ALL TO anon, authenticat
 -- Active Store Promo Codes
 INSERT INTO public.discounts (id, code, type, value, label, is_active) VALUES
     ('disc_welcome10', 'WELCOME10', 'percent', 10, 'Welcome Privilege 10% Off', true),
-    ('disc_vip15', 'VIP15', 'percent', 15, 'VIP Patron 15% Allocation Off', true),
+    ('disc_vip15', 'VIP15', 'percent', 15, 'VIP 15% Allocation Off', true),
     ('disc_hanboro20', 'HANBORO20', 'percent', 20, 'Hanboro Collector 20% Off', true),
     ('disc_roulette10', 'ROULETTE10', 'percent', 10, 'Roulette Wheel 10% Privilege', true),
     ('disc_roulette15', 'ROULETTE15', 'percent', 15, 'Roulette Wheel 15% Privilege', true)

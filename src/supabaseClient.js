@@ -284,13 +284,25 @@ export function getLocalProfiles() {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed)) {
-      // Exclude any legacy mock patron seeds
-      return parsed.filter(
-        (p) =>
-          !isDemoEmail(p.email) &&
-          !p.full_name?.toLowerCase().includes("demo") &&
-          p.email !== "connect@hanborowatches.in"
-      );
+      // Exclude any legacy mock customer seeds
+      return parsed
+        .filter(
+          (p) =>
+            !isDemoEmail(p.email) &&
+            !p.full_name?.toLowerCase().includes("demo") &&
+            p.email !== "connect@hanborowatches.in"
+        )
+        .map((p) => {
+          let tier = p.vip_tier;
+          if (!tier || tier.toLowerCase().includes("patron") || tier.toLowerCase().includes("horology patron")) {
+            tier = "Customer";
+          }
+          let notes = p.notes;
+          if (notes && notes.toLowerCase().includes("patron")) {
+            notes = notes.replace(/haute horlogerie patron/gi, "customer").replace(/patron/gi, "client");
+          }
+          return { ...p, vip_tier: tier, notes };
+        });
     }
     return [];
   } catch {
@@ -1071,7 +1083,7 @@ export const profilesService = {
       full_name: profilePayload.full_name || profilePayload.fullName || profilePayload.name || (existingIndex >= 0 ? local[existingIndex].full_name : "Valued Client"),
       phone: profilePayload.phone || (existingIndex >= 0 ? local[existingIndex].phone : ""),
       role: profilePayload.role || (existingIndex >= 0 ? local[existingIndex].role : "customer"),
-      vip_tier: profilePayload.vip_tier || (existingIndex >= 0 ? local[existingIndex].vip_tier : "VIP Horology Patron"),
+      vip_tier: profilePayload.vip_tier || (existingIndex >= 0 && !local[existingIndex].vip_tier?.toLowerCase().includes("patron") ? local[existingIndex].vip_tier : "Customer"),
       notes: profilePayload.notes || (existingIndex >= 0 ? local[existingIndex].notes : ""),
       shipping_info: profilePayload.shipping_info || profilePayload.shippingAddress || (existingIndex >= 0 ? local[existingIndex].shipping_info : {}),
       created_at: profilePayload.created_at || (existingIndex >= 0 ? local[existingIndex].created_at : new Date().toISOString()),
