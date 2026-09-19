@@ -1,0 +1,37 @@
+name: Prune Older Deployments
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  prune:
+    name: Keep Only Latest Vercel Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Wait for current deployment to register
+        run: sleep 45
+
+      - name: Prune older deployments
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: prj_M7MImII2ndTrx1sFruPcnoZAni5n
+          VERCEL_ORG_ID: team_84kghfxkIvBUGdILrsBNIvJj
+          KEEP_COUNT: 1
+        run: |
+          if [ -n "$VERCEL_TOKEN" ]; then
+            node scripts/prune-vercel-deployments.mjs
+          else
+            echo "VERCEL_TOKEN secret not configured in GitHub repository. Skipping automated remote prune."
+            echo "To enable, add VERCEL_TOKEN to GitHub repository secrets."
+          fi

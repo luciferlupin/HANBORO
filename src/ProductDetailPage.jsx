@@ -659,6 +659,7 @@ export function ProductDetailPage({
                       muted
                       autoPlay
                       loop
+                      preload="metadata"
                       className="pdp-gallery-reel-video"
                     />
                     <div className="pdp-gallery-overlay-badge video-badge">

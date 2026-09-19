@@ -454,7 +454,7 @@ export function MediaSection({ onInspectSku }) {
                 controls
                 autoPlay
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="our-media-modal-video"
               />
             </div>
