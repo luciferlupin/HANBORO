@@ -371,7 +371,7 @@ export function StoreProvider({ children }) {
         productData.collection === "OCTAGONAL" ? "Royal Octagonal" :
         productData.collection === "DIVER_SPORT" ? "Diver & Sport Chrono" :
         productData.collection === "CLASSIC" ? "Classic & Moonphase" :
-        "Tourbillon & Complications"
+        (productData.collection ? String(productData.collection).replace(/_/g, " ") : "Tourbillon & Complications")
       ),
       tag: productData.tag || "New Masterpiece",
       price: productData.price || "₹1,25,000",

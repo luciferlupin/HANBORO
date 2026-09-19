@@ -100,6 +100,7 @@ export function WatchEditorModal({
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
+  const [isCustomCollection, setIsCustomCollection] = useState(false);
 
   const mainFileInputRef = useRef(null);
   const galleryFileInputRef = useRef(null);
@@ -203,7 +204,15 @@ export function WatchEditorModal({
           packaging: initialData.specs?.packaging || "Piano-Black Lacquered Wooden Presentation Vault",
         },
       });
+
+      const initialColl = initialData.collection || "TOURBILLON";
+      const initialCollName = initialData.collectionName || "Tourbillon & Complications";
+      const isPreset = CATEGORIES.some(
+        (c) => c.id === initialColl || c.label.toLowerCase() === initialCollName.toLowerCase()
+      );
+      setIsCustomCollection(!isPreset);
     } else {
+      setIsCustomCollection(false);
       const randomSkuNum = Math.floor(1000 + Math.random() * 9000);
       setForm({
         id: "",
@@ -400,12 +409,32 @@ export function WatchEditorModal({
     }
   };
 
-  const handleCollectionChange = (collectionId) => {
+  const handlePresetCollectionChange = (collectionId) => {
+    if (collectionId === "__CUSTOM__") {
+      setIsCustomCollection(true);
+      return;
+    }
+    setIsCustomCollection(false);
     const matched = CATEGORIES.find((c) => c.id === collectionId);
     setForm((prev) => ({
       ...prev,
       collection: collectionId,
       collectionName: matched ? matched.label : "Haute Horlogerie",
+    }));
+  };
+
+  const handleManualCollectionChange = (customName) => {
+    const cleanName = customName;
+    const slug = cleanName
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+
+    setForm((prev) => ({
+      ...prev,
+      collection: slug || "CUSTOM_COLLECTION",
+      collectionName: cleanName,
     }));
   };
 
@@ -746,18 +775,108 @@ export function WatchEditorModal({
                   </div>
 
                   <div className="editor-field-group">
-                    <label className="editor-label">Series / Collection Category</label>
-                    <select
-                      className="editor-select"
-                      value={form.collection}
-                      onChange={(e) => handleCollectionChange(e.target.value)}
-                    >
-                      {CATEGORIES.filter((c) => c.id !== "ALL").map((cat) => (
-                        <option key={cat.id} value={cat.id}>
-                          {cat.label}
-                        </option>
-                      ))}
-                    </select>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="editor-label" style={{ margin: 0 }}>
+                        Series / Collection Category
+                      </label>
+                      <button
+                        type="button"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "var(--color-primary, #e23b3b)",
+                          fontSize: "11px",
+                          cursor: "pointer",
+                          fontWeight: 600,
+                          padding: 0,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "3px",
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => {
+                          if (isCustomCollection) {
+                            setIsCustomCollection(false);
+                            handlePresetCollectionChange("TOURBILLON");
+                          } else {
+                            setIsCustomCollection(true);
+                          }
+                        }}
+                      >
+                        {isCustomCollection ? "📋 Choose from Presets" : "✍️ Write Custom / Manual"}
+                      </button>
+                    </div>
+
+                    {!isCustomCollection ? (
+                      <select
+                        className="editor-select"
+                        value={form.collection}
+                        onChange={(e) => {
+                          if (e.target.value === "__CUSTOM__") {
+                            setIsCustomCollection(true);
+                          } else {
+                            handlePresetCollectionChange(e.target.value);
+                          }
+                        }}
+                      >
+                        <optgroup label="Catalog Presets">
+                          {CATEGORIES.filter((c) => c.id !== "ALL").map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat.label}
+                            </option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Custom Options">
+                          <option value="__CUSTOM__">✍️ + Write Custom Collection (Manual Entry)...</option>
+                        </optgroup>
+                      </select>
+                    ) : (
+                      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                        <input
+                          type="text"
+                          className="editor-input"
+                          placeholder="Type custom collection name (e.g. Celestial Orbit, Vintage...)"
+                          value={form.collectionName}
+                          onChange={(e) => handleManualCollectionChange(e.target.value)}
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          className="editor-btn-secondary"
+                          style={{
+                            whiteSpace: "nowrap",
+                            padding: "6px 12px",
+                            fontSize: "11px",
+                            lineHeight: "1.3",
+                            cursor: "pointer",
+                            flexShrink: 0,
+                          }}
+                          onClick={() => {
+                            setIsCustomCollection(false);
+                            handlePresetCollectionChange("TOURBILLON");
+                          }}
+                          title="Switch back to preset list"
+                        >
+                          📋 Presets
+                        </button>
+                      </div>
+                    )}
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "4px", fontSize: "11px", color: "var(--sp-text-subdued, #666)" }}>
+                      <span>
+                        Active: <strong style={{ color: "var(--sp-text-default, #111)" }}>{form.collectionName || "Haute Horlogerie"}</strong>
+                        {isCustomCollection && (
+                          <span style={{ marginLeft: "6px", color: "var(--color-primary, #e23b3b)", fontWeight: 600 }}>
+                            (Manual Entry)
+                          </span>
+                        )}
+                      </span>
+                      {isCustomCollection && (
+                        <span>
+                          Slug: <code style={{ fontSize: "10px", background: "rgba(0,0,0,0.06)", padding: "1px 4px", borderRadius: "3px" }}>{form.collection || "CUSTOM"}</code>
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <div className="editor-field-group">

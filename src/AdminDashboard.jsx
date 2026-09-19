@@ -900,6 +900,23 @@ export function AdminDashboard({ onNavigateHome }) {
     return { totalProfiles, totalOrders, totalLtv, avgLtv, vipCount };
   }, [customersDatabase]);
 
+  // Dynamic Categories including custom collections
+  const availableProductCategories = useMemo(() => {
+    const list = [...CATEGORIES];
+    const knownIds = new Set(list.map((c) => c.id));
+    const allProds = Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA;
+    allProds.forEach((p) => {
+      if (p.collection && !knownIds.has(p.collection)) {
+        knownIds.add(p.collection);
+        list.push({
+          id: p.collection,
+          label: p.collectionName || p.collection.replace(/_/g, " "),
+        });
+      }
+    });
+    return list;
+  }, [products]);
+
   // Filtered Products Catalog
   const filteredProducts = useMemo(() => {
     let list = Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA;
@@ -2149,7 +2166,7 @@ export function AdminDashboard({ onNavigateHome }) {
                   >
                     All Collections ({(products || PRODUCTS_DATA).length})
                   </button>
-                  {CATEGORIES.filter((c) => c.id !== "ALL").map((cat) => {
+                  {availableProductCategories.filter((c) => c.id !== "ALL").map((cat) => {
                     const count = (products || PRODUCTS_DATA).filter((p) => p.collection === cat.id).length;
                     return (
                       <button

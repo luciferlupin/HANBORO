@@ -51,6 +51,22 @@ export function ProductsView({
     return Array.isArray(products) && products.length > 0 ? products : [];
   }, [products]);
 
+  // Dynamic Complication Categories including custom collections
+  const availableCategories = useMemo(() => {
+    const list = [...CATEGORIES];
+    const knownIds = new Set(list.map((c) => c.id));
+    catalogList.forEach((p) => {
+      if (p.collection && !knownIds.has(p.collection)) {
+        knownIds.add(p.collection);
+        list.push({
+          id: p.collection,
+          label: p.collectionName || p.collection.replace(/_/g, " "),
+        });
+      }
+    });
+    return list;
+  }, [catalogList]);
+
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let list = [...catalogList];
@@ -141,7 +157,7 @@ export function ProductsView({
         <div className="maison-filter-inner">
           {/* Clean Series Tabs */}
           <nav className="maison-series-nav" role="tablist" aria-label="Complication Series">
-            {CATEGORIES.map((cat) => {
+            {availableCategories.map((cat) => {
               const count =
                 cat.id === "ALL"
                   ? catalogList.length
