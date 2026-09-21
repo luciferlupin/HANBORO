@@ -99,12 +99,12 @@ export function getShopifyIds(sku) {
 
   // Quick sanity check — count matched products vs PRODUCTS_DATA
   const { PRODUCTS_DATA } = await import("../src/productsData.js");
+  const shopifyMapObj = products.reduce((acc, p) => { acc[p.handle] = p; return acc; }, {});
   let matched = 0;
   for (const p of PRODUCTS_DATA) {
     const key = String(p.sku || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/, "");
-    if (SHOPIFY_ID_MAP[key]) matched++;
+    if (shopifyMapObj[key]) matched++;
   }
-  const SHOPIFY_ID_MAP = products.reduce((acc, p) => { acc[p.handle] = p; return acc; }, {});
   console.log(`  ✓ ${matched}/${PRODUCTS_DATA.length} HANBORO watches matched to live Shopify IDs`);
 }
 
