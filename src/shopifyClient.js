@@ -309,16 +309,18 @@ export async function fetchLiveShopifyData() {
       const primaryVariant = node.variants?.edges?.[0]?.node;
       if (!primaryVariant) continue;
 
+      const liveImages = (node.images?.edges || []).map(img => img.node.url).filter(Boolean);
       const baseInfo = {
         shopifyId: node.id,
         shopifyHandle: node.handle,
         shopifyTitle: node.title,
+        shopifyDescription: node.description || "",
         shopifyPrice: primaryVariant.price?.amount ? Math.round(parseFloat(primaryVariant.price.amount)) : null,
         shopifyComparePrice: primaryVariant.compareAtPrice?.amount ? Math.round(parseFloat(primaryVariant.compareAtPrice.amount)) : null,
         availableForSale: primaryVariant.availableForSale ?? true,
         quantityAvailable: primaryVariant.quantityAvailable ?? null,
         shopifyVariantId: primaryVariant.id,
-        shopifyImages: (node.images?.edges || []).map(img => img.node.url),
+        shopifyImages: liveImages,
       };
 
       // Key by handle (lowercase and exact) as well as Shopify product GID

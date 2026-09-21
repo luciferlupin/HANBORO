@@ -135,6 +135,8 @@ export function StoreProvider({ children }) {
             return {
               ...p,
               name: live.shopifyTitle || p.name,
+              title: live.shopifyTitle || p.title || p.name,
+              description: live.shopifyDescription || p.description,
               price: livePrice,
               priceNumeric: live.shopifyPrice || p.priceNumeric,
               mrp: liveMrp,
@@ -153,8 +155,23 @@ export function StoreProvider({ children }) {
         console.warn("Live Shopify sync note:", err.message);
       }
     }
+
     liveShopifySync();
-    return () => { cancelled = true; };
+
+    // Re-sync immediately when merchant tabs back from Shopify Admin, and every 20 seconds
+    const onFocus = () => liveShopifySync();
+    if (typeof window !== "undefined") {
+      window.addEventListener("focus", onFocus);
+    }
+    const interval = setInterval(liveShopifySync, 20000);
+
+    return () => {
+      cancelled = true;
+      if (typeof window !== "undefined") {
+        window.removeEventListener("focus", onFocus);
+      }
+      clearInterval(interval);
+    };
   }, []);
 
   // Customer Account: handle OAuth callback code from Shopify on page load,
