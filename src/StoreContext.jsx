@@ -106,8 +106,9 @@ export function StoreProvider({ children }) {
       try {
         const liveMap = await shopifyService.fetchLiveShopifyData();
         if (cancelled || liveMap.size === 0) return;
-        setProducts((current) =>
-          current.map((p) => {
+        const matchedProductIds = new Set();
+        const syncedProducts = current
+          .map((p) => {
             // Match across shopifyHandle, raw SKU, lowercase SKU, product ID, or variant ID
             const handle =
               p.shopifyHandle ||
@@ -124,7 +125,12 @@ export function StoreProvider({ children }) {
               (idKey ? liveMap.get(idKey) : null) ||
               (p.shopifyId ? liveMap.get(p.shopifyId) : null) ||
               (p.shopifyVariantId ? liveMap.get(p.shopifyVariantId) : null);
-            if (!live) return p;
+
+            // If not found in Shopify, exclude from the active catalog
+            if (!live) return null;
+
+            if (live.shopifyId) matchedProductIds.add(live.shopifyId);
+            if (live.shopifyHandle) matchedProductIds.add(live.shopifyHandle);
 
             const livePrice = live.shopifyPrice
               ? `₹${live.shopifyPrice.toLocaleString("en-IN")}`
@@ -132,11 +138,22 @@ export function StoreProvider({ children }) {
             const liveMrp = live.shopifyComparePrice
               ? `₹${live.shopifyComparePrice.toLocaleString("en-IN")}`
               : p.mrp;
+
+            const primaryImg = (live.shopifyImages && live.shopifyImages.length > 0)
+              ? live.shopifyImages[0]
+              : p.image;
+            const galleryImgs = (live.shopifyImages && live.shopifyImages.length > 0)
+              ? live.shopifyImages
+              : p.gallery;
+
             return {
               ...p,
               name: live.shopifyTitle || p.name,
               title: live.shopifyTitle || p.title || p.name,
               description: live.shopifyDescription || p.description,
+              image: primaryImg,
+              gallery: galleryImgs,
+              images: galleryImgs,
               price: livePrice,
               priceNumeric: live.shopifyPrice || p.priceNumeric,
               mrp: liveMrp,
@@ -149,7 +166,9 @@ export function StoreProvider({ children }) {
               _shopifyLiveSynced: true,
             };
           })
-        );
+          .filter(Boolean);
+
+        setProducts(syncedProducts);
       } catch (err) {
         // Live sync failed — static map values remain in use
         console.warn("Live Shopify sync note:", err.message);
