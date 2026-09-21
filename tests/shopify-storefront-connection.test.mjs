@@ -17,8 +17,8 @@ test("Shopify Client: setShopifyStoreDomain normalizes domains cleanly", () => {
   setShopifyStoreDomain("https://custom-shop.myshopify.com/");
   assert.equal(SHOPIFY_CONFIG.domain, "custom-shop.myshopify.com");
 
-  setShopifyStoreDomain("1rxaxi-n5");
-  assert.equal(SHOPIFY_CONFIG.domain, "1rxaxi-n5.myshopify.com");
+  setShopifyStoreDomain("0h0fke-ui");
+  assert.equal(SHOPIFY_CONFIG.domain, "0h0fke-ui.myshopify.com");
 });
 
 test("Shopify Client: buildShopifyCheckoutUrl builds permalink format", () => {
@@ -26,7 +26,7 @@ test("Shopify Client: buildShopifyCheckoutUrl builds permalink format", () => {
     { product: { id: "p1", shopifyVariantId: "4489234892" }, quantity: 2 },
   ];
   const url = buildShopifyCheckoutUrl(mockItems);
-  assert.ok(url.includes("1rxaxi-n5.myshopify.com/cart/4489234892:2"));
+  assert.ok(url.includes("0h0fke-ui.myshopify.com/cart/4489234892:2"));
 });
 
 test("Shopify Storefront Live Connection: verifies GraphQL shop endpoint response", async () => {
@@ -46,26 +46,26 @@ test("Shopify Storefront Live Connection: verifies GraphQL shop endpoint respons
   const json = await res.json();
   assert.ok(json.data?.shop, "Shop data must be present");
   assert.equal(json.data.shop.name, "My Store");
-  assert.equal(json.data.shop.primaryDomain.host, "1rxaxi-n5.myshopify.com");
+  assert.equal(json.data.shop.primaryDomain.host, "0h0fke-ui.myshopify.com");
   assert.equal(json.data.shop.paymentSettings.currencyCode, "INR");
 });
 
 test("Shopify Customer Account API: Configures endpoints and OAuth client ID", async () => {
   const { SHOPIFY_CUSTOMER_CONFIG, buildCustomerAuthUrl, buildCustomerLogoutUrl } = await import("../src/shopifyClient.js");
   
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.clientId, "5626cc99-3cd1-4589-b3ce-e58e50436dcd");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.shopId, "76378439770");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.authEndpoint, "https://shopify.com/authentication/76378439770/oauth/authorize");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint, "https://shopify.com/authentication/76378439770/oauth/token");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint, "https://shopify.com/authentication/76378439770/logout");
+  assert.equal(SHOPIFY_CUSTOMER_CONFIG.clientId, "41118fda-4bc0-40c3-9184-48dd97a9ae40");
+  assert.equal(SHOPIFY_CUSTOMER_CONFIG.shopId, "88860197048");
+  assert.equal(SHOPIFY_CUSTOMER_CONFIG.authEndpoint, "https://shopify.com/authentication/88860197048/oauth/authorize");
+  assert.equal(SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint, "https://shopify.com/authentication/88860197048/oauth/token");
+  assert.equal(SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint, "https://shopify.com/authentication/88860197048/logout");
 
   const authUrl = await buildCustomerAuthUrl("https://hanborowatches.in/callback");
-  assert.ok(authUrl.startsWith("https://shopify.com/authentication/76378439770/oauth/authorize"));
-  assert.ok(authUrl.includes("client_id=5626cc99-3cd1-4589-b3ce-e58e50436dcd"));
+  assert.ok(authUrl.startsWith("https://shopify.com/authentication/88860197048/oauth/authorize"));
+  assert.ok(authUrl.includes("client_id=41118fda-4bc0-40c3-9184-48dd97a9ae40"));
   assert.ok(authUrl.includes("response_type=code"));
   assert.ok(authUrl.includes("scope=openid+email+customer-account-api%3Afull") || authUrl.includes("customer-account-api"));
 
   const logoutUrl = buildCustomerLogoutUrl("https://hanborowatches.in/");
-  assert.equal(logoutUrl, "https://shopify.com/authentication/76378439770/logout?post_logout_redirect_uri=https%3A%2F%2Fhanborowatches.in%2F");
+  assert.equal(logoutUrl, "https://shopify.com/authentication/88860197048/logout?post_logout_redirect_uri=https%3A%2F%2Fhanborowatches.in%2F");
 });
 

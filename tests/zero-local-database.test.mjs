@@ -52,7 +52,7 @@ test("Zero Local Database: App.jsx does not query or write to a local roulette d
 test("Shopify Headless Architecture: Shopify handles checkout, live pricing, and cart", async () => {
   const { shopifyService, SHOPIFY_CONFIG } = await import("../src/shopifyClient.js");
   assert.ok(shopifyService, "shopifyService must exist");
-  assert.equal(SHOPIFY_CONFIG.domain, "1rxaxi-n5.myshopify.com");
+  assert.equal(SHOPIFY_CONFIG.domain, "0h0fke-ui.myshopify.com");
   assert.equal(typeof shopifyService.createShopifyCart, "function");
   assert.equal(typeof shopifyService.fetchLiveShopifyData, "function");
   assert.equal(typeof shopifyService.getCustomerAccountUrl, "function");

@@ -315,20 +315,20 @@ export async function fetchLiveShopifyData() {
 export const SHOPIFY_CUSTOMER_CONFIG = {
   clientId:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_CUSTOMER_CLIENT_ID) ||
-    "5626cc99-3cd1-4589-b3ce-e58e50436dcd",
+    "41118fda-4bc0-40c3-9184-48dd97a9ae40",
   shopId:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_SHOP_ID) ||
-    "76378439770",
+    "88860197048",
   authEndpoint:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_AUTH_ENDPOINT) ||
-    "https://shopify.com/authentication/76378439770/oauth/authorize",
+    "https://shopify.com/authentication/88860197048/oauth/authorize",
   tokenEndpoint:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_TOKEN_ENDPOINT) ||
-    "https://shopify.com/authentication/76378439770/oauth/token",
+    "https://shopify.com/authentication/88860197048/oauth/token",
   logoutEndpoint:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_LOGOUT_ENDPOINT) ||
-    "https://shopify.com/authentication/76378439770/logout",
-  customerGraphQLEndpoint: "https://shopify.com/76378439770/account/customer/api/2024-01/graphql",
+    "https://shopify.com/authentication/88860197048/logout",
+  customerGraphQLEndpoint: "https://shopify.com/88860197048/account/customer/api/2024-01/graphql",
 };
 
 /**

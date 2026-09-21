@@ -342,7 +342,7 @@ export function CartDrawer() {
 
             <p className="cart-secure-notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
               <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-              Connected to 1rxaxi-n5.myshopify.com • 256-Bit Encrypted
+              Connected to 0h0fke-ui.myshopify.com • 256-Bit Encrypted
             </p>
           </div>
         )}

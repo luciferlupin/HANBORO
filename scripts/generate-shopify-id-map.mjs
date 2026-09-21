@@ -16,8 +16,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const OUT  = path.join(ROOT, "src", "shopifyIdMap.js");
 
-const DOMAIN  = "1rxaxi-n5.myshopify.com";
-const TOKEN   = "8e7461f91152110cd15ad4cdee18c87d";
+const DOMAIN  = "0h0fke-ui.myshopify.com";
+const TOKEN   = "b40181640892b2f191a2cd4b113ca0fd";
 const VERSION = "2024-01";
 
 async function fetchAllProducts() {
