@@ -139,9 +139,11 @@ async function run() {
       rawImages.push("/placeholder-watch.png");
     }
 
-    const imageUrls = rawImages.map((img) =>
-      img.startsWith("http") ? img : `https://hanborowatches.in${img}`
-    );
+    const imageUrls = rawImages.map((img) => {
+      if (img.startsWith("http")) return img;
+      const cleanPath = img.startsWith("/") ? img : `/${img}`;
+      return `https://raw.githubusercontent.com/luciferlupin/hanboro/main/public${cleanPath}`;
+    });
 
     // Primary row (Product + First Image + Variant)
     const firstImage = imageUrls[0];
