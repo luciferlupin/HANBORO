@@ -9,14 +9,17 @@ export const SHOPIFY_CONFIG = {
   // Store domain (e.g. your-shop.myshopify.com)
   domain:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_STORE_DOMAIN) ||
-    "",
+    (typeof process !== "undefined" && process.env?.VITE_SHOPIFY_STORE_DOMAIN) ||
+    "0h0fke-ui.myshopify.com",
   // Public Storefront API access token (client-safe for Storefront GraphQL)
   storefrontAccessToken:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_STOREFRONT_TOKEN) ||
-    "",
+    (typeof process !== "undefined" && process.env?.VITE_SHOPIFY_STOREFRONT_TOKEN) ||
+    "b40181640892b2f191a2cd4b113ca0fd",
   // Private Admin API token (for server-side / worker operations)
   adminAccessToken:
     (typeof import.meta !== "undefined" && import.meta.env?.SHOPIFY_ADMIN_ACCESS_TOKEN) ||
+    (typeof process !== "undefined" && process.env?.SHOPIFY_ADMIN_ACCESS_TOKEN) ||
     "",
   apiVersion: "2024-01",
 };
@@ -268,16 +271,28 @@ export async function fetchLiveShopifyData() {
     products(first: 250) {
       edges {
         node {
+          id
           handle
           title
-          variants(first: 1) {
+          description
+          variants(first: 10) {
             edges {
               node {
                 id
+                sku
+                title
                 price { amount currencyCode }
                 compareAtPrice { amount currencyCode }
                 availableForSale
                 quantityAvailable
+              }
+            }
+          }
+          images(first: 5) {
+            edges {
+              node {
+                url
+                altText
               }
             }
           }
@@ -291,16 +306,42 @@ export async function fetchLiveShopifyData() {
     const liveMap = new Map();
     for (const edge of (data?.products?.edges || [])) {
       const node = edge.node;
-      const variant = node.variants?.edges?.[0]?.node;
-      if (!variant) continue;
-      liveMap.set(node.handle, {
+      const primaryVariant = node.variants?.edges?.[0]?.node;
+      if (!primaryVariant) continue;
+
+      const baseInfo = {
+        shopifyId: node.id,
+        shopifyHandle: node.handle,
         shopifyTitle: node.title,
-        shopifyPrice: variant.price?.amount ? Math.round(parseFloat(variant.price.amount)) : null,
-        shopifyComparePrice: variant.compareAtPrice?.amount ? Math.round(parseFloat(variant.compareAtPrice.amount)) : null,
-        availableForSale: variant.availableForSale ?? true,
-        quantityAvailable: variant.quantityAvailable ?? null,
-        shopifyVariantId: variant.id,
-      });
+        shopifyPrice: primaryVariant.price?.amount ? Math.round(parseFloat(primaryVariant.price.amount)) : null,
+        shopifyComparePrice: primaryVariant.compareAtPrice?.amount ? Math.round(parseFloat(primaryVariant.compareAtPrice.amount)) : null,
+        availableForSale: primaryVariant.availableForSale ?? true,
+        quantityAvailable: primaryVariant.quantityAvailable ?? null,
+        shopifyVariantId: primaryVariant.id,
+        shopifyImages: (node.images?.edges || []).map(img => img.node.url),
+      };
+
+      // Key by handle (lowercase and exact)
+      liveMap.set(node.handle.toLowerCase(), baseInfo);
+      liveMap.set(node.handle, baseInfo);
+
+      // Key by every variant SKU
+      for (const vEdge of (node.variants?.edges || [])) {
+        const v = vEdge.node;
+        if (v?.sku) {
+          const skuKey = v.sku.trim().toLowerCase();
+          const variantInfo = {
+            ...baseInfo,
+            shopifyVariantId: v.id,
+            shopifyPrice: v.price?.amount ? Math.round(parseFloat(v.price.amount)) : baseInfo.shopifyPrice,
+            shopifyComparePrice: v.compareAtPrice?.amount ? Math.round(parseFloat(v.compareAtPrice.amount)) : baseInfo.shopifyComparePrice,
+            availableForSale: v.availableForSale ?? baseInfo.availableForSale,
+            quantityAvailable: v.quantityAvailable ?? baseInfo.quantityAvailable,
+          };
+          liveMap.set(skuKey, variantInfo);
+          liveMap.set(v.sku.trim(), variantInfo);
+        }
+      }
     }
     return liveMap;
   } catch (err) {

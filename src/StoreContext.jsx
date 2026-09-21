@@ -50,6 +50,23 @@ const rouletteService = {
   },
 };
 
+// Zero Local Database Startup Routine: Purge any obsolete local storage keys
+if (typeof window !== "undefined") {
+  const obsoleteDatabaseKeys = [
+    "hanboro_roulette_spins",
+    "hanboro_collector_reviews",
+    "hanboro_local_orders",
+    "hanboro_cart",
+    "hanboro_wishlist",
+    "hanboro_mrp_discount_config",
+  ];
+  obsoleteDatabaseKeys.forEach((key) => {
+    try {
+      window.localStorage?.removeItem(key);
+    } catch (_) {}
+  });
+}
+
 export function StoreProvider({ children }) {
   const [products, setProducts] = useState(() => {
     // Immediately enrich every local watch with real Shopify IDs from the baked-in map.
@@ -98,9 +115,10 @@ export function StoreProvider({ children }) {
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/^-+|-+$/, "");
-            const live = liveMap.get(handle);
+            const skuKey = String(p.sku || "").trim().toLowerCase();
+            const live = liveMap.get(handle.toLowerCase()) || liveMap.get(handle) || (skuKey ? liveMap.get(skuKey) : null);
             if (!live) return p;
-            // Merge live Shopify data — price/availability/variant override static map
+
             const livePrice = live.shopifyPrice
               ? `₹${live.shopifyPrice.toLocaleString("en-IN")}`
               : p.price;
@@ -109,15 +127,16 @@ export function StoreProvider({ children }) {
               : p.mrp;
             return {
               ...p,
-              // Sync live price from Shopify (if Shopify price differs from local)
+              name: live.shopifyTitle || p.name,
               price: livePrice,
+              priceNumeric: live.shopifyPrice || p.priceNumeric,
               mrp: liveMrp,
-              // Always use live availability from Shopify
+              mrpNumeric: live.shopifyComparePrice || p.mrpNumeric,
               availableForSale: live.availableForSale,
               quantityAvailable: live.quantityAvailable,
-              // Use the correct variant ID in case it changed
+              shopifyId: live.shopifyId || p.shopifyId,
               shopifyVariantId: live.shopifyVariantId || p.shopifyVariantId,
-              // Mark as live-synced
+              shopifyHandle: live.shopifyHandle || p.shopifyHandle || handle,
               _shopifyLiveSynced: true,
             };
           })
