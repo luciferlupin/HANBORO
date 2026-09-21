@@ -259,12 +259,11 @@ export async function fetchShopifyProducts(first = 80) {
 
 /**
  * ── LIVE SHOPIFY DATA LAYER ──────────────────────────────────────────────────
- * Fetches ONLY price, availability, and title from Shopify in a single fast
- * GraphQL query (250 max). Use this on every page load to reflect any changes
- * made in Shopify Admin without needing to redeploy.
+ * Fetches live product copy, pricing, availability, inventory, identifiers,
+ * and media metadata from Shopify in a single GraphQL query (250 max). The
+ * storefront merge intentionally keeps the approved local product imagery.
  *
- * Returns a Map keyed by Shopify product handle → { shopifyPrice, shopifyComparePrice,
- *   availableForSale, quantityAvailable, shopifyTitle }
+ * Returns a Map keyed by Shopify handle, product ID, variant ID, and SKU.
  */
 export async function fetchLiveShopifyData() {
   const query = `{
@@ -352,6 +351,60 @@ export async function fetchLiveShopifyData() {
     console.warn("fetchLiveShopifyData note:", err.message);
     return new Map();
   }
+}
+
+/**
+ * Merge Shopify's live commerce fields into the editorial catalogue.
+ *
+ * Product photography deliberately remains local: the storefront's approved
+ * imagery is curated in PRODUCTS_DATA, while Shopify is authoritative for
+ * product copy, price, availability, inventory, and checkout identifiers.
+ */
+export function mergeProductsWithShopifyData(localProducts = [], liveMap = new Map()) {
+  return localProducts.flatMap((product) => {
+    const handle =
+      product.shopifyHandle ||
+      String(product.sku || product.id || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    const sku = String(product.sku || "").trim();
+    const id = String(product.id || "").trim();
+    const live =
+      liveMap.get(handle.toLowerCase()) ||
+      liveMap.get(handle) ||
+      (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) : null) ||
+      (id ? liveMap.get(id.toLowerCase()) || liveMap.get(id) : null) ||
+      (product.shopifyId ? liveMap.get(product.shopifyId) : null) ||
+      (product.shopifyVariantId ? liveMap.get(product.shopifyVariantId) : null);
+
+    // Shopify is the source of truth for which products are published.
+    if (!live) return [];
+
+    const livePrice = Number.isFinite(live.shopifyPrice) ? live.shopifyPrice : null;
+    const liveComparePrice = Number.isFinite(live.shopifyComparePrice)
+      ? live.shopifyComparePrice
+      : null;
+
+    return [{
+      ...product,
+      name: live.shopifyTitle || product.name,
+      title: live.shopifyTitle || product.title || product.name,
+      description: live.shopifyDescription || product.description,
+      price: livePrice !== null ? `₹${livePrice.toLocaleString("en-IN")}` : product.price,
+      priceNumeric: livePrice ?? product.priceNumeric,
+      mrp: liveComparePrice !== null
+        ? `₹${liveComparePrice.toLocaleString("en-IN")}`
+        : product.mrp,
+      mrpNumeric: liveComparePrice ?? product.mrpNumeric,
+      availableForSale: live.availableForSale,
+      quantityAvailable: live.quantityAvailable,
+      shopifyId: live.shopifyId || product.shopifyId,
+      shopifyVariantId: live.shopifyVariantId || product.shopifyVariantId,
+      shopifyHandle: live.shopifyHandle || product.shopifyHandle || handle,
+      _shopifyLiveSynced: true,
+    }];
+  });
 }
 
 /**
@@ -589,6 +642,7 @@ export const shopifyService = {
   buildShopifyCheckoutUrl,
   fetchShopifyProducts,
   fetchLiveShopifyData,
+  mergeProductsWithShopifyData,
   buildCustomerAuthUrl,
   exchangeCustomerToken,
   fetchCustomerProfile,
@@ -597,4 +651,3 @@ export const shopifyService = {
 };
 
 export default shopifyService;
-

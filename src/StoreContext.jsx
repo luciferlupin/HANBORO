@@ -6,6 +6,18 @@ import { getShopifyIds } from "./shopifyIdMap";
 
 const StoreContext = createContext(null);
 
+const LOCAL_PRODUCTS_WITH_SHOPIFY_IDS = PRODUCTS_DATA.map((product) => {
+  const ids = getShopifyIds(product.sku);
+  if (!ids) return product;
+  return {
+    ...product,
+    shopifyId: ids.shopifyId,
+    shopifyVariantId: ids.shopifyVariantId,
+    shopifyHandle: ids.handle,
+    availableForSale: ids.availableForSale,
+  };
+});
+
 export const PROMO_CODES = {
   HANBORO10: { type: "percent", value: 10, label: "10% Welcome Discount" },
   VIP1000: { type: "flat", value: 1000, label: "₹1,000 Special Credit Voucher" },
@@ -68,22 +80,10 @@ if (typeof window !== "undefined") {
 }
 
 export function StoreProvider({ children }) {
-  const [products, setProducts] = useState(() => {
-    // Immediately enrich every local watch with real Shopify IDs from the baked-in map.
-    // This means checkout works on first page load — no network round-trip required.
-    return PRODUCTS_DATA.map((p) => {
-      const ids = getShopifyIds(p.sku);
-      if (!ids) return p;
-      return {
-        ...p,
-        shopifyId: ids.shopifyId,
-        shopifyVariantId: ids.shopifyVariantId,
-        shopifyHandle: ids.handle,
-        availableForSale: ids.availableForSale,
-      };
-    });
-  });
-  const [isShopifySynced, setIsShopifySynced] = useState(true); // already synced via static map
+  // Checkout IDs are ready immediately; live catalogue fields arrive asynchronously.
+  const [products, setProducts] = useState(() => LOCAL_PRODUCTS_WITH_SHOPIFY_IDS);
+  const [isShopifyConnected, setIsShopifyConnected] = useState(false);
+  const [isShopifySynced, setIsShopifySynced] = useState(false);
   const [shopifyCustomer, setShopifyCustomer] = useState(null);
   const [shopifyCheckoutUrl, setShopifyCheckoutUrl] = useState("");
   const [cart, setCart] = useState([]);
@@ -105,72 +105,24 @@ export function StoreProvider({ children }) {
     async function liveShopifySync() {
       try {
         const liveMap = await shopifyService.fetchLiveShopifyData();
-        if (cancelled || liveMap.size === 0) return;
-        const matchedProductIds = new Set();
-        const syncedProducts = current
-          .map((p) => {
-            // Match across shopifyHandle, raw SKU, lowercase SKU, product ID, or variant ID
-            const handle =
-              p.shopifyHandle ||
-              String(p.sku || p.id || "")
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-")
-                .replace(/^-+|-+$/, "");
-            const skuKey = String(p.sku || "").trim().toLowerCase();
-            const idKey = String(p.id || "").trim().toLowerCase();
-            const live =
-              liveMap.get(handle.toLowerCase()) ||
-              liveMap.get(handle) ||
-              (skuKey ? (liveMap.get(skuKey) || liveMap.get(p.sku.trim())) : null) ||
-              (idKey ? liveMap.get(idKey) : null) ||
-              (p.shopifyId ? liveMap.get(p.shopifyId) : null) ||
-              (p.shopifyVariantId ? liveMap.get(p.shopifyVariantId) : null);
+        if (cancelled) return;
+        if (liveMap.size === 0) {
+          setIsShopifyConnected(false);
+          setIsShopifySynced(false);
+          return;
+        }
 
-            // If not found in Shopify, exclude from the active catalog
-            if (!live) return null;
-
-            if (live.shopifyId) matchedProductIds.add(live.shopifyId);
-            if (live.shopifyHandle) matchedProductIds.add(live.shopifyHandle);
-
-            const livePrice = live.shopifyPrice
-              ? `₹${live.shopifyPrice.toLocaleString("en-IN")}`
-              : p.price;
-            const liveMrp = live.shopifyComparePrice
-              ? `₹${live.shopifyComparePrice.toLocaleString("en-IN")}`
-              : p.mrp;
-
-            const primaryImg = (live.shopifyImages && live.shopifyImages.length > 0)
-              ? live.shopifyImages[0]
-              : p.image;
-            const galleryImgs = (live.shopifyImages && live.shopifyImages.length > 0)
-              ? live.shopifyImages
-              : p.gallery;
-
-            return {
-              ...p,
-              name: live.shopifyTitle || p.name,
-              title: live.shopifyTitle || p.title || p.name,
-              description: live.shopifyDescription || p.description,
-              image: primaryImg,
-              gallery: galleryImgs,
-              images: galleryImgs,
-              price: livePrice,
-              priceNumeric: live.shopifyPrice || p.priceNumeric,
-              mrp: liveMrp,
-              mrpNumeric: live.shopifyComparePrice || p.mrpNumeric,
-              availableForSale: live.availableForSale,
-              quantityAvailable: live.quantityAvailable,
-              shopifyId: live.shopifyId || p.shopifyId,
-              shopifyVariantId: live.shopifyVariantId || p.shopifyVariantId,
-              shopifyHandle: live.shopifyHandle || p.shopifyHandle || handle,
-              _shopifyLiveSynced: true,
-            };
-          })
-          .filter(Boolean);
-
+        const syncedProducts = shopifyService.mergeProductsWithShopifyData(
+          LOCAL_PRODUCTS_WITH_SHOPIFY_IDS,
+          liveMap,
+        );
         setProducts(syncedProducts);
+        setIsShopifyConnected(true);
+        setIsShopifySynced(syncedProducts.length > 0);
       } catch (err) {
         // Live sync failed — static map values remain in use
+        setIsShopifyConnected(false);
+        setIsShopifySynced(false);
         console.warn("Live Shopify sync note:", err.message);
       }
     }
@@ -443,7 +395,7 @@ export function StoreProvider({ children }) {
     buyNow,
     openCheckout,
     proceedToShopifyCheckout,
-    isShopifyConnected: true,
+    isShopifyConnected,
     isShopifySynced,
     shopifyCustomer,
     shopifyCheckoutUrl,
