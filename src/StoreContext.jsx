@@ -108,7 +108,7 @@ export function StoreProvider({ children }) {
         if (cancelled || liveMap.size === 0) return;
         setProducts((current) =>
           current.map((p) => {
-            // Match by the shopifyHandle that was baked in, or derive from SKU
+            // Match across shopifyHandle, raw SKU, lowercase SKU, product ID, or variant ID
             const handle =
               p.shopifyHandle ||
               String(p.sku || p.id || "")
@@ -116,7 +116,14 @@ export function StoreProvider({ children }) {
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/^-+|-+$/, "");
             const skuKey = String(p.sku || "").trim().toLowerCase();
-            const live = liveMap.get(handle.toLowerCase()) || liveMap.get(handle) || (skuKey ? liveMap.get(skuKey) : null);
+            const idKey = String(p.id || "").trim().toLowerCase();
+            const live =
+              liveMap.get(handle.toLowerCase()) ||
+              liveMap.get(handle) ||
+              (skuKey ? (liveMap.get(skuKey) || liveMap.get(p.sku.trim())) : null) ||
+              (idKey ? liveMap.get(idKey) : null) ||
+              (p.shopifyId ? liveMap.get(p.shopifyId) : null) ||
+              (p.shopifyVariantId ? liveMap.get(p.shopifyVariantId) : null);
             if (!live) return p;
 
             const livePrice = live.shopifyPrice

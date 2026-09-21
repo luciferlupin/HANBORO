@@ -7575,7 +7575,7 @@ export function getWatchPricing(watch, overrideConfig = null) {
   let discountPercent = typeof watch.discountPercent === "number" ? watch.discountPercent : 0;
 
   // If undiscounted, price equals MRP, or missing MRP, calculate using configured rate
-  if ((!mrpNum || mrpNum <= priceNum || mrpStr === priceStr || !priceNum) && (watch.sku || watch.id)) {
+  if (!watch._shopifyLiveSynced && (!mrpNum || mrpNum <= priceNum || mrpStr === priceStr || !priceNum) && (watch.sku || watch.id)) {
     const cleanId = String(watch.id || "").toLowerCase().trim();
     const cleanSku = String(watch.sku || "").toUpperCase().trim();
     const canonical = RAW_PRODUCTS_DATA.find(
@@ -7583,13 +7583,7 @@ export function getWatchPricing(watch, overrideConfig = null) {
         (p.id && String(p.id).toLowerCase().trim() === cleanId) ||
         (p.sku && String(p.sku).toUpperCase().trim() === cleanSku)
     );
-    if (canonical && canonical.priceNumeric && canonical.priceNumeric < priceNum) {
-      priceNum = canonical.priceNumeric;
-      priceStr = canonical.price || `₹${canonical.priceNumeric.toLocaleString("en-IN")}`;
-      mrpNum = canonical.mrpNumeric || mrpNum;
-      mrpStr = canonical.mrp || `₹${mrpNum.toLocaleString("en-IN")}`;
-      discountPercent = typeof canonical.discountPercent === "number" ? canonical.discountPercent : defaultDiscountPercent;
-    } else if (canonical && canonical.mrpNumeric && canonical.mrpNumeric > priceNum) {
+    if (canonical && canonical.mrpNumeric && canonical.mrpNumeric > priceNum) {
       const canMrpNum = canonical.mrpNumeric;
       const canDisc = typeof canonical.discountPercent === "number" ? canonical.discountPercent : defaultDiscountPercent;
       mrpNum = canMrpNum;
@@ -7602,6 +7596,12 @@ export function getWatchPricing(watch, overrideConfig = null) {
       mrpStr = `₹${mrpNum.toLocaleString("en-IN")}`;
       discountPercent = defaultDiscountPercent;
     }
+  } else if (watch._shopifyLiveSynced && priceNum > 0 && (!mrpNum || mrpNum <= priceNum)) {
+    // For live Shopify products without a Compare-At Price, calculate MRP from default discount
+    const factor = Math.max(0.1, 1 - defaultDiscountPercent / 100);
+    mrpNum = Math.round(priceNum / factor);
+    mrpStr = `₹${mrpNum.toLocaleString("en-IN")}`;
+    discountPercent = defaultDiscountPercent;
   }
 
   if (mrpNum > priceNum && priceNum > 0) {

@@ -321,23 +321,25 @@ export async function fetchLiveShopifyData() {
         shopifyImages: (node.images?.edges || []).map(img => img.node.url),
       };
 
-      // Key by handle (lowercase and exact)
+      // Key by handle (lowercase and exact) as well as Shopify product GID
       liveMap.set(node.handle.toLowerCase(), baseInfo);
       liveMap.set(node.handle, baseInfo);
+      if (node.id) liveMap.set(node.id, baseInfo);
 
-      // Key by every variant SKU
+      // Key by every variant SKU and variant ID
       for (const vEdge of (node.variants?.edges || [])) {
         const v = vEdge.node;
+        const variantInfo = {
+          ...baseInfo,
+          shopifyVariantId: v?.id || baseInfo.shopifyVariantId,
+          shopifyPrice: v?.price?.amount ? Math.round(parseFloat(v.price.amount)) : baseInfo.shopifyPrice,
+          shopifyComparePrice: v?.compareAtPrice?.amount ? Math.round(parseFloat(v.compareAtPrice.amount)) : baseInfo.shopifyComparePrice,
+          availableForSale: v?.availableForSale ?? baseInfo.availableForSale,
+          quantityAvailable: v?.quantityAvailable ?? baseInfo.quantityAvailable,
+        };
+        if (v?.id) liveMap.set(v.id, variantInfo);
         if (v?.sku) {
           const skuKey = v.sku.trim().toLowerCase();
-          const variantInfo = {
-            ...baseInfo,
-            shopifyVariantId: v.id,
-            shopifyPrice: v.price?.amount ? Math.round(parseFloat(v.price.amount)) : baseInfo.shopifyPrice,
-            shopifyComparePrice: v.compareAtPrice?.amount ? Math.round(parseFloat(v.compareAtPrice.amount)) : baseInfo.shopifyComparePrice,
-            availableForSale: v.availableForSale ?? baseInfo.availableForSale,
-            quantityAvailable: v.quantityAvailable ?? baseInfo.quantityAvailable,
-          };
           liveMap.set(skuKey, variantInfo);
           liveMap.set(v.sku.trim(), variantInfo);
         }
