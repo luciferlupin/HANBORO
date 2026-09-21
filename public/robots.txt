@@ -1,0 +1,32 @@
+# Hanboro Haute Horlogerie India — Official Robots Directive
+# Google Search Central & Multi-Crawler Compliant
+
+User-agent: Google-Favicon
+Allow: /
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /favicon-*.png
+Allow: /apple-touch-icon*.png
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /favicon-*.png
+Allow: /apple-touch-icon*.png
+
+User-agent: Googlebot
+Allow: /
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /favicon-*.png
+Allow: /apple-touch-icon*.png
+
+User-agent: *
+Allow: /
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /favicon-*.png
+Allow: /apple-touch-icon*.png
+
+Sitemap: https://www.hanborowatches.in/sitemap.xml
