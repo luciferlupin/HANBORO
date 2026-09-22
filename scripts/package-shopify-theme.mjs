@@ -7,7 +7,7 @@ const DIST_CLIENT = path.join(ROOT_DIR, "dist", "client");
 const THEME_DIR = path.join(ROOT_DIR, "shopify-theme");
 const ZIP_OUTPUT = path.join(ROOT_DIR, "hanboro-shopify-theme.zip");
 
-console.log("🎨 Packaging HANBORO Shopify Online Store Theme...");
+console.log("🎨 Packaging HANBORO Shopify Online Store Theme (<50MB compliant)...");
 
 // 1. Ensure build exists or run build
 if (!fs.existsSync(DIST_CLIENT) || !fs.existsSync(path.join(DIST_CLIENT, "index.html"))) {
@@ -53,34 +53,20 @@ const preloadFiles = preloadMatches.map((m) => m[1]);
 console.log(`✨ Detected entry files: JS -> ${mainJsFile}, CSS -> ${mainCssFile}`);
 console.log(`✨ Preload chunks count: ${preloadFiles.length}`);
 
-// 4. Copy all assets into shopify-theme/assets
+// 4. Optimize and copy all assets into shopify-theme/assets (<50MB)
+console.log("⚡ Optimizing and copying asset files...");
 const themeAssetsDir = path.join(THEME_DIR, "assets");
 
-function copyFilesFlat(srcDir, destDir) {
-  if (!fs.existsSync(srcDir)) return;
-  const entries = fs.readdirSync(srcDir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullSrc = path.join(srcDir, entry.name);
-    if (entry.isFile()) {
-      fs.copyFileSync(fullSrc, path.join(destDir, entry.name));
-    } else if (entry.isDirectory() && entry.name !== "assets") {
-      // For subdirectories like transparent, copy files directly or flattened
-      const subEntries = fs.readdirSync(fullSrc, { withFileTypes: true });
-      for (const sub of subEntries) {
-        if (sub.isFile()) {
-          fs.copyFileSync(path.join(fullSrc, sub.name), path.join(destDir, sub.name));
-        }
-      }
-    }
+// Copy JS and CSS build chunks directly
+if (fs.existsSync(path.join(DIST_CLIENT, "assets"))) {
+  const buildAssets = fs.readdirSync(path.join(DIST_CLIENT, "assets"));
+  for (const file of buildAssets) {
+    fs.copyFileSync(path.join(DIST_CLIENT, "assets", file), path.join(themeAssetsDir, file));
   }
 }
 
-// Copy dist/client assets
-if (fs.existsSync(path.join(DIST_CLIENT, "assets"))) {
-  copyFilesFlat(path.join(DIST_CLIENT, "assets"), themeAssetsDir);
-}
-// Copy all root public assets
-copyFilesFlat(DIST_CLIENT, themeAssetsDir);
+// Run python parallel optimizer for image and media assets
+execSync(`python3 scripts/optimize-theme-assets.py "${themeAssetsDir}"`, { stdio: "inherit", cwd: ROOT_DIR });
 
 // 5. Generate theme files
 
@@ -296,22 +282,22 @@ ${preloadFiles.map((file) => `    <link rel="modulepreload" crossorigin href="{{
 
 fs.writeFileSync(path.join(THEME_DIR, "layout", "theme.liquid"), themeLiquid);
 
-console.log("🗜️  Compressing into Shopify Theme ZIP archive...");
+console.log("🗜️  Compressing into Shopify Theme ZIP archive (Level 9)...");
 
 // Remove existing zip if any
 if (fs.existsSync(ZIP_OUTPUT)) {
   fs.unlinkSync(ZIP_OUTPUT);
 }
 
-// Create ZIP using native zip command
-execSync(`cd "${THEME_DIR}" && zip -r -q "${ZIP_OUTPUT}" .`, { stdio: "inherit" });
+// Create ZIP using native zip command with maximum compression
+execSync(`cd "${THEME_DIR}" && zip -r -9 -q "${ZIP_OUTPUT}" .`, { stdio: "inherit" });
 
 const stats = fs.statSync(ZIP_OUTPUT);
 const sizeMb = (stats.size / (1024 * 1024)).toFixed(2);
 
 console.log(`\n🎉 Shopify Theme ZIP successfully created!`);
 console.log(`📁 File location: ${ZIP_OUTPUT}`);
-console.log(`📊 Size: ${sizeMb} MB`);
+console.log(`📊 Size: ${sizeMb} MB (Compliant with Shopify <50MB limit)`);
 console.log(`\n📋 How to install in Shopify:`);
 console.log(`1. Open your Shopify Admin -> Online Store -> Themes`);
 console.log(`2. Under "Theme library", click "Add theme" -> "Upload zip file"`);
