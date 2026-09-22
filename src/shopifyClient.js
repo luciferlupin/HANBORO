@@ -568,7 +568,7 @@ async function generateCodeChallenge(verifier) {
  * Generate Shopify Customer OAuth Authorization URL
  */
 export async function buildCustomerAuthUrl(customRedirectUri = "") {
-  const { authEndpoint } = await discoverCustomerAccountEndpoints();
+  const authEndpoint = SHOPIFY_CUSTOMER_CONFIG.authEndpoint || "https://shopify.com/authentication/88860197048/oauth/authorize";
   const redirectUri =
     customRedirectUri ||
     (typeof window !== "undefined" ? `${window.location.origin}/` : "http://localhost:5173/");

@@ -162,10 +162,13 @@ export function StoreProvider({ children }) {
             window.dispatchEvent(new HashChangeEvent("hashchange"));
             showToast(`Welcome, ${profile.firstName || profile.displayName || "Collector"}`);
           } else {
-            window.history.replaceState({}, document.title, window.location.pathname);
+            window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
+            window.dispatchEvent(new HashChangeEvent("hashchange"));
           }
         } catch (authErr) {
           console.warn("Customer auth exchange note:", authErr);
+          window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
+          window.dispatchEvent(new HashChangeEvent("hashchange"));
         }
       } else {
         // Silently restore previously-stored customer session
@@ -290,14 +293,16 @@ export function StoreProvider({ children }) {
   const loginWithShopify = useCallback((redirectUri) => {
     const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}/` : "");
     shopifyService.buildCustomerAuthUrl(callbackUrl).then((authUrl) => {
-        if (authUrl) {
-          window.location.href = authUrl;
-        }
-      }).catch((err) => {
-        console.warn("Shopify OAuth error:", err);
-        showToast("Shopify sign-in is temporarily unavailable. Please try again.");
-      });
-  }, [showToast]);
+      if (authUrl) {
+        window.location.href = authUrl;
+      } else {
+        window.location.href = "https://shopify.com/88860197048/account";
+      }
+    }).catch((err) => {
+      console.warn("Shopify OAuth fallback to portal:", err);
+      window.location.href = "https://shopify.com/88860197048/account";
+    });
+  }, []);
 
   const logoutFromShopify = useCallback((redirectUri) => {
     shopifyService.clearCustomerSession();

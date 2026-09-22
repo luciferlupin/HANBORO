@@ -38,7 +38,16 @@ export function AccountView({ customer, onLogin, onLogout, onShopNow, onNavigate
             <h1 id="account-view-title">Your private HANBORO profile.</h1>
             <p>Sign in securely with Shopify to view your profile and order history without leaving the new HANBORO experience.</p>
             <div className="account-view__actions">
-              <button type="button" className="account-view__primary" onClick={onLogin}>Sign in securely</button>
+              <button
+                type="button"
+                className="account-view__primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onLogin();
+                }}
+              >
+                Sign in securely
+              </button>
               <button type="button" className="account-view__secondary" onClick={onShopNow}>Shop watches</button>
             </div>
           </div>
