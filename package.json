@@ -15,6 +15,7 @@
     "preview": "vite preview",
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "export:shopify-csv": "node scripts/generate-shopify-products-csv.mjs",
+    "export:shopify-theme": "node scripts/package-shopify-theme.mjs",
     "sync:shopify-ids": "node scripts/generate-shopify-id-map.mjs"
   },
   "dependencies": {
