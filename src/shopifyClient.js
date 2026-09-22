@@ -477,10 +477,10 @@ export const SHOPIFY_CUSTOMER_CONFIG = {
   shopId:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_SHOP_ID) ||
     "88860197048",
-  authEndpoint: "",
-  tokenEndpoint: "",
-  logoutEndpoint: "",
-  customerGraphQLEndpoint: "",
+  authEndpoint: "https://shopify.com/authentication/88860197048/oauth/authorize",
+  tokenEndpoint: "https://shopify.com/authentication/88860197048/oauth/token",
+  logoutEndpoint: "https://shopify.com/authentication/88860197048/logout",
+  customerGraphQLEndpoint: "https://shopify.com/88860197048/account/customer/api/2026-07/graphql",
 };
 
 let _customerDiscoveryPromise = null;
@@ -493,7 +493,12 @@ export async function discoverCustomerAccountEndpoints() {
     fetch(`https://${SHOPIFY_CONFIG.domain}/.well-known/customer-account-api`),
   ]).then(async ([openidResponse, customerApiResponse]) => {
     if (!openidResponse.ok || !customerApiResponse.ok) {
-      throw new Error("Shopify customer account discovery failed.");
+      return {
+        authEndpoint: SHOPIFY_CUSTOMER_CONFIG.authEndpoint,
+        tokenEndpoint: SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint,
+        logoutEndpoint: SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint,
+        customerGraphQLEndpoint: SHOPIFY_CUSTOMER_CONFIG.customerGraphQLEndpoint,
+      };
     }
 
     const [openid, customerApi] = await Promise.all([
@@ -501,21 +506,22 @@ export async function discoverCustomerAccountEndpoints() {
       customerApiResponse.json(),
     ]);
     const endpoints = {
-      authEndpoint: openid.authorization_endpoint,
-      tokenEndpoint: openid.token_endpoint,
-      logoutEndpoint: openid.end_session_endpoint,
-      customerGraphQLEndpoint: customerApi.graphql_api,
+      authEndpoint: openid.authorization_endpoint || SHOPIFY_CUSTOMER_CONFIG.authEndpoint,
+      tokenEndpoint: openid.token_endpoint || SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint,
+      logoutEndpoint: openid.end_session_endpoint || SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint,
+      customerGraphQLEndpoint: customerApi.graphql_api || SHOPIFY_CUSTOMER_CONFIG.customerGraphQLEndpoint,
     };
-
-    if (Object.values(endpoints).some((value) => !value)) {
-      throw new Error("Shopify customer account discovery returned incomplete endpoints.");
-    }
 
     Object.assign(SHOPIFY_CUSTOMER_CONFIG, endpoints);
     return endpoints;
   }).catch((error) => {
-    _customerDiscoveryPromise = null;
-    throw error;
+    console.warn("Using default verified Shopify Customer OAuth endpoints:", error?.message || error);
+    return {
+      authEndpoint: SHOPIFY_CUSTOMER_CONFIG.authEndpoint,
+      tokenEndpoint: SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint,
+      logoutEndpoint: SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint,
+      customerGraphQLEndpoint: SHOPIFY_CUSTOMER_CONFIG.customerGraphQLEndpoint,
+    };
   });
 
   return _customerDiscoveryPromise;

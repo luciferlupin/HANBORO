@@ -288,9 +288,11 @@ export function StoreProvider({ children }) {
   }, [buyNow, proceedToShopifyCheckout]);
 
   const loginWithShopify = useCallback((redirectUri) => {
-    const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}` : "");
+    const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}/` : "");
     shopifyService.buildCustomerAuthUrl(callbackUrl).then((authUrl) => {
-        window.location.href = authUrl;
+        if (authUrl) {
+          window.location.href = authUrl;
+        }
       }).catch((err) => {
         console.warn("Shopify OAuth error:", err);
         showToast("Shopify sign-in is temporarily unavailable. Please try again.");
