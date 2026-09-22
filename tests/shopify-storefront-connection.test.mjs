@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import {
   SHOPIFY_CONFIG,
   setShopifyStoreDomain,
-  buildShopifyCheckoutUrl,
   getCustomerAccountUrl,
   shopifyService,
 } from "../src/shopifyClient.js";
@@ -20,14 +19,6 @@ test("Shopify Client: setShopifyStoreDomain normalizes domains cleanly", () => {
 
   setShopifyStoreDomain("0h0fke-ui");
   assert.equal(SHOPIFY_CONFIG.domain, "0h0fke-ui.myshopify.com");
-});
-
-test("Shopify Client: buildShopifyCheckoutUrl builds permalink format", () => {
-  const mockItems = [
-    { product: { id: "p1", shopifyVariantId: "4489234892" }, quantity: 2 },
-  ];
-  const url = buildShopifyCheckoutUrl(mockItems);
-  assert.ok(url.includes("0h0fke-ui.myshopify.com/cart/4489234892:2"));
 });
 
 test("Headless account route never points to the legacy Shopify Online Store", () => {
@@ -67,8 +58,9 @@ test("Shopify Cart: refreshes stale variant IDs from the live SKU before checkou
   }]);
 
   assert.ok(
-    new URL(cart.checkoutUrl).host === SHOPIFY_CONFIG.domain ||
-    new URL(cart.checkoutUrl).host.includes("hanborowatches.in")
+    new URL(cart.checkoutUrl).pathname.includes("/checkouts/") ||
+    new URL(cart.checkoutUrl).pathname.startsWith("/cart/c/") ||
+    new URL(cart.checkoutUrl).host.includes("checkout.shopify.com")
   );
 });
 

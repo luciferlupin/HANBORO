@@ -26127,6 +26127,16 @@ tr.is-selected-row td {
   flex-wrap: wrap;
 }
 
+.account-view__auth-error {
+  width: min(100%, 38rem);
+  margin: 1rem auto 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 74, 74, 0.45);
+  border-radius: 0.75rem;
+  color: #ffb0aa;
+  background: rgba(126, 10, 10, 0.2);
+}
+
 .account-view__primary,
 .account-view__secondary,
 .account-view__text-button {

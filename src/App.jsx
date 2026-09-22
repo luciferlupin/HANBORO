@@ -2736,7 +2736,7 @@ function FooterLiveClock() {
 
 
 function Website({ onRestart }) {
-  const { cartCount, setIsCartOpen, shopifyCustomer, loginWithShopify, logoutFromShopify } = useStore();
+  const { cartCount, setIsCartOpen, shopifyCustomer, customerAuthError, isCustomerAuthLoading, loginWithShopify, logoutFromShopify } = useStore();
   const [visible, setVisible] = useState(true);
   const getRouteState = () => {
     if (typeof window === "undefined") return { view: "home", selectedSkuId: null };
@@ -3121,6 +3121,8 @@ function Website({ onRestart }) {
         ) : view === "account" ? (
           <AccountView
             customer={shopifyCustomer}
+            authError={customerAuthError}
+            authLoading={isCustomerAuthLoading}
             onLogin={() => loginWithShopify()}
             onLogout={() => logoutFromShopify()}
             onShopNow={() => navigateTo("products", "#products")}

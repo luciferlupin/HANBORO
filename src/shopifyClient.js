@@ -226,34 +226,10 @@ export async function createShopifyCart(items = [], options = {}) {
     return cart;
   } catch (err) {
     console.warn("createShopifyCart note:", err.message);
-    if (options.requireApplicableDiscount) throw err;
-    // Fallback: build permalink or direct cart URL
-    const fallbackUrl = buildShopifyCheckoutUrl(resolvedItems);
-    return { id: null, checkoutUrl: fallbackUrl };
+    // Never fall back to the legacy Online Store cart/theme. A failed Cart API
+    // request stays inside HANBORO so the buyer can retry safely.
+    throw err;
   }
-}
-
-/**
- * Build a Shopify checkout permalink URL
- * Example: https://{shop}.myshopify.com/cart/{variant_id}:{quantity}
- */
-export function buildShopifyCheckoutUrl(items = []) {
-  const parts = items
-    .map((it) => {
-      const vid = it.product?.shopifyVariantId || it.product?.variantId;
-      if (vid) {
-        const cleanId = String(vid).replace(/[^\d]/g, "");
-        return `${cleanId}:${it.quantity || 1}`;
-      }
-      return null;
-    })
-    .filter(Boolean);
-
-  if (parts.length === 0) {
-    return `https://${SHOPIFY_CONFIG.domain}/cart`;
-  }
-
-  return `https://${SHOPIFY_CONFIG.domain}/cart/${parts.join(",")}`;
 }
 
 /**
@@ -635,29 +611,76 @@ export async function exchangeCustomerToken({ code, state }) {
 
   const tokenData = await res.json();
   if (tokenData.access_token) {
-    _inMemoryCustomerToken = tokenData;
+    const storedToken = {
+      ...tokenData,
+      expires_at: Date.now() + (Number(tokenData.expires_in) || 0) * 1000,
+    };
+    _inMemoryCustomerToken = storedToken;
     if (typeof sessionStorage !== "undefined") {
-      sessionStorage.setItem("shopify_customer_token", JSON.stringify(tokenData));
+      sessionStorage.setItem("shopify_customer_token", JSON.stringify(storedToken));
+      sessionStorage.removeItem("shopify_oauth_state");
+      sessionStorage.removeItem("shopify_oauth_nonce");
+      sessionStorage.removeItem("shopify_code_verifier");
+      sessionStorage.removeItem("shopify_redirect_uri");
     }
   }
-  return tokenData;
+  return _inMemoryCustomerToken || tokenData;
+}
+
+function getStoredCustomerToken() {
+  try {
+    if (_inMemoryCustomerToken?.access_token) return _inMemoryCustomerToken;
+    const raw = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_customer_token") : null;
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function refreshCustomerToken(refreshToken = "") {
+  const currentToken = getStoredCustomerToken();
+  const tokenToRefresh = refreshToken || currentToken?.refresh_token;
+  if (!tokenToRefresh) return null;
+
+  const { tokenEndpoint } = await discoverCustomerAccountEndpoints();
+  const res = await fetch(tokenEndpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      client_id: SHOPIFY_CUSTOMER_CONFIG.clientId,
+      refresh_token: tokenToRefresh,
+    }).toString(),
+  });
+
+  if (!res.ok) {
+    clearCustomerSession();
+    return null;
+  }
+
+  const refreshed = await res.json();
+  const storedToken = {
+    ...currentToken,
+    ...refreshed,
+    refresh_token: refreshed.refresh_token || tokenToRefresh,
+    expires_at: Date.now() + (Number(refreshed.expires_in) || 0) * 1000,
+  };
+  _inMemoryCustomerToken = storedToken;
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.setItem("shopify_customer_token", JSON.stringify(storedToken));
+  }
+  return storedToken;
 }
 
 /**
  * Fetch Customer Account Profile & Orders via Customer Account GraphQL API
  */
 export async function fetchCustomerProfile(accessToken) {
-  const token =
-    accessToken ||
-    (() => {
-      try {
-        if (_inMemoryCustomerToken?.access_token) return _inMemoryCustomerToken.access_token;
-        const raw = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_customer_token") : null;
-        return raw ? JSON.parse(raw).access_token : null;
-      } catch {
-        return null;
-      }
-    })();
+  let tokenData = getStoredCustomerToken();
+  if (!accessToken && tokenData?.expires_at && tokenData.expires_at <= Date.now() + 30_000) {
+    tokenData = await refreshCustomerToken(tokenData.refresh_token);
+  }
+  const token = accessToken || tokenData?.access_token;
 
   if (!token) return null;
 
@@ -706,13 +729,20 @@ export async function fetchCustomerProfile(accessToken) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Customer Account API expects the access token itself, not the
+        // Storefront/Admin API "Bearer" authentication scheme.
+        Authorization: token,
       },
       body: JSON.stringify({ query }),
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      throw new Error(`Shopify Customer Account API error (${res.status})`);
+    }
     const json = await res.json();
+    if (json?.errors?.length) {
+      throw new Error(json.errors.map((error) => error.message).filter(Boolean).join("; ") || "Shopify customer profile query failed");
+    }
     return json?.data?.customer || null;
   } catch (err) {
     console.warn("fetchCustomerProfile notice:", err.message);
@@ -739,7 +769,10 @@ export function getCustomerAccountUrl() {
 export async function buildCustomerLogoutUrl(postLogoutRedirectUri = "") {
   const { logoutEndpoint } = await discoverCustomerAccountEndpoints();
   const returnTo = postLogoutRedirectUri || (typeof window !== "undefined" ? window.location.origin : "");
-  return `${logoutEndpoint}?post_logout_redirect_uri=${encodeURIComponent(returnTo)}`;
+  const idToken = getStoredCustomerToken()?.id_token;
+  const params = new URLSearchParams({ post_logout_redirect_uri: returnTo });
+  if (idToken) params.set("id_token_hint", idToken);
+  return `${logoutEndpoint}?${params.toString()}`;
 }
 
 export const shopifyService = {
@@ -749,13 +782,13 @@ export const shopifyService = {
   setStoreDomain: setShopifyStoreDomain,
   storefrontQuery,
   createShopifyCart,
-  buildShopifyCheckoutUrl,
   fetchShopifyProducts,
   fetchLiveShopifyData,
   mergeProductsWithShopifyData,
   discoverCustomerAccountEndpoints,
   buildCustomerAuthUrl,
   exchangeCustomerToken,
+  refreshCustomerToken,
   fetchCustomerProfile,
   buildCustomerLogoutUrl,
   getCustomerAccountUrl,

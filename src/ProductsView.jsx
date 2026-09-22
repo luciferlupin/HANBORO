@@ -234,7 +234,7 @@ export function ProductsView({
       list = sortCatalogStably(list);
     }
 
-    return sortCatalogStably(list);
+    return list;
   }, [catalogList, activeCategory, searchQuery, sortOrder]);
 
   // Group timepieces by model number so identical models appear as 1 card with color options

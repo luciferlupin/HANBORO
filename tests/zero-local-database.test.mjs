@@ -73,6 +73,7 @@ test("Customer account stays inside the headless storefront", () => {
   const storeContextCode = fs.readFileSync(path.join(srcDir, "StoreContext.jsx"), "utf8");
   const appCode = fs.readFileSync(path.join(srcDir, "App.jsx"), "utf8");
   const accountCode = fs.readFileSync(path.join(srcDir, "AccountView.jsx"), "utf8");
+  const shopifyCode = fs.readFileSync(path.join(srcDir, "shopifyClient.js"), "utf8");
 
   assert.ok(storeContextCode.includes("buildCustomerAuthUrl(callbackUrl)"));
   assert.equal(storeContextCode.includes("window.location.href = shopifyService.getCustomerAccountUrl()"), false);
@@ -80,4 +81,18 @@ test("Customer account stays inside the headless storefront", () => {
   assert.ok(appCode.includes('onShopNow={() => navigateTo("products", "#products")}'));
   assert.ok(accountCode.includes(">Shop now</button>"));
   assert.equal(accountCode.includes("myshopify.com"), false);
+  assert.ok(shopifyCode.includes("Authorization: token"), "Customer Account API must receive the raw OAuth access token");
+  assert.equal(shopifyCode.includes("Authorization: `Bearer ${token}`"), false);
+  assert.ok(shopifyCode.includes('params.set("id_token_hint", idToken)'), "Shopify logout must include the OIDC ID token hint");
+  assert.equal(shopifyCode.includes("/cart/${parts.join"), false, "Legacy Online Store cart permalinks must not exist");
+  assert.equal(storeContextCode.includes("buildShopifyCheckoutUrl"), false, "Checkout errors must never fall back to the Online Store theme");
+  assert.equal(storeContextCode.includes('window.location.href = "https://shopify.com/88860197048/account"'), false, "Sign-in errors must stay inside HANBORO");
+});
+
+test("Explicit catalogue price sorting is not overwritten by default catalogue order", () => {
+  const productsViewCode = fs.readFileSync(path.join(srcDir, "ProductsView.jsx"), "utf8");
+  assert.ok(productsViewCode.includes('if (sortOrder === "PRICE_DESC")'));
+  assert.ok(productsViewCode.includes('else if (sortOrder === "PRICE_ASC")'));
+  assert.ok(productsViewCode.includes("return list;"));
+  assert.equal(productsViewCode.includes("return sortCatalogStably(list);"), false);
 });

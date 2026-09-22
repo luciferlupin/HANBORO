@@ -19,7 +19,7 @@ function formatDate(value) {
   }).format(new Date(value));
 }
 
-export function AccountView({ customer, onLogin, onLogout, onShopNow, onNavigateHome }) {
+export function AccountView({ customer, authError, authLoading, onLogin, onLogout, onShopNow, onNavigateHome }) {
   const orders = customer?.orders?.edges?.map((edge) => edge.node).filter(Boolean) || [];
   const address = customer?.defaultAddress?.formatted;
   const formattedAddress = Array.isArray(address) ? address.join(", ") : address;
@@ -37,6 +37,7 @@ export function AccountView({ customer, onLogin, onLogout, onShopNow, onNavigate
             <p className="account-view__eyebrow">COLLECTOR ACCOUNT</p>
             <h1 id="account-view-title">Your private HANBORO profile.</h1>
             <p>Sign in securely with Shopify to view your profile and order history without leaving the new HANBORO experience.</p>
+            {authError ? <p className="account-view__auth-error" role="alert">{authError}</p> : null}
             <div className="account-view__actions">
               <button
                 type="button"
@@ -45,8 +46,9 @@ export function AccountView({ customer, onLogin, onLogout, onShopNow, onNavigate
                   e.preventDefault();
                   onLogin();
                 }}
+                disabled={authLoading}
               >
-                Sign in securely
+                {authLoading ? "Connecting to Shopify…" : "Sign in securely"}
               </button>
               <button type="button" className="account-view__secondary" onClick={onShopNow}>Shop watches</button>
             </div>
@@ -103,4 +105,3 @@ export function AccountView({ customer, onLogin, onLogout, onShopNow, onNavigate
     </section>
   );
 }
-

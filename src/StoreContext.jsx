@@ -85,6 +85,8 @@ export function StoreProvider({ children }) {
   const [isShopifyConnected, setIsShopifyConnected] = useState(false);
   const [isShopifySynced, setIsShopifySynced] = useState(false);
   const [shopifyCustomer, setShopifyCustomer] = useState(null);
+  const [customerAuthError, setCustomerAuthError] = useState("");
+  const [isCustomerAuthLoading, setIsCustomerAuthLoading] = useState(false);
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -152,23 +154,33 @@ export function StoreProvider({ children }) {
       const urlParams = new URLSearchParams(window.location.search);
       const code = urlParams.get("code");
       const state = urlParams.get("state");
+      const oauthError = urlParams.get("error");
+      const oauthErrorDescription = urlParams.get("error_description");
+      const finishOnAccount = () => {
+        window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      };
+      if (oauthError) {
+        setCustomerAuthError(oauthErrorDescription || "Shopify sign-in was not completed. Please try again.");
+        finishOnAccount();
+        return;
+      }
       if (code) {
+        setIsCustomerAuthLoading(true);
+        setCustomerAuthError("");
         try {
           await shopifyService.exchangeCustomerToken({ code, state });
           const profile = await shopifyService.fetchCustomerProfile();
-          if (profile) {
-            setShopifyCustomer(profile);
-            window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
-            window.dispatchEvent(new HashChangeEvent("hashchange"));
-            showToast(`Welcome, ${profile.firstName || profile.displayName || "Collector"}`);
-          } else {
-            window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
-            window.dispatchEvent(new HashChangeEvent("hashchange"));
-          }
+          if (!profile) throw new Error("Shopify returned no customer profile.");
+          setShopifyCustomer(profile);
+          finishOnAccount();
+          showToast(`Welcome, ${profile.firstName || profile.displayName || "Collector"}`);
         } catch (authErr) {
           console.warn("Customer auth exchange note:", authErr);
-          window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
-          window.dispatchEvent(new HashChangeEvent("hashchange"));
+          setCustomerAuthError("We couldn't finish signing you in with Shopify. Please try again.");
+          finishOnAccount();
+        } finally {
+          setIsCustomerAuthLoading(false);
         }
       } else {
         // Silently restore previously-stored customer session
@@ -258,10 +270,8 @@ export function StoreProvider({ children }) {
       }
     } catch (e) {
       console.warn("proceedToShopifyCheckout note:", e);
-      if (appliedPromo?.code) throw e;
+      throw e;
     }
-    const fallbackUrl = shopifyService.buildShopifyCheckoutUrl(target);
-    window.location.href = fallbackUrl;
   }, [appliedPromo, cart]);
 
   const buyNow = useCallback(async (product) => {
@@ -279,6 +289,7 @@ export function StoreProvider({ children }) {
       }
     } catch (err) {
       console.warn("Shopify checkout note:", err);
+      showToast("Shopify checkout is temporarily unavailable. Your bag is still here.");
     }
     setIsCartOpen(true);
   }, [addToCart, appliedPromo, showToast]);
@@ -291,26 +302,30 @@ export function StoreProvider({ children }) {
   }, [buyNow, proceedToShopifyCheckout]);
 
   const loginWithShopify = useCallback((redirectUri) => {
+    setCustomerAuthError("");
     const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}/` : "");
     shopifyService.buildCustomerAuthUrl(callbackUrl).then((authUrl) => {
-      if (authUrl) {
-        window.location.href = authUrl;
-      } else {
-        window.location.href = "https://shopify.com/88860197048/account";
-      }
+      if (!authUrl) throw new Error("Shopify did not return an authorization URL.");
+      window.location.href = authUrl;
     }).catch((err) => {
-      console.warn("Shopify OAuth fallback to portal:", err);
-      window.location.href = "https://shopify.com/88860197048/account";
+      console.warn("Shopify OAuth start note:", err);
+      setCustomerAuthError("Shopify sign-in is temporarily unavailable. Please try again.");
     });
   }, []);
 
   const logoutFromShopify = useCallback((redirectUri) => {
-    shopifyService.clearCustomerSession();
-    setShopifyCustomer(null);
     const returnTo = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}#top` : "");
     shopifyService.buildCustomerLogoutUrl(returnTo)
-      .then((logoutUrl) => { window.location.href = logoutUrl; })
-      .catch(() => { window.location.hash = "#top"; });
+      .then((logoutUrl) => {
+        shopifyService.clearCustomerSession();
+        setShopifyCustomer(null);
+        window.location.href = logoutUrl;
+      })
+      .catch(() => {
+        shopifyService.clearCustomerSession();
+        setShopifyCustomer(null);
+        window.location.hash = "#top";
+      });
   }, []);
 
   const applyPromoCode = useCallback(async (codeValue, customerEmail = "", customerPhone = "") => {
@@ -409,6 +424,8 @@ export function StoreProvider({ children }) {
     isShopifyConnected,
     isShopifySynced,
     shopifyCustomer,
+    customerAuthError,
+    isCustomerAuthLoading,
     loginWithShopify,
     logoutFromShopify,
     shopifyService,
