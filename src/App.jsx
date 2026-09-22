@@ -2945,14 +2945,10 @@ function Website({ onRestart }) {
               type="button"
               className="luxury-header__icon-btn"
               onClick={() => {
-                if (shopifyCustomer) {
-                  navigateTo("account", "#account");
-                } else {
-                  loginWithShopify();
-                }
+                navigateTo("account", "#account");
               }}
-              aria-label={shopifyCustomer ? `Shopify Account: ${shopifyCustomer.displayName || "Customer"}` : "Sign In with Shopify"}
-              title={shopifyCustomer ? `Open account for ${shopifyCustomer.displayName || "Customer"}` : "Sign In with Shopify"}
+              aria-label={shopifyCustomer ? `Shopify Account: ${shopifyCustomer.displayName || "Customer"}` : "Account & Collector Dossier"}
+              title={shopifyCustomer ? `Open account for ${shopifyCustomer.displayName || "Customer"}` : "Account & Collector Dossier"}
               style={{ position: "relative" }}
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -3049,15 +3045,11 @@ function Website({ onRestart }) {
             className="luxury-drawer__link"
             onClick={() => {
               setMenuOpen(false);
-              if (shopifyCustomer) {
-                navigateTo("account", "#account");
-              } else {
-                loginWithShopify();
-              }
+              navigateTo("account", "#account");
             }}
           >
             <span className="drawer-link-text">
-              {shopifyCustomer ? `Account (${shopifyCustomer.firstName || "Signed In"})` : "Sign In with Shopify"}
+              {shopifyCustomer ? `Account (${shopifyCustomer.firstName || "Signed In"})` : "Collector Account"}
             </span>
             <span className="drawer-link-arrow">👤</span>
           </button>
@@ -3340,7 +3332,10 @@ export function App() {
   }, []);
 
   const hash = typeof window !== "undefined" ? window.location.hash : "";
-  const hasDirectRoute = Boolean(hash && hash !== "#top" && hash !== "#home");
+  const isIntroSeen = typeof sessionStorage !== "undefined" && Boolean(sessionStorage.getItem("hanboro_intro_seen"));
+  const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const hasAuthCode = Boolean(urlParams?.has("code"));
+  const hasDirectRoute = Boolean((hash && hash !== "#top" && hash !== "#home") || isIntroSeen || hasAuthCode);
   const [phase, setPhase]     = useState(hasDirectRoute ? "entered" : "idle");     // idle / exiting / entered
   const [iris, setIris]       = useState("off");      // off / expanding / retracting
   const transitioned          = useRef(hasDirectRoute);
