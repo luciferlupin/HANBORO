@@ -220,7 +220,7 @@ export function ProductDetailPage({
     } catch (e) {}
 
     const text = encodeURIComponent(
-      `Inquiring for HANBORO Timepiece:\nModel: ${product.name}\nReference SKU: ${product.sku}\nPrice: ${product.price}\nWebsite: https://hanborowatches.in/#sku/${product.sku}`
+      `Inquiring for HANBORO Timepiece:\nModel: ${product.name}\nReference SKU: ${product.sku}\nPrice: ${product.price}\nWebsite: https://www.hanborowatches.in/#sku/${product.sku}`
     );
     window.open(`https://wa.me/918882069334?text=${text}`, "_blank");
   };

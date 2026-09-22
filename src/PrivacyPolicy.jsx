@@ -11,7 +11,7 @@ export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPr
   }, []);
 
   const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("shaktikart@gmail.com");
+    navigator.clipboard.writeText("connect@hanborowatches.in");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
@@ -130,7 +130,7 @@ export function PrivacyPolicy({ onNavigateHome, onNavigatePolicy, onNavigateToPr
             <div className="privacy-sidebar__concierge-box">
               <span className="privacy-concierge-tag">Data Protection</span>
               <p className="privacy-concierge-text">Questions regarding your personal information or rights?</p>
-              <a href="mailto:shaktikart@gmail.com" className="privacy-concierge-btn">
+              <a href="mailto:connect@hanborowatches.in" className="privacy-concierge-btn">
                 Contact Privacy Desk
               </a>
             </div>
