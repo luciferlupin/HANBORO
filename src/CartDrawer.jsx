@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getWatchPricing } from "./productsData";
 import { useStore } from "./StoreContext";
 import { HanboroLogo } from "./HanboroLogo";
-import { shopifyService } from "./shopifyClient";
 
 export function CartDrawer() {
   const {
@@ -19,6 +18,7 @@ export function CartDrawer() {
     applyPromoCode,
     removePromoCode,
     openCheckout,
+    shopifyService,
   } = useStore();
 
   const [promoInput, setPromoInput] = useState("");
@@ -216,7 +216,7 @@ export function CartDrawer() {
                     <input
                       type="text"
                       className="promo-input"
-                      placeholder="Discount Code (e.g. HANBORO10)"
+                      placeholder="Shopify discount code"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                     />
@@ -273,15 +273,11 @@ export function CartDrawer() {
               onClick={async () => {
                 setIsCheckingOut(true);
                 try {
-                  const shopifyCart = await shopifyService.createShopifyCart(cart);
-                  if (shopifyCart?.checkoutUrl) {
-                    window.location.href = shopifyCart.checkoutUrl;
-                    return;
-                  }
+                  await openCheckout();
                 } catch (err) {
                   console.warn("Shopify Cart redirect notice:", err);
+                  setPromoError("Shopify checkout is temporarily unavailable. Please try again.");
                 }
-                openCheckout();
                 setIsCheckingOut(false);
               }}
               disabled={isCheckingOut}
@@ -342,7 +338,7 @@ export function CartDrawer() {
 
             <p className="cart-secure-notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
               <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-              Connected to 0h0fke-ui.myshopify.com • 256-Bit Encrypted
+              Connected to {shopifyService.config.domain} • 256-Bit Encrypted
             </p>
           </div>
         )}

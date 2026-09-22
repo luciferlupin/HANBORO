@@ -85,7 +85,6 @@ export function StoreProvider({ children }) {
   const [isShopifyConnected, setIsShopifyConnected] = useState(false);
   const [isShopifySynced, setIsShopifySynced] = useState(false);
   const [shopifyCustomer, setShopifyCustomer] = useState(null);
-  const [shopifyCheckoutUrl, setShopifyCheckoutUrl] = useState("");
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -156,11 +155,14 @@ export function StoreProvider({ children }) {
       if (code) {
         try {
           await shopifyService.exchangeCustomerToken({ code, state });
-          window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
           const profile = await shopifyService.fetchCustomerProfile();
           if (profile) {
             setShopifyCustomer(profile);
+            window.history.replaceState({}, document.title, `${window.location.pathname}#account`);
+            window.dispatchEvent(new HashChangeEvent("hashchange"));
             showToast(`Welcome, ${profile.firstName || profile.displayName || "Collector"}`);
+          } else {
+            window.history.replaceState({}, document.title, window.location.pathname);
           }
         } catch (authErr) {
           console.warn("Customer auth exchange note:", authErr);
@@ -174,25 +176,6 @@ export function StoreProvider({ children }) {
     }
     handleCustomerAuth();
   }, []);
-
-  // Update Shopify Cart whenever local items change
-  useEffect(() => {
-    if (cart.length === 0) {
-      setShopifyCheckoutUrl("");
-      return;
-    }
-    const timer = setTimeout(async () => {
-      try {
-        const sc = await shopifyService.createShopifyCart(cart);
-        if (sc?.checkoutUrl) {
-          setShopifyCheckoutUrl(sc.checkoutUrl);
-        }
-      } catch (err) {
-        // Local cart remains active
-      }
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [cart]);
 
   // Complete purge: ensure zero localStorage usage across the entire storefront
   useEffect(() => {
@@ -261,29 +244,32 @@ export function StoreProvider({ children }) {
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
     if (!target || target.length === 0) return;
-    if (shopifyCheckoutUrl) {
-      window.location.href = shopifyCheckoutUrl;
-      return;
-    }
     try {
-      const sc = await shopifyService.createShopifyCart(target);
+      const sc = await shopifyService.createShopifyCart(target, {
+        discountCodes: appliedPromo?.code ? [appliedPromo.code] : [],
+        requireApplicableDiscount: Boolean(appliedPromo?.code),
+      });
       if (sc?.checkoutUrl) {
         window.location.href = sc.checkoutUrl;
         return;
       }
     } catch (e) {
       console.warn("proceedToShopifyCheckout note:", e);
+      if (appliedPromo?.code) throw e;
     }
     const fallbackUrl = shopifyService.buildShopifyCheckoutUrl(target);
     window.location.href = fallbackUrl;
-  }, [cart, shopifyCheckoutUrl]);
+  }, [appliedPromo, cart]);
 
   const buyNow = useCallback(async (product) => {
     if (!product) return;
     addToCart(product, 1, false);
     showToast("Connecting to Shopify Checkout...");
     try {
-      const shopifyCart = await shopifyService.createShopifyCart([{ product, quantity: 1 }]);
+      const shopifyCart = await shopifyService.createShopifyCart([{ product, quantity: 1 }], {
+        discountCodes: appliedPromo?.code ? [appliedPromo.code] : [],
+        requireApplicableDiscount: Boolean(appliedPromo?.code),
+      });
       if (shopifyCart?.checkoutUrl) {
         window.location.href = shopifyCart.checkoutUrl;
         return;
@@ -292,51 +278,69 @@ export function StoreProvider({ children }) {
       console.warn("Shopify checkout note:", err);
     }
     setIsCartOpen(true);
-  }, [addToCart, showToast]);
+  }, [addToCart, appliedPromo, showToast]);
 
-  const openCheckout = useCallback((directItem = null) => {
+  const openCheckout = useCallback(async (directItem = null) => {
     if (directItem) {
-      buyNow(directItem);
-      return;
+      return buyNow(directItem);
     }
-    proceedToShopifyCheckout();
+    return proceedToShopifyCheckout();
   }, [buyNow, proceedToShopifyCheckout]);
 
-  const loginWithShopify = useCallback((redirectUri, useHeadlessOAuth = false) => {
-    if (useHeadlessOAuth) {
-      shopifyService.buildCustomerAuthUrl(redirectUri).then((authUrl) => {
+  const loginWithShopify = useCallback((redirectUri) => {
+    const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}` : "");
+    shopifyService.buildCustomerAuthUrl(callbackUrl).then((authUrl) => {
         window.location.href = authUrl;
       }).catch((err) => {
         console.warn("Shopify OAuth error:", err);
-        window.location.href = shopifyService.getCustomerAccountUrl();
+        showToast("Shopify sign-in is temporarily unavailable. Please try again.");
       });
-      return;
-    }
-    // Direct Official Shopify Customer Account Portal (No redirect_uri error)
-    window.location.href = shopifyService.getCustomerAccountUrl();
-  }, []);
+  }, [showToast]);
 
   const logoutFromShopify = useCallback((redirectUri) => {
-    if (typeof localStorage !== "undefined") {
-      localStorage.removeItem("shopify_customer_token");
-    }
+    shopifyService.clearCustomerSession();
     setShopifyCustomer(null);
-    const logoutUrl = shopifyService.buildCustomerLogoutUrl(redirectUri);
-    window.location.href = logoutUrl;
+    const returnTo = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}#top` : "");
+    shopifyService.buildCustomerLogoutUrl(returnTo)
+      .then((logoutUrl) => { window.location.href = logoutUrl; })
+      .catch(() => { window.location.hash = "#top"; });
   }, []);
 
   const applyPromoCode = useCallback(async (codeValue, customerEmail = "", customerPhone = "") => {
     const code = String(codeValue || "").trim().toUpperCase();
     if (!code) return { success: false, message: "Please enter a privilege voucher code." };
-    if (PROMO_CODES[code]) {
-      setAppliedPromo({ code, isRouletteVoucher: false, ...PROMO_CODES[code] });
-      return { success: true, message: PROMO_CODES[code].label };
+    const localPromo = PROMO_CODES[code] || (await rouletteService.validateVoucher(
+      code,
+      customerEmail,
+      customerPhone,
+    )).promo || { type: "flat", value: 0, label: "Shopify discount" };
+
+    try {
+      const shopifyCart = await shopifyService.createShopifyCart(cart, {
+        discountCodes: [code],
+      });
+      const shopifyCode = shopifyCart?.discountCodes?.find(
+        (entry) => entry.code?.toUpperCase() === code,
+      );
+      if (!shopifyCode?.applicable) {
+        return { success: false, message: "This discount code is not active in Shopify." };
+      }
+
+      const subtotal = Number(shopifyCart?.cost?.subtotalAmount?.amount);
+      const total = Number(shopifyCart?.cost?.totalAmount?.amount);
+      const liveDiscount = Number.isFinite(subtotal) && Number.isFinite(total)
+        ? Math.max(0, Math.round(subtotal - total))
+        : 0;
+      const promo = liveDiscount > 0
+        ? { type: "flat", value: liveDiscount, label: `${code} Shopify discount` }
+        : localPromo;
+      setAppliedPromo({ code, isRouletteVoucher: code.startsWith("HNB-"), ...promo });
+      return { success: true, message: promo.label };
+    } catch (error) {
+      console.warn("Shopify discount validation note:", error);
+      return { success: false, message: "Unable to validate this code with Shopify. Please try again." };
     }
-    const validation = await rouletteService.validateVoucher(code, customerEmail, customerPhone);
-    if (!validation.valid) return { success: false, message: validation.message };
-    setAppliedPromo({ code, isRouletteVoucher: true, ...validation.promo });
-    return { success: true, message: validation.promo.label };
-  }, []);
+  }, [cart]);
 
   const removePromoCode = useCallback(() => setAppliedPromo(null), []);
 
@@ -398,7 +402,6 @@ export function StoreProvider({ children }) {
     isShopifyConnected,
     isShopifySynced,
     shopifyCustomer,
-    shopifyCheckoutUrl,
     loginWithShopify,
     logoutFromShopify,
     shopifyService,

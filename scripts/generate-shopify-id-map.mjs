@@ -18,7 +18,7 @@ const OUT  = path.join(ROOT, "src", "shopifyIdMap.js");
 
 const DOMAIN  = "0h0fke-ui.myshopify.com";
 const TOKEN   = "b40181640892b2f191a2cd4b113ca0fd";
-const VERSION = "2024-01";
+const VERSION = "2026-07";
 
 async function fetchAllProducts() {
   const query = `{

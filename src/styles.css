@@ -26038,3 +26038,231 @@ tr.is-selected-row td {
   color: rgba(255, 255, 255, 0.65);
 }
 
+/* ── Headless Shopify customer account ───────────────────────────────────── */
+.account-view {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 148px 24px 80px;
+  background: #050505;
+  color: #f5f2ed;
+}
+
+.account-view__ambient {
+  position: absolute;
+  inset: -25% -10% auto 45%;
+  height: 720px;
+  background: radial-gradient(circle, rgba(250, 45, 29, 0.14), transparent 64%);
+  pointer-events: none;
+}
+
+.account-view__shell {
+  position: relative;
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.account-view__brand {
+  border: 0;
+  padding: 0;
+  margin: 0 0 68px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.account-view__hero,
+.account-view__empty {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.account-view__empty {
+  min-height: 460px;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 820px;
+}
+
+.account-view__eyebrow,
+.account-view__label,
+.account-view__card-index {
+  margin: 0 0 16px;
+  color: #fa2d1d;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.account-view h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(42px, 7vw, 88px);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.account-view__hero p:last-child,
+.account-view__empty > p:last-of-type,
+.account-view__muted {
+  max-width: 620px;
+  margin: 22px 0 0;
+  color: rgba(245, 242, 237, 0.62);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.account-view__actions,
+.account-view__footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.account-view__primary,
+.account-view__secondary,
+.account-view__text-button {
+  min-height: 48px;
+  border-radius: 999px;
+  padding: 0 24px;
+  font: 700 12px/1 var(--font-main);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.account-view__primary {
+  border: 1px solid #f5f2ed;
+  background: #f5f2ed;
+  color: #050505;
+}
+
+.account-view__secondary {
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  color: #f5f2ed;
+}
+
+.account-view__text-button {
+  border: 0;
+  background: transparent;
+  color: rgba(245, 242, 237, 0.58);
+}
+
+.account-view__primary:hover,
+.account-view__secondary:hover {
+  transform: translateY(-2px);
+}
+
+.account-view__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+  padding: 16px 0 36px;
+}
+
+.account-view__card {
+  min-height: 360px;
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+}
+
+.account-view__card-index {
+  float: right;
+  color: rgba(245, 242, 237, 0.35);
+}
+
+.account-view__card h2 {
+  margin: 0 0 34px;
+  font-size: clamp(25px, 3vw, 42px);
+  letter-spacing: -0.035em;
+}
+
+.account-view__details {
+  margin: 0;
+}
+
+.account-view__details > div,
+.account-view__order {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.account-view__details dt,
+.account-view__order span {
+  color: rgba(245, 242, 237, 0.48);
+  font-size: 12px;
+}
+
+.account-view__details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: rgba(245, 242, 237, 0.88);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.account-view__order {
+  grid-template-columns: 1fr auto;
+}
+
+.account-view__order > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.account-view__order > div:last-child {
+  text-align: right;
+}
+
+.account-view__footer-actions {
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .account-view {
+    padding: 112px 18px 56px;
+  }
+
+  .account-view__brand {
+    margin-bottom: 44px;
+  }
+
+  .account-view__hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-view__hero .account-view__primary {
+    width: 100%;
+  }
+
+  .account-view__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-view__card {
+    min-height: auto;
+    border-radius: 18px;
+  }
+
+  .account-view__details > div {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+}

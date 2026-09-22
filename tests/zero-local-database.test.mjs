@@ -57,3 +57,27 @@ test("Shopify Headless Architecture: Shopify handles checkout, live pricing, and
   assert.equal(typeof shopifyService.fetchLiveShopifyData, "function");
   assert.equal(typeof shopifyService.getCustomerAccountUrl, "function");
 });
+
+test("Supabase is absent from runtime code and dependencies", () => {
+  const packageCode = fs.readFileSync(path.join(rootDir, "package.json"), "utf8");
+  const runtimeFiles = fs.readdirSync(srcDir)
+    .filter((file) => /\.(js|jsx|ts|tsx)$/.test(file))
+    .map((file) => fs.readFileSync(path.join(srcDir, file), "utf8"))
+    .join("\n");
+
+  assert.equal(/@supabase|\bsupabase\b/i.test(packageCode), false);
+  assert.equal(/@supabase|\bsupabase\b/i.test(runtimeFiles), false);
+});
+
+test("Customer account stays inside the headless storefront", () => {
+  const storeContextCode = fs.readFileSync(path.join(srcDir, "StoreContext.jsx"), "utf8");
+  const appCode = fs.readFileSync(path.join(srcDir, "App.jsx"), "utf8");
+  const accountCode = fs.readFileSync(path.join(srcDir, "AccountView.jsx"), "utf8");
+
+  assert.ok(storeContextCode.includes("buildCustomerAuthUrl(callbackUrl)"));
+  assert.equal(storeContextCode.includes("window.location.href = shopifyService.getCustomerAccountUrl()"), false);
+  assert.ok(appCode.includes('return { view: "account", selectedSkuId: null }'));
+  assert.ok(appCode.includes('onShopNow={() => navigateTo("products", "#products")}'));
+  assert.ok(accountCode.includes(">Shop now</button>"));
+  assert.equal(accountCode.includes("myshopify.com"), false);
+});

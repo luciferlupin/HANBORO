@@ -21,6 +21,7 @@ const PrivacyPolicy = lazy(() => import("./PrivacyPolicy").then((m) => ({ defaul
 const ShippingPolicy = lazy(() => import("./ShippingPolicy").then((m) => ({ default: m.ShippingPolicy })));
 const RefundPolicy = lazy(() => import("./RefundPolicy").then((m) => ({ default: m.RefundPolicy })));
 const TermsOfService = lazy(() => import("./TermsOfService").then((m) => ({ default: m.TermsOfService })));
+const AccountView = lazy(() => import("./AccountView").then((m) => ({ default: m.AccountView })));
 
 function LuxuryViewLoader() {
   return (
@@ -2748,7 +2749,7 @@ function Website({ onRestart }) {
     if (target.startsWith("admin")) return { view: "home", selectedSkuId: null };
     if (target.startsWith("checkout")) return { view: "products", selectedSkuId: null };
     if (target.startsWith("profile") || target.startsWith("account") || target.startsWith("dossier")) {
-      return { view: "home", selectedSkuId: null };
+      return { view: "account", selectedSkuId: null };
     }
     if (target.startsWith("stores") || target.startsWith("boutiques")) {
       return { view: "stores", selectedSkuId: null };
@@ -2800,7 +2801,8 @@ function Website({ onRestart }) {
       shipping: "Hanboro — Insured Express Delivery Policy",
       refund: "Hanboro — Authenticity Guarantee & Returns",
       terms: "Hanboro — Terms of Haute Horlogerie",
-      privacy: "Hanboro — Client Privacy & Confidentiality"
+      privacy: "Hanboro — Client Privacy & Confidentiality",
+      account: "Hanboro — Collector Account",
     };
     if (typeof document !== "undefined") {
       document.title = titles[view] || "Hanboro — Make time matter";
@@ -2944,16 +2946,13 @@ function Website({ onRestart }) {
               className="luxury-header__icon-btn"
               onClick={() => {
                 if (shopifyCustomer) {
-                  const name = shopifyCustomer.displayName || shopifyCustomer.firstName || "Customer";
-                  if (window.confirm(`Logged in to Shopify as ${name}.\nWould you like to sign out?`)) {
-                    logoutFromShopify();
-                  }
+                  navigateTo("account", "#account");
                 } else {
                   loginWithShopify();
                 }
               }}
               aria-label={shopifyCustomer ? `Shopify Account: ${shopifyCustomer.displayName || "Customer"}` : "Sign In with Shopify"}
-              title={shopifyCustomer ? `Shopify Account: ${shopifyCustomer.displayName || "Customer"} (Click to sign out)` : "Sign In with Shopify"}
+              title={shopifyCustomer ? `Open account for ${shopifyCustomer.displayName || "Customer"}` : "Sign In with Shopify"}
               style={{ position: "relative" }}
             >
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -3051,10 +3050,7 @@ function Website({ onRestart }) {
             onClick={() => {
               setMenuOpen(false);
               if (shopifyCustomer) {
-                const name = shopifyCustomer.displayName || shopifyCustomer.firstName || "Customer";
-                if (window.confirm(`Logged in to Shopify as ${name}.\nWould you like to sign out?`)) {
-                  logoutFromShopify();
-                }
+                navigateTo("account", "#account");
               } else {
                 loginWithShopify();
               }
@@ -3130,6 +3126,14 @@ function Website({ onRestart }) {
             onNavigate={(targetView, hash) => navigateTo(targetView, hash)}
             onOpenConcierge={() => navigateTo("home", "#contact")}
           />
+        ) : view === "account" ? (
+          <AccountView
+            customer={shopifyCustomer}
+            onLogin={() => loginWithShopify()}
+            onLogout={() => logoutFromShopify()}
+            onShopNow={() => navigateTo("products", "#products")}
+            onNavigateHome={() => navigateTo("home", "#top")}
+          />
         ) : selectedSkuId ? (
           <ProductDetailPage
             skuId={selectedSkuId}
@@ -3185,7 +3189,7 @@ function Website({ onRestart }) {
 
 
 
-      {view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && (
+      {view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && view !== "account" && (
         <footer className="footer is-always-visible" id="contact" style={{ position: 'relative' }}>
           <div className="footer__top-wrap">
             <div className="footer__main-col">

@@ -4,13 +4,14 @@ import {
   SHOPIFY_CONFIG,
   setShopifyStoreDomain,
   buildShopifyCheckoutUrl,
+  getCustomerAccountUrl,
   shopifyService,
 } from "../src/shopifyClient.js";
 
 test("Shopify Config: connects to configured store with env-provided access tokens", () => {
   assert.ok(typeof SHOPIFY_CONFIG.domain === "string", "domain must be a string");
   assert.ok(typeof SHOPIFY_CONFIG.storefrontAccessToken === "string", "storefrontAccessToken must be a string");
-  assert.ok(typeof SHOPIFY_CONFIG.adminAccessToken === "string", "adminAccessToken must be a string");
+  assert.equal(SHOPIFY_CONFIG.apiVersion, "2026-07");
 });
 
 test("Shopify Client: setShopifyStoreDomain normalizes domains cleanly", () => {
@@ -29,8 +30,14 @@ test("Shopify Client: buildShopifyCheckoutUrl builds permalink format", () => {
   assert.ok(url.includes("0h0fke-ui.myshopify.com/cart/4489234892:2"));
 });
 
+test("Headless account route never points to the legacy Shopify Online Store", () => {
+  const accountUrl = getCustomerAccountUrl();
+  assert.equal(accountUrl, "https://www.hanborowatches.in/#account");
+  assert.equal(accountUrl.includes("myshopify.com/account"), false);
+});
+
 test("Shopify Storefront Live Connection: verifies GraphQL shop endpoint response", async () => {
-  const endpoint = `https://${SHOPIFY_CONFIG.domain}/api/2024-01/graphql.json`;
+  const endpoint = `https://${SHOPIFY_CONFIG.domain}/api/${SHOPIFY_CONFIG.apiVersion}/graphql.json`;
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -49,14 +56,30 @@ test("Shopify Storefront Live Connection: verifies GraphQL shop endpoint respons
   assert.equal(json.data.shop.paymentSettings.currencyCode, "INR");
 });
 
-test("Shopify Customer Account API: Configures endpoints and OAuth client ID", async () => {
-  const { SHOPIFY_CUSTOMER_CONFIG, buildCustomerAuthUrl, buildCustomerLogoutUrl } = await import("../src/shopifyClient.js");
+test("Shopify Cart: refreshes stale variant IDs from the live SKU before checkout", async () => {
+  const cart = await shopifyService.createShopifyCart([{
+    product: {
+      sku: "HBR-989-3-BLACK-AUTO",
+      name: "Clover King",
+      shopifyVariantId: "gid://shopify/ProductVariant/1",
+    },
+    quantity: 1,
+  }]);
+
+  assert.ok(cart.id, "a live Shopify cart must be created");
+  assert.equal(new URL(cart.checkoutUrl).host, SHOPIFY_CONFIG.domain);
+});
+
+test("Shopify Customer Account API: discovers current endpoints and configures OAuth client ID", async () => {
+  const { SHOPIFY_CUSTOMER_CONFIG, discoverCustomerAccountEndpoints, buildCustomerAuthUrl, buildCustomerLogoutUrl } = await import("../src/shopifyClient.js");
   
   assert.equal(SHOPIFY_CUSTOMER_CONFIG.clientId, "41118fda-4bc0-40c3-9184-48dd97a9ae40");
   assert.equal(SHOPIFY_CUSTOMER_CONFIG.shopId, "88860197048");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.authEndpoint, "https://shopify.com/authentication/88860197048/oauth/authorize");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint, "https://shopify.com/authentication/88860197048/oauth/token");
-  assert.equal(SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint, "https://shopify.com/authentication/88860197048/logout");
+  const endpoints = await discoverCustomerAccountEndpoints();
+  assert.ok(endpoints.authEndpoint.endsWith("/oauth/authorize"));
+  assert.ok(endpoints.tokenEndpoint.endsWith("/oauth/token"));
+  assert.ok(endpoints.logoutEndpoint.endsWith("/logout"));
+  assert.ok(endpoints.customerGraphQLEndpoint.includes("/account/customer/api/2026-07/graphql"));
 
   const authUrl = await buildCustomerAuthUrl("https://hanborowatches.in/callback");
   assert.ok(authUrl.startsWith("https://shopify.com/authentication/88860197048/oauth/authorize"));
@@ -64,7 +87,6 @@ test("Shopify Customer Account API: Configures endpoints and OAuth client ID", a
   assert.ok(authUrl.includes("response_type=code"));
   assert.ok(authUrl.includes("scope=openid+email+customer-account-api%3Afull") || authUrl.includes("customer-account-api"));
 
-  const logoutUrl = buildCustomerLogoutUrl("https://hanborowatches.in/");
+  const logoutUrl = await buildCustomerLogoutUrl("https://hanborowatches.in/");
   assert.equal(logoutUrl, "https://shopify.com/authentication/88860197048/logout?post_logout_redirect_uri=https%3A%2F%2Fhanborowatches.in%2F");
 });
-

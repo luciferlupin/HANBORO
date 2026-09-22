@@ -3,8 +3,8 @@
  * Connects storefront catalog, cart, and checkout directly to Shopify.
  */
 
-// Storefront API credentials — all values must come from environment variables.
-// Copy .env.local.example to .env.local and fill in your Shopify credentials.
+// Storefront API credentials. The public Storefront token is safe for browser
+// use; private Admin API credentials must never be added to this client bundle.
 export const SHOPIFY_CONFIG = {
   // Store domain (e.g. your-shop.myshopify.com)
   domain:
@@ -16,12 +16,7 @@ export const SHOPIFY_CONFIG = {
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_STOREFRONT_TOKEN) ||
     (typeof process !== "undefined" && process.env?.VITE_SHOPIFY_STOREFRONT_TOKEN) ||
     "b40181640892b2f191a2cd4b113ca0fd",
-  // Private Admin API token (for server-side / worker operations)
-  adminAccessToken:
-    (typeof import.meta !== "undefined" && import.meta.env?.SHOPIFY_ADMIN_ACCESS_TOKEN) ||
-    (typeof process !== "undefined" && process.env?.SHOPIFY_ADMIN_ACCESS_TOKEN) ||
-    "",
-  apiVersion: "2024-01",
+  apiVersion: "2026-07",
 };
 
 /**
@@ -36,6 +31,19 @@ export function setShopifyStoreDomain(domain) {
 
 // In-memory customer token storage (no localStorage)
 let _inMemoryCustomerToken = null;
+
+export function clearCustomerSession() {
+  _inMemoryCustomerToken = null;
+  if (typeof sessionStorage !== "undefined") {
+    [
+      "shopify_customer_token",
+      "shopify_oauth_state",
+      "shopify_oauth_nonce",
+      "shopify_code_verifier",
+      "shopify_redirect_uri",
+    ].forEach((key) => sessionStorage.removeItem(key));
+  }
+}
 
 /**
  * Execute a Storefront GraphQL query
@@ -74,8 +82,41 @@ export async function storefrontQuery(query, variables = {}) {
  * Create a new Shopify Cart with items and retrieve direct checkout URL
  */
 export async function createShopifyCart(items = [], options = {}) {
+  let resolvedItems = items;
+
+  // The generated ID map is a startup hint, not a commerce authority. Resolve
+  // unsynced items by SKU before checkout so recreated Shopify variants cannot
+  // strand a buyer on a cart URL containing a deleted merchandise ID.
+  if (items.some((item) => item?.product && !item.product._shopifyLiveSynced)) {
+    const liveMap = await fetchLiveShopifyData();
+    if (liveMap.size === 0) {
+      throw new Error("Shopify catalog is temporarily unavailable. Please try again.");
+    }
+
+    resolvedItems = items.map((item) => {
+      const product = item?.product;
+      if (!product) return item;
+      const sku = String(product.sku || "").trim();
+      const handle = String(product.shopifyHandle || "").trim();
+      const live =
+        (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) : null) ||
+        (handle ? liveMap.get(handle.toLowerCase()) || liveMap.get(handle) : null) ||
+        (product.shopifyId ? liveMap.get(product.shopifyId) : null) ||
+        (product.shopifyVariantId ? liveMap.get(product.shopifyVariantId) : null);
+
+      if (!live?.shopifyVariantId) {
+        throw new Error(`${product.name || sku || "This product"} is not currently published on Shopify.`);
+      }
+
+      return {
+        ...item,
+        product: { ...product, ...live, _shopifyLiveSynced: true },
+      };
+    });
+  }
+
   // Map local items to Shopify merchandise lines if variant IDs are known
-  const lines = items
+  const lines = resolvedItems
     .filter((it) => it && it.product)
     .map((it) => {
       const variantId =
@@ -98,7 +139,7 @@ export async function createShopifyCart(items = [], options = {}) {
     .filter(Boolean);
 
   // Prepare clear order notes and line item attributes for Shopify Admin
-  const itemNotes = items
+  const itemNotes = resolvedItems
     .filter((it) => it?.product)
     .map((it, idx) => {
       const p = it.product;
@@ -110,7 +151,7 @@ export async function createShopifyCart(items = [], options = {}) {
   const orderNote = options.note || itemNotes.join("\n");
 
   const attributes = [
-    ...items.slice(0, 10).map((it, idx) => ({
+    ...resolvedItems.slice(0, 10).map((it, idx) => ({
       key: `Watch_${idx + 1}`,
       value: `${it.product?.name || "Watch"} (SKU: ${it.product?.sku || "N/A"}) Qty: ${it.quantity || 1}`,
     })),
@@ -121,6 +162,7 @@ export async function createShopifyCart(items = [], options = {}) {
     lines,
     note: orderNote,
     attributes,
+    ...(options.discountCodes?.length ? { discountCodes: options.discountCodes } : {}),
   };
 
   // Attach customer identity if access token is available in memory or session
@@ -144,10 +186,18 @@ export async function createShopifyCart(items = [], options = {}) {
           checkoutUrl
           totalQuantity
           cost {
+            subtotalAmount {
+              amount
+              currencyCode
+            }
             totalAmount {
               amount
               currencyCode
             }
+          }
+          discountCodes {
+            code
+            applicable
           }
         }
         userErrors {
@@ -164,11 +214,21 @@ export async function createShopifyCart(items = [], options = {}) {
       const errs = data.cartCreate.userErrors.map((e) => e.message).join("; ");
       throw new Error(errs);
     }
-    return data?.cartCreate?.cart;
+    const cart = data?.cartCreate?.cart;
+    if (options.requireApplicableDiscount && options.discountCodes?.length) {
+      const inactiveCodes = (cart?.discountCodes || [])
+        .filter((entry) => !entry.applicable)
+        .map((entry) => entry.code);
+      if (inactiveCodes.length > 0) {
+        throw new Error(`Shopify discount is no longer active: ${inactiveCodes.join(", ")}`);
+      }
+    }
+    return cart;
   } catch (err) {
     console.warn("createShopifyCart note:", err.message);
+    if (options.requireApplicableDiscount) throw err;
     // Fallback: build permalink or direct cart URL
-    const fallbackUrl = buildShopifyCheckoutUrl(items);
+    const fallbackUrl = buildShopifyCheckoutUrl(resolvedItems);
     return { id: null, checkoutUrl: fallbackUrl };
   }
 }
@@ -417,17 +477,49 @@ export const SHOPIFY_CUSTOMER_CONFIG = {
   shopId:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_SHOP_ID) ||
     "88860197048",
-  authEndpoint:
-    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_AUTH_ENDPOINT) ||
-    "https://shopify.com/authentication/88860197048/oauth/authorize",
-  tokenEndpoint:
-    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_TOKEN_ENDPOINT) ||
-    "https://shopify.com/authentication/88860197048/oauth/token",
-  logoutEndpoint:
-    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_LOGOUT_ENDPOINT) ||
-    "https://shopify.com/authentication/88860197048/logout",
-  customerGraphQLEndpoint: "https://shopify.com/88860197048/account/customer/api/2024-01/graphql",
+  authEndpoint: "",
+  tokenEndpoint: "",
+  logoutEndpoint: "",
+  customerGraphQLEndpoint: "",
 };
+
+let _customerDiscoveryPromise = null;
+
+export async function discoverCustomerAccountEndpoints() {
+  if (_customerDiscoveryPromise) return _customerDiscoveryPromise;
+
+  _customerDiscoveryPromise = Promise.all([
+    fetch(`https://${SHOPIFY_CONFIG.domain}/.well-known/openid-configuration`),
+    fetch(`https://${SHOPIFY_CONFIG.domain}/.well-known/customer-account-api`),
+  ]).then(async ([openidResponse, customerApiResponse]) => {
+    if (!openidResponse.ok || !customerApiResponse.ok) {
+      throw new Error("Shopify customer account discovery failed.");
+    }
+
+    const [openid, customerApi] = await Promise.all([
+      openidResponse.json(),
+      customerApiResponse.json(),
+    ]);
+    const endpoints = {
+      authEndpoint: openid.authorization_endpoint,
+      tokenEndpoint: openid.token_endpoint,
+      logoutEndpoint: openid.end_session_endpoint,
+      customerGraphQLEndpoint: customerApi.graphql_api,
+    };
+
+    if (Object.values(endpoints).some((value) => !value)) {
+      throw new Error("Shopify customer account discovery returned incomplete endpoints.");
+    }
+
+    Object.assign(SHOPIFY_CUSTOMER_CONFIG, endpoints);
+    return endpoints;
+  }).catch((error) => {
+    _customerDiscoveryPromise = null;
+    throw error;
+  });
+
+  return _customerDiscoveryPromise;
+}
 
 /**
  * Helper: Generate cryptographically secure random string
@@ -470,6 +562,7 @@ async function generateCodeChallenge(verifier) {
  * Generate Shopify Customer OAuth Authorization URL
  */
 export async function buildCustomerAuthUrl(customRedirectUri = "") {
+  const { authEndpoint } = await discoverCustomerAccountEndpoints();
   const redirectUri =
     customRedirectUri ||
     (typeof window !== "undefined" ? `${window.location.origin}/` : "http://localhost:5173/");
@@ -497,13 +590,14 @@ export async function buildCustomerAuthUrl(customRedirectUri = "") {
     code_challenge_method: "S256",
   });
 
-  return `${SHOPIFY_CUSTOMER_CONFIG.authEndpoint}?${params.toString()}`;
+  return `${authEndpoint}?${params.toString()}`;
 }
 
 /**
  * Exchange Authorization Code for Customer Access Tokens
  */
 export async function exchangeCustomerToken({ code, state }) {
+  const { tokenEndpoint } = await discoverCustomerAccountEndpoints();
   const savedState = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_oauth_state") : null;
   const codeVerifier = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_code_verifier") : "";
   const redirectUri = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_redirect_uri") : "";
@@ -520,7 +614,7 @@ export async function exchangeCustomerToken({ code, state }) {
     code_verifier: codeVerifier || "",
   });
 
-  const res = await fetch(SHOPIFY_CUSTOMER_CONFIG.tokenEndpoint, {
+  const res = await fetch(tokenEndpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -561,6 +655,8 @@ export async function fetchCustomerProfile(accessToken) {
 
   if (!token) return null;
 
+  const { customerGraphQLEndpoint } = await discoverCustomerAccountEndpoints();
+
   const query = `
     query GetCustomerInfo {
       customer {
@@ -600,7 +696,7 @@ export async function fetchCustomerProfile(accessToken) {
   `;
 
   try {
-    const res = await fetch(SHOPIFY_CUSTOMER_CONFIG.customerGraphQLEndpoint, {
+    const res = await fetch(customerGraphQLEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -619,23 +715,31 @@ export async function fetchCustomerProfile(accessToken) {
 }
 
 /**
- * Get Direct Shopify Customer Account Portal URL
+ * Get the account route on this headless storefront. Customer profile UI is
+ * rendered locally; never send buyers to the legacy Shopify Online Store.
  */
 export function getCustomerAccountUrl() {
-  return `https://${SHOPIFY_CONFIG.domain}/account`;
+  const configuredOrigin =
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_STOREFRONT_PUBLIC_URL) ||
+    (typeof process !== "undefined" && process.env?.VITE_STOREFRONT_PUBLIC_URL) ||
+    "";
+  const origin = configuredOrigin || (typeof window !== "undefined" ? window.location.origin : "https://www.hanborowatches.in");
+  return `${origin.replace(/\/$/, "")}/#account`;
 }
 
 /**
  * Build Customer Logout URL
  */
-export function buildCustomerLogoutUrl(postLogoutRedirectUri = "") {
+export async function buildCustomerLogoutUrl(postLogoutRedirectUri = "") {
+  const { logoutEndpoint } = await discoverCustomerAccountEndpoints();
   const returnTo = postLogoutRedirectUri || (typeof window !== "undefined" ? window.location.origin : "");
-  return `${SHOPIFY_CUSTOMER_CONFIG.logoutEndpoint}?post_logout_redirect_uri=${encodeURIComponent(returnTo)}`;
+  return `${logoutEndpoint}?post_logout_redirect_uri=${encodeURIComponent(returnTo)}`;
 }
 
 export const shopifyService = {
   config: SHOPIFY_CONFIG,
   customerConfig: SHOPIFY_CUSTOMER_CONFIG,
+  clearCustomerSession,
   setStoreDomain: setShopifyStoreDomain,
   storefrontQuery,
   createShopifyCart,
@@ -643,6 +747,7 @@ export const shopifyService = {
   fetchShopifyProducts,
   fetchLiveShopifyData,
   mergeProductsWithShopifyData,
+  discoverCustomerAccountEndpoints,
   buildCustomerAuthUrl,
   exchangeCustomerToken,
   fetchCustomerProfile,
