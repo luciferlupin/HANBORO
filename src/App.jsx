@@ -22,6 +22,7 @@ const ShippingPolicy = lazy(() => import("./ShippingPolicy").then((m) => ({ defa
 const RefundPolicy = lazy(() => import("./RefundPolicy").then((m) => ({ default: m.RefundPolicy })));
 const TermsOfService = lazy(() => import("./TermsOfService").then((m) => ({ default: m.TermsOfService })));
 const AccountView = lazy(() => import("./AccountView").then((m) => ({ default: m.AccountView })));
+const TrackOrderView = lazy(() => import("./TrackOrderView").then((m) => ({ default: m.TrackOrderView })));
 
 function LuxuryViewLoader() {
   return (
@@ -2759,6 +2760,9 @@ function Website({ onRestart }) {
     if (target.startsWith("refund") || target.startsWith("returns") || target.startsWith("replacement")) {
       return { view: "refund", selectedSkuId: null };
     }
+    if (target.startsWith("track") || target.startsWith("order-tracking") || target.startsWith("shipment")) {
+      return { view: "tracking", selectedSkuId: null };
+    }
     if (target.startsWith("terms") || target.startsWith("tos") || target.startsWith("legal")) {
       return { view: "terms", selectedSkuId: null };
     }
@@ -2803,6 +2807,7 @@ function Website({ onRestart }) {
       terms: "Hanboro — Terms of Haute Horlogerie",
       privacy: "Hanboro — Client Privacy & Confidentiality",
       account: "Hanboro — Collector Account",
+      tracking: "Hanboro — Track Your Consignment | Order Logistics",
     };
     if (typeof document !== "undefined") {
       document.title = titles[view] || "Hanboro — Make time matter";
@@ -3056,6 +3061,18 @@ function Website({ onRestart }) {
 
           <button
             type="button"
+            className={`luxury-drawer__link ${view === "tracking" ? "is-active" : ""}`}
+            onClick={() => {
+              setMenuOpen(false);
+              navigateTo("tracking", "#track");
+            }}
+          >
+            <span className="drawer-link-text">Track Your Order</span>
+            <span className="drawer-link-arrow">📦</span>
+          </button>
+
+          <button
+            type="button"
             className="luxury-drawer__link"
             onClick={() => {
               setMenuOpen(false);
@@ -3128,6 +3145,13 @@ function Website({ onRestart }) {
             onShopNow={() => navigateTo("products", "#products")}
             onNavigateHome={() => navigateTo("home", "#top")}
           />
+        ) : view === "tracking" ? (
+          <TrackOrderView
+            onNavigateHome={() => navigateTo("home", "#top")}
+            onNavigatePolicy={(target) => navigateTo(target, `#${target}`)}
+            onNavigateToProducts={() => navigateTo("products", "#products")}
+            onNavigateToStores={() => navigateTo("stores", "#stores")}
+          />
         ) : selectedSkuId ? (
           <ProductDetailPage
             skuId={selectedSkuId}
@@ -3183,7 +3207,7 @@ function Website({ onRestart }) {
 
 
 
-      {view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && view !== "account" && (
+      {view !== "stores" && view !== "privacy" && view !== "shipping" && view !== "refund" && view !== "terms" && view !== "account" && view !== "tracking" && (
         <footer className="footer is-always-visible" id="contact" style={{ position: 'relative' }}>
           <div className="footer__top-wrap">
             <div className="footer__main-col">
@@ -3219,6 +3243,17 @@ function Website({ onRestart }) {
             </div>
 
             <div className="footer-policies-list">
+              <a
+                href="#track"
+                className="footer-privacy-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("tracking", "#track");
+                }}
+              >
+                Track Order
+              </a>
+              <span className="footer-policy-dot">•</span>
               <a
                 href="#privacy"
                 className="footer-privacy-link"
