@@ -293,6 +293,187 @@ export async function fetchShopifyProducts(first = 80) {
   }
 }
 
+const SHOPIFY_SPEC_KEY_ALIASES = {
+  "model": "modelNumber",
+  "model number": "modelNumber",
+  "reference model": "modelNumber",
+  "reference": "modelNumber",
+  "movement": "movement",
+  "calibre": "movement",
+  "caliber": "movement",
+  "movement type": "movement",
+  "frequency": "frequency",
+  "beat rate": "frequency",
+  "power reserve": "powerReserve",
+  "power reserve system": "powerReserveSystem",
+  "reserve system": "powerReserveSystem",
+  "jewels": "jewels",
+  "jewel count": "jewels",
+  "case size": "caseDimensions",
+  "case diameter": "caseDimensions",
+  "case dimensions": "caseDimensions",
+  "diameter": "caseDimensions",
+  "case material": "caseMaterial",
+  "material": "caseMaterial",
+  "glass": "glass",
+  "crystal": "glass",
+  "crystal type": "glass",
+  "caseback": "caseback",
+  "case back": "caseback",
+  "case back type": "caseback",
+  "dial": "dial",
+  "dial color": "dial",
+  "dial type": "dial",
+  "water resistance": "waterResistance",
+  "water resistant": "waterResistance",
+  "strap": "strap",
+  "band": "strap",
+  "band material": "strap",
+  "strap material": "strap",
+  "clasp": "clasp",
+  "clasp type": "clasp",
+  "buckle": "clasp",
+  "packaging": "packaging",
+  "package contents": "packaging",
+  "warranty": "warranty",
+  "warranty period": "warranty",
+  "lug to lug": "lugToLug",
+  "lug-to-lug": "lugToLug",
+  "lug width": "lugWidth",
+  "thickness": "thickness",
+  "case thickness": "thickness",
+  "height": "thickness",
+  "complications": "complicationsText",
+  "functions": "complicationsText",
+  "features": "complicationsText",
+  // Bezel
+  "bezel": "bezel",
+  "bezel material": "bezel",
+  "bezel type": "bezel",
+  "bezel insert": "bezel",
+  // Crown
+  "crown": "crown",
+  "crown type": "crown",
+  "winding crown": "crown",
+  // Hands
+  "hands": "hands",
+  "hand finish": "hands",
+  "hands finish": "hands",
+  // Lume
+  "lume": "lume",
+  "lume material": "lume",
+  "luminous": "lume",
+  "luminous material": "lume",
+  "luminescence": "lume",
+  "super-luminova": "lume",
+  // Winding
+  "winding": "winding",
+  "winding type": "winding",
+  "winding system": "winding",
+  // Date
+  "date": "dateDisplay",
+  "date display": "dateDisplay",
+  "date window": "dateDisplay",
+  "date complication": "dateDisplay",
+  // Bracelet / strap dimensions
+  "bracelet": "strap",
+  "bracelet material": "strap",
+  "bracelet type": "strap",
+  "band type": "strap",
+  "strap width": "strapWidth",
+  "strap length": "strapLength",
+  "band width": "strapWidth",
+  // Case weight
+  "weight": "caseWeight",
+  "case weight": "caseWeight",
+  "net weight": "caseWeight",
+  // Time zones / GMT
+  "time zone": "timeZone",
+  "gmt": "timeZone",
+  "utc offset": "timeZone",
+  // Water pressure
+  "water pressure": "waterResistance",
+  "atm": "waterResistance",
+};
+
+function decodeShopifyHtml(value = "") {
+  return String(value)
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Parse the Specifications list authored in Shopify's product description.
+ * Supports two formats:
+ *   1. <li><strong>Label:</strong> Value</li>  (preferred list format)
+ *   2. <p><strong>Label:</strong> Value</p>      (paragraph format)
+ * Shopify is authoritative for these values; local specs remain a fallback.
+ */
+export function parseShopifySpecifications(descriptionHtml = "") {
+  const specs = {};
+  const rows = [];
+  const seen = new Set();
+
+  function processMatch(rawLabel, rawValue) {
+    const label = decodeShopifyHtml(rawLabel).replace(/:\s*$/, "").trim();
+    const value = decodeShopifyHtml(rawValue).replace(/^:\s*/, "").trim();
+    if (!label || !value) return;
+    // Deduplicate by label (first occurrence wins)
+    if (seen.has(label.toLowerCase())) return;
+    seen.add(label.toLowerCase());
+    rows.push({ label, value });
+    const canonicalKey = SHOPIFY_SPEC_KEY_ALIASES[label.toLowerCase()];
+    if (canonicalKey) specs[canonicalKey] = value;
+  }
+
+  // Format 1: <li><strong>Label:</strong> Value</li>
+  const listItemPattern = /<li\b[^>]*>([\s\S]*?)<\/li>/gi;
+  let match;
+  while ((match = listItemPattern.exec(descriptionHtml)) !== null) {
+    const strongMatch = match[1].match(/<strong\b[^>]*>([\s\S]*?)<\/strong>([\s\S]*)/i);
+    if (!strongMatch) continue;
+    processMatch(strongMatch[1], strongMatch[2]);
+  }
+
+  // Format 2: <p><strong>Label:</strong> Value</p> — only if list format found nothing
+  if (rows.length === 0) {
+    const paraPattern = /<p[^>]*>\s*<strong\b[^>]*>([\s\S]*?)<\/strong>([\s\S]*?)<\/p>/gi;
+    while ((match = paraPattern.exec(descriptionHtml)) !== null) {
+      processMatch(match[1], match[2]);
+    }
+  }
+
+  // Format 3: Inline "Label: Value." sentences at end of plain-text paragraphs
+  // e.g. "...Case Diameter: 40mm. Case Thickness: 9mm. Movement: Automatic."
+  // Only activates if no structured specs were found above.
+  if (rows.length === 0) {
+    const plainText = decodeShopifyHtml(descriptionHtml);
+    // Find all "Word(s): Value." or "Word(s): Value," patterns
+    const knownLabels = Object.keys(SHOPIFY_SPEC_KEY_ALIASES);
+    // Build a pattern that matches "Known Label: value until next period/end"
+    const inlinePattern = /([A-Za-z][A-Za-z\s\-]{2,30}?):\s*([^.]+?)(?:\.|$)/g;
+    while ((match = inlinePattern.exec(plainText)) !== null) {
+      const label = match[1].trim();
+      const value = match[2].trim();
+      if (!label || !value || value.length > 200) continue;
+      // Only extract if label matches a known alias (to avoid false positives in prose)
+      if (knownLabels.includes(label.toLowerCase())) {
+        processMatch(label, value);
+      }
+    }
+  }
+
+  return { specs, rows };
+}
+
 /**
  * ── LIVE SHOPIFY DATA LAYER ──────────────────────────────────────────────────
  * Fetches live product copy, pricing, availability, inventory, identifiers,
@@ -310,6 +491,10 @@ export async function fetchLiveShopifyData() {
           handle
           title
           description
+          descriptionHtml
+          vendor
+          productType
+          tags
           variants(first: 10) {
             edges {
               node {
@@ -345,11 +530,22 @@ export async function fetchLiveShopifyData() {
       if (!primaryVariant) continue;
 
       const liveImages = (node.images?.edges || []).map(img => img.node.url).filter(Boolean);
+      const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || "");
+      const modelTag = (node.tags || []).find((tag) => /^model[-:\s]/i.test(tag));
+      const shopifyModelNumber = parsedSpecifications.specs.modelNumber || modelTag?.replace(/^model[-:\s]*/i, "").trim() || "";
       const baseInfo = {
         shopifyId: node.id,
         shopifyHandle: node.handle,
         shopifyTitle: node.title,
         shopifyDescription: node.description || "",
+        shopifyDescriptionHtml: node.descriptionHtml || "",
+        shopifySpecifications: parsedSpecifications.specs,
+        shopifySpecificationRows: parsedSpecifications.rows,
+        shopifyVendor: node.vendor || "",
+        shopifyProductType: node.productType || "",
+        shopifyTags: Array.isArray(node.tags) ? node.tags : [],
+        shopifySku: primaryVariant.sku?.trim() || "",
+        shopifyModelNumber,
         shopifyPrice: primaryVariant.price?.amount ? Math.round(parseFloat(primaryVariant.price.amount)) : null,
         shopifyComparePrice: primaryVariant.compareAtPrice?.amount ? Math.round(parseFloat(primaryVariant.compareAtPrice.amount)) : null,
         availableForSale: primaryVariant.availableForSale ?? true,
@@ -368,6 +564,7 @@ export async function fetchLiveShopifyData() {
         const v = vEdge.node;
         const variantInfo = {
           ...baseInfo,
+          shopifySku: v?.sku?.trim() || baseInfo.shopifySku,
           shopifyVariantId: v?.id || baseInfo.shopifyVariantId,
           shopifyPrice: v?.price?.amount ? Math.round(parseFloat(v.price.amount)) : baseInfo.shopifyPrice,
           shopifyComparePrice: v?.compareAtPrice?.amount ? Math.round(parseFloat(v.compareAtPrice.amount)) : baseInfo.shopifyComparePrice,
@@ -382,6 +579,13 @@ export async function fetchLiveShopifyData() {
         }
       }
     }
+    liveMap.shopifyProducts = Array.from(
+      new Map(
+        Array.from(liveMap.values())
+          .filter((item) => item?.shopifyId)
+          .map((item) => [item.shopifyId, item]),
+      ).values(),
+    );
     return liveMap;
   } catch (err) {
     console.warn("fetchLiveShopifyData note:", err.message);
@@ -397,7 +601,8 @@ export async function fetchLiveShopifyData() {
  * product copy, price, availability, inventory, and checkout identifiers.
  */
 export function mergeProductsWithShopifyData(localProducts = [], liveMap = new Map()) {
-  return localProducts.flatMap((product) => {
+  const matchedShopifyProductIds = new Set();
+  const mergedLocalProducts = localProducts.flatMap((product) => {
     const handle =
       product.shopifyHandle ||
       String(product.sku || product.id || "")
@@ -416,6 +621,7 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
 
     // Shopify is the source of truth for which products are published.
     if (!live) return [];
+    if (live.shopifyId) matchedShopifyProductIds.add(live.shopifyId);
 
     const livePrice = Number.isFinite(live.shopifyPrice) ? live.shopifyPrice : null;
     const liveComparePrice = Number.isFinite(live.shopifyComparePrice)
@@ -426,7 +632,14 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       ...product,
       name: live.shopifyTitle || product.name,
       title: live.shopifyTitle || product.title || product.name,
+      sku: live.shopifySku || product.sku,
+      modelNumber: live.shopifyModelNumber || product.modelNumber,
       description: live.shopifyDescription || product.description,
+      specs: {
+        ...(product.specs || {}),
+        ...(live.shopifySpecifications || {}),
+      },
+      shopifySpecificationRows: live.shopifySpecificationRows || [],
       price: livePrice !== null ? `₹${livePrice.toLocaleString("en-IN")}` : product.price,
       priceNumeric: livePrice ?? product.priceNumeric,
       mrp: liveComparePrice !== null
@@ -441,6 +654,97 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       _shopifyLiveSynced: true,
     }];
   });
+
+  const COLLECTION_TAG_MAP = {
+    "tourbillon": "TOURBILLON",
+    "skeleton": "TONNEAU",
+    "tonneau": "TONNEAU",
+    "roulette": "ROULETTE",
+    "casino": "ROULETTE",
+    "octagonal": "OCTAGONAL",
+    "royal octagonal": "OCTAGONAL",
+    "diver": "DIVER_SPORT",
+    "chronograph": "DIVER_SPORT",
+    "sport": "DIVER_SPORT",
+    "classic": "CLASSIC",
+    "moonphase": "CLASSIC",
+    "moon phase": "CLASSIC",
+  };
+
+  const shopifyOnlyProducts = (liveMap.shopifyProducts || [])
+    .filter((live) => live?.shopifyId && !matchedShopifyProductIds.has(live.shopifyId))
+    .map((live, index) => {
+      const fallbackSku = live.shopifySku || String(live.shopifyHandle || `shopify-${index + 1}`).toUpperCase();
+      const livePrice = Number.isFinite(live.shopifyPrice) ? live.shopifyPrice : 0;
+      const liveComparePrice = Number.isFinite(live.shopifyComparePrice) ? live.shopifyComparePrice : null;
+
+      // Smart collection detection: scan tags and productType for known collection identifiers
+      const allTagsLower = [
+        ...(live.shopifyTags || []),
+        live.shopifyProductType || "",
+        live.shopifyTitle || "",
+      ].map(s => s.toLowerCase());
+      let collection = "CLASSIC";
+      let collectionName = live.shopifyProductType || "Classic & Moonphase";
+      for (const [keyword, collId] of Object.entries(COLLECTION_TAG_MAP)) {
+        if (allTagsLower.some(t => t.includes(keyword))) {
+          collection = collId;
+          // Human-readable collection name
+          collectionName = {
+            TOURBILLON: "Tourbillon & Complications",
+            TONNEAU: "Tonneau Skeleton",
+            ROULETTE: "Casino & Roulette",
+            OCTAGONAL: "Royal Octagonal",
+            DIVER_SPORT: "Diver & Sport Chrono",
+            CLASSIC: "Classic & Moonphase",
+          }[collId] || live.shopifyProductType || "HANBORO Collection";
+          break;
+        }
+      }
+      if (live.shopifyProductType && collection === "CLASSIC") {
+        collectionName = live.shopifyProductType;
+      }
+
+      // Pick the most informative tag for the product tag badge (skip generic ones)
+      const genericTags = new Set(["automatic", "hanboro", "luxury watches", "skeleton"]);
+      const productTag = (live.shopifyTags || []).find(t => !genericTags.has(t.toLowerCase())) || "HANBORO";
+
+      return {
+        id: live.shopifyHandle || live.shopifyId,
+        sku: fallbackSku,
+        modelNumber: live.shopifyModelNumber || live.shopifySpecifications?.modelNumber || "",
+        name: live.shopifyTitle || "HANBORO Timepiece",
+        title: live.shopifyTitle || "HANBORO Timepiece",
+        subtitle: live.shopifyDescription || "",
+        summary: live.shopifyDescription || "",
+        description: live.shopifyDescription || "",
+        collection,
+        collectionName,
+        tag: productTag,
+        image: "/watch-architectural-skeleton-black-front-transparent.webp",
+        transparentImage: "/watch-architectural-skeleton-black-front-transparent.webp",
+        altImages: ["/watch-architectural-skeleton-black-front-transparent.webp"],
+        gallery: [],
+        specs: { ...(live.shopifySpecifications || {}) },
+        shopifySpecificationRows: live.shopifySpecificationRows || [],
+        price: `₹${livePrice.toLocaleString("en-IN")}`,
+        priceNumeric: livePrice,
+        mrp: liveComparePrice !== null ? `₹${liveComparePrice.toLocaleString("en-IN")}` : null,
+        mrpNumeric: liveComparePrice,
+        stock: live.quantityAvailable,
+        availability: live.availableForSale === false ? "Out of Stock" : "In Stock",
+        availableForSale: live.availableForSale,
+        quantityAvailable: live.quantityAvailable,
+        shopifyId: live.shopifyId,
+        shopifyVariantId: live.shopifyVariantId,
+        shopifyHandle: live.shopifyHandle,
+        catalogOrder: Number.MAX_SAFE_INTEGER - 1000 + index,
+        _shopifyLiveSynced: true,
+        _shopifyOnlyProduct: true,
+      };
+    });
+
+  return [...mergedLocalProducts, ...shopifyOnlyProducts];
 }
 
 /**
@@ -453,10 +757,21 @@ export const SHOPIFY_CUSTOMER_CONFIG = {
   shopId:
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_SHOP_ID) ||
     "88860197048",
-  authEndpoint: "https://shopify.com/authentication/88860197048/oauth/authorize",
-  tokenEndpoint: "https://shopify.com/authentication/88860197048/oauth/token",
-  logoutEndpoint: "https://shopify.com/authentication/88860197048/logout",
-  customerGraphQLEndpoint: "https://shopify.com/88860197048/account/customer/api/2026-07/graphql",
+  authEndpoint:
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_AUTH_ENDPOINT) ||
+    "https://shopify.com/authentication/88860197048/oauth/authorize",
+  tokenEndpoint:
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_TOKEN_ENDPOINT) ||
+    "https://shopify.com/authentication/88860197048/oauth/token",
+  logoutEndpoint:
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_LOGOUT_ENDPOINT) ||
+    "https://shopify.com/authentication/88860197048/logout",
+  customerGraphQLEndpoint:
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_CUSTOMER_GRAPHQL_ENDPOINT) ||
+    "https://shopify.com/88860197048/account/customer/api/2026-07/graphql",
+  redirectUri:
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_SHOPIFY_CUSTOMER_REDIRECT_URI) ||
+    "",
 };
 
 let _customerDiscoveryPromise = null;
@@ -547,7 +862,12 @@ export async function buildCustomerAuthUrl(customRedirectUri = "") {
   const authEndpoint = SHOPIFY_CUSTOMER_CONFIG.authEndpoint || "https://shopify.com/authentication/88860197048/oauth/authorize";
   const redirectUri =
     customRedirectUri ||
+    SHOPIFY_CUSTOMER_CONFIG.redirectUri ||
     (typeof window !== "undefined" ? `${window.location.origin}/` : "http://localhost:5173/");
+
+  if (new URL(redirectUri).protocol !== "https:") {
+    throw new Error("Shopify Customer Account sign-in requires a registered HTTPS callback URL.");
+  }
 
   const state = generateRandomString(32);
   const nonce = generateRandomString(32);
@@ -584,8 +904,11 @@ export async function exchangeCustomerToken({ code, state }) {
   const codeVerifier = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_code_verifier") : "";
   const redirectUri = typeof sessionStorage !== "undefined" ? sessionStorage.getItem("shopify_redirect_uri") : "";
 
-  if (savedState && state && savedState !== state) {
+  if (!savedState || !state || savedState !== state) {
     throw new Error("Invalid OAuth state parameter (CSRF detected)");
+  }
+  if (!codeVerifier || !redirectUri) {
+    throw new Error("Missing OAuth PKCE session. Please restart Shopify sign-in.");
   }
 
   const bodyParams = new URLSearchParams({

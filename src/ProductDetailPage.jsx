@@ -25,6 +25,51 @@ export function ProductDetailPage({
 
   const pricing = useMemo(() => getWatchPricing(product, mrpDiscountConfig), [product, mrpDiscountConfig]);
 
+  const technicalSpecificationRows = useMemo(() => {
+    if (!product) return [];
+    // Compliance labels that must never appear in the specs table
+    const COMPLIANCE_LABELS = /^(model|model number|reference|price|price \(mrp\)|country of origin|manufacturer|importer|packer|importer \/ packer|care instructions|warrantydetails)$/i;
+
+    if (Array.isArray(product.shopifySpecificationRows) && product.shopifySpecificationRows.length > 0) {
+      return product.shopifySpecificationRows.filter(({ label }) =>
+        !COMPLIANCE_LABELS.test(String(label).trim())
+      );
+    }
+
+    const specs = product.specs || {};
+    return [
+      ["Movement", specs.movement],
+      ["Frequency", specs.frequency],
+      ["Power Reserve", specs.powerReserve],
+      ["Power Reserve System", specs.powerReserveSystem],
+      ["Jewels", specs.jewels],
+      ["Case Size", specs.caseDimensions],
+      ["Case Material", specs.caseMaterial],
+      ["Bezel", specs.bezel],
+      ["Glass", specs.glass],
+      ["Caseback", specs.caseback],
+      ["Dial", specs.dial],
+      ["Hands", specs.hands],
+      ["Lume", specs.lume],
+      ["Crown", specs.crown],
+      ["Water Resistance", specs.waterResistance],
+      ["Strap", specs.strap],
+      ["Clasp", specs.clasp],
+      ["Lug-to-Lug", specs.lugToLug],
+      ["Strap Width", specs.strapWidth],
+      ["Strap Length", specs.strapLength],
+      ["Thickness", specs.thickness],
+      ["Case Weight", specs.caseWeight],
+      ["Winding", specs.winding],
+      ["Date Display", specs.dateDisplay],
+      ["Time Zone", specs.timeZone],
+      ["Packaging", specs.packaging],
+      ["Warranty", specs.warranty],
+    ]
+      .filter(([, value]) => value)
+      .map(([label, value]) => ({ label, value }));
+  }, [product]);
+
   // All color options / editions for the same watch model
   const modelVariants = useMemo(() => {
     if (!product) return [];
@@ -676,27 +721,65 @@ export function ProductDetailPage({
                 <div className="pdp-spec-card">
                   <span className="spec-card-label">CALIBER</span>
                   <span className="spec-card-val">
-                    {product.specs?.movement ? product.specs.movement.split(" ").slice(0, 2).join(" ") : "Automatic Calibre"}
+                    {product.specs?.movement ? product.specs.movement.split(" ").slice(0, 2).join(" ") : (product._shopifyLiveSynced ? "—" : "Automatic Calibre")}
                   </span>
-                  <span className="spec-card-sub">{product.specs?.frequency || "28,800 BPH"}</span>
+                  {product.specs?.frequency && <span className="spec-card-sub">{product.specs.frequency}</span>}
                 </div>
                 <div className="pdp-spec-card">
                   <span className="spec-card-label">POWER RESERVE</span>
-                  <span className="spec-card-val">{product.specs?.powerReserve || "42 Hours"}</span>
-                  <span className="spec-card-sub">Twin-Barrel System</span>
+                  <span className="spec-card-val">{product.specs?.powerReserve || (product._shopifyLiveSynced ? "—" : "42 Hours")}</span>
+                  {product.specs?.powerReserveSystem && <span className="spec-card-sub">{product.specs.powerReserveSystem}</span>}
                 </div>
                 <div className="pdp-spec-card">
                   <span className="spec-card-label">CASE & GLASS</span>
                   <span className="spec-card-val">
-                    {product.specs?.caseDimensions ? product.specs.caseDimensions.split(" ")[0] : "44mm"}
+                    {product.specs?.caseDimensions || (product._shopifyLiveSynced ? "—" : "44mm")}
                   </span>
-                  <span className="spec-card-sub">{product.specs?.glass ? product.specs.glass.split(" ")[0] : "Sapphire"} • {product.specs?.waterResistance || "50M"}</span>
+                  {(product.specs?.glass || product.specs?.waterResistance) && (
+                    <span className="spec-card-sub">
+                      {[product.specs?.glass, product.specs?.waterResistance].filter(Boolean).join(" • ")}
+                    </span>
+                  )}
                 </div>
               </div>
 
               {/* Summary Description Narrative */}
               {product.summary && <p className="pdp-summary-text">{product.summary}</p>}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION: COMPLETE HOROLOGICAL SPECIFICATION MATRIX ── */}
+      <section className="pdp-specs-section">
+        <div className="pdp-specs-container">
+          <div className="pdp-section-header">
+            <span className="section-eyebrow">HOROLOGICAL ARCHITECTURE</span>
+            <h2 className="section-title">Technical Specifications</h2>
+          </div>
+
+          <div className="pdp-specs-table-box">
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Model Number</span>
+              <span className="spec-item-v highlight-bold">{product.modelNumber || product.specs?.modelNumber}</span>
+            </div>
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Reference</span>
+              <span className="spec-item-v">{product.sku}</span>
+            </div>
+            <div className="pdp-spec-item-row">
+              <span className="spec-item-k">Price (MRP)</span>
+              <span className="spec-item-v highlight-red">{product.price} (Inclusive of Taxes)</span>
+            </div>
+            {technicalSpecificationRows.map(({ label, value }, index) => {
+              const emphasized = /movement/i.test(label) ? "highlight-red" : /power reserve|water resistance/i.test(label) ? "highlight-bold" : "";
+              return (
+                <div className="pdp-spec-item-row" key={`${label}-${index}`}>
+                  <span className="spec-item-k">{label}</span>
+                  <span className={`spec-item-v ${emphasized}`.trim()}>{value}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -773,79 +856,6 @@ export function ProductDetailPage({
           </div>
         </section>
       )}
-
-      {/* ── SECTION: COMPLETE HOROLOGICAL SPECIFICATION MATRIX ── */}
-      <section className="pdp-specs-section">
-        <div className="pdp-specs-container">
-          <div className="pdp-section-header">
-            <span className="section-eyebrow">HOROLOGICAL ARCHITECTURE</span>
-            <h2 className="section-title">Technical Specifications</h2>
-          </div>
-
-          <div className="pdp-specs-table-box">
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Model Number</span>
-              <span className="spec-item-v highlight-bold">{product.modelNumber || product.specs?.modelNumber}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Reference</span>
-              <span className="spec-item-v">{product.sku}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Price (MRP)</span>
-              <span className="spec-item-v highlight-red">{product.price} (Inclusive of Taxes)</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Movement</span>
-              <span className="spec-item-v highlight-red">{product.specs.movement}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Frequency</span>
-              <span className="spec-item-v">{product.specs.frequency}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Power Reserve</span>
-              <span className="spec-item-v highlight-bold">{product.specs.powerReserve}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Jewels</span>
-              <span className="spec-item-v">{product.specs.jewels}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Case Size</span>
-              <span className="spec-item-v">{product.specs.caseDimensions}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Case Material</span>
-              <span className="spec-item-v">{product.specs.caseMaterial}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Glass</span>
-              <span className="spec-item-v">{product.specs.glass}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Caseback</span>
-              <span className="spec-item-v">{product.specs.caseback}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Dial</span>
-              <span className="spec-item-v">{product.specs.dial}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Water Resistance</span>
-              <span className="spec-item-v highlight-bold">{product.specs.waterResistance}</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Strap & Clasp</span>
-              <span className="spec-item-v">{product.specs.strap} ({product.specs.clasp})</span>
-            </div>
-            <div className="pdp-spec-item-row">
-              <span className="spec-item-k">Packaging</span>
-              <span className="spec-item-v">{product.specs.packaging}</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── SECTION: COMPLICATIONS SPOTLIGHT ── */}
       {product.specs?.complications && (
