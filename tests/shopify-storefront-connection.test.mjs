@@ -6,8 +6,26 @@ import {
   getCustomerAccountUrl,
   mergeProductsWithShopifyData,
   parseShopifySpecifications,
+  detectShopifyCollection,
   shopifyService,
 } from "../src/shopifyClient.js";
+
+test("Shopify collection auto-detection: classifies watches accurately without requiring any tags", () => {
+  const tourbillon = detectShopifyCollection({ shopifyTitle: "Celestial Cosmos Tourbillon Watch", tags: [] });
+  assert.equal(tourbillon.collection, "TOURBILLON");
+
+  const roulette = detectShopifyCollection({ shopifyTitle: "Casino Roulette Automatic Timepiece", tags: [] });
+  assert.equal(roulette.collection, "ROULETTE");
+
+  const diver = detectShopifyCollection({ shopifyTitle: "Oceanic Chronograph Diver 200M", tags: [] });
+  assert.equal(diver.collection, "DIVER_SPORT");
+
+  const tonneau = detectShopifyCollection({ shopifyTitle: "CarbonX ChronoTech Tonneau Skeleton", tags: [] });
+  assert.equal(tonneau.collection, "TONNEAU");
+
+  const classic = detectShopifyCollection({ shopifyTitle: "Classic Heritage Automatic", productType: "Dress Watches", tags: [] });
+  assert.equal(classic.collection, "CLASSIC");
+});
 
 test("Shopify specifications: parses live product-description rows into storefront fields", () => {
   const parsed = parseShopifySpecifications(`
@@ -57,21 +75,25 @@ test("Shopify specifications: live values override local product specs", () => {
   assert.deepEqual(merged.shopifySpecificationRows, liveMap.get("watch-sku").shopifySpecificationRows);
 });
 
-test("Shopify catalogue: newly published products are appended without importing Shopify imagery", () => {
+test("Shopify catalogue: newly published products reflect live Shopify image, title, description, and specifications", () => {
   const newProduct = {
     shopifyId: "gid://shopify/Product/99",
     shopifyVariantId: "gid://shopify/ProductVariant/100",
     shopifyHandle: "new-shopify-watch",
     shopifySku: "HBR-NEW-001",
     shopifyTitle: "New Shopify Watch",
-    shopifyDescription: "A newly published watch.",
+    shopifyDescription: "A newly published watch with premium specifications.",
     shopifyProductType: "Automatic Watches",
     shopifyTags: ["Automatic"],
     shopifyPrice: 25000,
     shopifyComparePrice: 30000,
+    shopifyFeaturedImage: "https://cdn.shopify.com/example.jpg",
     shopifyImages: ["https://cdn.shopify.com/example.jpg"],
-    shopifySpecifications: { movement: "Automatic" },
-    shopifySpecificationRows: [{ label: "Movement", value: "Automatic" }],
+    shopifySpecifications: { movement: "Automatic Calibre", waterResistance: "100M" },
+    shopifySpecificationRows: [
+      { label: "Movement", value: "Automatic Calibre" },
+      { label: "Water Resistance", value: "100M" }
+    ],
     availableForSale: true,
     quantityAvailable: 4,
   };
@@ -84,7 +106,9 @@ test("Shopify catalogue: newly published products are appended without importing
   assert.equal(added.price, "₹25,000");
   assert.equal(added.shopifyVariantId, newProduct.shopifyVariantId);
   assert.equal(added._shopifyOnlyProduct, true);
-  assert.equal(added.image.startsWith("https://cdn.shopify.com"), false);
+  assert.equal(added.image, "https://cdn.shopify.com/example.jpg");
+  assert.equal(added.specs.movement, "Automatic Calibre");
+  assert.equal(added.shopifySpecificationRows.length, 2);
 });
 
 test("Shopify catalogue: live SKU and model tag control the displayed reference fields", () => {

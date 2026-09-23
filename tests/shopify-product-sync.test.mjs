@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { mergeProductsWithShopifyData } from "../src/shopifyClient.js";
 
-test("Shopify product edits replace live commerce fields and preserve curated local media", () => {
+test("Shopify product edits authoritatively update live images, title, description, and pricing", () => {
   const localProduct = {
     id: "local-1",
     sku: "HBR-TEST-1",
@@ -25,7 +25,8 @@ test("Shopify product edits replace live commerce fields and preserve curated lo
     shopifyComparePrice: 13500,
     availableForSale: false,
     quantityAvailable: 0,
-    shopifyImages: ["https://cdn.shopify.com/unapproved-image.jpg"],
+    shopifyFeaturedImage: "https://cdn.shopify.com/newly-uploaded-watch.jpg",
+    shopifyImages: ["https://cdn.shopify.com/newly-uploaded-watch.jpg"],
   }]]);
 
   const [merged] = mergeProductsWithShopifyData([localProduct], liveMap);
@@ -36,8 +37,8 @@ test("Shopify product edits replace live commerce fields and preserve curated lo
   assert.equal(merged.mrp, "₹13,500");
   assert.equal(merged.availableForSale, false);
   assert.equal(merged.quantityAvailable, 0);
-  assert.equal(merged.image, "/watch-approved.webp");
-  assert.deepEqual(merged.gallery, localProduct.gallery);
+  assert.equal(merged.image, "https://cdn.shopify.com/newly-uploaded-watch.jpg");
+  assert.equal(merged.gallery[0].url, "https://cdn.shopify.com/newly-uploaded-watch.jpg");
   assert.equal(merged._shopifyLiveSynced, true);
 });
 

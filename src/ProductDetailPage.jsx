@@ -30,20 +30,29 @@ export function ProductDetailPage({
     // Compliance labels that must never appear in the specs table
     const COMPLIANCE_LABELS = /^(model|model number|reference|price|price \(mrp\)|country of origin|manufacturer|importer|packer|importer \/ packer|care instructions|warrantydetails)$/i;
 
+    const rows = [];
+    const seenLabels = new Set();
+
     if (Array.isArray(product.shopifySpecificationRows) && product.shopifySpecificationRows.length > 0) {
-      return product.shopifySpecificationRows.filter(({ label }) =>
-        !COMPLIANCE_LABELS.test(String(label).trim())
-      );
+      for (const { label, value } of product.shopifySpecificationRows) {
+        if (!label || !value) continue;
+        const cleanL = String(label).trim();
+        if (COMPLIANCE_LABELS.test(cleanL)) continue;
+        const lowerL = cleanL.toLowerCase();
+        if (seenLabels.has(lowerL)) continue;
+        seenLabels.add(lowerL);
+        rows.push({ label: cleanL, value: String(value).trim() });
+      }
     }
 
     const specs = product.specs || {};
-    return [
+    const standardSpecs = [
       ["Movement", specs.movement],
       ["Frequency", specs.frequency],
       ["Power Reserve", specs.powerReserve],
       ["Power Reserve System", specs.powerReserveSystem],
       ["Jewels", specs.jewels],
-      ["Case Size", specs.caseDimensions],
+      ["Case Size", specs.caseDimensions || specs.caseDiameter],
       ["Case Material", specs.caseMaterial],
       ["Bezel", specs.bezel],
       ["Glass", specs.glass],
@@ -58,16 +67,25 @@ export function ProductDetailPage({
       ["Lug-to-Lug", specs.lugToLug],
       ["Strap Width", specs.strapWidth],
       ["Strap Length", specs.strapLength],
-      ["Thickness", specs.thickness],
+      ["Thickness", specs.thickness || specs.caseThickness],
       ["Case Weight", specs.caseWeight],
       ["Winding", specs.winding],
       ["Date Display", specs.dateDisplay],
       ["Time Zone", specs.timeZone],
       ["Packaging", specs.packaging],
       ["Warranty", specs.warranty],
-    ]
-      .filter(([, value]) => value)
-      .map(([label, value]) => ({ label, value }));
+    ];
+
+    for (const [label, value] of standardSpecs) {
+      if (!value) continue;
+      const cleanL = String(label).trim();
+      const lowerL = cleanL.toLowerCase();
+      if (seenLabels.has(lowerL)) continue;
+      seenLabels.add(lowerL);
+      rows.push({ label: cleanL, value: String(value).trim() });
+    }
+
+    return rows;
   }, [product]);
 
   // All color options / editions for the same watch model
@@ -113,6 +131,13 @@ export function ProductDetailPage({
       });
     };
 
+    // Primary product images
+    if (Array.isArray(product.shopifyImages) && product.shopifyImages.length > 0) {
+      product.shopifyImages.forEach((imgUrl, idx) => {
+        pushImg(imgUrl, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Official boutique presentation of Reference ${product.sku}.`);
+      });
+    }
+
     if (Array.isArray(product.gallery) && product.gallery.length > 0) {
       product.gallery.forEach((g, idx) => {
         const u = typeof g === "string" ? g : g?.url;
@@ -142,13 +167,14 @@ export function ProductDetailPage({
   useEffect(() => {
     if (!product) return;
     forceScrollToTop();
-    setActiveImage(product.image);
+    const primaryImg = product.image || allImages[0]?.url;
+    setActiveImage(primaryImg);
     setIsNightMode(false);
     setIsZoomed(false);
     setShowInquiryForm(false);
     setInquirySent(false);
     setLightboxIndex(null);
-  }, [skuId, product]);
+  }, [skuId, product, allImages]);
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
@@ -744,7 +770,9 @@ export function ProductDetailPage({
               </div>
 
               {/* Summary Description Narrative */}
-              {product.summary && <p className="pdp-summary-text">{product.summary}</p>}
+              {(product.summary || product.description) && (
+                <p className="pdp-summary-text">{product.summary || product.description}</p>
+              )}
             </div>
           </div>
         </div>

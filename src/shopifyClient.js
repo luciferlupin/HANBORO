@@ -97,10 +97,13 @@ export async function createShopifyCart(items = [], options = {}) {
       const product = item?.product;
       if (!product) return item;
       const sku = String(product.sku || "").trim();
-      const handle = String(product.shopifyHandle || "").trim();
+      const handle = String(product.shopifyHandle || product.id || "").trim();
+      const sanitizedSku = sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      const sanitizedHandle = handle.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
       const live =
-        (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) : null) ||
-        (handle ? liveMap.get(handle.toLowerCase()) || liveMap.get(handle) : null) ||
+        (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) || liveMap.get(sanitizedSku) : null) ||
+        (handle ? liveMap.get(handle.toLowerCase()) || liveMap.get(handle) || liveMap.get(sanitizedHandle) : null) ||
+        (product.id ? liveMap.get(product.id.toLowerCase()) || liveMap.get(product.id) : null) ||
         (product.shopifyId ? liveMap.get(product.shopifyId) : null) ||
         (product.shopifyVariantId ? liveMap.get(product.shopifyVariantId) : null);
 
@@ -122,7 +125,7 @@ export async function createShopifyCart(items = [], options = {}) {
       const variantId =
         it.product.shopifyVariantId ||
         it.product.variantId ||
-        (it.product.id && String(it.product.id).startsWith("gid://")
+        (it.product.id && String(it.product.id).startsWith("gid://shopify/ProductVariant/")
           ? it.product.id
           : null);
 
@@ -394,11 +397,23 @@ const SHOPIFY_SPEC_KEY_ALIASES = {
   // Water pressure
   "water pressure": "waterResistance",
   "atm": "waterResistance",
+  // Compliance & Origin Aliases
+  "country of origin": "countryOfOrigin",
+  "origin": "countryOfOrigin",
+  "manufacturer": "manufacturer",
+  "importer / packer": "importer",
+  "importer": "importer",
+  "packer": "importer",
+  "generic name": "genericName",
+  "net quantity": "netQuantity",
+  "month and year of manufacture": "manufactureDate",
 };
 
 function decodeShopifyHtml(value = "") {
   return String(value)
-    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<\/li>/gi, "\n")
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/gi, " ")
     .replace(/&amp;/gi, "&")
@@ -406,15 +421,19 @@ function decodeShopifyHtml(value = "") {
     .replace(/&#39;|&apos;/gi, "'")
     .replace(/&lt;/gi, "<")
     .replace(/&gt;/gi, ">")
-    .replace(/\s+/g, " ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s+/g, "\n")
     .trim();
 }
 
 /**
- * Parse the Specifications list authored in Shopify's product description.
- * Supports two formats:
- *   1. <li><strong>Label:</strong> Value</li>  (preferred list format)
- *   2. <p><strong>Label:</strong> Value</p>      (paragraph format)
+ * Parse the Specifications list authored in Shopify's product description or metafields.
+ * Supports:
+ *   1. HTML Tables (<tr><td>Label</td><td>Value</td></tr>)
+ *   2. HTML Lists (<li><strong>Label:</strong> Value</li> or <li>Label: Value</li>)
+ *   3. HTML Paragraphs (<p><strong>Label:</strong> Value</p>)
+ *   4. Multi-line plain text (Label: Value per line)
+ *   5. Inline sentence format ("...Case Diameter: 40mm. Case Thickness: 9mm. Movement: Automatic.")
  * Shopify is authoritative for these values; local specs remain a fallback.
  */
 export function parseShopifySpecifications(descriptionHtml = "") {
@@ -423,50 +442,86 @@ export function parseShopifySpecifications(descriptionHtml = "") {
   const seen = new Set();
 
   function processMatch(rawLabel, rawValue) {
-    const label = decodeShopifyHtml(rawLabel).replace(/:\s*$/, "").trim();
-    const value = decodeShopifyHtml(rawValue).replace(/^:\s*/, "").trim();
+    const label = decodeShopifyHtml(rawLabel).replace(/[\n\r]+/g, " ").replace(/:\s*$/, "").trim();
+    const value = decodeShopifyHtml(rawValue).replace(/[\n\r]+/g, " ").replace(/^:\s*/, "").replace(/[;,.\s]+$/, "").trim();
     if (!label || !value) return;
-    // Deduplicate by label (first occurrence wins)
-    if (seen.has(label.toLowerCase())) return;
-    seen.add(label.toLowerCase());
+    if (label.length > 50 || value.length > 300) return;
+    const lowerLabel = label.toLowerCase();
+    if (seen.has(lowerLabel)) return;
+    seen.add(lowerLabel);
     rows.push({ label, value });
-    const canonicalKey = SHOPIFY_SPEC_KEY_ALIASES[label.toLowerCase()];
+    const canonicalKey = SHOPIFY_SPEC_KEY_ALIASES[lowerLabel];
     if (canonicalKey) specs[canonicalKey] = value;
   }
 
-  // Format 1: <li><strong>Label:</strong> Value</li>
-  const listItemPattern = /<li\b[^>]*>([\s\S]*?)<\/li>/gi;
-  let match;
-  while ((match = listItemPattern.exec(descriptionHtml)) !== null) {
-    const strongMatch = match[1].match(/<strong\b[^>]*>([\s\S]*?)<\/strong>([\s\S]*)/i);
-    if (!strongMatch) continue;
-    processMatch(strongMatch[1], strongMatch[2]);
-  }
-
-  // Format 2: <p><strong>Label:</strong> Value</p> — only if list format found nothing
-  if (rows.length === 0) {
-    const paraPattern = /<p[^>]*>\s*<strong\b[^>]*>([\s\S]*?)<\/strong>([\s\S]*?)<\/p>/gi;
-    while ((match = paraPattern.exec(descriptionHtml)) !== null) {
-      processMatch(match[1], match[2]);
+  // Strategy 1: HTML Tables (<tr><td>Label</td><td>Value</td></tr>)
+  const tableRowPattern = /<tr\b[^>]*>([\s\S]*?)<\/tr>/gi;
+  let trMatch;
+  while ((trMatch = tableRowPattern.exec(descriptionHtml)) !== null) {
+    const cells = trMatch[1].match(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi);
+    if (cells && cells.length >= 2) {
+      const l = cells[0].replace(/<[^>]+>/g, "");
+      const v = cells[1].replace(/<[^>]+>/g, "");
+      processMatch(l, v);
     }
   }
 
-  // Format 3: Inline "Label: Value." sentences at end of plain-text paragraphs
-  // e.g. "...Case Diameter: 40mm. Case Thickness: 9mm. Movement: Automatic."
-  // Only activates if no structured specs were found above.
+  // Strategy 2: <li> tags: <li><strong>Label:</strong> Value</li> or <li>Label: Value</li>
+  const listItemPattern = /<li\b[^>]*>([\s\S]*?)<\/li>/gi;
+  let liMatch;
+  while ((liMatch = listItemPattern.exec(descriptionHtml)) !== null) {
+    const liContent = liMatch[1];
+    const strongMatch = liContent.match(/<strong\b[^>]*>([\s\S]*?)<\/strong>\s*:?\s*([\s\S]*)/i);
+    if (strongMatch) {
+      processMatch(strongMatch[1], strongMatch[2]);
+    } else {
+      const colonIdx = liContent.indexOf(":");
+      if (colonIdx > 0 && colonIdx < 40) {
+        processMatch(liContent.slice(0, colonIdx), liContent.slice(colonIdx + 1));
+      }
+    }
+  }
+
+  // Strategy 3: <p><strong>Label:</strong> Value</p>
+  if (rows.length === 0) {
+    const pPattern = /<p\b[^>]*>\s*<strong\b[^>]*>([\s\S]*?)<\/strong>\s*:?\s*([\s\S]*?)<\/p>/gi;
+    let pMatch;
+    while ((pMatch = pPattern.exec(descriptionHtml)) !== null) {
+      processMatch(pMatch[1], pMatch[2]);
+    }
+  }
+
+  // Strategy 4: Line-by-line in plain text (split by newlines/<br>/<p>)
+  if (rows.length === 0) {
+    const textWithNewlines = decodeShopifyHtml(descriptionHtml);
+    const lines = textWithNewlines.split(/\r?\n/);
+    for (const line of lines) {
+      const trimmed = line.trim();
+      const colonIdx = trimmed.indexOf(":");
+      if (colonIdx > 1 && colonIdx < 40) {
+        const potentialLabel = trimmed.slice(0, colonIdx).trim().toLowerCase();
+        if (SHOPIFY_SPEC_KEY_ALIASES[potentialLabel] || /^(case|strap|dial|glass|crystal|movement|calibre|caliber|water|jewels|frequency|power|warranty|clasp|bezel|thickness|crown|lume|weight|country|manufacturer|importer)/i.test(potentialLabel)) {
+          processMatch(trimmed.slice(0, colonIdx), trimmed.slice(colonIdx + 1));
+        }
+      }
+    }
+  }
+
+  // Strategy 5: Inline sentence format (e.g. "...Case Diameter: 40mm. Case Thickness: 9mm. Movement: Automatic.")
   if (rows.length === 0) {
     const plainText = decodeShopifyHtml(descriptionHtml);
-    // Find all "Word(s): Value." or "Word(s): Value," patterns
-    const knownLabels = Object.keys(SHOPIFY_SPEC_KEY_ALIASES);
-    // Build a pattern that matches "Known Label: value until next period/end"
-    const inlinePattern = /([A-Za-z][A-Za-z\s\-]{2,30}?):\s*([^.]+?)(?:\.|$)/g;
-    while ((match = inlinePattern.exec(plainText)) !== null) {
-      const label = match[1].trim();
-      const value = match[2].trim();
-      if (!label || !value || value.length > 200) continue;
-      // Only extract if label matches a known alias (to avoid false positives in prose)
-      if (knownLabels.includes(label.toLowerCase())) {
-        processMatch(label, value);
+    const segments = plainText.split(/[\r\n•;]+|[.](?=\s+[A-Z])/);
+    for (const seg of segments) {
+      const trimmed = seg.trim();
+      if (!trimmed) continue;
+      const colonIdx = trimmed.indexOf(":");
+      if (colonIdx > 1 && colonIdx < 40) {
+        const rawL = trimmed.slice(0, colonIdx).trim();
+        const rawV = trimmed.slice(colonIdx + 1).trim();
+        const lowerL = rawL.toLowerCase();
+        if (SHOPIFY_SPEC_KEY_ALIASES[lowerL] || /^(case|strap|dial|glass|crystal|movement|calibre|caliber|water|jewels|frequency|power|warranty|clasp|bezel|thickness|crown|lume|weight|country|manufacturer|importer)/i.test(lowerL)) {
+          processMatch(rawL, rawV);
+        }
       }
     }
   }
@@ -475,12 +530,46 @@ export function parseShopifySpecifications(descriptionHtml = "") {
 }
 
 /**
+ * Intelligent collection detector that requires ZERO tags in Shopify.
+ * Automatically scans Title, Product Type, Description, and Handle.
+ */
+export function detectShopifyCollection(item = {}) {
+  const text = [
+    item.shopifyTitle || item.title || item.name || "",
+    item.shopifyProductType || item.productType || "",
+    item.shopifyDescription || item.description || "",
+    item.shopifyHandle || item.handle || item.id || "",
+    ...(item.shopifyTags || item.tags || []),
+  ].join(" ").toLowerCase();
+
+  if (/tourbillon|complication|celestial|cosmos|astroworld|orbit/i.test(text)) {
+    return { collection: "TOURBILLON", collectionName: "Tourbillon & Complications" };
+  }
+  if (/roulette|casino/i.test(text)) {
+    return { collection: "ROULETTE", collectionName: "Casino & Roulette" };
+  }
+  if (/octagonal|royal octagonal|diamond octagonal/i.test(text)) {
+    return { collection: "OCTAGONAL", collectionName: "Royal Octagonal" };
+  }
+  if (/tonneau|skeleton|clover|carbonx|\bcarbon\b|fighter|sichuan|cantilever/i.test(text)) {
+    return { collection: "TONNEAU", collectionName: "Tonneau Skeleton" };
+  }
+  if (/\b(diver|chronograph|chrono|oceanic|seamaster|sport|200m)\b/i.test(text)) {
+    return { collection: "DIVER_SPORT", collectionName: "Diver & Sport Chrono" };
+  }
+  return {
+    collection: "CLASSIC",
+    collectionName: item.shopifyProductType || item.productType || "Classic & Moonphase"
+  };
+}
+
+/**
  * ── LIVE SHOPIFY DATA LAYER ──────────────────────────────────────────────────
- * Fetches live product copy, pricing, availability, inventory, identifiers,
- * and media metadata from Shopify in a single GraphQL query (250 max). The
- * storefront merge intentionally keeps the approved local product imagery.
+ * Fetches live product media, copy, pricing, availability, inventory, and
+ * identifiers from Shopify in a single GraphQL query (250 max).
  *
- * Returns a Map keyed by Shopify handle, product ID, variant ID, and SKU.
+ * Shopify is the single authoritative source for images, specs, and details.
+ * No tags are required in Shopify.
  */
 export async function fetchLiveShopifyData() {
   const query = `{
@@ -495,6 +584,12 @@ export async function fetchLiveShopifyData() {
           vendor
           productType
           tags
+          featuredImage {
+            url
+            altText
+            width
+            height
+          }
           variants(first: 10) {
             edges {
               node {
@@ -505,14 +600,20 @@ export async function fetchLiveShopifyData() {
                 compareAtPrice { amount currencyCode }
                 availableForSale
                 quantityAvailable
+                image {
+                  url
+                  altText
+                }
               }
             }
           }
-          images(first: 5) {
+          images(first: 15) {
             edges {
               node {
                 url
                 altText
+                width
+                height
               }
             }
           }
@@ -530,9 +631,13 @@ export async function fetchLiveShopifyData() {
       if (!primaryVariant) continue;
 
       const liveImages = (node.images?.edges || []).map(img => img.node.url).filter(Boolean);
-      const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || "");
+      const featuredImageUrl = node.featuredImage?.url || primaryVariant.image?.url || liveImages[0] || "";
+      const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || node.description || "");
+      
+      // Extract model number from description specs, or derive from SKU / title without requiring tags
       const modelTag = (node.tags || []).find((tag) => /^model[-:\s]/i.test(tag));
       const shopifyModelNumber = parsedSpecifications.specs.modelNumber || modelTag?.replace(/^model[-:\s]*/i, "").trim() || "";
+      
       const baseInfo = {
         shopifyId: node.id,
         shopifyHandle: node.handle,
@@ -551,17 +656,22 @@ export async function fetchLiveShopifyData() {
         availableForSale: primaryVariant.availableForSale ?? true,
         quantityAvailable: primaryVariant.quantityAvailable ?? null,
         shopifyVariantId: primaryVariant.id,
-        shopifyImages: liveImages,
+        shopifyFeaturedImage: featuredImageUrl,
+        shopifyImages: liveImages.length > 0 ? liveImages : (featuredImageUrl ? [featuredImageUrl] : []),
       };
 
-      // Key by handle (lowercase and exact) as well as Shopify product GID
-      liveMap.set(node.handle.toLowerCase(), baseInfo);
+      // Key by handle (lowercase, exact, sanitized) as well as Shopify product GID
+      const handleLower = node.handle.toLowerCase();
+      const handleSanitized = handleLower.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      liveMap.set(handleLower, baseInfo);
       liveMap.set(node.handle, baseInfo);
+      liveMap.set(handleSanitized, baseInfo);
       if (node.id) liveMap.set(node.id, baseInfo);
 
       // Key by every variant SKU and variant ID
       for (const vEdge of (node.variants?.edges || [])) {
         const v = vEdge.node;
+        const variantImageUrl = v?.image?.url || featuredImageUrl;
         const variantInfo = {
           ...baseInfo,
           shopifySku: v?.sku?.trim() || baseInfo.shopifySku,
@@ -570,12 +680,16 @@ export async function fetchLiveShopifyData() {
           shopifyComparePrice: v?.compareAtPrice?.amount ? Math.round(parseFloat(v.compareAtPrice.amount)) : baseInfo.shopifyComparePrice,
           availableForSale: v?.availableForSale ?? baseInfo.availableForSale,
           quantityAvailable: v?.quantityAvailable ?? baseInfo.quantityAvailable,
+          shopifyVariantImage: variantImageUrl,
         };
         if (v?.id) liveMap.set(v.id, variantInfo);
         if (v?.sku) {
-          const skuKey = v.sku.trim().toLowerCase();
+          const skuRaw = v.sku.trim();
+          const skuKey = skuRaw.toLowerCase();
+          const skuSanitized = skuKey.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
           liveMap.set(skuKey, variantInfo);
-          liveMap.set(v.sku.trim(), variantInfo);
+          liveMap.set(skuRaw, variantInfo);
+          liveMap.set(skuSanitized, variantInfo);
         }
       }
     }
@@ -594,11 +708,10 @@ export async function fetchLiveShopifyData() {
 }
 
 /**
- * Merge Shopify's live commerce fields into the editorial catalogue.
+ * Merge Shopify's live commerce fields, uploaded photography, and specifications
+ * into the catalog. Shopify is the single authoritative source of truth.
  *
- * Product photography deliberately remains local: the storefront's approved
- * imagery is curated in PRODUCTS_DATA, while Shopify is authoritative for
- * product copy, price, availability, inventory, and checkout identifiers.
+ * Whatever is edited or uploaded in Shopify Admin reflects accurately and exclusively.
  */
 export function mergeProductsWithShopifyData(localProducts = [], liveMap = new Map()) {
   const matchedShopifyProductIds = new Set();
@@ -611,11 +724,13 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
         .replace(/^-+|-+$/g, "");
     const sku = String(product.sku || "").trim();
     const id = String(product.id || "").trim();
+    const sanitizedSku = sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    const sanitizedId = id.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     const live =
       liveMap.get(handle.toLowerCase()) ||
       liveMap.get(handle) ||
-      (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) : null) ||
-      (id ? liveMap.get(id.toLowerCase()) || liveMap.get(id) : null) ||
+      (sku ? liveMap.get(sku.toLowerCase()) || liveMap.get(sku) || liveMap.get(sanitizedSku) : null) ||
+      (id ? liveMap.get(id.toLowerCase()) || liveMap.get(id) || liveMap.get(sanitizedId) : null) ||
       (product.shopifyId ? liveMap.get(product.shopifyId) : null) ||
       (product.shopifyVariantId ? liveMap.get(product.shopifyVariantId) : null);
 
@@ -628,6 +743,21 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       ? live.shopifyComparePrice
       : null;
 
+    // Use live Shopify uploaded images authoritatively
+    const primaryLiveImage = live.shopifyFeaturedImage || (live.shopifyImages?.length > 0 ? live.shopifyImages[0] : product.image);
+    const allLiveImages = live.shopifyImages?.length > 0 ? live.shopifyImages : (product.altImages || [primaryLiveImage]);
+    const liveGallery = live.shopifyImages?.length > 0
+      ? live.shopifyImages.map((imgUrl, i) => ({
+          url: imgUrl,
+          title: `${live.shopifyTitle || product.name} — Perspective 0${i + 1}`,
+          label: `0${i + 1} View`,
+          caption: `Official presentation of Reference ${live.shopifySku || product.sku}.`
+        }))
+      : product.gallery;
+
+    // Auto-detect collection without tags
+    const collectionInfo = detectShopifyCollection({ ...product, ...live });
+
     return [{
       ...product,
       name: live.shopifyTitle || product.name,
@@ -635,11 +765,19 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       sku: live.shopifySku || product.sku,
       modelNumber: live.shopifyModelNumber || product.modelNumber,
       description: live.shopifyDescription || product.description,
+      summary: live.shopifyDescription || product.summary || product.description,
+      subtitle: live.shopifyDescription || product.subtitle,
+      collection: product.collection || collectionInfo.collection,
+      collectionName: product.collectionName || collectionInfo.collectionName,
       specs: {
         ...(product.specs || {}),
         ...(live.shopifySpecifications || {}),
       },
       shopifySpecificationRows: live.shopifySpecificationRows || [],
+      image: primaryLiveImage,
+      transparentImage: primaryLiveImage,
+      altImages: allLiveImages,
+      gallery: liveGallery,
       price: livePrice !== null ? `₹${livePrice.toLocaleString("en-IN")}` : product.price,
       priceNumeric: livePrice ?? product.priceNumeric,
       mrp: liveComparePrice !== null
@@ -651,25 +789,11 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       shopifyId: live.shopifyId || product.shopifyId,
       shopifyVariantId: live.shopifyVariantId || product.shopifyVariantId,
       shopifyHandle: live.shopifyHandle || product.shopifyHandle || handle,
+      shopifyFeaturedImage: live.shopifyFeaturedImage || "",
+      shopifyImages: live.shopifyImages || [],
       _shopifyLiveSynced: true,
     }];
   });
-
-  const COLLECTION_TAG_MAP = {
-    "tourbillon": "TOURBILLON",
-    "skeleton": "TONNEAU",
-    "tonneau": "TONNEAU",
-    "roulette": "ROULETTE",
-    "casino": "ROULETTE",
-    "octagonal": "OCTAGONAL",
-    "royal octagonal": "OCTAGONAL",
-    "diver": "DIVER_SPORT",
-    "chronograph": "DIVER_SPORT",
-    "sport": "DIVER_SPORT",
-    "classic": "CLASSIC",
-    "moonphase": "CLASSIC",
-    "moon phase": "CLASSIC",
-  };
 
   const shopifyOnlyProducts = (liveMap.shopifyProducts || [])
     .filter((live) => live?.shopifyId && !matchedShopifyProductIds.has(live.shopifyId))
@@ -678,36 +802,15 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       const livePrice = Number.isFinite(live.shopifyPrice) ? live.shopifyPrice : 0;
       const liveComparePrice = Number.isFinite(live.shopifyComparePrice) ? live.shopifyComparePrice : null;
 
-      // Smart collection detection: scan tags and productType for known collection identifiers
-      const allTagsLower = [
-        ...(live.shopifyTags || []),
-        live.shopifyProductType || "",
-        live.shopifyTitle || "",
-      ].map(s => s.toLowerCase());
-      let collection = "CLASSIC";
-      let collectionName = live.shopifyProductType || "Classic & Moonphase";
-      for (const [keyword, collId] of Object.entries(COLLECTION_TAG_MAP)) {
-        if (allTagsLower.some(t => t.includes(keyword))) {
-          collection = collId;
-          // Human-readable collection name
-          collectionName = {
-            TOURBILLON: "Tourbillon & Complications",
-            TONNEAU: "Tonneau Skeleton",
-            ROULETTE: "Casino & Roulette",
-            OCTAGONAL: "Royal Octagonal",
-            DIVER_SPORT: "Diver & Sport Chrono",
-            CLASSIC: "Classic & Moonphase",
-          }[collId] || live.shopifyProductType || "HANBORO Collection";
-          break;
-        }
-      }
-      if (live.shopifyProductType && collection === "CLASSIC") {
-        collectionName = live.shopifyProductType;
-      }
+      // Smart collection detection without tags
+      const collectionInfo = detectShopifyCollection(live);
 
-      // Pick the most informative tag for the product tag badge (skip generic ones)
+      // Pick the most informative tag for the badge if tags exist, else fallback to brand
       const genericTags = new Set(["automatic", "hanboro", "luxury watches", "skeleton"]);
       const productTag = (live.shopifyTags || []).find(t => !genericTags.has(t.toLowerCase())) || "HANBORO";
+
+      const primaryLiveImage = live.shopifyFeaturedImage || live.shopifyImages?.[0] || "/watch-architectural-skeleton-black-front-transparent.webp";
+      const allLiveImages = live.shopifyImages?.length > 0 ? live.shopifyImages : [primaryLiveImage];
 
       return {
         id: live.shopifyHandle || live.shopifyId,
@@ -718,13 +821,18 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
         subtitle: live.shopifyDescription || "",
         summary: live.shopifyDescription || "",
         description: live.shopifyDescription || "",
-        collection,
-        collectionName,
+        collection: collectionInfo.collection,
+        collectionName: collectionInfo.collectionName,
         tag: productTag,
-        image: "/watch-architectural-skeleton-black-front-transparent.webp",
-        transparentImage: "/watch-architectural-skeleton-black-front-transparent.webp",
-        altImages: ["/watch-architectural-skeleton-black-front-transparent.webp"],
-        gallery: [],
+        image: primaryLiveImage,
+        transparentImage: primaryLiveImage,
+        altImages: allLiveImages,
+        gallery: allLiveImages.map((imgUrl, i) => ({
+          url: imgUrl,
+          title: `${live.shopifyTitle || "HANBORO Timepiece"} — View 0${i + 1}`,
+          label: `0${i + 1} View`,
+          caption: `${live.shopifyTitle || "HANBORO Timepiece"} official boutique presentation.`
+        })),
         specs: { ...(live.shopifySpecifications || {}) },
         shopifySpecificationRows: live.shopifySpecificationRows || [],
         price: `₹${livePrice.toLocaleString("en-IN")}`,
@@ -738,6 +846,8 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
         shopifyId: live.shopifyId,
         shopifyVariantId: live.shopifyVariantId,
         shopifyHandle: live.shopifyHandle,
+        shopifyFeaturedImage: live.shopifyFeaturedImage,
+        shopifyImages: allLiveImages,
         catalogOrder: Number.MAX_SAFE_INTEGER - 1000 + index,
         _shopifyLiveSynced: true,
         _shopifyOnlyProduct: true,
