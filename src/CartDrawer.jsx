@@ -276,7 +276,7 @@ export function CartDrawer() {
                   await openCheckout();
                 } catch (err) {
                   console.warn("Shopify Cart redirect notice:", err);
-                  setPromoError("Shopify checkout is temporarily unavailable. Please try again.");
+                  setPromoError("Fast checkout is temporarily unavailable. Please try again.");
                 }
                 setIsCheckingOut(false);
               }}
@@ -303,17 +303,37 @@ export function CartDrawer() {
               }}
             >
               {isCheckingOut ? (
-                <span>Redirecting to Shopify Checkout...</span>
+                <span>Redirecting to Fastrr Checkout...</span>
               ) : (
                 <>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                   </svg>
-                  <span>Proceed to Shopify Checkout</span>
+                  <span>Proceed to Fastrr Fast Checkout</span>
                 </>
               )}
             </button>
+
+            {/* Fastrr by Shiprocket Payment Trust Bar */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              padding: "6px 12px",
+              marginBottom: "10px",
+              borderRadius: "8px",
+              backgroundColor: "rgba(255, 255, 255, 0.04)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+              fontSize: "11px",
+              color: "rgba(255, 255, 255, 0.7)",
+              flexWrap: "wrap",
+              letterSpacing: "0.02em",
+            }}>
+              <span style={{ fontWeight: 600, color: "#fa2d1d" }}>⚡ Fastrr by Shiprocket:</span>
+              <span>UPI (GPay / PhonePe / Paytm) • Cards • COD • NetBanking</span>
+            </div>
 
             <a
               href={`https://wa.me/918882069334?text=${encodeURIComponent(
@@ -338,7 +358,7 @@ export function CartDrawer() {
 
             <p className="cart-secure-notice" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
               <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-              Connected to {shopifyService.config.domain} • 256-Bit Encrypted
+              Fast Secure Checkout • Shiprocket Fastrr & 256-Bit SSL
             </p>
           </div>
         )}

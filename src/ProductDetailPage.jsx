@@ -702,7 +702,7 @@ export function ProductDetailPage({
                     <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "12px", flexWrap: "wrap" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "11px", letterSpacing: "0.06em", color: "rgba(255,255,255,0.45)", textTransform: "uppercase" }}>
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981", display: "inline-block", flexShrink: 0 }} />
-                        <span>Shopify Secure Checkout • Express Dispatch</span>
+                        <span>Fastrr Fast Checkout • Express Dispatch</span>
                       </div>
                       {avail.isSoldOut ? (
                         <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#ef4444", background: "rgba(239,68,68,0.12)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "4px", padding: "2px 8px", textTransform: "uppercase" }}>Sold Out</span>

@@ -277,7 +277,7 @@ export function StoreProvider({ children }) {
   const buyNow = useCallback(async (product) => {
     if (!product) return;
     addToCart(product, 1, false);
-    showToast("Connecting to Shopify Checkout...");
+    showToast("Connecting to Shiprocket Fastrr Checkout...");
     try {
       const shopifyCart = await shopifyService.createShopifyCart([{ product, quantity: 1 }], {
         discountCodes: appliedPromo?.code ? [appliedPromo.code] : [],
@@ -288,8 +288,8 @@ export function StoreProvider({ children }) {
         return;
       }
     } catch (err) {
-      console.warn("Shopify checkout note:", err);
-      showToast("Shopify checkout is temporarily unavailable. Your bag is still here.");
+      console.warn("Fastrr checkout note:", err);
+      showToast("Fastrr checkout is temporarily unavailable. Your bag is still here.");
     }
     setIsCartOpen(true);
   }, [addToCart, appliedPromo, showToast]);
