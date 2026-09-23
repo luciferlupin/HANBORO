@@ -75,7 +75,7 @@ test("Customer account stays inside the headless storefront", () => {
   const accountCode = fs.readFileSync(path.join(srcDir, "AccountView.jsx"), "utf8");
   const shopifyCode = fs.readFileSync(path.join(srcDir, "shopifyClient.js"), "utf8");
 
-  assert.ok(storeContextCode.includes("buildCustomerAuthUrl(callbackUrl)"));
+  assert.ok(storeContextCode.includes('buildCustomerAuthUrl(redirectUri || "")'));
   assert.equal(storeContextCode.includes("window.location.href = shopifyService.getCustomerAccountUrl()"), false);
   assert.ok(appCode.includes('return { view: "account", selectedSkuId: null }'));
   assert.ok(appCode.includes('onShopNow={() => navigateTo("products", "#products")}'));
@@ -84,6 +84,11 @@ test("Customer account stays inside the headless storefront", () => {
   assert.ok(shopifyCode.includes("Authorization: token"), "Customer Account API must receive the raw OAuth access token");
   assert.equal(shopifyCode.includes("Authorization: `Bearer ${token}`"), false);
   assert.ok(shopifyCode.includes('params.set("id_token_hint", idToken)'), "Shopify logout must include the OIDC ID token hint");
+  assert.ok(shopifyCode.includes("!savedState || !state || savedState !== state"), "OAuth callback must reject missing or mismatched state");
+  assert.ok(shopifyCode.includes("!codeVerifier || !redirectUri"), "OAuth callback must require its original PKCE session");
+  assert.ok(shopifyCode.includes("VITE_SHOPIFY_AUTH_ENDPOINT"), "Customer OAuth endpoints must honor deployment configuration");
+  assert.ok(shopifyCode.includes("VITE_SHOPIFY_CUSTOMER_GRAPHQL_ENDPOINT"), "Customer GraphQL endpoint must honor deployment configuration");
+  assert.ok(shopifyCode.includes('protocol !== "https:"'), "Customer OAuth must reject unsupported HTTP callback URLs");
   assert.equal(shopifyCode.includes("/cart/${parts.join"), false, "Legacy Online Store cart permalinks must not exist");
   assert.equal(storeContextCode.includes("buildShopifyCheckoutUrl"), false, "Checkout errors must never fall back to the Online Store theme");
   assert.equal(storeContextCode.includes('window.location.href = "https://shopify.com/88860197048/account"'), false, "Sign-in errors must stay inside HANBORO");

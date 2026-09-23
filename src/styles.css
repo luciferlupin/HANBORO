@@ -16079,6 +16079,126 @@ body.modal-open {
   line-height: 1.55;
 }
 
+.contact-photo-upload {
+  position: relative;
+  min-height: 86px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px dashed rgba(255, 255, 255, 0.42);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.contact-photo-upload:hover,
+.contact-photo-upload:focus-within {
+  border-color: #ffffff;
+  background: rgba(0, 0, 0, 0.34);
+}
+
+.contact-photo-upload.has-photo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px;
+  border-style: solid;
+}
+
+.contact-photo-prompt {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.contact-photo-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.contact-photo-prompt strong,
+.contact-photo-prompt small {
+  display: block;
+}
+
+.contact-photo-prompt strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.contact-photo-prompt small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+}
+
+.contact-photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.contact-photo-preview {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  object-fit: cover;
+  background: #050505;
+}
+
+.contact-photo-meta {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.contact-photo-name {
+  width: 100%;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contact-photo-remove {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.contact-field-error {
+  margin: 0;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 650;
+}
+
 /* Solid Black Submit Button — Zero Gradient */
 .contact-submit-btn {
   background: #000000;

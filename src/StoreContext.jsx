@@ -303,8 +303,7 @@ export function StoreProvider({ children }) {
 
   const loginWithShopify = useCallback((redirectUri) => {
     setCustomerAuthError("");
-    const callbackUrl = redirectUri || (typeof window !== "undefined" ? `${window.location.origin}/` : "");
-    shopifyService.buildCustomerAuthUrl(callbackUrl).then((authUrl) => {
+    shopifyService.buildCustomerAuthUrl(redirectUri || "").then((authUrl) => {
       if (!authUrl) throw new Error("Shopify did not return an authorization URL.");
       window.location.href = authUrl;
     }).catch((err) => {

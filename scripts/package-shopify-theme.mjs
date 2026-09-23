@@ -292,6 +292,11 @@ if (fs.existsSync(ZIP_OUTPUT)) {
 // Create ZIP using native zip command with maximum compression
 execSync(`cd "${THEME_DIR}" && zip -r -9 -q "${ZIP_OUTPUT}" .`, { stdio: "inherit" });
 
+// Clean up intermediate uncompressed folder
+if (fs.existsSync(THEME_DIR)) {
+  fs.rmSync(THEME_DIR, { recursive: true, force: true });
+}
+
 const stats = fs.statSync(ZIP_OUTPUT);
 const sizeMb = (stats.size / (1024 * 1024)).toFixed(2);
 

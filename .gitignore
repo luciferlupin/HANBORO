@@ -24,3 +24,7 @@ npm-debug.log*
 # Cache
 .cache/
 .parcel-cache/
+
+# Theme exports & archives
+shopify-theme/
+*.zip

@@ -1,18 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
-const WATCH_OPTIONS = [
-  { label: "Casino Roulette 18K Rose Gold", photo: "/watch-casino-roulette-rosegold-wrist-angle.jpg" },
-  { label: "Astonia Skeleton Chronograph", photo: "/watch-architectural-skeleton-black-front-transparent.webp" },
-  { label: "Astroworld Celestial Moonphase", photo: "/watch-astroworld-moon-silver-racetrack.jpg" },
-  { label: "Mecha Cantilever Flying Tourbillon", photo: "/watch-mecha-cantilever-tourbillon-iceblue-wrist.webp" },
-  { label: "Volcano Glacier Compass Gold", photo: "/watch-volcano-glacier-compass-gold-macro-transparent.webp" },
-  { label: "Celestial Dragon Flying Tourbillon", photo: "/watch-celestial-dragon-tourbillon-rosegold-front-transparent.webp" },
-  { label: "Arctic Tonneau 10 ATM White", photo: "/watch-arctic-tonneau-10atm-white-front-transparent.webp" },
-  { label: "Cyber Cogwheel Skeleton Two-Tone", photo: "/watch-cyber-cogwheel-skeleton-twotone-front-transparent.webp" },
-  { label: "Clover King Imperial Emerald", photo: "/clover-king-night-glow.webp" },
-  { label: "Supercar Engine Block Titanium", photo: "/watch-supercar-engine-block-silver-driving.webp" },
-  { label: "Other HANBORO Timepiece", photo: "/watch-architectural-skeleton-black-front-transparent.webp" }
-];
+const MAX_REVIEW_PHOTO_BYTES = 5 * 1024 * 1024;
+const ALLOWED_REVIEW_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export function ContactSection() {
   const [activeTab, setActiveTab] = useState("review"); // 'review' | 'message'
@@ -20,12 +9,16 @@ export function ContactSection() {
   // Review form state
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
-  const [selectedWatch, setSelectedWatch] = useState(WATCH_OPTIONS[0].label);
+  const [watchName, setWatchName] = useState("");
+  const [reviewPhoto, setReviewPhoto] = useState("");
+  const [reviewPhotoName, setReviewPhotoName] = useState("");
+  const [reviewPhotoError, setReviewPhotoError] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [location, setLocation] = useState("");
   const [quote, setQuote] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
   const [reviewSuccess, setReviewSuccess] = useState(false);
+  const reviewPhotoInputRef = useRef(null);
 
   // Message form state
   const [msgName, setMsgName] = useState("");
@@ -36,22 +29,23 @@ export function ContactSection() {
 
   const handleSubmitReview = (e) => {
     e.preventDefault();
-    if (!authorName.trim() || !quote.trim()) return;
+    if (!authorName.trim() || !watchName.trim() || !quote.trim() || !reviewPhoto) {
+      if (!reviewPhoto) setReviewPhotoError("Please add a photo of your watch.");
+      return;
+    }
 
     setIsSubmittingReview(true);
-
-    const chosenOption = WATCH_OPTIONS.find((w) => w.label === selectedWatch) || WATCH_OPTIONS[0];
 
     const newReview = {
       id: `rev-${Date.now()}`,
       author: authorName.trim(),
-      location: location.trim() || "Verified Collector",
+      location: location.trim(),
       watchSku: "custom-review",
-      watchName: chosenOption.label,
-      photo: chosenOption.photo,
+      watchName: watchName.trim(),
+      photo: reviewPhoto,
       quote: quote.trim(),
       rating: rating,
-      isVerified: true,
+      isVerified: false,
       timestamp: new Date().toISOString()
     };
 
@@ -66,11 +60,52 @@ export function ContactSection() {
     }, 400);
   };
 
+  const handleReviewPhotoChange = (event) => {
+    const file = event.target.files?.[0];
+    setReviewPhotoError("");
+
+    if (!file) return;
+    if (!ALLOWED_REVIEW_PHOTO_TYPES.includes(file.type)) {
+      setReviewPhoto("");
+      setReviewPhotoName("");
+      setReviewPhotoError("Choose a JPG, PNG, or WebP image.");
+      event.target.value = "";
+      return;
+    }
+    if (file.size > MAX_REVIEW_PHOTO_BYTES) {
+      setReviewPhoto("");
+      setReviewPhotoName("");
+      setReviewPhotoError("The photo must be 5 MB or smaller.");
+      event.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setReviewPhoto(typeof reader.result === "string" ? reader.result : "");
+      setReviewPhotoName(file.name);
+    };
+    reader.onerror = () => {
+      setReviewPhotoError("We couldn't read that photo. Please choose another image.");
+      event.target.value = "";
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const clearReviewPhoto = () => {
+    setReviewPhoto("");
+    setReviewPhotoName("");
+    setReviewPhotoError("");
+    if (reviewPhotoInputRef.current) reviewPhotoInputRef.current.value = "";
+  };
+
   const handleResetReviewForm = () => {
     setAuthorName("");
     setLocation("");
+    setWatchName("");
     setQuote("");
     setRating(5);
+    clearReviewPhoto();
     setReviewSuccess(false);
   };
 
@@ -183,7 +218,7 @@ export function ContactSection() {
                       </div>
                       <h3 className="contact-success-title">Review Submitted</h3>
                       <p className="contact-success-desc">
-                        Thank you, <strong>{authorName || "Collector"}</strong>. Your review has been added to our customer reviews registry.
+                        Thank you, <strong>{authorName || "Collector"}</strong>. Your review is now shown in the customer reviews on this page.
                       </p>
                       <div className="contact-success-rating">
                         {Array.from({ length: rating }).map((_, i) => (
@@ -232,25 +267,64 @@ export function ContactSection() {
                         </div>
                       </div>
 
-                      {/* Watch Model Dropdown */}
+                      {/* Customer-entered watch name */}
                       <div className="contact-field-group">
-                        <label htmlFor="review-watch-select" className="contact-input-label">
-                          Timepiece
+                        <label htmlFor="review-watch-name" className="contact-input-label">
+                          Watch name *
                         </label>
-                        <div className="contact-select-wrap">
-                          <select
-                            id="review-watch-select"
-                            value={selectedWatch}
-                            onChange={(e) => setSelectedWatch(e.target.value)}
-                            className="contact-select-input"
-                          >
-                            {WATCH_OPTIONS.map((opt) => (
-                              <option key={opt.label} value={opt.label}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </select>
+                        <input
+                          id="review-watch-name"
+                          type="text"
+                          required
+                          maxLength={80}
+                          placeholder="e.g. Clover King Imperial Emerald"
+                          value={watchName}
+                          onChange={(e) => setWatchName(e.target.value)}
+                          className="contact-text-input"
+                        />
+                      </div>
+
+                      {/* Customer watch photo */}
+                      <div className="contact-field-group">
+                        <label htmlFor="review-photo" className="contact-input-label">
+                          Watch photo *
+                        </label>
+                        <div className={`contact-photo-upload ${reviewPhoto ? "has-photo" : ""}`}>
+                          {reviewPhoto ? (
+                            <>
+                              <img src={reviewPhoto} alt="Selected watch preview" className="contact-photo-preview" />
+                              <div className="contact-photo-meta">
+                                <span className="contact-photo-name">{reviewPhotoName}</span>
+                                <button type="button" className="contact-photo-remove" onClick={clearReviewPhoto}>
+                                  Remove photo
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <label htmlFor="review-photo" className="contact-photo-prompt">
+                              <span className="contact-photo-icon" aria-hidden="true">＋</span>
+                              <span>
+                                <strong>Add your watch photo</strong>
+                                <small>JPG, PNG or WebP · up to 5 MB</small>
+                              </span>
+                            </label>
+                          )}
+                          <input
+                            ref={reviewPhotoInputRef}
+                            id="review-photo"
+                            type="file"
+                            required={!reviewPhoto}
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={handleReviewPhotoChange}
+                            className="contact-photo-input"
+                            aria-describedby={reviewPhotoError ? "review-photo-error" : undefined}
+                          />
                         </div>
+                        {reviewPhotoError && (
+                          <p className="contact-field-error" id="review-photo-error" role="alert">
+                            {reviewPhotoError}
+                          </p>
+                        )}
                       </div>
 
                       {/* 2-Column Inputs: Name & Location */}
