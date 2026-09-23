@@ -28,7 +28,9 @@ async function getShiprocketToken(apiKey, secretKey) {
   });
 
   if (!res.ok) {
-    throw new Error(`Shiprocket auth failed: ${res.status}`);
+    const errorBody = await res.json().catch(() => ({}));
+    const msg = errorBody.message || (errorBody.errors ? JSON.stringify(errorBody.errors) : `HTTP ${res.status}`);
+    throw new Error(`Shiprocket auth failed (${res.status}): ${msg}`);
   }
 
   const data = await res.json();
@@ -44,7 +46,8 @@ async function getShiprocketToken(apiKey, secretKey) {
 
 export default async function handler(req, res) {
   // CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "https://www.hanborowatches.in");
+  const origin = req.headers.origin || "https://www.hanborowatches.in";
+  res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
