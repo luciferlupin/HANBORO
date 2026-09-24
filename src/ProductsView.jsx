@@ -33,6 +33,11 @@ function MaisonWatchModelCard({
   const { primaryWatch, variants, modelKey } = modelGroup;
   const isWishlisted = !!wishlist[primaryWatch.id];
   const pricing = getWatchPricing(primaryWatch, mrpDiscountConfig);
+  const shopifyVariantCount = Array.isArray(primaryWatch.shopifyVariants)
+    ? primaryWatch.shopifyVariants.length
+    : 0;
+  const availableChoiceCount = Math.max(variants.length, shopifyVariantCount);
+  const requiresChoice = availableChoiceCount > 1;
 
   return (
     <article
@@ -96,10 +101,10 @@ function MaisonWatchModelCard({
       <div className="maison-card-body">
         <div className="maison-card-eyebrow">
           <span className="card-sku-code">REF. {primaryWatch.sku}</span>
-          {variants.length > 1 && (
+          {requiresChoice && (
             <>
               <span className="card-dot">·</span>
-              <span className="card-editions-subtle">{variants.length} Colours Available</span>
+              <span className="card-editions-subtle">{availableChoiceCount} Options Available</span>
             </>
           )}
         </div>
@@ -129,22 +134,30 @@ function MaisonWatchModelCard({
             className="maison-card-action-btn maison-card-action-btn--bag"
             onClick={(e) => {
               e.stopPropagation();
-              addToCart(primaryWatch, 1, true);
+              if (requiresChoice) {
+                onSelectProduct(primaryWatch);
+              } else {
+                addToCart(primaryWatch, 1, true);
+              }
             }}
-            title="Add to Bag"
+            title={requiresChoice ? "Choose an option" : "Add to Bag"}
           >
-            <span>+ Bag</span>
+            <span>{requiresChoice ? "Choose" : "+ Bag"}</span>
           </button>
           <button
             type="button"
             className="maison-card-action-btn maison-card-action-btn--buy"
             onClick={(e) => {
               e.stopPropagation();
-              buyNow(primaryWatch);
+              if (requiresChoice) {
+                onSelectProduct(primaryWatch);
+              } else {
+                buyNow(primaryWatch);
+              }
             }}
-            title="Instant Buy Now"
+            title={requiresChoice ? "Choose an option before buying" : "Instant Buy Now"}
           >
-            <span>Buy Now ↗</span>
+            <span>{requiresChoice ? "View Options ↗" : "Buy Now ↗"}</span>
           </button>
         </div>
       </div>

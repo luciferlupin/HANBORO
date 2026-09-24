@@ -255,7 +255,7 @@ export async function fetchShopifyProducts(first = 80) {
             vendor
             productType
             tags
-            variants(first: 100) {
+            variants(first: 250) {
               edges {
                 node {
                   id
@@ -593,7 +593,7 @@ export async function fetchLiveShopifyData() {
             width
             height
           }
-          variants(first: 100) {
+          variants(first: 250) {
             edges {
               node {
                 id
