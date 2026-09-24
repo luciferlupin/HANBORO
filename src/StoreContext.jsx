@@ -29,6 +29,10 @@ function normalizeIdentifier(value) {
   return String(value || "").trim().toLowerCase();
 }
 
+function getCartLineId(product) {
+  return product?.shopifyVariantId || product?.variantId || product?.id;
+}
+
 const rouletteService = {
   // In-session privilege voucher validation — no local database storage
   async validateVoucher(code) {
@@ -226,9 +230,10 @@ export function StoreProvider({ children }) {
   const addToCart = useCallback((product, quantity = 1, openDrawer = true) => {
     if (!product) return;
     setCart((current) => {
-      const existing = current.find((item) => item.product.id === product.id);
+      const lineId = getCartLineId(product);
+      const existing = current.find((item) => getCartLineId(item.product) === lineId);
       if (existing) {
-        return current.map((item) => item.product.id === product.id
+        return current.map((item) => getCartLineId(item.product) === lineId
           ? { ...item, quantity: item.quantity + quantity }
           : item);
       }
@@ -239,13 +244,13 @@ export function StoreProvider({ children }) {
     if (openDrawer) setIsCartOpen(true);
   }, [showToast]);
 
-  const removeFromCart = useCallback((productId) => {
-    setCart((current) => current.filter((item) => item.product.id !== productId));
+  const removeFromCart = useCallback((lineId) => {
+    setCart((current) => current.filter((item) => getCartLineId(item.product) !== lineId));
   }, []);
 
-  const updateQuantity = useCallback((productId, delta) => {
+  const updateQuantity = useCallback((lineId, delta) => {
     setCart((current) => current.flatMap((item) => {
-      if (item.product.id !== productId) return [item];
+      if (getCartLineId(item.product) !== lineId) return [item];
       const quantity = item.quantity + delta;
       return quantity > 0 ? [{ ...item, quantity }] : [];
     }));

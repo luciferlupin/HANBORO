@@ -3,6 +3,7 @@ import { PRODUCTS_DATA, getWatchPricing, getWatchModelKey, getWatchVariantLabel 
 import { useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { metaPixelService } from "./metaPixel";
+import { applyShopifyVariant } from "./shopifyClient";
 
 export function ProductDetailPage({
   skuId,
@@ -19,9 +20,29 @@ export function ProductDetailPage({
     getProductAvailability,
   } = useStore();
 
-  const product = useMemo(() => {
+  const baseProduct = useMemo(() => {
     return getProductByIdOrSku(skuId) || (products && products.find((p) => p.id === skuId || p.sku === skuId)) || null;
   }, [skuId, getProductByIdOrSku, products]);
+
+  const shopifyVariants = useMemo(
+    () => Array.isArray(baseProduct?.shopifyVariants) ? baseProduct.shopifyVariants : [],
+    [baseProduct],
+  );
+  const [selectedShopifyVariantId, setSelectedShopifyVariantId] = useState(null);
+  const selectedShopifyVariant = useMemo(() => (
+    shopifyVariants.find((variant) => variant.id === selectedShopifyVariantId) ||
+    shopifyVariants.find((variant) => variant.id === baseProduct?.shopifyVariantId) ||
+    shopifyVariants[0] ||
+    null
+  ), [baseProduct?.shopifyVariantId, selectedShopifyVariantId, shopifyVariants]);
+  const product = useMemo(
+    () => applyShopifyVariant(baseProduct, selectedShopifyVariant),
+    [baseProduct, selectedShopifyVariant],
+  );
+
+  useEffect(() => {
+    setSelectedShopifyVariantId(null);
+  }, [skuId, baseProduct?.shopifyId]);
 
   const pricing = useMemo(() => getWatchPricing(product, mrpDiscountConfig), [product, mrpDiscountConfig]);
 
@@ -583,8 +604,53 @@ export function ProductDetailPage({
                 </div>
               </div>
 
-              {/* Colour / Edition Variants for this Model */}
-              {modelVariants.length > 1 && (
+              {/* True Shopify variants for this exact product */}
+              {shopifyVariants.length > 1 && (
+                <div className="pdp-editions-section" aria-label="Choose watch variant">
+                  <div className="pdp-editions-header">
+                    <span className="pdp-editions-title">
+                      {shopifyVariants[0]?.selectedOptions?.map((option) => option.name).join(" / ") || "Available Variants"} ({shopifyVariants.length})
+                    </span>
+                    <span className="pdp-editions-active-name">
+                      {selectedShopifyVariant?.selectedOptions?.map((option) => option.value).join(" / ") || selectedShopifyVariant?.title}
+                    </span>
+                  </div>
+                  <div className="pdp-editions-grid">
+                    {shopifyVariants.map((variant) => {
+                      const isSelected = variant.id === selectedShopifyVariant?.id;
+                      const label = variant.selectedOptions?.map((option) => option.value).join(" / ") || variant.title;
+                      const isOutOfStock = variant.availableForSale === false;
+                      return (
+                        <button
+                          key={variant.id}
+                          type="button"
+                          className={`pdp-edition-card ${isSelected ? "is-active" : ""} ${isOutOfStock ? "is-oos" : ""}`}
+                          onClick={() => setSelectedShopifyVariantId(variant.id)}
+                          aria-pressed={isSelected}
+                          title={`${label}${variant.sku ? ` — ${variant.sku}` : ""}`}
+                        >
+                          <div className="pdp-edition-thumb-wrap">
+                            <img src={variant.image || baseProduct.image} alt={label} className="pdp-edition-thumb" loading="lazy" />
+                            {isSelected && <span className="pdp-edition-check-badge">✓</span>}
+                          </div>
+                          <div className="pdp-edition-info">
+                            <span className="pdp-edition-name">{label}</span>
+                            <span className="pdp-edition-price">
+                              {Number.isFinite(variant.price) ? `₹${variant.price.toLocaleString("en-IN")}` : pricing.price}
+                            </span>
+                            <span className={`pdp-edition-stock ${isOutOfStock ? "is-oos" : ""}`}>
+                              {isOutOfStock ? "Sold out" : "Available"}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Separate catalogue editions retained for legacy one-variant products */}
+              {shopifyVariants.length <= 1 && modelVariants.length > 1 && (
                 <div className="pdp-editions-section">
                   <div className="pdp-editions-header">
                     <span className="pdp-editions-title">
@@ -702,22 +768,42 @@ export function ProductDetailPage({
                 <div className="pdp-buttons-row">
                   <button
                     type="button"
-                    className="pdp-whatsapp-btn"
-                    onClick={shareWhatsApp}
-                    title="Direct WhatsApp Consultation"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.51.08-1.16.12-3.76-.96-3.13-1.3-5.14-4.5-5.3-4.71-.16-.21-1.28-1.7-1.28-3.25 0-1.54.81-2.3 1.1-2.61.28-.31.62-.39.83-.39.21 0 .41 0 .59.01.19.01.44-.07.69.52.25.6.86 2.11.94 2.27.08.16.13.35.03.56-.11.21-.16.34-.32.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.84 1.39 1.8 2.25 1.24 1.11 2.28 1.45 2.6 1.61.32.16.51.14.7-.08.19-.22.82-.95 1.04-1.28.22-.33.44-.27.74-.16.3.11 1.91.9 2.24 1.06.33.16.55.24.63.38.08.14.08.82-.16 1.5z"/>
-                    </svg>
-                    <span>WhatsApp VIP</span>
-                  </button>
-
-                  <button
-                    type="button"
                     className="pdp-boutique-btn"
                     onClick={onNavigateToStores}
                   >
                     <span>Find in Boutique ↗</span>
+                  </button>
+                </div>
+
+                {/* VIP Video Consultation Banner */}
+                <div
+                  className="pdp-consultation-banner"
+                  onClick={shareWhatsApp}
+                  role="button"
+                  tabIndex={0}
+                  title="Book your video consultation on WhatsApp"
+                >
+                  <div className="pdp-consultation-left">
+                    <div className="pdp-consultation-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff">
+                        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.51.08-1.16.12-3.76-.96-3.13-1.3-5.14-4.5-5.3-4.71-.16-.21-1.28-1.7-1.28-3.25 0-1.54.81-2.3 1.1-2.61.28-.31.62-.39.83-.39.21 0 .41 0 .59.01.19.01.44-.07.69.52.25.6.86 2.11.94 2.27.08.16.13.35.03.56-.11.21-.16.34-.32.53-.16.19-.34.42-.48.56-.16.16-.33.33-.14.65.19.32.84 1.39 1.8 2.25 1.24 1.11 2.28 1.45 2.6 1.61.32.16.51.14.7-.08.19-.22.82-.95 1.04-1.28.22-.33.44-.27.74-.16.3.11 1.91.9 2.24 1.06.33.16.55.24.63.38.08.14.08.82-.16 1.5z"/>
+                      </svg>
+                    </div>
+                    <div className="pdp-consultation-text">
+                      <div className="pdp-consultation-title">Book your</div>
+                      <div className="pdp-consultation-desc">See this piece on a live call with a client advisor.</div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="pdp-consultation-action-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      shareWhatsApp();
+                    }}
+                  >
+                    <span>CLICK HERE</span>
+                    <span className="pdp-consultation-arrow">›</span>
                   </button>
                 </div>
 

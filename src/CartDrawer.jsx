@@ -119,7 +119,7 @@ export function CartDrawer() {
           ) : (
             <div className="cart-items-list">
               {cart.map(({ product, quantity }) => (
-                <div key={product.id} className="cart-item-card">
+                <div key={product.shopifyVariantId || product.variantId || product.id} className="cart-item-card">
                   <div className="cart-item-thumb">
                     <img src={product.image} alt={product.name} />
                   </div>
@@ -130,7 +130,7 @@ export function CartDrawer() {
                       <button
                         type="button"
                         className="cart-item-remove-btn"
-                        onClick={() => removeFromCart(product.id)}
+                        onClick={() => removeFromCart(product.shopifyVariantId || product.variantId || product.id)}
                         title="Remove timepiece"
                         aria-label={`Remove ${product.name}`}
                       >
@@ -139,6 +139,11 @@ export function CartDrawer() {
                     </div>
 
                     <h4 className="cart-item-name">{product.name}</h4>
+                    {Array.isArray(product.selectedOptions) && product.selectedOptions.length > 0 && (
+                      <p className="cart-item-variant">
+                        {product.selectedOptions.map((option) => `${option.name}: ${option.value}`).join(" • ")}
+                      </p>
+                    )}
                     <p className="cart-item-collection">
                       MODEL {product.modelNumber || product.specs?.modelNumber || "—"} • REF. {product.sku}
                     </p>
@@ -148,7 +153,7 @@ export function CartDrawer() {
                         <button
                           type="button"
                           className="qty-btn"
-                          onClick={() => updateQuantity(product.id, -1)}
+                          onClick={() => updateQuantity(product.shopifyVariantId || product.variantId || product.id, -1)}
                           aria-label="Decrease quantity"
                         >
                           −
@@ -157,7 +162,7 @@ export function CartDrawer() {
                         <button
                           type="button"
                           className="qty-btn"
-                          onClick={() => updateQuantity(product.id, 1)}
+                          onClick={() => updateQuantity(product.shopifyVariantId || product.variantId || product.id, 1)}
                           aria-label="Increase quantity"
                         >
                           +
@@ -341,8 +346,11 @@ export function CartDrawer() {
                   .map((item) => {
                     const pName = item.product?.name || "HANBORO Watch";
                     const pSku = item.product?.sku ? ` [REF: ${item.product.sku}]` : "";
+                    const pVariant = Array.isArray(item.product?.selectedOptions) && item.product.selectedOptions.length
+                      ? ` [${item.product.selectedOptions.map((option) => `${option.name}: ${option.value}`).join(", ")}]`
+                      : "";
                     const pPrice = parseInt(String(item.product?.price || 0).replace(/[^\d]/g, ""), 10) || 0;
-                    return `• ${pName}${pSku} (Qty: ${item.quantity}) - ₹${(pPrice * item.quantity).toLocaleString("en-IN")}`;
+                    return `• ${pName}${pVariant}${pSku} (Qty: ${item.quantity}) - ₹${(pPrice * item.quantity).toLocaleString("en-IN")}`;
                   })
                   .join("\n")}\n\nEstimated Total: ₹${finalTotalInr.toLocaleString("en-IN")}\n\nPlease assist with acquisition and priority courier.`
               )}`}

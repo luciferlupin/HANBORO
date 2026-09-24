@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mergeProductsWithShopifyData } from "../src/shopifyClient.js";
+import { applyShopifyVariant, mergeProductsWithShopifyData } from "../src/shopifyClient.js";
 
 test("Shopify product edits authoritatively update live images, title, description, and pricing", () => {
   const localProduct = {
@@ -44,4 +44,37 @@ test("Shopify product edits authoritatively update live images, title, descripti
 
 test("Shopify sync excludes products that are not published in the Storefront API", () => {
   assert.deepEqual(mergeProductsWithShopifyData([{ sku: "UNPUBLISHED" }], new Map()), []);
+});
+
+test("Shopify variant selection updates checkout identity, SKU, price, image, and availability", () => {
+  const product = {
+    id: "watch-1",
+    sku: "WATCH-SILVER",
+    shopifyVariantId: "gid://shopify/ProductVariant/1",
+    price: "₹54,999",
+    priceNumeric: 54999,
+    image: "https://cdn.shopify.com/silver.jpg",
+    shopifyImages: ["https://cdn.shopify.com/silver.jpg", "https://cdn.shopify.com/detail.jpg"],
+  };
+  const black = {
+    id: "gid://shopify/ProductVariant/2",
+    sku: "WATCH-BLACK",
+    title: "Black",
+    selectedOptions: [{ name: "Dial color", value: "Black" }],
+    price: 57999,
+    compareAtPrice: 62999,
+    availableForSale: false,
+    quantityAvailable: 0,
+    image: "https://cdn.shopify.com/black.jpg",
+  };
+
+  const selected = applyShopifyVariant(product, black);
+  assert.equal(selected.shopifyVariantId, black.id);
+  assert.equal(selected.sku, "WATCH-BLACK");
+  assert.equal(selected.price, "₹57,999");
+  assert.equal(selected.mrp, "₹62,999");
+  assert.equal(selected.image, black.image);
+  assert.equal(selected.shopifyImages[0], black.image);
+  assert.equal(selected.availableForSale, false);
+  assert.equal(selected.quantityAvailable, 0);
 });

@@ -148,7 +148,10 @@ export async function createShopifyCart(items = [], options = {}) {
       const p = it.product;
       const sku = p.sku ? ` [REF: ${p.sku}]` : "";
       const price = p.price || "";
-      return `Watch ${idx + 1}: ${p.name || "HANBORO Timepiece"}${sku} (${price}) × ${it.quantity || 1}`;
+      const selectedOptions = Array.isArray(p.selectedOptions) && p.selectedOptions.length
+        ? ` — ${p.selectedOptions.map((option) => `${option.name}: ${option.value}`).join(", ")}`
+        : "";
+      return `Watch ${idx + 1}: ${p.name || "HANBORO Timepiece"}${selectedOptions}${sku} (${price}) × ${it.quantity || 1}`;
     });
 
   const orderNote = options.note || itemNotes.join("\n");
@@ -156,7 +159,7 @@ export async function createShopifyCart(items = [], options = {}) {
   const attributes = [
     ...resolvedItems.slice(0, 10).map((it, idx) => ({
       key: `Watch_${idx + 1}`,
-      value: `${it.product?.name || "Watch"} (SKU: ${it.product?.sku || "N/A"}) Qty: ${it.quantity || 1}`,
+      value: `${it.product?.name || "Watch"}${Array.isArray(it.product?.selectedOptions) && it.product.selectedOptions.length ? ` — ${it.product.selectedOptions.map((option) => `${option.name}: ${option.value}`).join(", ")}` : ""} (SKU: ${it.product?.sku || "N/A"}) Qty: ${it.quantity || 1}`,
     })),
     ...(options.attributes || []),
   ];
@@ -252,7 +255,7 @@ export async function fetchShopifyProducts(first = 80) {
             vendor
             productType
             tags
-            variants(first: 10) {
+            variants(first: 100) {
               edges {
                 node {
                   id
@@ -590,12 +593,13 @@ export async function fetchLiveShopifyData() {
             width
             height
           }
-          variants(first: 10) {
+          variants(first: 100) {
             edges {
               node {
                 id
                 sku
                 title
+                selectedOptions { name value }
                 price { amount currencyCode }
                 compareAtPrice { amount currencyCode }
                 availableForSale
@@ -633,6 +637,18 @@ export async function fetchLiveShopifyData() {
       const liveImages = (node.images?.edges || []).map(img => img.node.url).filter(Boolean);
       const featuredImageUrl = node.featuredImage?.url || primaryVariant.image?.url || liveImages[0] || "";
       const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || node.description || "");
+      const shopifyVariants = (node.variants?.edges || []).map(({ node: variant }) => ({
+        id: variant.id,
+        title: variant.title || "",
+        sku: variant.sku?.trim() || "",
+        selectedOptions: Array.isArray(variant.selectedOptions) ? variant.selectedOptions : [],
+        price: variant.price?.amount ? Math.round(parseFloat(variant.price.amount)) : null,
+        compareAtPrice: variant.compareAtPrice?.amount ? Math.round(parseFloat(variant.compareAtPrice.amount)) : null,
+        availableForSale: variant.availableForSale ?? true,
+        quantityAvailable: variant.quantityAvailable ?? null,
+        image: variant.image?.url || "",
+        imageAlt: variant.image?.altText || "",
+      }));
       
       // Extract model number from description specs, or derive from SKU / title without requiring tags
       const modelTag = (node.tags || []).find((tag) => /^model[-:\s]/i.test(tag));
@@ -658,6 +674,7 @@ export async function fetchLiveShopifyData() {
         shopifyVariantId: primaryVariant.id,
         shopifyFeaturedImage: featuredImageUrl,
         shopifyImages: liveImages.length > 0 ? liveImages : (featuredImageUrl ? [featuredImageUrl] : []),
+        shopifyVariants,
       };
 
       // Key by handle (lowercase, exact, sanitized) as well as Shopify product GID
@@ -791,6 +808,7 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       shopifyHandle: live.shopifyHandle || product.shopifyHandle || handle,
       shopifyFeaturedImage: live.shopifyFeaturedImage || "",
       shopifyImages: live.shopifyImages || [],
+      shopifyVariants: live.shopifyVariants || [],
       _shopifyLiveSynced: true,
     }];
   });
@@ -848,6 +866,7 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
         shopifyHandle: live.shopifyHandle,
         shopifyFeaturedImage: live.shopifyFeaturedImage,
         shopifyImages: allLiveImages,
+        shopifyVariants: live.shopifyVariants || [],
         catalogOrder: Number.MAX_SAFE_INTEGER - 1000 + index,
         _shopifyLiveSynced: true,
         _shopifyOnlyProduct: true,
@@ -855,6 +874,37 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
     });
 
   return [...mergedLocalProducts, ...shopifyOnlyProducts];
+}
+
+export function applyShopifyVariant(product, variant) {
+  if (!product || !variant) return product;
+  const price = Number.isFinite(variant.price) ? variant.price : product.priceNumeric;
+  const compareAtPrice = Number.isFinite(variant.compareAtPrice) ? variant.compareAtPrice : null;
+  const variantImage = variant.image || product.shopifyFeaturedImage || product.image;
+  const productImages = Array.isArray(product.shopifyImages) ? product.shopifyImages : [];
+  const variantImages = variantImage
+    ? [variantImage, ...productImages.filter((url) => url !== variantImage)]
+    : productImages;
+
+  return {
+    ...product,
+    sku: variant.sku || product.sku,
+    shopifySku: variant.sku || product.shopifySku || product.sku,
+    shopifyVariantId: variant.id || product.shopifyVariantId,
+    selectedOptions: variant.selectedOptions || [],
+    selectedVariantTitle: variant.title || "",
+    price: Number.isFinite(price) ? `₹${price.toLocaleString("en-IN")}` : product.price,
+    priceNumeric: price,
+    mrp: Number.isFinite(compareAtPrice) ? `₹${compareAtPrice.toLocaleString("en-IN")}` : null,
+    mrpNumeric: compareAtPrice,
+    availableForSale: variant.availableForSale,
+    quantityAvailable: variant.quantityAvailable,
+    availability: variant.availableForSale === false ? "Out of Stock" : "In Stock",
+    image: variantImage,
+    transparentImage: variantImage,
+    shopifyVariantImage: variantImage,
+    shopifyImages: variantImages,
+  };
 }
 
 /**
