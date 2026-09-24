@@ -907,6 +907,16 @@ export function applyShopifyVariant(product, variant) {
   };
 }
 
+export function hasMeaningfulShopifyOptions(variants = []) {
+  return variants.some((variant) => (
+    Array.isArray(variant?.selectedOptions) && variant.selectedOptions.some((option) => {
+      const name = String(option?.name || "").trim().toLowerCase();
+      const value = String(option?.value || "").trim().toLowerCase();
+      return Boolean(name && value) && !(name === "title" && value === "default title");
+    })
+  ));
+}
+
 /**
  * ── SHOPIFY CUSTOMER ACCOUNT API (NEW CUSTOMER ACCOUNTS OAUTH) ─────────────
  */

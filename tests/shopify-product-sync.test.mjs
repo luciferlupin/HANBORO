@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { applyShopifyVariant, mergeProductsWithShopifyData } from "../src/shopifyClient.js";
+import { applyShopifyVariant, hasMeaningfulShopifyOptions, mergeProductsWithShopifyData } from "../src/shopifyClient.js";
 
 test("Shopify product edits authoritatively update live images, title, description, and pricing", () => {
   const localProduct = {
@@ -192,4 +192,16 @@ test("a newly published Shopify-only watch retains every variant without a local
   assert.equal(soldOutSelection.availableForSale, false);
   assert.equal(soldOutSelection.quantityAvailable, 0);
   assert.equal(soldOutSelection.image, variants[1].image);
+});
+
+test("a single real Shopify option is visible while Default Title remains hidden", () => {
+  assert.equal(hasMeaningfulShopifyOptions([{
+    id: "gid://shopify/ProductVariant/black",
+    selectedOptions: [{ name: "colour variant", value: "black" }],
+  }]), true);
+
+  assert.equal(hasMeaningfulShopifyOptions([{
+    id: "gid://shopify/ProductVariant/default",
+    selectedOptions: [{ name: "Title", value: "Default Title" }],
+  }]), false);
 });

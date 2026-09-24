@@ -3,7 +3,7 @@ import { PRODUCTS_DATA, getWatchPricing, getWatchModelKey, getWatchVariantLabel 
 import { useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { metaPixelService } from "./metaPixel";
-import { applyShopifyVariant } from "./shopifyClient";
+import { applyShopifyVariant, hasMeaningfulShopifyOptions } from "./shopifyClient";
 
 export function ProductDetailPage({
   skuId,
@@ -27,6 +27,10 @@ export function ProductDetailPage({
   const shopifyVariants = useMemo(
     () => Array.isArray(baseProduct?.shopifyVariants) ? baseProduct.shopifyVariants : [],
     [baseProduct],
+  );
+  const showsShopifyVariantOptions = useMemo(
+    () => hasMeaningfulShopifyOptions(shopifyVariants),
+    [shopifyVariants],
   );
   const [selectedShopifyVariantId, setSelectedShopifyVariantId] = useState(null);
   const selectedShopifyVariant = useMemo(() => (
@@ -605,7 +609,7 @@ export function ProductDetailPage({
               </div>
 
               {/* True Shopify variants for this exact product */}
-              {shopifyVariants.length > 1 && (
+              {showsShopifyVariantOptions && (
                 <div className="pdp-editions-section" aria-label="Choose watch variant">
                   <div className="pdp-editions-header">
                     <span className="pdp-editions-title">
@@ -650,7 +654,7 @@ export function ProductDetailPage({
               )}
 
               {/* Separate catalogue editions retained for legacy one-variant products */}
-              {shopifyVariants.length <= 1 && modelVariants.length > 1 && (
+              {!showsShopifyVariantOptions && modelVariants.length > 1 && (
                 <div className="pdp-editions-section">
                   <div className="pdp-editions-header">
                     <span className="pdp-editions-title">
