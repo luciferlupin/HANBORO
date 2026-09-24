@@ -42,6 +42,50 @@ test("Shopify product edits authoritatively update live images, title, descripti
   assert.equal(merged._shopifyLiveSynced, true);
 });
 
+test("old watches do not retain stale local detail fields after Shopify clears or changes them", () => {
+  const localProduct = {
+    id: "old-watch",
+    sku: "OLD-001",
+    name: "Old title",
+    modelNumber: "LOCAL-MODEL",
+    description: "Stale local description",
+    collection: "TOURBILLON",
+    collectionName: "Old collection",
+    tag: "OLD BADGE",
+    specs: { movement: "Old movement", waterResistance: "50M" },
+    mrp: "₹30,000",
+    mrpNumeric: 30000,
+  };
+  const liveMap = new Map([["old-001", {
+    shopifyId: "gid://shopify/Product/old",
+    shopifyVariantId: "gid://shopify/ProductVariant/old",
+    shopifyHandle: "classic-heritage",
+    shopifyTitle: "Classic Heritage",
+    shopifyDescription: "",
+    shopifyVendor: "HANBORO",
+    shopifyProductType: "Dress Watches",
+    shopifyTags: [],
+    shopifySku: "OLD-001",
+    shopifyModelNumber: "",
+    shopifyPrice: 25000,
+    shopifyComparePrice: null,
+    shopifySpecifications: {},
+    shopifySpecificationRows: [],
+    availableForSale: false,
+    quantityAvailable: 0,
+  }]]);
+
+  const [merged] = mergeProductsWithShopifyData([localProduct], liveMap);
+  assert.equal(merged.description, "");
+  assert.equal(merged.modelNumber, "");
+  assert.deepEqual(merged.specs, {});
+  assert.equal(merged.collection, "CLASSIC");
+  assert.equal(merged.collectionName, "Dress Watches");
+  assert.equal(merged.tag, "HANBORO");
+  assert.equal(merged.mrp, null);
+  assert.equal(merged.availability, "Out of Stock");
+});
+
 test("Shopify sync excludes products that are not published in the Storefront API", () => {
   assert.deepEqual(mergeProductsWithShopifyData([{ sku: "UNPUBLISHED" }], new Map()), []);
 });
@@ -77,6 +121,7 @@ test("Shopify variant selection updates checkout identity, SKU, price, image, an
   assert.equal(selected.shopifyImages[0], black.image);
   assert.equal(selected.availableForSale, false);
   assert.equal(selected.quantityAvailable, 0);
+  assert.equal(selected.availability, "Out of Stock");
 });
 
 test("old single-variant products and future multi-option variants use the same normalized shape", () => {

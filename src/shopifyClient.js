@@ -774,22 +774,24 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
 
     // Auto-detect collection without tags
     const collectionInfo = detectShopifyCollection({ ...product, ...live });
+    const genericTags = new Set(["automatic", "hanboro", "luxury watches", "skeleton"]);
+    const liveTag = (live.shopifyTags || []).find((tag) => !genericTags.has(String(tag).toLowerCase()))
+      || live.shopifyVendor
+      || "HANBORO";
 
     return [{
       ...product,
       name: live.shopifyTitle || product.name,
       title: live.shopifyTitle || product.title || product.name,
       sku: live.shopifySku || product.sku,
-      modelNumber: live.shopifyModelNumber || product.modelNumber,
-      description: live.shopifyDescription || product.description,
-      summary: live.shopifyDescription || product.summary || product.description,
-      subtitle: live.shopifyDescription || product.subtitle,
-      collection: product.collection || collectionInfo.collection,
-      collectionName: product.collectionName || collectionInfo.collectionName,
-      specs: {
-        ...(product.specs || {}),
-        ...(live.shopifySpecifications || {}),
-      },
+      modelNumber: live.shopifyModelNumber || live.shopifySpecifications?.modelNumber || "",
+      description: live.shopifyDescription || "",
+      summary: live.shopifyDescription || "",
+      subtitle: live.shopifyDescription || "",
+      collection: collectionInfo.collection,
+      collectionName: collectionInfo.collectionName,
+      tag: liveTag,
+      specs: { ...(live.shopifySpecifications || {}) },
       shopifySpecificationRows: live.shopifySpecificationRows || [],
       image: primaryLiveImage,
       transparentImage: primaryLiveImage,
@@ -799,8 +801,10 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       priceNumeric: livePrice ?? product.priceNumeric,
       mrp: liveComparePrice !== null
         ? `₹${liveComparePrice.toLocaleString("en-IN")}`
-        : product.mrp,
-      mrpNumeric: liveComparePrice ?? product.mrpNumeric,
+        : null,
+      mrpNumeric: liveComparePrice,
+      stock: live.quantityAvailable,
+      availability: live.availableForSale === false ? "Out of Stock" : "In Stock",
       availableForSale: live.availableForSale,
       quantityAvailable: live.quantityAvailable,
       shopifyId: live.shopifyId || product.shopifyId,
@@ -899,6 +903,7 @@ export function applyShopifyVariant(product, variant) {
     mrpNumeric: compareAtPrice,
     availableForSale: variant.availableForSale,
     quantityAvailable: variant.quantityAvailable,
+    stock: variant.quantityAvailable,
     availability: variant.availableForSale === false ? "Out of Stock" : "In Stock",
     image: variantImage,
     transparentImage: variantImage,

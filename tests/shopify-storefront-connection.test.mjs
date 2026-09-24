@@ -52,7 +52,7 @@ test("Shopify specifications: parses live product-description rows into storefro
   assert.deepEqual(parsed.rows[3], { label: "Case Diameter", value: "41mm" });
 });
 
-test("Shopify specifications: live values override local product specs", () => {
+test("Shopify specifications: live values replace local product specs", () => {
   const liveMap = new Map([["watch-sku", {
     shopifyTitle: "Live Watch",
     shopifySpecifications: { powerReserve: "72 Hours", waterResistance: "100M" },
@@ -71,7 +71,7 @@ test("Shopify specifications: live values override local product specs", () => {
 
   assert.equal(merged.specs.powerReserve, "72 Hours");
   assert.equal(merged.specs.waterResistance, "100M");
-  assert.equal(merged.specs.movement, "Automatic");
+  assert.equal(merged.specs.movement, undefined);
   assert.deepEqual(merged.shopifySpecificationRows, liveMap.get("watch-sku").shopifySpecificationRows);
 });
 
