@@ -94,6 +94,8 @@ export function StoreProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFastrrCheckoutOpen, setIsFastrrCheckoutOpen] = useState(false);
+  const [fastrrCheckoutItems, setFastrrCheckoutItems] = useState([]);
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
@@ -261,45 +263,23 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
-  const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
+  const proceedToShopifyCheckout = useCallback((itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
     if (!target || target.length === 0) return;
-    try {
-      const sc = await shopifyService.createShopifyCart(target, {
-        discountCodes: appliedPromo?.code ? [appliedPromo.code] : [],
-        requireApplicableDiscount: Boolean(appliedPromo?.code),
-      });
-      if (sc?.checkoutUrl) {
-        window.location.href = sc.checkoutUrl;
-        return;
-      }
-    } catch (e) {
-      console.warn("proceedToShopifyCheckout note:", e);
-      throw e;
-    }
-  }, [appliedPromo, cart]);
+    setFastrrCheckoutItems(target);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, [cart]);
 
-  const buyNow = useCallback(async (product) => {
+  const buyNow = useCallback((product, quantity = 1) => {
     if (!product) return;
-    addToCart(product, 1, false);
-    showToast("Connecting to Shiprocket Fastrr Checkout...");
-    try {
-      const shopifyCart = await shopifyService.createShopifyCart([{ product, quantity: 1 }], {
-        discountCodes: appliedPromo?.code ? [appliedPromo.code] : [],
-        requireApplicableDiscount: Boolean(appliedPromo?.code),
-      });
-      if (shopifyCart?.checkoutUrl) {
-        window.location.href = shopifyCart.checkoutUrl;
-        return;
-      }
-    } catch (err) {
-      console.warn("Fastrr checkout note:", err);
-      showToast("Fastrr checkout is temporarily unavailable. Your bag is still here.");
-    }
-    setIsCartOpen(true);
-  }, [addToCart, appliedPromo, showToast]);
+    const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
+    setFastrrCheckoutItems([{ product, quantity: qty }]);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, []);
 
-  const openCheckout = useCallback(async (directItem = null) => {
+  const openCheckout = useCallback((directItem = null) => {
     if (directItem) {
       return buyNow(directItem);
     }
@@ -409,6 +389,10 @@ export function StoreProvider({ children }) {
     cartCount,
     isCartOpen,
     setIsCartOpen,
+    isFastrrCheckoutOpen,
+    setIsFastrrCheckoutOpen,
+    fastrrCheckoutItems,
+    setFastrrCheckoutItems,
     addToCart,
     removeFromCart,
     updateQuantity,
@@ -424,6 +408,7 @@ export function StoreProvider({ children }) {
     removePromoCode,
     buyNow,
     openCheckout,
+    openFastrrCheckout: proceedToShopifyCheckout,
     proceedToShopifyCheckout,
     isShopifyConnected,
     isShopifySynced,

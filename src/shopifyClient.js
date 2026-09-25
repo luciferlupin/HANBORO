@@ -261,6 +261,10 @@ export async function fetchShopifyProducts(first = 80) {
                   id
                   title
                   sku
+                  selectedOptions {
+                    name
+                    value
+                  }
                   price {
                     amount
                     currencyCode
@@ -271,10 +275,14 @@ export async function fetchShopifyProducts(first = 80) {
                   }
                   availableForSale
                   quantityAvailable
+                  image {
+                    url
+                    altText
+                  }
                 }
               }
             }
-            images(first: 5) {
+            images(first: 50) {
               edges {
                 node {
                   url
@@ -611,7 +619,7 @@ export async function fetchLiveShopifyData() {
               }
             }
           }
-          images(first: 15) {
+          images(first: 50) {
             edges {
               node {
                 url
@@ -634,7 +642,13 @@ export async function fetchLiveShopifyData() {
       const primaryVariant = node.variants?.edges?.[0]?.node;
       if (!primaryVariant) continue;
 
-      const liveImages = (node.images?.edges || []).map(img => img.node.url).filter(Boolean);
+      const liveImageObjects = (node.images?.edges || [])
+        .map((img) => ({
+          url: img.node.url,
+          altText: img.node.altText || "",
+        }))
+        .filter((img) => Boolean(img.url));
+      const liveImages = liveImageObjects.map((img) => img.url);
       const featuredImageUrl = node.featuredImage?.url || primaryVariant.image?.url || liveImages[0] || "";
       const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || node.description || "");
       const shopifyVariants = (node.variants?.edges || []).map(({ node: variant }) => ({
@@ -674,6 +688,7 @@ export async function fetchLiveShopifyData() {
         shopifyVariantId: primaryVariant.id,
         shopifyFeaturedImage: featuredImageUrl,
         shopifyImages: liveImages.length > 0 ? liveImages : (featuredImageUrl ? [featuredImageUrl] : []),
+        shopifyMedia: liveImageObjects,
         shopifyVariants,
       };
 
@@ -812,6 +827,7 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
       shopifyHandle: live.shopifyHandle || product.shopifyHandle || handle,
       shopifyFeaturedImage: live.shopifyFeaturedImage || "",
       shopifyImages: live.shopifyImages || [],
+      shopifyMedia: live.shopifyMedia || [],
       shopifyVariants: live.shopifyVariants || [],
       _shopifyLiveSynced: true,
     }];
@@ -870,6 +886,7 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
         shopifyHandle: live.shopifyHandle,
         shopifyFeaturedImage: live.shopifyFeaturedImage,
         shopifyImages: allLiveImages,
+        shopifyMedia: live.shopifyMedia || [],
         shopifyVariants: live.shopifyVariants || [],
         catalogOrder: Number.MAX_SAFE_INTEGER - 1000 + index,
         _shopifyLiveSynced: true,
@@ -880,18 +897,253 @@ export function mergeProductsWithShopifyData(localProducts = [], liveMap = new M
   return [...mergedLocalProducts, ...shopifyOnlyProducts];
 }
 
-export function applyShopifyVariant(product, variant) {
+/**
+ * Filter images belonging strictly to a selected variant.
+ * 1. Variant's explicit image is first.
+ * 2. Additional images whose Alt Text or filename contains the variant title or option values are included.
+ * 3. Images belonging to or tagged for other variants are strictly excluded.
+ * 4. Non-conflicting generic detail images (e.g. movement, caseback, presentation box) can follow.
+ * 5. Supports unlimited photos per variant by setting the variant name in Shopify Media Alt Text or filename.
+ */
+export function filterImagesForVariant(product, variant, allProducts = []) {
+  if (!product) return [];
+  const allMedia = Array.isArray(product.shopifyMedia) && product.shopifyMedia.length > 0
+    ? product.shopifyMedia
+    : (Array.isArray(product.shopifyImages)
+      ? product.shopifyImages.map((u) => (typeof u === "string" ? { url: u, altText: "" } : u))
+      : []);
+
+  const fallbackSingleImage = variant?.image || product.shopifyFeaturedImage || product.image;
+  const allVariants = Array.isArray(product.shopifyVariants) ? product.shopifyVariants : [];
+
+  if (allVariants.length <= 1) {
+    const list = allMedia.map((m) => m?.url).filter(Boolean);
+    if (fallbackSingleImage && !list.includes(fallbackSingleImage)) {
+      return [fallbackSingleImage, ...list];
+    }
+    return list.length > 0 ? list : (fallbackSingleImage ? [fallbackSingleImage] : []);
+  }
+
+  const currentTokens = [
+    ...(variant?.selectedOptions || [])
+      .filter((o) => !/^(watch\s*display|display|model)$/i.test(o.name))
+      .map((o) => String(o.value || "")),
+    String(variant?.title || ""),
+    String(variant?.sku || ""),
+  ]
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => s && s !== "default title" && s !== "analog");
+
+  const otherVariants = allVariants.filter((v) => v.id !== variant?.id);
+  const otherVariantImageUrls = new Set(otherVariants.map((v) => v.image).filter(Boolean));
+  const otherTokens = otherVariants
+    .flatMap((v) => [
+      ...(v.selectedOptions || [])
+        .filter((o) => !/^(watch\s*display|display|model)$/i.test(o.name))
+        .map((o) => String(o.value || "")),
+      String(v.title || ""),
+      String(v.sku || ""),
+    ])
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => s && s !== "default title" && s !== "analog");
+
+  const GENERIC_DETAIL_REGEX = /(?:movement|calibre|caliber|mechanism|caseback|back-view|buckle|clasp|strap-detail|packaging|box|manual|warranty|lifestyle|wrist-size|crown)/i;
+  const COLOR_WORDS_REGEX = /(?:black|blue|silver|gold|green|white|red|orange|beige|grey|gray|rose|yellow|brown|emerald|crimson)/i;
+
+  // Check if variant.image is actually authentic to this variant or an auto-copied default:
+  let rawVariantImage = variant?.image;
+  let isSharedOrMismatchedImage = false;
+  if (rawVariantImage) {
+    const isSharedFeatured = rawVariantImage === product.shopifyFeaturedImage && (
+      otherVariants.some((o) => o.image === rawVariantImage) ||
+      (currentTokens.length > 0 && !currentTokens.some((tok) => rawVariantImage.toLowerCase().includes(tok)))
+    );
+    const hasColorConflict = otherTokens.some((tok) => tok && rawVariantImage.toLowerCase().includes(tok)) &&
+                             !currentTokens.some((tok) => tok && rawVariantImage.toLowerCase().includes(tok));
+    if (isSharedFeatured || hasColorConflict) {
+      isSharedOrMismatchedImage = true;
+    }
+  }
+
+  const variantImage = isSharedOrMismatchedImage ? null : rawVariantImage;
+
+  const matchingMedia = [];
+  const genericDetails = [];
+
+  for (const item of allMedia) {
+    const url = item?.url;
+    if (!url || typeof url !== "string" || url.endsWith(".mp4")) continue;
+
+    // 1. Direct variant image
+    if (variantImage && url === variantImage) {
+      if (!matchingMedia.includes(url)) matchingMedia.push(url);
+      continue;
+    }
+
+    // 2. Belongs explicitly to another variant
+    if (otherVariantImageUrls.has(url)) {
+      continue;
+    }
+
+    const alt = String(item.altText || "").toLowerCase();
+    const filename = url.split("?")[0].split("/").pop().toLowerCase();
+
+    const matchesCurrent = currentTokens.some((tok) => tok && (alt.includes(tok) || filename.includes(tok)));
+    const matchesOther = otherTokens.some((tok) => tok && (alt.includes(tok) || filename.includes(tok)));
+
+    if (matchesCurrent && !matchesOther) {
+      if (!matchingMedia.includes(url)) matchingMedia.push(url);
+    } else if (matchesOther) {
+      continue;
+    } else {
+      // Non-conflicting generic details (box, movement, caseback) without color references
+      const isGeneric = (GENERIC_DETAIL_REGEX.test(alt) || GENERIC_DETAIL_REGEX.test(filename)) &&
+                        !COLOR_WORDS_REGEX.test(alt) && !COLOR_WORDS_REGEX.test(filename);
+      if (isGeneric && !genericDetails.includes(url)) {
+        genericDetails.push(url);
+      }
+    }
+  }
+
+  if (variantImage && !matchingMedia.includes(variantImage)) {
+    matchingMedia.unshift(variantImage);
+  }
+
+  if (matchingMedia.length > 0) {
+    return [...matchingMedia, ...genericDetails];
+  }
+
+  // Check sibling products in allProducts / modelVariants for matching color
+  if (Array.isArray(allProducts) && allProducts.length > 0 && currentTokens.length > 0) {
+    const baseKey = resolveModelKey(product);
+    for (const tok of currentTokens) {
+      const sibling = allProducts.find((p) => {
+        if (p.id === product.id) return false;
+        if (baseKey && resolveModelKey(p) !== baseKey) return false;
+        const pTitle = String(p.shopifyTitle || p.title || p.name || "").toLowerCase();
+        const pHandle = String(p.shopifyHandle || p.handle || "").toLowerCase();
+        return pTitle.includes(tok) || pHandle.includes(tok);
+      });
+      if (sibling) {
+        const siblingImgs = Array.isArray(sibling.shopifyImages) && sibling.shopifyImages.length > 0
+          ? sibling.shopifyImages
+          : (sibling.image ? [sibling.image] : []);
+        if (siblingImgs.length > 0) {
+          return siblingImgs.filter((u) => u && !otherVariantImageUrls.has(u));
+        }
+      }
+    }
+  }
+
+  if (rawVariantImage) {
+    return [rawVariantImage, ...genericDetails];
+  }
+
+  const fallback = allMedia
+    .map((m) => m?.url)
+    .filter((u) => u && !otherVariantImageUrls.has(u));
+
+  return fallback.length > 0 ? fallback : (product.image ? [product.image] : []);
+}
+
+function resolveModelKey(watch) {
+  if (!watch) return "";
+  const explicit = String(watch.modelNumber || watch.specs?.modelNumber || "").trim();
+  if (
+    explicit &&
+    explicit !== "—" &&
+    explicit.toLowerCase() !== "automatic" &&
+    explicit.toLowerCase() !== "tourbillon" &&
+    explicit.toLowerCase() !== "luxury automatic watches"
+  ) {
+    return explicit.toUpperCase();
+  }
+  if (watch.sku) {
+    const parts = String(watch.sku).toUpperCase().split("-");
+    if (parts.length >= 2 && parts[0] === "HBR") {
+      if (parts.length >= 3 && /^\d+$/.test(parts[2])) {
+        return `${parts[1]}-${parts[2]}`;
+      }
+      return parts[1];
+    }
+  }
+  const text = (String(watch.name || watch.title || watch.shopifyTitle || "") + " " + String(watch.shopifyHandle || watch.handle || "")).toUpperCase();
+  const match = text.match(/(?:HANBORO|HBR)[-\s]+([0-9]{3,4}(?:-[0-9]+)?)/i);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return String(watch.id || watch.shopifyId || watch.sku || "").trim();
+}
+
+/**
+ * Returns a variant-specific display title (e.g. "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Silver Dial")
+ */
+export function getVariantDisplayName(baseProduct, variant, allProducts = []) {
+  const baseName = (typeof baseProduct === "string" ? baseProduct : (baseProduct?.name || baseProduct?.title || "")).trim();
+  if (!variant) return baseName;
+  const variantTitle = String(variant.title || "").trim();
+  if (!variantTitle || variantTitle.toLowerCase() === "default title") {
+    return baseName;
+  }
+
+  const options = Array.isArray(variant.selectedOptions) ? variant.selectedOptions : [];
+  const colorOption = options.find((o) => /^(dial\s*color|color|colour|edition|style)$/i.test(o.name))?.value ||
+                      options.find((o) => !/^(watch\s*display|display|size|model)$/i.test(o.name))?.value ||
+                      options[0]?.value ||
+                      variantTitle.split("/")[0].trim();
+
+  const variantLabel = (colorOption || variantTitle).trim();
+
+  // If a sibling product for the SAME model has this exact colorway title, use it
+  if (Array.isArray(allProducts) && allProducts.length > 0 && typeof baseProduct === "object") {
+    const modelKey = resolveModelKey(baseProduct);
+    const sibling = allProducts.find((p) => {
+      if (p.id === baseProduct.id) return false;
+      if (modelKey && resolveModelKey(p) !== modelKey) return false;
+      const pTitle = String(p.shopifyTitle || p.title || p.name || "").toLowerCase();
+      const pHandle = String(p.shopifyHandle || p.handle || "").toLowerCase();
+      const tok = variantLabel.toLowerCase();
+      return pTitle.includes(tok) || pHandle.includes(tok);
+    });
+
+    if (sibling && (sibling.shopifyTitle || sibling.title || sibling.name)) {
+      return sibling.shopifyTitle || sibling.title || sibling.name;
+    }
+  }
+
+  // Handle "– <Color> Dial" pattern
+  if (/[\u2013\u2014-]\s*[^–—\-]+(?:Dial|Edition)?$/i.test(baseName)) {
+    const hasDialWord = /Dial/i.test(baseName);
+    const suffix = hasDialWord && !/Dial/i.test(variantLabel)
+      ? `${variantLabel} Dial`
+      : variantLabel;
+    return baseName.replace(/[\u2013\u2014-]\s*[^–—\-]+$/i, `– ${suffix}`);
+  }
+
+  // Handle "(<Edition>)" pattern
+  if (/\([^)]+\)$/.test(baseName)) {
+    return baseName.replace(/\([^)]+\)$/, `(${variantLabel})`);
+  }
+
+  return `${baseName} – ${variantLabel}`;
+}
+
+export function applyShopifyVariant(product, variant, allProducts = []) {
   if (!product || !variant) return product;
   const price = Number.isFinite(variant.price) ? variant.price : product.priceNumeric;
   const compareAtPrice = Number.isFinite(variant.compareAtPrice) ? variant.compareAtPrice : null;
-  const variantImage = variant.image || product.shopifyFeaturedImage || product.image;
-  const productImages = Array.isArray(product.shopifyImages) ? product.shopifyImages : [];
-  const variantImages = variantImage
-    ? [variantImage, ...productImages.filter((url) => url !== variantImage)]
-    : productImages;
+  const variantImages = filterImagesForVariant(product, variant, allProducts);
+  const variantImage = (variantImages && variantImages.length > 0)
+    ? variantImages[0]
+    : (variant.image || product.shopifyFeaturedImage || product.image);
+
+  const updatedName = getVariantDisplayName(product.name || product.title, variant, allProducts);
+  const updatedTitle = getVariantDisplayName(product.title || product.name, variant, allProducts);
 
   return {
     ...product,
+    name: updatedName,
+    title: updatedTitle,
     sku: variant.sku || product.sku,
     shopifySku: variant.sku || product.shopifySku || product.sku,
     shopifyVariantId: variant.id || product.shopifyVariantId,

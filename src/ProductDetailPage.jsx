@@ -3,7 +3,7 @@ import { PRODUCTS_DATA, getWatchPricing, getWatchModelKey, getWatchVariantLabel 
 import { useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { metaPixelService } from "./metaPixel";
-import { applyShopifyVariant, hasMeaningfulShopifyOptions } from "./shopifyClient";
+import { applyShopifyVariant, hasMeaningfulShopifyOptions, filterImagesForVariant } from "./shopifyClient";
 
 export function ProductDetailPage({
   skuId,
@@ -24,6 +24,18 @@ export function ProductDetailPage({
     return getProductByIdOrSku(skuId) || (products && products.find((p) => p.id === skuId || p.sku === skuId)) || null;
   }, [skuId, getProductByIdOrSku, products]);
 
+  const allAvailableProducts = useMemo(() => (
+    Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA
+  ), [products]);
+
+  const modelVariants = useMemo(() => {
+    if (!baseProduct) return [];
+    const currentKey = getWatchModelKey(baseProduct);
+    if (!currentKey) return [baseProduct];
+    const matches = allAvailableProducts.filter((p) => getWatchModelKey(p) === currentKey);
+    return matches.length > 0 ? matches : [baseProduct];
+  }, [baseProduct, allAvailableProducts]);
+
   const shopifyVariants = useMemo(
     () => Array.isArray(baseProduct?.shopifyVariants) ? baseProduct.shopifyVariants : [],
     [baseProduct],
@@ -40,8 +52,8 @@ export function ProductDetailPage({
     null
   ), [baseProduct?.shopifyVariantId, selectedShopifyVariantId, shopifyVariants]);
   const product = useMemo(
-    () => applyShopifyVariant(baseProduct, selectedShopifyVariant),
-    [baseProduct, selectedShopifyVariant],
+    () => applyShopifyVariant(baseProduct, selectedShopifyVariant, modelVariants),
+    [baseProduct, selectedShopifyVariant, modelVariants],
   );
 
   useEffect(() => {
@@ -113,15 +125,6 @@ export function ProductDetailPage({
     return rows;
   }, [product]);
 
-  // All color options / editions for the same watch model
-  const modelVariants = useMemo(() => {
-    if (!product) return [];
-    const currentKey = getWatchModelKey(product);
-    if (!currentKey) return [product];
-    const all = Array.isArray(products) && products.length > 0 ? products : PRODUCTS_DATA;
-    const matches = all.filter((p) => getWatchModelKey(p) === currentKey);
-    return matches.length > 0 ? matches : [product];
-  }, [product, products]);
 
   const [buyQty, setBuyQty] = useState(1);
 
@@ -156,42 +159,66 @@ export function ProductDetailPage({
       });
     };
 
-    // Primary product images
+    // Images belonging explicitly to other variants are strictly forbidden from leaking here
+    const otherVariantImages = new Set(
+      (shopifyVariants || [])
+        .filter((v) => v.id !== selectedShopifyVariant?.id)
+        .map((v) => v.image)
+        .filter(Boolean)
+    );
+
+    // Primary variant images from live sync (already filtered by filterImagesForVariant)
     if (Array.isArray(product.shopifyImages) && product.shopifyImages.length > 0) {
       product.shopifyImages.forEach((imgUrl, idx) => {
-        pushImg(imgUrl, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Official boutique presentation of Reference ${product.sku}.`);
+        if (!otherVariantImages.has(imgUrl)) {
+          pushImg(imgUrl, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Official boutique presentation of Reference ${product.sku}.`);
+        }
       });
     }
 
-    if (Array.isArray(product.gallery) && product.gallery.length > 0) {
-      product.gallery.forEach((g, idx) => {
-        const u = typeof g === "string" ? g : g?.url;
-        pushImg(u, g?.title, g?.label || `0${idx + 1} View`, g?.caption);
-      });
+    // Only inspect baseProduct.gallery / altImages if we have NO shopifyImages or if this is a single-variant watch
+    if (shopifyVariants.length <= 1) {
+      if (Array.isArray(product.gallery) && product.gallery.length > 0) {
+        product.gallery.forEach((g, idx) => {
+          const u = typeof g === "string" ? g : g?.url;
+          if (!otherVariantImages.has(u)) {
+            pushImg(u, g?.title, g?.label || `0${idx + 1} View`, g?.caption);
+          }
+        });
+      }
+
+      if (Array.isArray(product.altImages)) {
+        product.altImages.forEach((img, idx) => {
+          const u = typeof img === "string" ? img : img?.url;
+          if (!otherVariantImages.has(u)) {
+            pushImg(u, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Horological craftsmanship inspection of Reference ${product.sku}.`);
+          }
+        });
+      }
     }
 
-    if (Array.isArray(product.altImages)) {
-      product.altImages.forEach((img, idx) => {
-        const u = typeof img === "string" ? img : img?.url;
-        pushImg(u, `${product.name} — Perspective 0${idx + 1}`, `0${idx + 1} View`, `Horological craftsmanship inspection of Reference ${product.sku}.`);
-      });
-    }
-
-    if (list.length === 0 && product.image && !product.image.endsWith(".mp4")) {
-      pushImg(product.image, `${product.name} — Front Dial View`, "01 Front View", `Official boutique presentation of ${product.name}.`);
+    if (product.image && !product.image.endsWith(".mp4") && !otherVariantImages.has(product.image)) {
+      if (!seen.has(product.image)) {
+        list.unshift({
+          url: product.image,
+          title: `${product.name} — Primary Perspective`,
+          label: "01 View",
+          caption: `Official boutique presentation of Reference ${product.sku}.`
+        });
+      }
     }
 
     return list;
-  }, [product]);
+  }, [product, shopifyVariants, selectedShopifyVariant]);
 
   // Instant scroll to top on SKU change
   useLayoutEffect(() => {
     forceScrollToTop();
   }, [skuId]);
 
+  // When variant changes, update activeImage without jumping scroll position
   useEffect(() => {
     if (!product) return;
-    forceScrollToTop();
     const primaryImg = product.image || allImages[0]?.url;
     setActiveImage(primaryImg);
     setIsNightMode(false);
@@ -199,7 +226,41 @@ export function ProductDetailPage({
     setShowInquiryForm(false);
     setInquirySent(false);
     setLightboxIndex(null);
-  }, [skuId, product, allImages]);
+  }, [product?.id, product?.shopifyVariantId, product?.image, product?.name, selectedShopifyVariant?.id]);
+
+  const getVariantThumbnail = (variant) => {
+    if (!variant) return baseProduct?.image;
+    // 1. If variant has an image and it's not a clone of another variant's image
+    if (variant.image) {
+      const otherImages = shopifyVariants
+        .filter((v) => v.id !== variant.id)
+        .map((v) => v.image)
+        .filter(Boolean);
+      if (!otherImages.includes(variant.image)) {
+        return variant.image;
+      }
+    }
+    // 2. Check if filterImagesForVariant returns a variant-specific image
+    const filtered = filterImagesForVariant(baseProduct, variant, modelVariants);
+    if (filtered && filtered.length > 0 && !filtered[0].endsWith(".mp4")) {
+      return filtered[0];
+    }
+    // 3. Sibling model variant matching
+    const variantTokens = [
+      ...(variant.selectedOptions || []).map((o) => o.value),
+      variant.title,
+    ].map((s) => String(s || "").trim().toLowerCase()).filter(Boolean);
+
+    for (const sibling of modelVariants) {
+      if (sibling.id === baseProduct?.id) continue;
+      const sibLabel = String(sibling.name || sibling.title || sibling.shopifyHandle || "").toLowerCase();
+      if (variantTokens.some((tok) => sibLabel.includes(tok))) {
+        if (sibling.image) return sibling.image;
+      }
+    }
+
+    return variant.image || baseProduct?.image;
+  };
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
@@ -634,7 +695,7 @@ export function ProductDetailPage({
                           title={`${label}${variant.sku ? ` — ${variant.sku}` : ""}`}
                         >
                           <div className="pdp-edition-thumb-wrap">
-                            <img src={variant.image || baseProduct.image} alt={label} className="pdp-edition-thumb" loading="lazy" />
+                            <img src={getVariantThumbnail(variant)} alt={label} className="pdp-edition-thumb" loading="lazy" />
                             {isSelected && <span className="pdp-edition-check-badge">✓</span>}
                           </div>
                           <div className="pdp-edition-info">
@@ -754,7 +815,7 @@ export function ProductDetailPage({
                         <button
                           type="button"
                           className="pdp-buy-now-btn"
-                          onClick={() => buyNow(product)}
+                          onClick={() => buyNow(product, buyQty)}
                           disabled={avail.isSoldOut}
                           style={avail.isSoldOut ? { opacity: 0.4, cursor: "not-allowed" } : {}}
                         >
@@ -1168,7 +1229,7 @@ export function ProductDetailPage({
           <button
             type="button"
             className="pdp-mobile-sticky-buy-btn"
-            onClick={() => buyNow(product)}
+            onClick={() => buyNow(product, buyQty)}
             aria-label="Buy timepiece now"
           >
             Buy Now

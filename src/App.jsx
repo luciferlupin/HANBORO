@@ -4,6 +4,7 @@ import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
 import { StoreProvider, useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { CartDrawer } from "./CartDrawer";
+import { FastrrCheckoutModal } from "./FastrrCheckoutModal";
 import { getHighResWatchImage } from "./productsData";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { MediaSection } from "./MediaSection";
@@ -253,6 +254,8 @@ function useSmoothScroll() {
             node.closest(".luxury-modal-backdrop") ||
             node.closest(".luxury-modal-card") ||
             node.closest(".checkout-modal-card") ||
+            node.closest(".fastrr-modal-container") ||
+            node.closest(".fastrr-modal-backdrop") ||
             node.closest(".apple-modal-overlay") ||
             node.closest(".apple-modal-box") ||
             node.closest(".compare-modal-overlay") ||
@@ -2737,7 +2740,7 @@ function FooterLiveClock() {
 
 
 function Website({ onRestart }) {
-  const { cartCount, setIsCartOpen, shopifyCustomer, customerAuthError, isCustomerAuthLoading, loginWithShopify, logoutFromShopify } = useStore();
+  const { cartCount, setIsCartOpen, openCheckout, shopifyCustomer, customerAuthError, isCustomerAuthLoading, loginWithShopify, logoutFromShopify } = useStore();
   const [visible, setVisible] = useState(true);
   const getRouteState = () => {
     if (typeof window === "undefined") return { view: "home", selectedSkuId: null };
@@ -2748,7 +2751,7 @@ function Website({ onRestart }) {
     const target = hash ? hash.replace(/^#/, "") : pathname;
 
     if (target.startsWith("admin")) return { view: "home", selectedSkuId: null };
-    if (target.startsWith("checkout")) return { view: "products", selectedSkuId: null };
+    if (target.startsWith("checkout")) return { view: "products", selectedSkuId: null, openCheckout: true };
     if (target.startsWith("profile") || target.startsWith("account") || target.startsWith("dossier")) {
       return { view: "account", selectedSkuId: null };
     }
@@ -2792,6 +2795,9 @@ function Website({ onRestart }) {
     if (initialRoute.openCart) {
       setIsCartOpen(true);
     }
+    if (initialRoute.openCheckout) {
+      openCheckout();
+    }
   }, []);
 
   useScrollReveal(visible, view, selectedSkuId);
@@ -2822,11 +2828,14 @@ function Website({ onRestart }) {
 
   useEffect(() => {
     const syncRoute = () => {
-      const { view: nextView, selectedSkuId: nextSkuId, openCart } = getRouteState();
+      const { view: nextView, selectedSkuId: nextSkuId, openCart, openCheckout: routeOpenCheckout } = getRouteState();
       setView(nextView);
       setSelectedSkuId(nextSkuId);
       if (openCart) {
         setIsCartOpen(true);
+      }
+      if (routeOpenCheckout) {
+        openCheckout();
       }
       if (nextView !== "home") {
         forceScrollToTop();
@@ -3308,6 +3317,7 @@ function Website({ onRestart }) {
 
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <CartDrawer />
+      <FastrrCheckoutModal onNavigateToTracking={(orderId) => navigateTo("tracking", `#track?orderId=${encodeURIComponent(orderId)}`)} />
     </main>
   );
 }

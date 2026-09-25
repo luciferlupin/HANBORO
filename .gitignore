@@ -28,3 +28,4 @@ npm-debug.log*
 # Theme exports & archives
 shopify-theme/
 *.zip
+outputs/

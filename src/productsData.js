@@ -10834,6 +10834,13 @@ export function getWatchModelKey(watch) {
     }
   }
 
+  // Derive from title or handle if SKU/modelNumber is not explicitly populated
+  const text = (String(watch.name || watch.title || "") + " " + String(watch.shopifyHandle || watch.handle || "")).toUpperCase();
+  const match = text.match(/(?:HANBORO|HBR)[-\s]+([0-9]{3,4}(?:-[0-9]+)?)/i);
+  if (match && match[1]) {
+    return match[1];
+  }
+
   return String(watch.id || watch.sku || "").trim();
 }
 

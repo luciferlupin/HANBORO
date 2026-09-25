@@ -70,3 +70,129 @@ test("Catalog grouping eliminates duplicate cards for multi-colour models", () =
     });
   });
 });
+
+test("Watch model key fallback groups Shopify-only watches with handle suffixes", () => {
+  const p1 = {
+    id: "gid://shopify/Product/10607946367160",
+    title: "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Blue Dial",
+    shopifyHandle: "hanboro-018-ultra-thin-micro-rotor-automatic-watch-blue-dial"
+  };
+  const p2 = {
+    id: "gid://shopify/Product/10608257794232",
+    title: "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Black Dial",
+    shopifyHandle: "hanboro-018-ultra-thin-micro-rotor-automatic-watch-black-dial"
+  };
+
+  assert.equal(getWatchModelKey(p1), "018");
+  assert.equal(getWatchModelKey(p2), "018");
+  assert.equal(getWatchModelKey(p1), getWatchModelKey(p2));
+});
+
+test("Variant image filtering: isolates variant photos and supports multiple photos via Alt Text", async () => {
+  const { filterImagesForVariant } = await import("../src/shopifyClient.js");
+
+  const product = {
+    id: "gid://shopify/Product/9999",
+    name: "HANBORO Multi-Variant Timepiece",
+    shopifyMedia: [
+      { url: "https://cdn.shopify.com/blue-main.png", altText: "Blue Dial Front View" },
+      { url: "https://cdn.shopify.com/blue-side.png", altText: "Blue Dial Side Profile" },
+      { url: "https://cdn.shopify.com/silver-main.png", altText: "Silver Dial Front View" },
+      { url: "https://cdn.shopify.com/silver-caseback.png", altText: "Silver Dial Exhibition Caseback" },
+      { url: "https://cdn.shopify.com/silver-wrist.png", altText: "Silver Dial On Wrist" },
+      { url: "https://cdn.shopify.com/black-main.png", altText: "Black Dial Front" },
+      { url: "https://cdn.shopify.com/packaging-box.png", altText: "Luxury Presentation Packaging Box" },
+    ],
+    shopifyVariants: [
+      {
+        id: "var_silver",
+        title: "Silver",
+        image: "https://cdn.shopify.com/silver-main.png",
+        selectedOptions: [{ name: "Dial color", value: "Silver" }],
+      },
+      {
+        id: "var_black",
+        title: "Black",
+        image: "https://cdn.shopify.com/black-main.png",
+        selectedOptions: [{ name: "Dial color", value: "Black" }],
+      },
+      {
+        id: "var_blue",
+        title: "Blue",
+        image: "https://cdn.shopify.com/blue-main.png",
+        selectedOptions: [{ name: "Dial color", value: "Blue" }],
+      },
+    ]
+  };
+
+  // Silver variant must receive all 3 silver photos + generic box, NEVER black or blue
+  const silverImages = filterImagesForVariant(product, product.shopifyVariants[0]);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/silver-main.png"), true);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/silver-caseback.png"), true);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/silver-wrist.png"), true);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/packaging-box.png"), true);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/black-main.png"), false);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/blue-main.png"), false);
+  assert.equal(silverImages.includes("https://cdn.shopify.com/blue-side.png"), false);
+
+  // Black variant must receive black-main + generic box, NEVER silver or blue
+  const blackImages = filterImagesForVariant(product, product.shopifyVariants[1]);
+  assert.equal(blackImages.includes("https://cdn.shopify.com/black-main.png"), true);
+  assert.equal(blackImages.includes("https://cdn.shopify.com/silver-main.png"), false);
+  assert.equal(blackImages.includes("https://cdn.shopify.com/silver-caseback.png"), false);
+  assert.equal(blackImages.includes("https://cdn.shopify.com/blue-main.png"), false);
+
+  // Blue variant must receive blue-main and blue-side + box, NEVER silver or black
+  const blueImages = filterImagesForVariant(product, product.shopifyVariants[2]);
+  assert.equal(blueImages.includes("https://cdn.shopify.com/blue-main.png"), true);
+  assert.equal(blueImages.includes("https://cdn.shopify.com/blue-side.png"), true);
+  assert.equal(blueImages.includes("https://cdn.shopify.com/silver-main.png"), false);
+  assert.equal(blueImages.includes("https://cdn.shopify.com/black-main.png"), false);
+});
+
+test("Variant selection updates timepiece name, title, and image dynamically", async () => {
+  const { applyShopifyVariant } = await import("../src/shopifyClient.js");
+
+  const baseProduct = {
+    id: "p1",
+    name: "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Blue Dial",
+    title: "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Blue Dial",
+    shopifyFeaturedImage: "https://cdn.shopify.com/blue.png",
+    image: "https://cdn.shopify.com/blue.png",
+    shopifyVariants: [
+      {
+        id: "v_silver",
+        title: "Silver / Analog",
+        image: "https://cdn.shopify.com/silver.png",
+        selectedOptions: [{ name: "Dial color", value: "Silver" }, { name: "Watch display", value: "Analog" }]
+      },
+      {
+        id: "v_black",
+        title: "Black / Analog",
+        image: "https://cdn.shopify.com/blue.png", // Shared placeholder
+        selectedOptions: [{ name: "Dial color", value: "Black" }, { name: "Watch display", value: "Analog" }]
+      }
+    ]
+  };
+
+  const siblingBlack = {
+    id: "p2",
+    shopifyTitle: "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Black Dial",
+    shopifyHandle: "hanboro-018-ultra-thin-micro-rotor-automatic-watch-black-dial",
+    image: "https://cdn.shopify.com/black.png",
+    shopifyImages: ["https://cdn.shopify.com/black.png"]
+  };
+
+  // Silver selection
+  const silverApplied = applyShopifyVariant(baseProduct, baseProduct.shopifyVariants[0], [baseProduct, siblingBlack]);
+  assert.equal(silverApplied.name, "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Silver Dial");
+  assert.equal(silverApplied.title, "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Silver Dial");
+  assert.equal(silverApplied.image, "https://cdn.shopify.com/silver.png");
+
+  // Black selection
+  const blackApplied = applyShopifyVariant(baseProduct, baseProduct.shopifyVariants[1], [baseProduct, siblingBlack]);
+  assert.equal(blackApplied.name, "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Black Dial");
+  assert.equal(blackApplied.title, "HANBORO 018 Ultra-Thin Micro-Rotor Automatic Watch – Black Dial");
+  assert.equal(blackApplied.image, "https://cdn.shopify.com/black.png");
+});
+
