@@ -60,62 +60,102 @@ export default async function handler(req, res) {
     let upstreamAwb = awb;
     let upstreamOrderId = orderId;
 
-    // 1. ── SHOPIFY ADMIN SYNC (Draft Orders & Customers) ───────────────────
+    // 1. ── DIRECT SHOPIFY ORDER SYNC (No Checkout Page Required) ─────────
     if (shopifyAdminToken) {
       try {
-        const draftOrderPayload = {
-          draft_order: {
-            note: `Hanboro Fastrr 1-Click Order (${paymentMethod || "Prepaid"})`,
-            email: customer.email || `client.${customer.phone}@gmail.com`,
-            phone: `+91${customer.phone}`,
-            customer: {
-              first_name: customer.name.split(" ")[0] || "Collector",
-              last_name: customer.name.split(" ").slice(1).join(" ") || "",
-              email: customer.email || `client.${customer.phone}@gmail.com`,
-              phone: `+91${customer.phone}`,
-            },
-            shipping_address: {
-              first_name: customer.name.split(" ")[0] || "Collector",
-              last_name: customer.name.split(" ").slice(1).join(" ") || "",
-              address1: customer.address || "Client Address",
-              city: customer.city || "New Delhi",
-              province: customer.state || "Delhi",
-              zip: customer.pincode,
-              country: "India",
-              phone: `+91${customer.phone}`,
-            },
-            line_items: items.map((it) => {
-              const p = it.product || {};
-              const rawVariantId = String(p.shopifyVariantId || p.variantId || p.id || "").replace("gid://shopify/ProductVariant/", "");
-              const vIdNum = parseInt(rawVariantId, 10);
-              return {
-                ...(vIdNum && !isNaN(vIdNum) ? { variant_id: vIdNum } : {}),
-                title: p.name || p.title || "Hanboro Watch",
-                quantity: it.quantity || 1,
-                price: p.priceNumeric || (p.price ? String(p.price).replace(/[^\d.]/g, "") : cleanSubtotal),
-              };
-            }),
+        const customerData = {
+          first_name: customer.name.split(" ")[0] || "Collector",
+          last_name: customer.name.split(" ").slice(1).join(" ") || "",
+          email: customer.email || `client.${customer.phone}@gmail.com`,
+          phone: `+91${customer.phone}`,
+        };
+
+        const addressData = {
+          first_name: customerData.first_name,
+          last_name: customerData.last_name,
+          address1: customer.address || "Client Address",
+          city: customer.city || "New Delhi",
+          province: customer.state || "Delhi",
+          zip: customer.pincode,
+          country: "India",
+          phone: `+91${customer.phone}`,
+        };
+
+        const lineItemsFormatted = items.map((it) => {
+          const p = it.product || {};
+          const rawVariantId = String(p.shopifyVariantId || p.variantId || p.id || "").replace("gid://shopify/ProductVariant/", "");
+          const vIdNum = parseInt(rawVariantId, 10);
+          return {
+            ...(vIdNum && !isNaN(vIdNum) ? { variant_id: vIdNum } : {}),
+            title: p.name || p.title || "Hanboro Watch",
+            sku: p.sku || it.sku || "HBR-VAULT-01",
+            quantity: it.quantity || 1,
+            price: p.priceNumeric || (p.price ? String(p.price).replace(/[^\d.]/g, "") : cleanSubtotal),
+          };
+        });
+
+        // 1a. Attempt direct Order creation (appears in Shopify Admin -> Orders)
+        const orderDataPayload = {
+          order: {
+            line_items: lineItemsFormatted,
+            customer: customerData,
+            billing_address: addressData,
+            shipping_address: addressData,
+            email: customerData.email,
+            phone: customerData.phone,
+            financial_status: paymentMethod === "COD" ? "pending" : "paid",
+            tags: "Fastrr, Headless, 1-Click Order",
+            note: `Hanboro 1-Click Fastrr Order (${paymentMethod || "Prepaid"}). Phone: +91 ${customer.phone}.`,
           },
         };
 
-        const draftRes = await fetch(`https://${shopDomain}/admin/api/2026-07/draft_orders.json`, {
+        const orderRes = await fetch(`https://${shopDomain}/admin/api/2026-07/orders.json`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "X-Shopify-Access-Token": shopifyAdminToken,
           },
-          body: JSON.stringify(draftOrderPayload),
+          body: JSON.stringify(orderDataPayload),
         });
 
-        if (draftRes.ok) {
-          const draftData = await draftRes.json().catch(() => null);
-          if (draftData?.draft_order?.id) {
-            shopifyDraftOrderId = draftData.draft_order.id;
-            upstreamOrderId = `HBR-SHOP-${draftData.draft_order.id}`;
+        if (orderRes.ok) {
+          const orderData = await orderRes.json().catch(() => null);
+          if (orderData?.order?.id) {
+            shopifyDraftOrderId = orderData.order.id;
+            upstreamOrderId = `HBR-#${orderData.order.order_number || orderData.order.id}`;
+          }
+        } else {
+          // 1b. Fallback to Draft Orders if write_orders is not granted on token
+          const draftOrderPayload = {
+            draft_order: {
+              note: `Hanboro Fastrr 1-Click Order (${paymentMethod || "Prepaid"})`,
+              email: customerData.email,
+              phone: customerData.phone,
+              customer: customerData,
+              shipping_address: addressData,
+              line_items: lineItemsFormatted,
+            },
+          };
+
+          const draftRes = await fetch(`https://${shopDomain}/admin/api/2026-07/draft_orders.json`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Shopify-Access-Token": shopifyAdminToken,
+            },
+            body: JSON.stringify(draftOrderPayload),
+          });
+
+          if (draftRes.ok) {
+            const draftData = await draftRes.json().catch(() => null);
+            if (draftData?.draft_order?.id) {
+              shopifyDraftOrderId = draftData.draft_order.id;
+              upstreamOrderId = `HBR-DRAFT-${draftData.draft_order.id}`;
+            }
           }
         }
       } catch (shopErr) {
-        console.warn("Shopify Admin draft order note:", shopErr?.message);
+        console.warn("Shopify Admin order sync note:", shopErr?.message);
       }
     }
 
