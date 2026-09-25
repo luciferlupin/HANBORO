@@ -4,6 +4,7 @@ import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
 import { StoreProvider, useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { CartDrawer } from "./CartDrawer";
+import { FastrrCheckoutModal } from "./FastrrCheckoutModal";
 import { getHighResWatchImage } from "./productsData";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { MediaSection } from "./MediaSection";
@@ -3316,6 +3317,7 @@ function Website({ onRestart }) {
 
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <CartDrawer />
+      <FastrrCheckoutModal onNavigateToTracking={(orderId) => navigateTo("tracking", `#track?orderId=${encodeURIComponent(orderId)}`)} />
     </main>
   );
 }

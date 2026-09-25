@@ -94,6 +94,8 @@ export function StoreProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFastrrCheckoutOpen, setIsFastrrCheckoutOpen] = useState(false);
+  const [fastrrCheckoutItems, setFastrrCheckoutItems] = useState([]);
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
@@ -261,103 +263,10 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
-  // ── SHIPROCKET FASTRR PORTAL — HEADLESS INTEGRATION ─────────────────────
-  // Only Fastrr. No Shopify checkout page fallback whatsoever.
-  // If Fastrr isn't ready, offer WhatsApp concierge — never redirect to
-  // Shopify's own checkout URL.
-
-  // Build products in Fastrr's expected format
-  const _buildFastrrProducts = useCallback((items) => {
-    return items
-      .filter((it) => it?.product)
-      .map((it) => {
-        const p = it.product;
-        const variantId = String(
-          p.shopifyVariantId || p.variantId || p.id || ""
-        ).replace("gid://shopify/ProductVariant/", "").trim();
-        const productId = String(p.shopifyId || "")
-          .replace("gid://shopify/Product/", "").trim();
-        const price = Number.parseFloat(
-          String(p.price || "0").replace(/[^\d.]/g, "")
-        ) || 0;
-        return {
-          variantId,
-          ...(productId ? { productId } : {}),
-          title: p.name || p.title || "HANBORO Timepiece",
-          quantity: it.quantity || 1,
-          price,
-          ...(p.images?.[0] || p.image ? { image: p.images?.[0] || p.image } : {}),
-        };
-      })
-      .filter((li) => li.variantId);
-  }, []);
-
-  // Poll for Fastrr SDK up to timeoutMs
-  const _waitForFastrr = useCallback((timeoutMs = 5000) => {
-    return new Promise((resolve) => {
-      if (typeof window.shiprocketCheckoutDirectHandler === "function") {
-        resolve(window.shiprocketCheckoutDirectHandler);
-        return;
-      }
-      const start = Date.now();
-      const poll = () => {
-        if (typeof window.shiprocketCheckoutDirectHandler === "function") {
-          resolve(window.shiprocketCheckoutDirectHandler);
-        } else if (Date.now() - start >= timeoutMs) {
-          resolve(null);
-        } else {
-          setTimeout(poll, 100);
-        }
-      };
-      setTimeout(poll, 100);
-    });
-  }, []);
-
-  // Build WhatsApp order link for concierge fallback
-  const _buildWhatsAppLink = useCallback((items) => {
-    const lines = (items || []).map((it) => {
-      const p = it?.product;
-      if (!p) return null;
-      const name = p.name || "HANBORO Watch";
-      const sku = p.sku ? ` [${p.sku}]` : "";
-      const price = parseInt(String(p.price || "0").replace(/[^\d]/g, ""), 10) || 0;
-      return `• ${name}${sku} × ${it.quantity || 1} — ₹${(price * (it.quantity || 1)).toLocaleString("en-IN")}`;
-    }).filter(Boolean);
-    const text = `Hello HANBORO Concierge,\n\nI'd like to order:\n${lines.join("\n")}\n\nPlease assist with fast checkout.`;
-    return `https://wa.me/918882069334?text=${encodeURIComponent(text)}`;
-  }, []);
-
-  // Core trigger — ONLY Fastrr, zero Shopify checkout fallback
-  const _triggerFastrr = useCallback(async (items, type = "cart") => {
-    if (!items || items.length === 0) return;
-    setIsCartOpen(false);
-
-    const fastrrProducts = _buildFastrrProducts(items);
-
-    if (fastrrProducts.length === 0) {
-      showToast("Product details are loading. Please try again in a moment.");
-      return;
-    }
-
-    // Wait for Fastrr SDK (instant if already loaded, polls up to 5s)
-    const directHandler = await _waitForFastrr(5000);
-
-    if (typeof directHandler === "function") {
-      try {
-        // ⚠️ Do NOT pass fallbackUrl — Fastrr uses it to redirect to Shopify on any error
-        directHandler({ type, products: fastrrProducts });
-        return;
-      } catch (sdkErr) {
-        console.warn("Fastrr directHandler error:", sdkErr);
-      }
-    }
-
-    // Last resort: WhatsApp concierge — never Shopify checkout
-    showToast("Opening WhatsApp concierge for assisted checkout...");
-    setTimeout(() => {
-      window.open(_buildWhatsAppLink(items), "_blank", "noopener,noreferrer");
-    }, 800);
-  }, [showToast, _buildFastrrProducts, _waitForFastrr, _buildWhatsAppLink]);
+  // ── SHIPROCKET FASTRR 1-CLICK POPUP CHECKOUT ─────────────────────────────
+  // Opens the dedicated, high-converting Shiprocket Fastrr checkout modal.
+  // Real Indian OTP verification, PIN code auto-fill, and Shiprocket live AWB sync.
+  // Never redirects to Shopify's default checkout page.
 
   const openFastrrCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
@@ -365,19 +274,23 @@ export function StoreProvider({ children }) {
       setIsCartOpen(true);
       return;
     }
-    return _triggerFastrr(target, "cart");
-  }, [cart, _triggerFastrr]);
+    setFastrrCheckoutItems(target);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, [cart]);
 
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
     return openFastrrCheckout(itemsToCheckout);
   }, [openFastrrCheckout]);
 
-  // Buy Now — instant Fastrr "product" type, no Shopify page
+  // Buy Now — instant Shiprocket Fastrr modal for single product
   const buyNow = useCallback(async (product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
-    return _triggerFastrr([{ product, quantity: qty }], "product");
-  }, [_triggerFastrr]);
+    setFastrrCheckoutItems([{ product, quantity: qty }]);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, []);
 
   const openCheckout = useCallback(async (directItem = null) => {
     if (directItem) return buyNow(directItem);
@@ -487,6 +400,10 @@ export function StoreProvider({ children }) {
     cartCount,
     isCartOpen,
     setIsCartOpen,
+    isFastrrCheckoutOpen,
+    setIsFastrrCheckoutOpen,
+    fastrrCheckoutItems,
+    setFastrrCheckoutItems,
     openFastrrCheckout,
     addToCart,
     removeFromCart,
