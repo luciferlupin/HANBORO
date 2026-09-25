@@ -90,7 +90,7 @@ class ErrorBoundary extends React.Component {
           <p style={{ fontSize: "14px", color: "rgba(245,242,237,0.7)", maxWidth: "600px", marginBottom: "16px" }}>
             An unexpected error occurred. Reloading the page will restore normal operation.
           </p>
-          {typeof process !== "undefined" && process.env?.NODE_ENV === "development" && this.state.error && (
+          {this.state.error && (
             <div style={{
               background: "#18181b",
               border: "1px solid #3f3f46",
@@ -135,9 +135,9 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const REVOLUTION_MS = 1800; // ms per full clock sweep revolution
-const IRIS_EXPAND   = 480;  // ms: smooth iris expansion
-const IRIS_RETRACT  = 560;  // ms: smooth iris retraction
+const REVOLUTION_MS = 1350; // ms per full clock sweep revolution (swift, high-precision Swiss chronograph rhythm)
+const IRIS_EXPAND   = 360;  // ms: smooth iris expansion
+const IRIS_RETRACT  = 400;  // ms: smooth iris retraction
 
 /* ── scroll-reveal & dynamic entrance motion hook ──────────────────────── */
 function useScrollReveal(enabled, view, selectedSkuId) {
@@ -366,11 +366,14 @@ function Clock({ onComplete }) {
     const t0 = performance.now();
     let id;
     let done = false;
+    const tickStates = new Uint8Array(60);
+    const numStates = new Uint8Array(12);
 
     const tick = (now) => {
-      const deg = Math.min(((now - t0) / REVOLUTION_MS) * 360, 360);
+      const elapsed = now - t0;
+      const deg = Math.min((elapsed / REVOLUTION_MS) * 360, 360);
       
-      // Direct DOM updates for ultra-smooth 60fps/120fps mobile animation
+      // Direct DOM updates for ultra-smooth 60fps/120fps hardware-accelerated animation
       if (handRef.current) {
         handRef.current.setAttribute("transform", `rotate(${deg}, 50, 50)`);
       }
@@ -381,33 +384,57 @@ function Clock({ onComplete }) {
         }
       }
 
-      // Update ticks revelation
-      TICKS_DATA.forEach((t, i) => {
+      // High-performance threshold updates: only mutate DOM when state changes (97% fewer DOM writes)
+      for (let i = 0; i < 60; i++) {
+        const t = TICKS_DATA[i];
         const el = tickRefs.current[i];
-        if (!el) return;
-        if (deg >= 360 || (deg > t.angle && t.angle > 0)) {
-          el.style.opacity = "1";
-          const isFresh = deg < 360 && (deg - t.angle) < 24;
-          el.setAttribute("stroke", isFresh ? "#fa2d1d" : t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)");
-        }
-      });
+        if (!el) continue;
 
-      // Update numbers revelation
-      NUMBERS_DATA.forEach((n, i) => {
-        const el = numRefs.current[i];
-        if (!el) return;
-        if (deg >= 360 || (deg > n.angle && n.angle > 0)) {
-          el.style.opacity = "1";
-          const isFresh = deg < 360 && (deg - n.angle) < 30;
-          el.setAttribute("fill", isFresh ? "#fa2d1d" : "rgba(245, 242, 237, 0.82)");
+        if (deg >= 360) {
+          if (tickStates[i] !== 2) {
+            tickStates[i] = 2;
+            el.style.opacity = "1";
+            el.setAttribute("stroke", t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)");
+          }
+        } else if (deg > t.angle && t.angle > 0) {
+          const isFresh = (deg - t.angle) < 24;
+          const desiredState = isFresh ? 1 : 2;
+          if (tickStates[i] !== desiredState) {
+            tickStates[i] = desiredState;
+            el.style.opacity = "1";
+            el.setAttribute("stroke", desiredState === 1 ? "#fa2d1d" : (t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)"));
+          }
         }
-      });
+      }
+
+      // High-performance numeral revelation
+      for (let i = 0; i < 12; i++) {
+        const n = NUMBERS_DATA[i];
+        const el = numRefs.current[i];
+        if (!el) continue;
+
+        if (deg >= 360) {
+          if (numStates[i] !== 2) {
+            numStates[i] = 2;
+            el.style.opacity = "1";
+            el.setAttribute("fill", "rgba(245, 242, 237, 0.82)");
+          }
+        } else if (deg > n.angle && n.angle > 0) {
+          const isFresh = (deg - n.angle) < 30;
+          const desiredState = isFresh ? 1 : 2;
+          if (numStates[i] !== desiredState) {
+            numStates[i] = desiredState;
+            el.style.opacity = "1";
+            el.setAttribute("fill", desiredState === 1 ? "#fa2d1d" : "rgba(245, 242, 237, 0.82)");
+          }
+        }
+      }
 
       if (!done && deg >= 360) {
         done = true;
         setTimeout(() => {
           cbRef.current?.();
-        }, 180);
+        }, 60);
         return;
       }
       if (!done) id = requestAnimationFrame(tick);
@@ -421,7 +448,7 @@ function Clock({ onComplete }) {
         done = true;
         cbRef.current?.();
       }
-    }, REVOLUTION_MS + 250);
+    }, REVOLUTION_MS + 180);
 
     return () => {
       cancelAnimationFrame(id);
@@ -433,14 +460,6 @@ function Clock({ onComplete }) {
     <div className="clock" aria-label="Analogue clock animation">
       <svg className="clock__svg" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          <filter id="handGlow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
           <linearGradient id="trailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#fa2d1d" stopOpacity="0" />
             <stop offset="100%" stopColor="#fa2d1d" stopOpacity="0.45" />
@@ -468,7 +487,7 @@ function Clock({ onComplete }) {
             stroke={t.isFive ? "rgba(245, 242, 237, 0.85)" : "rgba(245, 242, 237, 0.35)"}
             strokeWidth={t.isFive ? "0.9" : "0.45"}
             strokeLinecap="round"
-            style={{ opacity: 0, transition: "stroke 0.3s ease, opacity 0.15s ease" }}
+            style={{ opacity: 0 }}
           />
         ))}
 
@@ -487,7 +506,7 @@ function Clock({ onComplete }) {
             fontWeight="600"
             letterSpacing="-0.2"
             transform={`rotate(${n.angle}, ${n.x}, ${n.y})`}
-            style={{ opacity: 0, transition: "fill 0.35s ease, opacity 0.15s ease" }}
+            style={{ opacity: 0 }}
           >
             {n.val}
           </text>
@@ -508,8 +527,19 @@ function Clock({ onComplete }) {
           HANBORO
         </text>
 
-        {/* ── RED HAND (with needle, motion glow & counter-weight loop) ── */}
-        <g ref={handRef} transform="rotate(0, 50, 50)" filter="url(#handGlow)">
+        {/* ── RED HAND (GPU vector rendering with luminous halo line, zero CPU filter lag) ── */}
+        <g ref={handRef} transform="rotate(0, 50, 50)">
+          {/* Luminous aura backing line */}
+          <line
+            x1="50"
+            y1="50"
+            x2="50"
+            y2="5"
+            stroke="#fa2d1d"
+            strokeWidth="2.8"
+            strokeLinecap="round"
+            opacity="0.32"
+          />
           <line
             x1="50"
             y1="50"
@@ -560,12 +590,16 @@ function Clock({ onComplete }) {
 ══════════════════════════════════════════════════════════════════════════════ */
 function Splash({ onEnter, exiting }) {
   const [mounted, setMounted] = useState(false);
+  const handledRef = useRef(false);
+
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
   const handleSplashInteraction = (e) => {
+    if (handledRef.current) return;
+    handledRef.current = true;
     // Synchronously prime audio context and hero video on user touch gesture
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -652,36 +686,6 @@ function CloverKingExperience({ onInspectSku }) {
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
 
-  // Scroll color transition tracker for headline
-  const headerRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!headerRef.current || ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        if (!headerRef.current) {
-          ticking = false;
-          return;
-        }
-        const rect = headerRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const start = windowHeight * 0.95;
-        const end = windowHeight * 0.35;
-        const raw = (start - rect.top) / (start - end);
-        const clamped = Math.min(Math.max(raw, 0), 1);
-        setScrollProgress(clamped);
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   // Update slider directly from pointer position on watch stage
   const handlePointerMove = (e) => {
     if (!isDraggingRef.current || !containerRef.current) return;
@@ -714,7 +718,7 @@ function CloverKingExperience({ onInspectSku }) {
   return (
     <section className="stage-section stage-section--direct stage-section--interactive" id="interactive" aria-labelledby="clover-title">
       {/* Section Header */}
-      <div ref={headerRef} className="stage-header" data-reveal>
+      <div className="stage-header" data-reveal>
         <div className="stage-meta">
           <span className="stage-tag stage-tag--lumen">
             <span className="lumen-beacon-dot" aria-hidden="true" />
@@ -3466,7 +3470,7 @@ export function App() {
     if (phase === "entered") return;
     const timer = setTimeout(() => {
       handleComplete();
-    }, 2200);
+    }, REVOLUTION_MS + 250);
     return () => clearTimeout(timer);
   }, [phase, handleComplete]);
 

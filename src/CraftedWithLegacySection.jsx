@@ -47,6 +47,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
                   alt="Hanboro Rose Gold Crown & Ruby Jewel Flank"
                   className="mosaic-pill-img mosaic-pill-img--seal"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -69,6 +70,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
                   alt="Hanboro Casino Roulette Tourbillon Movement"
                   className="mosaic-pill-img mosaic-pill-img--dial"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -89,6 +91,7 @@ export function CraftedWithLegacySection({ onExploreCatalog }) {
                   alt="Hanboro Red Tonneau Automatic Watch on Wrist"
                   className="mosaic-pill-img mosaic-pill-img--wrist"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

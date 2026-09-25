@@ -640,8 +640,22 @@ export function detectShopifyCollection(item = {}) {
  * Shopify is the single authoritative source for images, specs, and details.
  * No tags are required in Shopify.
  */
-export async function fetchLiveShopifyData() {
-  const query = `{
+let _liveShopifyDataPromise = null;
+let _liveShopifyDataCache = null;
+let _liveShopifyDataCacheTime = 0;
+const LIVE_DATA_CACHE_TTL = 15000;
+
+export async function fetchLiveShopifyData(forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && _liveShopifyDataCache && (now - _liveShopifyDataCacheTime < LIVE_DATA_CACHE_TTL)) {
+    return _liveShopifyDataCache;
+  }
+  if (!forceRefresh && _liveShopifyDataPromise) {
+    return _liveShopifyDataPromise;
+  }
+
+  _liveShopifyDataPromise = (async () => {
+    const query = `{
     products(first: 250) {
       edges {
         node {
@@ -884,11 +898,18 @@ export async function fetchLiveShopifyData() {
           .map((item) => [item.shopifyId, item]),
       ).values(),
     );
-    return liveMap;
-  } catch (err) {
-    console.warn("fetchLiveShopifyData note:", err.message);
-    return new Map();
-  }
+      _liveShopifyDataCache = liveMap;
+      _liveShopifyDataCacheTime = Date.now();
+      return liveMap;
+    } catch (err) {
+      console.warn("fetchLiveShopifyData note:", err.message);
+      return new Map();
+    } finally {
+      _liveShopifyDataPromise = null;
+    }
+  })();
+
+  return _liveShopifyDataPromise;
 }
 
 /**

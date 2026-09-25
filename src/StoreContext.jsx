@@ -134,7 +134,11 @@ export function StoreProvider({ children }) {
   // on the website — no redeploy required.
   useEffect(() => {
     let cancelled = false;
+    let inFlight = false;
+
     async function liveShopifySync() {
+      if (inFlight) return;
+      inFlight = true;
       try {
         const liveMap = await shopifyService.fetchLiveShopifyData();
         if (cancelled) return;
@@ -148,7 +152,31 @@ export function StoreProvider({ children }) {
           LOCAL_PRODUCTS_WITH_SHOPIFY_IDS,
           liveMap,
         );
-        setProducts(syncedProducts);
+
+        setProducts((prev) => {
+          // Avoid triggering unnecessary top-level re-renders when data hasn't changed
+          if (prev && prev.length === syncedProducts.length) {
+            let changed = false;
+            for (let i = 0; i < prev.length; i++) {
+              const p1 = prev[i];
+              const p2 = syncedProducts[i];
+              if (
+                p1.price !== p2.price ||
+                p1.compareAtPrice !== p2.compareAtPrice ||
+                p1.availableForSale !== p2.availableForSale ||
+                p1.name !== p2.name ||
+                p1.image !== p2.image ||
+                p1.shopifyVariantId !== p2.shopifyVariantId
+              ) {
+                changed = true;
+                break;
+              }
+            }
+            if (!changed) return prev;
+          }
+          return syncedProducts;
+        });
+
         setIsShopifyConnected(true);
         setIsShopifySynced(syncedProducts.length > 0);
       } catch (err) {
@@ -156,20 +184,37 @@ export function StoreProvider({ children }) {
         setIsShopifyConnected(false);
         setIsShopifySynced(false);
         console.warn("Live Shopify sync note:", err.message);
+      } finally {
+        inFlight = false;
       }
     }
 
-    liveShopifySync();
+    // Defer initial sync until after splash exit so CPU is 100% focused on smooth 60fps clock animation
+    let splashListener = null;
+    let initialTimer = null;
+    if (typeof window !== "undefined" && !window.__hanboro_entered) {
+      splashListener = () => {
+        liveShopifySync();
+      };
+      window.addEventListener("hanboro_splash_exit", splashListener, { once: true });
+      initialTimer = setTimeout(liveShopifySync, 1600);
+    } else {
+      liveShopifySync();
+    }
 
-    // Re-sync immediately when merchant tabs back from Shopify Admin, and every 20 seconds
+    // Re-sync immediately when merchant tabs back from Shopify Admin, and periodically
     const onFocus = () => liveShopifySync();
     if (typeof window !== "undefined") {
       window.addEventListener("focus", onFocus);
     }
-    const interval = setInterval(liveShopifySync, 20000);
+    const interval = setInterval(liveShopifySync, 45000);
 
     return () => {
       cancelled = true;
+      if (splashListener && typeof window !== "undefined") {
+        window.removeEventListener("hanboro_splash_exit", splashListener);
+      }
+      if (initialTimer) clearTimeout(initialTimer);
       if (typeof window !== "undefined") {
         window.removeEventListener("focus", onFocus);
       }

@@ -527,6 +527,7 @@ export function ProductDetailPage({
                   src={activeImage}
                   alt={product.name}
                   className="pdp-main-img"
+                  decoding="async"
                   style={
                     isZoomed
                       ? {
@@ -590,7 +591,7 @@ export function ProductDetailPage({
                       }}
                       title={item.title || `${product.name} view ${i + 1}`}
                     >
-                      <img src={item.url} alt={item.title || `${product.name} view ${i + 1}`} loading="lazy" />
+                      <img src={item.url} alt={item.title || `${product.name} view ${i + 1}`} loading="lazy" decoding="async" />
                       <span className="pdp-thumb-badge">{item.label || `0${i + 1}`}</span>
                     </button>
                   );
@@ -704,7 +705,7 @@ export function ProductDetailPage({
                           title={`${label}${variant.sku ? ` — ${variant.sku}` : ""}`}
                         >
                           <div className="pdp-edition-thumb-wrap">
-                            <img src={getVariantThumbnail(variant)} alt={label} className="pdp-edition-thumb" loading="lazy" />
+                            <img src={getVariantThumbnail(variant)} alt={label} className="pdp-edition-thumb" loading="lazy" decoding="async" />
                             {isSelected && <span className="pdp-edition-check-badge">✓</span>}
                           </div>
                           <div className="pdp-edition-info">
@@ -1018,7 +1019,7 @@ export function ProductDetailPage({
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setLightboxIndex(index); }}
                 >
                   <div className="pdp-gallery-media-wrapper">
-                    <img src={item.url} alt={item.title || product.name} loading="lazy" />
+                    <img src={item.url} alt={item.title || product.name} loading="lazy" decoding="async" />
                     <div className="pdp-gallery-overlay">
                       <div className="pdp-gallery-overlay-badge">{item.label || `Angle 0${index + 1}`}</div>
                       <div className="pdp-gallery-overlay-action">
@@ -1085,7 +1086,7 @@ export function ProductDetailPage({
                 }}
               >
                 <div className="related-media">
-                  <img src={rel.image} alt={rel.name} />
+                  <img src={rel.image} alt={rel.name} loading="lazy" decoding="async" />
                 </div>
                 <div className="related-details">
                   <span className="related-sku">REF. {rel.sku}</span>
@@ -1171,6 +1172,7 @@ export function ProductDetailPage({
                   src={allImages[lightboxIndex].url}
                   alt={allImages[lightboxIndex].title}
                   className="pdp-lightbox-img"
+                  decoding="async"
                 />
               </div>
 

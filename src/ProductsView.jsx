@@ -77,6 +77,7 @@ function MaisonWatchModelCard({
           alt={primaryWatch.name}
           className="maison-watch-img"
           loading="lazy"
+          decoding="async"
           onError={(e) => {
             e.target.src = "/watch-astroworld-moon-rosegold-front-transparent.webp";
           }}
@@ -462,7 +463,7 @@ export function ProductsView({
               <div className="dock-watch-avatars">
                 {comparedProducts.map((p) => (
                   <div key={p.id} className="dock-avatar" title={p.name}>
-                    <img src={p.image} alt={p.name} />
+                    <img src={p.image} alt={p.name} loading="lazy" decoding="async" />
                     <button
                       type="button"
                       className="dock-avatar-remove"
