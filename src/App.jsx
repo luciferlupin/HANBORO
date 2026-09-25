@@ -4,6 +4,7 @@ import { INDIA_MAP_VIEWBOX, MAP_CITIES, INDIA_MAP_PATHS } from "./indiaMapData";
 import { StoreProvider, useStore } from "./StoreContext";
 import { forceScrollToTop } from "./scrollUtils";
 import { CartDrawer } from "./CartDrawer";
+import { FastrrCheckoutModal } from "./FastrrCheckoutModal";
 import { getHighResWatchImage } from "./productsData";
 import { TestimonialsSection } from "./TestimonialsSection";
 import { MediaSection } from "./MediaSection";
@@ -253,6 +254,8 @@ function useSmoothScroll() {
             node.closest(".luxury-modal-backdrop") ||
             node.closest(".luxury-modal-card") ||
             node.closest(".checkout-modal-card") ||
+            node.closest(".fastrr-modal-container") ||
+            node.closest(".fastrr-modal-backdrop") ||
             node.closest(".apple-modal-overlay") ||
             node.closest(".apple-modal-box") ||
             node.closest(".compare-modal-overlay") ||
@@ -3314,6 +3317,7 @@ function Website({ onRestart }) {
 
       {/* ── LUXURY MODALS & DRAWERS ── */}
       <CartDrawer />
+      <FastrrCheckoutModal onNavigateToTracking={(orderId) => navigateTo("tracking", `#track?orderId=${encodeURIComponent(orderId)}`)} />
     </main>
   );
 }

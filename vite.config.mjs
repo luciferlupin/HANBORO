@@ -1,6 +1,65 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
+function localApiPlugin() {
+  return {
+    name: "local-api-handler",
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url?.startsWith("/api/")) return next();
+        const url = new URL(req.url, "http://localhost");
+        const pathname = url.pathname;
+
+        let body = {};
+        if (req.method === "POST") {
+          const buffers = [];
+          for await (const chunk of req) {
+            buffers.push(chunk);
+          }
+          const raw = Buffer.concat(buffers).toString();
+          try {
+            body = raw ? JSON.parse(raw) : {};
+          } catch (e) {
+            body = {};
+          }
+        }
+
+        const mockRes = {
+          setHeader: (k, v) => res.setHeader(k, v),
+          status: (code) => ({
+            json: (data) => {
+              res.statusCode = code;
+              res.setHeader("Content-Type", "application/json");
+              res.end(JSON.stringify(data));
+            },
+            end: () => {
+              res.statusCode = code;
+              res.end();
+            },
+          }),
+        };
+
+        if (pathname === "/api/fastrr-otp") {
+          const handler = (await import("./api/fastrr-otp.js")).default;
+          return handler({ ...req, body }, mockRes);
+        }
+
+        if (pathname === "/api/fastrr-order") {
+          const handler = (await import("./api/fastrr-order.js")).default;
+          return handler({ ...req, body }, mockRes);
+        }
+
+        if (pathname === "/api/track-order") {
+          const handler = (await import("./api/track-order.js")).default;
+          return handler({ ...req, query: Object.fromEntries(url.searchParams) }, mockRes);
+        }
+
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   base: "/",
   build: {
@@ -33,5 +92,5 @@ export default defineConfig({
       clientFiles: ["./src/main.jsx"],
     },
   },
-  plugins: [react()],
+  plugins: [react(), localApiPlugin()],
 });

@@ -94,6 +94,8 @@ export function StoreProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFastrrCheckoutOpen, setIsFastrrCheckoutOpen] = useState(false);
+  const [fastrrCheckoutItems, setFastrrCheckoutItems] = useState([]);
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
@@ -261,6 +263,14 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
+  const openFastrrCheckout = useCallback((itemsToCheckout = null) => {
+    const target = itemsToCheckout || cart;
+    if (!target || target.length === 0) return;
+    setFastrrCheckoutItems(target);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, [cart]);
+
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
     if (!target || target.length === 0) return;
@@ -274,24 +284,20 @@ export function StoreProvider({ children }) {
     return shopifyCart;
   }, [appliedPromo, cart]);
 
-  const buyNow = useCallback(async (product, quantity = 1) => {
+  const buyNow = useCallback((product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
-    try {
-      return await proceedToShopifyCheckout([{ product, quantity: qty }]);
-    } catch (error) {
-      console.warn("Fastrr checkout start failed:", error);
-      showToast("Secure checkout is temporarily unavailable. Please try again.");
-      throw error;
-    }
-  }, [proceedToShopifyCheckout, showToast]);
+    setFastrrCheckoutItems([{ product, quantity: qty }]);
+    setIsCartOpen(false);
+    setIsFastrrCheckoutOpen(true);
+  }, []);
 
   const openCheckout = useCallback((directItem = null) => {
     if (directItem) {
       return buyNow(directItem);
     }
-    return proceedToShopifyCheckout();
-  }, [buyNow, proceedToShopifyCheckout]);
+    return openFastrrCheckout();
+  }, [buyNow, openFastrrCheckout]);
 
   const loginWithShopify = useCallback((redirectUri) => {
     setCustomerAuthError("");
@@ -396,6 +402,11 @@ export function StoreProvider({ children }) {
     cartCount,
     isCartOpen,
     setIsCartOpen,
+    isFastrrCheckoutOpen,
+    setIsFastrrCheckoutOpen,
+    fastrrCheckoutItems,
+    setFastrrCheckoutItems,
+    openFastrrCheckout,
     addToCart,
     removeFromCart,
     updateQuantity,
