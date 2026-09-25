@@ -138,6 +138,144 @@
       is exposed to this storefront.
     -->
     <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
+    <style id="fastrr-modal-styles">
+      #fastrr-prefetch-container {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+      }
+      #fastrr-main-container {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        width: 100dvw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 2147483646 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, 0.78) !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        box-sizing: border-box !important;
+        padding: 20px !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        pointer-events: auto !important;
+      }
+      #headless-container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        max-width: 460px !important;
+        height: min(92vh, 780px) !important;
+        height: min(92dvh, 780px) !important;
+        margin: auto !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        z-index: 2147483647 !important;
+      }
+      .headless-modal {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 780px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        background: #ffffff !important;
+        border-radius: 16px !important;
+        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+      }
+      .headless-modal-content,
+      .headless-modal-body {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        flex: 1 1 auto !important;
+      }
+      #headless-iframe {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        border: none !important;
+        outline: none !important;
+        display: block !important;
+        background: #ffffff !important;
+        box-sizing: border-box !important;
+        border-radius: inherit !important;
+      }
+      #fastrr-pre-loader,
+      .fastrr-pre-loader-container {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+      }
+      .headless-payment-iframe,
+      #headless-payment-iframe {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        width: 100dvw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 2147483647 !important;
+        border: none !important;
+        background: transparent !important;
+      }
+      @media (max-width: 600px) {
+        #fastrr-main-container {
+          padding: 0 !important;
+          align-items: flex-end !important;
+        }
+        #headless-container {
+          width: 100% !important;
+          max-width: 100% !important;
+          height: 100% !important;
+          height: 100dvh !important;
+          max-height: 100% !important;
+          max-height: 100dvh !important;
+          margin: 0 !important;
+        }
+        .headless-modal {
+          width: 100% !important;
+          height: 100% !important;
+          height: 100dvh !important;
+          max-height: 100% !important;
+          max-height: 100dvh !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+        #headless-iframe {
+          height: 100% !important;
+          height: 100dvh !important;
+          min-height: 100% !important;
+          border-radius: 0 !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <input type="hidden" id="sellerDomain" value="hanborowatches.in" />
