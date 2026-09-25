@@ -10,68 +10,55 @@ const rootDir = path.resolve(__dirname, "..");
 const srcDir = path.join(rootDir, "src");
 const apiDir = path.join(rootDir, "api");
 
-test("Shiprocket Fastrr Checkout: FastrrCheckoutModal component and styles are installed", () => {
-  const modalPath = path.join(srcDir, "FastrrCheckoutModal.jsx");
-  const cssPath = path.join(srcDir, "fastrrCheckout.css");
+const indexCode = fs.readFileSync(path.join(rootDir, "index.html"), "utf8");
+const storeContextCode = fs.readFileSync(path.join(srcDir, "StoreContext.jsx"), "utf8");
+const appCode = fs.readFileSync(path.join(srcDir, "App.jsx"), "utf8");
+const trackViewCode = fs.readFileSync(path.join(srcDir, "TrackOrderView.jsx"), "utf8");
+const trackingApiCode = fs.readFileSync(path.join(apiDir, "track-order.js"), "utf8");
 
-  assert.ok(fs.existsSync(modalPath), "FastrrCheckoutModal.jsx must exist");
-  assert.ok(fs.existsSync(cssPath), "fastrrCheckout.css must exist");
-
-  const modalCode = fs.readFileSync(modalPath, "utf8");
-  const cssCode = fs.readFileSync(cssPath, "utf8");
-
-  // Real OTP flow & verification
-  assert.ok(modalCode.includes("/api/fastrr-otp"), "Must query real server-side OTP API endpoint");
-  assert.ok(modalCode.includes("handleSendOtp"), "Must handle dispatching real OTP");
-  assert.ok(modalCode.includes("handleVerifyOtp"), "Must handle verifying real OTP");
-  assert.equal(modalCode.includes('setGeneratedOtp("123456")'), false, "Must never hardcode fake OTP in the browser");
-
-  // Precision card alignment & structure
-  assert.ok(cssCode.includes(".fastrr-modal-backdrop"), "CSS must style backdrop");
-  assert.ok(cssCode.includes(".fastrr-modal-container"), "CSS must style container");
-  assert.ok(cssCode.includes("margin: auto"), "Modal must be centered with automatic margins");
-  assert.ok(cssCode.includes("display: grid"), "Modal body must use balanced grid layout");
-  assert.ok(cssCode.includes(".fastrr-otp-grid"), "CSS must align 6-digit OTP input grid");
+test("fastrr uses Shiprocket's official Shopify checkout runtime", () => {
+  assert.match(indexCode, /https:\/\/fastrr-boost-ui\.pickrr\.com\/assets\/js\/channels\/shopify\.js/);
+  assert.match(indexCode, /id="sellerDomain" value="hanborowatches\.in"/);
+  assert.ok(storeContextCode.includes("window.shiprocketCheckoutDirectHandler"));
+  assert.ok(storeContextCode.includes("fallbackUrl: shopifyCart.checkoutUrl"));
+  assert.ok(storeContextCode.includes("shopifyService.createShopifyCart"));
 });
 
-test("Shiprocket Fastrr Checkout: Real OTP and Order API handlers exist", () => {
-  const otpApiPath = path.join(apiDir, "fastrr-otp.js");
-  const orderApiPath = path.join(apiDir, "fastrr-order.js");
+test("OTP, address and payment are not reimplemented or exposed locally", () => {
+  for (const retiredFile of ["fastrr-otp.js", "fastrr-user.js", "fastrr-order.js"]) {
+    assert.equal(fs.existsSync(path.join(apiDir, retiredFile)), false, `${retiredFile} must stay retired`);
+  }
 
-  assert.ok(fs.existsSync(otpApiPath), "api/fastrr-otp.js must exist for live SMS dispatch and verification");
-  assert.ok(fs.existsSync(orderApiPath), "api/fastrr-order.js must exist for Shiprocket order sync");
-
-  const otpCode = fs.readFileSync(otpApiPath, "utf8");
-  assert.ok(otpCode.includes("cleanedPhone"), "Must sanitize Indian phone number");
-  assert.ok(otpCode.includes("action === \"send\""), "Must support send OTP action");
-  assert.ok(otpCode.includes("action === \"verify\""), "Must support verify OTP action");
+  assert.equal(fs.existsSync(path.join(srcDir, "FastrrCheckoutModal.jsx")), false);
+  assert.equal(fs.existsSync(path.join(srcDir, "fastrrCheckout.css")), false);
+  assert.equal(appCode.includes("FastrrCheckoutModal"), false);
+  assert.equal(storeContextCode.includes("/api/fastrr-otp"), false);
+  assert.equal(storeContextCode.includes("otpCode"), false);
 });
 
-test("Shiprocket Fastrr Checkout: StoreContext manages Fastrr modal and active items", () => {
-  const storeContextCode = fs.readFileSync(path.join(srcDir, "StoreContext.jsx"), "utf8");
-
-  assert.ok(storeContextCode.includes("isFastrrCheckoutOpen"), "StoreContext must expose isFastrrCheckoutOpen state");
-  assert.ok(storeContextCode.includes("setIsFastrrCheckoutOpen"), "StoreContext must expose setIsFastrrCheckoutOpen");
-  assert.ok(storeContextCode.includes("fastrrCheckoutItems"), "StoreContext must expose fastrrCheckoutItems");
-  assert.ok(storeContextCode.includes("openFastrrCheckout"), "StoreContext must expose openFastrrCheckout");
+test("checkout passes real Shopify product and variant identity to fastrr", () => {
+  assert.ok(storeContextCode.includes("productId: stripShopifyGid(product.shopifyId)"));
+  assert.ok(storeContextCode.includes("variantId: stripShopifyGid(product.shopifyVariantId"));
+  assert.ok(storeContextCode.includes("couponCode: appliedPromo?.code || null"));
+  assert.ok(storeContextCode.includes('type: target.length === 1 ? "product" : "cart"'));
 });
 
-test("Shiprocket Fastrr Checkout: App.jsx mounts modal and routes #checkout", () => {
-  const appCode = fs.readFileSync(path.join(srcDir, "App.jsx"), "utf8");
-
-  assert.ok(appCode.includes("<FastrrCheckoutModal"), "App.jsx must render FastrrCheckoutModal");
-  assert.ok(appCode.includes('target.startsWith("checkout")'), "App.jsx must handle checkout route");
-  assert.ok(appCode.includes("openCheckout: true"), "Checkout route must flag openCheckout");
-  assert.ok(appCode.includes("fastrr-modal-container"), "Scroll prevention must recognize Fastrr modal");
-});
-
-test("QA Check: CartDrawer and ProductDetailPage invoke Fastrr Checkout directly", () => {
+test("Buy Now and bag checkout share the authoritative fastrr handoff", () => {
   const cartDrawerCode = fs.readFileSync(path.join(srcDir, "CartDrawer.jsx"), "utf8");
   const pdpCode = fs.readFileSync(path.join(srcDir, "ProductDetailPage.jsx"), "utf8");
 
-  assert.ok(cartDrawerCode.includes("await openCheckout()"), "Cart drawer button must call openCheckout");
-  assert.ok(cartDrawerCode.includes("Proceed to Fastrr Fast Checkout"), "Cart drawer button must show Fastrr branding");
+  assert.ok(cartDrawerCode.includes("await openCheckout()"));
+  assert.ok(cartDrawerCode.includes("Proceed to Fastrr Fast Checkout"));
+  assert.ok(pdpCode.includes("buyNow(product, buyQty)"));
+  assert.ok(storeContextCode.includes("return openFastrrCheckout([{ product, quantity: qty }])"));
+});
 
-  // PDP Instant Buy Now invokes buyNow(product, buyQty)
-  assert.ok(pdpCode.includes("buyNow(product, buyQty)"), "PDP buy now must pass product and buyQty to buyNow");
+test("tracking never invents an order, AWB, courier or shipment activity", () => {
+  assert.equal(trackViewCode.includes("hanboro_recent_fastrr_order"), false);
+  assert.equal(trackingApiCode.includes("Bluedart Priority"), false);
+  assert.equal(trackingApiCode.includes("Math.random"), false);
+  assert.equal(trackingApiCode.includes("VITE_FASTRR_PUBLIC_KEY"), false);
+  assert.equal(trackingApiCode.includes("FASTRR_PRIVATE_KEY"), false);
+  assert.ok(trackingApiCode.includes("process.env.SHIPROCKET_EMAIL"));
+  assert.ok(trackingApiCode.includes("process.env.SHIPROCKET_PASSWORD"));
 });

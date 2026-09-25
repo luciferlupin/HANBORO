@@ -130,8 +130,17 @@
       fbq('init', '1069596304671544');
       fbq('track', 'PageView');
     </script>
+
+    <!--
+      Official Shiprocket fastrr checkout runtime. The Shopify shop domain is
+      the merchant identity used by fastrr; OTP, saved-address lookup and
+      payment stay inside Shiprocket's hosted checkout. No private credential
+      is exposed to this storefront.
+    -->
+    <script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
   </head>
   <body>
+    <input type="hidden" id="sellerDomain" value="hanborowatches.in" />
     <!-- Meta Pixel Noscript Fallback (Dataset ID: 1069596304671544) -->
     <noscript>
       <img height="1" width="1" style="display:none"

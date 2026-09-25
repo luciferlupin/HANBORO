@@ -33,6 +33,33 @@ function getCartLineId(product) {
   return product?.shopifyVariantId || product?.variantId || product?.id;
 }
 
+function stripShopifyGid(value) {
+  return String(value || "").split("/").pop();
+}
+
+function getNumericPrice(product) {
+  const direct = Number(product?.priceNumeric);
+  if (Number.isFinite(direct) && direct >= 0) return direct;
+  const parsed = Number(String(product?.price || "").replace(/[^\d.]/g, ""));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+async function waitForFastrrHandler(timeoutMs = 5000) {
+  if (typeof window === "undefined") return null;
+  if (typeof window.shiprocketCheckoutDirectHandler === "function") {
+    return window.shiprocketCheckoutDirectHandler;
+  }
+
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    await new Promise((resolve) => window.setTimeout(resolve, 100));
+    if (typeof window.shiprocketCheckoutDirectHandler === "function") {
+      return window.shiprocketCheckoutDirectHandler;
+    }
+  }
+  return null;
+}
+
 const rouletteService = {
   // In-session privilege voucher validation — no local database storage
   async validateVoucher(code) {
@@ -94,8 +121,6 @@ export function StoreProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isFastrrCheckoutOpen, setIsFastrrCheckoutOpen] = useState(false);
-  const [fastrrCheckoutItems, setFastrrCheckoutItems] = useState([]);
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
@@ -263,34 +288,78 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
-  // ── SHIPROCKET FASTRR 1-CLICK POPUP CHECKOUT ─────────────────────────────
-  // Opens the dedicated, high-converting Shiprocket Fastrr checkout modal.
-  // Real Indian OTP verification, PIN code auto-fill, and Shiprocket live AWB sync.
-  // Never redirects to Shopify's default checkout page.
+  // ── OFFICIAL SHIPROCKET FASTRR HEADLESS CHECKOUT ─────────────────────────
+  // Shopify remains the commerce authority: create a live Storefront cart
+  // first, then pass those exact variants to Shiprocket's official checkout
+  // runtime. Fastrr owns OTP, saved addresses and payment. If its merchant
+  // account is unavailable, the only fallback is the real Shopify checkout.
+  const buildFastrrProducts = useCallback((items) => items
+    .filter((item) => item?.product)
+    .map(({ product, quantity }) => ({
+      productId: stripShopifyGid(product.shopifyId),
+      variantId: stripShopifyGid(product.shopifyVariantId || product.variantId || product.id),
+      title: product.name || product.title || "HANBORO Timepiece",
+      variantTitle: product.selectedVariantTitle || "",
+      price: getNumericPrice(product),
+      quantity: Math.max(1, Number(quantity) || 1),
+      image: product.image || product.images?.[0] || "",
+      optionsArr: Array.isArray(product.selectedOptions) ? product.selectedOptions : [],
+      vendor: product.vendor || "HANBORO",
+      product_type: product.productType || "Watch",
+    }))
+    .filter((item) => item.variantId), []);
 
   const openFastrrCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
-    if (!target || target.length === 0) {
+    if (!target?.length) {
       setIsCartOpen(true);
       return;
     }
-    setFastrrCheckoutItems(target);
+
     setIsCartOpen(false);
-    setIsFastrrCheckoutOpen(true);
-  }, [cart]);
+    const shopifyCart = await shopifyService.createShopifyCart(target, {
+      ...(appliedPromo?.code ? { discountCodes: [appliedPromo.code] } : {}),
+    });
+    if (!shopifyCart?.checkoutUrl) {
+      throw new Error("Shopify did not return a checkout URL.");
+    }
+
+    const productsForCheckout = buildFastrrProducts(target);
+    const fastrrHandler = await waitForFastrrHandler();
+
+    if (fastrrHandler && productsForCheckout.length === target.length) {
+      try {
+        fastrrHandler({
+          type: target.length === 1 ? "product" : "cart",
+          products: productsForCheckout,
+          fallbackUrl: shopifyCart.checkoutUrl,
+          couponCode: appliedPromo?.code || null,
+          cartAttributes: {
+            shopifyStorefrontCartId: shopifyCart.id,
+            storefront: "hanborowatches.in",
+          },
+          eventCallback: (event) => {
+            window.dispatchEvent(new CustomEvent("hanboro:fastrr", { detail: event }));
+          },
+        });
+        return;
+      } catch (error) {
+        console.warn("Official fastrr checkout could not start:", error);
+      }
+    }
+
+    window.location.assign(shopifyCart.checkoutUrl);
+  }, [appliedPromo?.code, buildFastrrProducts, cart]);
 
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
     return openFastrrCheckout(itemsToCheckout);
   }, [openFastrrCheckout]);
 
-  // Buy Now — instant Shiprocket Fastrr modal for single product
   const buyNow = useCallback(async (product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
-    setFastrrCheckoutItems([{ product, quantity: qty }]);
-    setIsCartOpen(false);
-    setIsFastrrCheckoutOpen(true);
-  }, []);
+    return openFastrrCheckout([{ product, quantity: qty }]);
+  }, [openFastrrCheckout]);
 
   const openCheckout = useCallback(async (directItem = null) => {
     if (directItem) return buyNow(directItem);
@@ -400,10 +469,6 @@ export function StoreProvider({ children }) {
     cartCount,
     isCartOpen,
     setIsCartOpen,
-    isFastrrCheckoutOpen,
-    setIsFastrrCheckoutOpen,
-    fastrrCheckoutItems,
-    setFastrrCheckoutItems,
     openFastrrCheckout,
     addToCart,
     removeFromCart,

@@ -18,7 +18,6 @@ export function CartDrawer() {
     applyPromoCode,
     removePromoCode,
     openCheckout,
-    shopifyService,
   } = useStore();
 
   const [promoInput, setPromoInput] = useState("");
