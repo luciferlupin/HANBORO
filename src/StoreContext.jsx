@@ -262,14 +262,11 @@ export function StoreProvider({ children }) {
   }, []);
 
   // ── SHIPROCKET FASTRR PORTAL — HEADLESS INTEGRATION ─────────────────────
-  // Uses window.shiprocketCheckoutDirectHandler — the correct headless API
-  // that bypasses /cart.js (liquid-only) and accepts products[] directly.
-  //
-  // Flow: call Fastrr IMMEDIATELY on tap (no blocking await).
-  // If the async script hasn't loaded yet, wait up to 4 s then fallback.
-  // Shopify cart is created in PARALLEL for the fallback checkoutUrl only.
+  // Only Fastrr. No Shopify checkout page fallback whatsoever.
+  // If Fastrr isn't ready, offer WhatsApp concierge — never redirect to
+  // Shopify's own checkout URL.
 
-  // Build products in the format Fastrr's directHandler expects
+  // Build products in Fastrr's expected format
   const _buildFastrrProducts = useCallback((items) => {
     return items
       .filter((it) => it?.product)
@@ -295,8 +292,8 @@ export function StoreProvider({ children }) {
       .filter((li) => li.variantId);
   }, []);
 
-  // Wait for the Fastrr async script to expose its global handler
-  const _waitForFastrr = useCallback((timeoutMs = 4000) => {
+  // Poll for Fastrr SDK up to timeoutMs
+  const _waitForFastrr = useCallback((timeoutMs = 5000) => {
     return new Promise((resolve) => {
       if (typeof window.shiprocketCheckoutDirectHandler === "function") {
         resolve(window.shiprocketCheckoutDirectHandler);
@@ -307,58 +304,60 @@ export function StoreProvider({ children }) {
         if (typeof window.shiprocketCheckoutDirectHandler === "function") {
           resolve(window.shiprocketCheckoutDirectHandler);
         } else if (Date.now() - start >= timeoutMs) {
-          resolve(null); // timed out
+          resolve(null);
         } else {
-          setTimeout(poll, 120);
+          setTimeout(poll, 100);
         }
       };
-      setTimeout(poll, 120);
+      setTimeout(poll, 100);
     });
   }, []);
 
-  // Core trigger: fires Fastrr immediately, Shopify cart built in parallel
+  // Build WhatsApp order link for concierge fallback
+  const _buildWhatsAppLink = useCallback((items) => {
+    const lines = (items || []).map((it) => {
+      const p = it?.product;
+      if (!p) return null;
+      const name = p.name || "HANBORO Watch";
+      const sku = p.sku ? ` [${p.sku}]` : "";
+      const price = parseInt(String(p.price || "0").replace(/[^\d]/g, ""), 10) || 0;
+      return `• ${name}${sku} × ${it.quantity || 1} — ₹${(price * (it.quantity || 1)).toLocaleString("en-IN")}`;
+    }).filter(Boolean);
+    const text = `Hello HANBORO Concierge,\n\nI'd like to order:\n${lines.join("\n")}\n\nPlease assist with fast checkout.`;
+    return `https://wa.me/918882069334?text=${encodeURIComponent(text)}`;
+  }, []);
+
+  // Core trigger — ONLY Fastrr, zero Shopify checkout fallback
   const _triggerFastrr = useCallback(async (items, type = "cart") => {
     if (!items || items.length === 0) return;
     setIsCartOpen(false);
 
     const fastrrProducts = _buildFastrrProducts(items);
 
-    // Kick off Shopify cart in background — only needed for fallback URL
-    const shopifyCartPromise = fastrrProducts.length > 0
-      ? shopifyService.createShopifyCart(items).catch(() => null)
-      : Promise.resolve(null);
+    if (fastrrProducts.length === 0) {
+      showToast("Product details are loading. Please try again in a moment.");
+      return;
+    }
 
-    if (fastrrProducts.length > 0) {
-      // Wait for Fastrr SDK (non-blocking if already loaded, polls if not)
-      const directHandler = await _waitForFastrr(4000);
+    // Wait for Fastrr SDK (instant if already loaded, polls up to 5s)
+    const directHandler = await _waitForFastrr(5000);
 
-      if (typeof directHandler === "function") {
-        try {
-          // Get fallback URL if cart already resolved
-          const shopifyCart = await Promise.race([
-            shopifyCartPromise,
-            new Promise((r) => setTimeout(() => r(null), 800)),
-          ]);
-          directHandler({
-            type,
-            products: fastrrProducts,
-            ...(shopifyCart?.checkoutUrl ? { fallbackUrl: shopifyCart.checkoutUrl } : {}),
-          });
-          return;
-        } catch (sdkErr) {
-          console.warn("Fastrr directHandler error:", sdkErr);
-        }
+    if (typeof directHandler === "function") {
+      try {
+        // ⚠️ Do NOT pass fallbackUrl — Fastrr uses it to redirect to Shopify on any error
+        directHandler({ type, products: fastrrProducts });
+        return;
+      } catch (sdkErr) {
+        console.warn("Fastrr directHandler error:", sdkErr);
       }
     }
 
-    // SDK unavailable — redirect to Shopify checkout
-    const shopifyCart = await shopifyCartPromise;
-    if (shopifyCart?.checkoutUrl) {
-      window.location.href = shopifyCart.checkoutUrl;
-    } else {
-      showToast("Checkout is temporarily unavailable. Please try again.");
-    }
-  }, [shopifyService, showToast, _buildFastrrProducts, _waitForFastrr]);
+    // Last resort: WhatsApp concierge — never Shopify checkout
+    showToast("Opening WhatsApp concierge for assisted checkout...");
+    setTimeout(() => {
+      window.open(_buildWhatsAppLink(items), "_blank", "noopener,noreferrer");
+    }, 800);
+  }, [showToast, _buildFastrrProducts, _waitForFastrr, _buildWhatsAppLink]);
 
   const openFastrrCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
@@ -373,7 +372,7 @@ export function StoreProvider({ children }) {
     return openFastrrCheckout(itemsToCheckout);
   }, [openFastrrCheckout]);
 
-  // Buy Now — triggers Fastrr "product" type for instant 1-click checkout
+  // Buy Now — instant Fastrr "product" type, no Shopify page
   const buyNow = useCallback(async (product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
@@ -381,9 +380,7 @@ export function StoreProvider({ children }) {
   }, [_triggerFastrr]);
 
   const openCheckout = useCallback(async (directItem = null) => {
-    if (directItem) {
-      return buyNow(directItem);
-    }
+    if (directItem) return buyNow(directItem);
     return openFastrrCheckout();
   }, [buyNow, openFastrrCheckout]);
 
