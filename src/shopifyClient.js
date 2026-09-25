@@ -184,6 +184,13 @@ export async function createShopifyCart(items = [], options = {}) {
     }
   } catch {}
 
+  if (options.buyerIdentity) {
+    input.buyerIdentity = {
+      ...(input.buyerIdentity || {}),
+      ...options.buyerIdentity,
+    };
+  }
+
   const mutation = `
     mutation CartCreate($input: CartInput!) {
       cartCreate(input: $input) {

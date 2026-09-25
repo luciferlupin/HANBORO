@@ -95,6 +95,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
     clearCart,
     appliedPromo,
     shopifyCustomer,
+    shopifyService,
   } = useStore();
 
   // Active items being checked out
@@ -272,6 +273,16 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
 
       if (data.otpCode) {
         setServerOtp(data.otpCode);
+      }
+
+      // Sync customer lead & abandoned checkout session directly to Shopify
+      if (shopifyService && typeof shopifyService.createShopifyCart === "function") {
+        shopifyService.createShopifyCart(items, {
+          buyerIdentity: {
+            phone: `+91${clean}`,
+            email: email || `client.${clean}@gmail.com`,
+          },
+        }).catch((err) => console.warn("Shopify checkout lead sync note:", err?.message));
       }
 
       // 2. Query Fastrr network for saved buyer details & addresses
