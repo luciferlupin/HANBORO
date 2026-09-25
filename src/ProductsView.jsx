@@ -152,7 +152,7 @@ function MaisonWatchModelCard({
               if (requiresChoice) {
                 onSelectProduct(primaryWatch);
               } else {
-                buyNow(primaryWatch);
+                buyNow(primaryWatch).catch(() => {});
               }
             }}
             title={requiresChoice ? "Choose an option before buying" : "Instant Buy Now"}

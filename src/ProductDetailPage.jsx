@@ -815,7 +815,7 @@ export function ProductDetailPage({
                         <button
                           type="button"
                           className="pdp-buy-now-btn"
-                          onClick={() => buyNow(product, buyQty)}
+                          onClick={() => buyNow(product, buyQty).catch(() => {})}
                           disabled={avail.isSoldOut}
                           style={avail.isSoldOut ? { opacity: 0.4, cursor: "not-allowed" } : {}}
                         >
@@ -1229,7 +1229,7 @@ export function ProductDetailPage({
           <button
             type="button"
             className="pdp-mobile-sticky-buy-btn"
-            onClick={() => buyNow(product, buyQty)}
+            onClick={() => buyNow(product, buyQty).catch(() => {})}
             aria-label="Buy timepiece now"
           >
             Buy Now

@@ -279,6 +279,38 @@ export async function fetchShopifyProducts(first = 80) {
                     url
                     altText
                   }
+                  metafields(identifiers: [
+                    { namespace: "custom", key: "variant_media" },
+                    { namespace: "custom", key: "smind_variant_media" },
+                    { namespace: "smind", key: "variant_media" },
+                    { namespace: "smind", key: "media" },
+                    { namespace: "smind_sections", key: "variant_media" }
+                  ]) {
+                    namespace
+                    key
+                    value
+                    type
+                    reference {
+                      ... on MediaImage {
+                        image {
+                          url
+                          altText
+                        }
+                      }
+                    }
+                    references(first: 20) {
+                      edges {
+                        node {
+                          ... on MediaImage {
+                            image {
+                              url
+                              altText
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -616,6 +648,38 @@ export async function fetchLiveShopifyData() {
                   url
                   altText
                 }
+                metafields(identifiers: [
+                  { namespace: "custom", key: "variant_media" },
+                  { namespace: "custom", key: "smind_variant_media" },
+                  { namespace: "smind", key: "variant_media" },
+                  { namespace: "smind", key: "media" },
+                  { namespace: "smind_sections", key: "variant_media" }
+                ]) {
+                  namespace
+                  key
+                  value
+                  type
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                  references(first: 20) {
+                    edges {
+                      node {
+                        ... on MediaImage {
+                          image {
+                            url
+                            altText
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -651,18 +715,37 @@ export async function fetchLiveShopifyData() {
       const liveImages = liveImageObjects.map((img) => img.url);
       const featuredImageUrl = node.featuredImage?.url || primaryVariant.image?.url || liveImages[0] || "";
       const parsedSpecifications = parseShopifySpecifications(node.descriptionHtml || node.description || "");
-      const shopifyVariants = (node.variants?.edges || []).map(({ node: variant }) => ({
-        id: variant.id,
-        title: variant.title || "",
-        sku: variant.sku?.trim() || "",
-        selectedOptions: Array.isArray(variant.selectedOptions) ? variant.selectedOptions : [],
-        price: variant.price?.amount ? Math.round(parseFloat(variant.price.amount)) : null,
-        compareAtPrice: variant.compareAtPrice?.amount ? Math.round(parseFloat(variant.compareAtPrice.amount)) : null,
-        availableForSale: variant.availableForSale ?? true,
-        quantityAvailable: variant.quantityAvailable ?? null,
-        image: variant.image?.url || "",
-        imageAlt: variant.image?.altText || "",
-      }));
+      const shopifyVariants = (node.variants?.edges || []).map(({ node: variant }) => {
+        const metafieldImages = [];
+        if (Array.isArray(variant.metafields)) {
+          for (const mf of variant.metafields) {
+            if (!mf) continue;
+            if (mf.reference?.image?.url) {
+              const u = mf.reference.image.url;
+              if (u && !metafieldImages.includes(u)) metafieldImages.push(u);
+            }
+            if (Array.isArray(mf.references?.edges)) {
+              for (const edge of mf.references.edges) {
+                const u = edge?.node?.image?.url;
+                if (u && !metafieldImages.includes(u)) metafieldImages.push(u);
+              }
+            }
+          }
+        }
+        return {
+          id: variant.id,
+          title: variant.title || "",
+          sku: variant.sku?.trim() || "",
+          selectedOptions: Array.isArray(variant.selectedOptions) ? variant.selectedOptions : [],
+          price: variant.price?.amount ? Math.round(parseFloat(variant.price.amount)) : null,
+          compareAtPrice: variant.compareAtPrice?.amount ? Math.round(parseFloat(variant.compareAtPrice.amount)) : null,
+          availableForSale: variant.availableForSale ?? true,
+          quantityAvailable: variant.quantityAvailable ?? null,
+          image: variant.image?.url || "",
+          imageAlt: variant.image?.altText || "",
+          metafieldImages,
+        };
+      });
       
       // Extract model number from description specs, or derive from SKU / title without requiring tags
       const modelTag = (node.tags || []).find((tag) => /^model[-:\s]/i.test(tag));
@@ -969,6 +1052,15 @@ export function filterImagesForVariant(product, variant, allProducts = []) {
 
   const matchingMedia = [];
   const genericDetails = [];
+
+  // 0. Include any images attached explicitly to this variant via metafields (e.g. Smind or custom variant media)
+  if (Array.isArray(variant?.metafieldImages) && variant.metafieldImages.length > 0) {
+    for (const mUrl of variant.metafieldImages) {
+      if (mUrl && !matchingMedia.includes(mUrl)) {
+        matchingMedia.push(mUrl);
+      }
+    }
+  }
 
   for (const item of allMedia) {
     const url = item?.url;
