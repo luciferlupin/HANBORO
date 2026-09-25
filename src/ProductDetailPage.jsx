@@ -176,6 +176,15 @@ export function ProductDetailPage({
       });
     }
 
+    // Explicitly ensure images attached to this variant via metafields are in the gallery
+    if (Array.isArray(selectedShopifyVariant?.metafieldImages) && selectedShopifyVariant.metafieldImages.length > 0) {
+      selectedShopifyVariant.metafieldImages.forEach((imgUrl, idx) => {
+        if (!otherVariantImages.has(imgUrl)) {
+          pushImg(imgUrl, `${product.name} — Detail 0${idx + 1}`, `0${idx + 1} View`, `Official boutique presentation of Reference ${product.sku}.`);
+        }
+      });
+    }
+
     // Only inspect baseProduct.gallery / altImages if we have NO shopifyImages or if this is a single-variant watch
     if (shopifyVariants.length <= 1) {
       if (Array.isArray(product.gallery) && product.gallery.length > 0) {

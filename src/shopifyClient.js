@@ -280,11 +280,24 @@ export async function fetchShopifyProducts(first = 80) {
                     altText
                   }
                   metafields(identifiers: [
+                    { namespace: "custom", key: "image" },
+                    { namespace: "custom", key: "images" },
                     { namespace: "custom", key: "variant_media" },
                     { namespace: "custom", key: "smind_variant_media" },
+                    { namespace: "custom", key: "smind_-_variant_media" },
+                    { namespace: "custom", key: "smind-variant-media" },
+                    { namespace: "custom", key: "smind_variant_images" },
+                    { namespace: "custom", key: "smind_media" },
+                    { namespace: "custom", key: "media" },
+                    { namespace: "custom", key: "photos" },
+                    { namespace: "custom", key: "gallery" },
                     { namespace: "smind", key: "variant_media" },
+                    { namespace: "smind", key: "variant-media" },
                     { namespace: "smind", key: "media" },
-                    { namespace: "smind_sections", key: "variant_media" }
+                    { namespace: "smind_sections", key: "variant_media" },
+                    { namespace: "smind_sections", key: "variant-media" },
+                    { namespace: "app--01a0d3c9-249a-7281-b443-d89d4893d6dd", key: "variant_media" },
+                    { namespace: "app--01a0d3c9-249a-7281-b443-d89d4893d6dd", key: "smind_variant_media" }
                   ]) {
                     namespace
                     key
@@ -297,8 +310,11 @@ export async function fetchShopifyProducts(first = 80) {
                           altText
                         }
                       }
+                      ... on GenericFile {
+                        url
+                      }
                     }
-                    references(first: 20) {
+                    references(first: 25) {
                       edges {
                         node {
                           ... on MediaImage {
@@ -306,6 +322,9 @@ export async function fetchShopifyProducts(first = 80) {
                               url
                               altText
                             }
+                          }
+                          ... on GenericFile {
+                            url
                           }
                         }
                       }
@@ -649,11 +668,24 @@ export async function fetchLiveShopifyData() {
                   altText
                 }
                 metafields(identifiers: [
+                  { namespace: "custom", key: "image" },
+                  { namespace: "custom", key: "images" },
                   { namespace: "custom", key: "variant_media" },
                   { namespace: "custom", key: "smind_variant_media" },
+                  { namespace: "custom", key: "smind_-_variant_media" },
+                  { namespace: "custom", key: "smind-variant-media" },
+                  { namespace: "custom", key: "smind_variant_images" },
+                  { namespace: "custom", key: "smind_media" },
+                  { namespace: "custom", key: "media" },
+                  { namespace: "custom", key: "photos" },
+                  { namespace: "custom", key: "gallery" },
                   { namespace: "smind", key: "variant_media" },
+                  { namespace: "smind", key: "variant-media" },
                   { namespace: "smind", key: "media" },
-                  { namespace: "smind_sections", key: "variant_media" }
+                  { namespace: "smind_sections", key: "variant_media" },
+                  { namespace: "smind_sections", key: "variant-media" },
+                  { namespace: "app--01a0d3c9-249a-7281-b443-d89d4893d6dd", key: "variant_media" },
+                  { namespace: "app--01a0d3c9-249a-7281-b443-d89d4893d6dd", key: "smind_variant_media" }
                 ]) {
                   namespace
                   key
@@ -666,8 +698,11 @@ export async function fetchLiveShopifyData() {
                         altText
                       }
                     }
+                    ... on GenericFile {
+                      url
+                    }
                   }
-                  references(first: 20) {
+                  references(first: 25) {
                     edges {
                       node {
                         ... on MediaImage {
@@ -675,6 +710,9 @@ export async function fetchLiveShopifyData() {
                             url
                             altText
                           }
+                        }
+                        ... on GenericFile {
+                          url
                         }
                       }
                     }
@@ -720,14 +758,38 @@ export async function fetchLiveShopifyData() {
         if (Array.isArray(variant.metafields)) {
           for (const mf of variant.metafields) {
             if (!mf) continue;
+            // 1. Single reference (MediaImage or GenericFile)
             if (mf.reference?.image?.url) {
               const u = mf.reference.image.url;
               if (u && !metafieldImages.includes(u)) metafieldImages.push(u);
+            } else if (mf.reference?.url) {
+              const u = mf.reference.url;
+              if (u && !metafieldImages.includes(u)) metafieldImages.push(u);
             }
+            // 2. List of references (MediaImage or GenericFile)
             if (Array.isArray(mf.references?.edges)) {
               for (const edge of mf.references.edges) {
-                const u = edge?.node?.image?.url;
+                const u = edge?.node?.image?.url || edge?.node?.url;
                 if (u && !metafieldImages.includes(u)) metafieldImages.push(u);
+              }
+            }
+            // 3. Raw value parsing (JSON array of URLs or direct URL string)
+            if (mf.value && typeof mf.value === "string") {
+              try {
+                const parsed = JSON.parse(mf.value);
+                if (Array.isArray(parsed)) {
+                  for (const item of parsed) {
+                    if (typeof item === "string" && item.startsWith("http") && !metafieldImages.includes(item)) {
+                      metafieldImages.push(item);
+                    }
+                  }
+                } else if (typeof parsed === "string" && parsed.startsWith("http") && !metafieldImages.includes(parsed)) {
+                  metafieldImages.push(parsed);
+                }
+              } catch (_) {
+                if (mf.value.startsWith("http") && !metafieldImages.includes(mf.value)) {
+                  metafieldImages.push(mf.value);
+                }
               }
             }
           }
@@ -1053,7 +1115,12 @@ export function filterImagesForVariant(product, variant, allProducts = []) {
   const matchingMedia = [];
   const genericDetails = [];
 
-  // 0. Include any images attached explicitly to this variant via metafields (e.g. Smind or custom variant media)
+  // 1. Include primary direct variant image first
+  if (variantImage && !matchingMedia.includes(variantImage)) {
+    matchingMedia.push(variantImage);
+  }
+
+  // 2. Include any additional images attached explicitly to this variant via metafields (e.g. Smind or custom variant media)
   if (Array.isArray(variant?.metafieldImages) && variant.metafieldImages.length > 0) {
     for (const mUrl of variant.metafieldImages) {
       if (mUrl && !matchingMedia.includes(mUrl)) {
