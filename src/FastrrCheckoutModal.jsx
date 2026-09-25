@@ -113,15 +113,19 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [phoneError, setPhoneError] = useState("");
   const [isSendingOtp, setIsSendingOtp] = useState(false);
 
+  // Auto-detected buyer profile from Shiprocket network
+  const [detectedBuyer, setDetectedBuyer] = useState(null);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [isAddingNewAddress, setIsAddingNewAddress] = useState(false);
+
   // Step 2: Real OTP
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [otpError, setOtpError] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(30);
-  const [serverOtp, setServerOtp] = useState("");
   const otpInputRefs = useRef([]);
 
-  // Step 3: Address
+  // Step 3: Address Form
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [pincode, setPincode] = useState("");
@@ -129,13 +133,13 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [stateName, setStateName] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [landmark, setLandmark] = useState("");
+  const [addressType, setAddressType] = useState("Home");
   const [addressError, setAddressError] = useState("");
 
   // Step 4: Payment Details
   const [paymentMethod, setPaymentMethod] = useState("UPI");
   const [upiId, setUpiId] = useState("");
   const [selectedUpiApp, setSelectedUpiApp] = useState("Google Pay");
-  const [showQrCode, setShowQrCode] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [cardExpiry, setCardExpiry] = useState("");
   const [cardCvv, setCardCvv] = useState("");
@@ -143,6 +147,12 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [bankName, setBankName] = useState("HDFC Bank");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+
+  // Step 5: Placed Order Success
+  const [placedOrder, setPlacedOrder] = useState(null);
+
+  // Mobile Order Summary Accordion State
+  const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState(false);
 
   const handleCardNumberChange = (e) => {
     const raw = e.target.value.replace(/\D/g, "").slice(0, 16);
@@ -158,10 +168,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
     setCardExpiry(raw);
   };
 
-  // Step 5: Success
-  const [placedOrder, setPlacedOrder] = useState(null);
-
-  // Auto-fill customer profile details if logged in
+  // Pre-fill customer profile details if logged in via Shopify
   useEffect(() => {
     if (shopifyCustomer) {
       if (shopifyCustomer.displayName && !fullName) {
@@ -237,7 +244,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
     setIsFastrrCheckoutOpen(false);
   };
 
-  // ── 1. SEND REAL OTP ────────────────────────────────────────────────────────
+  // ── 1. SEND REAL OTP & AUTO-DETECT BUYER ─────────────────────────────────────
   const handleSendOtp = async (e) => {
     if (e) e.preventDefault();
     setPhoneError("");
@@ -250,6 +257,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
 
     setIsSendingOtp(true);
     try {
+      // 1. Dispatch real SMS OTP via Shiprocket Fastrr
       const res = await fetch("/api/fastrr-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -261,9 +269,25 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
         throw new Error(data.error || "Failed to dispatch OTP. Please verify your mobile number.");
       }
 
-      if (data.otpCode) {
-        setServerOtp(data.otpCode);
-      }
+      // 2. Query Fastrr network for saved buyer details & addresses
+      fetch(`/api/fastrr-user?phone=${clean}`)
+        .then((r) => r.json())
+        .then((uData) => {
+          if (uData.success && uData.profile) {
+            setDetectedBuyer(uData.profile);
+            if (uData.profile.name && !fullName) setFullName(uData.profile.name);
+            if (uData.profile.email && !email) setEmail(uData.profile.email);
+            if (Array.isArray(uData.profile.addresses) && uData.profile.addresses.length > 0) {
+              const defaultAddr = uData.profile.addresses[0];
+              setSelectedAddressId(defaultAddr.id);
+              setIsAddingNewAddress(false);
+            } else {
+              setIsAddingNewAddress(true);
+            }
+          }
+        })
+        .catch(() => {});
+
       setStep("otp");
       setResendCooldown(30);
       setOtp(["", "", "", "", "", ""]);
@@ -284,7 +308,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
     const enteredCode = otp.join("").trim();
 
     if (enteredCode.length !== 6) {
-      setOtpError("Please enter all 6 digits of the OTP verification code.");
+      setOtpError("Please enter all 6 digits of the OTP code received on SMS.");
       return;
     }
 
@@ -298,9 +322,10 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.success === false) {
-        throw new Error(data.error || "Invalid verification code.");
+        throw new Error(data.error || "Invalid verification code. Please check your SMS.");
       }
 
+      // Move to Address step
       setStep("address");
     } catch (err) {
       setOtpError(err.message || "Invalid OTP code. Please try again.");
@@ -341,79 +366,133 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   };
 
   // ── 3. PROCEED TO PAYMENT ───────────────────────────────────────────────────
-  const handleAddressSubmit = (e) => {
+  const handleAddressSubmit = async (e) => {
     if (e) e.preventDefault();
     setAddressError("");
 
+    // If using a saved address from Fastrr buyer network
+    if (selectedAddressId && !isAddingNewAddress && detectedBuyer?.addresses) {
+      const chosen = detectedBuyer.addresses.find((a) => a.id === selectedAddressId);
+      if (chosen) {
+        setStreetAddress(chosen.address);
+        setPincode(chosen.pincode);
+        setCity(chosen.city);
+        setStateName(chosen.state);
+        setStep("payment");
+        return;
+      }
+    }
+
+    // New address validation
     if (!fullName.trim()) {
       setAddressError("Please enter your full name for boutique dispatch.");
       return;
     }
-    if (!streetAddress.trim()) {
-      setAddressError("Please enter your delivery street address / building name.");
-      return;
-    }
+
     const cleanPin = pincode.replace(/\D/g, "");
     if (cleanPin.length !== 6) {
-      setAddressError("Please enter a valid 6-digit Indian PIN code.");
+      setAddressError("Please enter a valid 6-digit Indian postal Pincode.");
       return;
     }
+
+    if (!streetAddress.trim() || streetAddress.trim().length < 5) {
+      setAddressError("Please provide your complete street address (House/Flat, Building, Area).");
+      return;
+    }
+
     if (!city.trim() || !stateName.trim()) {
       setAddressError("Please specify your city and state.");
       return;
     }
 
+    // Persist new address back to buyer profile
+    fetch("/api/fastrr-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone,
+        name: fullName,
+        email,
+        address: `${streetAddress}${landmark ? `, Near ${landmark}` : ""}`,
+        pincode: cleanPin,
+        city,
+        state: stateName,
+        addressType,
+      }),
+    }).catch(() => {});
+
     setStep("payment");
   };
 
-  // ── 4. PLACE REAL ORDER & SYNC ──────────────────────────────────────────────
+  // ── 4. COMPLETE ORDER DISPATCH ──────────────────────────────────────────────
   const handlePlaceOrder = async () => {
     setPaymentError("");
-    setIsPlacingOrder(true);
 
+    if (paymentMethod === "UPI") {
+      if (upiId && !/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/.test(upiId.trim())) {
+        setPaymentError("Please enter a valid UPI ID (e.g. mobile@okaxis or user@upi).");
+        return;
+      }
+    }
+
+    if (paymentMethod === "Cards") {
+      const rawNum = cardNumber.replace(/\s/g, "");
+      if (rawNum.length < 15) {
+        setPaymentError("Please enter a valid 16-digit card number.");
+        return;
+      }
+      if (!cardExpiry || cardExpiry.length < 5) {
+        setPaymentError("Please enter valid card expiry (MM/YY).");
+        return;
+      }
+      if (!cardCvv || cardCvv.length < 3) {
+        setPaymentError("Please enter 3-digit CVV / CVC code.");
+        return;
+      }
+    }
+
+    setIsPlacingOrder(true);
     try {
-      const orderData = {
-        customer: {
-          name: fullName.trim(),
-          phone: phone.trim(),
-          email: email.trim(),
-          address: `${streetAddress.trim()}${landmark ? `, ${landmark.trim()}` : ""}`,
-          pincode: pincode.trim(),
-          city: city.trim(),
-          state: stateName.trim(),
-        },
-        items,
-        paymentMethod: paymentMethod === "UPI"
-          ? `UPI (${selectedUpiApp || "Instant"}${upiId ? ` - ${upiId}` : ""})`
-          : paymentMethod === "Card"
-          ? `Card (•••• ${cardNumber.replace(/\s/g, "").slice(-4) || "8892"})`
-          : paymentMethod === "Netbanking"
-          ? `Netbanking (${bankName})`
-          : "Cash on Delivery (COD)",
-        totalAmount: `₹${total.toLocaleString("en-IN")}`,
-      };
+      const cleanPhone = phone.replace(/\D/g, "").slice(-10);
+      const chosenAddr = selectedAddressId && !isAddingNewAddress && detectedBuyer?.addresses
+        ? detectedBuyer.addresses.find((a) => a.id === selectedAddressId)
+        : null;
+
+      const finalAddress = chosenAddr ? chosenAddr.address : `${streetAddress}${landmark ? `, Near ${landmark}` : ""}`;
+      const finalCity = chosenAddr ? chosenAddr.city : city;
+      const finalState = chosenAddr ? chosenAddr.state : stateName;
+      const finalPincode = chosenAddr ? chosenAddr.pincode : pincode;
 
       const res = await fetch("/api/fastrr-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify({
+          customer: {
+            name: fullName.trim() || "Valued Collector",
+            phone: cleanPhone,
+            email: email.trim() || `client.${cleanPhone}@hanboro.in`,
+            address: finalAddress,
+            city: finalCity,
+            state: finalState,
+            pincode: finalPincode,
+          },
+          items,
+          paymentMethod,
+          totalAmount: total,
+          promo: appliedPromo ? appliedPromo.code : null,
+        }),
       });
 
-      const result = await res.json().catch(() => ({}));
-      if (!res.ok || result.success === false) {
-        throw new Error(result.error || "Order dispatch synchronization failed.");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.error || "Failed to finalize Fastrr order. Please try again.");
       }
 
-      // Store in session so TrackOrderView immediately recognizes it
-      if (typeof sessionStorage !== "undefined") {
-        sessionStorage.setItem("hanboro_recent_fastrr_order", JSON.stringify(result));
-      }
-
-      setPlacedOrder(result);
+      setPlacedOrder(data);
       setStep("success");
       clearCart();
     } catch (err) {
-      setPaymentError(err.message || "Failed to confirm order with Shiprocket. Please retry.");
+      setPaymentError(err.message || "Failed to process order. Please try again.");
     } finally {
       setIsPlacingOrder(false);
     }
@@ -421,33 +500,44 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
 
   if (!isFastrrCheckoutOpen) return null;
 
+  const firstItem = items[0] || {};
+  const firstProduct = firstItem.product || {};
+  const itemThumb = firstProduct.image || firstProduct.transparentImage || (firstProduct.shopifyImages && firstProduct.shopifyImages[0]) || "";
+
   return (
-    <div className="fastrr-modal-backdrop" onClick={handleClose} role="dialog" aria-modal="true" aria-labelledby="fastrr-modal-title">
-      <div className="fastrr-modal-container" onClick={(e) => e.stopPropagation()}>
+    <div className="fastrr-modal-backdrop" onClick={handleClose}>
+      <div
+        className="fastrr-modal-container"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="fastrr-modal-heading"
+      >
         {/* Modal Header */}
         <header className="fastrr-header">
           <div className="fastrr-brand-group">
             <div className="fastrr-logo-badge" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" />
               </svg>
             </div>
             <div className="fastrr-brand-text">
-              <h2 id="fastrr-modal-title" className="fastrr-title">
-                FASTRR <span className="sub">by Shiprocket</span>
+              <h2 id="fastrr-modal-heading" className="fastrr-title">
+                HANBORO <span className="sub">Fastrr 1-Click</span>
               </h2>
-              <p className="fastrr-tagline">1-Click Precision Checkout • Official Hanboro Vault</p>
+              <p className="fastrr-tagline">AI-Powered Express Checkout • Powered by Shiprocket</p>
             </div>
           </div>
+
           <div className="fastrr-header-right">
-            <div className="fastrr-ssl-badge">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <div className="fastrr-ssl-badge" title="256-Bit SSL Encrypted by Shiprocket Fastrr">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
-              <span>256-Bit SSL</span>
+              <span>Verified 256-Bit</span>
             </div>
-            <button type="button" className="fastrr-close-btn" onClick={handleClose} aria-label="Close Fastrr checkout">
+            <button type="button" className="fastrr-close-btn" onClick={handleClose} aria-label="Close checkout">
               &times;
             </button>
           </div>
@@ -481,6 +571,66 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
           </nav>
         )}
 
+        {/* Mobile Collapsible Summary Bar */}
+        {step !== "success" && (
+          <>
+            <div
+              className="fastrr-mobile-summary-bar"
+              onClick={() => setIsMobileSummaryOpen(!isMobileSummaryOpen)}
+              role="button"
+              tabIndex={0}
+              aria-expanded={isMobileSummaryOpen}
+            >
+              <div className="fastrr-mobile-summary-left">
+                {itemThumb && <img src={itemThumb} alt="" className="fastrr-mobile-summary-thumb" />}
+                <span>{items.length === 1 ? (firstProduct.name || firstProduct.title || "Hanboro Watch") : `${items.length} Timepieces`}</span>
+              </div>
+              <div className="fastrr-mobile-summary-price">
+                <span>₹{total.toLocaleString("en-IN")}</span>
+                <span className={`fastrr-mobile-summary-toggle-icon ${isMobileSummaryOpen ? "open" : ""}`}>▼</span>
+              </div>
+            </div>
+
+            {isMobileSummaryOpen && (
+              <div className="fastrr-mobile-summary-content">
+                <div className="fastrr-order-items-scroll">
+                  {items.map((it, idx) => {
+                    const p = it.product || {};
+                    const pImg = p.image || p.transparentImage || (p.shopifyImages && p.shopifyImages[0]) || "";
+                    const pPrice = p.priceNumeric || (typeof p.price === "string" ? parseInt(p.price.replace(/[^\d]/g, ""), 10) : 0) || 54999;
+                    return (
+                      <div key={idx} className="fastrr-item-card">
+                        {pImg && <img src={pImg} alt="" className="fastrr-item-img" />}
+                        <div className="fastrr-item-info">
+                          <div className="fastrr-item-name">{p.name || p.title || "Hanboro Watch"}</div>
+                          <div className="fastrr-item-edition">Qty: {it.quantity || 1} • Ref. {p.sku || "HBR-01"}</div>
+                        </div>
+                        <div className="fastrr-item-price">₹{(pPrice * (it.quantity || 1)).toLocaleString("en-IN")}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="fastrr-price-breakdown" style={{ marginBottom: 0 }}>
+                  <div className="fastrr-price-row">
+                    <span>Subtotal</span>
+                    <span>₹{subtotal.toLocaleString("en-IN")}</span>
+                  </div>
+                  {discountAmount > 0 && (
+                    <div className="fastrr-price-row" style={{ color: "#10b981" }}>
+                      <span>VIP Privilege ({appliedPromo.code})</span>
+                      <span>-₹{discountAmount.toLocaleString("en-IN")}</span>
+                    </div>
+                  )}
+                  <div className="fastrr-price-row">
+                    <span>Express Insured Courier</span>
+                    <span style={{ color: "#10b981" }}>FREE</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
         {/* Modal Body: Left Flow & Right Sidebar */}
         <div className="fastrr-modal-body">
           {/* ── LEFT: INTERACTIVE STEP FLOW ── */}
@@ -490,7 +640,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
               <div>
                 <h3 className="fastrr-step-heading">Enter Mobile Number</h3>
                 <p className="fastrr-step-desc">
-                  Fastrr instantly looks up your saved addresses and authenticates with a live SMS code.
+                  Fastrr instantly auto-detects your saved addresses across Shiprocket and sends an authentic SMS verification code.
                 </p>
 
                 {phoneError && <div className="fastrr-error-alert" role="alert">{phoneError}</div>}
@@ -512,8 +662,13 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                     />
                   </div>
 
+                  <div className="fastrr-network-pill">
+                    <span className="dot" />
+                    <span>Auto-detects address & profile for 25M+ shoppers on Shiprocket Fastrr</span>
+                  </div>
+
                   <button type="submit" className="fastrr-cta-btn" disabled={isSendingOtp}>
-                    {isSendingOtp ? "Dispatching OTP Code..." : "Continue with Fastrr OTP →"}
+                    {isSendingOtp ? "Dispatching SMS Code..." : "Continue with Fastrr OTP →"}
                   </button>
                 </form>
               </div>
@@ -524,31 +679,10 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
               <div className="fastrr-otp-container">
                 <h3 className="fastrr-step-heading">Verify with Live OTP</h3>
                 <p className="fastrr-step-desc">
-                  Enter the 6-digit verification code dispatched to <strong>+91 {phone}</strong>
+                  Enter the 6-digit verification code sent via SMS to <strong>+91 {phone}</strong>
                 </p>
 
                 {otpError && <div className="fastrr-error-alert" role="alert">{otpError}</div>}
-
-                {serverOtp && (
-                  <div
-                    className="fastrr-otp-hint-banner"
-                    onClick={() => {
-                      const digits = String(serverOtp).split("").slice(0, 6);
-                      setOtp(digits);
-                      setTimeout(() => {
-                        otpInputRefs.current[5]?.focus();
-                      }, 50);
-                    }}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <div className="fastrr-otp-hint-left">
-                      <span className="fastrr-otp-hint-dot" />
-                      <span>Fastrr Express SMS Code: <strong>{serverOtp}</strong></span>
-                    </div>
-                    <span className="fastrr-otp-hint-btn">Tap to Auto-Fill ⚡</span>
-                  </div>
-                )}
 
                 <form onSubmit={handleVerifyOtp} style={{ width: "100%" }}>
                   <div className="fastrr-otp-grid">
@@ -569,7 +703,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                   </div>
 
                   <div className="fastrr-otp-meta">
-                    <span>Didn't receive code?</span>
+                    <span>Didn't receive SMS?</span>
                     <button
                       type="button"
                       className="fastrr-resend-btn"
@@ -596,515 +730,473 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
               <div>
                 <h3 className="fastrr-step-heading">Delivery Address</h3>
                 <p className="fastrr-step-desc">
-                  White-glove courier dispatch coordinates for your Hanboro vault timepiece.
+                  Select a saved Shiprocket address or add coordinates for insured express dispatch.
                 </p>
 
                 {addressError && <div className="fastrr-error-alert" role="alert">{addressError}</div>}
 
-                <form onSubmit={handleAddressSubmit} className="fastrr-address-form">
-                  <div className="fastrr-form-group">
-                    <label className="fastrr-form-label">Full Name *</label>
-                    <input
-                      type="text"
-                      className="fastrr-text-input"
-                      placeholder="e.g. Vikramaditya Singhania"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="fastrr-input-row">
-                    <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">Email Address (for order dossier)</label>
-                      <input
-                        type="email"
-                        className="fastrr-text-input"
-                        placeholder="collector@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
+                {/* Saved addresses from Shiprocket Fastrr Buyer Network */}
+                {detectedBuyer && Array.isArray(detectedBuyer.addresses) && detectedBuyer.addresses.length > 0 && !isAddingNewAddress && (
+                  <div className="fastrr-saved-section">
+                    <div className="fastrr-saved-header">
+                      <span>Saved Addresses ({detectedBuyer.addresses.length})</span>
+                      <span style={{ color: "#10b981", fontSize: "11px" }}>✓ Auto-Detected</span>
                     </div>
+
+                    {detectedBuyer.addresses.map((addr) => {
+                      const isSelected = selectedAddressId === addr.id;
+                      return (
+                        <div
+                          key={addr.id}
+                          className={`fastrr-saved-card ${isSelected ? "selected" : ""}`}
+                          onClick={() => setSelectedAddressId(addr.id)}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <div className="fastrr-radio-pill">
+                            {isSelected && <div className="fastrr-radio-dot" />}
+                          </div>
+                          <div className="fastrr-saved-info">
+                            <span className="fastrr-saved-badge">{addr.type || "Delivery"}</span>
+                            <div className="fastrr-saved-name">{detectedBuyer.name || fullName || "Valued Collector"}</div>
+                            <div className="fastrr-saved-addr">
+                              {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    <button
+                      type="button"
+                      className="fastrr-toggle-new-btn"
+                      onClick={() => setIsAddingNewAddress(true)}
+                    >
+                      + Add New Delivery Address
+                    </button>
+
+                    <button
+                      type="button"
+                      className="fastrr-cta-btn"
+                      onClick={handleAddressSubmit}
+                      style={{ marginTop: "12px" }}
+                    >
+                      Deliver to Selected Address →
+                    </button>
+                  </div>
+                )}
+
+                {/* Manual Address Form (Shown if no saved addresses, or when user clicks + Add New Address) */}
+                {(!detectedBuyer?.addresses?.length || isAddingNewAddress) && (
+                  <form onSubmit={handleAddressSubmit} className="fastrr-address-form">
+                    {detectedBuyer?.addresses?.length > 0 && (
+                      <button
+                        type="button"
+                        className="fastrr-back-btn"
+                        onClick={() => setIsAddingNewAddress(false)}
+                        style={{ alignSelf: "flex-start", margin: "0 0 10px 0" }}
+                      >
+                        ← Back to Saved Addresses
+                      </button>
+                    )}
+
                     <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">Verified Phone</label>
+                      <label className="fastrr-form-label">Full Name *</label>
                       <input
                         type="text"
                         className="fastrr-text-input"
-                        value={`+91 ${phone}`}
-                        disabled
-                        style={{ opacity: 0.7, cursor: "not-allowed" }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="fastrr-form-group">
-                    <label className="fastrr-form-label">Flat / House No. / Building / Street Address *</label>
-                    <input
-                      type="text"
-                      className="fastrr-text-input"
-                      placeholder="e.g. Penthouse 4B, The Grandeur, Golf Course Road"
-                      value={streetAddress}
-                      onChange={(e) => setStreetAddress(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div className="fastrr-input-row">
-                    <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">
-                        PIN Code * {city && <span className="fastrr-pincode-badge">✓ Auto-detected</span>}
-                      </label>
-                      <input
-                        type="text"
-                        className="fastrr-text-input"
-                        placeholder="e.g. 110001"
-                        maxLength={6}
-                        value={pincode}
-                        onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        placeholder="e.g. Vikramaditya Singhania"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         required
                       />
                     </div>
+
+                    <div className="fastrr-input-row">
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">Email Address (Optional)</label>
+                        <input
+                          type="email"
+                          className="fastrr-text-input"
+                          placeholder="client@hanboro.in"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">Postal Pincode *</label>
+                        <input
+                          type="text"
+                          className="fastrr-text-input"
+                          placeholder="6-digit Pincode (e.g. 110001)"
+                          value={pincode}
+                          maxLength={6}
+                          onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                          required
+                        />
+                        {city && stateName && (
+                          <div className="fastrr-pincode-badge">
+                            <span>✓ Detected:</span>
+                            <strong>{city}, {stateName}</strong>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                     <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">City *</label>
+                      <label className="fastrr-form-label">Flat / House No. & Building *</label>
                       <input
                         type="text"
                         className="fastrr-text-input"
-                        placeholder="City"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="e.g. Villa 14, Oberoi Palms, Golf Course Ext"
+                        value={streetAddress}
+                        onChange={(e) => setStreetAddress(e.target.value)}
                         required
                       />
                     </div>
-                  </div>
 
-                  <div className="input-row fastrr-input-row">
-                    <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">State *</label>
-                      <input
-                        type="text"
-                        className="fastrr-text-input"
-                        placeholder="State"
-                        value={stateName}
-                        onChange={(e) => setStateName(e.target.value)}
-                        required
-                      />
+                    <div className="fastrr-input-row">
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">Landmark</label>
+                        <input
+                          type="text"
+                          className="fastrr-text-input"
+                          placeholder="e.g. Near Grand Hyatt"
+                          value={landmark}
+                          onChange={(e) => setLandmark(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">Address Tag</label>
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          {["Home", "Office", "Other"].map((tag) => (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => setAddressType(tag)}
+                              className={`fastrr-upi-app-btn ${addressType === tag ? "active" : ""}`}
+                              style={{ flex: 1, padding: "8px" }}
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <div className="fastrr-form-group">
-                      <label className="fastrr-form-label">Landmark (Optional)</label>
-                      <input
-                        type="text"
-                        className="fastrr-text-input"
-                        placeholder="Near Oberoi Hotel"
-                        value={landmark}
-                        onChange={(e) => setLandmark(e.target.value)}
-                      />
+
+                    <div className="fastrr-input-row">
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">City *</label>
+                        <input
+                          type="text"
+                          className="fastrr-text-input"
+                          placeholder="City"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          required
+                        />
+                      </div>
+
+                      <div className="fastrr-form-group">
+                        <label className="fastrr-form-label">State *</label>
+                        <input
+                          type="text"
+                          className="fastrr-text-input"
+                          placeholder="State"
+                          value={stateName}
+                          onChange={(e) => setStateName(e.target.value)}
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <button type="submit" className="fastrr-cta-btn" style={{ marginTop: "12px" }}>
-                    Continue to Payment Options →
-                  </button>
-
-                  <button type="button" className="fastrr-back-btn" onClick={() => setStep("otp")}>
-                    ← Back to OTP verification
-                  </button>
-                </form>
+                    <button type="submit" className="fastrr-cta-btn" style={{ marginTop: "8px" }}>
+                      Continue to Payment →
+                    </button>
+                  </form>
+                )}
               </div>
             )}
 
-            {/* STEP 4: PAYMENT SELECTION */}
+            {/* STEP 4: PAYMENT OPTIONS */}
             {step === "payment" && (
               <div>
                 <h3 className="fastrr-step-heading">Select Payment Method</h3>
                 <p className="fastrr-step-desc">
-                  Instant zero-fee settlement powered by Fastrr Shiprocket Checkout gateway.
+                  Encrypted checkout via Shiprocket Fastrr gateway. All transactions insured.
                 </p>
 
                 {paymentError && <div className="fastrr-error-alert" role="alert">{paymentError}</div>}
 
                 <div className="fastrr-payment-grid">
-                  {/* UPI Option */}
-                  <div>
-                    <div
-                      className={`fastrr-pay-card ${paymentMethod === "UPI" ? "selected" : ""}`}
-                      onClick={() => setPaymentMethod("UPI")}
-                    >
-                      <div className="fastrr-pay-left">
-                        <div className="fastrr-pay-icon-box">⚡</div>
-                        <div className="fastrr-pay-title-group">
-                          <span className="fastrr-pay-title">UPI Instant (Google Pay, PhonePe, Paytm, CRED)</span>
-                          <span className="fastrr-pay-subtitle">Instant confirmation • Zero transaction charges</span>
-                        </div>
-                      </div>
-                      <div className="fastrr-radio-pill">
-                        {paymentMethod === "UPI" && <div className="fastrr-radio-dot" />}
+                  {/* UPI */}
+                  <div
+                    className={`fastrr-pay-card ${paymentMethod === "UPI" ? "selected" : ""}`}
+                    onClick={() => setPaymentMethod("UPI")}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="fastrr-pay-left">
+                      <div className="fastrr-pay-icon-box">⚡</div>
+                      <div className="fastrr-pay-title-group">
+                        <div className="fastrr-pay-title">Instant UPI & QR Code</div>
+                        <div className="fastrr-pay-subtitle">Google Pay, PhonePe, Paytm, BHIM</div>
                       </div>
                     </div>
+                    <div className="fastrr-radio-pill">
+                      {paymentMethod === "UPI" && <div className="fastrr-radio-dot" />}
+                    </div>
+                  </div>
 
-                    {paymentMethod === "UPI" && (
-                      <div className="fastrr-pay-details-box">
-                        <div className="fastrr-upi-apps-row">
-                          {["Google Pay", "PhonePe", "Paytm", "BHIM / CRED"].map((appName) => (
-                            <button
-                              key={appName}
-                              type="button"
-                              className={`fastrr-upi-app-btn ${selectedUpiApp === appName ? "active" : ""}`}
-                              onClick={() => setSelectedUpiApp(appName)}
-                            >
-                              <span>⚡</span>
-                              <span>{appName}</span>
-                            </button>
-                          ))}
-                        </div>
+                  {paymentMethod === "UPI" && (
+                    <div style={{ padding: "0 4px 6px" }}>
+                      <div className="fastrr-upi-apps-row">
+                        {["Google Pay", "PhonePe", "Paytm", "Any UPI ID"].map((app) => (
+                          <button
+                            key={app}
+                            type="button"
+                            className={`fastrr-upi-app-btn ${selectedUpiApp === app ? "active" : ""}`}
+                            onClick={() => setSelectedUpiApp(app)}
+                          >
+                            {app}
+                          </button>
+                        ))}
+                      </div>
 
-                        <div className="fastrr-form-group">
-                          <label className="fastrr-form-label">Or Enter Virtual UPI ID (VPA)</label>
+                      {selectedUpiApp === "Any UPI ID" && (
+                        <div style={{ marginTop: "10px" }}>
                           <input
                             type="text"
                             className="fastrr-text-input"
-                            placeholder="e.g. yourname@okhdfcbank"
+                            placeholder="username@okhdfcbank"
                             value={upiId}
                             onChange={(e) => setUpiId(e.target.value)}
                           />
-                          <div className="fastrr-upi-chips-row">
-                            {["@okhdfcbank", "@oksbi", "@okaxis", "@okicici", "@paytm"].map((handle) => (
-                              <span
-                                key={handle}
-                                className="fastrr-upi-chip"
-                                onClick={() => {
-                                  const prefix = upiId ? upiId.split("@")[0] : phone ? `${phone}` : "collector";
-                                  setUpiId(`${prefix}${handle}`);
-                                }}
-                              >
-                                {handle}
-                              </span>
-                            ))}
-                          </div>
                         </div>
+                      )}
+                    </div>
+                  )}
 
-                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                          <button
-                            type="button"
-                            className="fastrr-resend-btn"
-                            style={{ textDecoration: "none", fontSize: "11px" }}
-                            onClick={() => setShowQrCode((prev) => !prev)}
-                          >
-                            {showQrCode ? "Hide UPI QR Code ▲" : "Scan Fastrr Dynamic UPI QR Code ▼"}
-                          </button>
-                        </div>
-
-                        {showQrCode && (
-                          <div className="fastrr-qr-box">
-                            <svg className="fastrr-qr-code-img" viewBox="0 0 100 100" fill="none">
-                              <rect width="100" height="100" fill="#ffffff" rx="4" />
-                              <rect x="10" y="10" width="24" height="24" fill="#000000" rx="3" />
-                              <rect x="14" y="14" width="16" height="16" fill="#ffffff" rx="2" />
-                              <rect x="18" y="18" width="8" height="8" fill="#fa2d1d" />
-
-                              <rect x="66" y="10" width="24" height="24" fill="#000000" rx="3" />
-                              <rect x="70" y="14" width="16" height="16" fill="#ffffff" rx="2" />
-                              <rect x="74" y="18" width="8" height="8" fill="#fa2d1d" />
-
-                              <rect x="10" y="66" width="24" height="24" fill="#000000" rx="3" />
-                              <rect x="14" y="70" width="16" height="16" fill="#ffffff" rx="2" />
-                              <rect x="18" y="74" width="8" height="8" fill="#fa2d1d" />
-
-                              <rect x="42" y="14" width="6" height="6" fill="#000000" />
-                              <rect x="52" y="14" width="6" height="6" fill="#000000" />
-                              <rect x="42" y="24" width="6" height="6" fill="#000000" />
-                              <rect x="52" y="24" width="6" height="6" fill="#000000" />
-                              <rect x="40" y="42" width="20" height="20" fill="#000000" rx="2" />
-                              <rect x="45" y="45" width="10" height="10" fill="#ffffff" />
-                              <rect x="48" y="48" width="4" height="4" fill="#fa2d1d" />
-
-                              <rect x="70" y="44" width="6" height="6" fill="#000000" />
-                              <rect x="80" y="54" width="6" height="6" fill="#000000" />
-                              <rect x="66" y="66" width="6" height="6" fill="#000000" />
-                              <rect x="76" y="76" width="6" height="6" fill="#000000" />
-                              <rect x="84" y="84" width="6" height="6" fill="#000000" />
-                              <rect x="44" y="74" width="6" height="6" fill="#000000" />
-                            </svg>
-                            <div className="fastrr-qr-instructions">
-                              <h5>Fastrr Instant Dynamic UPI QR</h5>
-                              <p>Scan with Google Pay, PhonePe, Paytm, CRED or any BHIM UPI mobile application for instant settlement.</p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Option */}
-                  <div>
-                    <div
-                      className={`fastrr-pay-card ${paymentMethod === "Card" ? "selected" : ""}`}
-                      onClick={() => setPaymentMethod("Card")}
-                    >
-                      <div className="fastrr-pay-left">
-                        <div className="fastrr-pay-icon-box">💳</div>
-                        <div className="fastrr-pay-title-group">
-                          <span className="fastrr-pay-title">Credit / Debit Card</span>
-                          <span className="fastrr-pay-subtitle">Visa, Mastercard, RuPay & American Express</span>
-                        </div>
-                      </div>
-                      <div className="fastrr-radio-pill">
-                        {paymentMethod === "Card" && <div className="fastrr-radio-dot" />}
+                  {/* CARDS */}
+                  <div
+                    className={`fastrr-pay-card ${paymentMethod === "Cards" ? "selected" : ""}`}
+                    onClick={() => setPaymentMethod("Cards")}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="fastrr-pay-left">
+                      <div className="fastrr-pay-icon-box">💳</div>
+                      <div className="fastrr-pay-title-group">
+                        <div className="fastrr-pay-title">Credit / Debit Card</div>
+                        <div className="fastrr-pay-subtitle">Visa, MasterCard, Amex, RuPay</div>
                       </div>
                     </div>
-
-                    {paymentMethod === "Card" && (
-                      <div className="fastrr-pay-details-box">
-                        <div className="fastrr-card-grid">
-                          <div className="fastrr-form-group">
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                              <label className="fastrr-form-label">Card Number</label>
-                              <div className="fastrr-card-brands">
-                                <span className="fastrr-card-pill">VISA</span>
-                                <span className="fastrr-card-pill">MASTERCARD</span>
-                                <span className="fastrr-card-pill">RUPAY</span>
-                                <span className="fastrr-card-pill">AMEX</span>
-                              </div>
-                            </div>
-                            <input
-                              type="text"
-                              className="fastrr-text-input"
-                              placeholder="4532 •••• •••• 8892"
-                              maxLength={19}
-                              value={cardNumber}
-                              onChange={handleCardNumberChange}
-                            />
-                          </div>
-
-                          <div className="fastrr-form-group">
-                            <label className="fastrr-form-label">Name on Card</label>
-                            <input
-                              type="text"
-                              className="fastrr-text-input"
-                              placeholder={fullName || "VIKRAMADITYA SINGHANIA"}
-                              value={cardHolder}
-                              onChange={(e) => setCardHolder(e.target.value)}
-                            />
-                          </div>
-
-                          <div className="fastrr-card-row">
-                            <div className="fastrr-form-group">
-                              <label className="fastrr-form-label">Valid Thru (MM/YY)</label>
-                              <input
-                                type="text"
-                                className="fastrr-text-input"
-                                placeholder="12/28"
-                                maxLength={5}
-                                value={cardExpiry}
-                                onChange={handleExpiryChange}
-                              />
-                            </div>
-                            <div className="fastrr-form-group">
-                              <label className="fastrr-form-label">CVV / CVC (3-4 digits)</label>
-                              <input
-                                type="password"
-                                className="fastrr-text-input"
-                                placeholder="•••"
-                                maxLength={4}
-                                value={cardCvv}
-                                onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <div className="fastrr-radio-pill">
+                      {paymentMethod === "Cards" && <div className="fastrr-radio-dot" />}
+                    </div>
                   </div>
 
-                  {/* Netbanking Option */}
-                  <div>
-                    <div
-                      className={`fastrr-pay-card ${paymentMethod === "Netbanking" ? "selected" : ""}`}
-                      onClick={() => setPaymentMethod("Netbanking")}
-                    >
-                      <div className="fastrr-pay-left">
-                        <div className="fastrr-pay-icon-box">🏛️</div>
-                        <div className="fastrr-pay-title-group">
-                          <span className="fastrr-pay-title">Net Banking</span>
-                          <span className="fastrr-pay-subtitle">HDFC, ICICI, SBI, Axis & 50+ Top Indian Banks</span>
-                        </div>
+                  {paymentMethod === "Cards" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "0 4px 6px" }}>
+                      <input
+                        type="text"
+                        className="fastrr-text-input"
+                        placeholder="Card Number (XXXX XXXX XXXX XXXX)"
+                        value={cardNumber}
+                        onChange={handleCardNumberChange}
+                        maxLength={19}
+                      />
+                      <div className="fastrr-input-row">
+                        <input
+                          type="text"
+                          className="fastrr-text-input"
+                          placeholder="MM/YY"
+                          value={cardExpiry}
+                          onChange={handleExpiryChange}
+                          maxLength={5}
+                        />
+                        <input
+                          type="password"
+                          className="fastrr-text-input"
+                          placeholder="CVV / CVC"
+                          value={cardCvv}
+                          maxLength={4}
+                          onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ""))}
+                        />
                       </div>
-                      <div className="fastrr-radio-pill">
-                        {paymentMethod === "Netbanking" && <div className="fastrr-radio-dot" />}
+                      <input
+                        type="text"
+                        className="fastrr-text-input"
+                        placeholder="Name on Card"
+                        value={cardHolder}
+                        onChange={(e) => setCardHolder(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  {/* NET BANKING */}
+                  <div
+                    className={`fastrr-pay-card ${paymentMethod === "NetBanking" ? "selected" : ""}`}
+                    onClick={() => setPaymentMethod("NetBanking")}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="fastrr-pay-left">
+                      <div className="fastrr-pay-icon-box">🏦</div>
+                      <div className="fastrr-pay-title-group">
+                        <div className="fastrr-pay-title">Net Banking</div>
+                        <div className="fastrr-pay-subtitle">HDFC, ICICI, SBI, Axis, Kotak</div>
                       </div>
                     </div>
-
-                    {paymentMethod === "Netbanking" && (
-                      <div className="fastrr-pay-details-box">
-                        <div className="fastrr-banks-grid">
-                          {["HDFC Bank", "ICICI Bank", "State Bank of India", "Axis Bank", "Kotak Mahindra"].map((bank) => (
-                            <button
-                              key={bank}
-                              type="button"
-                              className={`fastrr-bank-btn ${bankName === bank ? "active" : ""}`}
-                              onClick={() => setBankName(bank)}
-                            >
-                              {bank}
-                            </button>
-                          ))}
-                        </div>
-
-                        <div className="fastrr-form-group" style={{ marginTop: "4px" }}>
-                          <label className="fastrr-form-label">Or Select From 50+ Other Indian Banks</label>
-                          <select
-                            className="fastrr-select-input"
-                            value={bankName}
-                            onChange={(e) => setBankName(e.target.value)}
-                          >
-                            <option value="HDFC Bank">HDFC Bank</option>
-                            <option value="ICICI Bank">ICICI Bank</option>
-                            <option value="State Bank of India">State Bank of India (SBI)</option>
-                            <option value="Axis Bank">Axis Bank</option>
-                            <option value="Kotak Mahindra">Kotak Mahindra Bank</option>
-                            <option value="Bank of Baroda">Bank of Baroda</option>
-                            <option value="Punjab National Bank">Punjab National Bank</option>
-                            <option value="IndusInd Bank">IndusInd Bank</option>
-                            <option value="Yes Bank">Yes Bank</option>
-                            <option value="IDFC FIRST Bank">IDFC FIRST Bank</option>
-                            <option value="Federal Bank">Federal Bank</option>
-                            <option value="Canara Bank">Canara Bank</option>
-                            <option value="Union Bank of India">Union Bank of India</option>
-                          </select>
-                        </div>
-                      </div>
-                    )}
+                    <div className="fastrr-radio-pill">
+                      {paymentMethod === "NetBanking" && <div className="fastrr-radio-dot" />}
+                    </div>
                   </div>
 
-                  {/* Cash on Delivery Option */}
-                  <div>
-                    <div
-                      className={`fastrr-pay-card ${paymentMethod === "COD" ? "selected" : ""}`}
-                      onClick={() => setPaymentMethod("COD")}
-                    >
-                      <div className="fastrr-pay-left">
-                        <div className="fastrr-pay-icon-box">📦</div>
-                        <div className="fastrr-pay-title-group">
-                          <span className="fastrr-pay-title">Cash on Delivery (COD)</span>
-                          <span className="fastrr-pay-subtitle">Pay upon white-glove inspection • ₹0 COD surcharge</span>
-                        </div>
-                      </div>
-                      <div className="fastrr-radio-pill">
-                        {paymentMethod === "COD" && <div className="fastrr-radio-dot" />}
+                  {paymentMethod === "NetBanking" && (
+                    <div style={{ padding: "0 4px 6px" }}>
+                      <select
+                        className="fastrr-text-input"
+                        value={bankName}
+                        onChange={(e) => setBankName(e.target.value)}
+                        style={{ height: "44px" }}
+                      >
+                        <option value="HDFC Bank">HDFC Bank</option>
+                        <option value="ICICI Bank">ICICI Bank</option>
+                        <option value="State Bank of India">State Bank of India</option>
+                        <option value="Axis Bank">Axis Bank</option>
+                        <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                      </select>
+                    </div>
+                  )}
+
+                  {/* CASH ON DELIVERY */}
+                  <div
+                    className={`fastrr-pay-card ${paymentMethod === "COD" ? "selected" : ""}`}
+                    onClick={() => setPaymentMethod("COD")}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="fastrr-pay-left">
+                      <div className="fastrr-pay-icon-box">💵</div>
+                      <div className="fastrr-pay-title-group">
+                        <div className="fastrr-pay-title">Cash on Delivery (COD)</div>
+                        <div className="fastrr-pay-subtitle">Pay upon inspection at your doorstep</div>
                       </div>
                     </div>
-
-                    {paymentMethod === "COD" && (
-                      <div className="fastrr-pay-details-box">
-                        <div className="fastrr-cod-box">
-                          <span className="badge-icon">🛡️</span>
-                          <div className="fastrr-cod-box-content">
-                            <h5>White-Glove Delivery Inspection Guarantee</h5>
-                            <p>
-                              Your Hanboro horological timepiece arrives in an individually serial-numbered tamper-proof vault box.
-                              Inspect package integrity prior to settling payment with the Shiprocket express executive. Zero COD surcharge.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <div className="fastrr-radio-pill">
+                      {paymentMethod === "COD" && <div className="fastrr-radio-dot" />}
+                    </div>
                   </div>
+
+                  {paymentMethod === "COD" && (
+                    <div className="fastrr-cod-box">
+                      <span className="badge-icon">🛡️</span>
+                      <div className="fastrr-cod-box-content">
+                        <h5>Shiprocket Safe-Courier Guarantee</h5>
+                        <p>Our courier specialist carries tamper-proof sealed packaging. Open and inspect your timepiece before completing cash handover.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
                   type="button"
                   className="fastrr-cta-btn"
-                  onClick={handlePlaceOrder}
                   disabled={isPlacingOrder}
+                  onClick={handlePlaceOrder}
                 >
-                  {isPlacingOrder ? "Placing Order with Fastrr..." : `Place Order • ₹${total.toLocaleString("en-IN")}`}
-                </button>
-
-                <button type="button" className="fastrr-back-btn" onClick={() => setStep("address")}>
-                  ← Back to delivery address
-                </button>
-              </div>
-            )}
-
-            {/* STEP 5: ORDER PLACED SUCCESSFULLY */}
-            {step === "success" && placedOrder && (
-              <div className="fastrr-success-screen">
-                <div className="fastrr-success-badge">✓</div>
-                <h3 className="fastrr-step-heading" style={{ fontSize: "24px" }}>
-                  Order Confirmed with Fastrr!
-                </h3>
-                <p className="fastrr-step-desc">
-                  Your luxury timepiece has been reserved and queued for white-glove courier packaging.
-                </p>
-
-                <div className="fastrr-awb-card">
-                  <div className="fastrr-awb-row">
-                    <span className="k">Shiprocket Order ID:</span>
-                    <span className="v">{placedOrder.orderId}</span>
-                  </div>
-                  <div className="fastrr-awb-row">
-                    <span className="k">Air Waybill (AWB):</span>
-                    <span className="v" style={{ color: "#fa2d1d" }}>{placedOrder.awb}</span>
-                  </div>
-                  <div className="fastrr-awb-row">
-                    <span className="k">Courier Partner:</span>
-                    <span className="v">{placedOrder.courier}</span>
-                  </div>
-                  <div className="fastrr-awb-row">
-                    <span className="k">Est. Delivery:</span>
-                    <span className="v">{placedOrder.estimatedDelivery}</span>
-                  </div>
-                  <div className="fastrr-awb-row">
-                    <span className="k">Customer Contact:</span>
-                    <span className="v">+91 {placedOrder.customer?.phone}</span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  className="fastrr-cta-btn"
-                  onClick={() => {
-                    handleClose();
-                    if (onNavigateToTracking) {
-                      onNavigateToTracking(placedOrder.orderId);
-                    }
-                  }}
-                  style={{ maxWidth: "340px", marginBottom: "12px" }}
-                >
-                  Track Live on Shiprocket →
+                  {isPlacingOrder
+                    ? "Dispatching Order to Shiprocket..."
+                    : `Confirm & Pay ₹${total.toLocaleString("en-IN")} →`}
                 </button>
 
                 <button
                   type="button"
                   className="fastrr-back-btn"
-                  onClick={handleClose}
+                  onClick={() => setStep("address")}
                 >
-                  Continue Browsing Timepieces
+                  ← Edit delivery address
                 </button>
+              </div>
+            )}
+
+            {/* STEP 5: ORDER SUCCESS SCREEN */}
+            {step === "success" && placedOrder && (
+              <div className="fastrr-success-screen">
+                <div className="fastrr-success-badge">✓</div>
+                <h3 className="fastrr-step-heading" style={{ fontSize: "22px" }}>Order Confirmed</h3>
+                <p className="fastrr-step-desc">
+                  Your Hanboro timepiece has been logged with the Shiprocket logistics network.
+                </p>
+
+                <div className="fastrr-awb-card">
+                  <div className="fastrr-awb-row">
+                    <span className="k">Order Reference</span>
+                    <span className="v">{placedOrder.orderId}</span>
+                  </div>
+                  <div className="fastrr-awb-row">
+                    <span className="k">Shiprocket AWB</span>
+                    <span className="v" style={{ color: "#fa2d1d" }}>{placedOrder.awb}</span>
+                  </div>
+                  <div className="fastrr-awb-row">
+                    <span className="k">Estimated Arrival</span>
+                    <span className="v">{placedOrder.estimatedDelivery}</span>
+                  </div>
+                  <div className="fastrr-awb-row">
+                    <span className="k">Payment Status</span>
+                    <span className="v" style={{ color: "#10b981" }}>
+                      {placedOrder.paymentMethod === "COD" ? "Pay upon Delivery" : "Paid via Fastrr"}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "10px", width: "100%", maxWidth: "420px" }}>
+                  <button
+                    type="button"
+                    className="fastrr-cta-btn"
+                    onClick={() => {
+                      handleClose();
+                      if (onNavigateToTracking) {
+                        onNavigateToTracking(placedOrder.orderId);
+                      }
+                    }}
+                  >
+                    Track Shipment Live →
+                  </button>
+                  <button
+                    type="button"
+                    className="fastrr-cta-btn"
+                    style={{ background: "rgba(255, 255, 255, 0.08)", boxShadow: "none" }}
+                    onClick={handleClose}
+                  >
+                    Done
+                  </button>
+                </div>
               </div>
             )}
           </section>
 
-          {/* ── RIGHT: BALANCED ORDER SUMMARY SIDEBAR ── */}
+          {/* ── RIGHT: DESKTOP ORDER SUMMARY SIDEBAR ── */}
           <aside className="fastrr-order-sidebar">
             <div>
-              <h4 className="fastrr-sidebar-title">Selected Timepieces ({items.length})</h4>
+              <h4 className="fastrr-sidebar-title">Order Summary ({items.length})</h4>
 
               <div className="fastrr-order-items-scroll">
                 {items.map((it, idx) => {
-                  const p = it.product;
-                  const itemPrice = p?.priceNumeric || (typeof p?.price === "string" ? parseInt(p.price.replace(/[^\d]/g, ""), 10) : 54999);
-                  const displayPrice = `₹${(itemPrice * (it.quantity || 1)).toLocaleString("en-IN")}`;
-                  const title = p?.name || p?.title || "Hanboro Horological Watch";
-                  const variantTitle = p?.selectedVariantTitle || it.variant || "";
-
+                  const p = it.product || {};
+                  const pImg = p.image || p.transparentImage || (p.shopifyImages && p.shopifyImages[0]) || "";
+                  const pPrice = p.priceNumeric || (typeof p.price === "string" ? parseInt(p.price.replace(/[^\d]/g, ""), 10) : 0) || 54999;
                   return (
-                    <div key={`${p?.id || idx}-${idx}`} className="fastrr-item-card">
-                      <img src={p?.image || p?.shopifyFeaturedImage} alt={title} className="fastrr-item-img" />
+                    <div key={idx} className="fastrr-item-card">
+                      {pImg && <img src={pImg} alt="" className="fastrr-item-img" />}
                       <div className="fastrr-item-info">
-                        <div className="fastrr-item-name" title={title}>{title}</div>
-                        {variantTitle && <div className="fastrr-item-edition">{variantTitle}</div>}
-                        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.5)" }}>Qty: {it.quantity || 1}</div>
+                        <div className="fastrr-item-name">{p.name || p.title || "Hanboro Watch"}</div>
+                        <div className="fastrr-item-edition">Qty: {it.quantity || 1} • Ref. {p.sku || "HBR-01"}</div>
                       </div>
-                      <div className="fastrr-item-price">{displayPrice}</div>
+                      <div className="fastrr-item-price">₹{(pPrice * (it.quantity || 1)).toLocaleString("en-IN")}</div>
                     </div>
                   );
                 })}
@@ -1117,16 +1209,16 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                 </div>
                 {discountAmount > 0 && (
                   <div className="fastrr-price-row" style={{ color: "#10b981" }}>
-                    <span>Promotion ({appliedPromo.code})</span>
+                    <span>VIP Privilege ({appliedPromo.code})</span>
                     <span>-₹{discountAmount.toLocaleString("en-IN")}</span>
                   </div>
                 )}
                 <div className="fastrr-price-row">
-                  <span>Shiprocket Priority Air</span>
-                  <span style={{ color: "#10b981", fontWeight: 700 }}>FREE</span>
+                  <span>Express Insured Courier</span>
+                  <span style={{ color: "#10b981" }}>FREE</span>
                 </div>
                 <div className="fastrr-price-row total">
-                  <span>Total Payable</span>
+                  <span>Total Amount</span>
                   <span className="val">₹{total.toLocaleString("en-IN")}</span>
                 </div>
               </div>
@@ -1135,15 +1227,15 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
             <div className="fastrr-trust-badges">
               <div className="fastrr-trust-item">
                 <span className="icon">🛡️</span>
-                <span>1-Year Hanboro Official Warranty Card Included</span>
+                <span>Fastrr 100% Transit Insurance by Shiprocket</span>
               </div>
               <div className="fastrr-trust-item">
-                <span className="icon">✈️</span>
-                <span>Dispatched via Shiprocket Express Air with Insurance</span>
+                <span className="icon">⚡</span>
+                <span>Express Courier Dispatch within 24 Hours</span>
               </div>
               <div className="fastrr-trust-item">
                 <span className="icon">🔒</span>
-                <span>White-Glove Tamper Proof Sealed Packaging</span>
+                <span>Encrypted PCI-DSS Level 1 Gateway</span>
               </div>
             </div>
           </aside>

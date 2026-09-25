@@ -52,6 +52,11 @@ function localApiPlugin() {
           return handler(req, mockRes);
         }
 
+        if (pathname === "/api/fastrr-user") {
+          const handler = (await import("./api/fastrr-user.js")).default;
+          return handler(req, mockRes);
+        }
+
         if (pathname === "/api/track-order") {
           const handler = (await import("./api/track-order.js")).default;
           return handler(req, mockRes);

@@ -1,24 +1,25 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   HANBORO — Shiprocket Fastrr 1-Click Checkout Styles
-   Ultra-luxury Horological Dark Theme with Precision Alignment & Signal Red Accents
+   HANBORO — Shiprocket Fastrr 1-Click Predictive Checkout Styles
+   Precision Alignment, Zero-Overflow Responsive Design (Mobile & Desktop)
+   Ultra-Luxury Horological Dark Theme with Signal Red Accents
 ══════════════════════════════════════════════════════════════════════════════ */
 
-/* Backdrop Overlay - Perfectly Centered */
+/* ── 1. MODAL BACKDROP ──────────────────────────────────────────────────────── */
 .fastrr-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: rgba(4, 4, 7, 0.9);
+  background: rgba(4, 4, 8, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  animation: fastrrFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  padding: 24px;
   overflow-y: auto;
   box-sizing: border-box;
+  opacity: 0;
+  animation: fastrrFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fastrrFadeIn {
@@ -26,28 +27,29 @@
   to { opacity: 1; }
 }
 
-/* Modal Window Container - Precision Centering & Rigid Alignment */
+/* ── 2. MODAL CONTAINER ─────────────────────────────────────────────────────── */
 .fastrr-modal-container {
   position: relative;
   width: 100%;
-  max-width: 980px;
-  background: #09090e;
+  max-width: 890px;
+  background: #09090f;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(250, 45, 29, 0.2);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(250, 45, 29, 0.2);
   color: #f5f5f7;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 40px);
+  max-height: min(92vh, 760px);
+  box-sizing: border-box;
+  overflow: hidden;
   margin: auto;
-  transform: translateY(20px) scale(0.98);
-  animation: fastrrSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(16px) scale(0.98);
+  animation: fastrrSlideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fastrrSlideUp {
   from {
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(16px) scale(0.98);
     opacity: 0;
   }
   to {
@@ -56,33 +58,35 @@
   }
 }
 
-/* Modal Header */
+/* ── 3. MODAL HEADER ────────────────────────────────────────────────────────── */
 .fastrr-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 28px;
-  background: linear-gradient(180deg, #13131d 0%, #0a0a10 100%);
+  padding: 14px 24px;
+  background: linear-gradient(180deg, #13131e 0%, #0a0a12 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .fastrr-brand-group {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .fastrr-logo-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   background: linear-gradient(135deg, #fa2d1d 0%, #ff5500 100%);
   color: #ffffff;
-  box-shadow: 0 4px 18px rgba(250, 45, 29, 0.45);
+  box-shadow: 0 4px 14px rgba(250, 45, 29, 0.4);
   flex-shrink: 0;
 }
 
@@ -95,92 +99,96 @@
 .fastrr-title {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  font-size: 18px;
+  gap: 7px;
+  font-size: 16px;
   font-weight: 800;
-  letter-spacing: -0.02em;
   color: #ffffff;
-  line-height: 1.1;
   margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .fastrr-title span.sub {
-  font-size: 11px;
-  font-weight: 700;
-  color: #fa2d1d;
-  letter-spacing: 0.05em;
+  font-size: 10px;
+  font-weight: 750;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fa2d1d;
+  background: rgba(250, 45, 29, 0.12);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(250, 45, 29, 0.25);
 }
 
 .fastrr-tagline {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.55);
-  letter-spacing: 0.02em;
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .fastrr-header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .fastrr-ssl-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.28);
-  color: #10b981;
+  gap: 5px;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-weight: 650;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 4px 9px;
+  border-radius: 6px;
 }
 
 .fastrr-close-btn {
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.75);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
   font-size: 18px;
+  transition: all 0.2s ease;
   line-height: 1;
 }
 
 .fastrr-close-btn:hover {
-  background: rgba(250, 45, 29, 0.2);
-  color: #ffffff;
+  background: rgba(250, 45, 29, 0.15);
   border-color: #fa2d1d;
-  transform: scale(1.05);
+  color: #ffffff;
 }
 
-/* Stepper Progress Bar - Rigid Horizontal Alignment */
+/* ── 4. STEPPER BAR ─────────────────────────────────────────────────────────── */
 .fastrr-stepper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 28px;
-  background: #060609;
+  padding: 10px 24px;
+  background: #090911;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-sizing: border-box;
+  width: 100%;
   flex-shrink: 0;
 }
 
 .fastrr-step-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   font-size: 12px;
-  font-weight: 650;
-  color: rgba(255, 255, 255, 0.35);
-  transition: all 0.25s ease;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .fastrr-step-item.active {
@@ -196,110 +204,185 @@
   height: 22px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 750;
-  color: rgba(255, 255, 255, 0.6);
-  transition: all 0.25s ease;
+  color: inherit;
+  flex-shrink: 0;
 }
 
 .fastrr-step-item.active .fastrr-step-num {
   background: #fa2d1d;
+  border-color: #fa2d1d;
   color: #ffffff;
-  box-shadow: 0 0 12px rgba(250, 45, 29, 0.6);
+  box-shadow: 0 0 10px rgba(250, 45, 29, 0.4);
 }
 
 .fastrr-step-item.completed .fastrr-step-num {
   background: #10b981;
-  color: #000000;
+  border-color: #10b981;
+  color: #ffffff;
 }
 
 .fastrr-step-divider {
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 0 14px;
+  margin: 0 8px;
+  min-width: 10px;
 }
 
 .fastrr-step-divider.filled {
-  background: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(90deg, #10b981 0%, #fa2d1d 100%);
 }
 
-/* Modal Body Layout - 2 Symmetrical Balanced Columns */
+/* ── 5. MOBILE ACCORDION SUMMARY BAR (Visible only on mobile) ──────────────── */
+.fastrr-mobile-summary-bar {
+  display: none;
+  background: #0d0d16;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 16px;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.fastrr-mobile-summary-bar:hover {
+  background: #11111d;
+}
+
+.fastrr-mobile-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #ffffff;
+}
+
+.fastrr-mobile-summary-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fastrr-mobile-summary-price {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fa2d1d;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fastrr-mobile-summary-toggle-icon {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.fastrr-mobile-summary-toggle-icon.open {
+  transform: rotate(180deg);
+}
+
+/* Mobile expanded drawer inside main flow */
+.fastrr-mobile-summary-content {
+  display: none;
+  background: #0c0c14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 16px;
+  flex-shrink: 0;
+}
+
+/* ── 6. MODAL BODY LAYOUT ───────────────────────────────────────────────────── */
 .fastrr-modal-body {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  grid-template-columns: 1.25fr 0.95fr;
   flex: 1;
-  overflow-y: auto;
-  min-height: 480px;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* Left Content Column */
+/* Left Content Column (Form Flow) */
 .fastrr-main-flow {
-  padding: 28px 32px;
+  padding: 24px 28px;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  overflow-y: auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Right Order Summary Column */
 .fastrr-order-sidebar {
-  padding: 28px 28px;
-  background: #0d0d15;
+  padding: 24px 24px;
+  background: #0b0b13;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-left: 1px solid rgba(255, 255, 255, 0.04);
+  overflow-y: auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Step Headings */
+/* ── 7. STEP HEADINGS & INSTRUCTIONS ────────────────────────────────────────── */
 .fastrr-step-heading {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 6px 0;
+  margin: 0 0 5px 0;
   letter-spacing: -0.015em;
 }
 
 .fastrr-step-desc {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 24px 0;
+  margin: 0 0 20px 0;
   line-height: 1.45;
 }
 
-/* Phone Input Form */
+/* ── 8. PHONE INPUT FORM ────────────────────────────────────────────────────── */
 .fastrr-phone-input-wrap {
   display: flex;
   align-items: center;
-  background: #12121c;
+  background: #11111b;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 12px;
-  padding: 0 16px;
-  height: 52px;
-  transition: all 0.25s ease;
+  padding: 0 14px;
+  height: 50px;
+  transition: all 0.22s ease;
   margin-bottom: 8px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .fastrr-phone-input-wrap:focus-within {
   border-color: #fa2d1d;
   box-shadow: 0 0 0 3px rgba(250, 45, 29, 0.18);
-  background: #161624;
+  background: #151522;
 }
 
 .fastrr-country-prefix {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-right: 14px;
+  gap: 7px;
+  padding-right: 12px;
   border-right: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 750;
   color: #ffffff;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .fastrr-phone-field {
@@ -307,12 +390,15 @@
   background: transparent;
   border: none;
   outline: none;
-  padding-left: 14px;
+  padding-left: 12px;
   font-size: 16px;
   font-weight: 650;
   color: #ffffff;
   letter-spacing: 0.04em;
   font-family: inherit;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
 }
 
 .fastrr-phone-field::placeholder {
@@ -320,48 +406,74 @@
   font-weight: 450;
 }
 
-/* OTP 6-Digit Verification Grid - Precision Box Alignment */
+/* Fastrr Network Badge below phone */
+.fastrr-network-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 20px;
+  font-weight: 550;
+}
+
+.fastrr-network-pill span.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+/* ── 9. OTP SCREEN (FLUID & NEVER OVERFLOWS) ─────────────────────────────────── */
 .fastrr-otp-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-otp-grid {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  gap: 8px;
   margin: 16px 0 20px;
   width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
 }
 
 .fastrr-otp-box {
-  width: 48px;
-  height: 54px;
+  flex: 1;
+  max-width: 44px;
+  min-width: 32px;
+  height: 48px;
   border-radius: 10px;
-  background: #12121d;
+  background: #11111c;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   text-align: center;
   outline: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: 'JetBrains Mono', monospace;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .fastrr-otp-box:focus {
   border-color: #fa2d1d;
-  background: #191929;
+  background: #181827;
   box-shadow: 0 0 0 3px rgba(250, 45, 29, 0.22);
   transform: translateY(-2px);
 }
 
 .fastrr-otp-box.filled {
   border-color: rgba(255, 255, 255, 0.4);
-  background: #161624;
+  background: #151522;
 }
 
 .fastrr-otp-meta {
@@ -369,9 +481,10 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
+  box-sizing: border-box;
 }
 
 .fastrr-resend-btn {
@@ -393,23 +506,131 @@
   text-decoration: none;
 }
 
-/* Address Step Inputs - Grid Alignment */
+/* ── 10. SAVED ADDRESS SELECTION CARDS ──────────────────────────────────────── */
+.fastrr-saved-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.fastrr-saved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fastrr-saved-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #11111c;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.fastrr-saved-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: #151524;
+}
+
+.fastrr-saved-card.selected {
+  border-color: #fa2d1d;
+  background: rgba(250, 45, 29, 0.08);
+  box-shadow: 0 0 0 1px #fa2d1d;
+}
+
+.fastrr-saved-badge {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.fastrr-saved-card.selected .fastrr-saved-badge {
+  background: rgba(250, 45, 29, 0.2);
+  color: #fa2d1d;
+}
+
+.fastrr-saved-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fastrr-saved-name {
+  font-size: 13px;
+  font-weight: 750;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.fastrr-saved-addr {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.4;
+}
+
+.fastrr-toggle-new-btn {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fastrr-toggle-new-btn:hover {
+  border-color: #fa2d1d;
+  color: #ffffff;
+  background: rgba(250, 45, 29, 0.05);
+}
+
+/* ── 11. ADDRESS FORM INPUTS ────────────────────────────────────────────────── */
 .fastrr-address-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-input-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-form-label {
@@ -421,11 +642,11 @@
 }
 
 .fastrr-text-input {
-  background: #12121c;
+  background: #11111c;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
-  padding: 0 14px;
-  height: 46px;
+  padding: 0 12px;
+  height: 44px;
   color: #ffffff;
   font-size: 14px;
   font-weight: 550;
@@ -439,7 +660,7 @@
 .fastrr-text-input:focus {
   border-color: #fa2d1d;
   box-shadow: 0 0 0 2px rgba(250, 45, 29, 0.18);
-  background: #161624;
+  background: #151522;
 }
 
 .fastrr-text-input::placeholder {
@@ -453,32 +674,37 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-top: 3px;
 }
 
-/* Payment Selection Cards - High Density Alignment */
+/* ── 12. PAYMENT STEP ───────────────────────────────────────────────────────── */
 .fastrr-payment-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 9px;
+  margin-bottom: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-pay-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
-  background: #12121c;
+  padding: 12px 16px;
+  background: #11111c;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .fastrr-pay-card:hover {
   border-color: rgba(255, 255, 255, 0.3);
-  background: #161624;
+  background: #151524;
 }
 
 .fastrr-pay-card.selected {
@@ -490,18 +716,18 @@
 .fastrr-pay-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .fastrr-pay-icon-box {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   flex-shrink: 0;
 }
 
@@ -516,7 +742,7 @@
 }
 
 .fastrr-pay-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 750;
   color: #ffffff;
 }
@@ -527,14 +753,15 @@
 }
 
 .fastrr-radio-pill {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .fastrr-pay-card.selected .fastrr-radio-pill {
@@ -549,271 +776,52 @@
   background: #ffffff;
 }
 
-/* OTP Live Hint Banner */
-.fastrr-otp-hint-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.fastrr-otp-hint-banner:hover {
-  background: rgba(16, 185, 129, 0.16);
-  border-color: rgba(16, 185, 129, 0.5);
-  transform: translateY(-1px);
-}
-
-.fastrr-otp-hint-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: #a7f3d0;
-}
-
-.fastrr-otp-hint-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-  animation: pulseDot 1.5s infinite;
-}
-
-@keyframes pulseDot {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  50% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.7; }
-}
-
-.fastrr-otp-hint-btn {
-  font-size: 11px;
-  font-weight: 750;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: #10b981;
-  color: #042f1f;
-  padding: 4px 10px;
-  border-radius: 6px;
-}
-
-/* Interactive Payment Sub-details Panel */
-.fastrr-pay-details-box {
-  margin-top: 12px;
-  padding: 14px 16px;
-  background: #0d0d16;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  animation: fastrrFadeIn 0.2s ease forwards;
-}
-
-/* UPI Apps Row */
+/* UPI sub-apps selector */
 .fastrr-upi-apps-row {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
+  margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fastrr-upi-app-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  flex: 1;
   background: #151522;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 650;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.fastrr-upi-app-btn:hover {
-  background: #1a1a2b;
-  border-color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .fastrr-upi-app-btn.active {
-  background: rgba(250, 45, 29, 0.15);
   border-color: #fa2d1d;
+  background: rgba(250, 45, 29, 0.12);
   color: #ffffff;
 }
 
-.fastrr-upi-chips-row {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.fastrr-upi-chip {
-  font-size: 11px;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  padding: 3px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.fastrr-upi-chip:hover {
-  background: rgba(250, 45, 29, 0.15);
-  color: #ffffff;
-  border-color: #fa2d1d;
-}
-
-/* QR Code Section */
-.fastrr-qr-box {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px;
-  background: #12121d;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.fastrr-qr-code-img {
-  width: 90px;
-  height: 90px;
-  background: #ffffff;
-  padding: 6px;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-
-.fastrr-qr-instructions {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.fastrr-qr-instructions h5 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 750;
-  color: #ffffff;
-}
-
-.fastrr-qr-instructions p {
-  margin: 0;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.4;
-}
-
-/* Card Inputs Layout */
-.fastrr-card-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.fastrr-card-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.fastrr-card-brands {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.fastrr-card-pill {
-  font-size: 10px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-/* Netbanking Pills & Select */
-.fastrr-banks-grid {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.fastrr-bank-btn {
-  padding: 6px 12px;
-  background: #151522;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 650;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.fastrr-bank-btn:hover {
-  background: #1a1a2b;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.fastrr-bank-btn.active {
-  background: rgba(250, 45, 29, 0.15);
-  border-color: #fa2d1d;
-  color: #ffffff;
-}
-
-.fastrr-select-input {
-  background: #12121c;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 10px;
-  padding: 0 14px;
-  height: 44px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 550;
-  outline: none;
-  width: 100%;
-  cursor: pointer;
-}
-
-.fastrr-select-input option {
-  background: #0d0d16;
-  color: #ffffff;
-}
-
-/* COD Assurance Card */
+/* COD risk note */
 .fastrr-cod-box {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 12px 14px;
+  gap: 10px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
+  margin-top: 10px;
+  box-sizing: border-box;
 }
 
 .fastrr-cod-box span.badge-icon {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
-}
-
-.fastrr-cod-box-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
 }
 
 .fastrr-cod-box-content h5 {
@@ -824,16 +832,16 @@
 }
 
 .fastrr-cod-box-content p {
-  margin: 0;
+  margin: 2px 0 0 0;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.4;
 }
 
-/* Primary Action Buttons */
+/* ── 13. PRIMARY CTA BUTTONS ────────────────────────────────────────────────── */
 .fastrr-cta-btn {
   width: 100%;
-  height: 52px;
+  height: 48px;
   border-radius: 12px;
   background: linear-gradient(135deg, #fa2d1d 0%, #d8180a 100%);
   color: #ffffff;
@@ -845,15 +853,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 20px rgba(250, 45, 29, 0.35);
+  box-shadow: 0 4px 18px rgba(250, 45, 29, 0.35);
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .fastrr-cta-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #ff3d2e 0%, #fa2d1d 100%);
   transform: translateY(-1px);
-  box-shadow: 0 8px 26px rgba(250, 45, 29, 0.5);
+  box-shadow: 0 6px 22px rgba(250, 45, 29, 0.5);
 }
 
 .fastrr-cta-btn:disabled {
@@ -870,12 +880,13 @@
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;
-  margin-top: 14px;
-  padding: 6px;
+  margin-top: 12px;
+  padding: 4px;
   transition: color 0.2s;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  align-self: center;
 }
 
 .fastrr-back-btn:hover {
@@ -887,51 +898,54 @@
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.35);
   color: #f87171;
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
+  box-sizing: border-box;
 }
 
-/* Order Summary Sidebar Details */
+/* ── 14. ORDER SIDEBAR DETAILS ──────────────────────────────────────────────── */
 .fastrr-sidebar-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 750;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
 }
 
 .fastrr-order-items-scroll {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   max-height: 220px;
   overflow-y: auto;
-  padding-right: 6px;
-  margin-bottom: 20px;
+  padding-right: 4px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
 }
 
 .fastrr-item-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #14141f;
+  gap: 10px;
+  background: #12121d;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  padding: 8px 12px;
+  padding: 8px 10px;
+  box-sizing: border-box;
 }
 
 .fastrr-item-img {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 7px;
   background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
@@ -943,7 +957,7 @@
 }
 
 .fastrr-item-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
@@ -969,28 +983,29 @@
 
 .fastrr-price-breakdown {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 16px;
+  padding-top: 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
 }
 
 .fastrr-price-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.65);
 }
 
 .fastrr-price-row.total {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: #ffffff;
   border-top: 1px dashed rgba(255, 255, 255, 0.15);
-  padding-top: 12px;
-  margin-top: 4px;
+  padding-top: 10px;
+  margin-top: 2px;
 }
 
 .fastrr-price-row.total span.val {
@@ -1001,17 +1016,18 @@
 .fastrr-trust-badges {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: 10px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  box-sizing: border-box;
 }
 
 .fastrr-trust-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 550;
@@ -1019,53 +1035,55 @@
 
 .fastrr-trust-item span.icon {
   color: #fa2d1d;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-/* Success Order State */
+/* ── 15. SUCCESS ORDER STATE ────────────────────────────────────────────────── */
 .fastrr-success-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 36px 20px;
+  padding: 24px 16px;
   width: 100%;
+  box-sizing: border-box;
   margin: auto;
 }
 
 .fastrr-success-badge {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 34px;
+  font-size: 30px;
   color: #ffffff;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
 }
 
 .fastrr-awb-card {
-  background: #14141f;
+  background: #11111c;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 16px 24px;
-  margin: 20px 0 28px;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin: 16px 0 22px;
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .fastrr-awb-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .fastrr-awb-row span.k {
@@ -1078,33 +1096,101 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 820px) {
+/* ── 16. RESPONSIVE MEDIA QUERIES (MOBILE FIXES) ────────────────────────────── */
+@media (max-width: 768px) {
+  .fastrr-modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
   .fastrr-modal-container {
-    max-height: 94vh;
-  }
-  .fastrr-modal-body {
-    grid-template-columns: 1fr;
-  }
-  .fastrr-order-sidebar {
+    border-radius: 18px 18px 0 0;
+    max-height: 92vh;
+    height: 92vh;
+    border-bottom: none;
     border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 20px 24px;
-  }
-  .fastrr-main-flow {
-    padding: 20px 24px;
     border-right: none;
   }
-  .fastrr-input-row {
-    grid-template-columns: 1fr;
-  }
+
   .fastrr-header {
-    padding: 14px 18px;
+    padding: 12px 16px;
   }
+
+  .fastrr-title {
+    font-size: 15px;
+  }
+
   .fastrr-stepper {
-    padding: 10px 18px;
+    padding: 8px 14px;
   }
+
   .fastrr-step-item span.lbl {
     display: none;
+  }
+
+  .fastrr-step-divider {
+    margin: 0 4px;
+  }
+
+  /* Show mobile collapsible summary bar at the top */
+  .fastrr-mobile-summary-bar {
+    display: flex;
+  }
+
+  .fastrr-mobile-summary-content {
+    display: block;
+  }
+
+  /* Modal body becomes 1 clean scrollable column */
+  .fastrr-modal-body {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Desktop order sidebar hidden in 2-column mode; handled via mobile summary bar */
+  .fastrr-order-sidebar {
+    display: none;
+  }
+
+  .fastrr-main-flow {
+    padding: 16px 16px 24px;
+    border-right: none;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .fastrr-step-heading {
+    font-size: 17px;
+  }
+
+  .fastrr-step-desc {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .fastrr-input-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .fastrr-otp-grid {
+    gap: 6px;
+    max-width: 290px;
+  }
+
+  .fastrr-otp-box {
+    max-width: 42px;
+    min-width: 32px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .fastrr-cta-btn {
+    height: 46px;
+    font-size: 14px;
   }
 }

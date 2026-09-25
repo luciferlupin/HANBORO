@@ -87,14 +87,14 @@ export default async function handler(req, res) {
         // Fallback gracefully without dropping the live OTP session
       }
 
+      console.log(`[Shiprocket Fastrr OTP] Dispatched 6-digit code for +91 ${cleanedPhone}: ${code}`);
+
       return res.status(200).json({
         success: true,
         message: `Verification code sent to +91 ******${cleanedPhone.slice(-4)} via Fastrr Express SMS.`,
         phone: cleanedPhone,
-        otpCode: code,
         expiresIn: 300,
-        // Provided for real-time verification reliability
-        channel: "SMS / WhatsApp (Fastrr by Shiprocket)",
+        channel: "SMS / WhatsApp (Shiprocket Fastrr)",
       });
     }
 
