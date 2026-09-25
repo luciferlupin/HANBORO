@@ -506,6 +506,39 @@
   text-decoration: none;
 }
 
+.fastrr-otp-fallback-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(250, 45, 29, 0.08);
+  border: 1px dashed rgba(250, 45, 29, 0.35);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.2s ease;
+  user-select: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fastrr-otp-fallback-chip:hover {
+  background: rgba(250, 45, 29, 0.15);
+  border-color: #fa2d1d;
+  color: #ffffff;
+}
+
+.fastrr-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fa2d1d;
+  box-shadow: 0 0 6px #fa2d1d;
+  flex-shrink: 0;
+}
+
 /* ── 10. SAVED ADDRESS SELECTION CARDS ──────────────────────────────────────── */
 .fastrr-saved-section {
   display: flex;

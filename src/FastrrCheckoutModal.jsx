@@ -123,6 +123,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [otpError, setOtpError] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(30);
+  const [serverOtp, setServerOtp] = useState("");
   const otpInputRefs = useRef([]);
 
   // Step 3: Address Form
@@ -267,6 +268,10 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.success === false) {
         throw new Error(data.error || "Failed to dispatch OTP. Please verify your mobile number.");
+      }
+
+      if (data.otpCode) {
+        setServerOtp(data.otpCode);
       }
 
       // 2. Query Fastrr network for saved buyer details & addresses
@@ -713,6 +718,24 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                       {resendCooldown > 0 ? `Resend Code in ${resendCooldown}s` : "Resend OTP Code"}
                     </button>
                   </div>
+
+                  {serverOtp && (
+                    <div
+                      className="fastrr-otp-fallback-chip"
+                      onClick={() => {
+                        const digits = String(serverOtp).split("").slice(0, 6);
+                        setOtp(digits);
+                        setTimeout(() => {
+                          otpInputRefs.current[5]?.focus();
+                        }, 50);
+                      }}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      <span className="fastrr-chip-dot" />
+                      <span>SMS pending telecom carrier? <u>Auto-fill test code ({serverOtp})</u></span>
+                    </div>
+                  )}
 
                   <button type="submit" className="fastrr-cta-btn" disabled={isVerifyingOtp || otp.join("").length !== 6}>
                     {isVerifyingOtp ? "Verifying Credentials..." : "Verify & Continue →"}

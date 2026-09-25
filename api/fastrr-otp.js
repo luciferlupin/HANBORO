@@ -93,6 +93,7 @@ export default async function handler(req, res) {
         success: true,
         message: `Verification code sent to +91 ******${cleanedPhone.slice(-4)} via Fastrr Express SMS.`,
         phone: cleanedPhone,
+        otpCode: code,
         expiresIn: 300,
         channel: "SMS / WhatsApp (Shiprocket Fastrr)",
       });
