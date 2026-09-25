@@ -263,28 +263,23 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
-  const openFastrrCheckout = useCallback((itemsToCheckout = null) => {
+  const openFastrrCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
-    if (!target || target.length === 0) return;
+    if (!target || target.length === 0) {
+      setIsCartOpen(true);
+      return;
+    }
     setFastrrCheckoutItems(target);
     setIsCartOpen(false);
     setIsFastrrCheckoutOpen(true);
   }, [cart]);
 
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
-    const target = itemsToCheckout || cart;
-    if (!target || target.length === 0) return;
-    setIsCartOpen(false);
-    const discountCodes = appliedPromo?.code ? [appliedPromo.code] : [];
-    const shopifyCart = await shopifyService.createShopifyCart(target, { discountCodes });
-    if (!shopifyCart?.checkoutUrl) {
-      throw new Error("Shopify did not return a checkout URL.");
-    }
-    window.location.assign(shopifyCart.checkoutUrl);
-    return shopifyCart;
-  }, [appliedPromo, cart]);
+    // External Shopify redirect is retired in favor of the embedded Shiprocket Fastrr checkout
+    return openFastrrCheckout(itemsToCheckout);
+  }, [openFastrrCheckout]);
 
-  const buyNow = useCallback((product, quantity = 1) => {
+  const buyNow = useCallback(async (product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
     setFastrrCheckoutItems([{ product, quantity: qty }]);
@@ -292,7 +287,7 @@ export function StoreProvider({ children }) {
     setIsFastrrCheckoutOpen(true);
   }, []);
 
-  const openCheckout = useCallback((directItem = null) => {
+  const openCheckout = useCallback(async (directItem = null) => {
     if (directItem) {
       return buyNow(directItem);
     }

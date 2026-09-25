@@ -118,6 +118,7 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [otpError, setOtpError] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(30);
+  const [serverOtp, setServerOtp] = useState("");
   const otpInputRefs = useRef([]);
 
   // Step 3: Address
@@ -130,10 +131,32 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
   const [landmark, setLandmark] = useState("");
   const [addressError, setAddressError] = useState("");
 
-  // Step 4: Payment
+  // Step 4: Payment Details
   const [paymentMethod, setPaymentMethod] = useState("UPI");
+  const [upiId, setUpiId] = useState("");
+  const [selectedUpiApp, setSelectedUpiApp] = useState("Google Pay");
+  const [showQrCode, setShowQrCode] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [bankName, setBankName] = useState("HDFC Bank");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+
+  const handleCardNumberChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 16);
+    const formatted = raw.replace(/(\d{4})(?=\d)/g, "$1 ");
+    setCardNumber(formatted);
+  };
+
+  const handleExpiryChange = (e) => {
+    let raw = e.target.value.replace(/\D/g, "").slice(0, 4);
+    if (raw.length >= 2) {
+      raw = raw.slice(0, 2) + "/" + raw.slice(2);
+    }
+    setCardExpiry(raw);
+  };
 
   // Step 5: Success
   const [placedOrder, setPlacedOrder] = useState(null);
@@ -238,6 +261,9 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
         throw new Error(data.error || "Failed to dispatch OTP. Please verify your mobile number.");
       }
 
+      if (data.otpCode) {
+        setServerOtp(data.otpCode);
+      }
       setStep("otp");
       setResendCooldown(30);
       setOtp(["", "", "", "", "", ""]);
@@ -357,7 +383,13 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
           state: stateName.trim(),
         },
         items,
-        paymentMethod,
+        paymentMethod: paymentMethod === "UPI"
+          ? `UPI (${selectedUpiApp || "Instant"}${upiId ? ` - ${upiId}` : ""})`
+          : paymentMethod === "Card"
+          ? `Card (•••• ${cardNumber.replace(/\s/g, "").slice(-4) || "8892"})`
+          : paymentMethod === "Netbanking"
+          ? `Netbanking (${bankName})`
+          : "Cash on Delivery (COD)",
         totalAmount: `₹${total.toLocaleString("en-IN")}`,
       };
 
@@ -496,6 +528,27 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                 </p>
 
                 {otpError && <div className="fastrr-error-alert" role="alert">{otpError}</div>}
+
+                {serverOtp && (
+                  <div
+                    className="fastrr-otp-hint-banner"
+                    onClick={() => {
+                      const digits = String(serverOtp).split("").slice(0, 6);
+                      setOtp(digits);
+                      setTimeout(() => {
+                        otpInputRefs.current[5]?.focus();
+                      }, 50);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <div className="fastrr-otp-hint-left">
+                      <span className="fastrr-otp-hint-dot" />
+                      <span>Fastrr Express SMS Code: <strong>{serverOtp}</strong></span>
+                    </div>
+                    <span className="fastrr-otp-hint-btn">Tap to Auto-Fill ⚡</span>
+                  </div>
+                )}
 
                 <form onSubmit={handleVerifyOtp} style={{ width: "100%" }}>
                   <div className="fastrr-otp-grid">
@@ -670,68 +723,289 @@ export function FastrrCheckoutModal({ onNavigateToTracking }) {
                 {paymentError && <div className="fastrr-error-alert" role="alert">{paymentError}</div>}
 
                 <div className="fastrr-payment-grid">
-                  <div
-                    className={`fastrr-pay-card ${paymentMethod === "UPI" ? "selected" : ""}`}
-                    onClick={() => setPaymentMethod("UPI")}
-                  >
-                    <div className="fastrr-pay-left">
-                      <div className="fastrr-pay-icon-box">⚡</div>
-                      <div className="fastrr-pay-title-group">
-                        <span className="fastrr-pay-title">UPI Instant (Google Pay, PhonePe, Paytm)</span>
-                        <span className="fastrr-pay-subtitle">Instant confirmation • Zero transaction charges</span>
+                  {/* UPI Option */}
+                  <div>
+                    <div
+                      className={`fastrr-pay-card ${paymentMethod === "UPI" ? "selected" : ""}`}
+                      onClick={() => setPaymentMethod("UPI")}
+                    >
+                      <div className="fastrr-pay-left">
+                        <div className="fastrr-pay-icon-box">⚡</div>
+                        <div className="fastrr-pay-title-group">
+                          <span className="fastrr-pay-title">UPI Instant (Google Pay, PhonePe, Paytm, CRED)</span>
+                          <span className="fastrr-pay-subtitle">Instant confirmation • Zero transaction charges</span>
+                        </div>
+                      </div>
+                      <div className="fastrr-radio-pill">
+                        {paymentMethod === "UPI" && <div className="fastrr-radio-dot" />}
                       </div>
                     </div>
-                    <div className="fastrr-radio-pill">
-                      {paymentMethod === "UPI" && <div className="fastrr-radio-dot" />}
-                    </div>
+
+                    {paymentMethod === "UPI" && (
+                      <div className="fastrr-pay-details-box">
+                        <div className="fastrr-upi-apps-row">
+                          {["Google Pay", "PhonePe", "Paytm", "BHIM / CRED"].map((appName) => (
+                            <button
+                              key={appName}
+                              type="button"
+                              className={`fastrr-upi-app-btn ${selectedUpiApp === appName ? "active" : ""}`}
+                              onClick={() => setSelectedUpiApp(appName)}
+                            >
+                              <span>⚡</span>
+                              <span>{appName}</span>
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="fastrr-form-group">
+                          <label className="fastrr-form-label">Or Enter Virtual UPI ID (VPA)</label>
+                          <input
+                            type="text"
+                            className="fastrr-text-input"
+                            placeholder="e.g. yourname@okhdfcbank"
+                            value={upiId}
+                            onChange={(e) => setUpiId(e.target.value)}
+                          />
+                          <div className="fastrr-upi-chips-row">
+                            {["@okhdfcbank", "@oksbi", "@okaxis", "@okicici", "@paytm"].map((handle) => (
+                              <span
+                                key={handle}
+                                className="fastrr-upi-chip"
+                                onClick={() => {
+                                  const prefix = upiId ? upiId.split("@")[0] : phone ? `${phone}` : "collector";
+                                  setUpiId(`${prefix}${handle}`);
+                                }}
+                              >
+                                {handle}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                          <button
+                            type="button"
+                            className="fastrr-resend-btn"
+                            style={{ textDecoration: "none", fontSize: "11px" }}
+                            onClick={() => setShowQrCode((prev) => !prev)}
+                          >
+                            {showQrCode ? "Hide UPI QR Code ▲" : "Scan Fastrr Dynamic UPI QR Code ▼"}
+                          </button>
+                        </div>
+
+                        {showQrCode && (
+                          <div className="fastrr-qr-box">
+                            <svg className="fastrr-qr-code-img" viewBox="0 0 100 100" fill="none">
+                              <rect width="100" height="100" fill="#ffffff" rx="4" />
+                              <rect x="10" y="10" width="24" height="24" fill="#000000" rx="3" />
+                              <rect x="14" y="14" width="16" height="16" fill="#ffffff" rx="2" />
+                              <rect x="18" y="18" width="8" height="8" fill="#fa2d1d" />
+
+                              <rect x="66" y="10" width="24" height="24" fill="#000000" rx="3" />
+                              <rect x="70" y="14" width="16" height="16" fill="#ffffff" rx="2" />
+                              <rect x="74" y="18" width="8" height="8" fill="#fa2d1d" />
+
+                              <rect x="10" y="66" width="24" height="24" fill="#000000" rx="3" />
+                              <rect x="14" y="70" width="16" height="16" fill="#ffffff" rx="2" />
+                              <rect x="18" y="74" width="8" height="8" fill="#fa2d1d" />
+
+                              <rect x="42" y="14" width="6" height="6" fill="#000000" />
+                              <rect x="52" y="14" width="6" height="6" fill="#000000" />
+                              <rect x="42" y="24" width="6" height="6" fill="#000000" />
+                              <rect x="52" y="24" width="6" height="6" fill="#000000" />
+                              <rect x="40" y="42" width="20" height="20" fill="#000000" rx="2" />
+                              <rect x="45" y="45" width="10" height="10" fill="#ffffff" />
+                              <rect x="48" y="48" width="4" height="4" fill="#fa2d1d" />
+
+                              <rect x="70" y="44" width="6" height="6" fill="#000000" />
+                              <rect x="80" y="54" width="6" height="6" fill="#000000" />
+                              <rect x="66" y="66" width="6" height="6" fill="#000000" />
+                              <rect x="76" y="76" width="6" height="6" fill="#000000" />
+                              <rect x="84" y="84" width="6" height="6" fill="#000000" />
+                              <rect x="44" y="74" width="6" height="6" fill="#000000" />
+                            </svg>
+                            <div className="fastrr-qr-instructions">
+                              <h5>Fastrr Instant Dynamic UPI QR</h5>
+                              <p>Scan with Google Pay, PhonePe, Paytm, CRED or any BHIM UPI mobile application for instant settlement.</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  <div
-                    className={`fastrr-pay-card ${paymentMethod === "Card" ? "selected" : ""}`}
-                    onClick={() => setPaymentMethod("Card")}
-                  >
-                    <div className="fastrr-pay-left">
-                      <div className="fastrr-pay-icon-box">💳</div>
-                      <div className="fastrr-pay-title-group">
-                        <span className="fastrr-pay-title">Credit / Debit Card</span>
-                        <span className="fastrr-pay-subtitle">Visa, Mastercard, RuPay & American Express</span>
+                  {/* Card Option */}
+                  <div>
+                    <div
+                      className={`fastrr-pay-card ${paymentMethod === "Card" ? "selected" : ""}`}
+                      onClick={() => setPaymentMethod("Card")}
+                    >
+                      <div className="fastrr-pay-left">
+                        <div className="fastrr-pay-icon-box">💳</div>
+                        <div className="fastrr-pay-title-group">
+                          <span className="fastrr-pay-title">Credit / Debit Card</span>
+                          <span className="fastrr-pay-subtitle">Visa, Mastercard, RuPay & American Express</span>
+                        </div>
+                      </div>
+                      <div className="fastrr-radio-pill">
+                        {paymentMethod === "Card" && <div className="fastrr-radio-dot" />}
                       </div>
                     </div>
-                    <div className="fastrr-radio-pill">
-                      {paymentMethod === "Card" && <div className="fastrr-radio-dot" />}
-                    </div>
+
+                    {paymentMethod === "Card" && (
+                      <div className="fastrr-pay-details-box">
+                        <div className="fastrr-card-grid">
+                          <div className="fastrr-form-group">
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                              <label className="fastrr-form-label">Card Number</label>
+                              <div className="fastrr-card-brands">
+                                <span className="fastrr-card-pill">VISA</span>
+                                <span className="fastrr-card-pill">MASTERCARD</span>
+                                <span className="fastrr-card-pill">RUPAY</span>
+                                <span className="fastrr-card-pill">AMEX</span>
+                              </div>
+                            </div>
+                            <input
+                              type="text"
+                              className="fastrr-text-input"
+                              placeholder="4532 •••• •••• 8892"
+                              maxLength={19}
+                              value={cardNumber}
+                              onChange={handleCardNumberChange}
+                            />
+                          </div>
+
+                          <div className="fastrr-form-group">
+                            <label className="fastrr-form-label">Name on Card</label>
+                            <input
+                              type="text"
+                              className="fastrr-text-input"
+                              placeholder={fullName || "VIKRAMADITYA SINGHANIA"}
+                              value={cardHolder}
+                              onChange={(e) => setCardHolder(e.target.value)}
+                            />
+                          </div>
+
+                          <div className="fastrr-card-row">
+                            <div className="fastrr-form-group">
+                              <label className="fastrr-form-label">Valid Thru (MM/YY)</label>
+                              <input
+                                type="text"
+                                className="fastrr-text-input"
+                                placeholder="12/28"
+                                maxLength={5}
+                                value={cardExpiry}
+                                onChange={handleExpiryChange}
+                              />
+                            </div>
+                            <div className="fastrr-form-group">
+                              <label className="fastrr-form-label">CVV / CVC (3-4 digits)</label>
+                              <input
+                                type="password"
+                                className="fastrr-text-input"
+                                placeholder="•••"
+                                maxLength={4}
+                                value={cardCvv}
+                                onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  <div
-                    className={`fastrr-pay-card ${paymentMethod === "Netbanking" ? "selected" : ""}`}
-                    onClick={() => setPaymentMethod("Netbanking")}
-                  >
-                    <div className="fastrr-pay-left">
-                      <div className="fastrr-pay-icon-box">🏛️</div>
-                      <div className="fastrr-pay-title-group">
-                        <span className="fastrr-pay-title">Net Banking</span>
-                        <span className="fastrr-pay-subtitle">HDFC, ICICI, SBI, Axis & 50+ Top Indian Banks</span>
+                  {/* Netbanking Option */}
+                  <div>
+                    <div
+                      className={`fastrr-pay-card ${paymentMethod === "Netbanking" ? "selected" : ""}`}
+                      onClick={() => setPaymentMethod("Netbanking")}
+                    >
+                      <div className="fastrr-pay-left">
+                        <div className="fastrr-pay-icon-box">🏛️</div>
+                        <div className="fastrr-pay-title-group">
+                          <span className="fastrr-pay-title">Net Banking</span>
+                          <span className="fastrr-pay-subtitle">HDFC, ICICI, SBI, Axis & 50+ Top Indian Banks</span>
+                        </div>
+                      </div>
+                      <div className="fastrr-radio-pill">
+                        {paymentMethod === "Netbanking" && <div className="fastrr-radio-dot" />}
                       </div>
                     </div>
-                    <div className="fastrr-radio-pill">
-                      {paymentMethod === "Netbanking" && <div className="fastrr-radio-dot" />}
-                    </div>
+
+                    {paymentMethod === "Netbanking" && (
+                      <div className="fastrr-pay-details-box">
+                        <div className="fastrr-banks-grid">
+                          {["HDFC Bank", "ICICI Bank", "State Bank of India", "Axis Bank", "Kotak Mahindra"].map((bank) => (
+                            <button
+                              key={bank}
+                              type="button"
+                              className={`fastrr-bank-btn ${bankName === bank ? "active" : ""}`}
+                              onClick={() => setBankName(bank)}
+                            >
+                              {bank}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="fastrr-form-group" style={{ marginTop: "4px" }}>
+                          <label className="fastrr-form-label">Or Select From 50+ Other Indian Banks</label>
+                          <select
+                            className="fastrr-select-input"
+                            value={bankName}
+                            onChange={(e) => setBankName(e.target.value)}
+                          >
+                            <option value="HDFC Bank">HDFC Bank</option>
+                            <option value="ICICI Bank">ICICI Bank</option>
+                            <option value="State Bank of India">State Bank of India (SBI)</option>
+                            <option value="Axis Bank">Axis Bank</option>
+                            <option value="Kotak Mahindra">Kotak Mahindra Bank</option>
+                            <option value="Bank of Baroda">Bank of Baroda</option>
+                            <option value="Punjab National Bank">Punjab National Bank</option>
+                            <option value="IndusInd Bank">IndusInd Bank</option>
+                            <option value="Yes Bank">Yes Bank</option>
+                            <option value="IDFC FIRST Bank">IDFC FIRST Bank</option>
+                            <option value="Federal Bank">Federal Bank</option>
+                            <option value="Canara Bank">Canara Bank</option>
+                            <option value="Union Bank of India">Union Bank of India</option>
+                          </select>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  <div
-                    className={`fastrr-pay-card ${paymentMethod === "COD" ? "selected" : ""}`}
-                    onClick={() => setPaymentMethod("COD")}
-                  >
-                    <div className="fastrr-pay-left">
-                      <div className="fastrr-pay-icon-box">📦</div>
-                      <div className="fastrr-pay-title-group">
-                        <span className="fastrr-pay-title">Cash on Delivery (COD)</span>
-                        <span className="fastrr-pay-subtitle">Pay upon white-glove inspection • ₹0 COD surcharge</span>
+                  {/* Cash on Delivery Option */}
+                  <div>
+                    <div
+                      className={`fastrr-pay-card ${paymentMethod === "COD" ? "selected" : ""}`}
+                      onClick={() => setPaymentMethod("COD")}
+                    >
+                      <div className="fastrr-pay-left">
+                        <div className="fastrr-pay-icon-box">📦</div>
+                        <div className="fastrr-pay-title-group">
+                          <span className="fastrr-pay-title">Cash on Delivery (COD)</span>
+                          <span className="fastrr-pay-subtitle">Pay upon white-glove inspection • ₹0 COD surcharge</span>
+                        </div>
+                      </div>
+                      <div className="fastrr-radio-pill">
+                        {paymentMethod === "COD" && <div className="fastrr-radio-dot" />}
                       </div>
                     </div>
-                    <div className="fastrr-radio-pill">
-                      {paymentMethod === "COD" && <div className="fastrr-radio-dot" />}
-                    </div>
+
+                    {paymentMethod === "COD" && (
+                      <div className="fastrr-pay-details-box">
+                        <div className="fastrr-cod-box">
+                          <span className="badge-icon">🛡️</span>
+                          <div className="fastrr-cod-box-content">
+                            <h5>White-Glove Delivery Inspection Guarantee</h5>
+                            <p>
+                              Your Hanboro horological timepiece arrives in an individually serial-numbered tamper-proof vault box.
+                              Inspect package integrity prior to settling payment with the Shiprocket express executive. Zero COD surcharge.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 

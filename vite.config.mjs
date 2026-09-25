@@ -39,19 +39,22 @@ function localApiPlugin() {
           }),
         };
 
+        req.query = Object.fromEntries(url.searchParams);
+        req.body = body;
+
         if (pathname === "/api/fastrr-otp") {
           const handler = (await import("./api/fastrr-otp.js")).default;
-          return handler({ ...req, body }, mockRes);
+          return handler(req, mockRes);
         }
 
         if (pathname === "/api/fastrr-order") {
           const handler = (await import("./api/fastrr-order.js")).default;
-          return handler({ ...req, body }, mockRes);
+          return handler(req, mockRes);
         }
 
         if (pathname === "/api/track-order") {
           const handler = (await import("./api/track-order.js")).default;
-          return handler({ ...req, query: Object.fromEntries(url.searchParams) }, mockRes);
+          return handler(req, mockRes);
         }
 
         next();

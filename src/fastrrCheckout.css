@@ -549,6 +549,287 @@
   background: #ffffff;
 }
 
+/* OTP Live Hint Banner */
+.fastrr-otp-hint-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.fastrr-otp-hint-banner:hover {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(16, 185, 129, 0.5);
+  transform: translateY(-1px);
+}
+
+.fastrr-otp-hint-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #a7f3d0;
+}
+
+.fastrr-otp-hint-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.7; }
+}
+
+.fastrr-otp-hint-btn {
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #10b981;
+  color: #042f1f;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Interactive Payment Sub-details Panel */
+.fastrr-pay-details-box {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: #0d0d16;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fastrrFadeIn 0.2s ease forwards;
+}
+
+/* UPI Apps Row */
+.fastrr-upi-apps-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fastrr-upi-app-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #151522;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fastrr-upi-app-btn:hover {
+  background: #1a1a2b;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.fastrr-upi-app-btn.active {
+  background: rgba(250, 45, 29, 0.15);
+  border-color: #fa2d1d;
+  color: #ffffff;
+}
+
+.fastrr-upi-chips-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.fastrr-upi-chip {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fastrr-upi-chip:hover {
+  background: rgba(250, 45, 29, 0.15);
+  color: #ffffff;
+  border-color: #fa2d1d;
+}
+
+/* QR Code Section */
+.fastrr-qr-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: #12121d;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fastrr-qr-code-img {
+  width: 90px;
+  height: 90px;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.fastrr-qr-instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fastrr-qr-instructions h5 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 750;
+  color: #ffffff;
+}
+
+.fastrr-qr-instructions p {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+/* Card Inputs Layout */
+.fastrr-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fastrr-card-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.fastrr-card-brands {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.fastrr-card-pill {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Netbanking Pills & Select */
+.fastrr-banks-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fastrr-bank-btn {
+  padding: 6px 12px;
+  background: #151522;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fastrr-bank-btn:hover {
+  background: #1a1a2b;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.fastrr-bank-btn.active {
+  background: rgba(250, 45, 29, 0.15);
+  border-color: #fa2d1d;
+  color: #ffffff;
+}
+
+.fastrr-select-input {
+  background: #12121c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 0 14px;
+  height: 44px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 550;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.fastrr-select-input option {
+  background: #0d0d16;
+  color: #ffffff;
+}
+
+/* COD Assurance Card */
+.fastrr-cod-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.fastrr-cod-box span.badge-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.fastrr-cod-box-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fastrr-cod-box-content h5 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 750;
+  color: #ffffff;
+}
+
+.fastrr-cod-box-content p {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
 /* Primary Action Buttons */
 .fastrr-cta-btn {
   width: 100%;
