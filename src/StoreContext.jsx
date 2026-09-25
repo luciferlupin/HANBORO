@@ -94,8 +94,6 @@ export function StoreProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isFastrrCheckoutOpen, setIsFastrrCheckoutOpen] = useState(false);
-  const [fastrrCheckoutItems, setFastrrCheckoutItems] = useState([]);
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [mrpDiscountConfig, setMrpDiscountConfigState] = useState(() => getMrpDiscountConfig());
@@ -263,29 +261,106 @@ export function StoreProvider({ children }) {
     setAppliedPromo(null);
   }, []);
 
+  // ── SHIPROCKET FASTRR PORTAL INTEGRATION ────────────────────────────────
+  // Calls the official window.HeadlessCheckout SDK (loaded from Fastrr's
+  // shopify.js script in index.html). Creates a Shopify cart first so
+  // Fastrr receives real variant IDs and the checkout URL.
+  const _triggerFastrr = useCallback(async (items) => {
+    if (!items || items.length === 0) return;
+    setIsCartOpen(false);
+
+    // Build Shopify cart to get the cart token + checkout URL
+    let shopifyCart = null;
+    try {
+      shopifyCart = await shopifyService.createShopifyCart(items);
+    } catch (err) {
+      console.warn("Fastrr cart creation note:", err.message);
+      // Still try to open Fastrr without a pre-built cart token
+    }
+
+    // Prepare line items in Fastrr format
+    const lineItems = items.map((it) => ({
+      variant_id: String(
+        it.product?.shopifyVariantId ||
+        it.product?.variantId ||
+        it.product?.id ||
+        ""
+      ).replace("gid://shopify/ProductVariant/", ""),
+      quantity: it.quantity || 1,
+    })).filter((li) => li.variant_id);
+
+    // Extract numeric cart token from the checkout URL if available
+    let cartToken = null;
+    if (shopifyCart?.checkoutUrl) {
+      try {
+        const url = new URL(shopifyCart.checkoutUrl);
+        // checkoutUrl format: /cart/<token>?...
+        const match = url.pathname.match(/\/cart\/([^/?]+)/);
+        if (match) cartToken = match[1];
+      } catch (_) {}
+    }
+
+    // Use the official Fastrr 1-click checkout SDK
+    const hc = window.HeadlessCheckout;
+    if (hc && typeof hc.checkout === "function") {
+      try {
+        if (cartToken) {
+          hc.checkout({ cartToken, lineItems });
+        } else {
+          hc.checkout({ lineItems });
+        }
+        return;
+      } catch (sdkErr) {
+        console.warn("Fastrr SDK error:", sdkErr);
+      }
+    }
+
+    // Fallback: redirect to Shopify checkout URL if SDK is not yet ready
+    if (shopifyCart?.checkoutUrl) {
+      window.location.href = shopifyCart.checkoutUrl;
+    } else {
+      showToast("Checkout is temporarily unavailable. Please try again.");
+    }
+  }, [shopifyService, showToast]);
+
   const openFastrrCheckout = useCallback(async (itemsToCheckout = null) => {
     const target = itemsToCheckout || cart;
     if (!target || target.length === 0) {
       setIsCartOpen(true);
       return;
     }
-    setFastrrCheckoutItems(target);
-    setIsCartOpen(false);
-    setIsFastrrCheckoutOpen(true);
-  }, [cart]);
+    return _triggerFastrr(target);
+  }, [cart, _triggerFastrr]);
 
   const proceedToShopifyCheckout = useCallback(async (itemsToCheckout = null) => {
-    // External Shopify redirect is retired in favor of the embedded Shiprocket Fastrr checkout
     return openFastrrCheckout(itemsToCheckout);
   }, [openFastrrCheckout]);
 
   const buyNow = useCallback(async (product, quantity = 1) => {
     if (!product) return;
     const qty = typeof quantity === "number" && quantity > 0 ? quantity : 1;
-    setFastrrCheckoutItems([{ product, quantity: qty }]);
-    setIsCartOpen(false);
-    setIsFastrrCheckoutOpen(true);
-  }, []);
+    const items = [{ product, quantity: qty }];
+
+    const hc = window.HeadlessCheckout;
+    const variantId = String(
+      product.shopifyVariantId ||
+      product.variantId ||
+      product.id ||
+      ""
+    ).replace("gid://shopify/ProductVariant/", "");
+
+    if (hc && typeof hc.buyNow === "function" && variantId) {
+      try {
+        hc.buyNow({ variantId, quantity: qty });
+        return;
+      } catch (sdkErr) {
+        console.warn("Fastrr buyNow SDK error:", sdkErr);
+      }
+    }
+
+    // Fallback to checkout flow
+    return _triggerFastrr(items);
+  }, [_triggerFastrr]);
 
   const openCheckout = useCallback(async (directItem = null) => {
     if (directItem) {
@@ -397,10 +472,6 @@ export function StoreProvider({ children }) {
     cartCount,
     isCartOpen,
     setIsCartOpen,
-    isFastrrCheckoutOpen,
-    setIsFastrrCheckoutOpen,
-    fastrrCheckoutItems,
-    setFastrrCheckoutItems,
     openFastrrCheckout,
     addToCart,
     removeFromCart,
